@@ -1,0 +1,79 @@
+/**
+ * Tiendri — Design System Tokens (CSS Custom Properties)
+ *
+ * PALETA ACTIVA: EMBER CORE (variables --ember-*)
+ * Contexto: Todo el proyecto — landing, dashboard, storefront, auth, onboarding.
+ * Mood: "Dark tech, agresivo, glow effects."
+ * Referencia: AgentAI (hyliox.com)
+ *
+ * Estado: importado en globals.css.
+ */
+
+/* =========================================================
+   EMBER CORE — Única paleta activa de Tiendri
+   Aprobado por el CTO. Para usar en todo el proyecto.
+   ========================================================= */
+
+:root {
+  /* ── FONDOS ── */
+  --ember-bg-deep:      #0B0A0D; /* Deepest layer — warm violet tint */
+  --ember-bg-base:      #100F14; /* Main background */
+  --ember-bg-elevated:  #16141B; /* Cards, panels */
+  --ember-bg-surface:   #1C1A22; /* Inputs, interactive surfaces */
+
+  /* ── ROJO — accent principal ── */
+  --ember-red-600:      #B91C1C; /* PRIMARY — CTAs, main accent */
+  --ember-red-500:      #DC2626; /* Hover, active states */
+  --ember-red-800:      #6B1616; /* Deep ember, pressed states */
+  --ember-red-400:      #F87171; /* Links, light highlights */
+  --ember-red-950:      #2A0A0A; /* Badge backgrounds, subtle tints */
+
+  /* ── TEXTO ── */
+  --ember-text-primary:   #F5F5F6; /* Headings */
+  --ember-text-secondary: #A8A3B3; /* Body copy */
+  --ember-text-muted:     #6B6578; /* Captions */
+
+  /* ── TIPOGRAFÍA ── */
+  --ember-font-display: 'Space Grotesk', sans-serif; /* weight 700 — headings */
+  --ember-font-body:    'Inter', sans-serif;          /* weight 400-500 — body */
+
+  /*
+   * Google Fonts URL:
+   * https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap
+   *
+   * Escala tipográfica landing (mobile → desktop):
+   *   hero h1:     48px → 80px  | weight 700 | Space Grotesk
+   *   section h2:  32px → 52px  | weight 700 | Space Grotesk
+   *   card h3:     20px → 24px  | weight 600 | Space Grotesk
+   *   body:        16px → 18px  | weight 400 | Inter
+   *   caption:     12px → 14px  | weight 400 | Inter
+   */
+
+  /* ── BORDER RADIUS ── */
+  --ember-radius-card:   16px; /* Cards, panels */
+  --ember-radius-button: 8px;  /* CTAs, botones */
+  --ember-radius-badge:  4px;  /* Badges — NO pill genérico */
+
+  /* ── SOMBRAS / GLOW ── */
+  --ember-glow-cta:
+    0 0 24px rgba(185, 28, 28, 0.35),
+    0 0 64px rgba(185, 28, 28, 0.15);
+
+  --ember-glow-subtle:
+    0 0 16px rgba(185, 28, 28, 0.2),
+    0 0 40px rgba(185, 28, 28, 0.08);
+
+  --ember-shadow-card:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.3);
+
+  /* ── GLASS EFFECT (max 2-3 por viewport) ── */
+  /* Usar via inline styles en componentes:
+     background: rgba(255,255,255,0.04);
+     backdrop-filter: blur(16px);
+     border: 1px solid rgba(255,255,255,0.07); */
+
+  /* ── TRANSICIONES ── */
+  --ember-transition-base: 180ms ease;
+  --ember-transition-glow: 300ms ease;
+}
