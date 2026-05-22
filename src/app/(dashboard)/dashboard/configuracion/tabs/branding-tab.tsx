@@ -2,9 +2,9 @@
 
 // BrandingTab — Store identity configuration
 // Fields: store name, description, WhatsApp, logo, social links
-// Save: calls updateBranding Server Action
+// Save: persists to localStorage key `tiendri_demo-store_customization`
 
-import { useState, useRef, useTransition } from "react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Loader2, Upload, X } from "lucide-react";
@@ -13,11 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { updateBranding, createUploadUrl } from "../actions";
+import { updateBranding, fileToDataUrl } from "../actions";
 import type { BrandingConfig } from "@/types/templates/customization-sections";
 
 interface BrandingTabProps {
-  storeId: string;
   initialBranding?: BrandingConfig;
 }
 
@@ -29,7 +28,9 @@ const SOCIAL_FIELDS = [
   { key: "youtube" as const, label: "YouTube", placeholder: "https://youtube.com/@mitienda" },
 ] as const;
 
-export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export function BrandingTab({ initialBranding }: BrandingTabProps) {
   const [storeName, setStoreName] = useState(initialBranding?.storeName ?? "");
   const [description, setDescription] = useState(initialBranding?.description ?? "");
   const [whatsapp, setWhatsapp] = useState(initialBranding?.whatsapp ?? "");
@@ -38,70 +39,64 @@ export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
     initialBranding?.socialLinks ?? {}
   );
   const [uploading, setUploading] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ── Logo upload ─────────────────────────────────────────────────────────────
+  // ── Logo upload — base64 WebP stored in localStorage ──────────────────────
 
   async function handleLogoUpload(file: File) {
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > MAX_FILE_SIZE) {
       toast.error("El archivo supera el tamaño máximo de 5MB");
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Solo se permiten archivos de imagen");
       return;
     }
 
     setUploading(true);
     try {
-      // Resize + convert to WebP via canvas
-      const webpBlob = await resizeAndConvertToWebP(file, 800);
-
-      // Get signed upload URL from server
-      const result = await createUploadUrl("logos", storeId, "logo.webp");
-      if (!result.success) {
-        toast.error(result.error.message);
-        return;
-      }
-
-      // Upload directly to Supabase Storage
-      const uploadResponse = await fetch(result.signedUrl, {
-        method: "PUT",
-        body: webpBlob,
-        headers: { "Content-Type": "image/webp" },
-      });
-
-      if (!uploadResponse.ok) {
-        toast.error("Error al subir el logo. Intentá de nuevo.");
-        return;
-      }
-
-      setLogo(result.publicUrl);
-      toast.success("Logo subido correctamente");
+      const dataUrl = await fileToDataUrl(file, 800);
+      setLogo(dataUrl);
+      toast.success("Logo cargado correctamente");
     } catch {
-      toast.error("Error inesperado al subir el logo.");
+      toast.error("Error al procesar el logo. Intentá de nuevo.");
     } finally {
       setUploading(false);
+      // Reset so the same file can be re-selected
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) handleLogoUpload(file);
+    if (file) void handleLogoUpload(file);
   }
 
   // ── Form submit ──────────────────────────────────────────────────────────────
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    setIsSaving(true);
 
-    startTransition(async () => {
-      const result = await updateBranding(formData);
-      if (result.success) {
-        toast.success("Cambios guardados");
-      } else {
-        toast.error(result.error.message);
-      }
-    });
+    const branding: BrandingConfig = {
+      ...(storeName ? { storeName } : {}),
+      ...(description ? { description } : {}),
+      ...(whatsapp ? { whatsapp } : {}),
+      ...(logo ? { logo } : {}),
+      socialLinks,
+    };
+
+    const result = updateBranding(branding);
+
+    setIsSaving(false);
+
+    if (result.success) {
+      toast.success("Cambios guardados");
+    } else {
+      toast.error(result.error.message);
+    }
   }
 
   const descriptionLength = description.length;
@@ -161,7 +156,7 @@ export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
                   ) : (
                     <Upload className="h-4 w-4" />
                   )}
-                  {uploading ? "Subiendo..." : "Subir logo"}
+                  {uploading ? "Procesando..." : "Subir logo"}
                 </Button>
                 <p className="text-xs text-muted-foreground">
                   PNG, JPG o WebP. Máx. 5MB. Se recortará a cuadrado.
@@ -176,9 +171,6 @@ export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
                 onChange={handleFileChange}
               />
             </div>
-
-            {/* Hidden input to carry the URL to form data */}
-            <input type="hidden" name="logo" value={logo} />
           </div>
 
           <Separator />
@@ -270,8 +262,8 @@ export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
 
       {/* Save button */}
       <div className="flex justify-end">
-        <Button type="submit" disabled={isPending || uploading} className="min-w-32">
-          {isPending ? (
+        <Button type="submit" disabled={isSaving || uploading} className="min-w-32">
+          {isSaving ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Guardando...
@@ -283,48 +275,4 @@ export function BrandingTab({ storeId, initialBranding }: BrandingTabProps) {
       </div>
     </form>
   );
-}
-
-// ── Canvas resize + WebP conversion ──────────────────────────────────────────
-
-function resizeAndConvertToWebP(file: File, maxWidth: number): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    const img = new window.Image();
-    const url = URL.createObjectURL(file);
-
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-
-      const scale = Math.min(1, maxWidth / img.width);
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-
-      const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        reject(new Error("Canvas not supported"));
-        return;
-      }
-
-      ctx.drawImage(img, 0, 0, w, h);
-      canvas.toBlob(
-        (blob) => {
-          if (blob) resolve(blob);
-          else reject(new Error("Canvas toBlob failed"));
-        },
-        "image/webp",
-        0.85
-      );
-    };
-
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Failed to load image"));
-    };
-
-    img.src = url;
-  });
 }

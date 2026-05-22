@@ -2,9 +2,9 @@
 
 // BusinessTab — Business information configuration
 // Fields: city, address, hours, payment methods, shipping info, currency
-// Save: calls updateBusiness Server Action
+// Save: persists to localStorage key `tiendri_demo-store_customization`
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,6 @@ import { updateBusiness } from "../actions";
 import type { BusinessConfig } from "@/types/templates/customization-sections";
 
 interface BusinessTabProps {
-  storeId: string;
   initialBusiness?: BusinessConfig;
 }
 
@@ -69,7 +68,7 @@ export function BusinessTab({ initialBusiness }: BusinessTabProps) {
     (initialBusiness?.currency as CurrencyCode) ?? "COP"
   );
 
-  const [isPending, startTransition] = useTransition();
+  const [isSaving, setIsSaving] = useState(false);
 
   function togglePaymentMethod(method: PaymentMethod) {
     setPaymentMethods((prev) =>
@@ -81,25 +80,30 @@ export function BusinessTab({ initialBusiness }: BusinessTabProps) {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSaving(true);
 
-    const formData = new FormData();
-    if (city) formData.set("city", city);
-    if (address) formData.set("address", address);
-    if (hours) formData.set("hours", hours);
-    paymentMethods.forEach((m) => formData.append("paymentMethods", m));
-    if (shippingCost) formData.set("shippingCost", shippingCost);
-    if (shippingTime) formData.set("shippingTime", shippingTime);
-    if (shippingFreeAbove) formData.set("shippingFreeAbove", shippingFreeAbove);
-    formData.set("currency", currency);
+    const business: BusinessConfig = {
+      ...(city ? { city } : {}),
+      ...(address ? { address } : {}),
+      ...(hours ? { hours } : {}),
+      paymentMethods,
+      shippingInfo: {
+        ...(shippingCost ? { cost: shippingCost } : {}),
+        ...(shippingTime ? { estimatedTime: shippingTime } : {}),
+        ...(shippingFreeAbove ? { freeAbove: shippingFreeAbove } : {}),
+      },
+      currency,
+    };
 
-    startTransition(async () => {
-      const result = await updateBusiness(formData);
-      if (result.success) {
-        toast.success("Cambios guardados");
-      } else {
-        toast.error(result.error.message);
-      }
-    });
+    const result = updateBusiness(business);
+
+    setIsSaving(false);
+
+    if (result.success) {
+      toast.success("Cambios guardados");
+    } else {
+      toast.error(result.error.message);
+    }
   }
 
   return (
@@ -259,8 +263,8 @@ export function BusinessTab({ initialBusiness }: BusinessTabProps) {
 
       {/* Save button */}
       <div className="flex justify-end">
-        <Button type="submit" disabled={isPending} className="min-w-32">
-          {isPending ? (
+        <Button type="submit" disabled={isSaving} className="min-w-32">
+          {isSaving ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Guardando...

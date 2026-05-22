@@ -1,52 +1,51 @@
-// /dashboard/configuracion — Server Component
-// Fetches the authenticated merchant's store and passes data to the client component.
-// Auth: getUser() — never getSession()
+'use client';
 
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { ConfiguracionClient } from "./configuracion-client";
-import type { StoreCustomization } from "@/types/templates/store-customization";
+// /dashboard/configuracion — Client Component
+// Reads initial customization from localStorage (no Supabase dependency).
+// Persistence: localStorage key `tiendri_demo-store_customization`
 
-// Lightweight interface for what this page needs from the store row
-interface StoreForConfig {
-  id: string;
-  slug: string;
-  name: string;
-  customization: unknown;
+import { useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
+import { ConfiguracionClient } from './configuracion-client';
+import type { StoreCustomization } from '@/types/templates/store-customization';
+
+const STORAGE_KEY = 'tiendri_demo-store_customization';
+
+function loadCustomization(): StoreCustomization {
+  if (typeof window === 'undefined') {
+    return { templateId: 'tech-premium' };
+  }
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      return JSON.parse(raw) as StoreCustomization;
+    }
+  } catch {
+    // Corrupted data — start fresh
+  }
+  return { templateId: 'tech-premium' };
 }
 
-export default async function ConfiguracionPage() {
-  const supabase = await createClient();
+export default function ConfiguracionPage() {
+  const [customization, setCustomization] = useState<StoreCustomization | null>(null);
 
-  // Auth check — getUser() validates the JWT server-side (no spoofing risk)
-  const { data: authData, error: userError } = await supabase.auth.getUser();
-  if (userError || !authData.user) {
-    redirect("/auth/login");
+  useEffect(() => {
+    setCustomization(loadCustomization());
+  }, []);
+
+  if (!customization) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="size-6 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
-  // Fetch the merchant's store
-  const { data: rawStore } = await supabase
-    .from("stores")
-    .select("id, slug, name, customization")
-    .eq("owner_id", authData.user.id)
-    .single();
-
-  // Supabase types partial selects as `never` in strict mode — cast via unknown
-  const store = rawStore as unknown as StoreForConfig | null;
-
-  // If no store yet (edge case — onboarding not complete) redirect to dashboard
-  if (!store) {
-    redirect("/dashboard");
-  }
-
-  // Cast the JSONB to typed StoreCustomization — safe because we control the shape
-  const customization = (store.customization ?? {}) as StoreCustomization;
+  const storeName = customization.branding?.storeName ?? 'Mi tienda';
 
   return (
     <ConfiguracionClient
-      storeId={store.id}
-      storeSlug={store.slug}
-      storeName={store.name}
+      storeName={storeName}
       initialCustomization={customization}
     />
   );

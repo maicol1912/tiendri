@@ -2,9 +2,11 @@
 
 // ThemeTab — Template & appearance configuration
 // Shows color pickers (reusing ThemeCustomizer pattern), template selection.
-// For MVP: only tech-premium available. Others show "Próximamente".
+// When a schema is provided, reads editable colors, radii, and font pairs
+// from the schema. Falls back to hardcoded arrays when no schema is available.
+// Save: persists to localStorage key `tiendri_demo-store_customization`
 
-import { useState, useTransition } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "sonner";
 import { Loader2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,38 +15,33 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
+import type { TemplateConfigSchema } from "@/types/templates/config-schema";
 import { updateTheme } from "../actions";
 
-// Font pair options shown in the selector
-const FONT_PAIRS: { key: string; label: string; preview: string }[] = [
-  { key: "modern", label: "Moderno", preview: "Inter + Space Grotesk" },
-  { key: "warm", label: "Cálido", preview: "Poppins + Playfair Display" },
-  { key: "elegant", label: "Elegante", preview: "DM Sans + Cormorant Garamond" },
-  { key: "functional", label: "Funcional", preview: "IBM Plex Sans + IBM Plex Mono" },
+// ── Fallback hardcoded arrays (used when no schema is provided) ─────────────
+
+const FALLBACK_COLORS: { key: string; label: string; default: string }[] = [
+  { key: "primary", label: "Color principal", default: "#000000" },
+  { key: "secondary", label: "Color secundario", default: "#211C24" },
+  { key: "background", label: "Fondo", default: "#FAFAFA" },
+  { key: "cardBg", label: "Fondo de tarjetas", default: "#F6F6F6" },
 ];
 
-interface ThemeTabProps {
-  storeId: string;
-  initialTheme?: ThemeCustomization;
-  initialFontPair?: string;
-}
-
-// Color fields the merchant can edit — subset of all template color tokens
-const EDITABLE_COLORS: { key: string; label: string }[] = [
-  { key: "primary", label: "Color principal" },
-  { key: "secondary", label: "Color secundario" },
-  { key: "background", label: "Fondo" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
+const FALLBACK_RADIUS: { key: string; label: string; max: number; default: string }[] = [
+  { key: "card", label: "Esquinas de tarjetas", max: 24, default: "9px" },
+  { key: "category", label: "Esquinas de categorías", max: 30, default: "15px" },
+  { key: "button", label: "Esquinas de botones", max: 24, default: "8px" },
 ];
 
-// Radius controls
-const RADIUS_CONTROLS: { key: string; label: string; max: number }[] = [
-  { key: "card", label: "Esquinas de tarjetas", max: 24 },
-  { key: "category", label: "Esquinas de categorías", max: 30 },
-  { key: "button", label: "Esquinas de botones", max: 24 },
+const FALLBACK_FONT_PAIRS: { key: string; label: string; body: string; heading: string; preview?: string }[] = [
+  { key: "modern", label: "Moderno", body: "Inter", heading: "Space Grotesk" },
+  { key: "warm", label: "Cálido", body: "Poppins", heading: "Playfair Display" },
+  { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond" },
+  { key: "functional", label: "Funcional", body: "IBM Plex Sans", heading: "IBM Plex Mono" },
 ];
 
-// Template options
+// ── Template options (static for now) ───────────────────────────────────────
+
 const TEMPLATES = [
   { id: "tech-premium", label: "Tech Premium", description: "Ideal para tecnología y electrónica", available: true },
   { id: "fashion-minimal", label: "Fashion Minimal", description: "Para moda y accesorios", available: false },
@@ -52,38 +49,77 @@ const TEMPLATES = [
   { id: "beauty-soft", label: "Beauty & Care", description: "Para cosméticos y salud", available: false },
 ];
 
-// Default colors from tech-premium template
-const DEFAULT_COLORS: Record<string, string> = {
-  primary: "#000000",
-  secondary: "#211C24",
-  background: "#FAFAFA",
-  cardBg: "#F6F6F6",
-};
-
-const DEFAULT_RADIUS: Record<string, string> = {
-  card: "9px",
-  category: "15px",
-  button: "8px",
-};
-
 function parseRadius(val: string): number {
   return parseInt(val, 10) || 0;
 }
 
-export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabProps) {
+interface ThemeTabProps {
+  initialTheme?: ThemeCustomization;
+  /** When provided, colors/radius/fontPairs are read from the schema instead of hardcoded arrays. */
+  schema?: TemplateConfigSchema;
+}
+
+export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
+  // Resolve data sources: schema-driven or fallback
+  const editableColors = useMemo(
+    () => schema?.theme.colors ?? FALLBACK_COLORS,
+    [schema]
+  );
+
+  const radiusControls = useMemo(
+    () =>
+      schema?.theme.radius.map((r) => ({
+        key: r.key,
+        label: r.label,
+        max: r.max,
+        default: r.default,
+      })) ?? FALLBACK_RADIUS,
+    [schema]
+  );
+
+  const fontPairs = useMemo(
+    () =>
+      schema?.theme.fontPairs.map((fp) => ({
+        key: fp.key,
+        label: fp.label,
+        body: fp.body,
+        heading: fp.heading,
+        preview: fp.preview,
+      })) ?? FALLBACK_FONT_PAIRS,
+    [schema]
+  );
+
+  // Build default maps from the resolved data source
+  const defaultColors = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const c of editableColors) {
+      map[c.key] = c.default;
+    }
+    return map;
+  }, [editableColors]);
+
+  const defaultRadius = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const r of radiusControls) {
+      map[r.key] = r.default;
+    }
+    return map;
+  }, [radiusControls]);
   const [colors, setColors] = useState<Record<string, string>>(
-    (initialTheme?.colors as Record<string, string> | undefined) ?? DEFAULT_COLORS
+    (initialTheme?.colors as Record<string, string> | undefined) ?? defaultColors
   );
 
   const [radius, setRadius] = useState<Record<string, string>>(
-    (initialTheme?.radius as Record<string, string> | undefined) ?? DEFAULT_RADIUS
+    (initialTheme?.radius as Record<string, string> | undefined) ?? defaultRadius
   );
 
-  const [fontPair, setFontPair] = useState<string>(initialFontPair);
+  const [fontPair, setFontPair] = useState<string>(
+    initialTheme?.fontPair ?? "modern"
+  );
 
   const [selectedTemplate] = useState("tech-premium");
 
-  const [isPending, startTransition] = useTransition();
+  const [isSaving, setIsSaving] = useState(false);
 
   function handleColorChange(key: string, value: string) {
     setColors((prev) => ({ ...prev, [key]: value }));
@@ -95,33 +131,23 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSaving(true);
 
-    startTransition(async () => {
-      const formData = new FormData();
+    const theme: ThemeCustomization = {
+      colors,
+      radius,
+      fontPair,
+    };
 
-      // Color fields
-      for (const key of Object.keys(colors)) {
-        const val = colors[key];
-        if (val !== undefined) formData.set(key, val);
-      }
+    const result = updateTheme(theme);
 
-      // Radius fields — use prefixed names to avoid conflicts
-      for (const key of Object.keys(radius)) {
-        const val = radius[key];
-        if (val !== undefined) formData.set(`radius${key.charAt(0).toUpperCase()}${key.slice(1)}`, val);
-      }
+    setIsSaving(false);
 
-      // Font pair
-      formData.set("fontPair", fontPair);
-
-      const result = await updateTheme(formData);
-
-      if (result.success) {
-        toast.success("Cambios de apariencia guardados");
-      } else {
-        toast.error(result.error.message);
-      }
-    });
+    if (result.success) {
+      toast.success("Cambios de apariencia guardados");
+    } else {
+      toast.error(result.error.message);
+    }
   }
 
   return (
@@ -191,7 +217,7 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {EDITABLE_COLORS.map(({ key, label }) => (
+          {editableColors.map(({ key, label }) => (
             <div key={key} className="flex items-center justify-between gap-4">
               <Label className="flex-1 text-sm">{label}</Label>
               <div className="flex items-center gap-3">
@@ -221,7 +247,7 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {FONT_PAIRS.map((pair) => (
+            {fontPairs.map((pair) => (
               <button
                 key={pair.key}
                 type="button"
@@ -245,7 +271,9 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium">{pair.label}</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">{pair.preview}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {pair.body} + {pair.heading}
+                  </p>
                 </div>
               </button>
             ))}
@@ -262,7 +290,7 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
-          {RADIUS_CONTROLS.map(({ key, label, max }) => {
+          {radiusControls.map(({ key, label, max }) => {
             const numVal = parseRadius(radius[key] ?? "0px");
             return (
               <div key={key} className="space-y-2">
@@ -297,8 +325,8 @@ export function ThemeTab({ initialTheme, initialFontPair = "modern" }: ThemeTabP
 
       {/* Save button */}
       <div className="flex justify-end">
-        <Button type="submit" disabled={isPending} className="min-w-32">
-          {isPending ? (
+        <Button type="submit" disabled={isSaving} className="min-w-32">
+          {isSaving ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Guardando...
