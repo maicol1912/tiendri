@@ -307,24 +307,104 @@ Función genérica para actualizar `sort_order` en lote. Recibe la tabla, la col
 
 ### Arquitectura de 5 capas
 
-1. **TemplateConfig** — contrato global que cada template debe cumplir (`satisfies TemplateConfig`)
-2. **StoreCustomization** — overrides del merchant (Partial, guardado en Supabase como JSONB)
-3. **ResolvedStoreConfig** — resultado merged de defaults + overrides
-4. **MockStoreConfig** — misma estructura, datos estáticos para preview
-5. **SectionConfig** — orden y visibilidad de secciones
+The template type system is split across five files in `src/types/templates/`:
+
+| Layer | File | Purpose |
+|---|---|---|
+| 1. Primitives | `primitives.ts` | Union types: `CardStyle`, `HoverEffect`, `ImageRatio`, `BorderRadius`, `NavStyle`, `TabStyle`, `BannerHeight`, `HeaderStyle`, `FooterStyle`, `GridBreakpoint` |
+| 2. Sections | `sections.ts` | `SectionId`, `SectionConfig` — per-section visibility and render order |
+| 3. TemplateConfig | `template-config.ts` | Full contract each template must satisfy: `TemplateColorTokens`, `TemplateRadiusTokens`, `TemplateGridConfig`, `TemplateLayoutConfig`, root `TemplateConfig` interface |
+| 4. StoreCustomization | `store-customization.ts` | Partial override blob saved to Supabase JSONB: `ThemeCustomization`, `LayoutCustomization`, `StoreCustomization` |
+| 5. ResolvedConfig | `resolved-config.ts` | `ResolvedStoreConfig = TemplateConfig` (type alias — resolver deep-merges into the same shape), `MockStoreConfig`, `ConfigResolver` |
+
+Shared customization sub-types (`BrandingConfig`, `ContentConfig`, `BusinessConfig`) live in `customization-sections.ts` — imported by both `TemplateConfig` and `StoreCustomization` to avoid circular dependencies.
+
+All types are re-exported from `src/types/templates/index.ts`.
+
+### Template File Structure
+
+Each template lives under `src/templates/[name]/`:
+
+```
+src/templates/[name]/
+├── config.ts          # Default values — object satisfies TemplateConfig
+├── config-schema.ts   # Configurable surface — exports TemplateConfigSchema
+├── index.tsx          # Entry point (exports the storefront component)
+├── mock/
+│   ├── data.ts        # Static mock data for preview rendering
+│   └── assets.ts      # Image path constants
+├── components/        # Visual components + route shell pages
+├── hooks/             # e.g. useTemplateNav
+├── context/           # CartContext (localStorage cart)
+└── utils/             # grid-classes, layout-classes helpers
+```
+
+### Template Registry
+
+`src/templates/registry.ts` exports two loaders:
+
+- `getTemplateSchema(templateId)` — async, code-splits the schema per template (preferred for dashboard pages)
+- `getTemplateSchemaSync(templateId)` — synchronous, static imports; included in the initial bundle
+
+Currently registered: `"tech-premium"`.
+
+### Config Resolver
+
+`src/lib/resolveTemplateConfig.ts` — `resolveTemplateConfig(template, customization?) → ResolvedStoreConfig`
+
+Merge strategy:
+
+| Field | Strategy |
+|---|---|
+| `colors`, `radius`, `grid`, `layout` | Shallow merge — merchant keys win field-by-field |
+| `sections` | Merchant array **replaces** template array entirely |
+| `branding` | Shallow merge; `socialLinks` gets a second-level spread |
+| `content` | Shallow merge; `heroBanner` gets a second-level spread; arrays (navLinks, footerServices, footerAssistance, productTabs, popularSearches) **replace** |
+| `business` | Shallow merge |
+
+### CSS Variable Generation
+
+`src/lib/buildCssVars.ts` — `buildCssVars(config: ResolvedStoreConfig) → Record<string, string>`
+
+| Token group | CSS var format | Example |
+|---|---|---|
+| Colors | `--t-{kebab-case-key}` | `cardBg` → `--t-card-bg` |
+| Radius | `--t-radius-{key}` | `card` → `--t-radius-card` |
+| Body font | `--font-body` | `"Inter"` |
+| Heading font | `--font-heading`, `--template-heading-font` | `"var(--font-display)"` |
+
+Grid and layout values are consumed as component props — they do NOT become CSS variables.
+
+### TemplateConfigSchema
+
+`src/types/templates/config-schema.ts` — describes the configurable surface consumed by the dashboard form renderer.
+
+Root shape:
+
+```typescript
+interface TemplateConfigSchema {
+  theme: ThemeSchemaConfig;         // colors[], radius[], fontPairs[]
+  content: { tabGroups: ConfigTabGroup[] };
+}
+```
+
+`ConfigTabGroup` → `ConfigSection | RepeatableConfigSection` → `ConfigField[]`
+
+See `docs/template-system.md` for the complete field type reference.
 
 ### Implementación actual
 
 - **tech-premium**: único template implementado (migrado desde tech2)
-- Templates placeholder (flavor, nova, pulse, glow) eliminados
-- 7+ templates pendientes de migración desde repo viejo
+- Templates placeholder eliminados; 7+ pendientes de migración desde repo viejo
+- Registry async/sync para code-splitting del schema por template
 
 ### Estructura de un template
 
 ```
 src/templates/[name]/
 ├── config.ts          # satisfies TemplateConfig — colores, grid, layout, secciones
-├── types.ts           # tipos específicos del template
+├── config-schema.ts   # TemplateConfigSchema — superficie configurable del dashboard
+├── types.ts           # tipos específicos del template (opcional)
 ├── index.tsx          # entry point
 ├── mock/
 │   ├── data.ts        # datos mock centralizados
@@ -363,13 +443,146 @@ Prefijo genérico `--t-*` para TODAS las variables (no prefijos específicos por
 
 ### Tipos globales
 
-- `src/types/templates/` — primitives, sections, template-config, store-customization, resolved-config
-- `src/types/store.ts` — StoreInfo, Product, Category (compartidos)
+- `src/types/templates/` — primitives, sections, template-config, store-customization, resolved-config, config-schema
+- `src/types/store.ts` — StoreInfo, StorefrontProduct, Category (compartidos, display-optimized para el storefront)
 - `src/types/cart.ts` — CartItem, Cart, CheckoutFormData
+- `src/types/domain/` — Category, Subcategory, Product, ProductImage, ProductVariant, ActionResult (dashboard/DB-aligned)
 
 ### Resolver
 
 `src/lib/resolveTemplateConfig.ts` — merge de defaults del template + overrides JSONB del merchant.
+
+---
+
+## Data Layer
+
+### Repository Pattern
+
+Interfaces defined in `src/lib/repositories/interfaces.ts`:
+
+| Repository interface | Methods |
+|---|---|
+| `CategoryRepository` | `list`, `getById`, `create`, `update`, `delete`, `reorder`, `count` |
+| `SubcategoryRepository` | `listByCategory`, `getById`, `create`, `update`, `delete`, `reorder`, `deleteAllByCategory` |
+| `ProductRepository` | `list`, `getById`, `getBySlug`, `create`, `update`, `delete`, `reorder`, `toggleAvailable`, `toggleFeatured`, `count`, `countByCategory`, `switchCatalogModeToSimple` |
+| `StoreRepository` | `get`, `updateCatalogMode` |
+
+All mutation methods return `Promise<ActionResult<T>>`. All read methods are async for Supabase migration compatibility.
+
+### localStorage Implementations
+
+`src/lib/repositories/local-storage/`:
+
+| File | Class |
+|---|---|
+| `category.repository.ts` | `LocalCategoryRepository` |
+| `subcategory.repository.ts` | `LocalSubcategoryRepository` |
+| `product.repository.ts` | `LocalProductRepository` |
+| `store.repository.ts` | `LocalStoreRepository` |
+
+**localStorage key convention:** `tiendri_{storeId}_{entity}`
+
+Examples: `tiendri_demo-store_categories`, `tiendri_demo-store_products`, `tiendri_demo-store_subcategories`
+
+**Image storage:** Product images are stored as base64 data URLs (`ProductImage.url`). This is the localStorage phase only — the Supabase phase will replace these with CDN URLs.
+
+### Factory
+
+`src/lib/repositories/factory.ts`
+
+- `getStoreId()` — returns `"demo-store"` (fixed until auth is implemented)
+- `getCategoryRepository()`, `getSubcategoryRepository()`, `getProductRepository()`, `getStoreRepository()` — singleton instances, stable references on every call
+- `getRepositories()` — returns all four as a frozen object (used by hooks)
+
+Singletons are created at module level to prevent `useCallback` dependency arrays from seeing a changed `repo` reference and triggering infinite re-renders.
+
+### React Hooks
+
+`src/hooks/use-repositories.ts` — client hooks wrapping the repository layer:
+
+| Hook | Signature | Returns |
+|---|---|---|
+| `useCategories` | `(storeId?)` | `categories`, `isLoading`, `error`, `create`, `update`, `remove`, `reorder`, `refresh` |
+| `useSubcategories` | `(storeId?, categoryId)` | `subcategories`, `isLoading`, `error`, `create`, `update`, `remove`, `reorder`, `refresh` |
+| `useProducts` | `(storeId?, filters?)` | `products`, `isLoading`, `error`, `create`, `update`, `remove`, `toggleAvailable`, `toggleFeatured`, `reorder`, `refresh` |
+
+`reorder` applies an optimistic local state update after a successful repository call.
+`toggleAvailable` and `toggleFeatured` also apply optimistic updates using the updated entity returned by `ActionResult.data`.
+
+---
+
+## Domain Types
+
+**Location:** `src/types/domain/` — DB-aligned types used in the dashboard. Import from the barrel `src/types/domain/index.ts`.
+
+| File | Exports |
+|---|---|
+| `category.ts` | `CategoryIcon` (20-value union), `Category`, `CreateCategoryInput`, `UpdateCategoryInput` |
+| `subcategory.ts` | `Subcategory`, `CreateSubcategoryInput`, `UpdateSubcategoryInput` |
+| `product.ts` | `Product`, `ProductImage`, `ProductVariant`, `CreateProductInput`, `UpdateProductInput`, `ProductFilters` |
+| `action-result.ts` | `ActionResult<T>` |
+
+### ActionResult<T> Pattern
+
+```typescript
+type ActionResult<T> =
+  | { success: true; data: T }
+  | { success: false; error: { code: string; message: string; field?: string } }
+```
+
+All repository mutations return `ActionResult<T>`. `code` follows tiendri-rules.md §3.2. `message` is in Colombian Spanish. `field` identifies the specific input when applicable.
+
+### Domain vs Storefront Types
+
+| Concern | Location | Optimized for |
+|---|---|---|
+| Dashboard CRUD | `src/types/domain/` | DB alignment, mutations, RLS |
+| Storefront rendering | `src/types/store.ts` | Display (StorefrontProduct, lighter shape) |
+
+Templates **must not** import from `src/types/domain/`. The storefront consumes `StorefrontProduct` from `src/types/store.ts`.
+
+### Zod Validators
+
+`src/lib/validators/`:
+
+| File | Schemas |
+|---|---|
+| `category.schema.ts` | `categorySchema`, `updateCategorySchema`, `subcategorySchema`, `updateSubcategorySchema` |
+| `product.schema.ts` | Product creation and update schemas |
+| `store-customization.schema.ts` | StoreCustomization blob validation |
+
+Validators are used server-side (Server Actions) before any repository mutation.
+
+---
+
+## Business Rules
+
+### Catalog Modes
+
+| Mode | Description |
+|---|---|
+| `simple` | Products belong directly to categories — no subcategory level |
+| `nested` | Products belong to a subcategory within a category |
+
+Switching `nested → simple` nullifies all `subcategory_id` fields and deletes all subcategories. Validate first with `validateModeSwitch()` to check for potential orphans.
+
+### Entity Limits
+
+| Entity | Limit |
+|---|---|
+| Categories per store | 50 |
+| Subcategories per category | 20 |
+| Products per store | 1000 |
+| Images per product | 4 |
+
+### Cascade Deletes
+
+- **Category deleted** → all its subcategories deleted → all products in those subcategories deleted + all products directly in the category deleted
+- **Subcategory deleted** → orphaned products either deleted (`orphanAction: 'delete'`) or reassigned (`orphanAction: 'move'`, `targetSubcategoryId` required)
+
+### Slug Uniqueness
+
+Slugs are unique **within a store** (not globally). The pattern is `^[a-z0-9][a-z0-9-]*[a-z0-9]$` — lowercase alphanumeric with hyphens, cannot start or end with a hyphen, minimum 2 characters.
 
 ---
 

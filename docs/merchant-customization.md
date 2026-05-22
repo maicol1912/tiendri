@@ -2,70 +2,95 @@
 
 Todo lo que un merchant debe poder personalizar desde su dashboard.
 
-## Ya implementado (via config del template)
+## Ya implementado
 
-| Aspecto | Estado |
-|---------|--------|
-| Colores (32+ tokens via CSS vars --t-*) | Hecho |
-| Border radius (card, category, button) | Hecho |
-| Grid columns (products, categories, listing, search) | Hecho |
-| Layout options (cardStyle, hoverEffect, imageRatio, tabStyle, bannerHeight, headerStyle, footerStyle) | Hecho |
-| Orden de secciones (array configurable) | Hecho |
-| Visibilidad de secciones (visible: true/false) | Hecho |
-| Theme Customizer live (drawer flotante) | Hecho |
-| resolveTemplateConfig() para merge defaults + overrides | Hecho |
+### Tema y apariencia visual
+
+| Aspecto | Estado | Dónde |
+|---------|--------|-------|
+| Colores (32+ tokens via CSS vars `--t-*`) | ✅ Hecho | `ThemeTab` en `/dashboard/configuracion` |
+| Border radius (card, category, button) | ✅ Hecho | `ThemeTab` — sliders con límite en px |
+| Pares de fuentes (modern, warm, elegant, functional) | ✅ Hecho | `ThemeTab` — font picker |
+| Grid columns (products, categories, listing, search) | ✅ Hecho | Config del template |
+| Layout options (cardStyle, hoverEffect, imageRatio, tabStyle, bannerHeight, headerStyle, footerStyle) | ✅ Hecho | Config del template |
+| Orden de secciones (array configurable) | ✅ Hecho | Config del template |
+| Visibilidad de secciones (visible: true/false) | ✅ Hecho | Config del template |
+| `resolveTemplateConfig()` para merge defaults + overrides | ✅ Hecho | `src/lib/resolveTemplateConfig.ts` |
+| `buildCssVars()` para generar CSS custom properties | ✅ Hecho | `src/lib/buildCssVars.ts` |
+
+### Identidad de marca (BrandingTab)
+
+| Elemento | Estado | Notas |
+|----------|--------|-------|
+| Nombre de la tienda | ✅ Hecho | `BrandingTab` en `/dashboard/configuracion` |
+| Descripción | ✅ Hecho | `BrandingTab` |
+| WhatsApp | ✅ Hecho | `BrandingTab` |
+| Logo | ✅ Hecho | `BrandingTab` |
+| Redes sociales (Instagram, Facebook, TikTok, Twitter, YouTube) | ✅ Hecho | `BrandingTab` |
+
+### Contenido visual (schema-driven via DynamicTabContent)
+
+| Elemento | Estado | Notas |
+|----------|--------|-------|
+| Banner hero (título, subtítulo, imagen, CTA) | ✅ Hecho | `TemplateConfigSchema` → tab "Contenido Principal" |
+| Banners promocionales (hasta 4, repeatable) | ✅ Hecho | Sección repetible con add/remove |
+| Banner de ofertas (desktop + mobile) | ✅ Hecho | Sección simple con dos campos de imagen |
+| Links de navegación (repeatable) | ✅ Hecho | Tab "Navegación y Pie de Página" |
+| Tabs de productos (repeatable) | ✅ Hecho | Tab "Navegación y Pie de Página" |
+| Búsquedas populares | ✅ Hecho | Tag-list field |
+| Servicios del footer | ✅ Hecho | Tag-list field |
+| Asistencia del footer | ✅ Hecho | Tag-list field |
+
+### Información de negocio (BusinessTab)
+
+| Elemento | Estado | Notas |
+|----------|--------|-------|
+| Ciudad / dirección | ✅ Hecho | `BusinessTab` en `/dashboard/configuracion` |
+| Horarios | ✅ Hecho | `BusinessTab` |
+| Métodos de pago (Nequi, Daviplata, efectivo, etc.) | ✅ Hecho | `BusinessTab` |
+| Info de envío (costo, tiempo estimado) | ✅ Hecho | `BusinessTab` |
+| Moneda | ✅ Hecho | `BusinessTab` — default "COP" |
+
+### Catálogo (dashboard CRUD)
+
+| Elemento | Estado | Notas |
+|----------|--------|-------|
+| Categorías — crear, editar, eliminar, reordenar | ✅ Hecho | `/dashboard/categorias` |
+| Subcategorías — CRUD dentro de una categoría | ✅ Hecho | `/dashboard/categorias/[id]` |
+| Productos — crear, editar, eliminar, reordenar | ✅ Hecho | `/dashboard/productos` |
+| Imágenes de producto (hasta 4, base64 WebP) | ✅ Hecho | `product-image-gallery.tsx` |
+| Variantes de producto (precio modificado) | ✅ Hecho | `product-form.tsx` |
+| Toggle disponibilidad / destacado | ✅ Hecho | Optimistic update en `useProducts` |
+| Modo catálogo (simple vs nested) | ✅ Hecho | `StoreRepository.updateCatalogMode` |
+
+### Infraestructura de datos
+
+| Elemento | Estado | Notas |
+|----------|--------|-------|
+| Persistencia localStorage con patrón Repository | ✅ Hecho | `src/lib/repositories/local-storage/` |
+| Factory con singletons estables | ✅ Hecho | `src/lib/repositories/factory.ts` |
+| Hooks `useCategories`, `useSubcategories`, `useProducts` | ✅ Hecho | `src/hooks/use-repositories.ts` |
+| `ActionResult<T>` para manejo de errores tipado | ✅ Hecho | `src/types/domain/action-result.ts` |
+| Validación Zod (categorías, productos, customization) | ✅ Hecho | `src/lib/validators/` |
+| Renderer de formularios dinámico (DynamicTabContent) | ✅ Hecho | `src/components/dashboard/schema-form` |
 
 ---
 
-## Por implementar — Identidad de marca (ALTA prioridad)
+## Por implementar — Contenido del catálogo (ALTA prioridad)
 
 | Elemento | Qué personaliza | Dónde se ve |
 |----------|-----------------|-------------|
-| **Logo** | Imagen subida o texto | Header, footer, favicon |
-| **Nombre de la tienda** | Texto | Header, meta, OG tags, footer, JSON-LD |
-| **Descripción de la tienda** | Texto corto | Footer, SEO meta description, JSON-LD |
-| **Favicon** | Ícono 32x32 | Pestaña del browser |
-| **WhatsApp** | Número colombiano (57...) | Checkout, botón flotante |
-| **Redes sociales** | URLs (Instagram, Facebook, TikTok, Twitter) | Footer, JSON-LD |
-
-## Por implementar — Contenido visual (ALTA prioridad)
-
-| Elemento | Qué personaliza | Dónde se ve |
-|----------|-----------------|-------------|
-| **Banner hero** | Imagen + título + subtítulo + CTA | Home hero section |
-| **Banners promocionales** | Imágenes + textos (4 banners) | Home banner grid |
-| **Banner de ofertas** | Imagen desktop + mobile | Home summer sale |
 | **Productos destacados** | Cuáles aparecen en home | Home product grid |
 | **Productos populares** | Cuáles aparecen + imagen + texto | Home popular section |
 | **Productos en descuento** | Cuáles aparecen | Home discounts section |
+| **Favicon** | Ícono 32x32 | Pestaña del browser |
 
-## Por implementar — Tipografía y apariencia (MEDIA prioridad)
+## Por implementar — Apariencia (MEDIA prioridad)
 
 | Elemento | Opciones |
 |----------|----------|
-| **Par de fuentes** | modern (Inter+Space Grotesk), warm (Poppins+Playfair), elegant (DM Sans+Cormorant), functional (IBM Plex+Mono) |
-| **Apariencia** | light / dark |
-| **Template** | tech-premium, + los que se migren |
-
-## Por implementar — Navegación y estructura (MEDIA prioridad)
-
-| Elemento | Qué personaliza | Dónde se ve |
-|----------|-----------------|-------------|
-| **Links del navbar** | Labels + destinos | Header nav |
-| **Modo catálogo** | Simple (plano) vs nested (jerárquico) | Toda la tienda |
-| **Tabs de productos** | Labels ("Nuevos", "Más vendidos", etc.) | Home products section |
-| **Sugerencias de búsqueda** | Términos populares | Search page |
-| **Contenido del footer** | Listas de servicios + asistencia | Footer |
-
-## Por implementar — Información de negocio (MEDIA prioridad)
-
-| Elemento | Para qué |
-|----------|----------|
-| **Ciudad / dirección** | JSON-LD LocalBusiness, SEO local |
-| **Horarios** | JSON-LD, confianza del cliente |
-| **Métodos de pago** | Checkout info, confianza (Nequi, Daviplata, efectivo, etc.) |
-| **Info de envío** | Costo, tiempo estimado — product detail + checkout |
-| **Moneda** | Símbolo de precios ($ / COP) |
+| **Apariencia** | light / dark (tipos listos en `StoreCustomization.appearance`, UI pendiente) |
+| **Template** | tech-premium implementado; 7+ pendientes de migración |
 
 ## Por implementar — Avanzado (post-MVP)
 
@@ -80,30 +105,33 @@ Todo lo que un merchant debe poder personalizar desde su dashboard.
 
 ---
 
-## Estructura en Supabase (StoreCustomization JSONB)
+## Estructura StoreCustomization (JSONB)
 
 ```typescript
 interface StoreCustomization {
   templateId: string;
 
-  // Ya implementado
+  // Tema
   theme?: {
-    colors?: Partial<TemplateColorTokens>;
-    radius?: Partial<TemplateRadiusTokens>;
+    colors?: Partial<TemplateColorTokens>;   // tokens --t-*
+    radius?: Partial<TemplateRadiusTokens>;  // tokens --t-radius-*
+    fontPair?: string;                       // "modern" | "warm" | "elegant" | "functional"
   };
+
+  // Layout
   layout?: {
     grid?: Partial<TemplateGridConfig>;
     layout?: Partial<TemplateLayoutConfig>;
-    sections?: SectionConfig[];
+    sections?: SectionConfig[];              // reemplaza el array del template entero
   };
 
-  // Por implementar
+  // Identidad de marca
   branding?: {
-    logo?: string;              // URL en Supabase Storage
+    logo?: string;           // URL pública Storage bucket `logos`
     storeName?: string;
     description?: string;
-    favicon?: string;           // URL en Supabase Storage
-    whatsapp?: string;          // 573001234567
+    favicon?: string;        // URL pública Storage bucket `logos`
+    whatsapp?: string;       // e.g. "573001234567"
     socialLinks?: {
       instagram?: string;
       facebook?: string;
@@ -112,45 +140,61 @@ interface StoreCustomization {
       youtube?: string;
     };
   };
+
+  // Contenido visual
   content?: {
-    heroBanner?: {
-      title?: string;
-      subtitle?: string;
-      image?: string;
-      ctaText?: string;
-    };
-    navLinks?: { label: string; href: string }[];
-    footerServices?: string[];
-    footerAssistance?: string[];
-    productTabs?: { id: string; label: string }[];
-    popularSearches?: string[];
+    heroBanner?: { title?; subtitle?; image?; ctaText? };
+    promotionalBanners?: Array<{ image?; title?; subtitle?; link? }>;
+    offersBanner?: { desktopImage?; mobileImage?; title?; subtitle?; ctaText? };
     featuredProductIds?: string[];
     popularProductIds?: string[];
     discountProductIds?: string[];
+    navLinks?: Array<{ label: string; href: string }>;
+    footerServices?: string[];
+    footerAssistance?: string[];
+    productTabs?: Array<{ id: string; label: string }>;
+    popularSearches?: string[];
   };
+
+  // Info de negocio
   business?: {
     city?: string;
     address?: string;
     hours?: string;
-    paymentMethods?: string[];
-    shippingInfo?: string;
-    currency?: string;          // "COP" default
+    paymentMethods?: string[];   // nequi | daviplata | efectivo | transferencia | tarjeta
+    shippingInfo?: { cost?; estimatedTime?; freeAbove? };
+    currency?: string;           // ISO 4217 — default "COP"
   };
+
+  // Apariencia (tipos listos, UI pendiente)
+  appearance?: "light" | "dark";
 }
 ```
 
-## Cómo funciona
+## Cómo funciona (flujo completo)
 
-1. Merchant edita desde el dashboard (`/dashboard/configuracion`)
-2. Se guarda como JSONB en Supabase tabla `stores` columna `customization`
-3. `resolveTemplateConfig(templateDefaults, storeCustomization)` mergea en runtime
-4. El storefront live (`/[slug]`) recibe el config resuelto
-5. CSS variables se inyectan, componentes renderizan con los valores del merchant
+1. Merchant edita desde el dashboard (`/dashboard/configuracion` o `/dashboard/categorias`, `/dashboard/productos`)
+2. Los datos de customización se guardan en localStorage (clave: `tiendri_demo-store_customization`)
+3. El catálogo se persiste en localStorage por entidad: `tiendri_demo-store_categories`, `tiendri_demo-store_products`, etc.
+4. `resolveTemplateConfig(templateDefaults, storeCustomization)` mergea en runtime
+5. `buildCssVars(resolvedConfig)` genera las CSS custom properties
+6. Las variables se inyectan en `.template-scope` — los componentes renderizan con los valores del merchant
+7. **Migración futura**: las implementaciones localStorage se reemplazarán por implementaciones Supabase en la factory, sin cambios en hooks ni componentes
 
-## Archivos a modificar
+## Archivos clave
 
-- `src/types/templates/store-customization.ts` — expandir con branding, content, business
-- `src/lib/resolveTemplateConfig.ts` — expandir merge para nuevos campos
-- `src/app/(dashboard)/dashboard/configuracion/` — UI del dashboard
-- `src/app/[slug]/page.tsx` — cargar customization de Supabase + resolver
-- `src/templates/tech-premium/components/` — consumir branding/content de config resuelto
+| Archivo | Rol |
+|---------|-----|
+| `src/types/templates/store-customization.ts` | Contrato del blob de customización |
+| `src/types/templates/config-schema.ts` | Sistema de tipos para el schema declarativo |
+| `src/lib/resolveTemplateConfig.ts` | Merge defaults + overrides |
+| `src/lib/buildCssVars.ts` | Genera CSS custom properties desde el config resuelto |
+| `src/lib/repositories/` | Patrón repository con implementaciones localStorage |
+| `src/lib/repositories/factory.ts` | Factory singleton + `getStoreId()` |
+| `src/hooks/use-repositories.ts` | Hooks React para CRUD de catálogo |
+| `src/templates/registry.ts` | Registry async/sync de schemas por template |
+| `src/templates/tech-premium/config.ts` | Defaults del template tech-premium |
+| `src/templates/tech-premium/config-schema.ts` | Surface configurable de tech-premium |
+| `src/app/(dashboard)/dashboard/configuracion/` | UI del dashboard de configuración |
+| `src/app/(dashboard)/dashboard/categorias/` | CRUD de categorías y subcategorías |
+| `src/app/(dashboard)/dashboard/productos/` | CRUD de productos |
