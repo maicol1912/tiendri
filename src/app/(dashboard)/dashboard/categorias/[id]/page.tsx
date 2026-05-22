@@ -1,7 +1,8 @@
 'use client'
 
-// Category Edit Page — Task 5.3
+// Category Edit Page
 // Pre-populated form with save/delete. Shows subcategories panel for nested mode.
+// Category image now stored as media ID (media_xxx) via MediaPickerField.
 
 import { useState, useCallback, useEffect, useRef, use } from 'react'
 import { useRouter } from 'next/navigation'
@@ -9,8 +10,6 @@ import {
   ArrowLeft,
   Loader2,
   Trash2,
-  Upload,
-  X,
   Save,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -22,7 +21,7 @@ import {
   getProductRepository,
 } from '@/lib/repositories'
 import { categorySchema } from '@/lib/validators/category.schema'
-import { useImageUpload } from '@/hooks/use-image-upload'
+import { MediaPickerField } from '@/components/dashboard/media'
 import type { CategoryIcon, UpdateCategoryInput } from '@/types/domain'
 import type { StoreMeta } from '@/lib/repositories/interfaces'
 import { ConfirmDialog } from '@/components/shared'
@@ -67,6 +66,7 @@ export default function CategoryEditPage({
   const [slugManual, setSlugManual] = useState(true) // start manual since editing
   const [description, setDescription] = useState('')
   const [icon, setIcon] = useState<CategoryIcon>('ShoppingBag')
+  const [image, setImage] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -74,13 +74,6 @@ export default function CategoryEditPage({
   const [productCount, setProductCount] = useState(0)
   const [storeMeta, setStoreMeta] = useState<StoreMeta | null>(null)
 
-  const { images, addImage, removeImage, isProcessing } = useImageUpload({
-    maxImages: 1,
-    maxWidth: 600,
-    quality: 0.8,
-  })
-
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const initialized = useRef(false)
 
   // Populate form when category loads
@@ -90,6 +83,7 @@ export default function CategoryEditPage({
       setSlug(category.slug)
       setDescription(category.description ?? '')
       setIcon(category.icon)
+      setImage(category.image ?? null)
       initialized.current = true
     }
   }, [category])
@@ -123,13 +117,8 @@ export default function CategoryEditPage({
       name: name.trim(),
       slug: slug.trim(),
       description: description.trim() || undefined,
-      image: images[0]?.dataUrl ?? category?.image,
+      image: image ?? undefined,
       icon,
-    }
-
-    // If image was removed and no new one was added
-    if (images.length === 0 && !category?.image) {
-      input.image = undefined
     }
 
     const result = categorySchema.safeParse({
@@ -161,7 +150,7 @@ export default function CategoryEditPage({
     } else {
       toast.error('No se pudo actualizar la categoria')
     }
-  }, [name, slug, description, icon, images, category, update, id, refresh])
+  }, [name, slug, description, icon, image, update, id, refresh])
 
   const handleDelete = useCallback(async () => {
     setDeleteLoading(true)
@@ -174,19 +163,6 @@ export default function CategoryEditPage({
       toast.error('No se pudo eliminar la categoria')
     }
   }, [remove, id, router])
-
-  const handleImageSelect = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0]
-      if (!file) return
-      const error = await addImage(file)
-      if (error === 'FILE_TOO_LARGE') {
-        toast.error('La imagen es muy grande. Maximo 5MB.')
-      }
-      if (fileInputRef.current) fileInputRef.current.value = ''
-    },
-    [addImage]
-  )
 
   // Loading
   if (isLoading) {
@@ -215,8 +191,6 @@ export default function CategoryEditPage({
       </div>
     )
   }
-
-  const currentImage = images[0]?.dataUrl ?? category.image
 
   return (
     <div className="space-y-6">
@@ -371,53 +345,11 @@ export default function CategoryEditPage({
           {/* Image */}
           <div className="space-y-2">
             <Label>Imagen (opcional)</Label>
-            {!currentImage ? (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isProcessing}
-                className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-6 text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-              >
-                {isProcessing ? (
-                  <Loader2 className="size-6 animate-spin" />
-                ) : (
-                  <Upload className="size-6" />
-                )}
-                <span className="text-xs">
-                  {isProcessing
-                    ? 'Procesando...'
-                    : 'Subir imagen (1:1 recomendado)'}
-                </span>
-              </button>
-            ) : (
-              <div className="relative w-fit">
-                <div className="size-24 overflow-hidden rounded-lg border">
-                  <img
-                    src={currentImage}
-                    alt="Preview"
-                    className="size-full object-cover"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (images[0]) {
-                      removeImage(images[0].id)
-                    }
-                    // Clear original image by saving with undefined
-                  }}
-                  className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-sm"
-                >
-                  <X className="size-3" />
-                </button>
-              </div>
-            )}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageSelect}
+            <MediaPickerField
+              value={image}
+              onChange={setImage}
+              aspectRatio="1/1"
+              description="Relación de aspecto 1:1 recomendada"
             />
           </div>
         </div>

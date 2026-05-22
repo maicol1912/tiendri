@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TagListField } from "./tag-list-field";
-import { ImageUploadField } from "./image-upload-field";
+import { MediaPickerField } from "@/components/dashboard/media";
 
 // ---------------------------------------------------------------------------
 // Props
@@ -410,11 +410,10 @@ export function DynamicField({
 
       case "image":
         return (
-          <ImageUploadField
-            value={asString(value)}
-            onChange={(v) => onChange(v)}
+          <MediaPickerField
+            value={asString(value) || null}
+            onChange={(mediaId) => onChange(mediaId ?? '')}
             aspectRatio={field.aspectRatio}
-            maxFileSize={field.maxFileSize}
           />
         );
 

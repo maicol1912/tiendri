@@ -1,16 +1,17 @@
 'use client'
 
-// CreateCategorySheet — Task 5.2
+// CreateCategorySheet
 // Slide-from-right sheet with form: name, slug, description, icon picker, image.
 // Validates with Zod (categorySchema). On submit: create → toast → close → refresh.
+// Category image now stored as media ID (media_xxx) via MediaPickerField.
 
-import { useState, useCallback, useRef, useEffect } from 'react'
-import { Loader2, Upload, X, ImageIcon } from 'lucide-react'
+import { useState, useCallback, useEffect } from 'react'
+import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { useCategories } from '@/hooks/use-repositories'
 import { categorySchema } from '@/lib/validators/category.schema'
-import { useImageUpload } from '@/hooks/use-image-upload'
+import { MediaPickerField } from '@/components/dashboard/media'
 import type { CategoryIcon, CreateCategoryInput } from '@/types/domain'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -57,21 +58,15 @@ export function CreateCategorySheet({
   onCreated,
 }: CreateCategorySheetProps) {
   const { create } = useCategories(storeId)
-  const { images, addImage, removeImage, isProcessing } = useImageUpload({
-    maxImages: 1,
-    maxWidth: 600,
-    quality: 0.8,
-  })
 
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
   const [slugManual, setSlugManual] = useState(false)
   const [description, setDescription] = useState('')
   const [icon, setIcon] = useState<CategoryIcon>('ShoppingBag')
+  const [image, setImage] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
-
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Auto-generate slug from name (unless manually edited)
   useEffect(() => {
@@ -89,10 +84,9 @@ export function CreateCategorySheet({
     setSlugManual(false)
     setDescription('')
     setIcon('ShoppingBag')
+    setImage(null)
     setErrors({})
-    // Reset images by removing all
-    images.forEach((img) => removeImage(img.id))
-  }, [images, removeImage])
+  }, [])
 
   const handleSubmit = useCallback(async () => {
     // Validate
@@ -100,7 +94,7 @@ export function CreateCategorySheet({
       name: name.trim(),
       slug: slug.trim(),
       description: description.trim() || undefined,
-      image: images[0]?.dataUrl,
+      image: image ?? undefined,
       icon,
     }
 
@@ -129,23 +123,7 @@ export function CreateCategorySheet({
     } else {
       toast.error('No se pudo crear la categoria. Verifica que el slug no este en uso.')
     }
-  }, [name, slug, description, icon, images, create, resetForm, onCreated])
-
-  const handleImageSelect = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0]
-      if (!file) return
-      const error = await addImage(file)
-      if (error === 'FILE_TOO_LARGE') {
-        toast.error('La imagen es muy grande. Maximo 5MB.')
-      } else if (error === 'MAX_IMAGES_REACHED') {
-        toast.error('Solo se permite una imagen.')
-      }
-      // Reset input so the same file can be selected again
-      if (fileInputRef.current) fileInputRef.current.value = ''
-    },
-    [addImage]
-  )
+  }, [name, slug, description, icon, image, create, resetForm, onCreated])
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -264,46 +242,11 @@ export function CreateCategorySheet({
             {/* Image */}
             <div className="space-y-2">
               <Label>Imagen (opcional)</Label>
-              {images.length === 0 ? (
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isProcessing}
-                  className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-6 text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-                >
-                  {isProcessing ? (
-                    <Loader2 className="size-6 animate-spin" />
-                  ) : (
-                    <Upload className="size-6" />
-                  )}
-                  <span className="text-xs">
-                    {isProcessing ? 'Procesando...' : 'Subir imagen (1:1 recomendado)'}
-                  </span>
-                </button>
-              ) : (
-                <div className="relative w-fit">
-                  <div className="size-24 overflow-hidden rounded-lg border">
-                    <img
-                      src={images[0].dataUrl}
-                      alt="Preview"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeImage(images[0].id)}
-                    className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-sm"
-                  >
-                    <X className="size-3" />
-                  </button>
-                </div>
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageSelect}
+              <MediaPickerField
+                value={image}
+                onChange={setImage}
+                aspectRatio="1/1"
+                description="Relación de aspecto 1:1 recomendada"
               />
             </div>
           </div>

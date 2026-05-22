@@ -7,6 +7,7 @@ const ROUTE_LABELS: Record<string, string> = {
   dashboard: "Inicio",
   productos: "Productos",
   categorias: "Categorías",
+  biblioteca: "Biblioteca",
   banners: "Banners",
   compartir: "Compartir",
   configuracion: "Configuración",

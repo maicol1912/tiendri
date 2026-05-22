@@ -12,3 +12,11 @@ export type {
   ProductFilters,
 } from './product';
 export type { ActionResult } from './action-result';
+export type {
+  MediaAssetContext,
+  MediaAsset,
+  CreateMediaAssetInput,
+  UpdateMediaAssetInput,
+  MediaLibraryStats,
+  MediaSearchFilters,
+} from './media-asset';
