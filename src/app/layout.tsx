@@ -17,8 +17,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Tiendri — Creá tu tienda online",
-  description: "Tiendri: la plataforma para crear tu tienda online en minutos.",
+  metadataBase: new URL("https://tiendri.com"),
+  title: {
+    default: "Tiendri — Creá tu tienda online",
+    template: "%s | Tiendri",
+  },
+  description:
+    "Tiendri: la plataforma para crear tu tienda online en minutos y recibir pedidos por WhatsApp.",
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    siteName: "Tiendri",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

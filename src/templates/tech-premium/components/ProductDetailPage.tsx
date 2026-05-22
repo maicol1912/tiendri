@@ -131,8 +131,37 @@ export function ProductDetailPage({
     ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.originalPrice)}`
     : null;
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: `https://tiendri.com/template/${store.slug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Catálogo",
+        item: `https://tiendri.com/template/${store.slug}/catalogo`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: `https://tiendri.com/template/${store.slug}/producto/${product.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Header */}
       <Header
         store={store}
@@ -158,6 +187,7 @@ export function ProductDetailPage({
         </span>
       </nav>
 
+      <main>
       {/* ── Mobile: Image Gallery ── */}
       <div className="lg:hidden flex flex-col items-center gap-6 px-4 pt-8">
         {/* Main image */}
@@ -370,7 +400,7 @@ export function ProductDetailPage({
 
         {/* Colors */}
         <div className="flex items-center gap-6">
-          <span className="text-[15px] text-[var(--t-primary)]">Select color :</span>
+          <span className="text-[15px] text-[var(--t-primary)]">Seleccionar color :</span>
           <div className="flex items-center gap-2">
             {colors.map((color, idx) => (
               <button
@@ -469,7 +499,7 @@ export function ProductDetailPage({
       </div>
 
       {/* ── Details Section ── */}
-      <section aria-label="Product details" className="bg-[var(--t-background)] px-4 py-10 lg:px-[160px] lg:py-20">
+      <section aria-label="Detalles del producto" className="bg-[var(--t-background)] px-4 py-10 lg:px-[160px] lg:py-20">
         <div className="bg-white rounded-lg px-6 py-12 lg:px-10 lg:py-12 flex flex-col gap-8 items-center">
           <h2 className="text-2xl font-medium text-black w-full">Detalles</h2>
           <p className="text-sm font-medium text-[var(--t-text-muted)] leading-6 w-full">
@@ -523,7 +553,7 @@ export function ProductDetailPage({
       </section>
 
       {/* ── Reviews Section ── */}
-      <section aria-label="Customer reviews" className="px-4 py-10 lg:px-[160px] lg:py-[88px] flex flex-col gap-8 items-center">
+      <section aria-label="Reseñas de clientes" className="px-4 py-10 lg:px-[160px] lg:py-[88px] flex flex-col gap-8 items-center">
         <div className="w-full flex flex-col gap-12">
           <h2 className="text-2xl font-medium text-black">Reseñas</h2>
 
@@ -607,7 +637,7 @@ export function ProductDetailPage({
 
       {/* ── Related Products ── */}
       {relatedProducts.length > 0 && (
-        <section aria-label="Related products" className="px-4 py-10 lg:px-[160px] lg:py-20 flex flex-col gap-8">
+        <section aria-label="Productos relacionados" className="px-4 py-10 lg:px-[160px] lg:py-20 flex flex-col gap-8">
           <h2 className="text-2xl font-medium text-black">Productos relacionados</h2>
           <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}>
             {relatedProducts.map((p) => (
@@ -623,6 +653,8 @@ export function ProductDetailPage({
           </div>
         </section>
       )}
+
+      </main>
 
       {/* Footer */}
       <Footer store={store} services={footerServices} assistance={footerAssistance} />

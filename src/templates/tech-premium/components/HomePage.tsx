@@ -361,6 +361,20 @@ export function HomePage({
     );
   }
 
+  // ── Local Business JSON-LD ─────────────────────────────────────────────────
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    name: store.name,
+    description: store.description,
+    url: `https://tiendri.com/template/${store.slug}`,
+    telephone: store.whatsapp ? `+${store.whatsapp}` : undefined,
+    sameAs: store.social_links
+      ? Object.values(store.social_links).filter(Boolean)
+      : [],
+  };
+
   // ── Section registry — maps each id to its render function ─────────────────
 
   const sectionRenderers: Record<string, () => React.ReactNode> = {
@@ -377,6 +391,10 @@ export function HomePage({
 
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+      />
       {/* ── Sticky Header — structural, always rendered ── */}
       <Header
         store={store}

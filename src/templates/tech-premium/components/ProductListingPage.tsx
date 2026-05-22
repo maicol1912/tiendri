@@ -91,8 +91,31 @@ export function ProductListingPage({
 }: ProductListingPageProps) {
   const pageNumbers = getPageNumbers(currentPage, totalPages);
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: `https://tiendri.com/template/${store.slug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Catálogo",
+        item: `https://tiendri.com/template/${store.slug}/catalogo`,
+      },
+    ],
+  };
+
   return (
     <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Header */}
       <Header
         store={store}
@@ -111,6 +134,9 @@ export function ProductListingPage({
         <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
         <span className="text-black text-base font-medium">Smartphones</span>
       </nav>
+
+      <main>
+      <h1 className="sr-only">Catálogo</h1>
 
       {/* ── Mobile: Filter bar + sort ── */}
       <div className="lg:hidden flex items-center gap-3 px-4 pt-4">
@@ -224,6 +250,8 @@ export function ProductListingPage({
           </div>
         </div>
       </div>
+
+      </main>
 
       {/* Footer */}
       <Footer store={store} services={footerServices} assistance={footerAssistance} />
