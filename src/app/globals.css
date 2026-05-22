@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Tiendri Design System Tokens — Ember Core */
+@import "../../ai/skills/design-system/assets/tiendri-tokens.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -115,6 +118,69 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/*
+ * =========================================================
+ * EMBER CORE — Landing page utility classes
+ * Design system aprobado por el CTO — Ember Core tokens.
+ * Variables --ember-* vienen de tiendri-tokens.css (importado arriba).
+ * =========================================================
+ */
+
+/* Grid texture helper — usado en HeroSection */
+.ember-grid-texture {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Dot grid texture helper — usado en CtaSection */
+.ember-dot-texture {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 32px 32px;
+}
+
+/* Glow pulse animation para CTAs — usado en CtaSection */
+@keyframes ember-pulse {
+  0%, 100% {
+    box-shadow: 0 0 24px rgba(185, 28, 28, 0.35), 0 0 64px rgba(185, 28, 28, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 36px rgba(185, 28, 28, 0.5), 0 0 80px rgba(185, 28, 28, 0.25);
+  }
+}
+
+/* Timeline line animation helper — usado en HowItWorksSection */
+@keyframes ember-line-grow {
+  from { height: 0; opacity: 0; }
+  to   { height: 100%; opacity: 1; }
+}
+
+/* Navbar glass on scroll — agregado via JS en Navbar.tsx */
+.ember-navbar-scrolled {
+  background: rgba(16, 15, 20, 0.9) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer utilities {
