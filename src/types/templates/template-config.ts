@@ -14,6 +14,7 @@ import type {
   GridBreakpoint,
 } from "./primitives";
 import type { SectionConfig } from "./sections";
+import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
 
 // Color design tokens a template defines.
 // Core tokens are required; templates can add extras via the index signature.
@@ -84,6 +85,12 @@ export interface TemplateConfig {
 
   // Sections — array order determines render order; visible toggles show/hide
   sections: readonly SectionConfig[];
+
+  // Default branding, content, and business values the template ships with.
+  // resolveTemplateConfig shallow-merges merchant overrides on top of these.
+  branding?: BrandingConfig;
+  content?: ContentConfig;
+  business?: BusinessConfig;
 
   // Template-specific data (nav links, footer content, tabs, searches, etc.)
   [key: string]: unknown;

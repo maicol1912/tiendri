@@ -9,12 +9,19 @@ import type {
   TemplateGridConfig,
   TemplateLayoutConfig,
 } from "./template-config";
+import type { Appearance } from "./primitives";
 import type { SectionConfig } from "./sections";
+import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
+
+// Re-export the shared section types so consumers only need to import from this module
+export type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
 
 // Partial color/radius overrides — merchant changes only what they need.
 export interface ThemeCustomization {
   colors?: Partial<TemplateColorTokens>;
   radius?: Partial<TemplateRadiusTokens>;
+  /** Font pair key — e.g. "modern" | "warm" | "elegant" | "functional" */
+  fontPair?: string;
 }
 
 // Partial layout overrides — grid columns, section order/visibility, and UI style options.
@@ -33,4 +40,12 @@ export interface StoreCustomization {
   templateId: string;
   theme?: ThemeCustomization;
   layout?: LayoutCustomization;
+  /** Merchant branding identity overrides */
+  branding?: BrandingConfig;
+  /** Visual content overrides — banners, product selections, navigation */
+  content?: ContentConfig;
+  /** Business information — address, hours, payments, shipping */
+  business?: BusinessConfig;
+  /** Appearance (light/dark) — type ready, UI deferred to post-MVP */
+  appearance?: Appearance;
 }

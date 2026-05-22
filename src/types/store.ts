@@ -26,6 +26,7 @@ export interface StoreInfo {
     facebook?: string;
     tiktok?: string;
     twitter?: string;
+    youtube?: string;
   };
 }
 

@@ -2,6 +2,7 @@
 // Template metadata and default theme values.
 
 import type { TemplateConfig } from "@/types/templates";
+import type { BrandingConfig, ContentConfig, BusinessConfig } from "@/types/templates";
 
 export const techPremiumConfig = {
   id: "tech-premium",
@@ -168,6 +169,70 @@ export const techPremiumConfig = {
     { id: "discounts" as const, visible: true },
     { id: "summer-sale" as const, visible: true },
   ],
+
+  // ── Default branding (store identity) ────────────────────────────────────
+  // These are template-level placeholder defaults. Merchants override via
+  // /dashboard/configuracion → Identidad tab.
+  branding: {
+    storeName: "Mi Tienda",
+    description: "Tu tienda online en Tiendri",
+    socialLinks: {},
+  } satisfies BrandingConfig,
+
+  // ── Default content (navigation, hero, footer, product tabs) ─────────────
+  // Arrays here mirror the top-level keys (navLinks, footerServices, etc.)
+  // that existing components reference via config.navLinks. Both paths should
+  // stay in sync — when a merchant overrides via content, the resolved config
+  // will have content.navLinks, while legacy components use the top-level key.
+  content: {
+    heroBanner: {
+      title: "Descubre lo mejor en tecnología",
+      subtitle: "Los mejores productos al mejor precio, con envío rápido a toda Colombia.",
+      ctaText: "Ver catálogo",
+    },
+    navLinks: [
+      { label: "Inicio", href: "/" },
+      { label: "Catálogo", href: "/listing" },
+      { label: "Populares", href: "/popular" },
+      { label: "Ofertas", href: "/discounts" },
+    ],
+    footerServices: [
+      "Programa de bonos",
+      "Tarjetas de regalo",
+      "Crédito y pago",
+      "Contratos de servicio",
+      "Cuenta sin efectivo",
+      "Métodos de pago",
+    ],
+    footerAssistance: [
+      "Buscar pedido",
+      "Términos de envío",
+      "Cambios y devoluciones",
+      "Garantía",
+      "Preguntas frecuentes",
+      "Términos de uso",
+    ],
+    productTabs: [
+      { id: "new-arrival", label: "Nuevos" },
+      { id: "bestseller", label: "Más vendidos" },
+      { id: "featured", label: "Destacados" },
+    ],
+    popularSearches: [
+      "iPhone",
+      "AirPods",
+      "MacBook",
+      "Apple Watch",
+      "Samsung Galaxy",
+      "iPad",
+    ],
+  } satisfies ContentConfig,
+
+  // ── Default business info ────────────────────────────────────────────────
+  // Merchants fill this in via /dashboard/configuracion → Negocio tab.
+  business: {
+    currency: "COP",
+    paymentMethods: [],
+  } satisfies BusinessConfig,
 } as const satisfies TemplateConfig;
 
 export type TechPremiumConfig = typeof techPremiumConfig;
