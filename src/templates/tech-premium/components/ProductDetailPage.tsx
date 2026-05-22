@@ -14,7 +14,7 @@ import { gridColsClass } from "../utils/grid-classes";
 import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
-  Product,
+  StorefrontProduct,
   NavTab,
   SpecBadge,
   ReviewData,
@@ -23,12 +23,12 @@ import type {
 
 interface ProductDetailPageProps {
   store: StoreInfo;
-  product: Product;
+  product: StorefrontProduct;
   navLinks: readonly { label: string; href: string }[];
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   grid: TechPremiumConfig["grid"];
-  relatedProducts?: Product[];
+  relatedProducts?: StorefrontProduct[];
   specBadges?: SpecBadge[];
   reviews?: ReviewData[];
   overallRating?: number;

@@ -12,7 +12,7 @@ import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type {
   StoreInfo,
-  Product,
+  StorefrontProduct,
   SpecBadge,
   ReviewData,
   RatingDistribution,
@@ -21,8 +21,8 @@ import type {
 
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
-  product: Product;
-  relatedProducts?: Product[];
+  product: StorefrontProduct;
+  relatedProducts?: StorefrontProduct[];
   specBadges?: SpecBadge[];
   reviews?: ReviewData[];
   overallRating?: number;
@@ -60,6 +60,7 @@ export function ProductDetailShellRoute({
     if (!product.inStock) return;
     addItem({
       productId: product.id,
+      variantName: null,
       name: product.name,
       price: product.price,
       quantity: 1,
@@ -88,6 +89,7 @@ export function ProductDetailShellRoute({
       if (!p || !p.inStock) return;
       addItem({
         productId: p.id,
+        variantName: null,
         name: p.name,
         price: p.price,
         quantity: 1,

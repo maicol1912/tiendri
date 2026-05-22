@@ -5,7 +5,7 @@ import { ASSETS } from "./assets";
 import type {
   StoreInfo,
   Category,
-  Product,
+  StorefrontProduct,
   PopularProduct,
   HeroBannerData,
   BannerGrid,
@@ -132,7 +132,7 @@ export const mockCategories: Category[] = [
 
 // ── Products (New Arrival tab — 8 items) ────────────────────────────────────
 
-export const mockProducts: Product[] = [
+export const mockProducts: StorefrontProduct[] = [
   {
     id: "prod-01",
     name: "iPhone 14 Pro Max",
@@ -274,7 +274,7 @@ export const mockPopularProducts: PopularProduct[] = [
 
 // ── Discount Products — 4 items ─────────────────────────────────────────────
 
-export const mockDiscountProducts: Product[] = [
+export const mockDiscountProducts: StorefrontProduct[] = [
   {
     id: "disc-01",
     name: "Samsung Galaxy Buds2 Pro",
@@ -338,7 +338,7 @@ export const mockSummerSaleBanner: SummerSaleBanner = {
 
 // ── Product Detail — iPhone 14 Pro Max (full data) ──────────────────────────
 
-export const mockDetailProduct: Product = {
+export const mockDetailProduct: StorefrontProduct = {
   id: "prod-01",
   name: "iPhone 14 Pro Max",
   slug: "iphone-14-pro-max",

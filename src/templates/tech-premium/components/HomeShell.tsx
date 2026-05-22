@@ -14,7 +14,7 @@ import { techPremiumConfig } from "../config";
 import type {
   StoreInfo,
   Category,
-  Product,
+  StorefrontProduct,
   PopularProduct,
   HeroBannerData,
   BannerGrid,
@@ -26,8 +26,8 @@ import type {
 interface HomeShellProps {
   store: StoreInfo;
   categories: Category[];
-  products: Product[];
-  discountProducts: Product[];
+  products: StorefrontProduct[];
+  discountProducts: StorefrontProduct[];
   popularProducts: PopularProduct[];
   heroBanner: HeroBannerData;
   bannerGrid: BannerGrid;
@@ -87,6 +87,7 @@ export function HomeShell({
       if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
+        variantName: null,
         name: product.name,
         price: product.price,
         quantity: 1,

@@ -47,7 +47,7 @@ export { CartProvider, useCart } from "./context/CartContext";
 export type {
   StoreInfo,
   Category,
-  Product,
+  StorefrontProduct,
   CartItem,
   PopularProduct,
   NavTab,

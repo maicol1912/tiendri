@@ -13,14 +13,14 @@ import { gridColsClass } from "../utils/grid-classes";
 import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
-  Product,
+  StorefrontProduct,
   NavTab,
   FilterGroup,
 } from "../types";
 
 interface ProductListingPageProps {
   store: StoreInfo;
-  products: Product[];
+  products: StorefrontProduct[];
   navLinks: readonly { label: string; href: string }[];
   footerServices: readonly string[];
   footerAssistance: readonly string[];

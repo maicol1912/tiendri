@@ -10,7 +10,7 @@ import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import type { TechPremiumConfig } from "../config";
-import type { StoreInfo, Product, NavTab } from "../types";
+import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface SearchPageProps {
   store: StoreInfo;
@@ -18,7 +18,7 @@ interface SearchPageProps {
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   searchQuery: string;
-  results: Product[];
+  results: StorefrontProduct[];
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;

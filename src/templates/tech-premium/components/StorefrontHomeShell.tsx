@@ -85,6 +85,7 @@ export function StorefrontHomeShell() {
       if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
+        variantName: null,
         name: product.name,
         price: product.price,
         quantity: 1,

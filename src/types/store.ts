@@ -46,7 +46,7 @@ export interface ProductImage {
   sort_order: number;
 }
 
-export interface Product {
+export interface StorefrontProduct {
   id: string;
   name: string;
   slug: string;

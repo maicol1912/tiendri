@@ -33,7 +33,7 @@ import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
   Category,
-  Product,
+  StorefrontProduct,
   PopularProduct,
   NavTab,
   ProductTab,
@@ -60,8 +60,8 @@ interface HomePageProps {
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   categories: Category[];
-  products: Product[];
-  discountProducts: Product[];
+  products: StorefrontProduct[];
+  discountProducts: StorefrontProduct[];
   popularProducts: PopularProduct[];
   heroBanner: HeroBannerData;
   bannerGrid: BannerGridData;

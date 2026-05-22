@@ -10,11 +10,11 @@ import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
-import type { StoreInfo, Product, FilterGroup, NavTab } from "../types";
+import type { StoreInfo, StorefrontProduct, FilterGroup, NavTab } from "../types";
 
 interface ListingShellRouteProps {
   store: StoreInfo;
-  products: Product[];
+  products: StorefrontProduct[];
   filters?: FilterGroup[];
   currencySymbol?: string;
 }
@@ -97,6 +97,7 @@ export function ListingShellRoute({
       if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
+        variantName: null,
         name: product.name,
         price: product.price,
         quantity: 1,

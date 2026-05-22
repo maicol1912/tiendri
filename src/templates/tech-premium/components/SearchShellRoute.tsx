@@ -10,11 +10,11 @@ import { SearchPage } from "./SearchPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
-import type { StoreInfo, Product, NavTab } from "../types";
+import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface SearchShellRouteProps {
   store: StoreInfo;
-  allProducts: Product[];
+  allProducts: StorefrontProduct[];
   currencySymbol?: string;
 }
 
@@ -85,6 +85,7 @@ export function SearchShellRoute({
       if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
+        variantName: null,
         name: product.name,
         price: product.price,
         quantity: 1,

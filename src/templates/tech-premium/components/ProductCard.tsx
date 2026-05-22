@@ -5,7 +5,7 @@
 
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import type { Product } from "../types";
+import type { StorefrontProduct } from "../types";
 import type { TechPremiumConfig } from "../config";
 import {
   cardStyleClass,
@@ -14,7 +14,7 @@ import {
 } from "../utils/layout-classes";
 
 interface ProductCardProps {
-  product: Product;
+  product: StorefrontProduct;
   currencySymbol?: string;
   layout?: TechPremiumConfig["layout"];
   onClick?: () => void;
