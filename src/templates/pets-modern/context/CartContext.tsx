@@ -1,0 +1,212 @@
+"use client";
+
+// Pets Modern Template — Cart Context
+// Manages cart state in localStorage.
+// Key: tc_pets_modern_cart_{slug}
+// Pattern: same proven pattern — isFirstPersistRun guard to avoid overwriting stored cart.
+
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useRef,
+  useCallback,
+  type ReactNode,
+} from "react";
+import type { CartItem } from "../types";
+
+// -- Types --------------------------------------------------------------------
+
+interface CartState {
+  items: CartItem[];
+  slug: string;
+}
+
+type CartAction =
+  | { type: "ADD_ITEM"; payload: CartItem }
+  | { type: "REMOVE_ITEM"; payload: { productId: string } }
+  | { type: "INCREMENT"; payload: { productId: string } }
+  | { type: "DECREMENT"; payload: { productId: string } }
+  | { type: "CLEAR" }
+  | { type: "HYDRATE"; payload: CartItem[] };
+
+interface CartContextValue {
+  items: CartItem[];
+  totalItems: number;
+  totalPrice: number;
+  addItem: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
+  removeItem: (productId: string) => void;
+  incrementItem: (productId: string) => void;
+  decrementItem: (productId: string) => void;
+  clearCart: () => void;
+}
+
+// -- Key helper ---------------------------------------------------------------
+
+function cartKey(slug: string): string {
+  return `tc_pets_modern_cart_${slug}`;
+}
+
+// -- Reducer ------------------------------------------------------------------
+
+function cartReducer(state: CartState, action: CartAction): CartState {
+  switch (action.type) {
+    case "HYDRATE":
+      return { ...state, items: action.payload };
+
+    case "ADD_ITEM": {
+      const { productId } = action.payload;
+      const exists = state.items.find((i) => i.productId === productId);
+      if (exists) {
+        return {
+          ...state,
+          items: state.items.map((i) =>
+            i.productId === productId
+              ? { ...i, quantity: i.quantity + action.payload.quantity }
+              : i
+          ),
+        };
+      }
+      return { ...state, items: [...state.items, action.payload] };
+    }
+
+    case "REMOVE_ITEM":
+      return {
+        ...state,
+        items: state.items.filter(
+          (i) => i.productId !== action.payload.productId
+        ),
+      };
+
+    case "INCREMENT":
+      return {
+        ...state,
+        items: state.items.map((i) =>
+          i.productId === action.payload.productId
+            ? { ...i, quantity: i.quantity + 1 }
+            : i
+        ),
+      };
+
+    case "DECREMENT":
+      return {
+        ...state,
+        items: state.items
+          .map((i) =>
+            i.productId === action.payload.productId
+              ? { ...i, quantity: i.quantity - 1 }
+              : i
+          )
+          .filter((i) => i.quantity > 0),
+      };
+
+    case "CLEAR":
+      return { ...state, items: [] };
+
+    default:
+      return state;
+  }
+}
+
+// -- Context ------------------------------------------------------------------
+
+const CartContext = createContext<CartContextValue | null>(null);
+
+interface CartProviderProps {
+  children: ReactNode;
+  slug: string;
+}
+
+export function CartProvider({ children, slug }: CartProviderProps) {
+  const [state, dispatch] = useReducer(cartReducer, { items: [], slug });
+
+  const isHydrated = useRef(false);
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(cartKey(slug));
+      if (raw) {
+        const parsed = JSON.parse(raw) as CartItem[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          dispatch({ type: "HYDRATE", payload: parsed });
+        }
+      }
+    } catch {
+      // Invalid JSON — start fresh
+    }
+    isHydrated.current = true;
+  }, [slug]);
+
+  // Persist to localStorage — skip first render to avoid overwriting stored cart
+  const isFirstPersistRun = useRef(true);
+  useEffect(() => {
+    if (isFirstPersistRun.current) {
+      isFirstPersistRun.current = false;
+      return;
+    }
+    try {
+      localStorage.setItem(cartKey(slug), JSON.stringify(state.items));
+    } catch {
+      // Storage full or unavailable
+    }
+  }, [state.items, slug]);
+
+  const addItem = useCallback(
+    (item: Omit<CartItem, "quantity"> & { quantity?: number }) => {
+      dispatch({
+        type: "ADD_ITEM",
+        payload: { ...item, quantity: item.quantity ?? 1 },
+      });
+    },
+    []
+  );
+
+  const removeItem = useCallback((productId: string) => {
+    dispatch({ type: "REMOVE_ITEM", payload: { productId } });
+  }, []);
+
+  const incrementItem = useCallback((productId: string) => {
+    dispatch({ type: "INCREMENT", payload: { productId } });
+  }, []);
+
+  const decrementItem = useCallback((productId: string) => {
+    dispatch({ type: "DECREMENT", payload: { productId } });
+  }, []);
+
+  const clearCart = useCallback(() => {
+    dispatch({ type: "CLEAR" });
+  }, []);
+
+  const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
+  const totalPrice = state.items.reduce(
+    (sum, i) => sum + i.price * i.quantity,
+    0
+  );
+
+  return (
+    <CartContext.Provider
+      value={{
+        items: state.items,
+        totalItems,
+        totalPrice,
+        addItem,
+        removeItem,
+        incrementItem,
+        decrementItem,
+        clearCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart(): CartContextValue {
+  const ctx = useContext(CartContext);
+  if (!ctx) {
+    throw new Error("useCart must be used inside PetsModern CartProvider");
+  }
+  return ctx;
+}
