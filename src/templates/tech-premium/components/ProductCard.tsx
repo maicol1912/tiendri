@@ -39,7 +39,7 @@ export function ProductCard({
 
   return (
     <article
-      className={`${cardBg} ${hoverFx} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 px-4 py-6 min-w-0`}
+      className={`${cardBg} ${hoverFx} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 px-4 py-6 min-w-0 max-w-sm w-full mx-auto`}
     >
       {/* Top: wishlist icon right-aligned */}
       <div className="flex items-center justify-end w-full">
