@@ -3,8 +3,11 @@
 // ThemeCustomizer — Generic live sidebar panel for any template preview.
 // Receives all template-specific metadata as props — zero template imports.
 // Desktop-only drawer; controlled by the caller via props.
+//
+// Colors section: shows palette picker by default.
+// "Personalizar colores" toggle reveals individual color pickers (advanced).
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { GripVertical } from "lucide-react";
 import {
   DndContext,
@@ -21,6 +24,37 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
+// ── Palette type (mirrors ColorPalette from config-schema) ────────────────────
+// Inline so ThemeCustomizer stays import-free of template-specific modules.
+
+export interface CustomizerPalette {
+  id: string;
+  name: string;
+  description: string;
+  style: string;
+  /** 4-5 hex colors for the preview swatch strip. */
+  preview: string[];
+  /** Full color token map for the palette. */
+  colors: Record<string, string>;
+}
+
+// ── Style label display map ────────────────────────────────────────────────────
+
+const STYLE_LABELS: Record<string, string> = {
+  minimal: "Minimal",
+  premium: "Premium",
+  corporate: "Corporativo",
+  cyberpunk: "Cyberpunk",
+  warm: "Cálido",
+  brutalist: "Brutalista",
+  nature: "Natural",
+  playful: "Juvenil",
+  tropical: "Tropical",
+  vibrant: "Vibrante",
+  monochrome: "Monocromo",
+  awwwards: "Creativo",
+};
 
 // ── Public field/section descriptor types ─────────────────────────────────────
 
@@ -127,6 +161,8 @@ export interface ThemeCustomizerProps {
   gridFields: CustomizerGridField[];
   layoutOptions: CustomizerLayoutOption[];
   sectionLabels: CustomizerSectionLabel[];
+  /** Optional pre-built palettes. When provided, shows palette picker in the colors section. */
+  palettes?: CustomizerPalette[];
 }
 
 // ── Chevron icon ──────────────────────────────────────────────────────────────
@@ -256,10 +292,29 @@ export function ThemeCustomizer({
   gridFields,
   layoutOptions,
   sectionLabels,
+  palettes,
 }: ThemeCustomizerProps) {
   const [openSections, setOpenSections] = useState<Set<PanelSection>>(
     new Set(["colors"])
   );
+
+  // Palette picker state
+  const [activePaletteId, setActivePaletteId] = useState<string | undefined>(undefined);
+  const [showAdvancedColors, setShowAdvancedColors] = useState(false);
+
+  // Detect which palette (if any) matches the current config colors exactly
+  const detectedPaletteId = useMemo(() => {
+    if (!palettes) return undefined;
+    for (const palette of palettes) {
+      const keys = Object.keys(palette.colors);
+      const matches = keys.every((k) => config.colors[k] === palette.colors[k]);
+      if (matches) return palette.id;
+    }
+    return undefined;
+  }, [palettes, config.colors]);
+
+  // Effective selected palette: explicit user choice or detected from current colors
+  const selectedPaletteId = activePaletteId ?? detectedPaletteId;
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -288,6 +343,17 @@ export function ThemeCustomizer({
       onConfigChange({
         ...config,
         colors: { ...config.colors, [key]: value },
+      });
+    },
+    [config, onConfigChange]
+  );
+
+  const applyPalette = useCallback(
+    (palette: CustomizerPalette) => {
+      setActivePaletteId(palette.id);
+      onConfigChange({
+        ...config,
+        colors: { ...config.colors, ...palette.colors },
       });
     },
     [config, onConfigChange]
@@ -512,41 +578,246 @@ export function ThemeCustomizer({
 
                   {/* ── COLORS ───────────────────────────────────────── */}
                   {id === "colors" && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      {colorFields.map(({ key, label: colorLabel }) => (
-                        <div
-                          key={key}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: "8px",
-                          }}
-                        >
-                          <label style={{ color: "#aaa", flex: 1, fontSize: "12px" }}>
-                            {colorLabel}
-                          </label>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                            <span style={{ color: "#666", fontSize: "11px", fontFamily: "monospace" }}>
-                              {(config.colors[key] ?? "#000000").toUpperCase()}
-                            </span>
-                            <input
-                              type="color"
-                              value={config.colors[key] ?? "#000000"}
-                              onChange={(e) => updateColor(key, e.target.value)}
-                              style={{
-                                width: "28px",
-                                height: "28px",
-                                border: "1px solid #3a3a3a",
-                                borderRadius: "6px",
-                                cursor: "pointer",
-                                padding: "1px",
-                                background: "transparent",
-                              }}
-                            />
-                          </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      {/* Palette picker — shown when palettes are available */}
+                      {palettes && palettes.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                          {palettes.map((palette) => {
+                            const isSelected = selectedPaletteId === palette.id;
+                            return (
+                              <button
+                                key={palette.id}
+                                type="button"
+                                onClick={() => applyPalette(palette)}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "10px",
+                                  padding: "8px 10px",
+                                  background: isSelected ? "#1e2d1e" : "#222",
+                                  border: isSelected
+                                    ? "1.5px solid #4a9eff"
+                                    : "1.5px solid #2a2a2a",
+                                  borderRadius: "8px",
+                                  cursor: "pointer",
+                                  textAlign: "left",
+                                  transition: "border-color 0.15s, background 0.15s",
+                                  position: "relative",
+                                }}
+                                onMouseEnter={(e) => {
+                                  if (!isSelected) {
+                                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  if (!isSelected) {
+                                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                                  }
+                                }}
+                              >
+                                {/* Swatch strip */}
+                                <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
+                                  {palette.preview.map((color, i) => (
+                                    <div
+                                      key={i}
+                                      style={{
+                                        width: "16px",
+                                        height: "32px",
+                                        borderRadius: "4px",
+                                        backgroundColor: color,
+                                        border: "1px solid rgba(255,255,255,0.06)",
+                                        flexShrink: 0,
+                                      }}
+                                    />
+                                  ))}
+                                </div>
+
+                                {/* Name + style tag */}
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                  <div style={{ fontSize: "12px", fontWeight: 500, color: "#e5e5e5", marginBottom: "2px" }}>
+                                    {palette.name}
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "inline-block",
+                                      fontSize: "10px",
+                                      color: "#888",
+                                      background: "#2a2a2a",
+                                      borderRadius: "99px",
+                                      padding: "1px 6px",
+                                    }}
+                                  >
+                                    {STYLE_LABELS[palette.style] ?? palette.style}
+                                  </div>
+                                </div>
+
+                                {/* Selected checkmark */}
+                                {isSelected && (
+                                  <div
+                                    style={{
+                                      width: "18px",
+                                      height: "18px",
+                                      borderRadius: "50%",
+                                      background: "#4a9eff",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      flexShrink: 0,
+                                    }}
+                                  >
+                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                      <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                  </div>
+                                )}
+                              </button>
+                            );
+                          })}
                         </div>
-                      ))}
+                      )}
+
+                      {/* Fallback: direct pickers when no palettes provided */}
+                      {(!palettes || palettes.length === 0) && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                          {colorFields.map(({ key, label: colorLabel }) => (
+                            <div
+                              key={key}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: "8px",
+                              }}
+                            >
+                              <label style={{ color: "#aaa", flex: 1, fontSize: "12px" }}>
+                                {colorLabel}
+                              </label>
+                              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                <span style={{ color: "#666", fontSize: "11px", fontFamily: "monospace" }}>
+                                  {(config.colors[key] ?? "#000000").toUpperCase()}
+                                </span>
+                                <input
+                                  type="color"
+                                  value={config.colors[key] ?? "#000000"}
+                                  onChange={(e) => updateColor(key, e.target.value)}
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    border: "1px solid #3a3a3a",
+                                    borderRadius: "6px",
+                                    cursor: "pointer",
+                                    padding: "1px",
+                                    background: "transparent",
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Advanced color toggle — only when palettes are present */}
+                      {palettes && palettes.length > 0 && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => setShowAdvancedColors((prev) => !prev)}
+                            style={{
+                              marginTop: "4px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              width: "100%",
+                              padding: "8px 10px",
+                              background: "transparent",
+                              border: "1px dashed #333",
+                              borderRadius: "8px",
+                              color: "#666",
+                              fontSize: "11px",
+                              cursor: "pointer",
+                              transition: "border-color 0.15s, color 0.15s",
+                            }}
+                            onMouseEnter={(e) => {
+                              const btn = e.currentTarget as HTMLButtonElement;
+                              btn.style.borderColor = "#4a9eff";
+                              btn.style.color = "#aaa";
+                            }}
+                            onMouseLeave={(e) => {
+                              const btn = e.currentTarget as HTMLButtonElement;
+                              btn.style.borderColor = "#333";
+                              btn.style.color = "#666";
+                            }}
+                          >
+                            <span>Personalizar colores individuales</span>
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 14 14"
+                              fill="none"
+                              style={{
+                                transform: showAdvancedColors ? "rotate(180deg)" : "rotate(0deg)",
+                                transition: "transform 0.2s ease",
+                                flexShrink: 0,
+                              }}
+                            >
+                              <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+
+                          {/* Individual pickers — collapsed by default */}
+                          {showAdvancedColors && (
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "10px",
+                                padding: "10px",
+                                background: "#222",
+                                borderRadius: "8px",
+                                border: "1px solid #2a2a2a",
+                              }}
+                            >
+                              <p style={{ fontSize: "10px", color: "#555", margin: 0, lineHeight: 1.4 }}>
+                                Ajusta colores individuales sobre la paleta seleccionada.
+                              </p>
+                              {colorFields.map(({ key, label: colorLabel }) => (
+                                <div
+                                  key={key}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    gap: "8px",
+                                  }}
+                                >
+                                  <label style={{ color: "#aaa", flex: 1, fontSize: "12px" }}>
+                                    {colorLabel}
+                                  </label>
+                                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                    <span style={{ color: "#666", fontSize: "11px", fontFamily: "monospace" }}>
+                                      {(config.colors[key] ?? "#000000").toUpperCase()}
+                                    </span>
+                                    <input
+                                      type="color"
+                                      value={config.colors[key] ?? "#000000"}
+                                      onChange={(e) => updateColor(key, e.target.value)}
+                                      style={{
+                                        width: "28px",
+                                        height: "28px",
+                                        border: "1px solid #3a3a3a",
+                                        borderRadius: "6px",
+                                        cursor: "pointer",
+                                        padding: "1px",
+                                        background: "transparent",
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )}
                     </div>
                   )}
 

@@ -9,8 +9,8 @@ export function cardStyleClass(style: string): string {
   const map: Record<string, string> = {
     flat: "bg-[var(--t-card-bg)]",
     shadow: "bg-[var(--t-card-bg)] shadow-md",
-    bordered: "bg-white border border-[var(--t-border)]",
-    elevated: "bg-white shadow-lg",
+    bordered: "bg-[var(--t-section-bg)] border border-[var(--t-border)]",
+    elevated: "bg-[var(--t-section-bg)] shadow-lg",
   };
   return map[style] ?? map["flat"]!;
 }

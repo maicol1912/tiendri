@@ -115,6 +115,22 @@ export interface ConfigTabGroup {
 // Theme schema sub-types
 // ---------------------------------------------------------------------------
 
+/** One full color palette a template ships pre-built. */
+export interface ColorPalette {
+  /** Stable ID stored in StoreCustomization — e.g. "midnight-luxury". */
+  id: string;
+  /** Spanish display name shown in the palette grid. */
+  name: string;
+  /** One-line description of the palette's aesthetic. */
+  description: string;
+  /** Style tag — e.g. "premium", "brutalist", "minimal", "cyberpunk". */
+  style: string;
+  /** 4-5 key hex colors for the picker preview swatches. */
+  preview: string[];
+  /** Complete set of color tokens. Every key in TemplateColorTokens MUST be present. */
+  colors: Record<string, string>;
+}
+
 /** A single editable color token with its UI label and default hex value. */
 export interface ThemeSchemaColor {
   /** Color token key matching a key in TemplateColorTokens (e.g. "primary"). */
@@ -150,6 +166,8 @@ export interface ThemeSchemaFontPair {
 
 /** Aggregated theme schema — colors, radii, and font pairs a template exposes. */
 export interface ThemeSchemaConfig {
+  /** Pre-built color palettes. When present, the UI shows a palette picker grid. */
+  palettes?: ColorPalette[];
   colors: ThemeSchemaColor[];
   radius: ThemeSchemaRadius[];
   fontPairs: ThemeSchemaFontPair[];

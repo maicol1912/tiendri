@@ -17,6 +17,7 @@ import { notFound } from "next/navigation";
 import { getStoreBySlug } from "@/lib/getStoreBySlug";
 import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
 import { techPremiumConfig } from "@/templates/tech-premium/config";
+import { techPremiumConfigSchema } from "@/templates/tech-premium/config-schema";
 import { StorefrontHomeShell } from "@/templates/tech-premium/components/StorefrontHomeShell";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -42,7 +43,8 @@ export async function generateMetadata({
   // Resolve branding for SEO
   const resolvedConfig = resolveTemplateConfig(
     techPremiumConfig,
-    store.customization ?? undefined
+    store.customization ?? undefined,
+    techPremiumConfigSchema,
   );
   const storeName = resolvedConfig.branding?.storeName ?? store.name;
   const description =
@@ -113,7 +115,8 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
   // Resolve branding and business data for JSON-LD
   const resolvedConfig = resolveTemplateConfig(
     techPremiumConfig,
-    store.customization ?? undefined
+    store.customization ?? undefined,
+    techPremiumConfigSchema,
   );
 
   const storeName = resolvedConfig.branding?.storeName ?? store.name ?? slug;

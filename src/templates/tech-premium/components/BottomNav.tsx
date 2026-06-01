@@ -31,7 +31,7 @@ export function BottomNav({
 }: BottomNavProps) {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[var(--t-nav-border)] lg:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--t-header-bg)] border-t border-[var(--t-nav-border)] lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Navegación móvil"
     >
@@ -49,7 +49,7 @@ export function BottomNav({
             >
               <div className="relative">
                 <Icon
-                  className={`w-5 h-5 ${isActive ? "text-black" : "text-[var(--t-text-muted)]"}`}
+                  className={`w-5 h-5 ${isActive ? "text-[var(--t-text-primary)]" : "text-[var(--t-text-muted)]"}`}
                 />
                 {id === "cart" && cartItemCount > 0 && (
                   <span className="absolute -top-1.5 -right-2 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center">
@@ -58,7 +58,7 @@ export function BottomNav({
                 )}
               </div>
               <span
-                className={`text-[10px] font-medium ${isActive ? "text-black" : "text-[var(--t-text-muted)]"}`}
+                className={`text-[10px] font-medium ${isActive ? "text-[var(--t-text-primary)]" : "text-[var(--t-text-muted)]"}`}
               >
                 {label}
               </span>

@@ -33,13 +33,13 @@ export function FilterSidebar({
             onClick={() => onFilterToggle?.(group.id)}
             aria-expanded={group.expanded}
           >
-            <span className="text-lg font-medium text-black tracking-[0.54px]">
+            <span className="text-lg font-medium text-[var(--t-text-primary)] tracking-[0.54px]">
               {group.label}
             </span>
             {group.expanded ? (
-              <ChevronUp className="w-6 h-6 text-black" aria-hidden="true" />
+              <ChevronUp className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
             ) : (
-              <ChevronDown className="w-6 h-6 text-black" aria-hidden="true" />
+              <ChevronDown className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
             )}
           </button>
 
@@ -75,11 +75,11 @@ export function FilterSidebar({
                     >
                       {opt.checked && (
                         <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                          <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M1 4L3.5 6.5L9 1" stroke="var(--t-button-text)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </div>
-                    <span className="text-[15px] font-medium text-black">{opt.label}</span>
+                    <span className="text-[15px] font-medium text-[var(--t-text-primary)]">{opt.label}</span>
                     {opt.count !== undefined && (
                       <span className="text-xs text-[var(--t-text-muted)] ml-0.5">{opt.count}</span>
                     )}
@@ -110,16 +110,16 @@ export function FilterSidebar({
             aria-hidden="true"
           />
           {/* Drawer from bottom */}
-          <div className="relative mt-auto bg-white rounded-t-2xl px-4 py-6 max-h-[85vh] overflow-y-auto">
+          <div className="relative mt-auto bg-[var(--t-section-bg)] rounded-t-2xl px-4 py-6 max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-black">Filtros</h3>
+              <h3 className="text-lg font-semibold text-[var(--t-text-primary)]">Filtros</h3>
               <button
                 type="button"
                 className="p-0 bg-transparent border-none cursor-pointer"
                 onClick={onClose}
                 aria-label="Cerrar filtros"
               >
-                <X className="w-6 h-6 text-black" />
+                <X className="w-6 h-6 text-[var(--t-text-primary)]" />
               </button>
             </div>
             {filterContent}

@@ -82,7 +82,7 @@ export function CheckoutPage({
     `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
 
   return (
-    <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <Header
         store={store}
         navLinks={navLinks}
@@ -95,14 +95,14 @@ export function CheckoutPage({
       <main className="flex-1 px-4 py-10 lg:px-[160px] lg:py-16">
         {isEmpty ? (
           <div className="flex flex-col items-center gap-4 py-20">
-            <p className="text-xl font-semibold text-black">No hay artículos para finalizar la compra</p>
+            <p className="text-xl font-semibold text-[var(--t-text-primary)]">No hay artículos para finalizar la compra</p>
             <p className="text-base text-[var(--t-text-secondary)]">Agregá artículos al carrito primero</p>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
             {/* Left: Form */}
             <div className="flex flex-col gap-6 flex-1">
-              <h1 className="text-2xl font-semibold text-black">Finalizar compra</h1>
+              <h1 className="text-2xl font-semibold text-[var(--t-text-primary)]">Finalizar compra</h1>
 
               <form
                 className="flex flex-col gap-5"
@@ -124,7 +124,7 @@ export function CheckoutPage({
                         onChange={(e) => onFieldChange?.(key, e.target.value)}
                         placeholder={placeholder}
                         rows={3}
-                        className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-black placeholder:text-[var(--t-text-muted)] outline-none focus:border-black transition-colors resize-none bg-white"
+                        className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)] outline-none focus:border-[var(--t-text-primary)] transition-colors resize-none bg-[var(--t-card-bg)]"
                       />
                     ) : (
                       <input
@@ -134,7 +134,7 @@ export function CheckoutPage({
                         onChange={(e) => onFieldChange?.(key, e.target.value)}
                         placeholder={placeholder}
                         required={required}
-                        className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-black placeholder:text-[var(--t-text-muted)] outline-none focus:border-black transition-colors bg-white"
+                        className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)] outline-none focus:border-[var(--t-text-primary)] transition-colors bg-[var(--t-card-bg)]"
                       />
                     )}
                   </div>
@@ -164,10 +164,10 @@ export function CheckoutPage({
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-black truncate">{item.name}</p>
+                        <p className="text-sm font-medium text-[var(--t-text-primary)] truncate">{item.name}</p>
                         <p className="text-xs text-[var(--t-text-secondary)]">x{item.quantity}</p>
                       </div>
-                      <span className="text-sm font-medium text-black shrink-0">
+                      <span className="text-sm font-medium text-[var(--t-text-primary)] shrink-0">
                         {fmt(item.price * item.quantity)}
                       </span>
                     </div>
@@ -176,8 +176,8 @@ export function CheckoutPage({
 
                 {/* Total */}
                 <div className="border-t border-[var(--t-border-light)] pt-4 flex items-center justify-between">
-                  <span className="text-base font-semibold text-black">Total</span>
-                  <span className="text-base font-semibold text-black">{fmt(subtotal)}</span>
+                  <span className="text-base font-semibold text-[var(--t-text-primary)]">Total</span>
+                  <span className="text-base font-semibold text-[var(--t-text-primary)]">{fmt(subtotal)}</span>
                 </div>
 
                 {/* CTA */}
@@ -193,7 +193,7 @@ export function CheckoutPage({
                     </button>
                     <p className="text-xs text-center text-[var(--t-text-secondary)]">
                       ¿Te gustó este template?{" "}
-                      <span className="text-black underline cursor-pointer font-medium">
+                      <span className="text-[var(--t-text-primary)] underline cursor-pointer font-medium">
                         Creá tu tienda gratis
                       </span>
                     </p>

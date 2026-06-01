@@ -36,12 +36,12 @@ export function Header({
   onNavLinkClick,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-[var(--t-border)]">
+    <header className="sticky top-0 z-50 bg-[var(--t-header-bg)] border-b border-[var(--t-border)]">
       {/* ── Desktop header ── */}
       <div className="hidden lg:flex items-center justify-between px-[160px] py-4">
         {/* Logo */}
         <span
-          className="text-[22px] font-bold italic lowercase tracking-tight text-black shrink-0"
+          className="text-[22px] font-bold italic lowercase tracking-tight text-[var(--t-text-primary)] shrink-0"
           aria-label={store.name}
         >
           {store.name.toLowerCase()}
@@ -60,8 +60,8 @@ export function Header({
               type="button"
               className={`bg-transparent border-none p-0 text-base font-medium cursor-pointer transition-colors ${
                 i === 0
-                  ? "text-black"
-                  : "text-black/30 hover:text-black/60"
+                  ? "text-[var(--t-text-primary)]"
+                  : "text-[var(--t-text-primary)]/30 hover:text-[var(--t-text-primary)]/60"
               }`}
               onClick={() => onNavLinkClick?.(link.href)}
             >
@@ -78,7 +78,7 @@ export function Header({
             onClick={onWishlistClick}
             aria-label="Favoritos"
           >
-            <Heart className="w-6 h-6 text-black" />
+            <Heart className="w-6 h-6 text-[var(--t-text-primary)]" />
           </button>
           <button
             type="button"
@@ -86,7 +86,7 @@ export function Header({
             onClick={onCartClick}
             aria-label={`Carrito${cartItemCount > 0 ? `, ${cartItemCount} artículos` : ""}`}
           >
-            <ShoppingCart className="w-6 h-6 text-black" />
+            <ShoppingCart className="w-6 h-6 text-[var(--t-text-primary)]" />
             {cartItemCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                 {cartItemCount > 9 ? "9+" : cartItemCount}
@@ -98,7 +98,7 @@ export function Header({
             className="p-0 bg-transparent border-none cursor-pointer"
             aria-label="Mi cuenta"
           >
-            <User className="w-6 h-6 text-black" />
+            <User className="w-6 h-6 text-[var(--t-text-primary)]" />
           </button>
         </div>
       </div>
@@ -107,7 +107,7 @@ export function Header({
       <div className="flex lg:hidden items-center justify-between px-4 py-3">
         {/* Logo */}
         <span
-          className="text-[20px] font-bold italic lowercase tracking-tight text-black"
+          className="text-[20px] font-bold italic lowercase tracking-tight text-[var(--t-text-primary)]"
           aria-label={store.name}
         >
           {store.name.toLowerCase()}
@@ -120,7 +120,7 @@ export function Header({
           onClick={onMenuClick}
           aria-label="Abrir menú"
         >
-          <Menu className="w-6 h-6 text-black" />
+          <Menu className="w-6 h-6 text-[var(--t-text-primary)]" />
         </button>
       </div>
     </header>

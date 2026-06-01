@@ -5,6 +5,7 @@
 
 import type { TemplateConfig } from "./template-config";
 import type { StoreCustomization } from "./store-customization";
+import type { TemplateConfigSchema } from "./config-schema";
 
 // ResolvedStoreConfig has the same shape as TemplateConfig because the resolver
 // just deep-merges merchant overrides into the template defaults.
@@ -19,4 +20,6 @@ export type MockStoreConfig = ResolvedStoreConfig;
 export type ConfigResolver = (
   templateConfig: TemplateConfig,
   customization?: StoreCustomization,
+  schema?: TemplateConfigSchema,
+  urlMap?: Map<string, string>,
 ) => ResolvedStoreConfig;

@@ -63,7 +63,7 @@ export function SearchPage({
   const noResults = !isEmpty && results.length === 0;
 
   return (
-    <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       {/* Header */}
       <Header
         store={store}
@@ -83,7 +83,7 @@ export function SearchPage({
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
             placeholder="Buscar productos..."
-            className="flex-1 bg-transparent border-none outline-none text-base text-black placeholder:text-[var(--t-text-muted)]/50 font-medium"
+            className="flex-1 bg-transparent border-none outline-none text-base text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]/50 font-medium"
             aria-label="Buscar productos"
             role="searchbox"
           />
@@ -105,13 +105,13 @@ export function SearchPage({
         {isEmpty ? (
           /* Empty state: popular searches */
           <div className="flex flex-col gap-6 pt-8">
-            <h2 className="text-lg font-medium text-black">Búsquedas populares</h2>
+            <h2 className="text-lg font-medium text-[var(--t-text-primary)]">Búsquedas populares</h2>
             <div className="flex flex-wrap gap-3">
               {suggestions.map((s) => (
                 <button
                   key={s}
                   type="button"
-                  className="px-5 py-2.5 bg-[var(--t-card-bg)] rounded-lg text-sm font-medium text-black border-none cursor-pointer hover:bg-[var(--t-surface)] transition-colors"
+                  className="px-5 py-2.5 bg-[var(--t-card-bg)] rounded-lg text-sm font-medium text-[var(--t-text-primary)] border-none cursor-pointer hover:bg-[var(--t-surface)] transition-colors"
                   onClick={() => onSuggestionClick?.(s)}
                 >
                   {s}
@@ -123,7 +123,7 @@ export function SearchPage({
           /* No results */
           <div className="flex flex-col items-center justify-center gap-4 py-20">
             <Search className="w-12 h-12 text-[var(--t-border-mid)]" aria-hidden="true" />
-            <p className="text-lg font-medium text-black">No se encontraron resultados</p>
+            <p className="text-lg font-medium text-[var(--t-text-primary)]">No se encontraron resultados</p>
             <p className="text-sm text-[var(--t-text-secondary)]">
               Intentá con otro término o explorá nuestras categorías
             </p>

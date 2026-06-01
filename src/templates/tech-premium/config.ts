@@ -14,11 +14,15 @@ export const techPremiumConfig = {
     primary: "#000000",
     secondary: "#211C24",
     background: "#FAFAFA",
+    // Text/surface tokens — used instead of hardcoded text-black / bg-white
+    textPrimary: "#000000",
+    headerBg: "#FFFFFF",
+    sectionBg: "#FFFFFF",
     cardBg: "#F6F6F6",
     border: "#B5B5B5",
     surface: "#EDEDED",
     searchBg: "#F5F5F5",
-    textMuted: "#909090",
+    textMuted: "#787878",
     textFooter: "#CFCFCF",
     // Button colors
     buttonBg: "#000000",
@@ -48,7 +52,7 @@ export const techPremiumConfig = {
     // Pagination / search suggestion bg
     paginationBg: "#F6F6F6",
     // Summer sale description color
-    textSummerSale: "#787878",
+    textSummerSale: "#787878", // matches textMuted for obsidian
     // Product detail breadcrumb / muted text
     textBreadcrumb: "#A4A4A4",
     // Active tab underline (same as primary, but explicit)
@@ -56,6 +60,16 @@ export const techPremiumConfig = {
     // Category active bg (same as primary)
     categoryActiveBg: "#000000",
     categoryActiveText: "#FFFFFF",
+    // Popular product card backgrounds (solid progression light→dark)
+    popularBg0: "#F6F6F6",
+    popularBg1: "#EAEAEA",
+    popularBg2: "#CDCDCD",
+    popularBg3: "#9A9A9A",
+    // Popular product card text colors (per-card, handles light↔dark palettes)
+    popularText0: "#000000",
+    popularText1: "#000000",
+    popularText2: "#000000",
+    popularText3: "#FFFFFF",
   },
 
   // Default typography

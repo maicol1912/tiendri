@@ -59,7 +59,7 @@ export function CartPage({
     `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
 
   return (
-    <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       {/* Header */}
       <Header
         store={store}
@@ -74,14 +74,14 @@ export function CartPage({
       <main className="flex-1 px-4 py-10 lg:px-[160px] lg:py-[112px]">
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center gap-6 py-20">
-            <p className="text-xl font-semibold text-black">Tu carrito está vacío</p>
+            <p className="text-xl font-semibold text-[var(--t-text-primary)]">Tu carrito está vacío</p>
             <p className="text-base text-[var(--t-text-secondary)]">Explorá los productos y agregá artículos a tu carrito</p>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Left: Cart items */}
             <div className="flex flex-col gap-10 flex-1 min-w-0">
-              <h1 className="text-2xl font-semibold text-black">Carrito de compras</h1>
+              <h1 className="text-2xl font-semibold text-[var(--t-text-primary)]">Carrito de compras</h1>
 
               <div className="flex flex-col gap-10">
                 {items.map((item, idx) => (
@@ -111,8 +111,8 @@ export function CartPage({
                     <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0 flex-1 min-w-0">
                       {/* Name + SKU */}
                       <div className="flex flex-col gap-2 flex-1 min-w-[106px]">
-                        <p className="text-base font-medium text-black line-clamp-2">{item.name}</p>
-                        <p className="text-sm text-black">#{item.productId.replace(/\D/g, "").slice(0, 14) || "00000000"}</p>
+                        <p className="text-base font-medium text-[var(--t-text-primary)] line-clamp-2">{item.name}</p>
+                        <p className="text-sm text-[var(--t-text-primary)]">#{item.productId.replace(/\D/g, "").slice(0, 14) || "00000000"}</p>
                       </div>
 
                       {/* Quantity + Price + Remove */}
@@ -125,10 +125,10 @@ export function CartPage({
                             onClick={() => onDecrement?.(item.productId)}
                             aria-label="Disminuir cantidad"
                           >
-                            <Minus className="w-4 h-4 text-black" />
+                            <Minus className="w-4 h-4 text-[var(--t-text-primary)]" />
                           </button>
                           <div className="border border-[var(--t-border-mid)]/50 rounded px-4 py-2 min-w-[32px] text-center">
-                            <span className="text-base font-medium text-black">{item.quantity}</span>
+                            <span className="text-base font-medium text-[var(--t-text-primary)]">{item.quantity}</span>
                           </div>
                           <button
                             type="button"
@@ -136,12 +136,12 @@ export function CartPage({
                             onClick={() => onIncrement?.(item.productId)}
                             aria-label="Aumentar cantidad"
                           >
-                            <Plus className="w-4 h-4 text-black" />
+                            <Plus className="w-4 h-4 text-[var(--t-text-primary)]" />
                           </button>
                         </div>
 
                         {/* Price */}
-                        <span className="text-xl font-medium text-black tracking-[0.6px] whitespace-nowrap">
+                        <span className="text-xl font-medium text-[var(--t-text-primary)] tracking-[0.6px] whitespace-nowrap">
                           {fmt(item.price * item.quantity)}
                         </span>
 
@@ -152,7 +152,7 @@ export function CartPage({
                           onClick={() => onRemove?.(item.productId)}
                           aria-label={`Eliminar ${item.name} del carrito`}
                         >
-                          <X className="w-5 h-5 text-black" />
+                          <X className="w-5 h-5 text-[var(--t-text-primary)]" />
                         </button>
                       </div>
                     </div>
@@ -189,7 +189,7 @@ export function CartPage({
                           <span className="flex-1 text-sm text-[var(--t-text-muted)] tracking-[-0.07px]">Ingresá el número de tarjeta</span>
                           <button
                             type="button"
-                            className="px-2 py-2 border border-[var(--t-primary)] rounded-[6px] text-xs font-medium text-[var(--t-primary)] bg-white cursor-pointer hover:bg-gray-50 transition-colors"
+                            className="px-2 py-2 border border-[var(--t-primary)] rounded-[6px] text-xs font-medium text-[var(--t-primary)] bg-[var(--t-section-bg)] cursor-pointer hover:opacity-80 transition-opacity"
                           >
                             Aplicar
                           </button>
@@ -200,28 +200,28 @@ export function CartPage({
                     {/* Prices */}
                     <div className="flex flex-col gap-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-base font-medium text-black tracking-[0.48px]">Subtotal</span>
-                        <span className="text-base font-medium text-black tracking-[0.48px]">
+                        <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">Subtotal</span>
+                        <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">
                           {fmt(subtotal)}
                         </span>
                       </div>
                       <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-between">
                           <span className="text-base text-[var(--t-text-subtle)]">Impuestos estimados</span>
-                          <span className="text-base font-medium text-black tracking-[0.48px]">
+                          <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">
                             {fmt(tax)}
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-base text-[var(--t-text-subtle)]">Envío y manejo estimado</span>
-                          <span className="text-base font-medium text-black tracking-[0.48px]">
+                          <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">
                             {fmt(shipping)}
                           </span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-base font-medium text-black tracking-[0.48px]">Total</span>
-                        <span className="text-base font-medium text-black tracking-[0.48px]">
+                        <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">Total</span>
+                        <span className="text-base font-medium text-[var(--t-text-primary)] tracking-[0.48px]">
                           {fmt(total)}
                         </span>
                       </div>

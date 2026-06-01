@@ -3,12 +3,14 @@
 // Phase 2: complete schema covering all ContentConfig fields and theme tokens.
 
 import type { TemplateConfigSchema } from "@/types/templates";
+import { techPremiumPalettes } from "./palettes";
 
 export const techPremiumConfigSchema: TemplateConfigSchema = {
   // ─────────────────────────────────────────────────────────────────────────
   // Theme — 4 editable colors, 3 radius tokens, 4 font pairs
   // ─────────────────────────────────────────────────────────────────────────
   theme: {
+    palettes: techPremiumPalettes,
     colors: [
       {
         key: "primary",

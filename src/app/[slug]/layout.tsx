@@ -21,6 +21,7 @@ import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
 import { buildCssVars } from "@/lib/buildCssVars";
 import { getFontPair } from "@/lib/fonts";
 import { techPremiumConfig } from "@/templates/tech-premium/config";
+import { techPremiumConfigSchema } from "@/templates/tech-premium/config-schema";
 import { CartProvider } from "@/templates/tech-premium/context/CartContext";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
 import type { StoreInfo } from "@/types/store";
@@ -46,7 +47,8 @@ export default async function StorefrontLayout({
   const templateDefaults = techPremiumConfig;
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
-    store.customization ?? undefined
+    store.customization ?? undefined,
+    techPremiumConfigSchema,
   );
 
   // ── 3. Build CSS vars ─────────────────────────────────────────────────────

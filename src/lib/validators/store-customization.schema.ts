@@ -180,6 +180,7 @@ const cssPixelValue = z
   .optional();
 
 export const themeSchema = z.object({
+  paletteId: z.string().max(60, "ID de paleta inválido").optional(),
   colors: z
     .object({
       primary: hexColor,

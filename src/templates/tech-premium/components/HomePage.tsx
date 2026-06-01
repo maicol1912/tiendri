@@ -149,21 +149,21 @@ export function HomePage({
         <div className="flex items-center justify-between mb-8">
           <h2
             id="categories-heading"
-            className="text-xl lg:text-2xl font-medium text-black tracking-[0.24px]"
+            className="text-xl lg:text-2xl font-medium text-[var(--t-text-primary)] tracking-[0.24px]"
           >
             Explorar por categoría
           </h2>
           <div className="flex gap-4">
             <button
               type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-black/40 hover:text-black transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
               aria-label="Categorías anteriores"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-black/40 hover:text-black transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
               aria-label="Siguientes categorías"
             >
               <ChevronRight className="w-5 h-5" />
@@ -189,7 +189,7 @@ export function HomePage({
   function renderProducts() {
     return (
       <section
-        className="bg-white px-6 lg:px-[160px] py-10 lg:py-14"
+        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px] py-10 lg:py-14"
         aria-labelledby="products-heading"
       >
         {/* Product tabs */}
@@ -241,10 +241,11 @@ export function HomePage({
         </h2>
         {/* Desktop: 4 horizontal cards in a row */}
         <div className="hidden lg:flex w-full">
-          {popularProducts.map((p) => (
+          {popularProducts.map((p, i) => (
             <PopularProductCard
               key={p.id}
               product={p}
+              index={i}
               onClick={onPopularProductClick}
             />
           ))}
@@ -255,9 +256,9 @@ export function HomePage({
             className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
-            {popularProducts.map((p) => (
+            {popularProducts.map((p, i) => (
               <div key={p.id} className="snap-center shrink-0 w-full">
-                <PopularProductCard product={p} onClick={onPopularProductClick} />
+                <PopularProductCard product={p} index={i} onClick={onPopularProductClick} />
               </div>
             ))}
           </div>
@@ -277,12 +278,12 @@ export function HomePage({
   function renderDiscounts() {
     return (
       <section
-        className="bg-white px-6 lg:px-[160px] py-10 lg:py-20"
+        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px] py-10 lg:py-20"
         aria-labelledby="discounts-heading"
       >
         <h2
           id="discounts-heading"
-          className="text-xl lg:text-2xl font-medium text-black text-left mb-8"
+          className="text-xl lg:text-2xl font-medium text-[var(--t-text-primary)] text-left mb-8"
         >
           Descuentos de hasta -50%
         </h2>

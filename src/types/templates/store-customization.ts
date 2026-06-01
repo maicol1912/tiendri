@@ -18,6 +18,8 @@ export type { BrandingConfig, ContentConfig, BusinessConfig } from "./customizat
 
 // Partial color/radius overrides — merchant changes only what they need.
 export interface ThemeCustomization {
+  /** Selected palette ID — e.g. "obsidian", "midnight-luxury". */
+  paletteId?: string;
   colors?: Partial<TemplateColorTokens>;
   radius?: Partial<TemplateRadiusTokens>;
   /** Font pair key — e.g. "modern" | "warm" | "elegant" | "functional" */

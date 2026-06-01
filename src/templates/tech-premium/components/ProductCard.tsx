@@ -55,8 +55,8 @@ export function ProductCard({
           <Heart
             className={`w-6 h-6 transition-colors ${
               product.inWishlist
-                ? "fill-black text-black"
-                : "fill-none text-black/40 hover:text-black/70"
+                ? "fill-[var(--t-text-primary)] text-[var(--t-text-primary)]"
+                : "fill-none text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)]/70"
             }`}
           />
         </button>
@@ -88,11 +88,11 @@ export function ProductCard({
             className="bg-transparent border-none cursor-pointer p-0 w-full"
             onClick={onClick}
           >
-            <p className="text-sm lg:text-base font-medium text-black leading-6 line-clamp-2">
+            <p className="text-sm lg:text-base font-medium text-[var(--t-text-primary)] leading-6 line-clamp-2">
               {product.name}
             </p>
           </button>
-          <p className="text-xl lg:text-2xl font-semibold text-black tracking-[0.72px]">
+          <p className="text-xl lg:text-2xl font-semibold text-[var(--t-text-primary)] tracking-[0.72px]">
             {currencySymbol}
             {new Intl.NumberFormat("en-US").format(product.price)}
           </p>

@@ -13,6 +13,7 @@ import type {
   ContentConfig,
   BusinessConfig,
 } from "@/types/templates";
+import type { ColorPalette, TemplateConfigSchema } from "@/types/templates/config-schema";
 
 // ── Media ID resolution ───────────────────────────────────────────────────────
 
@@ -56,6 +57,21 @@ function resolveMediaIds(
   return result;
 }
 
+// ── Palette token resolution ─────────────────────────────────────────────────
+
+/**
+ * Finds a palette by ID and returns its color tokens.
+ * Returns an empty object when no match is found (no-op for spread).
+ */
+function resolvePaletteTokens(
+  paletteId: string | undefined,
+  palettes: ColorPalette[] | undefined,
+): Record<string, string> {
+  if (!paletteId || !palettes || palettes.length === 0) return {};
+  const palette = palettes.find((p) => p.id === paletteId);
+  return palette ? palette.colors : {};
+}
+
 /**
  * Merge a template's defaults with optional merchant overrides.
  *
@@ -68,10 +84,18 @@ function resolveMediaIds(
  *   footerAssistance, productTabs, popularSearches) REPLACE — not concatenate.
  * - business: shallow merge — merchant values win per field
  *
+ * Color resolution order (3 layers):
+ *   1. Template defaults (config.ts colors)
+ *   2. Palette tokens (if paletteId is set and palette found in schema)
+ *   3. Per-token merchant overrides (customization.theme.colors)
+ *
  * The explicit casts below are safe: required keys always come from the template
  * (which is fully typed) and Partial overrides can only replace existing values,
  * never introduce undefined for a required field.
  *
+ * @param schema Optional template config schema containing palette definitions.
+ *   When provided with a paletteId in customization, palette tokens are applied
+ *   between template defaults and per-token overrides.
  * @param urlMap Optional pre-built map of media IDs to resolved URLs. When
  *   provided, any string value starting with "media_" in the resolved branding
  *   and content objects is replaced with the corresponding URL. Backward
@@ -81,6 +105,7 @@ function resolveMediaIds(
 export function resolveTemplateConfig(
   template: TemplateConfig,
   customization?: StoreCustomization,
+  schema?: TemplateConfigSchema,
   urlMap?: Map<string, string>,
 ): ResolvedStoreConfig {
   if (!customization) return template;
@@ -150,10 +175,20 @@ export function resolveTemplateConfig(
         ) as unknown as ContentConfig)
       : resolvedContent;
 
+  // ── Palette-aware color resolution ─────────────────────────────────────────
+  const paletteTokens = resolvePaletteTokens(
+    customization.theme?.paletteId,
+    schema?.theme.palettes,
+  );
+
   return {
     ...template,
-    // Appearance / theme tokens
-    colors: { ...template.colors, ...customization.theme?.colors } as TemplateColorTokens,
+    // Appearance / theme tokens — 3-layer merge: defaults → palette → overrides
+    colors: {
+      ...template.colors,
+      ...paletteTokens,
+      ...customization.theme?.colors,
+    } as TemplateColorTokens,
     radius: { ...template.radius, ...customization.theme?.radius } as TemplateRadiusTokens,
     // Layout / grid tokens
     grid: { ...template.grid, ...customization.layout?.grid } as TemplateGridConfig,

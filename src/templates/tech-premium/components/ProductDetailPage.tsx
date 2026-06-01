@@ -157,7 +157,7 @@ export function ProductDetailPage({
   };
 
   return (
-    <div className="bg-white min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -182,7 +182,7 @@ export function ProductDetailPage({
         <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
         <span className="text-[var(--t-text-breadcrumb)] text-base font-medium">Smartphones</span>
         <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-black text-base font-medium truncate max-w-[200px]">
+        <span className="text-[var(--t-text-primary)] text-base font-medium truncate max-w-[200px]">
           {product.name}
         </span>
       </nav>
@@ -250,11 +250,11 @@ export function ProductDetailPage({
           {/* Title + Price */}
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-6">
-              <h1 className="text-[40px] font-bold leading-[40px] text-black m-0">
+              <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-text-primary)] m-0">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-[32px] font-medium text-black tracking-[0.96px]">
+                <span className="text-[32px] font-medium text-[var(--t-text-primary)] tracking-[0.96px]">
                   {formattedPrice}
                 </span>
                 {formattedOriginalPrice && (
@@ -275,7 +275,7 @@ export function ProductDetailPage({
                       key={color}
                       type="button"
                       className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
-                        idx === selectedColor ? "ring-2 ring-black ring-offset-2" : ""
+                        idx === selectedColor ? "ring-2 ring-[var(--t-text-primary)] ring-offset-2" : ""
                       }`}
                       style={{ backgroundColor: color }}
                       onClick={() => onColorSelect?.(idx)}
@@ -294,8 +294,8 @@ export function ProductDetailPage({
                     type="button"
                     className={`flex-1 px-6 py-4 rounded-lg text-sm font-medium text-center cursor-pointer transition-colors ${
                       activeStorage === opt
-                        ? "border border-black text-black bg-white"
-                        : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-white hover:border-[var(--t-border)]"
+                        ? "border border-[var(--t-text-primary)] text-[var(--t-text-primary)] bg-[var(--t-section-bg)]"
+                        : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-[var(--t-section-bg)] hover:border-[var(--t-border)]"
                     }`}
                     onClick={() => onStorageSelect?.(opt)}
                     aria-pressed={activeStorage === opt}
@@ -333,7 +333,7 @@ export function ProductDetailPage({
           <div className="flex flex-wrap gap-4">
             <button
               type="button"
-              className="flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border border-black bg-white text-black text-base font-medium text-center cursor-pointer hover:bg-gray-50 transition-colors"
+              className="flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border border-[var(--t-text-primary)] bg-[var(--t-section-bg)] text-[var(--t-text-primary)] text-base font-medium text-center cursor-pointer hover:opacity-80 transition-colors"
               onClick={onWishlistToggle}
             >
               {isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
@@ -352,29 +352,29 @@ export function ProductDetailPage({
           <div className="flex gap-8">
             <div className="flex flex-1 items-center gap-4 rounded-lg">
               <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <Truck className="w-6 h-6 text-black" aria-hidden="true" />
+                <Truck className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-[var(--t-text-muted)]">Envío gratis</span>
-                <span className="text-sm font-medium text-black">1-2 días</span>
+                <span className="text-sm font-medium text-[var(--t-text-primary)]">1-2 días</span>
               </div>
             </div>
             <div className="flex flex-1 items-center gap-4 rounded-lg">
               <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <Store className="w-6 h-6 text-black" aria-hidden="true" />
+                <Store className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-[var(--t-text-muted)]">Disponible</span>
-                <span className="text-sm font-medium text-black">Hoy</span>
+                <span className="text-sm font-medium text-[var(--t-text-primary)]">Hoy</span>
               </div>
             </div>
             <div className="flex flex-1 items-center gap-4 rounded-lg">
               <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <ShieldCheck className="w-6 h-6 text-black" aria-hidden="true" />
+                <ShieldCheck className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-[var(--t-text-muted)]">Garantía</span>
-                <span className="text-sm font-medium text-black">1 año</span>
+                <span className="text-sm font-medium text-[var(--t-text-primary)]">1 año</span>
               </div>
             </div>
           </div>
@@ -385,9 +385,9 @@ export function ProductDetailPage({
       <div className="lg:hidden flex flex-col gap-8 px-4 pt-8 pb-4">
         {/* Title + Price */}
         <div className="flex flex-col gap-6">
-          <h1 className="text-[40px] font-bold leading-[40px] text-black m-0">{product.name}</h1>
+          <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-text-primary)] m-0">{product.name}</h1>
           <div className="flex items-center gap-4">
-            <span className="text-[32px] font-medium text-black tracking-[0.96px]">
+            <span className="text-[32px] font-medium text-[var(--t-text-primary)] tracking-[0.96px]">
               {formattedPrice}
             </span>
             {formattedOriginalPrice && (
@@ -407,7 +407,7 @@ export function ProductDetailPage({
                 key={color}
                 type="button"
                 className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
-                  idx === selectedColor ? "ring-2 ring-black ring-offset-2" : ""
+                  idx === selectedColor ? "ring-2 ring-[var(--t-text-primary)] ring-offset-2" : ""
                 }`}
                 style={{ backgroundColor: color }}
                 onClick={() => onColorSelect?.(idx)}
@@ -426,8 +426,8 @@ export function ProductDetailPage({
               type="button"
               className={`flex-1 px-6 py-4 rounded-lg text-sm font-medium text-center cursor-pointer transition-colors ${
                 activeStorage === opt
-                  ? "border border-black text-black bg-white"
-                  : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-white"
+                  ? "border border-[var(--t-text-primary)] text-[var(--t-text-primary)] bg-[var(--t-section-bg)]"
+                  : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-[var(--t-section-bg)]"
               }`}
               onClick={() => onStorageSelect?.(opt)}
               aria-pressed={activeStorage === opt}
@@ -463,7 +463,7 @@ export function ProductDetailPage({
         <div className="flex flex-col gap-4">
           <button
             type="button"
-            className="w-full px-14 py-4 rounded-[6px] border border-black bg-white text-black text-base font-medium text-center cursor-pointer"
+            className="w-full px-14 py-4 rounded-[6px] border border-[var(--t-text-primary)] bg-[var(--t-section-bg)] text-[var(--t-text-primary)] text-base font-medium text-center cursor-pointer"
             onClick={onWishlistToggle}
           >
             {isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
@@ -487,11 +487,11 @@ export function ProductDetailPage({
           ].map(({ Icon, label, value }) => (
             <div key={label} className="flex flex-1 flex-col items-center gap-4 rounded-lg">
               <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4">
-                <Icon className="w-6 h-6 text-black" aria-hidden="true" />
+                <Icon className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col items-center text-center">
                 <span className="text-sm font-medium text-[var(--t-text-muted)]">{label}</span>
-                <span className="text-sm font-medium text-black">{value}</span>
+                <span className="text-sm font-medium text-[var(--t-text-primary)]">{value}</span>
               </div>
             </div>
           ))}
@@ -500,8 +500,8 @@ export function ProductDetailPage({
 
       {/* ── Details Section ── */}
       <section aria-label="Detalles del producto" className="bg-[var(--t-background)] px-4 py-10 lg:px-[160px] lg:py-20">
-        <div className="bg-white rounded-lg px-6 py-12 lg:px-10 lg:py-12 flex flex-col gap-8 items-center">
-          <h2 className="text-2xl font-medium text-black w-full">Detalles</h2>
+        <div className="bg-[var(--t-section-bg)] rounded-lg px-6 py-12 lg:px-10 lg:py-12 flex flex-col gap-8 items-center">
+          <h2 className="text-2xl font-medium text-[var(--t-text-primary)] w-full">Detalles</h2>
           <p className="text-sm font-medium text-[var(--t-text-muted)] leading-6 w-full">
             Así como un libro se juzga por su portada, lo primero que notás al tomar un smartphone moderno es la pantalla. Nada sorprendente, porque las tecnologías avanzadas permiten prácticamente eliminar los marcos y los recortes para la cámara frontal y el altavoz.
           </p>
@@ -509,7 +509,7 @@ export function ProductDetailPage({
           {/* Specs table */}
           <div className="w-full flex flex-col gap-10">
             <div className="flex flex-col gap-4">
-              <h3 className="text-xl font-medium text-black">Pantalla</h3>
+              <h3 className="text-xl font-medium text-[var(--t-text-primary)]">Pantalla</h3>
               <div className="flex flex-col gap-6">
                 {[
                   ["Diagonal de pantalla", '6.7"'],
@@ -519,23 +519,23 @@ export function ProductDetailPage({
                   ["Tipo de pantalla", "OLED"],
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border-mid)]/50">
-                    <span className="text-base text-black">{label}</span>
-                    <span className="text-[15px] text-black">{value}</span>
+                    <span className="text-base text-[var(--t-text-primary)]">{label}</span>
+                    <span className="text-[15px] text-[var(--t-text-primary)]">{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h3 className="text-xl font-medium text-black">CPU</h3>
+              <h3 className="text-xl font-medium text-[var(--t-text-primary)]">CPU</h3>
               <div className="flex flex-col gap-6">
                 {[
                   ["CPU", "A16 Bionic"],
                   ["Número de núcleos", "6"],
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border-mid)]/50">
-                    <span className="text-base text-black">{label}</span>
-                    <span className="text-[15px] text-black">{value}</span>
+                    <span className="text-base text-[var(--t-text-primary)]">{label}</span>
+                    <span className="text-[15px] text-[var(--t-text-primary)]">{value}</span>
                   </div>
                 ))}
               </div>
@@ -544,7 +544,7 @@ export function ProductDetailPage({
 
           <button
             type="button"
-            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-white text-sm font-medium text-black cursor-pointer hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-[var(--t-section-bg)] text-sm font-medium text-[var(--t-text-primary)] cursor-pointer hover:opacity-80 transition-colors"
           >
             Ver más
             <ChevronDown className="w-6 h-6" aria-hidden="true" />
@@ -555,15 +555,15 @@ export function ProductDetailPage({
       {/* ── Reviews Section ── */}
       <section aria-label="Reseñas de clientes" className="px-4 py-10 lg:px-[160px] lg:py-[88px] flex flex-col gap-8 items-center">
         <div className="w-full flex flex-col gap-12">
-          <h2 className="text-2xl font-medium text-black">Reseñas</h2>
+          <h2 className="text-2xl font-medium text-[var(--t-text-primary)]">Reseñas</h2>
 
           {/* Overall rating + bar chart */}
           <div className="flex flex-wrap gap-[60px] items-center">
             {/* Rating card */}
             <div className="bg-[var(--t-background)] rounded-[25px] p-8 flex flex-col lg:flex-row gap-4 items-center flex-1 min-w-[260px] lg:min-w-0 lg:flex-none lg:w-auto">
               <div className="flex flex-col items-center gap-4 flex-1">
-                <span className="text-[56px] font-medium text-black leading-[56px]">{overallRating}</span>
-                <span className="text-[15px] font-medium text-black/30">de {totalReviews} reseñas</span>
+                <span className="text-[56px] font-medium text-[var(--t-text-primary)] leading-[56px]">{overallRating}</span>
+                <span className="text-[15px] font-medium text-[var(--t-text-primary)]/30">de {totalReviews} reseñas</span>
               </div>
               <StarRating rating={overallRating} size={24} />
             </div>
@@ -572,7 +572,7 @@ export function ProductDetailPage({
             <div className="flex flex-col gap-6 flex-1 min-w-[302px]">
               {ratingDistribution.map(({ label, count, percentage }) => (
                 <div key={label} className="flex items-center gap-4">
-                  <span className="text-lg font-medium text-black w-[116px] lg:w-[150px] shrink-0">{label}</span>
+                  <span className="text-lg font-medium text-[var(--t-text-primary)] w-[116px] lg:w-[150px] shrink-0">{label}</span>
                   <div className="flex-1 flex items-center">
                     <div className="bg-[var(--t-rating-bar-bg)] rounded-2xl w-full h-[5px] overflow-hidden">
                       <div
@@ -585,7 +585,7 @@ export function ProductDetailPage({
                       />
                     </div>
                   </div>
-                  <span className="text-base font-medium text-black/40 text-right w-[30px]">{count}</span>
+                  <span className="text-base font-medium text-[var(--t-text-primary)]/40 text-right w-[30px]">{count}</span>
                 </div>
               ))}
             </div>
@@ -604,8 +604,8 @@ export function ProductDetailPage({
               <div className="flex flex-col gap-2 flex-1 min-w-0">
                 <div className="flex flex-col gap-2">
                   <div className="flex items-start justify-between">
-                    <span className="text-[17px] font-bold text-black">{review.author}</span>
-                    <span className="text-sm font-medium text-black/20 text-right">{review.date}</span>
+                    <span className="text-[17px] font-bold text-[var(--t-text-primary)]">{review.author}</span>
+                    <span className="text-sm font-medium text-[var(--t-text-primary)]/20 text-right">{review.date}</span>
                   </div>
                   <StarRating rating={review.rating} size={16} />
                 </div>
@@ -627,7 +627,7 @@ export function ProductDetailPage({
         {reviews.length > 0 && (
           <button
             type="button"
-            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-white text-sm font-medium text-black cursor-pointer hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-[var(--t-section-bg)] text-sm font-medium text-[var(--t-text-primary)] cursor-pointer hover:opacity-80 transition-colors"
           >
             Ver más
             <ChevronDown className="w-6 h-6" aria-hidden="true" />
@@ -638,7 +638,7 @@ export function ProductDetailPage({
       {/* ── Related Products ── */}
       {relatedProducts.length > 0 && (
         <section aria-label="Productos relacionados" className="px-4 py-10 lg:px-[160px] lg:py-20 flex flex-col gap-8">
-          <h2 className="text-2xl font-medium text-black">Productos relacionados</h2>
+          <h2 className="text-2xl font-medium text-[var(--t-text-primary)]">Productos relacionados</h2>
           <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}>
             {relatedProducts.map((p) => (
               <ProductCard

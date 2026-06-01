@@ -43,7 +43,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
               <ul className="flex flex-col gap-2 list-none m-0 p-0">
                 {services.map((item) => (
                   <li key={item}>
-                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-white transition-colors">
+                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-button-text)] transition-colors">
                       {item}
                     </span>
                   </li>
@@ -59,7 +59,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
               <ul className="flex flex-col gap-2 list-none m-0 p-0">
                 {assistance.map((item) => (
                   <li key={item}>
-                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-white transition-colors">
+                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-button-text)] transition-colors">
                       {item}
                     </span>
                   </li>
@@ -74,7 +74,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Twitter / X */}
           <a
             href={store.social_links?.twitter ?? "#"}
-            className="text-white hover:text-white/70 transition-colors"
+            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
             aria-label="Seguinos en Twitter"
             rel="noopener noreferrer"
             target="_blank"
@@ -86,7 +86,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Facebook */}
           <a
             href={store.social_links?.facebook ?? "#"}
-            className="text-white hover:text-white/70 transition-colors"
+            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
             aria-label="Seguinos en Facebook"
             rel="noopener noreferrer"
             target="_blank"
@@ -98,7 +98,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* TikTok */}
           <a
             href={store.social_links?.tiktok ?? "#"}
-            className="text-white hover:text-white/70 transition-colors"
+            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
             aria-label="Seguinos en TikTok"
             rel="noopener noreferrer"
             target="_blank"
@@ -110,7 +110,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Instagram */}
           <a
             href={store.social_links?.instagram ?? "#"}
-            className="text-white hover:text-white/70 transition-colors"
+            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
             aria-label="Seguinos en Instagram"
             rel="noopener noreferrer"
             target="_blank"

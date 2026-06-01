@@ -17,9 +17,11 @@ import {
   type CustomizerSectionLabel,
   type CustomizerGridField,
   type CustomizerLayoutOption,
+  type CustomizerPalette,
 } from "@/components/customizer/ThemeCustomizer";
 import { CartProvider } from "@/templates/tech-premium/context/CartContext";
 import { techPremiumConfig } from "@/templates/tech-premium/config";
+import { techPremiumPalettes } from "@/templates/tech-premium/palettes";
 import type { TechPremiumConfig } from "@/templates/tech-premium/config";
 import type { StoreInfo } from "@/templates/tech-premium/types";
 
@@ -223,6 +225,9 @@ export function TemplateLayoutClient({
             "--t-primary": colors.primary,
             "--t-secondary": colors.secondary,
             "--t-background": colors.background,
+            "--t-text-primary": colors.textPrimary,
+            "--t-header-bg": colors.headerBg,
+            "--t-section-bg": colors.sectionBg,
             "--t-card-bg": colors.cardBg,
             "--t-border": colors.border,
             "--t-surface": colors.surface,
@@ -250,6 +255,14 @@ export function TemplateLayoutClient({
             "--t-tab-active": colors.tabActive,
             "--t-category-active-bg": colors.categoryActiveBg,
             "--t-category-active-text": colors.categoryActiveText,
+            "--t-popular-bg0": colors.popularBg0,
+            "--t-popular-bg1": colors.popularBg1,
+            "--t-popular-bg2": colors.popularBg2,
+            "--t-popular-bg3": colors.popularBg3,
+            "--t-popular-text-0": colors.popularText0,
+            "--t-popular-text-1": colors.popularText1,
+            "--t-popular-text-2": colors.popularText2,
+            "--t-popular-text-3": colors.popularText3,
             // Radii
             "--t-radius-card": radius.card,
             "--t-radius-category": radius.category,
@@ -318,6 +331,7 @@ export function TemplateLayoutClient({
                 gridFields={TECH_PREMIUM_GRID_FIELDS}
                 layoutOptions={TECH_PREMIUM_LAYOUT_OPTIONS}
                 sectionLabels={TECH_PREMIUM_SECTION_LABELS}
+                palettes={techPremiumPalettes as CustomizerPalette[]}
               />
             </div>
           </>
