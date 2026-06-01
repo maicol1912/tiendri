@@ -10,6 +10,7 @@ import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import type { TechPremiumConfig } from "../config";
 import type { StoreInfo, StorefrontProduct, FilterGroup, NavTab } from "../types";
 
 interface ListingShellRouteProps {
@@ -27,7 +28,7 @@ export function ListingShellRoute({
 }: ListingShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems, addItem } = useCart();
-  const { config } = useLayoutConfig();
+  const { config } = useLayoutConfig<TechPremiumConfig>();
 
   const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);

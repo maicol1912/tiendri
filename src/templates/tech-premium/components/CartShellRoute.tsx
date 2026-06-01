@@ -10,6 +10,7 @@ import { CartPage } from "./CartPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import type { TechPremiumConfig } from "../config";
 import type { StoreInfo, NavTab } from "../types";
 
 interface CartShellRouteProps {
@@ -23,7 +24,7 @@ export function CartShellRoute({
 }: CartShellRouteProps) {
   const nav = useTemplateNav();
   const { items, totalItems, incrementItem, decrementItem, removeItem } = useCart();
-  const { config } = useLayoutConfig();
+  const { config } = useLayoutConfig<TechPremiumConfig>();
 
   const handleTabChange = useCallback(
     (tab: NavTab) => {

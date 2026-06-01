@@ -25,6 +25,10 @@ export async function getTemplateSchema(
       );
       return techPremiumConfigSchema;
     }
+    case "fashion": {
+      const { fashionConfigSchema } = await import("./fashion/config-schema");
+      return fashionConfigSchema;
+    }
     default:
       return null;
   }
@@ -35,11 +39,13 @@ export async function getTemplateSchema(
 // Only available for templates whose schema has already been statically imported.
 // ---------------------------------------------------------------------------
 
-// Static reference — imported once so it is always available synchronously.
+// Static references — imported once so they are always available synchronously.
 import { techPremiumConfigSchema } from "./tech-premium/config-schema";
+import { fashionConfigSchema } from "./fashion/config-schema";
 
 const syncRegistry: Record<string, TemplateConfigSchema> = {
   "tech-premium": techPremiumConfigSchema,
+  fashion: fashionConfigSchema,
 };
 
 /**

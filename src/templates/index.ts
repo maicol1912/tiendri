@@ -2,6 +2,7 @@
 
 export const templateRegistry = {
   "tech-premium": () => import("./tech-premium"),
+  fashion: () => import("./fashion"),
 };
 
 export type TemplateId = keyof typeof templateRegistry;

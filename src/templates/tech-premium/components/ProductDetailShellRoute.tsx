@@ -10,6 +10,7 @@ import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
   StorefrontProduct,
@@ -44,7 +45,7 @@ export function ProductDetailShellRoute({
 }: ProductDetailShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems, addItem } = useCart();
-  const { config } = useLayoutConfig();
+  const { config } = useLayoutConfig<TechPremiumConfig>();
 
   const [isWishlisted, setIsWishlisted] = useState(product.inWishlist ?? false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);

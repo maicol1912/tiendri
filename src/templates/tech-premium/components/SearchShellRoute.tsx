@@ -10,6 +10,7 @@ import { SearchPage } from "./SearchPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import type { TechPremiumConfig } from "../config";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface SearchShellRouteProps {
@@ -25,7 +26,7 @@ export function SearchShellRoute({
 }: SearchShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems, addItem } = useCart();
-  const { config } = useLayoutConfig();
+  const { config } = useLayoutConfig<TechPremiumConfig>();
 
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");

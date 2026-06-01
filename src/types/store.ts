@@ -49,6 +49,8 @@ export interface ProductImage {
 export interface StorefrontProduct {
   id: string;
   name: string;
+  /** Subtitle shown below the muted name (e.g. "Full Sleeve Zipper") */
+  subtitle?: string;
   slug: string;
   price: number;
   originalPrice?: number | null;

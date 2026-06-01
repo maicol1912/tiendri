@@ -47,10 +47,14 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
 
   // ── Fonts ─────────────────────────────────────────────────────────────────
   // --font-body / --font-heading are consumed by next/font CSS variable classes.
+  // --font-sans is the alias used by the fashion template components (style={{ fontFamily: "var(--font-sans)" }}).
   // --template-heading-font is the raw font-family string used by components
   // that set font-family directly (e.g. headings with a display font).
   if (config.font) {
     vars["--font-body"] = config.font;
+    // --font-sans mirrors --font-body so fashion components that reference
+    // var(--font-sans) pick up font-pair changes from the ThemeCustomizer.
+    vars["--font-sans"] = config.font;
   }
 
   if (config.headingFont) {

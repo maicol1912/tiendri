@@ -1,15 +1,25 @@
-// Tech Premium — Product listing page
-// Route: /template/tech-premium/catalogo
-// Layout (CartProvider + CSS vars + customizer) provided by parent layout.tsx.
+// Product listing page — supports tech-premium and fashion templates.
+// Route: /template/[templateName]/catalogo
 
 import type { Metadata } from "next";
 import {
-  mockStore,
-  mockProducts,
-  mockDiscountProducts,
+  mockStore as tpMockStore,
+  mockProducts as tpMockProducts,
+  mockDiscountProducts as tpMockDiscountProducts,
   mockFilterGroups,
 } from "@/templates/tech-premium/mock/data";
-import { ListingShellRoute } from "@/templates/tech-premium/components/ListingShellRoute";
+import { ListingShellRoute as TechPremiumListingShellRoute } from "@/templates/tech-premium/components/ListingShellRoute";
+import {
+  mockStore as fashionMockStore,
+  mockProducts as fashionMockProducts,
+  mockDiscountProducts as fashionMockDiscountProducts,
+  mockCategories as fashionMockCategories,
+} from "@/templates/fashion/mock/data";
+import { ListingShellRoute as FashionListingShellRoute } from "@/templates/fashion/components/ListingShellRoute";
+
+interface CatalogoPageProps {
+  params: Promise<{ templateName: string }>;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -18,30 +28,45 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const allProducts = [...mockProducts, ...mockDiscountProducts];
+export default async function CatalogoPage({ params }: CatalogoPageProps) {
+  const { templateName } = await params;
 
-const catalogJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Catálogo de productos",
-  numberOfItems: allProducts.length,
-  itemListElement: allProducts.map((product, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: product.name,
-    url: `https://tiendri.com/template/${mockStore.slug}/producto/${product.slug}`,
-  })),
-};
+  // ── Fashion ──────────────────────────────────────────────────────────────────
+  if (templateName === "fashion") {
+    const allProducts = [...fashionMockProducts, ...fashionMockDiscountProducts];
+    return (
+      <FashionListingShellRoute
+        store={fashionMockStore}
+        products={allProducts}
+        categories={fashionMockCategories}
+      />
+    );
+  }
 
-export default function CatalogoPage() {
+  // ── Tech Premium (default) ────────────────────────────────────────────────────
+  const allProducts = [...tpMockProducts, ...tpMockDiscountProducts];
+
+  const catalogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Catálogo de productos",
+    numberOfItems: allProducts.length,
+    itemListElement: allProducts.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: product.name,
+      url: `https://tiendri.com/template/${tpMockStore.slug}/producto/${product.slug}`,
+    })),
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogJsonLd) }}
       />
-      <ListingShellRoute
-        store={mockStore}
+      <TechPremiumListingShellRoute
+        store={tpMockStore}
         products={allProducts}
         filters={mockFilterGroups}
       />

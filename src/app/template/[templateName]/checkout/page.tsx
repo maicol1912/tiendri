@@ -1,15 +1,26 @@
-// Tech Premium — Checkout page
-// Route: /template/tech-premium/checkout
-// Layout (CartProvider + CSS vars + customizer) provided by parent layout.tsx.
+// Checkout page — supports tech-premium and fashion templates.
+// Route: /template/[templateName]/checkout
 
 import type { Metadata } from "next";
-import { mockStore } from "@/templates/tech-premium/mock/data";
-import { CheckoutShellRoute } from "@/templates/tech-premium/components/CheckoutShellRoute";
+import { mockStore as tpMockStore } from "@/templates/tech-premium/mock/data";
+import { CheckoutShellRoute as TechPremiumCheckoutShellRoute } from "@/templates/tech-premium/components/CheckoutShellRoute";
+import { mockStore as fashionMockStore } from "@/templates/fashion/mock/data";
+import { CheckoutShellRoute as FashionCheckoutShellRoute } from "@/templates/fashion/components/CheckoutShellRoute";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function CheckoutPage() {
-  return <CheckoutShellRoute store={mockStore} mode="preview" />;
+interface CheckoutPageProps {
+  params: Promise<{ templateName: string }>;
+}
+
+export default async function CheckoutPage({ params }: CheckoutPageProps) {
+  const { templateName } = await params;
+
+  if (templateName === "fashion") {
+    return <FashionCheckoutShellRoute store={fashionMockStore} />;
+  }
+
+  return <TechPremiumCheckoutShellRoute store={tpMockStore} mode="preview" />;
 }

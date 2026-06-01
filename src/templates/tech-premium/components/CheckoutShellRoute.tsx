@@ -10,6 +10,7 @@ import { CheckoutPage } from "./CheckoutPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import type { TechPremiumConfig } from "../config";
 import type { StoreInfo, CheckoutFormData, NavTab, TemplateMode } from "../types";
 
 function formatForWhatsApp(price: number, symbol: string): string {
@@ -67,7 +68,7 @@ export function CheckoutShellRoute({
 }: CheckoutShellRouteProps) {
   const nav = useTemplateNav();
   const { items, totalPrice, clearCart } = useCart();
-  const { config } = useLayoutConfig();
+  const { config } = useLayoutConfig<TechPremiumConfig>();
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     nombre: "",
