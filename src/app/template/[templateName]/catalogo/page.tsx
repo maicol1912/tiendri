@@ -16,6 +16,16 @@ import {
   mockCategories as fashionMockCategories,
 } from "@/templates/fashion/mock/data";
 import { ListingShellRoute as FashionListingShellRoute } from "@/templates/fashion/components/ListingShellRoute";
+import { mockCategories as petsModernMockCategories } from "@/templates/pets-modern/mock/data";
+import { ExploreShellRoute as PetsModernExploreShellRoute } from "@/templates/pets-modern/components/ExploreShellRoute";
+import { ListingShellRoute as ElectronicsClassicListingShellRoute } from "@/templates/electronics-classic/components/ListingShellRoute";
+import { ListingShellRoute as FurnitureDarkListingShellRoute } from "@/templates/furniture-dark/components/ListingShellRoute";
+import {
+  mockStore as beautySoftMockStore,
+  mockProducts as beautySoftMockProducts,
+  mockCategories as beautySoftMockCategories,
+} from "@/templates/beauty-soft/mock/data";
+import { ListingShellRoute as BeautySoftListingShellRoute } from "@/templates/beauty-soft/components/ListingShellRoute";
 
 interface CatalogoPageProps {
   params: Promise<{ templateName: string }>;
@@ -30,6 +40,32 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CatalogoPage({ params }: CatalogoPageProps) {
   const { templateName } = await params;
+
+  // ── Pets Modern ──────────────────────────────────────────────────────────────────
+  if (templateName === "pets-modern") {
+    return <PetsModernExploreShellRoute categories={petsModernMockCategories} />;
+  }
+
+  // ── Electronics Classic ───────────────────────────────────────────────────────
+  if (templateName === "electronics-classic") {
+    return <ElectronicsClassicListingShellRoute />;
+  }
+
+  // ── Furniture Dark ────────────────────────────────────────────────────────────
+  if (templateName === "furniture-dark") {
+    return <FurnitureDarkListingShellRoute />;
+  }
+
+  // ── Beauty Soft ───────────────────────────────────────────────────────────────
+  if (templateName === "beauty-soft") {
+    return (
+      <BeautySoftListingShellRoute
+        store={beautySoftMockStore}
+        categories={beautySoftMockCategories}
+        products={beautySoftMockProducts}
+      />
+    );
+  }
 
   // ── Fashion ──────────────────────────────────────────────────────────────────
   if (templateName === "fashion") {

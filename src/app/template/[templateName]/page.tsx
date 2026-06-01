@@ -19,6 +19,23 @@ import {
   mockDiscountProducts as fashionMockDiscountProducts,
 } from "@/templates/fashion/mock/data";
 import { HomeShell as FashionHomeShell } from "@/templates/fashion/components/HomeShell";
+import {
+  mockStore as petsModernMockStore,
+  mockPromoBanner as petsModernMockPromoBanner,
+  mockTrendingItems as petsModernMockTrendingItems,
+  mockPetTypes as petsModernMockPetTypes,
+  mockProducts as petsModernMockProducts,
+} from "@/templates/pets-modern/mock/data";
+import { HomeShell as PetsModernHomeShell } from "@/templates/pets-modern/components/HomeShell";
+import { HomeShell as ElectronicsClassicHomeShell } from "@/templates/electronics-classic/components/HomeShell";
+import { HomeShell as FurnitureDarkHomeShell } from "@/templates/furniture-dark/components/HomeShell";
+import {
+  mockStore as beautySoftMockStore,
+  mockCategories as beautySoftMockCategories,
+  mockProducts as beautySoftMockProducts,
+  mockHeroBanner as beautySoftMockHeroBanner,
+} from "@/templates/beauty-soft/mock/data";
+import { HomeShell as BeautySoftHomeShell } from "@/templates/beauty-soft/components/HomeShell";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -43,6 +60,26 @@ export async function generateMetadata({
       title: "Fashion — Vista previa | Tiendri",
       description:
         "Fashion: la plantilla ideal para tiendas de ropa, moda y accesorios. Diseño minimalista y elegante.",
+    },
+    "pets-modern": {
+      title: "Pet Shop — Vista previa | Tiendri",
+      description:
+        "Pet Shop: la plantilla ideal para tiendas de mascotas, veterinarias y accesorios para animales.",
+    },
+    "electronics-classic": {
+      title: "Electronics Classic — Vista previa | Tiendri",
+      description:
+        "Electronics Classic: la plantilla ideal para tiendas de tecnología, electrodomésticos y gadgets.",
+    },
+    "furniture-dark": {
+      title: "Furniture Dark — Vista previa | Tiendri",
+      description:
+        "Furniture Dark: la plantilla ideal para tiendas de muebles, decoración y hogar. Diseño oscuro premium.",
+    },
+    "beauty-soft": {
+      title: "Beauty Soft — Vista previa | Tiendri",
+      description:
+        "Beauty Soft: la plantilla ideal para tiendas de belleza, cosméticos y cuidado personal. Diseño suave y femenino.",
     },
   };
 
@@ -99,6 +136,41 @@ export default async function TemplatePreviewPage({
       <FashionHomeShell
         store={fashionMockStore}
         products={allFashionProducts}
+      />
+    );
+  }
+
+  // pets-modern: render pet shop home shell
+  if (templateName === "pets-modern") {
+    return (
+      <PetsModernHomeShell
+        store={petsModernMockStore}
+        promoBanner={petsModernMockPromoBanner}
+        trendingItems={petsModernMockTrendingItems}
+        petTypes={petsModernMockPetTypes}
+        products={petsModernMockProducts}
+      />
+    );
+  }
+
+  // electronics-classic: render electronics home shell
+  if (templateName === "electronics-classic") {
+    return <ElectronicsClassicHomeShell />;
+  }
+
+  // furniture-dark: render furniture dark home shell
+  if (templateName === "furniture-dark") {
+    return <FurnitureDarkHomeShell />;
+  }
+
+  // beauty-soft: render beauty soft home shell
+  if (templateName === "beauty-soft") {
+    return (
+      <BeautySoftHomeShell
+        store={beautySoftMockStore}
+        categories={beautySoftMockCategories}
+        products={beautySoftMockProducts}
+        heroBanner={beautySoftMockHeroBanner}
       />
     );
   }

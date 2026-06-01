@@ -29,6 +29,22 @@ export async function getTemplateSchema(
       const { fashionConfigSchema } = await import("./fashion/config-schema");
       return fashionConfigSchema;
     }
+    case "pets-modern": {
+      const { petsModernConfigSchema } = await import("./pets-modern/config-schema");
+      return petsModernConfigSchema;
+    }
+    case "electronics-classic": {
+      const { electronicsClassicConfigSchema } = await import("./electronics-classic/config-schema");
+      return electronicsClassicConfigSchema;
+    }
+    case "furniture-dark": {
+      const { furnitureDarkConfigSchema } = await import("./furniture-dark/config-schema");
+      return furnitureDarkConfigSchema;
+    }
+    case "beauty-soft": {
+      const { beautySoftConfigSchema } = await import("./beauty-soft/config-schema");
+      return beautySoftConfigSchema;
+    }
     default:
       return null;
   }
@@ -42,10 +58,18 @@ export async function getTemplateSchema(
 // Static references — imported once so they are always available synchronously.
 import { techPremiumConfigSchema } from "./tech-premium/config-schema";
 import { fashionConfigSchema } from "./fashion/config-schema";
+import { petsModernConfigSchema } from "./pets-modern/config-schema";
+import { electronicsClassicConfigSchema } from "./electronics-classic/config-schema";
+import { furnitureDarkConfigSchema } from "./furniture-dark/config-schema";
+import { beautySoftConfigSchema } from "./beauty-soft/config-schema";
 
 const syncRegistry: Record<string, TemplateConfigSchema> = {
   "tech-premium": techPremiumConfigSchema,
   fashion: fashionConfigSchema,
+  "pets-modern": petsModernConfigSchema,
+  "electronics-classic": electronicsClassicConfigSchema,
+  "furniture-dark": furnitureDarkConfigSchema,
+  "beauty-soft": beautySoftConfigSchema,
 };
 
 /**
