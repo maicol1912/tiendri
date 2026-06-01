@@ -1,0 +1,214 @@
+// beauty-soft — TemplateConfigSchema
+// Configurable surface for the Beauty Soft template.
+
+import type { TemplateConfigSchema } from "@/types/templates";
+import { beautySoftPalettes } from "./palettes";
+
+export const beautySoftConfigSchema: TemplateConfigSchema = {
+  // ─────────────────────────────────────────────────────────────────────────
+  // Theme
+  // ─────────────────────────────────────────────────────────────────────────
+  theme: {
+    palettes: beautySoftPalettes,
+    colors: [
+      {
+        key: "primary",
+        label: "Color principal",
+        default: "#FF4428",
+      },
+      {
+        key: "background",
+        label: "Color de fondo",
+        default: "#F4F4F7",
+      },
+      {
+        key: "buttonBg",
+        label: "Color de botón",
+        default: "#FF4428",
+      },
+      {
+        key: "headerBg",
+        label: "Color de encabezado",
+        default: "#FFFFFF",
+      },
+    ],
+
+    radius: [
+      {
+        key: "card",
+        label: "Radio de tarjetas",
+        default: "20px",
+        max: 28,
+      },
+      {
+        key: "category",
+        label: "Radio de categorías",
+        default: "20px",
+        max: 28,
+      },
+      {
+        key: "button",
+        label: "Radio de botones",
+        default: "29px",
+        max: 32,
+      },
+    ],
+
+    fontPairs: [
+      {
+        key: "soft-modern",
+        label: "Suave moderno",
+        body: "Inter",
+        heading: "Wix Madefor Display",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "elegant",
+        label: "Elegante",
+        body: "DM Sans",
+        heading: "Cormorant Garamond",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "friendly",
+        label: "Amigable",
+        body: "Nunito",
+        heading: "Nunito",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "clean",
+        label: "Limpio",
+        body: "Outfit",
+        heading: "Outfit",
+        preview: "Aa Bb Cc",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Content tabs
+  // ─────────────────────────────────────────────────────────────────────────
+  content: {
+    tabGroups: [
+      // Tab 1 — Banner y tienda
+      {
+        id: "contenido-principal",
+        label: "Contenido Principal",
+        icon: "Layout",
+        sections: [
+          {
+            id: "hero-banner",
+            label: "Banner principal",
+            description: "El banner que aparece al inicio de tu tienda de belleza.",
+            icon: "Image",
+            fields: [
+              {
+                key: "content.heroBanner.title",
+                type: "text",
+                label: "Título del banner",
+                placeholder: "Descubrí lo mejor en belleza",
+                maxLength: 60,
+              },
+              {
+                key: "content.heroBanner.discountText",
+                type: "text",
+                label: "Texto de descuento",
+                placeholder: "20% OFF en tu primer pedido",
+                maxLength: 40,
+              },
+              {
+                key: "content.heroBanner.ctaText",
+                type: "text",
+                label: "Texto del botón",
+                placeholder: "Ver ofertas",
+                maxLength: 30,
+              },
+              {
+                key: "content.heroBanner.image",
+                type: "image",
+                label: "Imagen del banner",
+                description: "Recomendado: 800 × 400 px.",
+                aspectRatio: "2:1",
+                maxFileSize: 5242880,
+              },
+            ],
+          },
+        ],
+      },
+
+      // Tab 2 — Grilla y diseño
+      {
+        id: "diseno",
+        label: "Diseño",
+        icon: "Palette",
+        sections: [
+          {
+            id: "grilla-productos",
+            label: "Grilla de productos",
+            description: "Cuántos productos se muestran por fila en móvil y escritorio.",
+            icon: "Grid",
+            fields: [
+              {
+                key: "grid.products.mobile",
+                type: "select",
+                label: "Columnas en móvil",
+                options: [
+                  { value: "1", label: "1 columna" },
+                  { value: "2", label: "2 columnas" },
+                ],
+                defaultValue: "2",
+              },
+              {
+                key: "grid.products.desktop",
+                type: "select",
+                label: "Columnas en escritorio",
+                options: [
+                  { value: "3", label: "3 columnas" },
+                  { value: "4", label: "4 columnas" },
+                  { value: "5", label: "5 columnas" },
+                ],
+                defaultValue: "4",
+              },
+            ],
+          },
+        ],
+      },
+
+      // Tab 3 — Secciones
+      {
+        id: "secciones",
+        label: "Secciones",
+        icon: "Layers",
+        sections: [
+          {
+            id: "visibilidad",
+            label: "Visibilidad de secciones",
+            description: "Elegí qué secciones aparecen en tu tienda.",
+            icon: "Eye",
+            fields: [
+              {
+                key: "sections[0].visible",
+                type: "boolean",
+                label: "Banner principal",
+                defaultValue: true,
+              },
+              {
+                key: "sections[1].visible",
+                type: "boolean",
+                label: "Categorías",
+                defaultValue: true,
+              },
+              {
+                key: "sections[2].visible",
+                type: "boolean",
+                label: "Grilla de productos",
+                defaultValue: true,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+};

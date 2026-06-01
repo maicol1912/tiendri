@@ -1,0 +1,77 @@
+"use client";
+
+// Beauty Soft Template — ProductDetailShellRoute
+// Client boundary. Reads product data + wires cart + navigation.
+
+import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
+import { ProductDetailPage } from "./ProductDetailPage";
+import { useCart } from "../context/CartContext";
+import { useTemplateNav } from "../hooks/useTemplateNav";
+import type { BeautySoftProduct } from "../types";
+import type { StoreInfo } from "@/types/store";
+
+interface ProductDetailShellRouteProps {
+  store: StoreInfo;
+  product: BeautySoftProduct;
+  currencySymbol?: string;
+}
+
+export function ProductDetailShellRoute({
+  store: _store,
+  product,
+  currencySymbol = "$",
+}: ProductDetailShellRouteProps) {
+  const nav = useTemplateNav();
+  const { addItem } = useCart();
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleAddToCart = useCallback(() => {
+    if (!product.inStock) return;
+
+    const primaryImage = product.images[0]?.url ?? null;
+
+    addItem({
+      productId: product.id,
+      productName: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      imageUrl: primaryImage,
+      description: product.description,
+      variantLabel: null,
+      quantity,
+    });
+
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
+    setQuantity(1);
+  }, [product, quantity, addItem]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <ProductDetailPage
+        product={product}
+        activeImageIndex={activeImageIndex}
+        quantity={quantity}
+        isAdded={isAdded}
+        isFavorite={isFavorite}
+        currencySymbol={currencySymbol}
+        onBack={nav.goHome}
+        onCartClick={nav.goCart}
+        onImageIndexChange={setActiveImageIndex}
+        onQuantityIncrement={() => setQuantity((prev) => prev + 1)}
+        onQuantityDecrement={() => setQuantity((prev) => Math.max(1, prev - 1))}
+        onAddToCart={handleAddToCart}
+        onFavoriteToggle={() => setIsFavorite((prev) => !prev)}
+      />
+    </motion.div>
+  );
+}

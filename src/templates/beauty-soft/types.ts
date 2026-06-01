@@ -1,0 +1,57 @@
+// Beauty Soft Template — Shared TypeScript Types
+// Template-specific types adapted for tiendri_v2 architecture.
+
+import type { StoreInfo as SharedStoreInfo } from "@/types/store";
+
+// Re-export shared StoreInfo
+export type { StoreInfo } from "@/types/store";
+
+// ── Template-specific product type (aligned with shared StorefrontProduct) ────
+
+export interface BeautySoftProduct {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  originalPrice?: number | null;
+  discount?: number | null;
+  images: Array<{ url: string; sort_order: number }>;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+  inStock: boolean;
+  inWishlist?: boolean;
+  categoryId?: string;
+}
+
+// ── Category type ─────────────────────────────────────────────────────────────
+
+export interface BeautySoftCategory {
+  id: string;
+  name: string;
+  imageUrl?: string;
+}
+
+// ── Hero banner data ──────────────────────────────────────────────────────────
+
+export interface HeroBannerData {
+  title: string;
+  discountText: string;
+  ctaText: string;
+  imageUrl?: string;
+}
+
+// ── Navigation tab type ───────────────────────────────────────────────────────
+
+export type NavTab = "home" | "cart" | "favorites" | "profile";
+
+// ── Cart item (for checkout) ──────────────────────────────────────────────────
+
+export interface CheckoutOrderItem {
+  productId: string;
+  productName: string;
+  price: number;
+  imageUrl: string | null;
+  variantLabel?: string;
+  quantity: number;
+}
