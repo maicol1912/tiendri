@@ -34,6 +34,19 @@ import {
   mockDetailProduct as beautySoftMockDetailProduct,
 } from "@/templates/beauty-soft/mock/data";
 import { ProductDetailShellRoute as BeautySoftProductDetailShellRoute } from "@/templates/beauty-soft/components/ProductDetailShellRoute";
+import {
+  mockStore as beautyElegantMockStore,
+  mockProducts as beautyElegantMockProducts,
+  mockDetailProduct as beautyElegantMockDetailProduct,
+} from "@/templates/beauty-elegant/mock/data";
+import { ProductDetailShellRoute as BeautyElegantProductDetailShellRoute } from "@/templates/beauty-elegant/components/ProductDetailShellRoute";
+import {
+  mockStore as decorWarmMockStore,
+  mockProducts as decorWarmMockProducts,
+  mockCategories as decorWarmMockCategories,
+  mockDetailProduct as decorWarmMockDetailProduct,
+} from "@/templates/decor-warm/mock/data";
+import { ProductDetailShellRoute as DecorWarmProductDetailShellRoute } from "@/templates/decor-warm/components/ProductDetailShellRoute";
 
 interface ProductDetailPageProps {
   params: Promise<{ templateName: string; productId: string }>;
@@ -162,6 +175,48 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
       <BeautySoftProductDetailShellRoute
         store={beautySoftMockStore}
         product={product}
+      />
+    );
+  }
+
+  // ── Beauty Elegant ────────────────────────────────────────────────────────────
+  if (templateName === "beauty-elegant") {
+    const product =
+      beautyElegantMockProducts.find((p) => p.id === productId || p.slug === productId) ??
+      (productId === beautyElegantMockDetailProduct.id || productId === beautyElegantMockDetailProduct.slug
+        ? beautyElegantMockDetailProduct
+        : null);
+
+    if (!product) notFound();
+
+    const relatedProducts = beautyElegantMockProducts
+      .filter((p) => p.id !== product.id)
+      .slice(0, 4);
+
+    return (
+      <BeautyElegantProductDetailShellRoute
+        store={beautyElegantMockStore}
+        product={product}
+        relatedProducts={relatedProducts}
+      />
+    );
+  }
+
+  // ── Decor Warm ───────────────────────────────────────────────────────────────
+  if (templateName === "decor-warm") {
+    const product =
+      decorWarmMockProducts.find((p) => p.id === productId || p.slug === productId) ??
+      (productId === decorWarmMockDetailProduct.id || productId === decorWarmMockDetailProduct.slug
+        ? decorWarmMockDetailProduct
+        : null);
+
+    if (!product) notFound();
+
+    return (
+      <DecorWarmProductDetailShellRoute
+        store={decorWarmMockStore}
+        product={product}
+        categories={decorWarmMockCategories}
       />
     );
   }

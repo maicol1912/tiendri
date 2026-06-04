@@ -12,6 +12,10 @@ import { CartShellRoute as ElectronicsClassicCartShellRoute } from "@/templates/
 import { CartShellRoute as FurnitureDarkCartShellRoute } from "@/templates/furniture-dark/components/CartShellRoute";
 import { mockStore as beautySoftMockStore } from "@/templates/beauty-soft/mock/data";
 import { CartShellRoute as BeautySoftCartShellRoute } from "@/templates/beauty-soft/components/CartShellRoute";
+import { mockStore as beautyElegantMockStore } from "@/templates/beauty-elegant/mock/data";
+import { CartShellRoute as BeautyElegantCartShellRoute } from "@/templates/beauty-elegant/components/CartShellRoute";
+import { mockStore as decorWarmMockStore } from "@/templates/decor-warm/mock/data";
+import { CartShellRoute as DecorWarmCartShellRoute } from "@/templates/decor-warm/components/CartShellRoute";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -42,6 +46,14 @@ export default async function CarritoPage({ params }: CarritoPageProps) {
 
   if (templateName === "beauty-soft") {
     return <BeautySoftCartShellRoute store={beautySoftMockStore} />;
+  }
+
+  if (templateName === "beauty-elegant") {
+    return <BeautyElegantCartShellRoute store={beautyElegantMockStore} />;
+  }
+
+  if (templateName === "decor-warm") {
+    return <DecorWarmCartShellRoute store={decorWarmMockStore} />;
   }
 
   return <TechPremiumCartShellRoute store={tpMockStore} />;

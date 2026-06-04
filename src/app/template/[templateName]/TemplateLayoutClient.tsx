@@ -58,11 +58,21 @@ import { beautySoftConfig } from "@/templates/beauty-soft/config";
 import { beautySoftPalettes } from "@/templates/beauty-soft/palettes";
 import type { BeautySoftConfig } from "@/templates/beauty-soft/config";
 
+import { CartProvider as BeautyElegantCartProvider } from "@/templates/beauty-elegant/context/CartContext";
+import { beautyElegantConfig } from "@/templates/beauty-elegant/config";
+import { beautyElegantPalettes } from "@/templates/beauty-elegant/palettes";
+import type { BeautyElegantConfig } from "@/templates/beauty-elegant/config";
+
+import { CartProvider as DecorWarmCartProvider } from "@/templates/decor-warm/context/CartContext";
+import { decorWarmConfig } from "@/templates/decor-warm/config";
+import { decorWarmPalettes } from "@/templates/decor-warm/palettes";
+import type { DecorWarmConfig } from "@/templates/decor-warm/config";
+
 import type { ResolvedStoreConfig } from "@/types/templates";
 
 // ── Generic config type ───────────────────────────────────────────────────────
 
-type AnyTemplateConfig = TechPremiumConfig | FashionConfig | PetsModernConfig | ElectronicsClassicConfig | FurnitureDarkConfig | BeautySoftConfig;
+type AnyTemplateConfig = TechPremiumConfig | FashionConfig | PetsModernConfig | ElectronicsClassicConfig | FurnitureDarkConfig | BeautySoftConfig | BeautyElegantConfig | DecorWarmConfig;
 
 // ── Context — exposes configOverride to all page children ─────────────────────
 // The context stores the config as `unknown` so the provider is template-agnostic.
@@ -657,6 +667,170 @@ const BEAUTY_SOFT_SECTION_LABELS: CustomizerSectionLabel[] = [
   { id: "products", label: "Productos" },
 ];
 
+// ── Beauty Elegant field metadata ────────────────────────────────────────────
+
+const BEAUTY_ELEGANT_COLOR_FIELDS: CustomizerColorField[] = [
+  { key: "primary", label: "Color principal (púrpura)" },
+  { key: "background", label: "Fondo de la página" },
+  { key: "headerBg", label: "Fondo del encabezado" },
+  { key: "cardBg", label: "Fondo de tarjetas" },
+  { key: "sectionBg", label: "Fondo de secciones" },
+  { key: "buttonBg", label: "Color de botones" },
+  { key: "buttonText", label: "Texto de botones" },
+  { key: "textPrimary", label: "Texto principal" },
+  { key: "textMuted", label: "Texto secundario" },
+  { key: "border", label: "Color de bordes" },
+];
+
+const BEAUTY_ELEGANT_GRID_FIELDS: CustomizerGridField[] = [
+  {
+    key: "products",
+    mobileLabel: "Productos por fila (celular)",
+    desktopLabel: "Productos por fila (computador)",
+  },
+  {
+    key: "categories",
+    mobileLabel: "Categorías por fila (celular)",
+    desktopLabel: "Categorías por fila (computador)",
+  },
+  {
+    key: "listing",
+    mobileLabel: "Catálogo por fila (celular)",
+    desktopLabel: "Catálogo por fila (computador)",
+  },
+  {
+    key: "search",
+    mobileLabel: "Búsqueda por fila (celular)",
+    desktopLabel: "Búsqueda por fila (computador)",
+  },
+];
+
+const BEAUTY_ELEGANT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
+  {
+    key: "cardStyle",
+    label: "Estilo de tarjetas",
+    options: [
+      { value: "flat", label: "Plano" },
+      { value: "shadow", label: "Con sombra" },
+      { value: "bordered", label: "Con borde" },
+      { value: "elevated", label: "Elevado" },
+    ],
+  },
+  {
+    key: "cardHoverEffect",
+    label: "Efecto al pasar el mouse",
+    options: [
+      { value: "none", label: "Ninguno" },
+      { value: "lift", label: "Elevar" },
+      { value: "scale", label: "Agrandar" },
+      { value: "glow", label: "Brillar" },
+    ],
+  },
+  {
+    key: "cardImageRatio",
+    label: "Forma de las imágenes",
+    options: [
+      { value: "portrait", label: "Vertical" },
+      { value: "square", label: "Cuadrada" },
+      { value: "wide", label: "Horizontal" },
+    ],
+  },
+  {
+    key: "headerStyle",
+    label: "Estilo del encabezado",
+    options: [
+      { value: "standard", label: "Estándar" },
+      { value: "centered", label: "Centrado" },
+      { value: "minimal", label: "Mínimo" },
+    ],
+  },
+  {
+    key: "footerStyle",
+    label: "Estilo del pie de página",
+    options: [
+      { value: "minimal", label: "Mínimo" },
+      { value: "columns", label: "En columnas" },
+      { value: "centered", label: "Centrado" },
+    ],
+  },
+];
+
+const BEAUTY_ELEGANT_SECTION_LABELS: CustomizerSectionLabel[] = [
+  { id: "hero", label: "Bienvenida" },
+  { id: "categories", label: "Categorías" },
+  { id: "products", label: "Productos" },
+];
+
+// ── Decor Warm field metadata ─────────────────────────────────────────────────
+
+const DECOR_WARM_COLOR_FIELDS: CustomizerColorField[] = [
+  { key: "primary", label: "Color principal (terracota)" },
+  { key: "background", label: "Fondo de la página" },
+  { key: "headerBg", label: "Fondo del encabezado" },
+  { key: "surface", label: "Fondo linen (imágenes)" },
+  { key: "peach", label: "Color melocotón (acentos)" },
+  { key: "buttonBg", label: "Color de botones" },
+  { key: "textSecondary", label: "Texto secundario" },
+  { key: "textMuted", label: "Texto suave" },
+  { key: "border", label: "Color de bordes" },
+];
+
+const DECOR_WARM_GRID_FIELDS: CustomizerGridField[] = [
+  {
+    key: "products",
+    mobileLabel: "Productos por fila (celular)",
+    desktopLabel: "Productos por fila (computador)",
+  },
+  {
+    key: "listing",
+    mobileLabel: "Catálogo por fila (celular)",
+    desktopLabel: "Catálogo por fila (computador)",
+  },
+  {
+    key: "search",
+    mobileLabel: "Búsqueda por fila (celular)",
+    desktopLabel: "Búsqueda por fila (computador)",
+  },
+];
+
+const DECOR_WARM_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
+  {
+    key: "cardStyle",
+    label: "Estilo de tarjetas",
+    options: [
+      { value: "flat", label: "Plano" },
+      { value: "shadow", label: "Con sombra" },
+      { value: "bordered", label: "Con borde" },
+      { value: "elevated", label: "Elevado" },
+    ],
+  },
+  {
+    key: "cardHoverEffect",
+    label: "Efecto al pasar el mouse",
+    options: [
+      { value: "none", label: "Ninguno" },
+      { value: "lift", label: "Elevar" },
+      { value: "scale", label: "Agrandar" },
+    ],
+  },
+  {
+    key: "cardImageRatio",
+    label: "Forma de las imágenes",
+    options: [
+      { value: "square", label: "Cuadrada" },
+      { value: "portrait", label: "Vertical" },
+      { value: "wide", label: "Horizontal" },
+    ],
+  },
+];
+
+const DECOR_WARM_SECTION_LABELS: CustomizerSectionLabel[] = [
+  { id: "hero", label: "Banner principal" },
+  { id: "categories", label: "Categorías" },
+  { id: "best-seller", label: "Más vendido" },
+  { id: "products", label: "Productos" },
+];
+
 // ── Per-template static config registry ───────────────────────────────────────
 
 interface TemplateUIConfig {
@@ -724,6 +898,24 @@ const TEMPLATE_UI_CONFIGS: Record<string, TemplateUIConfig> = {
     sectionLabels: BEAUTY_SOFT_SECTION_LABELS,
     palettes: beautySoftPalettes as CustomizerPalette[],
   },
+  "beauty-elegant": {
+    defaultConfig: beautyElegantConfig,
+    label: "Beauty Elegant",
+    colorFields: BEAUTY_ELEGANT_COLOR_FIELDS,
+    gridFields: BEAUTY_ELEGANT_GRID_FIELDS,
+    layoutOptions: BEAUTY_ELEGANT_LAYOUT_OPTIONS,
+    sectionLabels: BEAUTY_ELEGANT_SECTION_LABELS,
+    palettes: beautyElegantPalettes as CustomizerPalette[],
+  },
+  "decor-warm": {
+    defaultConfig: decorWarmConfig,
+    label: "Decor Warm",
+    colorFields: DECOR_WARM_COLOR_FIELDS,
+    gridFields: DECOR_WARM_GRID_FIELDS,
+    layoutOptions: DECOR_WARM_LAYOUT_OPTIONS,
+    sectionLabels: DECOR_WARM_SECTION_LABELS,
+    palettes: decorWarmPalettes as CustomizerPalette[],
+  },
 };
 
 // ── Sliders icon (inline SVG) ─────────────────────────────────────────────────
@@ -777,6 +969,12 @@ function CartWrapper({ templateName, storeSlug, children }: CartWrapperProps) {
   }
   if (templateName === "beauty-soft") {
     return <BeautySoftCartProvider slug={storeSlug}>{children}</BeautySoftCartProvider>;
+  }
+  if (templateName === "beauty-elegant") {
+    return <BeautyElegantCartProvider slug={storeSlug}>{children}</BeautyElegantCartProvider>;
+  }
+  if (templateName === "decor-warm") {
+    return <DecorWarmCartProvider slug={storeSlug}>{children}</DecorWarmCartProvider>;
   }
   // Default: tech-premium (and any future template that hasn't migrated yet)
   return <TechPremiumCartProvider slug={storeSlug}>{children}</TechPremiumCartProvider>;

@@ -12,6 +12,10 @@ import { CheckoutShellRoute as ElectronicsClassicCheckoutShellRoute } from "@/te
 import { CheckoutShellRoute as FurnitureDarkCheckoutShellRoute } from "@/templates/furniture-dark/components/CheckoutShellRoute";
 import { mockStore as beautySoftMockStore } from "@/templates/beauty-soft/mock/data";
 import { CheckoutShellRoute as BeautySoftCheckoutShellRoute } from "@/templates/beauty-soft/components/CheckoutShellRoute";
+import { mockStore as beautyElegantMockStore } from "@/templates/beauty-elegant/mock/data";
+import { CheckoutShellRoute as BeautyElegantCheckoutShellRoute } from "@/templates/beauty-elegant/components/CheckoutShellRoute";
+import { mockStore as decorWarmMockStore } from "@/templates/decor-warm/mock/data";
+import { CheckoutShellRoute as DecorWarmCheckoutShellRoute } from "@/templates/decor-warm/components/CheckoutShellRoute";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -42,6 +46,14 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
 
   if (templateName === "beauty-soft") {
     return <BeautySoftCheckoutShellRoute store={beautySoftMockStore} />;
+  }
+
+  if (templateName === "beauty-elegant") {
+    return <BeautyElegantCheckoutShellRoute store={beautyElegantMockStore} />;
+  }
+
+  if (templateName === "decor-warm") {
+    return <DecorWarmCheckoutShellRoute store={decorWarmMockStore} />;
   }
 
   return <TechPremiumCheckoutShellRoute store={tpMockStore} mode="preview" />;

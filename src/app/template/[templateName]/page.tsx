@@ -36,6 +36,21 @@ import {
   mockHeroBanner as beautySoftMockHeroBanner,
 } from "@/templates/beauty-soft/mock/data";
 import { HomeShell as BeautySoftHomeShell } from "@/templates/beauty-soft/components/HomeShell";
+import {
+  mockStore as beautyElegantMockStore,
+  mockCategories as beautyElegantMockCategories,
+  mockProducts as beautyElegantMockProducts,
+} from "@/templates/beauty-elegant/mock/data";
+import { HomeShell as BeautyElegantHomeShell } from "@/templates/beauty-elegant/components/HomeShell";
+import {
+  mockStore as decorWarmMockStore,
+  mockCategoryIcons as decorWarmMockCategoryIcons,
+  mockCategories as decorWarmMockCategories,
+  mockProducts as decorWarmMockProducts,
+  mockPromoSlides as decorWarmMockPromoSlides,
+  mockBestSellers as decorWarmMockBestSellers,
+} from "@/templates/decor-warm/mock/data";
+import { HomeShell as DecorWarmHomeShell } from "@/templates/decor-warm/components/HomeShell";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -80,6 +95,16 @@ export async function generateMetadata({
       title: "Beauty Soft — Vista previa | Tiendri",
       description:
         "Beauty Soft: la plantilla ideal para tiendas de belleza, cosméticos y cuidado personal. Diseño suave y femenino.",
+    },
+    "beauty-elegant": {
+      title: "Beauty Elegant — Vista previa | Tiendri",
+      description:
+        "Beauty Elegant: la plantilla para tiendas de belleza y cosméticos con diseño oscuro premium y acentos violeta.",
+    },
+    "decor-warm": {
+      title: "Decor Warm — Vista previa | Tiendri",
+      description:
+        "Decor Warm: la plantilla ideal para tiendas de muebles, decoración y hogar con estética cálida y acogedora.",
     },
   };
 
@@ -171,6 +196,31 @@ export default async function TemplatePreviewPage({
         categories={beautySoftMockCategories}
         products={beautySoftMockProducts}
         heroBanner={beautySoftMockHeroBanner}
+      />
+    );
+  }
+
+  // beauty-elegant: render beauty elegant home shell
+  if (templateName === "beauty-elegant") {
+    return (
+      <BeautyElegantHomeShell
+        store={beautyElegantMockStore}
+        categories={beautyElegantMockCategories}
+        products={beautyElegantMockProducts}
+      />
+    );
+  }
+
+  // decor-warm: render decor warm home shell
+  if (templateName === "decor-warm") {
+    return (
+      <DecorWarmHomeShell
+        store={decorWarmMockStore}
+        categoryIcons={decorWarmMockCategoryIcons}
+        categories={decorWarmMockCategories}
+        products={decorWarmMockProducts}
+        promoSlides={decorWarmMockPromoSlides}
+        bestSellers={decorWarmMockBestSellers}
       />
     );
   }

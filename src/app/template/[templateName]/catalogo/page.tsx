@@ -26,6 +26,18 @@ import {
   mockCategories as beautySoftMockCategories,
 } from "@/templates/beauty-soft/mock/data";
 import { ListingShellRoute as BeautySoftListingShellRoute } from "@/templates/beauty-soft/components/ListingShellRoute";
+import {
+  mockStore as beautyElegantMockStore,
+  mockProducts as beautyElegantMockProducts,
+  mockCategories as beautyElegantMockCategories,
+} from "@/templates/beauty-elegant/mock/data";
+import { ListingShellRoute as BeautyElegantListingShellRoute } from "@/templates/beauty-elegant/components/ListingShellRoute";
+import {
+  mockStore as decorWarmMockStore,
+  mockCategories as decorWarmMockCategories,
+  mockProducts as decorWarmMockProducts,
+} from "@/templates/decor-warm/mock/data";
+import { ListingShellRoute as DecorWarmListingShellRoute } from "@/templates/decor-warm/components/ListingShellRoute";
 
 interface CatalogoPageProps {
   params: Promise<{ templateName: string }>;
@@ -63,6 +75,28 @@ export default async function CatalogoPage({ params }: CatalogoPageProps) {
         store={beautySoftMockStore}
         categories={beautySoftMockCategories}
         products={beautySoftMockProducts}
+      />
+    );
+  }
+
+  // ── Beauty Elegant ────────────────────────────────────────────────────────────
+  if (templateName === "beauty-elegant") {
+    return (
+      <BeautyElegantListingShellRoute
+        store={beautyElegantMockStore}
+        categories={beautyElegantMockCategories}
+        products={beautyElegantMockProducts}
+      />
+    );
+  }
+
+  // ── Decor Warm ───────────────────────────────────────────────────────────────
+  if (templateName === "decor-warm") {
+    return (
+      <DecorWarmListingShellRoute
+        store={decorWarmMockStore}
+        categories={decorWarmMockCategories}
+        products={decorWarmMockProducts}
       />
     );
   }

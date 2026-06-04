@@ -7,6 +7,8 @@ export const templateRegistry = {
   "electronics-classic": () => import("./electronics-classic"),
   "furniture-dark": () => import("./furniture-dark"),
   "beauty-soft": () => import("./beauty-soft"),
+  "beauty-elegant": () => import("./beauty-elegant"),
+  "decor-warm": () => import("./decor-warm"),
 };
 
 export type TemplateId = keyof typeof templateRegistry;

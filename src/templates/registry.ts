@@ -45,6 +45,14 @@ export async function getTemplateSchema(
       const { beautySoftConfigSchema } = await import("./beauty-soft/config-schema");
       return beautySoftConfigSchema;
     }
+    case "beauty-elegant": {
+      const { beautyElegantConfigSchema } = await import("./beauty-elegant/config-schema");
+      return beautyElegantConfigSchema;
+    }
+    case "decor-warm": {
+      const { decorWarmConfigSchema } = await import("./decor-warm/config-schema");
+      return decorWarmConfigSchema;
+    }
     default:
       return null;
   }
@@ -62,6 +70,8 @@ import { petsModernConfigSchema } from "./pets-modern/config-schema";
 import { electronicsClassicConfigSchema } from "./electronics-classic/config-schema";
 import { furnitureDarkConfigSchema } from "./furniture-dark/config-schema";
 import { beautySoftConfigSchema } from "./beauty-soft/config-schema";
+import { beautyElegantConfigSchema } from "./beauty-elegant/config-schema";
+import { decorWarmConfigSchema } from "./decor-warm/config-schema";
 
 const syncRegistry: Record<string, TemplateConfigSchema> = {
   "tech-premium": techPremiumConfigSchema,
@@ -70,6 +80,8 @@ const syncRegistry: Record<string, TemplateConfigSchema> = {
   "electronics-classic": electronicsClassicConfigSchema,
   "furniture-dark": furnitureDarkConfigSchema,
   "beauty-soft": beautySoftConfigSchema,
+  "beauty-elegant": beautyElegantConfigSchema,
+  "decor-warm": decorWarmConfigSchema,
 };
 
 /**

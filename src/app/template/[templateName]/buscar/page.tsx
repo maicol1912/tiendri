@@ -26,6 +26,16 @@ import {
   mockProducts as beautySoftMockProducts,
 } from "@/templates/beauty-soft/mock/data";
 import { SearchShellRoute as BeautySoftSearchShellRoute } from "@/templates/beauty-soft/components/SearchShellRoute";
+import {
+  mockStore as beautyElegantMockStore,
+  mockProducts as beautyElegantMockProducts,
+} from "@/templates/beauty-elegant/mock/data";
+import { SearchShellRoute as BeautyElegantSearchShellRoute } from "@/templates/beauty-elegant/components/SearchShellRoute";
+import {
+  mockStore as decorWarmMockStore,
+  mockProducts as decorWarmMockProducts,
+} from "@/templates/decor-warm/mock/data";
+import { SearchShellRoute as DecorWarmSearchShellRoute } from "@/templates/decor-warm/components/SearchShellRoute";
 
 export const metadata: Metadata = {
   title: "Buscar",
@@ -70,6 +80,24 @@ export default async function BuscarPage({ params }: BuscarPageProps) {
       <BeautySoftSearchShellRoute
         store={beautySoftMockStore}
         products={beautySoftMockProducts}
+      />
+    );
+  }
+
+  if (templateName === "beauty-elegant") {
+    return (
+      <BeautyElegantSearchShellRoute
+        store={beautyElegantMockStore}
+        products={beautyElegantMockProducts}
+      />
+    );
+  }
+
+  if (templateName === "decor-warm") {
+    return (
+      <DecorWarmSearchShellRoute
+        store={decorWarmMockStore}
+        products={decorWarmMockProducts}
       />
     );
   }
