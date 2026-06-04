@@ -1,0 +1,336 @@
+"use client";
+
+// Beauty Elegant Template — Product Detail Page
+// Full-screen product image background, purple gradient overlay,
+// glassmorphic info card at bottom (mobile) / right side (desktop).
+
+import { useState, useCallback } from "react";
+import Image from "next/image";
+import { ChevronLeft } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import { ProductCard } from "./ProductCard";
+import type { BeautyElegantProduct, CartItem } from "../types";
+import type { StoreInfo } from "../types";
+
+interface ProductDetailPageProps {
+  product: BeautyElegantProduct;
+  store: StoreInfo;
+  currencySymbol?: string;
+  relatedProducts?: BeautyElegantProduct[];
+  onBack?: () => void;
+}
+
+function formatPrice(price: number, symbol: string = "$"): string {
+  return `${symbol} ${new Intl.NumberFormat("en-US").format(price)}`;
+}
+
+export function ProductDetailPage({
+  product,
+  store,
+  currencySymbol = "$",
+  relatedProducts = [],
+  onBack,
+}: ProductDetailPageProps) {
+  const { addItem } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
+
+  const primaryImage = product.images[0]?.url ?? null;
+
+  const handleAddToCart = useCallback(() => {
+    if (!product.inStock) return;
+
+    const cartItem: CartItem = {
+      productId: product.id,
+      productName: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      imageUrl: primaryImage,
+      description: product.description,
+      quantity: 1,
+    };
+
+    addItem(cartItem);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
+  }, [product, addItem, primaryImage]);
+
+  const subtitleLabel = product.subtitle ?? "Cuidado Premium";
+  const healthFacts = product.healthFacts ?? "Dermatológicamente probado";
+
+  // ── Glassmorphic info card content (shared between mobile and desktop) ─────
+  const InfoCardContent = (
+    <div
+      style={{
+        backdropFilter: "blur(50px)",
+        WebkitBackdropFilter: "blur(50px)",
+        backgroundColor: "var(--t-detail-overlay-bg)",
+        borderRadius: "25px",
+        padding: "20px",
+      }}
+    >
+      {/* Product name */}
+      <h1
+        className="text-[21px] font-medium text-white"
+        style={{ lineHeight: "1.3", margin: "0 0 16px 0" }}
+      >
+        {product.name}
+      </h1>
+
+      {/* Tags row: category pill + stock status */}
+      <div className="flex items-center justify-between mb-5">
+        <span
+          className="text-xs font-normal text-white px-4 py-1"
+          style={{
+            backgroundColor: "rgba(85, 85, 85, 0.33)",
+            backdropFilter: "blur(84px)",
+            WebkitBackdropFilter: "blur(84px)",
+            borderRadius: "8px",
+          }}
+        >
+          {product.categoryId ?? "Belleza"}
+        </span>
+
+        {product.inStock && (
+          <span className="text-sm font-normal" style={{ color: "#4ADE80" }}>
+            En stock
+          </span>
+        )}
+      </div>
+
+      {/* Details inner card */}
+      <div
+        className="mb-5"
+        style={{
+          backgroundColor: "var(--t-detail-inner-bg)",
+          backdropFilter: "blur(84px)",
+          WebkitBackdropFilter: "blur(84px)",
+          borderRadius: "17px",
+          padding: "20px",
+        }}
+      >
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-bold text-white">{subtitleLabel}</span>
+          <span className="text-xs font-medium text-white line-clamp-1 max-w-[140px] text-right">
+            {product.name}
+          </span>
+        </div>
+
+        <div className="flex items-start justify-between mt-5">
+          <span className="text-sm font-bold text-white flex-shrink-0">
+            Ingredientes
+          </span>
+          <span
+            className="text-xs font-normal text-white text-right max-w-[140px]"
+            style={{ lineHeight: "1.5" }}
+          >
+            {healthFacts}
+          </span>
+        </div>
+      </div>
+
+      {/* Price + Add to cart */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-[11px] font-normal" style={{ color: "rgba(255,255,255,0.6)", margin: 0 }}>
+            Precio
+          </p>
+          <p className="text-lg font-bold text-white" style={{ margin: "2px 0 0 0" }}>
+            {formatPrice(product.price, currencySymbol)}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          disabled={!product.inStock}
+          onClick={handleAddToCart}
+          className="flex-shrink-0 text-sm font-semibold text-white px-10 py-4 transition-colors duration-200"
+          style={{
+            backgroundColor: isAdded
+              ? "#22C55E"
+              : product.inStock
+                ? "var(--t-primary)"
+                : "var(--t-text-muted)",
+            border: "none",
+            borderRadius: "var(--t-radius-button)",
+            cursor: product.inStock ? "pointer" : "not-allowed",
+          }}
+        >
+          {!product.inStock
+            ? "Agotado"
+            : isAdded
+              ? "Agregado ✓"
+              : "Agregar"}
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: "#000" }}>
+
+      {/* ── MOBILE LAYOUT ────────────────────────────────────────────────── */}
+      <div className="md:hidden relative min-h-screen">
+        {/* Full-screen background image */}
+        <div className="absolute inset-0">
+          {primaryImage ? (
+            <Image
+              src={primaryImage}
+              alt={product.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          ) : (
+            <div className="w-full h-full" style={{ backgroundColor: "var(--t-detail-inner-bg)" }} />
+          )}
+        </div>
+
+        {/* Purple gradient overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent 0%, rgba(88,28,135,0.3) 40%, rgba(59,7,100,0.9) 100%)",
+          }}
+        />
+
+        {/* Back button */}
+        <button
+          type="button"
+          onClick={onBack}
+          className="absolute top-6 left-6 z-10 flex items-center justify-center"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            backgroundColor: "var(--t-back-button-bg)",
+            border: "none",
+            cursor: "pointer",
+          }}
+          aria-label="Volver"
+        >
+          <ChevronLeft size={24} strokeWidth={2} color="#FFFFFF" />
+        </button>
+
+        {/* Info card — anchored to bottom */}
+        <div
+          className="relative z-10 flex flex-col justify-end"
+          style={{ minHeight: "100vh", padding: "0 20px 32px 20px" }}
+        >
+          {InfoCardContent}
+        </div>
+      </div>
+
+      {/* ── DESKTOP LAYOUT ───────────────────────────────────────────────── */}
+      <div className="hidden md:block">
+        <div className="relative min-h-screen flex">
+          {/* Left: image + gradient */}
+          <div className="relative w-1/2 overflow-hidden">
+            <div className="absolute inset-0">
+              {primaryImage ? (
+                <Image
+                  src={primaryImage}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full" style={{ backgroundColor: "var(--t-detail-inner-bg)" }} />
+              )}
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(59,7,100,0.6) 0%, transparent 40%, transparent 60%, rgba(59,7,100,0.8) 100%)",
+              }}
+            />
+            <button
+              type="button"
+              onClick={onBack}
+              className="absolute top-8 left-8 z-10 flex items-center justify-center"
+              style={{
+                width: "44px",
+                height: "44px",
+                borderRadius: "50%",
+                backgroundColor: "var(--t-back-button-bg)",
+                border: "none",
+                cursor: "pointer",
+              }}
+              aria-label="Volver"
+            >
+              <ChevronLeft size={24} strokeWidth={2} color="#FFFFFF" />
+            </button>
+          </div>
+
+          {/* Right: deep purple + info card */}
+          <div
+            className="relative w-1/2 flex flex-col justify-center"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(59,7,100,0.95) 0%, rgba(30,0,60,0.98) 100%)",
+              padding: "64px 48px",
+            }}
+          >
+            {InfoCardContent}
+          </div>
+        </div>
+
+        {/* También te puede gustar */}
+        {relatedProducts.length > 0 && (
+          <section
+            className="px-12 pt-12 pb-16"
+            style={{ backgroundColor: "var(--t-review-bg)" }}
+            aria-labelledby="related-heading"
+          >
+            <div className="max-w-7xl mx-auto">
+              <h2
+                id="related-heading"
+                className="text-xl font-bold mb-6"
+                style={{ color: "var(--t-text-primary)" }}
+              >
+                También te puede gustar
+              </h2>
+              <div className="grid lg:grid-cols-4 gap-6">
+                {relatedProducts.slice(0, 4).map((p) => (
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    currencySymbol={currencySymbol}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* Mobile: También te puede gustar */}
+      {relatedProducts.length > 0 && (
+        <section
+          className="md:hidden px-5 pt-8 pb-12"
+          style={{ backgroundColor: "var(--t-review-bg)" }}
+          aria-labelledby="related-heading-mobile"
+        >
+          <h2
+            id="related-heading-mobile"
+            className="text-lg font-bold mb-4"
+            style={{ color: "var(--t-text-primary)" }}
+          >
+            También te puede gustar
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            {relatedProducts.slice(0, 4).map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                currencySymbol={currencySymbol}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
