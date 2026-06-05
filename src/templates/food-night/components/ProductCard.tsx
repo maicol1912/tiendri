@@ -8,6 +8,8 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { hoverEffectClass, imageRatioClass, cardStyleClass } from "../utils/layout-classes";
+import { PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import type { PriceDisplay } from "@/types/templates";
 
 interface ProductCardProps {
   product: StorefrontProduct;
@@ -17,6 +19,7 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    priceDisplay?: PriceDisplay;
   };
   onClick?: () => void;
 }
@@ -40,6 +43,7 @@ export function ProductCard({
   const imageClass = imageRatioClass(effectiveRatio);
   const cardClass = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "none");
+  const priceConfig = PRICE_DISPLAY_MAP[layout?.priceDisplay ?? "standard"];
 
   return (
     <article
@@ -119,7 +123,7 @@ export function ProductCard({
         </p>
 
         <div className="flex items-center justify-between gap-1">
-          <span className="text-[14px] font-semibold" style={{ color: "var(--t-text-primary)" }}>
+          <span className={priceConfig.className} style={priceConfig.style}>
             {formatPrice(product.price, currencySymbol)}
           </span>
 

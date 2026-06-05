@@ -7,6 +7,7 @@
 
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 
 function formatPrice(amount: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -23,12 +24,18 @@ interface ProductCardProps {
   cardStyle?: string;
   hoverEffect?: string;
   imageRatio?: string;
+  badgeStyle?: string;
+  priceDisplay?: string;
 }
 
 export function ProductCard({
   product,
   onClick,
+  badgeStyle,
+  priceDisplay,
 }: ProductCardProps) {
+  const badgeClass = BADGE_STYLE_MAP[(badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "pill"];
+  const priceConfig = PRICE_DISPLAY_MAP[(priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
   const discountPct =
     product.originalPrice && product.originalPrice > product.price
       ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -70,7 +77,7 @@ export function ProductCard({
         {/* Discount badge */}
         {discountPct !== null && (
           <div
-            className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-xs font-bold leading-tight"
+            className={`absolute top-2 left-2 px-2 py-0.5 ${badgeClass} text-xs font-bold leading-tight`}
             style={{
               backgroundColor: "var(--t-badge-bg)",
               color: "var(--t-badge-text)",
@@ -101,11 +108,10 @@ export function ProductCard({
         {/* Price */}
         <div className="flex items-baseline gap-2">
           <span
+            className={priceConfig.className}
             style={{
               fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-              fontSize: "14px",
-              fontWeight: 700,
-              color: "var(--t-text-primary)",
+              ...priceConfig.style,
             }}
           >
             {formatPrice(product.price)}

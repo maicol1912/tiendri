@@ -9,12 +9,13 @@ import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import type { FurnitureStoreInfo, FurnitureNavTab } from "../types";
 import type { FurnitureCartItem } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 interface CartPageProps {
   store: FurnitureStoreInfo;
   items: FurnitureCartItem[];
   navLinks?: readonly { label: string; href: string }[];
-  layout?: { footerStyle?: string };
+  layout?: { footerStyle?: string; buttonStyle?: string };
   currencySymbol?: string;
   activeTab?: FurnitureNavTab;
   cartItemCount?: number;
@@ -105,6 +106,7 @@ export function CartPage({
             shipping={shipping}
             total={total}
             currencySymbol={currencySymbol}
+            buttonStyle={layout?.buttonStyle}
             onCheckout={onCheckout}
             onContinueShopping={onContinueShopping}
           />

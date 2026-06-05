@@ -9,6 +9,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 interface CartPageProps {
   store: StorefrontStore;
@@ -17,6 +18,7 @@ interface CartPageProps {
   layout?: {
     headerStyle?: string;
     footerStyle?: string;
+    buttonStyle?: string;
   };
   currencySymbol?: string;
   onNavigate?: (path: string) => void;
@@ -42,6 +44,7 @@ export function CartPage({
   onCheckout,
   onContinueShopping,
 }: CartPageProps) {
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
       <Header
@@ -83,11 +86,7 @@ export function CartPage({
             </div>
             <button
               onClick={onContinueShopping}
-              className="px-6 py-3 text-sm font-semibold rounded-[var(--t-radius-button)] transition-opacity"
-              style={{
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
-              }}
+              className={`px-6 py-3 text-sm font-semibold rounded-[var(--t-radius-button)] transition-opacity border ${btnClass}`}
             >
               Ver productos
             </button>

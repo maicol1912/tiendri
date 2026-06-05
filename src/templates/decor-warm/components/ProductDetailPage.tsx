@@ -8,6 +8,7 @@ import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { CategoryTabBar } from "./CategoryTabBar";
 import { QuantityStepper } from "./QuantityStepper";
 import type { DecorWarmProduct, DecorWarmCategory } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 
 interface ProductDetailPageProps {
@@ -18,6 +19,7 @@ interface ProductDetailPageProps {
   quantity?: number;
   isAdded?: boolean;
   currencySymbol?: string;
+  layout?: { buttonStyle?: string };
   onBack?: () => void;
   onCartClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
@@ -34,6 +36,7 @@ export function ProductDetailPage({
   quantity = 1,
   isAdded = false,
   currencySymbol = "$",
+  layout,
   onBack,
   onCartClick,
   onCategoryChange,
@@ -41,6 +44,7 @@ export function ProductDetailPage({
   onQuantityChange,
   onAddToCart,
 }: ProductDetailPageProps) {
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   const primaryImage = product.images[activeImageIndex]?.url
     ?? product.images[0]?.url
     ?? null;
@@ -278,15 +282,15 @@ export function ProductDetailPage({
               <button
                 type="button"
                 disabled={!product.available}
+                className={`border ${isAdded ? "" : btnClass}`}
                 style={{
                   flex: 1,
-                  backgroundColor: isAdded ? "#22C55E" : "var(--t-peach)",
-                  color: "#FFFFFF",
+                  backgroundColor: isAdded ? "#22C55E" : undefined,
+                  color: isAdded ? "#FFFFFF" : undefined,
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "15px",
                   fontWeight: 600,
                   borderRadius: "var(--t-radius-button)",
-                  border: "none",
                   cursor: product.available ? "pointer" : "not-allowed",
                   padding: "13px 24px",
                   transition: "background-color 0.2s ease",
@@ -324,15 +328,14 @@ export function ProductDetailPage({
         <button
           type="button"
           disabled={!product.available}
-          className="flex-1"
+          className={`flex-1 border ${isAdded ? "" : btnClass}`}
           style={{
-            backgroundColor: isAdded ? "#22C55E" : "var(--t-peach)",
-            color: "#FFFFFF",
+            backgroundColor: isAdded ? "#22C55E" : undefined,
+            color: isAdded ? "#FFFFFF" : undefined,
             fontFamily: "'Poppins', sans-serif",
             fontSize: "15px",
             fontWeight: 600,
             borderRadius: "var(--t-radius-button)",
-            border: "none",
             cursor: product.available ? "pointer" : "not-allowed",
             padding: "13px 0",
             transition: "background-color 0.2s ease",

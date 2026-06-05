@@ -12,7 +12,8 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { QuantityStepper } from "./QuantityStepper";
-import type { PetsClassicConfig } from "../config";
+import { BUTTON_STYLE_MAP, BADGE_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type {
   StoreInfo,
   PetsClassicProduct,
@@ -26,7 +27,7 @@ function formatPrice(price: number): string {
 interface ProductDetailPageProps {
   store: StoreInfo;
   product: PetsClassicProduct;
-  layout?: PetsClassicConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -55,6 +56,11 @@ export function ProductDetailPage({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isCartBtnPressed, setIsCartBtnPressed] = useState(false);
+
+  const buttonStyle = layout?.buttonStyle ?? "filled";
+  const badgeStyle = layout?.badgeStyle ?? "pill";
+  const addToCartBtnClass = BUTTON_STYLE_MAP[buttonStyle];
+  const discountBadgeClass = BADGE_STYLE_MAP[badgeStyle];
 
   const activeImage = product.images[activeImageIndex]?.url ?? null;
   const hasDiscount =
@@ -210,9 +216,8 @@ export function ProductDetailPage({
                 </div>
                 {hasDiscount && product.compare_at_price && (
                   <span
-                    className="inline-block px-2 py-0.5 mt-1"
+                    className={`inline-block px-2 py-0.5 mt-1 ${discountBadgeClass}`}
                     style={{
-                      borderRadius: 9999,
                       backgroundColor: "var(--t-badge-bg)",
                       color: "var(--t-badge-text)",
                       fontSize: "12px",
@@ -294,19 +299,25 @@ export function ProductDetailPage({
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex items-center gap-2 px-8 py-3.5 flex-1"
+                    className={`flex items-center gap-2 px-8 py-3.5 flex-1 ${addToCartBtnClass}`}
                     style={{
                       borderRadius: "var(--t-radius-button)",
-                      background: "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)",
-                      color: "var(--t-button-text)",
-                      border: "none",
+                      border: buttonStyle === "filled"
+                        ? "none"
+                        : buttonStyle === "outlined"
+                        ? "2px solid var(--t-primary)"
+                        : "none",
+                      background: buttonStyle === "filled"
+                        ? "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)"
+                        : undefined,
                       cursor: "pointer",
                       fontSize: "15px",
                       fontWeight: 800,
                       letterSpacing: "0.02em",
                       justifyContent: "center",
-                      boxShadow: "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)",
-                      // Press feedback: scale(0.97) on active — animationLevel "full" or "subtle"
+                      boxShadow: buttonStyle === "filled"
+                        ? "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)"
+                        : undefined,
                       transform:
                         (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") && isCartBtnPressed
                           ? "scale(0.97)"
@@ -362,19 +373,25 @@ export function ProductDetailPage({
             <button
               type="button"
               onClick={handleAddToCart}
-              className="flex items-center gap-2 py-3.5 flex-1"
+              className={`flex items-center gap-2 py-3.5 flex-1 ${addToCartBtnClass}`}
               style={{
                 borderRadius: "var(--t-radius-button)",
-                background: "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)",
-                color: "var(--t-button-text)",
-                border: "none",
+                border: buttonStyle === "filled"
+                  ? "none"
+                  : buttonStyle === "outlined"
+                  ? "2px solid var(--t-primary)"
+                  : "none",
+                background: buttonStyle === "filled"
+                  ? "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)"
+                  : undefined,
                 cursor: "pointer",
                 fontSize: "15px",
                 fontWeight: 800,
                 letterSpacing: "0.02em",
                 justifyContent: "center",
-                boxShadow: "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)",
-                // Press feedback: same isCartBtnPressed state as desktop (shared)
+                boxShadow: buttonStyle === "filled"
+                  ? "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)"
+                  : undefined,
                 transform:
                   (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") && isCartBtnPressed
                     ? "scale(0.97)"

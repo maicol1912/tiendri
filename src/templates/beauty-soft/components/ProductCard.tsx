@@ -5,17 +5,18 @@
 
 import Image from "next/image";
 import type { BeautySoftProduct } from "../types";
-import type { BeautySoftConfig } from "../config";
 import {
   cardStyleClass,
   hoverEffectClass,
   imageRatioClass,
 } from "../utils/layout-classes";
+import { PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 
 interface ProductCardProps {
   product: BeautySoftProduct;
   currencySymbol?: string;
-  layout?: BeautySoftConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   onClick?: () => void;
 }
 
@@ -34,6 +35,7 @@ export function ProductCard({
   const cardBg = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverFx = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "square");
+  const priceConfig = PRICE_DISPLAY_MAP[layout?.priceDisplay ?? "standard"];
 
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
   const formattedOriginalPrice =
@@ -130,8 +132,8 @@ export function ProductCard({
             </span>
           )}
           <span
-            className="text-sm font-semibold text-[var(--t-text-primary)]"
-            style={{ fontFamily: "var(--font-sans)", fontSize: "14px", lineHeight: "22px" }}
+            className={priceConfig.className}
+            style={{ fontFamily: "var(--font-sans)", lineHeight: "22px", ...priceConfig.style }}
           >
             {formattedPrice}
           </span>

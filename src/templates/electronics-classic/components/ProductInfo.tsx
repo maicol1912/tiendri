@@ -5,6 +5,7 @@
 
 import { Minus, Plus, ShoppingCart, Eye } from "lucide-react";
 import type { StorefrontProduct } from "../types";
+import { BUTTON_STYLE_MAP, PRICE_DISPLAY_MAP, BADGE_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 const fmt = new Intl.NumberFormat("en-US");
 
@@ -42,6 +43,9 @@ interface ProductInfoProps {
   keyFeatures?: string[];
   quantity: number;
   currencySymbol?: string;
+  buttonStyle?: string;
+  priceDisplay?: string;
+  badgeStyle?: string;
   onQuantityChange: (qty: number) => void;
   onAddToCart: () => void;
   onViewCart: () => void;
@@ -52,10 +56,16 @@ export function ProductInfo({
   keyFeatures = [],
   quantity,
   currencySymbol = "$",
+  buttonStyle,
+  priceDisplay,
+  badgeStyle,
   onQuantityChange,
   onAddToCart,
   onViewCart,
 }: ProductInfoProps) {
+  const btnClass = BUTTON_STYLE_MAP[(buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
+  const priceConfig = PRICE_DISPLAY_MAP[(priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "prominent"];
+  const badgeClass = BADGE_STYLE_MAP[(badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "square"];
   const price = `${currencySymbol}${fmt.format(product.price)}`;
   const compareAt = product.compare_at_price
     ? `${currencySymbol}${fmt.format(product.compare_at_price)}`
@@ -88,7 +98,7 @@ export function ProductInfo({
 
       {/* Price */}
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="text-2xl md:text-3xl font-bold text-[var(--t-primary)]">
+        <span className={priceConfig.className} style={priceConfig.style}>
           {price}
         </span>
         {compareAt && (
@@ -98,7 +108,7 @@ export function ProductInfo({
             </span>
             {discountPct && (
               <span
-                className="text-xs font-semibold px-2 py-0.5 rounded"
+                className={`text-xs font-semibold px-2 py-0.5 ${badgeClass}`}
                 style={{
                   backgroundColor: "var(--t-badge-bg)",
                   color: "var(--t-badge-text)",
@@ -175,11 +185,7 @@ export function ProductInfo({
         <button
           onClick={onAddToCart}
           disabled={!product.available}
-          className="flex-1 flex items-center justify-center gap-2 py-3 px-6 font-semibold text-sm rounded-[var(--t-radius-button)] transition-opacity disabled:opacity-50"
-          style={{
-            backgroundColor: "var(--t-button-bg)",
-            color: "var(--t-button-text)",
-          }}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 font-semibold text-sm rounded-[var(--t-radius-button)] transition-opacity disabled:opacity-50 border ${btnClass}`}
           aria-label={`Agregar ${product.name} al carrito`}
         >
           <ShoppingCart className="w-4 h-4" aria-hidden="true" />

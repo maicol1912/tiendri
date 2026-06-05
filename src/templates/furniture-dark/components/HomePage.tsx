@@ -141,7 +141,7 @@ export function HomePage({
   return (
     <div
       className="min-h-screen"
-      style={{ backgroundColor: "var(--t-background)" }}
+      style={{ backgroundColor: "var(--t-background)", fontFamily: "var(--font-body, 'Urbanist', sans-serif)" }}
     >
       {/* Header */}
       <Header

@@ -2,6 +2,7 @@
 // Section title + gradient "Ver todo" button + grid using gridColsClass()
 // ALL colors via var(--t-*)
 
+import React from "react";
 import { ChevronRight } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { ProductCard } from "./ProductCard";
@@ -41,9 +42,10 @@ export function ProductSection({
           className="text-[var(--t-text-primary)]"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-            fontSize: "20px",
-            fontWeight: 600,
-            letterSpacing: "-0.6px",
+            fontSize: "var(--t-type-heading-size, 1.25rem)",
+            fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
+            letterSpacing: "var(--t-type-heading-tracking, -0.03em)",
+            textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
           }}
         >
           {title}
@@ -76,7 +78,7 @@ export function ProductSection({
       </div>
 
       {/* Product grid */}
-      <div className={`grid gap-3 ${gridColsClass(gridMobile, gridDesktop)}`}>
+      <div className={`grid ${gridColsClass(gridMobile, gridDesktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
         {products.map((product) => (
           <ProductCard
             key={product.id}

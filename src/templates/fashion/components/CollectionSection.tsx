@@ -5,7 +5,7 @@
 // Mobile: horizontal scroll. Desktop: grid.
 // Has ref for carousel scroll, so requires "use client".
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import type { StorefrontProduct } from "../types";
@@ -49,19 +49,20 @@ export function CollectionSection({
   const resolvedDesktop = grid?.desktop ?? desktopColumns;
 
   return (
-    <section className="py-8 lg:py-12" aria-labelledby={`collection-${title}`}>
+    <section aria-labelledby={`collection-${title}`} style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 3rem)" }}>
       {/* Section header */}
       <div className="px-5 md:px-10 lg:px-16 max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-5 lg:mb-6">
           <div>
             <h2
               id={`collection-${title}`}
-              className="leading-none text-[22px] md:text-2xl lg:text-3xl text-[var(--t-text-primary)]"
+              className="leading-none text-[var(--t-text-primary)]"
               style={{
                 fontFamily: "var(--font-sans)",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "2px",
+                fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 1.375rem)",
+                textTransform: "var(--t-type-heading-transform, uppercase)" as React.CSSProperties["textTransform"],
+                letterSpacing: "var(--t-type-heading-tracking, 0.1em)",
               }}
             >
               {title}
@@ -116,7 +117,7 @@ export function CollectionSection({
           </div>
           {/* Desktop: grid layout */}
           <div className="hidden md:block px-5 md:px-10 lg:px-16 max-w-7xl mx-auto">
-            <div className={`grid ${gridColsClass(resolvedMobile, resolvedDesktop)} gap-5 lg:gap-6`}>
+            <div className={`grid ${gridColsClass(resolvedMobile, resolvedDesktop)}`} style={{ gap: "var(--t-space-gap, 1.25rem)" }}>
               {products.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -131,7 +132,7 @@ export function CollectionSection({
         </>
       ) : (
         <div className="px-5 md:px-10 lg:px-16 max-w-7xl mx-auto">
-          <div className={`grid ${gridColsClass(resolvedMobile, resolvedDesktop)} gap-3 md:gap-5 lg:gap-6`}>
+          <div className={`grid ${gridColsClass(resolvedMobile, resolvedDesktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
             {products.map((product) => (
               <ProductCard
                 key={product.id}

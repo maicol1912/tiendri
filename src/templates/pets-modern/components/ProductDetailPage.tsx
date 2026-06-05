@@ -7,11 +7,14 @@ import Image from "next/image";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { QuantityStepper } from "./QuantityStepper";
 import type { StorefrontProduct } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
   product: StorefrontProduct;
   quantity: number;
   currencySymbol?: string;
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onIncrement?: () => void;
   onDecrement?: () => void;
@@ -26,12 +29,14 @@ export function ProductDetailPage({
   product,
   quantity,
   currencySymbol = "$",
+  layout,
   onBack,
   onIncrement,
   onDecrement,
   onAddToCart,
 }: ProductDetailPageProps) {
   const imageUrl = product.images[0]?.url ?? "";
+  const buttonStyleClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
@@ -142,7 +147,7 @@ export function ProductDetailPage({
             <div className="mt-6 lg:mt-8">
               <button
                 onClick={onAddToCart}
-                className="w-full h-[67px] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80"
+                className={`w-full h-[67px] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80 border ${buttonStyleClass}`}
               >
                 Agregar al carrito
               </button>

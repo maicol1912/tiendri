@@ -13,6 +13,7 @@ import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import { petsClassicConfig } from "../config";
 import type { PetsClassicConfig } from "../config";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type {
   StoreInfo,
   PetsClassicCategory,
@@ -97,7 +98,10 @@ export function HomePage({
   function renderPromoBanner() {
     if (!promoSlides.length) return null;
     return (
-      <section className="px-4 md:px-6 lg:px-8 pt-4 pb-2 max-w-6xl mx-auto w-full">
+      <section
+        className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+        style={{ paddingTop: "var(--t-space-section, 1rem)", paddingBottom: "0.5rem" }}
+      >
         <HeroBanner
           slides={promoSlides}
           activeIndex={activePromoIndex}
@@ -111,7 +115,8 @@ export function HomePage({
     if (!categories.length) return null;
     return (
       <section
-        className="px-4 md:px-6 lg:px-8 py-4 max-w-6xl mx-auto w-full"
+        className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+        style={{ paddingTop: "var(--t-space-card, 1rem)", paddingBottom: "var(--t-space-card, 1rem)" }}
         aria-labelledby="categories-heading"
       >
         <h2 id="categories-heading" className="sr-only">
@@ -131,7 +136,8 @@ export function HomePage({
     if (!filteredFeatured.length) return null;
     return (
       <section
-        className="px-4 md:px-6 lg:px-8 py-6 max-w-6xl mx-auto w-full"
+        className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+        style={{ paddingTop: "var(--t-space-section, 1.5rem)", paddingBottom: "var(--t-space-section, 1.5rem)" }}
         aria-labelledby="featured-heading"
       >
         <div className="flex items-center justify-between mb-4">
@@ -139,12 +145,13 @@ export function HomePage({
             <h2
               id="featured-heading"
               style={{
-                fontSize: "20px",
-                fontWeight: 800,
+                fontSize: "var(--t-type-heading-size, 20px)",
+                fontWeight: "var(--t-type-heading-weight, 800)" as React.CSSProperties["fontWeight"],
                 color: "var(--t-text-primary)",
-                letterSpacing: "-0.01em",
+                letterSpacing: "var(--t-type-heading-tracking, -0.01em)",
                 lineHeight: 1.2,
                 fontFamily: "var(--t-font-heading, inherit)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
               }}
             >
               Destacados
@@ -178,7 +185,8 @@ export function HomePage({
           </button>
         </div>
         <div
-          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}
+          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1rem)" }}
         >
           {filteredFeatured.slice(0, 4).map((product) => (
             <ProductCard
@@ -213,7 +221,8 @@ export function HomePage({
 
     return (
       <section
-        className="px-4 md:px-6 lg:px-8 pb-6 max-w-6xl mx-auto w-full"
+        className="px-4 md:px-6 lg:px-8 max-w-6xl mx-auto w-full"
+        style={{ paddingBottom: "var(--t-space-section, 1.5rem)" }}
         aria-labelledby="popular-heading"
       >
         <div className="flex items-center justify-between mb-4">
@@ -221,12 +230,13 @@ export function HomePage({
             <h2
               id="popular-heading"
               style={{
-                fontSize: "20px",
-                fontWeight: 800,
+                fontSize: "var(--t-type-heading-size, 20px)",
+                fontWeight: "var(--t-type-heading-weight, 800)" as React.CSSProperties["fontWeight"],
                 color: "var(--t-text-primary)",
-                letterSpacing: "-0.01em",
+                letterSpacing: "var(--t-type-heading-tracking, -0.01em)",
                 lineHeight: 1.2,
                 fontFamily: "var(--t-font-heading, inherit)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
               }}
             >
               Más populares
@@ -260,7 +270,7 @@ export function HomePage({
           </button>
         </div>
 
-        <div className={`grid ${gridColsClass(2, 3)} gap-4`}>
+        <div className={`grid ${gridColsClass(2, 3)}`} style={{ gap: "var(--t-space-gap, 1rem)" }}>
           {displayPopular.map((product) => {
             return (
               <button

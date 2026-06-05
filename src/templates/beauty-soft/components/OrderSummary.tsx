@@ -2,9 +2,13 @@
 // Discount code input, total row, and checkout button.
 // ZERO hardcoded colors — all via var(--t-*).
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
+
 interface OrderSummaryProps {
   totalPrice: number;
   currencySymbol?: string;
+  buttonStyle?: ButtonStyle;
   onCheckout?: () => void;
   onContinueShopping?: () => void;
 }
@@ -12,9 +16,11 @@ interface OrderSummaryProps {
 export function OrderSummary({
   totalPrice,
   currencySymbol = "$",
+  buttonStyle,
   onCheckout,
   onContinueShopping,
 }: OrderSummaryProps) {
+  const ctaClass = BUTTON_STYLE_MAP[buttonStyle ?? "filled"];
   const formattedTotal = `${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}`;
 
   return (
@@ -82,12 +88,11 @@ export function OrderSummary({
         {/* Checkout button */}
         <button
           type="button"
-          className="w-full flex items-center justify-center border-0 cursor-pointer text-[var(--t-button-text)]"
+          className={`w-full flex items-center justify-center cursor-pointer border ${ctaClass}`}
           style={{
             fontFamily: "var(--font-heading, var(--font-sans))",
             fontSize: "17px",
             fontWeight: 400,
-            backgroundColor: "var(--t-button-bg)",
             borderRadius: "var(--t-radius-button)",
             height: "47px",
             lineHeight: "22px",

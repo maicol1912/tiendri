@@ -3,15 +3,17 @@
 // Beauty Elegant Template — Cart Page
 // Purple glassmorphic theme. Cart items + total + checkout button.
 
-import { useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { CartItemRow } from "./CartItemRow";
 import { BottomNav } from "./BottomNav";
 import { useCart } from "../context/CartContext";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
   currencySymbol?: string;
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
@@ -23,12 +25,14 @@ function formatPrice(price: number, symbol: string = "$"): string {
 
 export function CartPage({
   currencySymbol = "$",
+  layout,
   onBack,
   onGoHome,
   onCheckout,
 }: CartPageProps) {
   const { items, totalPrice, incrementItem, decrementItem, removeItem } = useCart();
   const isEmpty = items.length === 0;
+  const ctaClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <motion.div
@@ -105,11 +109,8 @@ export function CartPage({
             </p>
             <button
               type="button"
-              className="px-6 py-3 text-sm font-semibold"
+              className={`px-6 py-3 text-sm font-semibold border ${ctaClass}`}
               style={{
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
-                border: "none",
                 borderRadius: "var(--t-radius-button)",
                 cursor: "pointer",
               }}
@@ -159,11 +160,8 @@ export function CartPage({
               </div>
               <motion.button
                 type="button"
-                className="w-full flex items-center justify-center py-3.5 text-sm font-bold"
+                className={`w-full flex items-center justify-center py-3.5 text-sm font-bold border ${ctaClass}`}
                 style={{
-                  color: "var(--t-button-text)",
-                  backgroundColor: "var(--t-button-bg)",
-                  border: "none",
                   borderRadius: "var(--t-radius-button)",
                   cursor: "pointer",
                 }}

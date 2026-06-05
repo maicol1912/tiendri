@@ -182,7 +182,8 @@ export function ProductListingPage({
           </div>
         ) : (
           <div
-            className={`grid ${gridColsClass(listingGrid.mobile, listingGrid.desktop)} gap-3 md:gap-4`}
+            className={`grid ${gridColsClass(listingGrid.mobile, listingGrid.desktop)}`}
+            style={{ gap: "var(--t-space-gap, 0.75rem)" }}
           >
             {filteredProducts.map((product) => (
               <ProductCard

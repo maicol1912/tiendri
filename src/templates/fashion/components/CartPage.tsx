@@ -3,6 +3,7 @@
 // Empty state: "TU CARRITO ESTÁ VACÍO" with "SEGUIR COMPRANDO" button.
 // Monochromatic B&W. Background: var(--t-background).
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -20,6 +21,7 @@ interface CartPageProps {
   activeTab: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
+  layout?: { buttonStyle?: string };
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -39,6 +41,7 @@ export function CartPage({
   activeTab,
   cartItemCount = 0,
   currencySymbol = "$",
+  layout,
   onBack,
   onSearchClick,
   onCartClick,
@@ -49,6 +52,7 @@ export function CartPage({
   onContinueShopping,
   onTabChange,
 }: CartPageProps) {
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   return (
     <div
       className="min-h-screen bg-[var(--t-background)]"
@@ -109,7 +113,7 @@ export function CartPage({
             </p>
             <button
               type="button"
-              className="px-8 py-3 bg-[var(--t-secondary)] transition-opacity hover:opacity-80 border-0 cursor-pointer"
+              className={`px-8 py-3 transition-opacity hover:opacity-80 cursor-pointer border ${btnClass}`}
               style={{
                 borderRadius: "var(--t-radius-button)",
                 fontFamily: "var(--font-sans, 'Inter', sans-serif)",
@@ -117,7 +121,6 @@ export function CartPage({
                 fontWeight: 600,
                 textTransform: "uppercase",
                 letterSpacing: "1px",
-                color: "var(--t-text-primary)",
               }}
               onClick={onContinueShopping}
             >
@@ -191,7 +194,7 @@ export function CartPage({
           </div>
           <button
             type="button"
-            className="bg-[var(--t-secondary)] px-8 py-3 transition-opacity hover:opacity-80 border-0 cursor-pointer"
+            className={`px-8 py-3 transition-opacity hover:opacity-80 cursor-pointer border ${btnClass}`}
             style={{
               borderRadius: "var(--t-radius-button)",
               fontFamily: "var(--font-sans, 'Inter', sans-serif)",
@@ -199,7 +202,6 @@ export function CartPage({
               fontWeight: 600,
               textTransform: "uppercase",
               letterSpacing: "1px",
-              color: "var(--t-text-primary)",
             }}
             onClick={onCheckout}
           >

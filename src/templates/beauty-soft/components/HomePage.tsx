@@ -80,11 +80,20 @@ export function HomePage({
     ),
 
     products: () => (
-      <section className="flex flex-col gap-[11px]">
+      <section
+        className="flex flex-col gap-[11px]"
+        style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 2rem)" }}
+      >
         <div className="flex items-center justify-between">
           <h2
-            className="m-0 text-base font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
-            style={{ fontFamily: "var(--font-sans)" }}
+            className="m-0 text-[var(--t-text-primary)] leading-[22px]"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1rem)",
+              letterSpacing: "var(--t-type-heading-tracking, -0.025em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
           >
             Para vos
           </h2>
@@ -131,7 +140,8 @@ export function HomePage({
           </div>
         ) : (
           <div
-            className={`grid ${productGridClass} gap-5`}
+            className={`grid ${productGridClass}`}
+            style={{ gap: "var(--t-space-gap, 1.25rem)" }}
             aria-label="Catálogo de productos"
           >
             {products.map((product) => (

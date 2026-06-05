@@ -9,6 +9,8 @@ import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
 import type { StoreInfo, CartItem, NavTab } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
   store: StoreInfo;
@@ -18,7 +20,7 @@ interface CartPageProps {
   deliveryFee?: number;
   currencySymbol?: string;
   activeTab?: NavTab;
-  layout?: { headerStyle?: string; footerStyle?: string };
+  layout?: { headerStyle?: string; footerStyle?: string; buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
@@ -50,6 +52,7 @@ export function CartPage({
 }: CartPageProps) {
   const total = subtotal - discount + deliveryFee;
   const isEmpty = items.length === 0;
+  const ctaClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
@@ -120,13 +123,10 @@ export function CartPage({
               <button
                 type="button"
                 onClick={onCheckout}
-                className="w-full flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                className={`w-full flex items-center justify-center gap-2 transition-opacity hover:opacity-90 border ${ctaClass}`}
                 style={{
                   borderRadius: "var(--t-radius-button)",
                   height: 52,
-                  backgroundColor: "var(--t-button-bg)",
-                  color: "var(--t-button-text)",
-                  border: "none",
                   cursor: "pointer",
                   fontSize: "14px",
                   fontWeight: 600,

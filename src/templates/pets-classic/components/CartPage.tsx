@@ -10,7 +10,8 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
-import type { PetsClassicConfig } from "../config";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type { StoreInfo, CartItem, NavTab } from "../types";
 
 const TAX_RATE = 0.025;
@@ -20,7 +21,7 @@ const DELIVERY_FEE = 5000;
 interface CartPageProps {
   store: StoreInfo;
   items: CartItem[];
-  layout?: PetsClassicConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -59,6 +60,7 @@ export function CartPage({
   const total = subtotal + tax + (subtotal > 0 ? DELIVERY_FEE : 0);
 
   const isEmpty = items.length === 0;
+  const exploreBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <div
@@ -91,12 +93,9 @@ export function CartPage({
             <button
               type="button"
               onClick={onContinueShopping}
-              className="px-6 py-3"
+              className={`px-6 py-3 ${exploreBtnClass}`}
               style={{
                 borderRadius: "var(--t-radius-button)",
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
-                border: "none",
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: 700,
@@ -127,6 +126,7 @@ export function CartPage({
               tax={tax}
               total={total}
               currencySymbol={currencySymbol}
+              buttonStyle={layout?.buttonStyle}
               onCheckout={onCheckout}
               onContinueShopping={onContinueShopping}
             />

@@ -7,11 +7,14 @@ import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import type { CartItem } from "../context/CartContext";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
   items: CartItem[];
   totalPrice: number;
   currencySymbol?: string;
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
@@ -25,6 +28,7 @@ export function CartPage({
   items,
   totalPrice,
   currencySymbol = "$",
+  layout,
   onBack,
   onGoHome,
   onCheckout,
@@ -112,12 +116,11 @@ export function CartPage({
             </p>
             <button
               type="button"
-              className="px-6 py-3 border-0 cursor-pointer text-[var(--t-button-text)]"
+              className={`px-6 py-3 cursor-pointer border ${BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"]}`}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: "15px",
                 fontWeight: 600,
-                backgroundColor: "var(--t-button-bg)",
                 borderRadius: "var(--t-radius-button)",
               }}
               onClick={onGoHome}
@@ -145,6 +148,7 @@ export function CartPage({
         <OrderSummary
           totalPrice={totalPrice}
           currencySymbol={currencySymbol}
+          buttonStyle={layout?.buttonStyle}
           onCheckout={onCheckout}
           onContinueShopping={onGoHome}
         />

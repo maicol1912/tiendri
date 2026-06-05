@@ -188,7 +188,10 @@ export function ProductListingPage({
             </div>
 
             {/* Product grid — paginated */}
-            <div className={`grid ${gridColsClass(grid.listing.mobile, grid.listing.desktop)} gap-4`}>
+            <div
+              className={`grid ${gridColsClass(grid.listing.mobile, grid.listing.desktop)}`}
+              style={{ gap: "var(--t-space-gap, 1rem)" }}
+            >
               {products.slice((currentPage - 1) * 9, currentPage * 9).map((product) => (
                 <ProductCard
                   key={product.id}

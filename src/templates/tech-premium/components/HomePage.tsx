@@ -142,14 +142,21 @@ export function HomePage({
   function renderCategories() {
     return (
       <section
-        className="bg-[var(--t-background)] px-6 lg:px-[160px] py-10 lg:py-20"
+        className="bg-[var(--t-background)] px-6 lg:px-[160px]"
+        style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
         aria-labelledby="categories-heading"
       >
         {/* Section header */}
         <div className="flex items-center justify-between mb-8">
           <h2
             id="categories-heading"
-            className="text-xl lg:text-2xl font-medium text-[var(--t-text-primary)] tracking-[0.24px]"
+            className="text-[var(--t-text-primary)] tracking-[0.24px]"
+            style={{
+              fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1.5rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
           >
             Explorar por categoría
           </h2>
@@ -172,7 +179,10 @@ export function HomePage({
         </div>
 
         {/* Category cards — mobile: 3x2 grid, desktop: single row */}
-        <div className={`grid ${gridColsClass(grid.categories.mobile, grid.categories.desktop)} gap-4 lg:gap-8`}>
+        <div
+          className={`grid ${gridColsClass(grid.categories.mobile, grid.categories.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1rem)" }}
+        >
           {categories.map((cat) => (
             <CategorySection
               key={cat.id}
@@ -189,7 +199,8 @@ export function HomePage({
   function renderProducts() {
     return (
       <section
-        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px] py-10 lg:py-14"
+        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px]"
+        style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
         aria-labelledby="products-heading"
       >
         {/* Product tabs */}
@@ -216,7 +227,10 @@ export function HomePage({
         <h2 id="products-heading" className="sr-only">
           {productTabs.find((t) => t.id === activeProductTab)?.label ?? "Productos"}
         </h2>
-        <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}>
+        <div
+          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1rem)" }}
+        >
           {products.slice(0, 8).map((product) => (
             <ProductCard
               key={product.id}
@@ -277,16 +291,26 @@ export function HomePage({
   function renderDiscounts() {
     return (
       <section
-        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px] py-10 lg:py-20"
+        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px]"
+        style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
         aria-labelledby="discounts-heading"
       >
         <h2
           id="discounts-heading"
-          className="text-xl lg:text-2xl font-medium text-[var(--t-text-primary)] text-left mb-8"
+          className="text-[var(--t-text-primary)] text-left mb-8"
+          style={{
+            fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+            fontSize: "var(--t-type-heading-size, 1.5rem)",
+            letterSpacing: "var(--t-type-heading-tracking, 0em)",
+            textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+          }}
         >
           Descuentos de hasta -50%
         </h2>
-        <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}>
+        <div
+          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1rem)" }}
+        >
           {discountProducts.slice(0, 4).map((product) => (
             <ProductCard
               key={product.id}

@@ -2,12 +2,16 @@
 // Renders: promo/discount fields, subtotal, taxes, shipping, total, checkout button.
 // Visual only — callbacks come as props.
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
+
 export interface OrderSummaryProps {
   subtotal: number;
   tax: number;
   shipping: number;
   total: number;
   currencySymbol?: string;
+  buttonStyle?: ButtonStyle;
   onCheckout?: () => void;
 }
 
@@ -17,8 +21,10 @@ export function OrderSummary({
   shipping,
   total,
   currencySymbol = "$",
+  buttonStyle = "filled",
   onCheckout,
 }: OrderSummaryProps) {
+  const checkoutBtnClass = BUTTON_STYLE_MAP[buttonStyle];
   const fmt = (price: number) =>
     `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
 
@@ -94,7 +100,7 @@ export function OrderSummary({
           {/* Checkout button */}
           <button
             type="button"
-            className="w-full py-4 bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium rounded-[var(--t-radius-button)] border-none cursor-pointer hover:opacity-90 transition-opacity"
+            className={`w-full py-4 text-base font-medium rounded-[var(--t-radius-button)] border cursor-pointer hover:opacity-90 transition-opacity ${checkoutBtnClass}`}
             onClick={onCheckout}
           >
             Finalizar compra

@@ -2,11 +2,14 @@
 // Dark navy card: voucher/coupon row, subtotal, shipping, total, checkout CTA.
 // ZERO hardcoded colors — all via var(--t-*).
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+
 interface OrderSummaryProps {
   subtotal: number;
   shipping: number;
   total: number;
   currencySymbol?: string;
+  buttonStyle?: string;
   onCheckout?: () => void;
   onContinueShopping?: () => void;
 }
@@ -20,9 +23,11 @@ export function OrderSummary({
   shipping,
   total,
   currencySymbol = "$",
+  buttonStyle,
   onCheckout,
   onContinueShopping,
 }: OrderSummaryProps) {
+  const btnClass = BUTTON_STYLE_MAP[(buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   return (
     <div
       className="p-5 mt-2"
@@ -74,12 +79,8 @@ export function OrderSummary({
 
       <button
         onClick={onCheckout}
-        className="w-full py-3.5 text-base font-bold transition-all hover:opacity-90 active:scale-[0.98]"
-        style={{
-          borderRadius: "var(--t-radius-button)",
-          backgroundColor: "var(--t-primary)",
-          color: "var(--t-button-text)",
-        }}
+        className={`w-full py-3.5 text-base font-bold transition-all hover:opacity-90 active:scale-[0.98] border ${btnClass}`}
+        style={{ borderRadius: "var(--t-radius-button)" }}
       >
         Continuar al pago
       </button>

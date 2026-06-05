@@ -10,7 +10,8 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
-import type { PetsClassicConfig } from "../config";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type {
   StoreInfo,
   CartItem,
@@ -59,7 +60,7 @@ function buildWhatsAppMessage(
 interface CheckoutPageProps {
   store: StoreInfo;
   items: CartItem[];
-  layout?: PetsClassicConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -92,6 +93,7 @@ export function CheckoutPage({
     notes: "",
   });
   const [errors, setErrors] = useState<Partial<CheckoutFormData>>({});
+  const payNowBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const tax = subtotal * TAX_RATE;
@@ -144,12 +146,9 @@ export function CheckoutPage({
             <button
               type="button"
               onClick={onBack}
-              className="px-6 py-3"
+              className={`px-6 py-3 ${payNowBtnClass}`}
               style={{
                 borderRadius: "var(--t-radius-button)",
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
-                border: "none",
                 cursor: "pointer",
                 fontSize: "14px",
                 fontWeight: 700,
@@ -247,12 +246,9 @@ export function CheckoutPage({
                 type="button"
                 onClick={handleSubmit}
                 disabled={!store.whatsapp}
-                className="w-full py-3"
+                className={`w-full py-3 ${payNowBtnClass}`}
                 style={{
                   borderRadius: "var(--t-radius-button)",
-                  backgroundColor: "var(--t-button-bg)",
-                  color: "var(--t-button-text)",
-                  border: "none",
                   cursor: store.whatsapp ? "pointer" : "not-allowed",
                   fontSize: "14px",
                   fontWeight: 700,

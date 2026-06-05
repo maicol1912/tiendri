@@ -2,6 +2,7 @@
 // Header + category tabs + products grid with count
 // ZERO hardcoded colors
 
+import React from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -66,8 +67,14 @@ export function ProductListingPage({
         {/* Page title */}
         <div className="px-5 md:px-6 lg:px-8 py-4 border-b border-[var(--t-border)]">
           <h1
-            className="text-xl font-bold text-[var(--t-text-primary)]"
-            style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
+            className="text-[var(--t-text-primary)]"
+            style={{
+              fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1.25rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
           >
             Catálogo
           </h1>
@@ -95,7 +102,7 @@ export function ProductListingPage({
               <p className="text-sm font-semibold text-[var(--t-text-primary)]">Sin productos en esta categoría</p>
             </div>
           ) : (
-            <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)} gap-3`}>
+            <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
               {products.map((product) => (
                 <ProductCard
                   key={product.id}

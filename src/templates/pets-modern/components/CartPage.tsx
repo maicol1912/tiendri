@@ -7,12 +7,14 @@ import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import type { CartItem, NavTab } from "../types";
+import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
   items: CartItem[];
   totalPrice: number;
   currencySymbol?: string;
   activeTab: NavTab;
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onCheckout?: () => void;
   onContinueShopping?: () => void;
@@ -27,6 +29,7 @@ export function CartPage({
   totalPrice,
   currencySymbol = "$",
   activeTab,
+  layout,
   onBack,
   onCheckout,
   onContinueShopping,
@@ -82,6 +85,7 @@ export function CartPage({
             <OrderSummary
               totalPrice={totalPrice}
               currencySymbol={currencySymbol}
+              buttonStyle={layout?.buttonStyle}
               onCheckout={onCheckout}
               onContinueShopping={onContinueShopping}
             />

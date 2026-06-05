@@ -3,7 +3,7 @@
 // Visual only — all handlers come as props from the shell
 // sectionRenderers pattern follows tech-premium model
 
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -125,13 +125,19 @@ export function HomePage({
 
   function renderFlashSale() {
     return (
-      <section className="mb-4 px-4 md:px-6 lg:px-8" aria-labelledby="flash-sale-heading">
+      <section className="mb-4 px-4 md:px-6 lg:px-8" aria-labelledby="flash-sale-heading" style={{ paddingTop: "var(--t-space-section, 1rem)", paddingBottom: "var(--t-space-section, 1rem)" }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <h2
               id="flash-sale-heading"
-              className="text-base font-bold text-[var(--t-text-primary)]"
-              style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
+              className="text-[var(--t-text-primary)]"
+              style={{
+                fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
+                fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 1rem)",
+                letterSpacing: "var(--t-type-heading-tracking, 0em)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+              }}
             >
               Flash Sale
             </h2>
@@ -157,7 +163,7 @@ export function HomePage({
         </div>
 
         {/* Flash Sale uses 3 columns on desktop (original KASA design) */}
-        <div className={`grid ${gridColsClass(grid.products.mobile, 3)} gap-3`}>
+        <div className={`grid ${gridColsClass(grid.products.mobile, 3)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
           {flashSaleProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -190,19 +196,25 @@ export function HomePage({
 
   function renderProducts() {
     return (
-      <section className="px-4 md:px-6 lg:px-8 mb-6" aria-labelledby="products-heading">
+      <section className="px-4 md:px-6 lg:px-8 mb-6" aria-labelledby="products-heading" style={{ paddingTop: "var(--t-space-section, 1.5rem)", paddingBottom: "var(--t-space-section, 1.5rem)" }}>
         <div className="flex items-center justify-between mb-3">
           <h2
             id="products-heading"
-            className="text-base font-bold text-[var(--t-text-primary)]"
-            style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
+            className="text-[var(--t-text-primary)]"
+            style={{
+              fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
           >
             Todos los productos
           </h2>
           <span className="text-xs text-[var(--t-text-muted)]">{visibleProducts.length} artículos</span>
         </div>
 
-        <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-3`}>
+        <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
           {visibleProducts.map((product) => (
             <ProductCard
               key={product.id}

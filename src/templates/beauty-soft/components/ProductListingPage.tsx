@@ -172,7 +172,10 @@ export function ProductListingPage({
             </button>
           </div>
         ) : (
-          <div className={gridClass}>
+          <div
+            className={gridClass}
+            style={{ gap: "var(--t-space-gap, 0.75rem)" }}
+          >
             {products.map((product) => (
               <ProductCard
                 key={product.id}

@@ -5,6 +5,8 @@
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
+import { BUTTON_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle, PriceDisplay } from "@/types/templates";
 
 interface ProductCardProps {
   product: StorefrontProduct;
@@ -15,6 +17,8 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    buttonStyle?: ButtonStyle;
+    priceDisplay?: PriceDisplay;
   };
 }
 
@@ -33,6 +37,8 @@ export function ProductCard({
   const cardClass = cardStyleClass(layout?.cardStyle ?? "bordered");
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "scale");
   const imgClass = imageRatioClass(layout?.cardImageRatio ?? "square");
+  const buttonStyleClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const priceDisplayConfig = PRICE_DISPLAY_MAP[layout?.priceDisplay ?? "standard"];
 
   return (
     <div
@@ -64,7 +70,10 @@ export function ProductCard({
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-[var(--t-text-primary)] text-base font-bold">
+            <span
+              className={priceDisplayConfig.className}
+              style={priceDisplayConfig.style}
+            >
               {formatPrice(product.price, currencySymbol)}
             </span>
             {product.originalPrice && (
@@ -81,7 +90,7 @@ export function ProductCard({
             e.stopPropagation();
             onAddToCart?.();
           }}
-          className="w-full mt-3 h-[40px] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-sm font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80"
+          className={`w-full mt-3 h-[40px] text-sm font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80 border ${buttonStyleClass}`}
         >
           Agregar
         </button>

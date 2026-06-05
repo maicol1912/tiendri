@@ -2,6 +2,9 @@
 // Renders: subtotal, shipping note, total, checkout CTA button.
 // Visual only — callback comes as prop.
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
+
 function formatPrice(price: number, symbol: string): string {
   return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
@@ -9,6 +12,7 @@ function formatPrice(price: number, symbol: string): string {
 export interface OrderSummaryProps {
   totalPrice: number;
   currencySymbol?: string;
+  buttonStyle?: ButtonStyle;
   onCheckout?: () => void;
   onContinueShopping?: () => void;
 }
@@ -16,9 +20,11 @@ export interface OrderSummaryProps {
 export function OrderSummary({
   totalPrice,
   currencySymbol = "$",
+  buttonStyle,
   onCheckout,
   onContinueShopping,
 }: OrderSummaryProps) {
+  const ctaClass = BUTTON_STYLE_MAP[buttonStyle ?? "filled"];
   return (
     <div className="mt-6 lg:mt-0 lg:w-[380px] lg:sticky lg:top-24">
       <div className="border border-[var(--t-border)] rounded-[var(--t-radius-card)] p-5">
@@ -47,7 +53,7 @@ export function OrderSummary({
 
         <button
           onClick={onCheckout}
-          className="w-full mt-5 h-[56px] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80"
+          className={`w-full mt-5 h-[56px] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80 border ${ctaClass}`}
         >
           Continuar al checkout
         </button>

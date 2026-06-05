@@ -9,6 +9,7 @@ import { ColorSwatch } from "./ColorSwatch";
 import { SizeSelector } from "./SizeSelector";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface ProductDetailPageProps {
@@ -20,6 +21,7 @@ interface ProductDetailPageProps {
   activeTab: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
+  layout?: { buttonStyle?: string };
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -62,6 +64,7 @@ export function ProductDetailPage({
   activeTab,
   cartItemCount = 0,
   currencySymbol = "$",
+  layout,
   onBack,
   onSearchClick,
   onCartClick,
@@ -72,6 +75,7 @@ export function ProductDetailPage({
   onTabChange,
 }: ProductDetailPageProps) {
   const currentImage = product.images[selectedImageIndex] ?? product.images[0];
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
 
   return (
     <div
@@ -266,15 +270,13 @@ export function ProductDetailPage({
             {/* AGREGAR AL CARRITO button */}
             <button
               type="button"
-              className="w-full py-3.5 transition-opacity hover:opacity-80 active:opacity-60 mt-3 border-0 cursor-pointer rounded-[var(--t-radius-button)]"
+              className={`w-full py-3.5 transition-opacity hover:opacity-80 active:opacity-60 mt-3 cursor-pointer rounded-[var(--t-radius-button)] border ${btnClass}`}
               style={{
                 fontFamily: "var(--font-sans, 'Inter', sans-serif)",
                 fontSize: "13px",
                 fontWeight: 600,
                 textTransform: "uppercase",
                 letterSpacing: "1px",
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
                 cursor: product.inStock ? "pointer" : "not-allowed",
                 opacity: product.inStock ? 1 : 0.5,
               }}

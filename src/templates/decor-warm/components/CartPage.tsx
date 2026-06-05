@@ -8,6 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { CartItem } from "../context/CartContext";
 import type { DecorWarmNavTab } from "../types";
 
@@ -15,6 +16,7 @@ interface CartPageProps {
   items: CartItem[];
   totalPrice: number;
   currencySymbol?: string;
+  layout?: { buttonStyle?: string };
   onBack?: () => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
@@ -28,6 +30,7 @@ export function CartPage({
   items,
   totalPrice,
   currencySymbol = "$",
+  layout,
   onBack,
   onGoHome,
   onCheckout,
@@ -36,6 +39,7 @@ export function CartPage({
   onRemove,
   onTabChange,
 }: CartPageProps) {
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   const isEmpty = items.length === 0;
   const TAX_RATE = 0;
   const DELIVERY = 0;
@@ -139,14 +143,12 @@ export function CartPage({
             </p>
             <button
               type="button"
+              className={`border ${btnClass}`}
               style={{
-                backgroundColor: "var(--t-peach)",
-                color: "#FFFFFF",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 fontWeight: 600,
                 borderRadius: "var(--t-radius-button)",
-                border: "none",
                 cursor: "pointer",
                 padding: "12px 28px",
               }}
@@ -177,6 +179,7 @@ export function CartPage({
           subtotal={subtotal}
           total={total}
           currencySymbol={currencySymbol}
+          buttonStyle={layout?.buttonStyle}
           onCheckout={onCheckout}
           onContinueShopping={onGoHome}
         />

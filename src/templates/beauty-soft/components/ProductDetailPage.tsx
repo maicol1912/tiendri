@@ -4,6 +4,8 @@
 import { ImageCarousel } from "./ImageCarousel";
 import { QuantityStepper } from "./QuantityStepper";
 import type { BeautySoftProduct } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
   product: BeautySoftProduct;
@@ -11,6 +13,7 @@ interface ProductDetailPageProps {
   quantity?: number;
   isAdded?: boolean;
   currencySymbol?: string;
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onCartClick?: () => void;
   onImageIndexChange?: (index: number) => void;
@@ -25,6 +28,7 @@ export function ProductDetailPage({
   quantity = 1,
   isAdded = false,
   currencySymbol = "$",
+  layout,
   onBack,
   onCartClick,
   onImageIndexChange,
@@ -32,6 +36,7 @@ export function ProductDetailPage({
   onQuantityDecrement,
   onAddToCart,
 }: ProductDetailPageProps) {
+  const buttonStyleClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
   const hasDiscount =
     product.originalPrice !== null &&
     product.originalPrice !== undefined &&
@@ -212,18 +217,14 @@ export function ProductDetailPage({
           {/* Add to Cart button */}
           <button
             type="button"
-            className="flex items-center justify-center border-0 cursor-pointer transition-colors duration-200"
+            className={`flex items-center justify-center cursor-pointer transition-colors duration-200 border ${buttonStyleClass}`}
             disabled={!product.inStock}
             style={{
               fontFamily: "var(--font-heading, var(--font-sans))",
               fontSize: "17px",
               fontWeight: 400,
-              color: product.inStock ? "var(--t-button-text)" : "var(--t-text-muted)",
-              backgroundColor: isAdded
-                ? "#22C55E"
-                : product.inStock
-                  ? "var(--t-button-bg)"
-                  : "var(--t-card-bg)",
+              ...(isAdded ? { backgroundColor: "#22C55E" } : {}),
+              ...(!product.inStock ? { backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" } : {}),
               borderRadius: "var(--t-radius-button)",
               height: "47px",
               width: "205px",

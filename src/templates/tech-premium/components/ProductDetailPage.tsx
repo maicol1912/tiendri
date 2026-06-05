@@ -11,6 +11,8 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
@@ -26,6 +28,7 @@ interface ProductDetailPageProps {
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   grid: TechPremiumConfig["grid"];
+  layout?: Partial<TemplateLayoutConfig>;
   relatedProducts?: StorefrontProduct[];
   specBadges?: SpecBadge[];
   activeTab?: NavTab;
@@ -54,6 +57,7 @@ export function ProductDetailPage({
   footerServices,
   footerAssistance,
   grid,
+  layout,
   relatedProducts = [],
   specBadges = [],
   activeTab = "home",
@@ -74,6 +78,8 @@ export function ProductDetailPage({
   onTabChange,
   onNavLinkClick,
 }: ProductDetailPageProps) {
+  const buttonStyle = layout?.buttonStyle ?? "filled";
+  const addToCartBtnClass = BUTTON_STYLE_MAP[buttonStyle];
   const images = product.images;
   const mainImage = images[selectedImageIndex]?.url ?? "/placeholder.png";
 
@@ -291,7 +297,7 @@ export function ProductDetailPage({
           <div className="flex flex-wrap gap-4">
             <button
               type="button"
-              className="flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border-none bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium text-center cursor-pointer hover:opacity-90 transition-colors disabled:opacity-50"
+              className={`flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border text-base font-medium text-center cursor-pointer hover:opacity-90 transition-colors disabled:opacity-50 ${addToCartBtnClass}`}
               onClick={onAddToCart}
               disabled={!product.inStock}
             >
@@ -414,7 +420,7 @@ export function ProductDetailPage({
         <div className="flex flex-col gap-4">
           <button
             type="button"
-            className="w-full px-14 py-4 rounded-[6px] border-none bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium text-center cursor-pointer disabled:opacity-50"
+            className={`w-full px-14 py-4 rounded-[6px] border text-base font-medium text-center cursor-pointer disabled:opacity-50 ${addToCartBtnClass}`}
             onClick={onAddToCart}
             disabled={!product.inStock}
           >

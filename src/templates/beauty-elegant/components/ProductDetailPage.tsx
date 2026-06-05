@@ -11,12 +11,15 @@ import { useCart } from "../context/CartContext";
 import { ProductCard } from "./ProductCard";
 import type { BeautyElegantProduct, CartItem } from "../types";
 import type { StoreInfo } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
   product: BeautyElegantProduct;
   store: StoreInfo;
   currencySymbol?: string;
   relatedProducts?: BeautyElegantProduct[];
+  layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
 }
 
@@ -29,10 +32,12 @@ export function ProductDetailPage({
   store,
   currencySymbol = "$",
   relatedProducts = [],
+  layout,
   onBack,
 }: ProductDetailPageProps) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const buttonStyleClasses = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   const primaryImage = product.images[0]?.url ?? null;
 
@@ -143,14 +148,13 @@ export function ProductDetailPage({
           type="button"
           disabled={!product.inStock}
           onClick={handleAddToCart}
-          className="flex-shrink-0 text-sm font-semibold text-white px-10 py-4 transition-colors duration-200"
+          className={`flex-shrink-0 text-sm font-semibold px-10 py-4 transition-colors duration-200 border ${buttonStyleClasses}`}
           style={{
             backgroundColor: isAdded
               ? "#22C55E"
-              : product.inStock
-                ? "var(--t-primary)"
-                : "var(--t-text-muted)",
-            border: "none",
+              : !product.inStock
+                ? "var(--t-text-muted)"
+                : undefined,
             borderRadius: "var(--t-radius-button)",
             cursor: product.inStock ? "pointer" : "not-allowed",
           }}

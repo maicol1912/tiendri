@@ -8,6 +8,8 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type { StoreInfo, CartItem, NavTab } from "../types";
 
 interface CartPageProps {
@@ -16,6 +18,7 @@ interface CartPageProps {
   navLinks: readonly { label: string; href: string }[];
   footerServices: readonly string[];
   footerAssistance: readonly string[];
+  layout?: Partial<TemplateLayoutConfig>;
   shipping?: number;
   tax?: number;
   currencySymbol?: string;
@@ -37,6 +40,7 @@ export function CartPage({
   navLinks,
   footerServices,
   footerAssistance,
+  layout,
   shipping = 29,
   tax = 50,
   currencySymbol = "$",
@@ -51,6 +55,7 @@ export function CartPage({
   onTabChange,
   onNavLinkClick,
 }: CartPageProps) {
+  const proceedBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = subtotal + tax + shipping;
   const isEmpty = items.length === 0;
@@ -102,6 +107,7 @@ export function CartPage({
               shipping={shipping}
               total={total}
               currencySymbol={currencySymbol}
+              buttonStyle={layout?.buttonStyle}
               onCheckout={onCheckout}
             />
           </div>

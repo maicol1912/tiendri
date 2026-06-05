@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Plus } from "lucide-react";
 import type { DecorWarmProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 
 interface ProductCardProps {
   product: DecorWarmProduct;
@@ -18,6 +19,8 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    badgeStyle?: string;
+    priceDisplay?: string;
   };
 }
 
@@ -36,6 +39,8 @@ export function ProductCard({
   const cardClass = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
+  const badgeClass = BADGE_STYLE_MAP[(layout?.badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "pill"];
+  const priceConfig = PRICE_DISPLAY_MAP[(layout?.priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
 
   return (
     <article
@@ -158,27 +163,31 @@ export function ProductCard({
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-1.5 flex-wrap">
             <span
-              style={{
-                color: "var(--t-primary)",
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: "15px",
-                fontWeight: 500,
-              }}
+              className={priceConfig.className}
+              style={{ fontFamily: "'Poppins', sans-serif", ...priceConfig.style }}
             >
               {formatPrice(product.price, currencySymbol)}
             </span>
             {product.compare_at_price && product.compare_at_price > product.price && (
-              <span
-                className="line-through"
-                style={{
-                  color: "var(--t-text-muted)",
-                  fontFamily: "'League Spartan', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: 300,
-                }}
-              >
-                {formatPrice(product.compare_at_price, currencySymbol)}
-              </span>
+              <>
+                <span
+                  className="line-through"
+                  style={{
+                    color: "var(--t-text-muted)",
+                    fontFamily: "'League Spartan', sans-serif",
+                    fontSize: "11px",
+                    fontWeight: 300,
+                  }}
+                >
+                  {formatPrice(product.compare_at_price, currencySymbol)}
+                </span>
+                <span
+                  className={`text-xs font-semibold px-1.5 py-0.5 ${badgeClass}`}
+                  style={{ backgroundColor: "var(--t-badge-bg)", color: "var(--t-badge-text)" }}
+                >
+                  -{Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
+                </span>
+              </>
             )}
           </div>
 

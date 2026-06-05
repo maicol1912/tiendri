@@ -10,6 +10,7 @@ import {
   hoverEffectClass,
   imageRatioClass,
 } from "../utils/layout-classes";
+import { PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 
 interface ProductCardProps {
   product: StorefrontProduct;
@@ -19,6 +20,7 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    priceDisplay?: string;
   };
 }
 
@@ -31,6 +33,7 @@ export function ProductCard({
   const cardBg = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverFx = hoverEffectClass(layout?.cardHoverEffect ?? "scale");
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "portrait");
+  const priceConfig = PRICE_DISPLAY_MAP[(layout?.priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
 
   return (
     <article
@@ -101,10 +104,10 @@ export function ProductCard({
         {/* Line 3: price */}
         <div className="flex items-baseline gap-2 mt-0.5">
           <span
-            className="text-sm md:text-base text-[var(--t-text-primary)]"
+            className={priceConfig.className}
             style={{
               fontFamily: "var(--font-sans)",
-              fontWeight: 500,
+              ...priceConfig.style,
             }}
           >
             {currencySymbol}

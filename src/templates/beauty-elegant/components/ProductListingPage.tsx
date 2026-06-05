@@ -107,7 +107,10 @@ export function ProductListingPage({
             </p>
           </div>
         ) : (
-          <div className={`grid gap-4 md:gap-5 lg:gap-6 ${gridClass}`}>
+          <div
+            className={`grid ${gridClass}`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
+          >
             {visibleProducts.map((product) => (
               <ProductCard
                 key={product.id}

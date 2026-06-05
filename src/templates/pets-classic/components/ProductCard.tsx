@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { PetsClassicProduct } from "../types";
 import { cardStyleClass, imageRatioClass } from "../utils/layout-classes";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import type { BadgeStyle, PriceDisplay } from "@/types/templates";
 
 interface ProductCardProps {
   product: PetsClassicProduct;
@@ -23,6 +25,8 @@ interface ProductCardProps {
     cardImageRatio?: string;
     shadowStyle?: "hue-tinted" | "neutral";
     animationLevel?: "full" | "subtle" | "none";
+    badgeStyle?: BadgeStyle;
+    priceDisplay?: PriceDisplay;
   };
 }
 
@@ -54,6 +58,12 @@ export function ProductCard({ product, currencySymbol = "$", onClick, listingMod
 
   const shadowStyle = layout?.shadowStyle;
   const animationLevel = layout?.animationLevel ?? "none";
+
+  const badgeStyle = layout?.badgeStyle ?? "pill";
+  const badgeClass = BADGE_STYLE_MAP[badgeStyle];
+
+  const priceDisplayKey = layout?.priceDisplay ?? "standard";
+  const priceConfig = PRICE_DISPLAY_MAP[priceDisplayKey];
 
   const styleClass = cardStyleClass(layout?.cardStyle ?? "flat");
   // In listing mode use a compact wide ratio so cards don't tower over the grid
@@ -157,9 +167,8 @@ export function ProductCard({ product, currencySymbol = "$", onClick, listingMod
 
         {hasDiscount && product.compare_at_price && (
           <span
-            className="absolute top-2 right-2 px-2 py-0.5"
+            className={`absolute top-2 right-2 px-2 py-0.5 ${badgeClass}`}
             style={{
-              borderRadius: "var(--t-radius-button)",
               backgroundColor: "var(--t-badge-bg)",
               color: "var(--t-badge-text)",
               fontSize: "11px",
@@ -174,7 +183,14 @@ export function ProductCard({ product, currencySymbol = "$", onClick, listingMod
       </div>
 
       {/* Info area */}
-      <div className={`flex flex-col gap-1 pt-2 ${listingMode ? "px-2 pb-3" : "px-3 pb-4"}`}>
+      <div
+        className="flex flex-col gap-1 pt-2"
+        style={{
+          paddingLeft: "var(--t-space-card, 0.75rem)",
+          paddingRight: "var(--t-space-card, 0.75rem)",
+          paddingBottom: listingMode ? "var(--t-space-item, 0.75rem)" : "var(--t-space-card, 1rem)",
+        }}
+      >
         <p
           style={{
             fontSize: "13px",
@@ -191,7 +207,10 @@ export function ProductCard({ product, currencySymbol = "$", onClick, listingMod
         </p>
 
         <div className="flex items-center gap-2 mt-1">
-          <span style={{ fontSize: "15px", fontWeight: 800, color: "var(--t-primary)" }}>
+          <span
+            className={priceConfig.className}
+            style={{ ...(priceConfig.style ?? {}), fontWeight: 800 }}
+          >
             {currencySymbol}{formatPrice(product.price)}
           </span>
           {hasDiscount && product.compare_at_price && (

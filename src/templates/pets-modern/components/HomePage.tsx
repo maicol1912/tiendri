@@ -3,7 +3,7 @@
 // Uses sectionRenderers pattern for dynamic section ordering.
 // ZERO hardcoded colors — all via CSS variables.
 
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { Header } from "./Header";
 import { HeroBanner } from "./HeroBanner";
 import { TrendingCard } from "./TrendingCard";
@@ -93,9 +93,20 @@ export function HomePage({
       </section>
     ),
     trending: () => (
-      <section className="mt-8 md:mt-10" key="trending">
+      <section
+        key="trending"
+        style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 2rem)" }}
+      >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[var(--t-text-primary)] text-2xl md:text-3xl font-bold">
+          <h2
+            className="text-[var(--t-text-primary)]"
+            style={{
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1.5rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
+          >
             Tendencias
           </h2>
           <button
@@ -115,7 +126,10 @@ export function HomePage({
         </div>
 
         {/* Desktop: grid */}
-        <div className={`hidden lg:grid ${gridColsClass(trendingGrid.mobile, trendingGrid.desktop)} gap-6`}>
+        <div
+          className={`hidden lg:grid ${gridColsClass(trendingGrid.mobile, trendingGrid.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1.5rem)" }}
+        >
           {trendingItems.map((item) => (
             <TrendingCard key={item.id} item={item} layout={layout} />
           ))}
@@ -123,9 +137,20 @@ export function HomePage({
       </section>
     ),
     "pet-types": () => (
-      <section className="mt-8 md:mt-10" key="pet-types">
+      <section
+        key="pet-types"
+        style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 2rem)" }}
+      >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[var(--t-text-primary)] text-2xl md:text-3xl font-bold">
+          <h2
+            className="text-[var(--t-text-primary)]"
+            style={{
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1.5rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
+          >
             Tipos de mascota
           </h2>
           <button
@@ -144,7 +169,10 @@ export function HomePage({
         </div>
 
         {/* Desktop: grid */}
-        <div className={`hidden lg:grid ${gridColsClass(petTypesGrid.mobile, petTypesGrid.desktop)} gap-6`}>
+        <div
+          className={`hidden lg:grid ${gridColsClass(petTypesGrid.mobile, petTypesGrid.desktop)}`}
+          style={{ gap: "var(--t-space-gap, 1.5rem)" }}
+        >
           {petTypes.map((pt) => (
             <CategorySection key={pt.id} petType={pt} onClick={onExploreClick} />
           ))}
@@ -153,9 +181,20 @@ export function HomePage({
     ),
     products: () =>
       products.length > 0 ? (
-        <section className="mt-8 md:mt-10" key="products">
+        <section
+          key="products"
+          style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 2rem)" }}
+        >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[var(--t-text-primary)] text-2xl md:text-3xl font-bold">
+            <h2
+              className="text-[var(--t-text-primary)]"
+              style={{
+                fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 1.5rem)",
+                letterSpacing: "var(--t-type-heading-tracking, 0em)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+              }}
+            >
               Productos destacados
             </h2>
             <button
@@ -167,7 +206,10 @@ export function HomePage({
             </button>
           </div>
 
-          <div className={`grid ${gridColsClass(productsGrid.mobile, productsGrid.desktop)} gap-4 md:gap-6`}>
+          <div
+            className={`grid ${gridColsClass(productsGrid.mobile, productsGrid.desktop)}`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
+          >
             {products.map((product) => (
               <ProductCard
                 key={product.id}

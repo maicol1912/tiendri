@@ -2,6 +2,7 @@
 // Back + title + filter bar; optional category banner; product grid
 // ALL colors via var(--t-*)
 
+import React from "react";
 import Image from "next/image";
 import { ChevronLeft, SlidersHorizontal } from "lucide-react";
 import type { StorefrontStore, StorefrontProduct, StorefrontCategory, CategoryBannerData } from "../types";
@@ -81,9 +82,10 @@ export function ProductListingPage({
             className="text-[var(--t-text-primary)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-              fontSize: "22px",
-              fontWeight: 700,
-              letterSpacing: "-0.66px",
+              fontSize: "var(--t-type-heading-size, 1.375rem)",
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              letterSpacing: "var(--t-type-heading-tracking, -0.03em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
             }}
           >
             Catálogo
@@ -172,7 +174,7 @@ export function ProductListingPage({
             </p>
           </div>
         ) : (
-          <div className={`grid gap-4 ${gridColsClass(gridMobile, gridDesktop)}`}>
+          <div className={`grid ${gridColsClass(gridMobile, gridDesktop)}`} style={{ gap: "var(--t-space-gap, 1rem)" }}>
             {products.map((product) => (
               <ProductCard
                 key={product.id}

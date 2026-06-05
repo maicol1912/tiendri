@@ -7,6 +7,8 @@
 import Image from "next/image";
 import type { BeautyElegantProduct } from "../types";
 import { imageRatioClass, hoverEffectClass, cardStyleClass } from "../utils/layout-classes";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import type { BadgeStyle, PriceDisplay } from "@/types/templates";
 
 interface ProductCardProps {
   product: BeautyElegantProduct;
@@ -15,6 +17,8 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    badgeStyle?: BadgeStyle;
+    priceDisplay?: PriceDisplay;
   };
   onClick?: () => void;
 }
@@ -42,6 +46,8 @@ export function ProductCard({
   const cardStyle = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverEffect = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const imageRatio = imageRatioClass(layout?.cardImageRatio ?? "portrait");
+  const badgeClass = BADGE_STYLE_MAP[layout?.badgeStyle ?? "pill"];
+  const priceConfig = PRICE_DISPLAY_MAP[layout?.priceDisplay ?? "subtle"];
 
   return (
     <article
@@ -92,15 +98,14 @@ export function ProductCard({
           </div>
         )}
 
-        {/* Discount badge — glassmorphic dark pill */}
+        {/* Discount badge — glassmorphic */}
         {hasDiscount && (
           <span
-            className="absolute top-2 right-2 flex items-center justify-center px-2.5 py-1 text-[11px] font-medium"
+            className={`absolute top-2 right-2 flex items-center justify-center px-2.5 py-1 text-[11px] font-medium ${badgeClass}`}
             style={{
               backgroundColor: "var(--t-discount-bg)",
               backdropFilter: "blur(8px)",
               WebkitBackdropFilter: "blur(8px)",
-              borderRadius: "9999px",
               color: "var(--t-discount-text)",
             }}
           >
@@ -136,8 +141,8 @@ export function ProductCard({
           {product.name}
         </p>
         <span
-          className="text-[13px] font-medium"
-          style={{ color: "var(--t-text-muted)", lineHeight: "18px" }}
+          className={priceConfig.className}
+          style={{ lineHeight: "18px", ...priceConfig.style }}
         >
           {formatPrice(product.price, currencySymbol)}
         </span>

@@ -3,6 +3,7 @@
 // Mobile: stacked — image + thumbs, info, recommendations grid
 // Visual only — handlers from shell
 
+import React from "react";
 import Image from "next/image";
 import { ChevronRight, ShoppingCart } from "lucide-react";
 import { Header } from "./Header";
@@ -10,6 +11,8 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type { FurnitureLightConfig } from "../config";
 import type { FurnitureProduct, FurnitureStoreInfo, FurnitureNavTab } from "../types";
 
@@ -19,7 +22,7 @@ interface ProductDetailPageProps {
   navLinks?: readonly { label: string; href: string }[];
   relatedProducts?: FurnitureProduct[];
   grid?: FurnitureLightConfig["grid"];
-  layout?: FurnitureLightConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   activeTab?: FurnitureNavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -78,6 +81,7 @@ export function ProductDetailPage({
   );
 
   const gridCols = grid?.listing ?? { mobile: 2, desktop: 3 };
+  const btnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
@@ -303,12 +307,8 @@ export function ProductDetailPage({
               <div className="hidden lg:flex items-center gap-3 mt-6">
                 <button
                   onClick={onAddToCart}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98]"
-                  style={{
-                    borderRadius: "var(--t-radius-button)",
-                    backgroundColor: product.available === false ? "var(--t-border)" : "var(--t-primary)",
-                    color: product.available === false ? "var(--t-text-muted)" : "var(--t-button-text)",
-                  }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] border ${product.available === false ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
+                  style={{ borderRadius: "var(--t-radius-button)" }}
                   disabled={product.available === false}
                 >
                   <ShoppingCart size={18} />
@@ -321,8 +321,8 @@ export function ProductDetailPage({
           {/* Related products */}
           {relatedProducts.length > 0 && (
             <div className="mt-8">
-              <h2 className="text-base font-bold text-[var(--t-text-primary)] mb-4">También te puede gustar</h2>
-              <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)} gap-3`}>
+              <h2 className="text-[var(--t-text-primary)] mb-4" style={{ fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"], fontSize: "var(--t-type-heading-size, 1rem)", letterSpacing: "var(--t-type-heading-tracking, 0em)", textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"] }}>También te puede gustar</h2>
+              <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
                 {relatedProducts.slice(0, 6).map((p) => (
                   <ProductCard
                     key={p.id}
@@ -343,12 +343,8 @@ export function ProductDetailPage({
       <div className="lg:hidden fixed bottom-[60px] left-0 right-0 z-40 px-5 pb-2 pt-2 bg-[var(--t-background)]" style={{ boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}>
         <button
           onClick={onAddToCart}
-          className="w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90"
-          style={{
-            borderRadius: "var(--t-radius-button)",
-            backgroundColor: product.available === false ? "var(--t-border)" : "var(--t-primary)",
-            color: product.available === false ? "var(--t-text-muted)" : "var(--t-button-text)",
-          }}
+          className={`w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 border ${product.available === false ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
+          style={{ borderRadius: "var(--t-radius-button)" }}
           disabled={product.available === false}
         >
           <ShoppingCart size={16} />

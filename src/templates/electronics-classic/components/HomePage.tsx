@@ -3,6 +3,7 @@
 // sectionRenderers pattern (Rule 17): accepts `sections` prop for reordering/visibility.
 // ALL colors via var(--t-*). ZERO hardcoded hex.
 
+import React from "react";
 import type {
   StorefrontStore,
   StorefrontCategory,
@@ -110,18 +111,25 @@ export function HomePage({
 
     categories: () =>
       categories.length > 0 ? (
-        <section key="categories" className="py-6 md:py-8" aria-labelledby="categories-heading">
+        <section key="categories" aria-labelledby="categories-heading" style={{ paddingTop: "var(--t-space-section, 1.5rem)", paddingBottom: "var(--t-space-section, 1.5rem)" }}>
           <h2
             id="categories-heading"
-            className="text-lg md:text-xl lg:text-2xl font-bold text-[var(--t-text-primary)] mb-4 md:mb-6"
+            className="text-[var(--t-text-primary)] mb-4 md:mb-6"
+            style={{
+              fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 1.5rem)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+            }}
           >
             Categorías
           </h2>
           <div
-            className={`grid gap-3 md:gap-4 ${gridColsClass(
+            className={`grid ${gridColsClass(
               categoriesGrid.mobile,
               categoriesGrid.desktop
             )}`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
           >
             {categories.map((cat) => (
               <CategorySection
@@ -197,7 +205,7 @@ export function HomePage({
         onCartClick={onCartClick}
       />
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12 space-y-2 md:space-y-4">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12" style={{ display: "flex", flexDirection: "column", gap: "var(--t-space-section, 0.5rem)" }}>
         {/* Render sections in config-defined order */}
         {sections.map((sectionKey) => {
           const renderer = sectionRenderers[sectionKey];

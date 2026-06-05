@@ -143,7 +143,7 @@ export function ProductListingPage({
             </p>
           </div>
         ) : (
-          <div className={`grid ${listingGridClass} gap-4`} aria-label="Listado de productos">
+          <div className={`grid ${listingGridClass}`} style={{ gap: "var(--t-space-gap, 1rem)" }} aria-label="Listado de productos">
             {products.map((product) => (
               <ProductCard
                 key={product.id}

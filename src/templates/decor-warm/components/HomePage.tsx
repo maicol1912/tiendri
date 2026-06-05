@@ -158,21 +158,23 @@ export function HomePage({
     // ── Best seller featured card(s) ───────────────────────────────────────────
     "best-seller": () =>
       bestSellers.length > 0 ? (
-        <section className="flex flex-col gap-3 px-4 md:px-6 lg:px-8">
+        <section className="flex flex-col gap-3 px-4 md:px-6 lg:px-8" style={{ paddingTop: "var(--t-space-section, 1rem)", paddingBottom: "var(--t-space-section, 1rem)" }}>
           <div className="flex items-center justify-between">
             <h2
               style={{
                 color: "var(--t-dark-mode)",
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: "16px",
-                fontWeight: 600,
+                fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 16px)",
+                letterSpacing: "var(--t-type-heading-tracking, 0em)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
                 margin: 0,
               }}
             >
               Más Vendidos
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "var(--t-space-gap, 1rem)" }}>
             {bestSellers.map((item) => (
               <BestSellerCard
                 key={item.productId}
@@ -191,14 +193,16 @@ export function HomePage({
 
     // ── Product grid ───────────────────────────────────────────────────────────
     products: () => (
-      <section className="flex flex-col gap-4 px-4 md:px-6 lg:px-8">
+      <section className="flex flex-col gap-4 px-4 md:px-6 lg:px-8" style={{ paddingTop: "var(--t-space-section, 1rem)", paddingBottom: "var(--t-space-section, 1rem)" }}>
         <div className="flex items-center justify-between">
           <h2
             style={{
               color: "var(--t-dark-mode)",
               fontFamily: "'Poppins', sans-serif",
-              fontSize: "16px",
-              fontWeight: 600,
+              fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
+              fontSize: "var(--t-type-heading-size, 16px)",
+              letterSpacing: "var(--t-type-heading-tracking, 0em)",
+              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
               margin: 0,
             }}
           >
@@ -239,7 +243,8 @@ export function HomePage({
           </div>
         ) : (
           <div
-            className={`grid ${productGridClass} gap-4`}
+            className={`grid ${productGridClass}`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
             aria-label="Catálogo de productos"
           >
             {filteredProducts.map((product) => (

@@ -179,7 +179,7 @@ export function ProductListingPage({
                 </button>
               </div>
             ) : (
-              <div className={`grid gap-4 ${gridColsClass(listingGrid.mobile, listingGrid.desktop)}`}>
+              <div className={`grid ${gridColsClass(listingGrid.mobile, listingGrid.desktop)}`} style={{ gap: "var(--t-space-gap, 1rem)" }}>
                 {paged.map((product) => (
                   <ProductCard
                     key={product.id}

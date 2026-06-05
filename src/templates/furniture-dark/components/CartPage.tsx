@@ -2,6 +2,7 @@
 // Presentational: empty state OR 2-col desktop (60%/40%) items + summary
 // ALL text in Spanish Colombian; ALL colors via var(--t-*)
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import { ShoppingBag } from "lucide-react";
 import type { CartItem } from "../types";
 import type { StorefrontStore } from "../types";
@@ -15,6 +16,7 @@ interface CartPageProps {
   items: CartItem[];
   totalPrice: number;
   cartItemCount?: number;
+  buttonStyle?: string;
   onIncrement: (productId: string) => void;
   onDecrement: (productId: string) => void;
   onRemove: (productId: string) => void;
@@ -30,6 +32,7 @@ export function CartPage({
   items,
   totalPrice,
   cartItemCount = 0,
+  buttonStyle,
   onIncrement,
   onDecrement,
   onRemove,
@@ -40,6 +43,7 @@ export function CartPage({
   onBottomNavTab,
 }: CartPageProps) {
   const isEmpty = items.length === 0;
+  const btnClass = BUTTON_STYLE_MAP[(buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
 
   return (
     <div
@@ -99,10 +103,8 @@ export function CartPage({
             </div>
             <button
               type="button"
-              className="px-6 py-3.5 rounded-[var(--t-radius-button)] font-bold transition-opacity hover:opacity-90"
+              className={`px-6 py-3.5 rounded-[var(--t-radius-button)] font-bold transition-opacity hover:opacity-90 border ${btnClass}`}
               style={{
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "14px",
                 fontWeight: 700,

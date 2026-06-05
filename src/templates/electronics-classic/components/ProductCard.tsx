@@ -6,6 +6,7 @@
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 
 interface ProductCardProps {
   product: StorefrontProduct;
@@ -14,6 +15,8 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    badgeStyle?: string;
+    priceDisplay?: string;
   };
   onProductClick?: (productId: string) => void;
 }
@@ -37,6 +40,8 @@ export function ProductCard({
   const cardClass = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "scale");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
+  const badgeClass = BADGE_STYLE_MAP[(layout?.badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "square"];
+  const priceConfig = PRICE_DISPLAY_MAP[(layout?.priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
 
   return (
     <article
@@ -59,7 +64,7 @@ export function ProductCard({
         />
         {hasDiscount && (
           <div
-            className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-[var(--t-radius-button)] text-[10px] font-bold"
+            className={`absolute top-2 left-2 z-10 px-2 py-0.5 ${badgeClass} text-[10px] font-bold`}
             style={{
               backgroundColor: "var(--t-badge-bg)",
               color: "var(--t-badge-text)",
@@ -79,7 +84,7 @@ export function ProductCard({
 
         {/* Price — Line 3 */}
         <div className="flex items-center gap-2">
-          <span className="text-sm md:text-base font-semibold text-[var(--t-text-primary)]">
+          <span className={priceConfig.className} style={priceConfig.style}>
             {currencySymbol}{formattedPrice}
           </span>
           {hasDiscount && formattedCompare && (

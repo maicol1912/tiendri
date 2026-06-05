@@ -9,6 +9,8 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import type {
   StoreInfo,
   CartItem,
@@ -31,6 +33,7 @@ interface CheckoutPageProps {
   navLinks: readonly { label: string; href: string }[];
   footerServices: readonly string[];
   footerAssistance: readonly string[];
+  layout?: Partial<TemplateLayoutConfig>;
   currencySymbol?: string;
   activeTab?: NavTab;
   cartItemCount?: number;
@@ -51,6 +54,7 @@ export function CheckoutPage({
   navLinks,
   footerServices,
   footerAssistance,
+  layout,
   currencySymbol = "$",
   activeTab = "cart",
   cartItemCount = 0,
@@ -63,6 +67,7 @@ export function CheckoutPage({
   onTabChange,
   onNavLinkClick,
 }: CheckoutPageProps) {
+  const whatsappBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const isEmpty = items.length === 0;
 
@@ -138,7 +143,7 @@ export function CheckoutPage({
                   <div className="flex flex-col gap-3">
                     <button
                       type="button"
-                      className="w-full py-4 bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium rounded-[var(--t-radius-button)] border-none cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center gap-3"
+                      className={`w-full py-4 text-base font-medium rounded-[var(--t-radius-button)] border cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center gap-3 ${whatsappBtnClass}`}
                       onClick={onSubmit}
                     >
                       <WhatsAppIcon />
@@ -154,7 +159,7 @@ export function CheckoutPage({
                 ) : (
                   <button
                     type="button"
-                    className="w-full py-4 bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium rounded-[var(--t-radius-button)] border-none cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center gap-3"
+                    className={`w-full py-4 text-base font-medium rounded-[var(--t-radius-button)] border cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center gap-3 ${whatsappBtnClass}`}
                     onClick={onSubmit}
                   >
                     <WhatsAppIcon />

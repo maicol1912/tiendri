@@ -12,6 +12,8 @@ import { QuantityStepper } from "./QuantityStepper";
 import { SizeSelector } from "./SizeSelector";
 import { StickyBottomBar } from "./StickyBottomBar";
 import type { StoreInfo, StorefrontProduct, SizeOption, NavTab } from "../types";
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -23,7 +25,7 @@ interface ProductDetailPageProps {
   isDescriptionExpanded?: boolean;
   activeTab?: NavTab;
   cartItemCount?: number;
-  layout?: { headerStyle?: string; footerStyle?: string };
+  layout?: { headerStyle?: string; footerStyle?: string; buttonStyle?: ButtonStyle };
   onBack?: () => void;
   onSizeSelect?: (id: string) => void;
   onDecrement?: () => void;
@@ -75,6 +77,7 @@ export function ProductDetailPage({
     border: "none",
     cursor: "pointer",
   };
+  const ctaClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
@@ -260,13 +263,11 @@ export function ProductDetailPage({
                 type="button"
                 disabled={!product.available}
                 onClick={onAddToCart}
-                className="flex-1 flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+                className={`flex-1 flex items-center justify-center gap-2 transition-opacity hover:opacity-90 border ${ctaClass}`}
                 style={{
                   borderRadius: "var(--t-radius-button)",
                   height: 52,
-                  backgroundColor: product.available ? "var(--t-button-bg)" : "var(--t-card-bg)",
-                  color: product.available ? "var(--t-button-text)" : "var(--t-text-muted)",
-                  border: "none",
+                  ...(!product.available ? { backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" } : {}),
                   cursor: product.available ? "pointer" : "not-allowed",
                   maxWidth: 320,
                   fontSize: "14px",

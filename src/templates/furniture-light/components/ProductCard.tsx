@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Star, Plus } from "lucide-react";
 import type { FurnitureProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
+import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP, BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 interface ProductCardProps {
   product: FurnitureProduct;
@@ -18,6 +19,9 @@ interface ProductCardProps {
     cardStyle?: string;
     cardHoverEffect?: string;
     cardImageRatio?: string;
+    badgeStyle?: string;
+    priceDisplay?: string;
+    buttonStyle?: string;
   };
 }
 
@@ -42,6 +46,9 @@ export function ProductCard({
 
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
+  const badgeClass = BADGE_STYLE_MAP[(layout?.badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "pill"];
+  const priceConfig = PRICE_DISPLAY_MAP[(layout?.priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
+  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
 
   return (
     <article
@@ -60,7 +67,7 @@ export function ProductCard({
         {/* Discount badge */}
         {discountPercent > 0 && (
           <div
-            className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--t-badge-bg)]"
+            className={`absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-1 ${badgeClass} bg-[var(--t-badge-bg)]`}
           >
             <span className="text-[var(--t-badge-text)] text-[10px] font-bold">
               {discountPercent}%
@@ -117,7 +124,7 @@ export function ProductCard({
         </p>
         <div className="flex items-center justify-between mt-1.5">
           <div className="flex items-center gap-1.5">
-            <span className="text-[15px] font-bold text-[var(--t-text-primary)]">
+            <span className={priceConfig.className} style={priceConfig.style}>
               {formattedPrice}
             </span>
             {product.compare_at_price && (
@@ -134,9 +141,9 @@ export function ProductCard({
               onAddToCart?.(product.id);
             }}
             aria-label={`Agregar ${product.name} al carrito`}
-            className="flex items-center justify-center w-7 h-7 rounded-[var(--t-radius-button)] transition-all hover:scale-110 active:scale-95 bg-[var(--t-primary)]"
+            className={`flex items-center justify-center w-7 h-7 rounded-[var(--t-radius-button)] transition-all hover:scale-110 active:scale-95 border ${btnClass}`}
           >
-            <Plus size={14} strokeWidth={2.5} style={{ color: "var(--t-button-text)" }} />
+            <Plus size={14} strokeWidth={2.5} style={{ color: layout?.buttonStyle === "filled" || !layout?.buttonStyle ? "var(--t-button-text)" : "currentColor" }} />
           </button>
         </div>
       </div>

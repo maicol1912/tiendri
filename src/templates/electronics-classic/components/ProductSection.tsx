@@ -2,6 +2,7 @@
 // Section title + "Ver todos" + product grid.
 // Grid driven by config via gridColsClass (Rule 16).
 
+import React from "react";
 import { ArrowRight } from "lucide-react";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
@@ -31,12 +32,18 @@ export function ProductSection({
   onProductClick,
 }: ProductSectionProps) {
   return (
-    <section className="py-6 md:py-8" aria-labelledby={`section-${title}`}>
+    <section aria-labelledby={`section-${title}`} style={{ paddingTop: "var(--t-space-section, 1.5rem)", paddingBottom: "var(--t-space-section, 1.5rem)" }}>
       {/* Section header */}
       <div className="flex items-center justify-between mb-4 md:mb-6">
         <h2
           id={`section-${title}`}
-          className="text-lg md:text-xl lg:text-2xl font-bold text-[var(--t-text-primary)]"
+          className="text-[var(--t-text-primary)]"
+          style={{
+            fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
+            fontSize: "var(--t-type-heading-size, 1.5rem)",
+            letterSpacing: "var(--t-type-heading-tracking, 0em)",
+            textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+          }}
         >
           {title}
         </h2>
@@ -54,7 +61,8 @@ export function ProductSection({
 
       {/* Product grid — config-driven */}
       <div
-        className={`grid gap-4 md:gap-5 lg:gap-6 ${gridColsClass(grid.mobile, grid.desktop)}`}
+        className={`grid ${gridColsClass(grid.mobile, grid.desktop)}`}
+        style={{ gap: "var(--t-space-gap, 1rem)" }}
       >
         {products.map((product) => (
           <ProductCard

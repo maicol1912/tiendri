@@ -86,7 +86,12 @@ export function HomePage({
 
     categories: () =>
       categories.length > 0 ? (
-        <section className="mb-5" aria-label="Categorías" key="categories">
+        <section
+          className="mb-5"
+          aria-label="Categorías"
+          key="categories"
+          style={{ paddingTop: "var(--t-space-section, 1.25rem)", paddingBottom: "var(--t-space-section, 1.25rem)" }}
+        >
           <CategorySection
             categories={categories}
             activeCategoryId={activeCategoryId}
@@ -99,7 +104,8 @@ export function HomePage({
       products.length > 0 ? (
         <section aria-label="Productos" key="products">
           <div
-            className={`grid ${gridColsClass(productsMobile, productsDesktop)} gap-3 md:gap-4 lg:gap-5 items-start`}
+            className={`grid ${gridColsClass(productsMobile, productsDesktop)} items-start`}
+            style={{ gap: "var(--t-space-gap, 0.75rem)" }}
           >
             {products.map((product, index) => (
               <ProductCard

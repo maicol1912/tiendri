@@ -5,17 +5,18 @@
 
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
-import type { TechPremiumConfig } from "../config";
+import type { TemplateLayoutConfig } from "@/types/templates";
 import {
   cardStyleClass,
   hoverEffectClass,
   imageRatioClass,
 } from "../utils/layout-classes";
+import { BUTTON_STYLE_MAP, BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 
 interface ProductCardProps {
   product: StorefrontProduct;
   currencySymbol?: string;
-  layout?: TechPremiumConfig["layout"];
+  layout?: Partial<TemplateLayoutConfig>;
   onClick?: () => void;
   onAddToCart?: () => void;
 }
@@ -34,10 +35,33 @@ export function ProductCard({
   const hoverFx = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "square");
 
+  const buttonStyle = layout?.buttonStyle ?? "filled";
+  const buttonClass = BUTTON_STYLE_MAP[buttonStyle];
+
+  const badgeStyle = layout?.badgeStyle ?? "pill";
+  const badgeClass = BADGE_STYLE_MAP[badgeStyle];
+
+  const priceDisplay = layout?.priceDisplay ?? "standard";
+  const priceConfig = PRICE_DISPLAY_MAP[priceDisplay];
+
+  const hasDiscount = product.originalPrice != null && product.originalPrice > product.price;
+  const discountPercent = hasDiscount && product.originalPrice != null
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : null;
+
   return (
     <article
-      className={`${cardBg} ${hoverFx} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 px-4 py-6 min-w-0 max-w-sm w-full mx-auto`}
+      className={`${cardBg} ${hoverFx} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 px-4 py-6 min-w-0 max-w-sm w-full mx-auto relative`}
     >
+      {/* Discount badge */}
+      {discountPercent !== null && (
+        <span
+          className={`absolute top-2 right-2 px-2 py-0.5 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[11px] font-bold ${badgeClass}`}
+        >
+          -{discountPercent}%
+        </span>
+      )}
+
       {/* Product image — clickable */}
       <button
         type="button"
@@ -68,7 +92,10 @@ export function ProductCard({
               {product.name}
             </p>
           </button>
-          <p className="text-xl lg:text-2xl font-semibold text-[var(--t-text-primary)] tracking-[0.72px]">
+          <p
+            className={`tracking-[0.72px] ${priceConfig.className}`}
+            style={priceConfig.style}
+          >
             {currencySymbol}
             {new Intl.NumberFormat("en-US").format(product.price)}
           </p>
@@ -77,7 +104,7 @@ export function ProductCard({
         {/* Buy Now button */}
         <button
           type="button"
-          className="bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 lg:px-16 py-3 cursor-pointer border-none hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+          className={`${buttonClass} text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 lg:px-16 py-3 cursor-pointer border hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap`}
           onClick={(e) => {
             e.stopPropagation();
             onAddToCart?.();

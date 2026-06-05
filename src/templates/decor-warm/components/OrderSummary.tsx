@@ -2,6 +2,8 @@
 // Fixed bottom panel: Subtotal / Envío / Total rows + peach pill CTA.
 // ZERO hardcoded colors — all via var(--t-*).
 
+import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+
 function formatPrice(price: number, symbol = "$") {
   return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
@@ -10,6 +12,7 @@ interface OrderSummaryProps {
   subtotal: number;
   total: number;
   currencySymbol?: string;
+  buttonStyle?: string;
   onCheckout?: () => void;
   onContinueShopping?: () => void;
 }
@@ -18,9 +21,11 @@ export function OrderSummary({
   subtotal,
   total,
   currencySymbol = "$",
+  buttonStyle,
   onCheckout,
   onContinueShopping,
 }: OrderSummaryProps) {
+  const btnClass = BUTTON_STYLE_MAP[(buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-2 px-4 md:px-6 pt-4"
@@ -104,16 +109,14 @@ export function OrderSummary({
       <div className="max-w-3xl mx-auto w-full flex flex-col items-center gap-2 mt-1">
         <button
           type="button"
+          className={`border ${btnClass}`}
           style={{
             width: 207,
             height: 45,
-            backgroundColor: "var(--t-peach)",
-            color: "#FFFFFF",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "15px",
             fontWeight: 600,
             borderRadius: "var(--t-radius-button)",
-            border: "none",
             cursor: "pointer",
           }}
           onClick={onCheckout}

@@ -172,7 +172,7 @@ export function ProductListingPage({
             </p>
           </div>
         ) : (
-          <div className={`grid ${gridClass} gap-3 md:gap-5 lg:gap-6`}>
+          <div className={`grid ${gridClass}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
             {products.map((product) => (
               <ProductCard
                 key={product.id}

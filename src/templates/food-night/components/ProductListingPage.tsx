@@ -91,7 +91,10 @@ export function ProductListingPage({
         {/* Product grid */}
         {filteredProducts.length > 0 ? (
           <section aria-label="Todos los productos">
-            <div className={`grid ${gridColsClass(listingMobile, listingDesktop)} gap-3 md:gap-4 lg:gap-5 items-start`}>
+            <div
+              className={`grid ${gridColsClass(listingMobile, listingDesktop)} items-start`}
+              style={{ gap: "var(--t-space-gap, 0.75rem)" }}
+            >
               {filteredProducts.map((product, index) => (
                 <ProductCard
                   key={product.id}

@@ -104,9 +104,15 @@ export function HomePage({
     ),
 
     products: () => (
-      <section aria-labelledby="products-heading">
+      <section
+        aria-labelledby="products-heading"
+        style={{ paddingTop: "var(--t-space-section, 2rem)", paddingBottom: "var(--t-space-section, 2rem)" }}
+      >
         <h2 id="products-heading" className="sr-only">Productos</h2>
-        <div className={`grid gap-4 md:gap-5 lg:gap-6 ${gridClass}`}>
+        <div
+          className={`grid ${gridClass}`}
+          style={{ gap: "var(--t-space-gap, 1rem)" }}
+        >
           {products.map((product) => (
             <ProductCard
               key={product.id}
