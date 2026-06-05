@@ -6,6 +6,7 @@
 
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+import { CheckoutForm } from "./CheckoutForm";
 
 export interface CheckoutOrderItem {
   productId: string;
@@ -46,88 +47,6 @@ function formatPrice(price: number, symbol = "$") {
   return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
-function FormField({
-  label,
-  name,
-  type = "text",
-  value,
-  placeholder,
-  error,
-  required,
-  textarea,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  value: string;
-  placeholder?: string;
-  error?: string;
-  required?: boolean;
-  textarea?: boolean;
-  onChange?: (v: string) => void;
-}) {
-  const inputStyle = {
-    width: "100%",
-    backgroundColor: "var(--t-surface)",
-    border: error ? "1px solid #EF4444" : "1px solid var(--t-border-input)",
-    borderRadius: "var(--t-radius-category)",
-    padding: "10px 14px",
-    color: "var(--t-dark-mode)",
-    fontFamily: "'Poppins', sans-serif",
-    fontSize: "14px",
-    fontWeight: 400,
-    outline: "none",
-  } as const;
-
-  return (
-    <div className="flex flex-col gap-1">
-      <label
-        htmlFor={name}
-        style={{
-          color: "var(--t-text-secondary)",
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: "13px",
-          fontWeight: 500,
-        }}
-      >
-        {label} {required && <span style={{ color: "var(--t-primary)" }}>*</span>}
-      </label>
-      {textarea ? (
-        <textarea
-          id={name}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          rows={3}
-          style={{ ...inputStyle, resize: "vertical" }}
-          onChange={(e) => onChange?.(e.target.value)}
-        />
-      ) : (
-        <input
-          id={name}
-          name={name}
-          type={type}
-          value={value}
-          placeholder={placeholder}
-          style={{ ...inputStyle, height: 42 }}
-          onChange={(e) => onChange?.(e.target.value)}
-        />
-      )}
-      {error && (
-        <span
-          style={{
-            color: "#EF4444",
-            fontFamily: "'League Spartan', sans-serif",
-            fontSize: "12px",
-          }}
-        >
-          {error}
-        </span>
-      )}
-    </div>
-  );
-}
 
 export function CheckoutPage({
   orderItems,
@@ -184,70 +103,11 @@ export function CheckoutPage({
       {/* ── Content ── */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 md:px-6 py-5 lg:flex lg:gap-8 lg:items-start">
         {/* ── Form section ── */}
-        <div className="flex-1 flex flex-col gap-4">
-          <h2
-            style={{
-              color: "var(--t-dark-mode)",
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: "15px",
-              fontWeight: 600,
-              margin: 0,
-            }}
-          >
-            Datos de contacto
-          </h2>
-
-          <FormField
-            label="Nombre completo"
-            name="nombre"
-            value={formData.nombre}
-            placeholder="Tu nombre completo"
-            error={errors.nombre}
-            required
-            onChange={(v) => onFieldChange?.("nombre", v)}
-          />
-
-          <FormField
-            label="WhatsApp"
-            name="whatsapp"
-            type="tel"
-            value={formData.whatsapp}
-            placeholder="573001234567"
-            error={errors.whatsapp}
-            required
-            onChange={(v) => onFieldChange?.("whatsapp", v)}
-          />
-
-          <FormField
-            label="Correo electrónico"
-            name="email"
-            type="email"
-            value={formData.email}
-            placeholder="tu@correo.com"
-            error={errors.email}
-            required
-            onChange={(v) => onFieldChange?.("email", v)}
-          />
-
-          <FormField
-            label="Dirección de entrega"
-            name="direccion"
-            value={formData.direccion}
-            placeholder="Calle, número, ciudad"
-            error={errors.direccion}
-            required
-            onChange={(v) => onFieldChange?.("direccion", v)}
-          />
-
-          <FormField
-            label="Notas adicionales"
-            name="notas"
-            value={formData.notas}
-            placeholder="Instrucciones especiales de entrega..."
-            textarea
-            onChange={(v) => onFieldChange?.("notas", v)}
-          />
-        </div>
+        <CheckoutForm
+          formData={formData}
+          errors={errors}
+          onFieldChange={onFieldChange}
+        />
 
         {/* ── Order summary (desktop sidebar / mobile below form) ── */}
         <div

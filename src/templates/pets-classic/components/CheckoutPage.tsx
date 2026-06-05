@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
+import { CheckoutForm } from "./CheckoutForm";
 import type { PetsClassicConfig } from "../config";
 import type {
   StoreInfo,
@@ -19,9 +20,6 @@ import type {
 
 const TAX_RATE = 0.025;
 const DELIVERY_FEE = 5000;
-
-// Semantic error color — not a theme token, always red for validation errors
-const ERROR_COLOR = "hsl(0 72% 51%)";
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat("en-US").format(price);
@@ -163,67 +161,11 @@ export function CheckoutPage({
         ) : (
           <div className="flex flex-col lg:flex-row gap-6">
             {/* ── Form ── */}
-            <div className="flex-1 flex flex-col gap-4">
-              <p style={{ fontSize: "15px", fontWeight: 700, color: "var(--t-text-primary)", marginBottom: 4 }}>
-                Datos de entrega
-              </p>
-
-              {[
-                { key: "name" as const, label: "Nombre completo", type: "text", placeholder: "Ej: María García" },
-                { key: "phone" as const, label: "Teléfono / WhatsApp", type: "tel", placeholder: "Ej: 3001234567" },
-                { key: "address" as const, label: "Dirección de entrega", type: "text", placeholder: "Calle 123 # 45-67, Ciudad" },
-                { key: "notes" as const, label: "Notas adicionales (opcional)", type: "text", placeholder: "Color, talla, instrucciones especiales..." },
-              ].map(({ key, label, type, placeholder }) => (
-                <div key={key} className="flex flex-col gap-1">
-                  <label
-                    htmlFor={`field-${key}`}
-                    style={{ fontSize: "12px", fontWeight: 600, color: "var(--t-text-secondary)" }}
-                  >
-                    {label}
-                  </label>
-                  <input
-                    id={`field-${key}`}
-                    type={type}
-                    value={form[key]}
-                    onChange={(e) => setForm((prev) => ({ ...prev, [key]: e.target.value }))}
-                    placeholder={placeholder}
-                    className="w-full px-3 py-2.5 outline-none"
-                    style={{
-                      borderRadius: "var(--t-radius-category)",
-                      border: errors[key]
-                        ? `1.5px solid ${ERROR_COLOR}`
-                        : "1px solid var(--t-border-input)",
-                      backgroundColor: "var(--t-search-bg)",
-                      fontSize: "13px",
-                      color: "var(--t-text-primary)",
-                    }}
-                  />
-                  {errors[key] && (
-                    <p style={{ fontSize: "11px", color: ERROR_COLOR }}>{errors[key]}</p>
-                  )}
-                </div>
-              ))}
-
-              {/* Payment note */}
-              <div
-                className="flex items-start gap-3 p-3"
-                style={{
-                  borderRadius: "var(--t-radius-category)",
-                  backgroundColor: "var(--t-surface)",
-                  border: "1px solid var(--t-border)",
-                }}
-              >
-                <span style={{ fontSize: "20px" }}>💬</span>
-                <div>
-                  <p style={{ fontSize: "12px", fontWeight: 600, color: "var(--t-text-primary)" }}>
-                    Pago vía WhatsApp
-                  </p>
-                  <p style={{ fontSize: "11px", color: "var(--t-text-muted)", lineHeight: 1.5 }}>
-                    Al confirmar, te redireccionamos a WhatsApp donde podrás coordinar el pago y entrega directamente con la tienda.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <CheckoutForm
+              form={form}
+              errors={errors}
+              onChange={(field, value) => setForm((prev) => ({ ...prev, [field]: value }))}
+            />
 
             {/* ── Order summary ── */}
             <div

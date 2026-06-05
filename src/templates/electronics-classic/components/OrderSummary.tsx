@@ -1,4 +1,4 @@
-// Electronics Classic — Cart Summary
+// Electronics Classic — Order Summary
 // Subtotal + shipping + total + checkout button.
 // All colors via var(--t-*). ZERO hardcoded hex.
 // Intl.NumberFormat — NEVER toLocaleString().
@@ -7,7 +7,7 @@ import type { CartItem } from "../types";
 
 const fmt = new Intl.NumberFormat("en-US");
 
-interface CartSummaryProps {
+interface OrderSummaryProps {
   items: CartItem[];
   currencySymbol?: string;
   onCheckout: () => void;
@@ -16,7 +16,7 @@ interface CartSummaryProps {
 const FREE_SHIPPING_THRESHOLD = 200000; // $200.000
 const FLAT_SHIPPING = 12000; // $12.000
 
-export function CartSummary({ items, currencySymbol = "$", onCheckout }: CartSummaryProps) {
+export function OrderSummary({ items, currencySymbol = "$", onCheckout }: OrderSummaryProps) {
   const subtotal = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING;
   const total = subtotal + shipping;

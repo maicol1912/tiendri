@@ -4,7 +4,8 @@
 // ZERO hardcoded colors — all via CSS variables.
 
 import Image from "next/image";
-import { ArrowLeft, Heart, Star, ChevronRight, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Heart, Star, ChevronRight } from "lucide-react";
+import { QuantityStepper } from "./QuantityStepper";
 import type { StorefrontProduct } from "../types";
 
 interface ProductDetailPageProps {
@@ -141,26 +142,12 @@ export function ProductDetailPage({
             )}
 
             {/* Quantity stepper */}
-            <div className="flex items-center gap-4 mt-6">
-              <button
-                onClick={onDecrement}
-                className="w-10 h-10 flex items-center justify-center text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors"
-                aria-label="Disminuir cantidad"
-              >
-                <Minus className="w-5 h-5" />
-              </button>
-              <div className="w-[46px] h-[46px] flex items-center justify-center border border-[var(--t-border)] rounded-[var(--t-radius-button)]">
-                <span className="text-[var(--t-text-primary)] text-lg font-medium">
-                  {quantity}
-                </span>
-              </div>
-              <button
-                onClick={onIncrement}
-                className="w-10 h-10 flex items-center justify-center text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors"
-                aria-label="Aumentar cantidad"
-              >
-                <Plus className="w-5 h-5" />
-              </button>
+            <div className="mt-6">
+              <QuantityStepper
+                value={quantity}
+                onDecrement={onDecrement}
+                onIncrement={onIncrement}
+              />
             </div>
 
             {/* Product Detail row */}

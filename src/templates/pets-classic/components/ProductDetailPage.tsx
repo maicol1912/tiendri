@@ -11,6 +11,7 @@ import { Heart, Star, ShoppingBag, ChevronLeft } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
+import { QuantityStepper } from "./QuantityStepper";
 import type { PetsClassicConfig } from "../config";
 import type {
   StoreInfo,
@@ -332,54 +333,11 @@ export function ProductDetailPage({
               {/* Quantity stepper — desktop */}
               {product.available && (
                 <div className="hidden lg:flex items-center gap-6 mt-2">
-                  <div
-                    className="flex items-center"
-                    style={{
-                      border: "1px solid var(--t-border)",
-                      borderRadius: "var(--t-radius-button)",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={handleDecrement}
-                      disabled={quantity <= 1}
-                      className="flex items-center justify-center w-10 h-10"
-                      style={{
-                        background: "none",
-                        border: "none",
-                        cursor: quantity <= 1 ? "not-allowed" : "pointer",
-                        color: quantity <= 1 ? "var(--t-border)" : "var(--t-text-primary)",
-                        fontSize: "18px",
-                        fontWeight: 700,
-                      }}
-                      aria-label="Disminuir cantidad"
-                    >
-                      −
-                    </button>
-                    <span
-                      className="w-10 text-center"
-                      style={{ fontSize: "14px", fontWeight: 600, color: "var(--t-text-primary)" }}
-                    >
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleIncrement}
-                      className="flex items-center justify-center w-10 h-10"
-                      style={{
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "var(--t-text-primary)",
-                        fontSize: "18px",
-                        fontWeight: 700,
-                      }}
-                      aria-label="Aumentar cantidad"
-                    >
-                      +
-                    </button>
-                  </div>
+                  <QuantityStepper
+                    value={quantity}
+                    onDecrement={handleDecrement}
+                    onIncrement={handleIncrement}
+                  />
 
                   <button
                     type="button"
@@ -440,54 +398,14 @@ export function ProductDetailPage({
           }}
         >
           <div className="flex items-center gap-3 max-w-lg mx-auto">
-            <div
-              className="flex items-center flex-shrink-0"
-              style={{
-                border: "1px solid var(--t-border)",
-                borderRadius: "var(--t-radius-button)",
-                overflow: "hidden",
-              }}
-            >
-              <button
-                type="button"
-                onClick={handleDecrement}
-                disabled={quantity <= 1}
-                className="flex items-center justify-center w-9 h-9"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: quantity <= 1 ? "not-allowed" : "pointer",
-                  color: quantity <= 1 ? "var(--t-border)" : "var(--t-text-primary)",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                }}
-                aria-label="Disminuir cantidad"
-              >
-                −
-              </button>
-              <span
-                className="w-8 text-center"
-                style={{ fontSize: "13px", fontWeight: 600, color: "var(--t-text-primary)" }}
-              >
-                {quantity}
-              </span>
-              <button
-                type="button"
-                onClick={handleIncrement}
-                className="flex items-center justify-center w-9 h-9"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "var(--t-text-primary)",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                }}
-                aria-label="Aumentar cantidad"
-              >
-                +
-              </button>
-            </div>
+            <QuantityStepper
+              value={quantity}
+              buttonSize={9}
+              valueWidth={8}
+              fontSize="13px"
+              onDecrement={handleDecrement}
+              onIncrement={handleIncrement}
+            />
 
             <button
               type="button"

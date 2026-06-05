@@ -4,8 +4,9 @@
 // Intl.NumberFormat — NEVER toLocaleString().
 
 import Image from "next/image";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { CartItem } from "../types";
+import { QuantityStepper } from "./QuantityStepper";
 
 const fmt = new Intl.NumberFormat("en-US");
 
@@ -65,36 +66,11 @@ export function CartItemRow({
         {/* Qty stepper + total + remove */}
         <div className="flex items-center justify-between gap-3 mt-1 flex-wrap">
           {/* Stepper */}
-          <div
-            className="flex items-center border rounded-[var(--t-radius-button)]"
-            style={{ borderColor: "var(--t-surface)" }}
-          >
-            <button
-              onClick={() => onQuantityChange(item.productId, Math.max(1, item.quantity - 1))}
-              disabled={item.quantity <= 1}
-              aria-label="Reducir cantidad"
-              className="w-7 h-7 flex items-center justify-center disabled:opacity-40 transition-colors"
-              style={{ color: "var(--t-text-primary)" }}
-            >
-              <Minus className="w-3 h-3" aria-hidden="true" />
-            </button>
-            <span
-              className="w-8 text-center text-sm select-none font-semibold"
-              aria-live="polite"
-              aria-label={`Cantidad: ${item.quantity}`}
-              style={{ color: "var(--t-text-primary)" }}
-            >
-              {item.quantity}
-            </span>
-            <button
-              onClick={() => onQuantityChange(item.productId, item.quantity + 1)}
-              aria-label="Aumentar cantidad"
-              className="w-7 h-7 flex items-center justify-center transition-colors"
-              style={{ color: "var(--t-text-primary)" }}
-            >
-              <Plus className="w-3 h-3" aria-hidden="true" />
-            </button>
-          </div>
+          <QuantityStepper
+            productId={item.productId}
+            quantity={item.quantity}
+            onQuantityChange={onQuantityChange}
+          />
 
           <div className="flex items-center gap-3">
             {/* Line total */}

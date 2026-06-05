@@ -3,6 +3,7 @@
 // ZERO hardcoded colors — all via CSS variables.
 
 import { ArrowLeft } from "lucide-react";
+import { CheckoutForm } from "./CheckoutForm";
 import type { CartItem, CheckoutFormData } from "../types";
 
 interface CheckoutPageProps {
@@ -43,78 +44,10 @@ export function CheckoutPage({
       <div className="max-w-3xl mx-auto px-4 md:px-6 lg:px-8 mt-6">
         <div className="flex flex-col lg:flex-row lg:gap-8">
           {/* Form */}
-          <div className="flex-1">
-            <h2 className="text-[var(--t-text-primary)] text-lg font-bold mb-4">
-              Tus datos
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-[var(--t-text-primary)] mb-1.5">
-                  Nombre *
-                </label>
-                <input
-                  type="text"
-                  value={formData.nombre}
-                  onChange={(e) => onFieldChange?.("nombre", e.target.value)}
-                  className="w-full h-12 px-4 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-text-primary)] bg-[var(--t-background)] outline-none focus:ring-2 focus:ring-[var(--t-primary)]/30 focus:border-[var(--t-primary)] transition-all"
-                  placeholder="Tu nombre completo"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--t-text-primary)] mb-1.5">
-                  Numero de WhatsApp *
-                </label>
-                <input
-                  type="tel"
-                  value={formData.whatsapp}
-                  onChange={(e) => onFieldChange?.("whatsapp", e.target.value)}
-                  className="w-full h-12 px-4 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-text-primary)] bg-[var(--t-background)] outline-none focus:ring-2 focus:ring-[var(--t-primary)]/30 focus:border-[var(--t-primary)] transition-all"
-                  placeholder="573001234567"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--t-text-primary)] mb-1.5">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => onFieldChange?.("email", e.target.value)}
-                  className="w-full h-12 px-4 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-text-primary)] bg-[var(--t-background)] outline-none focus:ring-2 focus:ring-[var(--t-primary)]/30 focus:border-[var(--t-primary)] transition-all"
-                  placeholder="email@ejemplo.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--t-text-primary)] mb-1.5">
-                  Direccion de entrega *
-                </label>
-                <input
-                  type="text"
-                  value={formData.direccion}
-                  onChange={(e) => onFieldChange?.("direccion", e.target.value)}
-                  className="w-full h-12 px-4 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-text-primary)] bg-[var(--t-background)] outline-none focus:ring-2 focus:ring-[var(--t-primary)]/30 focus:border-[var(--t-primary)] transition-all"
-                  placeholder="Direccion completa"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--t-text-primary)] mb-1.5">
-                  Notas
-                </label>
-                <textarea
-                  value={formData.notas}
-                  onChange={(e) => onFieldChange?.("notas", e.target.value)}
-                  rows={3}
-                  className="w-full px-4 py-3 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-text-primary)] bg-[var(--t-background)] outline-none focus:ring-2 focus:ring-[var(--t-primary)]/30 focus:border-[var(--t-primary)] transition-all resize-none"
-                  placeholder="Instrucciones especiales..."
-                />
-              </div>
-            </div>
-          </div>
+          <CheckoutForm
+            formData={formData}
+            onFieldChange={onFieldChange}
+          />
 
           {/* Order summary */}
           <div className="mt-6 lg:mt-0 lg:w-[340px]">

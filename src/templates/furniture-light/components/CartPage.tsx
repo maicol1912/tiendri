@@ -2,11 +2,11 @@
 // Items list with +/- (orange) buttons; dark navy summary card with voucher row, total, checkout CTA
 // ZERO hardcoded colors
 
-import Image from "next/image";
-import { Minus, Plus, Trash2 } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
+import { CartItemRow } from "./CartItemRow";
+import { OrderSummary } from "./OrderSummary";
 import type { FurnitureStoreInfo, FurnitureNavTab } from "../types";
 import type { FurnitureCartItem } from "../types";
 
@@ -48,9 +48,6 @@ export function CartPage({
   const total = subtotal + shipping;
   const isEmpty = items.length === 0;
 
-  const fmt = (price: number) =>
-    `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
-
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
       <Header
@@ -87,153 +84,27 @@ export function CartPage({
         ) : (
           <div className="flex flex-col gap-3 mb-5">
             {items.map((item) => (
-              <div
+              <CartItemRow
                 key={item.productId}
-                className="flex gap-3 p-3"
-                style={{
-                  borderRadius: "var(--t-radius-card)",
-                  border: "1px solid var(--t-border)",
-                  backgroundColor: "var(--t-background)",
-                }}
-              >
-                {/* Image */}
-                <div
-                  className="relative shrink-0 overflow-hidden"
-                  style={{
-                    width: "72px",
-                    height: "72px",
-                    borderRadius: "var(--t-radius-card)",
-                    backgroundColor: "var(--t-card-bg)",
-                  }}
-                >
-                  {item.imageUrl ? (
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.name}
-                      fill
-                      className="object-contain p-1.5"
-                      sizes="72px"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-[var(--t-card-bg)]" />
-                  )}
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[var(--t-text-primary)] line-clamp-2 leading-tight">{item.name}</p>
-                  {item.variant && (
-                    <p className="text-xs text-[var(--t-text-muted)] mt-0.5">{item.variant}</p>
-                  )}
-                  <p className="text-sm font-bold text-[var(--t-primary)] mt-1">
-                    {fmt(item.price * item.quantity)}
-                  </p>
-                </div>
-
-                {/* Qty controls */}
-                <div className="flex flex-col items-end justify-between shrink-0">
-                  <button
-                    onClick={() => onRemove?.(item.productId)}
-                    aria-label={`Eliminar ${item.name}`}
-                    className="text-[var(--t-text-muted)] hover:text-[var(--t-primary)] transition-colors"
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                  <div
-                    className="flex items-center gap-2 px-2 py-1"
-                    style={{
-                      borderRadius: "var(--t-radius-button)",
-                      backgroundColor: "var(--t-section-bg)",
-                    }}
-                  >
-                    <button
-                      onClick={() => onDecrement?.(item.productId)}
-                      aria-label="Disminuir"
-                      className="flex items-center justify-center w-6 h-6 rounded-full transition-all hover:scale-110"
-                      style={{ backgroundColor: "var(--t-primary)", color: "var(--t-button-text)" }}
-                    >
-                      <Minus size={12} strokeWidth={2.5} />
-                    </button>
-                    <span className="text-sm font-bold text-[var(--t-text-primary)] min-w-[16px] text-center">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => onIncrement?.(item.productId)}
-                      aria-label="Aumentar"
-                      className="flex items-center justify-center w-6 h-6 rounded-full transition-all hover:scale-110"
-                      style={{ backgroundColor: "var(--t-primary)", color: "var(--t-button-text)" }}
-                    >
-                      <Plus size={12} strokeWidth={2.5} />
-                    </button>
-                  </div>
-                </div>
-              </div>
+                item={item}
+                currencySymbol={currencySymbol}
+                onIncrement={() => onIncrement?.(item.productId)}
+                onDecrement={() => onDecrement?.(item.productId)}
+                onRemove={() => onRemove?.(item.productId)}
+              />
             ))}
           </div>
         )}
 
         {/* Order summary — dark navy card */}
         {!isEmpty && (
-          <div
-            className="p-5 mt-2"
-            style={{
-              borderRadius: "var(--t-radius-card)",
-              backgroundColor: "var(--t-secondary)",
-            }}
-          >
-            <p className="text-base font-bold text-white mb-4">Resumen del pedido</p>
-
-            {/* Voucher row */}
-            <div
-              className="flex items-center gap-2 mb-4 px-3 py-2.5"
-              style={{
-                borderRadius: "var(--t-radius-button)",
-                border: "1px dashed rgba(255,255,255,0.3)",
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 12v10H4V12" />
-                <path d="M22 7H2v5h20V7z" />
-                <line x1="12" y1="22" x2="12" y2="7" />
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Código de cupón"
-                className="flex-1 bg-transparent text-sm text-white/80 placeholder-white/40 outline-none"
-              />
-              <button className="text-xs font-semibold text-[var(--t-primary)]">Aplicar</button>
-            </div>
-
-            <div className="space-y-2 mb-4">
-              <div className="flex justify-between text-sm">
-                <span className="text-white/70">Subtotal</span>
-                <span className="text-white font-medium">{fmt(subtotal)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-white/70">Envío</span>
-                <span className="text-white font-medium">{fmt(shipping)}</span>
-              </div>
-              <div className="h-px bg-white/10 my-1" />
-              <div className="flex justify-between text-base">
-                <span className="text-white font-bold">Total</span>
-                <span className="text-white font-bold">{fmt(total)}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={onCheckout}
-              className="w-full py-3.5 text-base font-bold transition-all hover:opacity-90 active:scale-[0.98]"
-              style={{
-                borderRadius: "var(--t-radius-button)",
-                backgroundColor: "var(--t-primary)",
-                color: "var(--t-button-text)",
-              }}
-            >
-              Continuar al pago
-            </button>
-          </div>
+          <OrderSummary
+            subtotal={subtotal}
+            shipping={shipping}
+            total={total}
+            currencySymbol={currencySymbol}
+            onCheckout={onCheckout}
+          />
         )}
       </main>
 

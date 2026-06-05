@@ -1,0 +1,55 @@
+// Pet V3 Template — Order Summary
+// Renders: subtotal, shipping note, total, checkout CTA button.
+// Visual only — callback comes as prop.
+
+function formatPrice(price: number, symbol: string): string {
+  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
+}
+
+export interface OrderSummaryProps {
+  totalPrice: number;
+  currencySymbol?: string;
+  onCheckout?: () => void;
+}
+
+export function OrderSummary({
+  totalPrice,
+  currencySymbol = "$",
+  onCheckout,
+}: OrderSummaryProps) {
+  return (
+    <div className="mt-6 lg:mt-0 lg:w-[380px] lg:sticky lg:top-24">
+      <div className="border border-[var(--t-border)] rounded-[var(--t-radius-card)] p-5">
+        <h3 className="text-[var(--t-text-primary)] text-lg font-bold mb-4">
+          Resumen del pedido
+        </h3>
+
+        <div className="space-y-3 text-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-[var(--t-text-muted)]">Subtotal</span>
+            <span className="text-[var(--t-text-primary)] font-medium">
+              {formatPrice(totalPrice, currencySymbol)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[var(--t-text-muted)]">Envio</span>
+            <span className="text-[var(--t-primary)] font-medium">Via WhatsApp</span>
+          </div>
+          <div className="border-t border-[var(--t-border)] pt-3 flex items-center justify-between">
+            <span className="text-[var(--t-text-primary)] text-base font-bold">Total</span>
+            <span className="text-[var(--t-text-primary)] text-lg font-bold">
+              {formatPrice(totalPrice, currencySymbol)}
+            </span>
+          </div>
+        </div>
+
+        <button
+          onClick={onCheckout}
+          className="w-full mt-5 h-[56px] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80"
+        >
+          Continuar al checkout
+        </button>
+      </div>
+    </div>
+  );
+}

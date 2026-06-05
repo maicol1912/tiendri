@@ -4,7 +4,7 @@
 // Glassmorphic purple tint card. Thumbnail + name + price + quantity counter.
 
 import Image from "next/image";
-import { Minus, Plus } from "lucide-react";
+import { QuantityStepper } from "./QuantityStepper";
 import type { CartItem } from "../types";
 
 interface CartItemRowProps {
@@ -89,60 +89,11 @@ export function CartItemRow({
             {formatPrice(item.price, currencySymbol)}
           </span>
 
-          <div
-            className="inline-flex items-center gap-2"
-            style={{
-              backgroundColor: "var(--t-icon-pill-bg)",
-              borderRadius: "var(--t-radius-button)",
-              padding: "3px 4px",
-              height: "30px",
-            }}
-          >
-            <button
-              type="button"
-              aria-label="Disminuir cantidad"
-              className="flex items-center justify-center"
-              style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                backgroundColor: "var(--t-section-bg)",
-                border: "1px solid var(--t-border-input)",
-                cursor: "pointer",
-              }}
-              onClick={onDecrement}
-            >
-              <Minus size={10} strokeWidth={2} color="var(--t-primary)" />
-            </button>
-
-            <span
-              className="text-xs font-semibold text-center"
-              style={{
-                color: "var(--t-text-primary)",
-                lineHeight: "20px",
-                minWidth: "16px",
-              }}
-            >
-              {String(item.quantity).padStart(2, "0")}
-            </span>
-
-            <button
-              type="button"
-              aria-label="Aumentar cantidad"
-              className="flex items-center justify-center"
-              style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                backgroundColor: "var(--t-primary)",
-                border: "none",
-                cursor: "pointer",
-              }}
-              onClick={onIncrement}
-            >
-              <Plus size={10} strokeWidth={2} color="#FFFFFF" />
-            </button>
-          </div>
+          <QuantityStepper
+            quantity={item.quantity}
+            onIncrement={onIncrement}
+            onDecrement={onDecrement}
+          />
         </div>
       </div>
     </div>

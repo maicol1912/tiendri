@@ -8,7 +8,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
-import { CartSummary } from "./CartSummary";
+import { OrderSummary } from "./OrderSummary";
 
 interface CartPageProps {
   store: StorefrontStore;
@@ -118,7 +118,7 @@ export function CartPage({
 
             {/* Order summary */}
             <div className="lg:w-80 shrink-0">
-              <CartSummary
+              <OrderSummary
                 items={items}
                 currencySymbol={currencySymbol}
                 onCheckout={onCheckout}
