@@ -48,6 +48,7 @@ interface HomePageProps {
   onAddToCart?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
   onPromoDotClick?: (index: number) => void;
+  onSeeAll?: () => void;
 }
 
 function formatPrice(price: number): string {
@@ -75,6 +76,7 @@ export function HomePage({
   onAddToCart,
   onTabChange,
   onPromoDotClick,
+  onSeeAll,
 }: HomePageProps) {
   const featuredProducts = products.filter((p) => p.featured);
   const popularProducts = products.filter((p) => !p.featured);
@@ -158,7 +160,7 @@ export function HomePage({
           </div>
           <button
             type="button"
-            onClick={onProductClick ? () => {} : undefined}
+            onClick={onSeeAll}
             style={{
               fontSize: "12px",
               fontWeight: 700,
@@ -240,6 +242,7 @@ export function HomePage({
           </div>
           <button
             type="button"
+            onClick={onSeeAll}
             style={{
               fontSize: "12px",
               fontWeight: 700,

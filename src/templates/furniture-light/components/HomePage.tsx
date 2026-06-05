@@ -55,6 +55,7 @@ interface HomePageProps {
   onAddToCart?: (productId: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
   onStyleClick?: (id: string) => void;
+  onSeeAll?: () => void;
 }
 
 export function HomePage({
@@ -82,6 +83,7 @@ export function HomePage({
   onAddToCart,
   onTabChange,
   onStyleClick,
+  onSeeAll,
 }: HomePageProps) {
   // Flash sale products — discounted items or first 4 products
   const flashSaleProducts = products
@@ -117,6 +119,7 @@ export function HomePage({
           categories={categories}
           activeCategoryId={activeCategoryId}
           onCategoryChange={onCategoryChange}
+          onSeeAll={onSeeAll}
         />
       </div>
     );
@@ -143,7 +146,11 @@ export function HomePage({
               <span className="text-[10px] font-bold text-[var(--t-badge-text)]">02:45:30</span>
             </div>
           </div>
-          <button className="text-xs text-[var(--t-primary)] font-medium flex items-center gap-1">
+          <button
+            type="button"
+            className="text-xs text-[var(--t-primary)] font-medium flex items-center gap-1"
+            onClick={onSeeAll}
+          >
             Ver todos
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 18l6-6-6-6" />
@@ -178,6 +185,7 @@ export function HomePage({
           featuredCard={featuredCard}
           styleCards={styleCards}
           onStyleClick={onStyleClick}
+          onSeeAll={onSeeAll}
         />
       </div>
     );

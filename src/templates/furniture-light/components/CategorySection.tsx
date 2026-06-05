@@ -13,6 +13,7 @@ interface CategorySectionProps {
   categories: FurnitureCategory[];
   activeCategoryId: string | null;
   onCategoryChange?: (id: string | null) => void;
+  onSeeAll?: () => void;
 }
 
 const CATEGORY_ICON_MAP: Record<string, React.ReactNode> = {
@@ -35,7 +36,7 @@ function getCategoryIcon(name: string, icon?: string): React.ReactNode {
   return <Armchair size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />;
 }
 
-export function CategorySection({ categories, activeCategoryId, onCategoryChange }: CategorySectionProps) {
+export function CategorySection({ categories, activeCategoryId, onCategoryChange, onSeeAll }: CategorySectionProps) {
   return (
     <section
       aria-label="Categorías"
@@ -49,7 +50,11 @@ export function CategorySection({ categories, activeCategoryId, onCategoryChange
         >
           Categorías
         </h2>
-        <button className="text-xs font-semibold text-[var(--t-primary)]">
+        <button
+          type="button"
+          className="text-xs font-semibold text-[var(--t-primary)]"
+          onClick={onSeeAll}
+        >
           Ver todos
         </button>
       </div>

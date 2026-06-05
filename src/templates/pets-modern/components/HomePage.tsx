@@ -50,6 +50,7 @@ interface HomePageProps {
   onProductClick?: (productId: string) => void;
   onAddToCart?: (product: StorefrontProduct) => void;
   onTabChange?: (tab: NavTab) => void;
+  onSeeAll?: () => void;
 }
 
 export function HomePage({
@@ -70,6 +71,7 @@ export function HomePage({
   onProductClick,
   onAddToCart,
   onTabChange,
+  onSeeAll,
 }: HomePageProps) {
   const defaultSections: readonly HomeSectionConfig[] = [
     { id: "promo-banner", visible: true },
@@ -96,7 +98,11 @@ export function HomePage({
           <h2 className="text-[var(--t-text-primary)] text-2xl md:text-3xl font-bold">
             Tendencias
           </h2>
-          <button className="text-[var(--t-primary)] text-base font-medium hover:underline">
+          <button
+            type="button"
+            className="text-[var(--t-primary)] text-base font-medium hover:underline"
+            onClick={onSeeAll}
+          >
             Ver todo
           </button>
         </div>
@@ -152,7 +158,11 @@ export function HomePage({
             <h2 className="text-[var(--t-text-primary)] text-2xl md:text-3xl font-bold">
               Productos destacados
             </h2>
-            <button className="text-[var(--t-primary)] text-base font-medium hover:underline">
+            <button
+              type="button"
+              className="text-[var(--t-primary)] text-base font-medium hover:underline"
+              onClick={onSeeAll}
+            >
               Ver todo
             </button>
           </div>

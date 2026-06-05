@@ -15,6 +15,7 @@ interface RoomStylesSectionProps {
   };
   styleCards: StyleCard[];
   onStyleClick?: (id: string) => void;
+  onSeeAll?: () => void;
 }
 
 export function RoomStylesSection({
@@ -22,6 +23,7 @@ export function RoomStylesSection({
   featuredCard,
   styleCards,
   onStyleClick,
+  onSeeAll,
 }: RoomStylesSectionProps) {
   return (
     <section className="px-4 md:px-6 lg:px-8">
@@ -33,7 +35,11 @@ export function RoomStylesSection({
         >
           {title}
         </h2>
-        <button className="flex items-center gap-1 text-xs font-medium text-[var(--t-primary)]">
+        <button
+          type="button"
+          className="flex items-center gap-1 text-xs font-medium text-[var(--t-primary)]"
+          onClick={onSeeAll}
+        >
           Ver todos
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 18l6-6-6-6" />

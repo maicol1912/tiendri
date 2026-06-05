@@ -91,6 +91,7 @@ export function HomeShell({
         else if (tab === "wishlist") nav.goSearch();
       }}
       onPromoDotClick={setActivePromoIndex}
+      onSeeAll={nav.goListing}
     />
   );
 }

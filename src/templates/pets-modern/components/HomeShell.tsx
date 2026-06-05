@@ -95,6 +95,7 @@ export function HomeShell({
       onProductClick={nav.goProduct}
       onAddToCart={handleAddToCart}
       onTabChange={handleTabChange}
+      onSeeAll={nav.goListing}
     />
   );
 }

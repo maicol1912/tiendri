@@ -107,6 +107,7 @@ export function HomeShell({
         else if (tab === "cart") nav.goCart();
       }}
       onStyleClick={() => nav.goListing()}
+      onSeeAll={nav.goListing}
     />
   );
 }
