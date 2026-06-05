@@ -18,13 +18,13 @@ interface SearchPageProps {
   isSearching: boolean;
   currencySymbol?: string;
   favorites?: Set<string>;
+  onFavoriteToggle?: (productId: string) => void;
   layout?: LayoutConfig;
   grid?: GridConfig;
   onBack?: () => void;
   onQueryChange?: (query: string) => void;
   onClear?: () => void;
   onProductClick?: (productId: string) => void;
-  onFavoriteToggle?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
 }
 
@@ -34,14 +34,12 @@ export function SearchPage({
   recommendations,
   isSearching,
   currencySymbol = "$",
-  favorites = new Set(),
   layout,
   grid,
   onBack,
   onQueryChange,
   onClear,
   onProductClick,
-  onFavoriteToggle,
   onTabChange,
 }: SearchPageProps) {
   const hasQuery = query.trim().length > 0;
@@ -130,10 +128,8 @@ export function SearchPage({
                       key={product.id}
                       product={product}
                       currencySymbol={currencySymbol}
-                      isFavorite={favorites.has(product.id)}
                       layout={layout}
                       onClick={() => onProductClick?.(product.id)}
-                      onFavoriteToggle={() => onFavoriteToggle?.(product.id)}
                     />
                   ))}
                 </div>
@@ -182,10 +178,8 @@ export function SearchPage({
                   key={product.id}
                   product={product}
                   currencySymbol={currencySymbol}
-                  isFavorite={favorites.has(product.id)}
                   layout={layout}
                   onClick={() => onProductClick?.(product.id)}
-                  onFavoriteToggle={() => onFavoriteToggle?.(product.id)}
                 />
               ))}
             </div>

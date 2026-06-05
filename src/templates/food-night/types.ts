@@ -48,7 +48,7 @@ export interface SizeOption {
   label: string;
 }
 
-export type NavTab = "home" | "search" | "cart" | "favorites" | "account";
+export type NavTab = "home" | "search" | "cart" | "info";
 
 export interface CartItem {
   productId: string;

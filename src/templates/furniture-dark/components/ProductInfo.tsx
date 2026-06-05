@@ -6,7 +6,6 @@
 // ALL colors via var(--t-*)
 
 import { useState } from "react";
-import { Star } from "lucide-react";
 import type { StorefrontProduct, ColorOption } from "../types";
 import { QuantityStepper } from "./QuantityStepper";
 
@@ -52,30 +51,6 @@ export function ProductInfo({
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Rating */}
-      {product.rating !== undefined && (
-        <div className="flex items-center gap-1.5">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <Star
-              key={n}
-              size={14}
-              strokeWidth={0}
-              fill={n <= Math.round(product.rating!) ? "var(--t-rating-star)" : "var(--t-rating-bar-bg)"}
-            />
-          ))}
-          <span
-            className="text-[var(--t-text-muted)] ml-1"
-            style={{
-              fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-              fontSize: "12px",
-              fontWeight: 500,
-            }}
-          >
-            {product.rating.toFixed(1)}
-          </span>
-        </div>
-      )}
-
       {/* Name */}
       <h1
         className="text-[var(--t-text-primary)]"

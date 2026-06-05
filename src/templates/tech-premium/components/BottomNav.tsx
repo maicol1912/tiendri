@@ -1,8 +1,8 @@
 // Tech Premium Template — Bottom Navigation (mobile only)
-// Hidden on lg+. Four tabs: Home, Search, Cart (badge), Profile.
+// Hidden on lg+. Four tabs: Home, Search, Cart (badge), Info.
 // Visual only — handlers come as props.
 
-import { Home, Search, ShoppingCart, User } from "lucide-react";
+import { Home, Search, ShoppingCart, Store } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavTab {
@@ -21,7 +21,7 @@ const TABS: BottomNavTab[] = [
   { id: "home", label: "Inicio", icon: Home },
   { id: "search", label: "Buscar", icon: Search },
   { id: "cart", label: "Carrito", icon: ShoppingCart },
-  { id: "profile", label: "Perfil", icon: User },
+  { id: "info", label: "Info", icon: Store },
 ];
 
 export function BottomNav({

@@ -9,24 +9,6 @@ import { CategoryTabBar } from "./CategoryTabBar";
 import { QuantityStepper } from "./QuantityStepper";
 import type { DecorWarmProduct, DecorWarmCategory } from "../types";
 
-function StarRow({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrellas`}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <svg
-          key={star}
-          width="14"
-          height="14"
-          viewBox="0 0 12 12"
-          fill={rating >= star ? "var(--t-rating-star)" : "var(--t-border)"}
-          aria-hidden="true"
-        >
-          <path d="M6 1l1.24 2.51 2.76.4-2 1.95.47 2.75L6 7.25 3.53 8.61l.47-2.75-2-1.95 2.76-.4L6 1z" />
-        </svg>
-      ))}
-    </div>
-  );
-}
 
 interface ProductDetailPageProps {
   product: DecorWarmProduct;
@@ -69,9 +51,6 @@ export function ProductDetailPage({
   const formattedOriginal = hasDiscount && product.compare_at_price
     ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.compare_at_price)}`
     : null;
-
-  const rating = product.rating ?? 4.5;
-  const reviewCount = product.reviewCount ?? 0;
 
   const hasThumbnails = product.images.length > 1;
 
@@ -232,46 +211,29 @@ export function ProductDetailPage({
               {product.name}
             </h1>
 
-            {/* Price + rating row */}
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <div className="flex items-baseline gap-2">
+            {/* Price row */}
+            <div className="flex items-baseline gap-2">
+              <span
+                style={{
+                  color: "var(--t-primary)",
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: "20px",
+                  fontWeight: 600,
+                }}
+              >
+                {formattedPrice}
+              </span>
+              {formattedOriginal && (
                 <span
+                  className="line-through"
                   style={{
-                    color: "var(--t-primary)",
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: "20px",
-                    fontWeight: 600,
+                    color: "var(--t-text-muted)",
+                    fontFamily: "'League Spartan', sans-serif",
+                    fontSize: "14px",
                   }}
                 >
-                  {formattedPrice}
+                  {formattedOriginal}
                 </span>
-                {formattedOriginal && (
-                  <span
-                    className="line-through"
-                    style={{
-                      color: "var(--t-text-muted)",
-                      fontFamily: "'League Spartan', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {formattedOriginal}
-                  </span>
-                )}
-              </div>
-
-              {reviewCount > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <StarRow rating={Math.round(rating)} />
-                  <span
-                    style={{
-                      color: "var(--t-text-muted)",
-                      fontFamily: "'League Spartan', sans-serif",
-                      fontSize: "12px",
-                    }}
-                  >
-                    ({reviewCount})
-                  </span>
-                </div>
               )}
             </div>
 
@@ -339,48 +301,6 @@ export function ProductDetailPage({
               </button>
             </div>
 
-            {/* Opinions section (simple) */}
-            <div
-              className="mt-2 rounded-[var(--t-radius-card)] px-4 py-4"
-              style={{ backgroundColor: "var(--t-surface)" }}
-            >
-              <h3
-                style={{
-                  color: "var(--t-dark-mode)",
-                  fontFamily: "'Poppins', sans-serif",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  margin: "0 0 8px 0",
-                }}
-              >
-                Opiniones
-              </h3>
-              <div className="flex items-center gap-2">
-                <span
-                  style={{
-                    color: "var(--t-primary)",
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: "28px",
-                    fontWeight: 700,
-                    lineHeight: 1,
-                  }}
-                >
-                  {rating.toFixed(1)}
-                </span>
-                <div className="flex flex-col gap-0.5">
-                  <StarRow rating={Math.round(rating)} />
-                  <span
-                    style={{
-                      color: "var(--t-text-muted)",
-                      fontFamily: "'League Spartan', sans-serif",
-                      fontSize: "11px",
-                    }}
-                  >
-                    {reviewCount > 0 ? `${reviewCount} reseñas` : "Sin reseñas aún"}
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </main>

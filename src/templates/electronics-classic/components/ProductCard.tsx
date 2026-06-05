@@ -4,7 +4,6 @@
 // Satisfies Rule 14 (radius), Rule 15 (layout props), Rule 21 (3-line layout).
 
 import Image from "next/image";
-import { Star } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 
@@ -73,29 +72,7 @@ export function ProductCard({
 
       {/* Product info */}
       <div className="p-3 space-y-1.5">
-        {/* Star rating — Line 1 */}
-        {product.rating !== undefined && (
-          <div className="flex items-center gap-0.5" aria-label={`Calificación: ${product.rating} de 5`}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`w-3 h-3 ${
-                  i < Math.round(product.rating ?? 0)
-                    ? "fill-[var(--t-rating-star)] text-[var(--t-rating-star)]"
-                    : "fill-[var(--t-rating-bar-bg)] text-[var(--t-rating-bar-bg)]"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-            {product.reviewCount !== undefined && (
-              <span className="text-[var(--t-text-muted)] text-[10px] ml-1">
-                ({product.reviewCount})
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Product name — Line 2 */}
+        {/* Product name */}
         <h3 className="text-xs md:text-sm font-normal text-[var(--t-text-primary)] leading-snug line-clamp-3">
           {product.name}
         </h3>

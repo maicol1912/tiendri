@@ -141,7 +141,6 @@ export function SearchPage({
                   product={product}
                   currencySymbol={currencySymbol}
                   onClick={() => onProductClick?.(product.id)}
-                  onWishlistToggle={() => onWishlistToggle?.(product.id)}
                   onAddToCart={() => onAddToCart?.(product.id)}
                 />
               ))}

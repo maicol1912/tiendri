@@ -13,7 +13,6 @@ import {
   Truck,
   RotateCcw,
   X,
-  User,
 } from "lucide-react";
 import type { StorefrontStore, NavTab } from "../types";
 
@@ -142,7 +141,7 @@ export function Header({
             <Search className="w-[18px] h-[18px] text-[var(--t-text-muted)]" aria-hidden="true" />
           </div>
 
-          {/* Desktop: cart + user */}
+          {/* Desktop: cart */}
           <div className="hidden md:flex items-center gap-6">
             <button
               onClick={onCartClick}
@@ -159,9 +158,6 @@ export function Header({
                 </span>
               )}
             </button>
-            <span className="text-[var(--t-top-bar-text)] font-semibold text-[15px] cursor-pointer hover:opacity-80">
-              Ingresar
-            </span>
           </div>
 
           {/* Mobile: search + cart + hamburger */}
@@ -243,15 +239,6 @@ export function Header({
                 )}
               </button>
             ))}
-            <div className="border-t border-[var(--t-card-bg)]/20 pt-2 mt-2">
-              <button
-                onClick={() => onTabChange?.("account")}
-                className="flex items-center gap-3 w-full px-3 py-3 text-[var(--t-top-bar-text)] font-semibold text-[15px] hover:bg-[var(--t-card-bg)]/10 rounded-[var(--t-radius-button)] transition-colors"
-              >
-                <User className="w-5 h-5" aria-hidden="true" />
-                <span>Ingresar</span>
-              </button>
-            </div>
           </nav>
         </div>
       )}

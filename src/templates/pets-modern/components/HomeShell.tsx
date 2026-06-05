@@ -56,6 +56,12 @@ export function HomeShell({
         case "explore":
           nav.goExplore();
           break;
+        case "cart":
+          nav.goCart();
+          break;
+        case "info":
+          nav.goInfo();
+          break;
         default:
           break;
       }

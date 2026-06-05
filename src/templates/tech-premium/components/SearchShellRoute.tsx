@@ -30,7 +30,6 @@ export function SearchShellRoute({
 
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Autofocus on mount
@@ -71,15 +70,6 @@ export function SearchShellRoute({
     [nav]
   );
 
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
-
   const handleAddToCart = useCallback(
     (productId: string) => {
       const product = allProducts.find((p) => p.id === productId);
@@ -100,6 +90,7 @@ export function SearchShellRoute({
     (tab: NavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "cart") nav.goCart();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );
@@ -112,11 +103,6 @@ export function SearchShellRoute({
     [nav]
   );
 
-  const enrichedResults = searchResults.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id) ? true : (p.inWishlist ?? false),
-  }));
-
   return (
     <SearchPage
       store={store}
@@ -125,7 +111,7 @@ export function SearchShellRoute({
       footerAssistance={config.footerAssistance}
       grid={config.grid}
       searchQuery={query}
-      results={enrichedResults}
+      results={searchResults}
       activeTab="search"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
@@ -134,7 +120,6 @@ export function SearchShellRoute({
       onSearchClear={handleClear}
       onSuggestionClick={(s) => setQuery(s)}
       onProductClick={handleProductClick}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onCartClick={nav.goCart}
       onTabChange={handleTabChange}

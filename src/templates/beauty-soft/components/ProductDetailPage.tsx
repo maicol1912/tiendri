@@ -1,8 +1,6 @@
 // Beauty Soft Template — Product Detail Page (Presentational)
 // Visual layout: bg card + image carousel + info + bottom CTA.
 // ZERO hardcoded colors — all via var(--t-*).
-
-import { Heart, Star } from "lucide-react";
 import { ImageCarousel } from "./ImageCarousel";
 import { QuantityStepper } from "./QuantityStepper";
 import type { BeautySoftProduct } from "../types";
@@ -12,7 +10,6 @@ interface ProductDetailPageProps {
   activeImageIndex?: number;
   quantity?: number;
   isAdded?: boolean;
-  isFavorite?: boolean;
   currencySymbol?: string;
   onBack?: () => void;
   onCartClick?: () => void;
@@ -20,7 +17,6 @@ interface ProductDetailPageProps {
   onQuantityIncrement?: () => void;
   onQuantityDecrement?: () => void;
   onAddToCart?: () => void;
-  onFavoriteToggle?: () => void;
 }
 
 export function ProductDetailPage({
@@ -28,7 +24,6 @@ export function ProductDetailPage({
   activeImageIndex = 0,
   quantity = 1,
   isAdded = false,
-  isFavorite = false,
   currencySymbol = "$",
   onBack,
   onCartClick,
@@ -36,7 +31,6 @@ export function ProductDetailPage({
   onQuantityIncrement,
   onQuantityDecrement,
   onAddToCart,
-  onFavoriteToggle,
 }: ProductDetailPageProps) {
   const hasDiscount =
     product.originalPrice !== null &&
@@ -48,11 +42,6 @@ export function ProductDetailPage({
     hasDiscount && product.originalPrice
       ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.originalPrice)}`
       : null;
-
-  const rating = product.rating ?? 4.5;
-  const reviewCount = product.reviewCount ?? 120;
-  const formatReviewCount = (count: number) =>
-    count >= 1000 ? `(${Math.floor(count / 1000)}k+ Reseñas)` : `(${count} Reseñas)`;
 
   return (
     <div
@@ -156,79 +145,36 @@ export function ProductDetailPage({
               className="flex flex-col gap-[20px] px-5 pt-7 pb-5"
               style={{ backgroundColor: "var(--t-section-bg)" }}
             >
-              {/* Name + heart */}
-              <div className="flex items-start justify-between gap-3">
-                <h1
-                  className="m-0 flex-1 min-w-0 text-[24px] font-semibold text-[var(--t-text-primary)] leading-[30px] tracking-[-0.408px]"
+              {/* Name */}
+              <h1
+                className="m-0 text-[24px] font-semibold text-[var(--t-text-primary)] leading-[30px] tracking-[-0.408px]"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                {product.name}
+              </h1>
+
+              {/* Price */}
+              <div className="flex items-baseline gap-[4px]">
+                <span
+                  className="text-[18px] font-normal text-[var(--t-text-primary)]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
-                  {product.name}
-                </h1>
-
-                <button
-                  type="button"
-                  className="flex-shrink-0 flex items-center justify-center border-0 cursor-pointer"
-                  style={{
-                    width: "47px",
-                    height: "47px",
-                    borderRadius: "37px",
-                    backgroundColor: "var(--t-card-bg)",
-                  }}
-                  aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-                  onClick={onFavoriteToggle}
+                  Desde:
+                </span>
+                <span
+                  className="text-[18px] font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+                  style={{ fontFamily: "var(--font-sans)" }}
                 >
-                  <Heart
-                    size={18}
-                    strokeWidth={1.75}
-                    className={
-                      isFavorite
-                        ? "text-[var(--t-primary)] fill-[var(--t-primary)]"
-                        : "text-[var(--t-text-muted)]"
-                    }
-                  />
-                </button>
-              </div>
-
-              {/* Price + rating */}
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div className="flex items-baseline gap-[4px]">
+                  {formattedPrice}
+                </span>
+                {formattedOriginalPrice && (
                   <span
-                    className="text-[18px] font-normal text-[var(--t-text-primary)]"
+                    className="line-through text-[18px] font-semibold text-[var(--t-primary)] leading-[22px] tracking-[-0.408px]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
-                    Desde:
+                    {formattedOriginalPrice}
                   </span>
-                  <span
-                    className="text-[18px] font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    {formattedPrice}
-                  </span>
-                  {formattedOriginalPrice && (
-                    <span
-                      className="line-through text-[18px] font-semibold text-[var(--t-primary)] leading-[22px] tracking-[-0.408px]"
-                      style={{ fontFamily: "var(--font-sans)" }}
-                    >
-                      {formattedOriginalPrice}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-[4px]">
-                  <Star size={22} className="fill-[var(--t-rating-star)] text-[var(--t-rating-star)]" strokeWidth={0} />
-                  <span
-                    className="text-[18px] font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    {rating}/5
-                  </span>
-                  <span
-                    className="text-sm font-normal text-[var(--t-text-muted)] leading-[22px] tracking-[-0.408px]"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    {formatReviewCount(reviewCount)}
-                  </span>
-                </div>
+                )}
               </div>
 
               {/* Description */}

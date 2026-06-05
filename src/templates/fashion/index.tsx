@@ -9,6 +9,8 @@ export { ListingShellRoute } from "./components/ListingShellRoute";
 export { CartShellRoute } from "./components/CartShellRoute";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { SearchShellRoute } from "./components/SearchShellRoute";
+export { StoreInfoPage } from "./components/StoreInfoPage";
+export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 
 // ── Page components (presentational) ─────────────────────────────────────────
 export { HomePage } from "./components/HomePage";

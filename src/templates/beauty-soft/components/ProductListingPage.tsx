@@ -17,6 +17,7 @@ interface ProductListingPageProps {
   activeCategoryId: string | null;
   activeTab?: NavTab;
   currencySymbol?: string;
+  /** @deprecated — removed from product cards, kept for API compat */
   favorites?: Set<string>;
   layout?: LayoutConfig;
   grid?: GridConfig;
@@ -24,6 +25,7 @@ interface ProductListingPageProps {
   onSearchOpen?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
+  /** @deprecated — removed from product cards, kept for API compat */
   onFavoriteToggle?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
 }
@@ -34,16 +36,15 @@ export function ProductListingPage({
   activeCategoryId,
   activeTab = "home",
   currencySymbol = "$",
-  favorites = new Set(),
   layout,
   grid,
   onBack,
   onSearchOpen,
   onCategoryChange,
   onProductClick,
-  onFavoriteToggle,
   onTabChange,
 }: ProductListingPageProps) {
+  // favorites and onFavoriteToggle intentionally not used — removed from product cards
   const mobileGrid = grid?.products?.mobile ?? 2;
   const desktopGrid = grid?.products?.desktop ?? 4;
 
@@ -177,10 +178,8 @@ export function ProductListingPage({
                 key={product.id}
                 product={product}
                 currencySymbol={currencySymbol}
-                isFavorite={favorites.has(product.id)}
                 layout={layout}
                 onClick={() => onProductClick?.(product.id)}
-                onFavoriteToggle={() => onFavoriteToggle?.(product.id)}
               />
             ))}
           </div>

@@ -60,7 +60,7 @@ export interface StorefrontProduct {
   colors?: ColorOption[];
 }
 
-export type NavTab = "home" | "search" | "cart" | "wishlist" | "account";
+export type NavTab = "home" | "search" | "cart" | "info";
 
 export interface PromoCard {
   id: string;

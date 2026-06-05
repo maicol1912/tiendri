@@ -5,7 +5,7 @@
 // Desktop: diamond logo + store name left, nav links center, search + icons right
 // Editorial B&W aesthetic — uses CSS vars for all colors.
 
-import { Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Menu, Search, ShoppingBag } from "lucide-react";
 import type { StoreInfo } from "../types";
 
 interface NavLink {
@@ -77,7 +77,7 @@ export function Header({
             </svg>
           </div>
 
-          {/* Right: cart + user icons */}
+          {/* Right: cart icon */}
           <div className="flex items-center gap-2.5">
             <button
               type="button"
@@ -94,13 +94,6 @@ export function Header({
                   {cartItemCount > 9 ? "9+" : cartItemCount}
                 </span>
               )}
-            </button>
-            <button
-              type="button"
-              className="w-9 h-9 rounded-full bg-[var(--t-primary)] flex items-center justify-center"
-              aria-label="Mi cuenta"
-            >
-              <User size={16} strokeWidth={1.5} className="text-[var(--t-card-bg)]" />
             </button>
           </div>
         </div>
@@ -188,7 +181,7 @@ export function Header({
           </nav>
         )}
 
-        {/* Right: search + cart + user */}
+        {/* Right: search + cart */}
         <div className="flex items-center gap-4">
           <button
             type="button"
@@ -213,13 +206,6 @@ export function Header({
                 {cartItemCount > 9 ? "9+" : cartItemCount}
               </span>
             )}
-          </button>
-          <button
-            type="button"
-            className="w-9 h-9 rounded-full bg-[var(--t-primary)] flex items-center justify-center hover:opacity-80 transition-opacity border-none cursor-pointer"
-            aria-label="Mi cuenta"
-          >
-            <User size={16} strokeWidth={1.5} className="text-[var(--t-card-bg)]" />
           </button>
         </div>
       </div>

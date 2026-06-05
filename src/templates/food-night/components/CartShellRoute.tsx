@@ -39,6 +39,7 @@ export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRoutePr
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();
         else if (tab === "search") nav.goSearch();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

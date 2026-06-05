@@ -40,7 +40,7 @@ export interface PromoBannerData {
   image: string;
 }
 
-export type NavTab = "shop" | "explore" | "favourite" | "account";
+export type NavTab = "shop" | "explore" | "cart" | "info";
 
 export type PetFilter = "all" | "dog" | "cat" | "small-animal" | "bird";
 

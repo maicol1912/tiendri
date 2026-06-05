@@ -54,6 +54,7 @@ function HomeShellInner({
       if (tab === "home") nav.goHome();
       else if (tab === "search") nav.goSearch();
       else if (tab === "cart") nav.goCart();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );

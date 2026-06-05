@@ -66,6 +66,7 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       onBack={() => router.back()}
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onInfoClick={() => router.push(`${TEMPLATE_BASE}/info`)}
       cartItemCount={totalItems}
     />
   );

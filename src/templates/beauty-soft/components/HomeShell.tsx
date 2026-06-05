@@ -39,7 +39,6 @@ export function HomeShell({
   const sections = config?.sections ?? beautySoftConfig.sections;
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const handleCategoryChange = useCallback((id: string | null) => {
     setActiveCategoryId(id);
@@ -50,22 +49,12 @@ export function HomeShell({
     [nav]
   );
 
-  const handleFavoriteToggle = useCallback((productId: string) => {
-    setFavorites((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) {
-        next.delete(productId);
-      } else {
-        next.add(productId);
-      }
-      return next;
-    });
-  }, []);
-
   const handleTabChange = useCallback(
     (tab: NavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "cart") nav.goCart();
+      else if (tab === "search") nav.goSearch();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );
@@ -94,13 +83,10 @@ export function HomeShell({
         layout={layout}
         grid={grid}
         sections={[...sections]}
-        favorites={favorites}
         onCategoryChange={handleCategoryChange}
         onProductClick={handleProductClick}
-        onFavoriteToggle={handleFavoriteToggle}
         onSearchOpen={nav.goSearch}
         onCartOpen={nav.goCart}
-        onFavoritesOpen={() => {/* favorites page placeholder */}}
         onTabChange={handleTabChange}
         onSeeAll={nav.goListing}
       />

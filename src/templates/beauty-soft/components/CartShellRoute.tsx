@@ -41,9 +41,11 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
   );
 
   const handleTabChange = useCallback(
-    (tab: "home" | "cart" | "favorites" | "profile") => {
+    (tab: "home" | "cart" | "search" | "info") => {
       if (tab === "home") nav.goHome();
       else if (tab === "cart") nav.goCart();
+      else if (tab === "search") nav.goSearch();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );

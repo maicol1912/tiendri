@@ -7,7 +7,6 @@ import type {
   ProductAbout,
   FeatureShowcase,
   ProductFeature,
-  ProductReview,
 } from "../types";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -15,7 +14,6 @@ import { BottomNav } from "./BottomNav";
 import { ImageGallery } from "./ImageGallery";
 import { ProductInfo } from "./ProductInfo";
 import { ProductFeatures } from "./ProductFeatures";
-import { ProductReviews } from "./ProductReviews";
 import { ProductSection } from "./ProductSection";
 import type { StorefrontStore } from "../types";
 
@@ -29,7 +27,6 @@ interface ProductDetailPageProps {
   showcase: FeatureShowcase;
   productFeatures: ProductFeature[];
   featuresDescription?: string;
-  reviews: ProductReview[];
   relatedProducts: StorefrontProduct[];
   cartCount: number;
   quantity: number;
@@ -56,7 +53,6 @@ interface ProductDetailPageProps {
   onTabChange: (tab: ActiveTab) => void;
   onImageIndexChange: (index: number) => void;
   onProductClick?: (productId: string) => void;
-  onSubmitReview?: (review: Omit<ProductReview, "id" | "date">) => void;
 }
 
 export function ProductDetailPage({
@@ -67,7 +63,6 @@ export function ProductDetailPage({
   showcase,
   productFeatures,
   featuresDescription,
-  reviews,
   relatedProducts,
   cartCount,
   quantity,
@@ -85,7 +80,6 @@ export function ProductDetailPage({
   onTabChange,
   onImageIndexChange,
   onProductClick,
-  onSubmitReview,
 }: ProductDetailPageProps) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
@@ -168,15 +162,6 @@ export function ProductDetailPage({
             layout={layout}
             activeTab={activeTab}
             onTabChange={onTabChange}
-          />
-        </div>
-
-        {/* Reviews section */}
-        <div className="mt-12 md:mt-16">
-          <ProductReviews
-            reviews={reviews}
-            productName={product.name}
-            onSubmitReview={onSubmitReview}
           />
         </div>
 

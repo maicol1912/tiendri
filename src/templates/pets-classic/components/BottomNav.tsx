@@ -5,7 +5,7 @@
 // All colors via var(--t-*)
 // Tab selection spring animation gated by animationLevel prop.
 
-import { Home, LayoutGrid, ShoppingBag, User } from "lucide-react";
+import { Home, LayoutGrid, ShoppingBag, Store } from "lucide-react";
 import { useRef, useEffect } from "react";
 import type { NavTab } from "../types";
 
@@ -22,7 +22,7 @@ const TABS: { id: NavTab; label: string; Icon: typeof Home }[] = [
   { id: "home", label: "Inicio", Icon: Home },
   { id: "listing", label: "Catálogo", Icon: LayoutGrid },
   { id: "cart", label: "Carrito", Icon: ShoppingBag },
-  { id: "profile", label: "Perfil", Icon: User },
+  { id: "info", label: "Info", Icon: Store },
 ];
 
 // Keyframe for the spring bounce: scale(0.85) → scale(1.1) → scale(1.0)

@@ -2,7 +2,7 @@
 // Fixed bottom, mobile only (md:hidden).
 // All colors via var(--t-*) — ZERO hardcoded hex.
 
-import { Home, Search, ShoppingCart, User } from "lucide-react";
+import { Home, Search, ShoppingCart, Store } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavProps {
@@ -19,7 +19,7 @@ const TABS: { id: NavTab; label: string; Icon: typeof Home }[] = [
   { id: "home", label: "Inicio", Icon: Home },
   { id: "search", label: "Buscar", Icon: Search },
   { id: "cart", label: "Carrito", Icon: ShoppingCart },
-  { id: "account", label: "Cuenta", Icon: User },
+  { id: "info", label: "Info", Icon: Store },
 ];
 
 const TEMPLATE_BASE = "/template/electronics-classic";
@@ -42,6 +42,7 @@ export function BottomNav({
         cart: `${TEMPLATE_BASE}/carrito`,
         wishlist: TEMPLATE_BASE,
         account: TEMPLATE_BASE,
+        info: `${TEMPLATE_BASE}/info`,
       };
       onNavigate(paths[tab]);
     }

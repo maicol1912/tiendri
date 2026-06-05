@@ -44,7 +44,6 @@ export function ProductDetailShellRoute({
       onIncrement={() => setQuantity((q) => q + 1)}
       onDecrement={() => setQuantity((q) => Math.max(1, q - 1))}
       onAddToCart={handleAddToCart}
-      onWishlist={() => {}}
     />
   );
 }

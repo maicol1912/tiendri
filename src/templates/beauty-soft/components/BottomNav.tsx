@@ -4,7 +4,7 @@
 // Floating pill with 4 tabs. Active tab = colored pill with label + icon.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { Home, ShoppingCart, Heart, User } from "lucide-react";
+import { Home, ShoppingCart, Search, Store } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavProps {
@@ -22,8 +22,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { tab: "home", label: "Inicio", icon: Home },
   { tab: "cart", label: "Carrito", icon: ShoppingCart },
-  { tab: "favorites", label: "Guardados", icon: Heart },
-  { tab: "profile", label: "Perfil", icon: User },
+  { tab: "search", label: "Buscar", icon: Search },
+  { tab: "info", label: "Info", icon: Store },
 ];
 
 export function BottomNav({

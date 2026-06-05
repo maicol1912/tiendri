@@ -29,6 +29,9 @@ export function CartShellRoute({
         case "explore":
           nav.goExplore();
           break;
+        case "info":
+          nav.goInfo();
+          break;
         default:
           break;
       }

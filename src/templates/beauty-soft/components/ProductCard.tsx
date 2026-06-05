@@ -1,9 +1,8 @@
 // Beauty Soft Template — Product Card
-// Rounded card with white image container, heart button, name, price.
+// Rounded card with white image container, name, price.
 // ZERO hardcoded colors — all via var(--t-*). Layout props via config.
 // max-w-sm w-full mx-auto as required.
 
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import type { BeautySoftProduct } from "../types";
 import type { BeautySoftConfig } from "../config";
@@ -16,19 +15,15 @@ import {
 interface ProductCardProps {
   product: BeautySoftProduct;
   currencySymbol?: string;
-  isFavorite?: boolean;
   layout?: BeautySoftConfig["layout"];
   onClick?: () => void;
-  onFavoriteToggle?: () => void;
 }
 
 export function ProductCard({
   product,
   currencySymbol = "$",
-  isFavorite = false,
   layout,
   onClick,
-  onFavoriteToggle,
 }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
   const hasDiscount =
@@ -92,31 +87,6 @@ export function ProductCard({
             </svg>
           </div>
         )}
-
-        {/* Heart/favorite button — top-right */}
-        <button
-          type="button"
-          className="absolute z-10 flex items-center justify-center border-0 cursor-pointer"
-          style={{
-            top: "9px",
-            right: "8px",
-            width: "28px",
-            height: "28px",
-            borderRadius: "50%",
-            backgroundColor: isFavorite ? "var(--t-primary)" : "rgba(255,255,255,0.9)",
-          }}
-          aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-          onClick={(e) => {
-            e.stopPropagation();
-            onFavoriteToggle?.();
-          }}
-        >
-          <Heart
-            size={13}
-            strokeWidth={2}
-            className={isFavorite ? "text-[var(--t-button-text)] fill-[var(--t-button-text)]" : "text-[var(--t-primary)]"}
-          />
-        </button>
 
         {/* Unavailable overlay */}
         {!product.inStock && (

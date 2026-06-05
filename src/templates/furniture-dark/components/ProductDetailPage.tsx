@@ -26,6 +26,7 @@ interface ProductDetailPageProps {
   onBack: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  onInfoClick?: () => void;
   cartItemCount?: number;
 }
 
@@ -43,6 +44,7 @@ export function ProductDetailPage({
   onBack,
   onSearchClick,
   onCartClick,
+  onInfoClick,
   cartItemCount = 0,
 }: ProductDetailPageProps) {
   const images = product.images ?? [];
@@ -123,6 +125,8 @@ export function ProductDetailPage({
         onTab={(tab) => {
           if (tab === "cart") onCartClick();
           else if (tab === "home") onBack();
+          else if (tab === "search") onSearchClick();
+          else if (tab === "info") onInfoClick?.();
         }}
       />
     </div>

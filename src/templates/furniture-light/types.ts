@@ -67,7 +67,7 @@ export interface FurnitureCheckoutFormData {
   notas: string;
 }
 
-export type FurnitureNavTab = "home" | "search" | "cart" | "wishlist";
+export type FurnitureNavTab = "home" | "search" | "cart" | "info";
 
 export interface StyleCard {
   id?: string;

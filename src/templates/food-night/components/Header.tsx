@@ -5,7 +5,7 @@
 // Desktop: avatar + name left, search bar center, icons right.
 
 import Image from "next/image";
-import { Search, Heart, ShoppingBag, User } from "lucide-react";
+import { Search, ShoppingBag } from "lucide-react";
 import type { StoreInfo } from "../types";
 
 interface HeaderProps {
@@ -14,8 +14,6 @@ interface HeaderProps {
   layout?: { headerStyle?: string };
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onWishlistClick?: () => void;
-  onProfileClick?: () => void;
 }
 
 export function Header({
@@ -23,8 +21,6 @@ export function Header({
   cartItemCount = 0,
   onSearchClick,
   onCartClick,
-  onWishlistClick,
-  onProfileClick,
 }: HeaderProps) {
   const greeting = store.greeting ?? "Hola, Bienvenido 👋";
   const avatarSrc = store.avatar ?? store.logo;
@@ -160,16 +156,6 @@ export function Header({
         <div className="hidden lg:flex items-center gap-1 ml-auto">
           <button
             type="button"
-            className="flex items-center justify-center w-10 h-10 rounded-full"
-            aria-label="Lista de deseos"
-            onClick={onWishlistClick}
-            style={{ background: "none", border: "none", cursor: "pointer" }}
-          >
-            <Heart size={20} strokeWidth={1.75} style={{ color: "var(--t-text-primary)" }} />
-          </button>
-
-          <button
-            type="button"
             className="relative flex items-center justify-center w-10 h-10 rounded-full"
             aria-label={`Carrito${cartItemCount > 0 ? `, ${cartItemCount} productos` : ""}`}
             onClick={onCartClick}
@@ -188,16 +174,6 @@ export function Header({
                 {cartItemCount > 99 ? "99+" : cartItemCount}
               </span>
             )}
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center justify-center w-10 h-10 rounded-full"
-            aria-label="Perfil"
-            onClick={onProfileClick}
-            style={{ background: "none", border: "none", cursor: "pointer" }}
-          >
-            <User size={20} strokeWidth={1.75} style={{ color: "var(--t-text-primary)" }} />
           </button>
         </div>
       </div>

@@ -147,11 +147,10 @@ export function ProductListingPage({
             {products.map((product) => (
               <ProductCard
                 key={product.id}
-                product={{ ...product, inWishlist: wishlistedIds?.has(product.id) ?? product.inWishlist }}
+                product={product}
                 currencySymbol={currencySymbol}
                 layout={layout}
                 onClick={onProductClick ? () => onProductClick(product.id) : undefined}
-                onWishlistToggle={onWishlistToggle ? () => onWishlistToggle(product.id) : undefined}
                 onAddToCart={onAddToCart ? () => onAddToCart(product) : undefined}
               />
             ))}
@@ -162,7 +161,6 @@ export function ProductListingPage({
       <BottomNav
         activeTab="categories"
         cartItemCount={cartItemCount}
-        wishlistCount={wishlistCount}
         onTabChange={onTabChange}
       />
     </div>

@@ -18,7 +18,7 @@ interface CartPageProps {
   onIncrement?: (productId: string, variantLabel?: string | null) => void;
   onDecrement?: (productId: string, variantLabel?: string | null) => void;
   onRemove?: (productId: string, variantLabel?: string | null) => void;
-  onTabChange?: (tab: "home" | "cart" | "favorites" | "profile") => void;
+  onTabChange?: (tab: "home" | "cart" | "search" | "info") => void;
 }
 
 export function CartPage({

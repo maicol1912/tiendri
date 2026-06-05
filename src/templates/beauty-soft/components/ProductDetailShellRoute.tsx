@@ -28,7 +28,6 @@ export function ProductDetailShellRoute({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleAddToCart = useCallback(() => {
     if (!product.inStock) return;
@@ -62,7 +61,6 @@ export function ProductDetailShellRoute({
         activeImageIndex={activeImageIndex}
         quantity={quantity}
         isAdded={isAdded}
-        isFavorite={isFavorite}
         currencySymbol={currencySymbol}
         onBack={nav.goHome}
         onCartClick={nav.goCart}
@@ -70,7 +68,6 @@ export function ProductDetailShellRoute({
         onQuantityIncrement={() => setQuantity((prev) => prev + 1)}
         onQuantityDecrement={() => setQuantity((prev) => Math.max(1, prev - 1))}
         onAddToCart={handleAddToCart}
-        onFavoriteToggle={() => setIsFavorite((prev) => !prev)}
       />
     </motion.div>
   );

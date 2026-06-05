@@ -6,6 +6,7 @@ export interface StoreInfo {
   name: string;
   logo: string | null;
   slug: string;
+  description?: string;
   whatsapp?: string;
   social_links?: {
     instagram?: string;
@@ -69,7 +70,7 @@ export interface PromoSlide {
   imagePosition?: string;
 }
 
-export type NavTab = "home" | "wishlist" | "cart" | "profile" | "listing";
+export type NavTab = "home" | "cart" | "listing" | "info";
 
 export interface CartItem {
   productId: string;

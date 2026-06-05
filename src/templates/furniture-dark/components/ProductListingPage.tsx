@@ -18,7 +18,6 @@ interface ProductListingPageProps {
   categories: StorefrontCategory[];
   categoryBanner?: CategoryBannerData | null;
   activeCategoryId?: string;
-  wishlistedIds?: Set<string>;
   cartItemCount?: number;
   gridMobile?: number;
   gridDesktop?: number;
@@ -31,8 +30,7 @@ interface ProductListingPageProps {
   onProductClick: (productId: string) => void;
   onSearchClick: () => void;
   onCartClick: () => void;
-  onWishlistToggle?: (productId: string) => void;
-  onBottomNavTab: (tab: "home" | "cart" | "wishlist" | "account") => void;
+  onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
 }
 
 export function ProductListingPage({
@@ -41,7 +39,6 @@ export function ProductListingPage({
   categories,
   categoryBanner,
   activeCategoryId,
-  wishlistedIds,
   cartItemCount = 0,
   gridMobile = 2,
   gridDesktop = 4,
@@ -54,7 +51,6 @@ export function ProductListingPage({
   onProductClick,
   onSearchClick,
   onCartClick,
-  onWishlistToggle,
   onBottomNavTab,
 }: ProductListingPageProps) {
   return (
@@ -181,8 +177,6 @@ export function ProductListingPage({
               <ProductCard
                 key={product.id}
                 product={product}
-                isWishlisted={wishlistedIds?.has(product.id)}
-                onWishlistToggle={onWishlistToggle}
                 onClick={onProductClick}
                 cardStyle={cardStyle}
                 hoverEffect={hoverEffect}

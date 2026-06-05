@@ -55,30 +55,9 @@ export function HomeShell({
 
   const [activeProductTab, setActiveProductTab] = useState<ProductTab>("new-arrival");
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
   // Resolve sections: prop → configOverride.sections → static default
   const resolvedSections = sections ?? config.sections;
-
-  // Enrich products with wishlist state
-  const enrichedProducts = products.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id) ? true : (p.inWishlist ?? false),
-  }));
-
-  const enrichedDiscountProducts = discountProducts.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id) ? true : (p.inWishlist ?? false),
-  }));
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
 
   const handleAddToCart = useCallback(
     (productId: string) => {
@@ -131,8 +110,8 @@ export function HomeShell({
       footerServices={config.footerServices}
       footerAssistance={config.footerAssistance}
       categories={categories}
-      products={enrichedProducts}
-      discountProducts={enrichedDiscountProducts}
+      products={products}
+      discountProducts={discountProducts}
       popularProducts={popularProducts}
       heroBanner={heroBanner}
       bannerGrid={bannerGrid}
@@ -151,12 +130,12 @@ export function HomeShell({
         setActiveCategoryId((prev) => (prev === id ? null : id))
       }
       onProductClick={nav.goProduct}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onProductTabChange={setActiveProductTab}
       onTabChange={(tab) => {
         if (tab === "search") nav.goSearch();
         else if (tab === "cart") nav.goCart();
+        else if (tab === "info") nav.goInfo();
       }}
       onHeroCtaClick={nav.goListing}
       onBannerClick={nav.goListing}

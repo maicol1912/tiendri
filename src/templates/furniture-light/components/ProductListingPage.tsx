@@ -103,7 +103,6 @@ export function ProductListingPage({
                   currencySymbol={currencySymbol}
                   layout={layout}
                   onProductClick={onProductClick}
-                  onWishlistToggle={onWishlistToggle}
                   onAddToCart={onAddToCart}
                 />
               ))}

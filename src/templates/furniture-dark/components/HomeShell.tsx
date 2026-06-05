@@ -26,7 +26,6 @@ export function HomeShell() {
   const { totalItems: cartItemCount } = useCart();
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | undefined>(undefined);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
   // config.sections cast: readonly array
   const rawSections = config.sections as unknown as ReadonlyArray<{ id: string; visible: boolean }> | undefined;
@@ -40,15 +39,6 @@ export function HomeShell() {
         { id: "featured", visible: true },
       ];
 
-  function toggleWishlist(productId: string) {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }
-
   return (
     <HomePage
       store={mockStore}
@@ -60,7 +50,6 @@ export function HomeShell() {
       videoData={mockVideoSection}
       sections={sections}
       activeCategoryId={activeCategoryId}
-      wishlistedIds={wishlistedIds}
       cartItemCount={cartItemCount}
       onCategoryClick={(categoryId) => {
         setActiveCategoryId(categoryId === activeCategoryId ? undefined : categoryId);
@@ -74,10 +63,10 @@ export function HomeShell() {
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
       onBottomNavTab={(tab) => {
         if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
-        else if (tab === "wishlist") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
+        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
         else if (tab === "home") router.push(TEMPLATE_BASE);
       }}
-      onWishlistToggle={toggleWishlist}
       onPromoCardClick={() => router.push(`${TEMPLATE_BASE}/catalogo`)}
     />
   );

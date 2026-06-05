@@ -1,9 +1,8 @@
 // Tech Premium Template — Product Card
-// Figma: #F6F6F6 bg, rounded-[9px], heart top-right, product image centered 160px,
+// Figma: #F6F6F6 bg, rounded-[9px], product image centered 160px,
 // name centered 16px medium, price 24px semibold, "Buy Now" black rounded-lg button.
 // Visual only — handlers come as props.
 
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
 import type { TechPremiumConfig } from "../config";
@@ -18,7 +17,6 @@ interface ProductCardProps {
   currencySymbol?: string;
   layout?: TechPremiumConfig["layout"];
   onClick?: () => void;
-  onWishlistToggle?: () => void;
   onAddToCart?: () => void;
 }
 
@@ -27,7 +25,6 @@ export function ProductCard({
   currencySymbol = "$",
   layout,
   onClick,
-  onWishlistToggle,
   onAddToCart,
 }: ProductCardProps) {
   const imageUrl = product.images[0]?.url ?? "/placeholder.png";
@@ -41,27 +38,6 @@ export function ProductCard({
     <article
       className={`${cardBg} ${hoverFx} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 px-4 py-6 min-w-0 max-w-sm w-full mx-auto`}
     >
-      {/* Top: wishlist icon right-aligned */}
-      <div className="flex items-center justify-end w-full">
-        <button
-          type="button"
-          className="p-0 bg-transparent border-none cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onWishlistToggle?.();
-          }}
-          aria-label={product.inWishlist ? `Quitar ${product.name} de favoritos` : `Agregar ${product.name} a favoritos`}
-        >
-          <Heart
-            className={`w-6 h-6 transition-colors ${
-              product.inWishlist
-                ? "fill-[var(--t-text-primary)] text-[var(--t-text-primary)]"
-                : "fill-none text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)]/70"
-            }`}
-          />
-        </button>
-      </div>
-
       {/* Product image — clickable */}
       <button
         type="button"

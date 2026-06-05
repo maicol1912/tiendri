@@ -28,13 +28,10 @@ interface HomePageProps {
   layout?: BeautySoftConfig["layout"];
   grid?: BeautySoftConfig["grid"];
   sections?: Array<{ id: string; visible: boolean }>;
-  favorites?: Set<string>;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
-  onFavoriteToggle?: (productId: string) => void;
   onSearchOpen?: () => void;
   onCartOpen?: () => void;
-  onFavoritesOpen?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onSeeAll?: () => void;
 }
@@ -51,13 +48,10 @@ export function HomePage({
   layout,
   grid,
   sections,
-  favorites,
   onCategoryChange,
   onProductClick,
-  onFavoriteToggle,
   onSearchOpen,
   onCartOpen,
-  onFavoritesOpen,
   onTabChange,
   onSeeAll,
 }: HomePageProps) {
@@ -146,9 +140,7 @@ export function HomePage({
                 product={product}
                 currencySymbol={currencySymbol}
                 layout={layout}
-                isFavorite={favorites?.has(product.id) ?? product.inWishlist ?? false}
                 onClick={onProductClick ? () => onProductClick(product.id) : undefined}
-                onFavoriteToggle={onFavoriteToggle ? () => onFavoriteToggle(product.id) : undefined}
               />
             ))}
           </div>
@@ -169,7 +161,7 @@ export function HomePage({
       className="min-h-screen"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      <Header store={store} onFavoritesClick={onFavoritesOpen} layout={layout} />
+      <Header store={store} layout={layout} />
 
       <main
         className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pt-4 pb-[calc(80px+env(safe-area-inset-bottom,0px))] lg:pb-8 flex flex-col gap-5"

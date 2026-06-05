@@ -4,7 +4,7 @@
 // ZERO hardcoded colors — all via CSS variables.
 
 import Image from "next/image";
-import { ShoppingCart, Heart, User, PawPrint } from "lucide-react";
+import { ShoppingCart, PawPrint } from "lucide-react";
 import { SearchBar } from "./SearchBar";
 
 interface HeaderProps {
@@ -72,18 +72,12 @@ export function Header({
           <button onClick={onExploreClick} className="text-sm font-medium text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors">
             Explorar
           </button>
-          <button className="text-sm font-medium text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors">
-            Favoritos
-          </button>
         </nav>
 
         <div className="flex items-center gap-4">
           <div className="w-[280px]">
             <SearchBar readOnly onSearchClick={onSearchClick} />
           </div>
-          <button className="p-2 text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors" aria-label="Favoritos">
-            <Heart className="w-5 h-5" />
-          </button>
           <button
             onClick={onCartClick}
             className="relative p-2 text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors"
@@ -95,9 +89,6 @@ export function Header({
                 {cartItemCount > 9 ? "9+" : cartItemCount}
               </span>
             )}
-          </button>
-          <button className="p-2 text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors" aria-label="Cuenta">
-            <User className="w-5 h-5" />
           </button>
         </div>
       </div>

@@ -54,6 +54,7 @@ export function ListingShellRoute({
         if (tab === "home") nav.goHome();
         else if (tab === "cart") nav.goCart();
         else if (tab === "listing") nav.goListing();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

@@ -24,7 +24,7 @@ export interface ProductColor {
   hex: string;
 }
 
-export type NavTab = "home" | "search" | "cart";
+export type NavTab = "home" | "search" | "cart" | "info";
 
 export type CurrentPage =
   | "home"

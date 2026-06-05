@@ -38,8 +38,8 @@ export { SearchPage } from "./components/SearchPage";
 export { SearchShellRoute } from "./components/SearchShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
-export { WishlistPage } from "./components/WishlistPage";
-export { WishlistShellRoute } from "./components/WishlistShellRoute";
+export { StoreInfoPage } from "./components/StoreInfoPage";
+export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 export { CartProvider, useCart } from "./context/CartContext";
 export type {
   DecorWarmProduct,
@@ -48,7 +48,6 @@ export type {
   DecorWarmPromoSlide,
   DecorWarmBestSeller,
   DecorWarmNavTab,
-  DecorWarmWishlistItem,
 } from "./types";
 export { decorWarmConfig } from "./config";
 export type { DecorWarmConfig } from "./config";

@@ -79,7 +79,7 @@ export function CheckoutPage({
             letterSpacing: "-0.78px",
           }}
         >
-          Pago
+          Resumen del pedido
         </h1>
 
         <div className="flex flex-col lg:flex-row lg:gap-12">

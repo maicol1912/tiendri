@@ -1,20 +1,19 @@
 // Beauty Soft Template — Store Header
-// Sticky header: location pin circle + store name/address + heart + avatar.
+// Sticky header: location pin circle + store name/address + avatar.
 // Layout styles: standard (default), centered, minimal.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { MapPin, Heart } from "lucide-react";
+import { MapPin } from "lucide-react";
 import type { StoreInfo } from "@/types/store";
 
 interface HeaderProps {
   store: StoreInfo;
-  onFavoritesClick?: () => void;
   layout?: {
     headerStyle?: string;
   };
 }
 
-export function Header({ store, onFavoritesClick, layout }: HeaderProps) {
+export function Header({ store, layout }: HeaderProps) {
   const style = layout?.headerStyle ?? "standard";
 
   if (style === "minimal") {
@@ -81,17 +80,8 @@ export function Header({ store, onFavoritesClick, layout }: HeaderProps) {
           </div>
         </div>
 
-        {/* Right: Favorites + Avatar */}
+        {/* Right: Avatar */}
         <div className="flex items-center gap-[10px] flex-shrink-0">
-          <button
-            type="button"
-            className="flex items-center justify-center w-10 h-10 rounded-[var(--t-radius-button)] bg-[var(--t-icon-pill-bg,var(--t-card-bg))] border-0 cursor-pointer"
-            aria-label="Favoritos"
-            onClick={onFavoritesClick}
-          >
-            <Heart size={16} strokeWidth={1.75} className="text-[var(--t-text-primary)]" />
-          </button>
-
           <div
             className="w-10 h-10 rounded-[var(--t-radius-button)] flex items-center justify-center overflow-hidden"
             style={{ backgroundColor: "var(--t-icon-pill-bg, var(--t-card-bg))" }}

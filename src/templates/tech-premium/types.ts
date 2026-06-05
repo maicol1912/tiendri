@@ -91,7 +91,7 @@ export interface RatingDistribution {
   percentage: number;
 }
 
-export type NavTab = "home" | "search" | "cart" | "profile";
+export type NavTab = "home" | "search" | "cart" | "info";
 
 export type CurrentPage = "home" | "listing" | "product-detail" | "cart" | "search" | "checkout";
 

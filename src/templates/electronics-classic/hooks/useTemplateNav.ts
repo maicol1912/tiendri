@@ -42,6 +42,10 @@ export function useTemplateNav() {
     router.back();
   }, [router]);
 
+  const goInfo = useCallback(() => {
+    router.push(`${TEMPLATE_BASE}/info`);
+  }, [router]);
+
   return {
     goHome,
     goProduct,
@@ -50,5 +54,6 @@ export function useTemplateNav() {
     goSearch,
     goCheckout,
     goBack,
+    goInfo,
   };
 }

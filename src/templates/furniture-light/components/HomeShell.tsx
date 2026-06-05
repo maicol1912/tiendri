@@ -45,22 +45,6 @@ export function HomeShell({
   const { config } = useLayoutConfig<FurnitureLightConfig>();
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
-
-  // Enrich products with wishlist state
-  const enrichedProducts = products.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id),
-  }));
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
 
   const handleAddToCart = useCallback(
     (productId: string) => {
@@ -83,7 +67,7 @@ export function HomeShell({
       store={store}
       navLinks={config.navLinks}
       categories={categories}
-      products={enrichedProducts}
+      products={products}
       featuredCard={featuredCard}
       styleCards={styleCards}
       heroBannerImage={heroBannerImage}
@@ -100,11 +84,11 @@ export function HomeShell({
       onSearchClick={nav.goSearch}
       onCategoryChange={(id) => setActiveCategoryId((prev) => (prev === id ? null : id))}
       onProductClick={nav.goProduct}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onTabChange={(tab) => {
         if (tab === "search") nav.goSearch();
         else if (tab === "cart") nav.goCart();
+        else if (tab === "info") nav.goInfo();
       }}
       onStyleClick={() => nav.goListing()}
       onSeeAll={nav.goListing}

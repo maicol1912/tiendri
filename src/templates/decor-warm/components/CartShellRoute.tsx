@@ -38,7 +38,7 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
     (tab: DecorWarmNavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "categories") nav.goListing();
-      else if (tab === "wishlist") nav.goHome();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );

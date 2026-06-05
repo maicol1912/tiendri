@@ -5,7 +5,7 @@
 // Heart + plus icons in peach circles (20px).
 
 import Image from "next/image";
-import { Heart, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import type { DecorWarmProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 
@@ -13,7 +13,6 @@ interface ProductCardProps {
   product: DecorWarmProduct;
   currencySymbol?: string;
   onClick?: () => void;
-  onWishlistToggle?: () => void;
   onAddToCart?: () => void;
   layout?: {
     cardStyle?: string;
@@ -30,12 +29,10 @@ export function ProductCard({
   product,
   currencySymbol = "$",
   onClick,
-  onWishlistToggle,
   onAddToCart,
   layout,
 }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
-  const isWishlisted = product.inWishlist ?? false;
   const cardClass = cardStyleClass(layout?.cardStyle ?? "flat");
   const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "none");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
@@ -187,35 +184,6 @@ export function ProductCard({
 
           {/* Action icons */}
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            {/* Heart */}
-            <button
-              type="button"
-              className="flex items-center justify-center"
-              style={{
-                width: 20,
-                height: 20,
-                borderRadius: "var(--t-radius-category)",
-                backgroundColor: "var(--t-peach)",
-                border: "none",
-                cursor: "pointer",
-                flexShrink: 0,
-              }}
-              aria-label={isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-              onClick={(e) => {
-                e.stopPropagation();
-                onWishlistToggle?.();
-              }}
-            >
-              <Heart
-                size={10}
-                strokeWidth={2}
-                style={{
-                  color: "#FFFFFF",
-                  fill: isWishlisted ? "#FFFFFF" : "transparent",
-                }}
-              />
-            </button>
-
             {/* Plus — add to cart */}
             <button
               type="button"

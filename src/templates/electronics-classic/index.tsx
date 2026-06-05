@@ -20,6 +20,8 @@ export { CartShellRoute } from "./components/CartShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { SearchShellRoute } from "./components/SearchShellRoute";
+export { StoreInfoPage } from "./components/StoreInfoPage";
+export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 export { CartProvider, useCart } from "./context/CartContext";
 export { electronicsClassicConfig } from "./config";
 export type { ElectronicsClassicConfig } from "./config";

@@ -18,9 +18,8 @@ import {
   mockFeatureShowcase,
   mockProductFeatures,
   mockFeaturesDescription,
-  mockProductReviews,
 } from "../mock/data";
-import type { StorefrontProduct, ProductReview } from "../types";
+import type { StorefrontProduct } from "../types";
 
 interface ProductDetailShellRouteProps {
   productId: string;
@@ -65,11 +64,6 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
     });
   };
 
-  const handleSubmitReview = (_review: Omit<ProductReview, "id" | "date">) => {
-    // In a real app, submit to the backend.
-    // For now, this is a no-op (mock data doesn't mutate).
-  };
-
   return (
     <ProductDetailPage
       store={{
@@ -84,7 +78,6 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       showcase={mockFeatureShowcase}
       productFeatures={mockProductFeatures}
       featuresDescription={mockFeaturesDescription}
-      reviews={mockProductReviews}
       relatedProducts={related}
       cartCount={cartCount}
       quantity={quantity}
@@ -103,7 +96,6 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       onTabChange={setActiveTab}
       onImageIndexChange={setActiveImageIndex}
       onProductClick={(id) => router.push(`${TEMPLATE_BASE}/producto/${id}`)}
-      onSubmitReview={handleSubmitReview}
     />
   );
 }

@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, Star, ShoppingBag, ChevronLeft } from "lucide-react";
+import { ShoppingBag, ChevronLeft } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -36,7 +36,6 @@ interface ProductDetailPageProps {
   onMenuClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onAddToCart?: (productId: string, quantity: number) => void;
-  onWishlistToggle?: (productId: string) => void;
 }
 
 export function ProductDetailPage({
@@ -52,21 +51,14 @@ export function ProductDetailPage({
   onMenuClick,
   onTabChange,
   onAddToCart,
-  onWishlistToggle,
 }: ProductDetailPageProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [inWishlist, setInWishlist] = useState(product.inWishlist ?? false);
   const [isCartBtnPressed, setIsCartBtnPressed] = useState(false);
 
   const activeImage = product.images[activeImageIndex]?.url ?? null;
   const hasDiscount =
     product.compare_at_price !== null && product.compare_at_price > product.price;
-
-  const handleWishlist = () => {
-    setInWishlist((prev) => !prev);
-    onWishlistToggle?.(product.id);
-  };
 
   const handleDecrement = () => setQuantity((q) => Math.max(1, q - 1));
   const handleIncrement = () => setQuantity((q) => q + 1);
@@ -76,8 +68,6 @@ export function ProductDetailPage({
     onAddToCart?.(product.id, quantity);
   };
 
-  const rating = product.rating ?? 4.5;
-  const fullStars = Math.floor(rating);
 
   return (
     <div
@@ -139,28 +129,6 @@ export function ProductDetailPage({
                   <div style={{ color: "var(--t-border)" }}>Sin imagen</div>
                 )}
 
-                {/* Heart button overlay */}
-                <button
-                  type="button"
-                  onClick={handleWishlist}
-                  className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center"
-                  style={{
-                    borderRadius: "50%",
-                    backgroundColor: "var(--t-card-bg)",
-                    border: "1px solid var(--t-border)",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                  }}
-                  aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-                  aria-pressed={inWishlist}
-                >
-                  <Heart
-                    size={16}
-                    strokeWidth={2}
-                    fill={inWishlist ? "var(--t-primary)" : "none"}
-                    style={{ color: inWishlist ? "var(--t-primary)" : "var(--t-text-muted)" }}
-                  />
-                </button>
               </div>
 
               {/* Thumbnail row */}
@@ -220,22 +188,6 @@ export function ProductDetailPage({
                   {product.name}
                 </h1>
 
-                {/* Stars */}
-                {product.rating && (
-                  <div className="flex items-center gap-1 mb-2">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={18}
-                        strokeWidth={0}
-                        fill={i < fullStars ? "var(--t-rating-star)" : "var(--t-rating-bar-bg)"}
-                      />
-                    ))}
-                    <span style={{ fontSize: "12px", color: "var(--t-text-muted)", marginLeft: 8 }}>
-                      {rating.toFixed(1)}
-                    </span>
-                  </div>
-                )}
               </div>
 
               {/* Price */}

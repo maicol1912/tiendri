@@ -35,7 +35,6 @@ export function ProductDetailShellRoute({
     sizeOptions[0]?.id ?? null
   );
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const [inWishlist, setInWishlist] = useState(product.inWishlist ?? false);
 
   const handleAddToCart = useCallback(() => {
     const primaryImage = product.images[0]?.url ?? null;
@@ -69,7 +68,6 @@ export function ProductDetailShellRoute({
         selectedSizeId={selectedSizeId}
         quantity={quantity}
         isDescriptionExpanded={isDescriptionExpanded}
-        inWishlist={inWishlist}
         activeTab="home"
         cartItemCount={totalItems}
         layout={layout}
@@ -78,13 +76,13 @@ export function ProductDetailShellRoute({
         onDecrement={() => setQuantity((prev) => Math.max(1, prev - 1))}
         onIncrement={() => setQuantity((prev) => prev + 1)}
         onAddToCart={handleAddToCart}
-        onWishlistToggle={() => setInWishlist((prev) => !prev)}
         onToggleDescription={() => setIsDescriptionExpanded((prev) => !prev)}
         onSearchClick={nav.goSearch}
         onCartClick={nav.goCart}
         onTabChange={(tab) => {
           if (tab === "home") nav.goHome();
           else if (tab === "cart") nav.goCart();
+          else if (tab === "info") nav.goInfo();
         }}
       />
     </motion.div>

@@ -4,7 +4,7 @@
 // ZERO hardcoded colors — all via CSS variables.
 
 import Image from "next/image";
-import { ArrowLeft, Heart, Star, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { QuantityStepper } from "./QuantityStepper";
 import type { StorefrontProduct } from "../types";
 
@@ -16,30 +16,10 @@ interface ProductDetailPageProps {
   onIncrement?: () => void;
   onDecrement?: () => void;
   onAddToCart?: () => void;
-  onWishlist?: () => void;
 }
 
 function formatPrice(price: number, symbol: string): string {
   return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
-
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          className={`w-5 h-5 ${
-            star <= Math.floor(rating)
-              ? "fill-[var(--t-rating-star)] text-[var(--t-rating-star)]"
-              : star <= rating
-              ? "fill-[var(--t-rating-star)]/50 text-[var(--t-rating-star)]"
-              : "fill-[var(--t-rating-bar-bg)] text-[var(--t-rating-bar-bg)]"
-          }`}
-        />
-      ))}
-    </div>
-  );
 }
 
 export function ProductDetailPage({
@@ -50,7 +30,6 @@ export function ProductDetailPage({
   onIncrement,
   onDecrement,
   onAddToCart,
-  onWishlist,
 }: ProductDetailPageProps) {
   const imageUrl = product.images[0]?.url ?? "";
 
@@ -60,9 +39,6 @@ export function ProductDetailPage({
       <div className="flex items-center justify-between px-4 py-3 lg:hidden">
         <button onClick={onBack} className="p-1" aria-label="Volver">
           <ArrowLeft className="w-5 h-5 text-[var(--t-text-primary)]" />
-        </button>
-        <button onClick={onWishlist} className="p-1" aria-label="Agregar a favoritos">
-          <Heart className="w-6 h-6 text-[var(--t-text-primary)]" />
         </button>
       </div>
 
@@ -120,13 +96,6 @@ export function ProductDetailPage({
               </div>
             </div>
 
-            {/* Desktop: wishlist button */}
-            <div className="hidden lg:flex mt-2">
-              <button onClick={onWishlist} className="p-1 text-[var(--t-text-primary)] hover:text-[var(--t-primary)] transition-colors" aria-label="Agregar a favoritos">
-                <Heart className="w-6 h-6" />
-              </button>
-            </div>
-
             {/* Weight */}
             {product.subtitle && (
               <p className="text-[var(--t-text-muted)] text-base font-medium mt-2">
@@ -134,12 +103,6 @@ export function ProductDetailPage({
               </p>
             )}
 
-            {/* Stars */}
-            {product.rating !== undefined && (
-              <div className="mt-2">
-                <StarRating rating={product.rating} />
-              </div>
-            )}
 
             {/* Quantity stepper */}
             <div className="mt-6">

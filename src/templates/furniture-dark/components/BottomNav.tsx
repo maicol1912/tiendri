@@ -1,14 +1,14 @@
 "use client";
 
 // Furniture Dark — BottomNav
-// 4 tabs: home / cart / wishlist / account
+// 4 tabs: home / cart / search / info
 // Active tab: white icon; Inactive: #666666-equivalent via --t-text-footer
 // Background: rgba(24,24,24,0.95) with backdrop-blur → mobile only
 // ALL colors via var(--t-*)
 
-import { Home, ShoppingBag, Heart, User } from "lucide-react";
+import { Home, ShoppingBag, Search, Store } from "lucide-react";
 
-type TabId = "home" | "cart" | "wishlist" | "account";
+type TabId = "home" | "cart" | "search" | "info";
 
 interface BottomNavProps {
   activeTab: TabId;
@@ -19,8 +19,8 @@ interface BottomNavProps {
 const TABS = [
   { id: "home" as TabId, Icon: Home, label: "Inicio" },
   { id: "cart" as TabId, Icon: ShoppingBag, label: "Carrito" },
-  { id: "wishlist" as TabId, Icon: Heart, label: "Favoritos" },
-  { id: "account" as TabId, Icon: User, label: "Cuenta" },
+  { id: "search" as TabId, Icon: Search, label: "Buscar" },
+  { id: "info" as TabId, Icon: Store, label: "Info" },
 ] as const;
 
 export function BottomNav({ activeTab, cartItemCount = 0, onTab }: BottomNavProps) {

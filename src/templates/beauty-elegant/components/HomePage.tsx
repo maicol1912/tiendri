@@ -171,7 +171,6 @@ export function HomePage({
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}
-        onCartClick={onCartOpen}
       />
     </div>
   );

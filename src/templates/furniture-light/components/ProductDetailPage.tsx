@@ -4,7 +4,7 @@
 // Visual only — handlers from shell
 
 import Image from "next/image";
-import { Star, ChevronRight, Bookmark, ShoppingCart } from "lucide-react";
+import { ChevronRight, ShoppingCart } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -25,39 +25,19 @@ interface ProductDetailPageProps {
   currencySymbol?: string;
   selectedImageIndex?: number;
   selectedColorIndex?: number;
-  isWishlisted?: boolean;
-  isInCart?: boolean;
   dimensionUnit?: "cm" | "inch";
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onWishlistToggle?: () => void;
   onAddToCart?: () => void;
   onImageSelect?: (index: number) => void;
   onColorSelect?: (index: number) => void;
   onDimensionUnitToggle?: () => void;
   onProductClick?: (productId: string) => void;
-  onWishlistToggleProduct?: (productId: string) => void;
   onAddToCartProduct?: (productId: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
 }
 
-function StarBar({ value, count, total }: { value: number; count: number; total: number }) {
-  const pct = total > 0 ? (count / total) * 100 : 0;
-  return (
-    <div className="flex items-center gap-2">
-      <span className="text-xs text-[var(--t-text-muted)] w-4 text-right">{value}</span>
-      <Star size={10} fill="var(--t-rating-star)" color="var(--t-rating-star)" />
-      <div className="flex-1 h-1.5 rounded-full bg-[var(--t-rating-bar-bg)] overflow-hidden">
-        <div
-          className="h-full rounded-full bg-[var(--t-rating-star)]"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-      <span className="text-xs text-[var(--t-text-muted)] w-5">{count}</span>
-    </div>
-  );
-}
 
 export function ProductDetailPage({
   store,
@@ -71,25 +51,20 @@ export function ProductDetailPage({
   currencySymbol = "$",
   selectedImageIndex = 0,
   selectedColorIndex = 0,
-  isWishlisted = false,
   dimensionUnit = "cm",
   onBack,
   onSearchClick,
   onCartClick,
-  onWishlistToggle,
   onAddToCart,
   onImageSelect,
   onColorSelect,
   onDimensionUnitToggle,
   onProductClick,
-  onWishlistToggleProduct,
   onAddToCartProduct,
   onTabChange,
 }: ProductDetailPageProps) {
   const images = product.images ?? [];
   const activeImage = images[selectedImageIndex]?.url ?? null;
-  const rating = product.rating ?? 0;
-  const totalReviews = product.unitsSold ?? 0;
 
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
   const comparePrice = product.compare_at_price
@@ -103,16 +78,6 @@ export function ProductDetailPage({
   );
 
   const gridCols = grid?.listing ?? { mobile: 2, desktop: 3 };
-
-  // Mock rating distribution
-  const ratingDist: Array<{ stars: number; count: number }> = [
-    { stars: 5, count: Math.round((totalReviews || 12) * 0.55) },
-    { stars: 4, count: Math.round((totalReviews || 12) * 0.25) },
-    { stars: 3, count: Math.round((totalReviews || 12) * 0.12) },
-    { stars: 2, count: Math.round((totalReviews || 12) * 0.05) },
-    { stars: 1, count: Math.round((totalReviews || 12) * 0.03) },
-  ];
-  const totalRatingCount = ratingDist.reduce((s, r) => s + r.count, 0);
 
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
@@ -228,25 +193,6 @@ export function ProductDetailPage({
                 {product.name}
               </h1>
 
-              {rating > 0 && (
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        size={14}
-                        fill={star <= Math.round(rating) ? "var(--t-rating-star)" : "transparent"}
-                        color="var(--t-rating-star)"
-                        strokeWidth={1.5}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-sm font-semibold text-[var(--t-text-primary)]">{rating.toFixed(1)}</span>
-                  {totalReviews > 0 && (
-                    <span className="text-xs text-[var(--t-text-muted)]">({totalReviews} vendidos)</span>
-                  )}
-                </div>
-              )}
 
               {/* Price */}
               <div className="flex items-center gap-3 mt-3">
@@ -353,21 +299,8 @@ export function ProductDetailPage({
                 </div>
               </div>
 
-              {/* Actions — sticky on mobile */}
+              {/* Desktop: add to cart */}
               <div className="hidden lg:flex items-center gap-3 mt-6">
-                <button
-                  onClick={onWishlistToggle}
-                  className="flex items-center justify-center w-11 h-11 transition-all hover:scale-105"
-                  style={{
-                    borderRadius: "var(--t-radius-button)",
-                    border: "1.5px solid var(--t-border)",
-                    backgroundColor: isWishlisted ? "var(--t-bookmark-bg)" : "var(--t-section-bg)",
-                    color: isWishlisted ? "white" : "var(--t-text-muted)",
-                  }}
-                  aria-label={isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-                >
-                  <Bookmark size={18} fill={isWishlisted ? "currentColor" : "none"} />
-                </button>
                 <button
                   onClick={onAddToCart}
                   className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98]"
@@ -385,35 +318,6 @@ export function ProductDetailPage({
             </div>
           </div>
 
-          {/* Reviews section */}
-          <div className="mt-8">
-            <h2 className="text-base font-bold text-[var(--t-text-primary)] mb-4">Reseñas</h2>
-            <div className="flex gap-6 lg:gap-10">
-              {/* Overall rating */}
-              <div className="flex flex-col items-center justify-center">
-                <span
-                  className="text-5xl font-bold"
-                  style={{ color: "var(--t-text-primary)", fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
-                >
-                  {rating.toFixed(1)}
-                </span>
-                <div className="flex items-center gap-0.5 mt-1">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} size={12} fill={s <= Math.round(rating) ? "var(--t-rating-star)" : "transparent"} color="var(--t-rating-star)" />
-                  ))}
-                </div>
-                <span className="text-xs text-[var(--t-text-muted)] mt-1">{totalReviews} valoraciones</span>
-              </div>
-
-              {/* Bar chart */}
-              <div className="flex-1 space-y-1.5">
-                {ratingDist.map((r) => (
-                  <StarBar key={r.stars} value={r.stars} count={r.count} total={totalRatingCount} />
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Related products */}
           {relatedProducts.length > 0 && (
             <div className="mt-8">
@@ -426,7 +330,6 @@ export function ProductDetailPage({
                     currencySymbol={currencySymbol}
                     layout={layout}
                     onProductClick={onProductClick}
-                    onWishlistToggle={onWishlistToggleProduct}
                     onAddToCart={onAddToCartProduct}
                   />
                 ))}
@@ -438,34 +341,19 @@ export function ProductDetailPage({
 
       {/* Mobile sticky CTA */}
       <div className="lg:hidden fixed bottom-[60px] left-0 right-0 z-40 px-5 pb-2 pt-2 bg-[var(--t-background)]" style={{ boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}>
-        <div className="flex gap-2">
-          <button
-            onClick={onWishlistToggle}
-            className="flex items-center justify-center w-11 h-11 shrink-0 transition-all"
-            style={{
-              borderRadius: "var(--t-radius-button)",
-              border: "1.5px solid var(--t-border)",
-              backgroundColor: isWishlisted ? "var(--t-bookmark-bg)" : "var(--t-section-bg)",
-              color: isWishlisted ? "white" : "var(--t-text-muted)",
-            }}
-            aria-label={isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-          >
-            <Bookmark size={18} fill={isWishlisted ? "currentColor" : "none"} />
-          </button>
-          <button
-            onClick={onAddToCart}
-            className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90"
-            style={{
-              borderRadius: "var(--t-radius-button)",
-              backgroundColor: product.available === false ? "var(--t-border)" : "var(--t-primary)",
-              color: product.available === false ? "var(--t-text-muted)" : "var(--t-button-text)",
-            }}
-            disabled={product.available === false}
-          >
-            <ShoppingCart size={16} />
-            {product.available === false ? "Agotado" : "Agregar al carrito"}
-          </button>
-        </div>
+        <button
+          onClick={onAddToCart}
+          className="w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90"
+          style={{
+            borderRadius: "var(--t-radius-button)",
+            backgroundColor: product.available === false ? "var(--t-border)" : "var(--t-primary)",
+            color: product.available === false ? "var(--t-text-muted)" : "var(--t-button-text)",
+          }}
+          disabled={product.available === false}
+        >
+          <ShoppingCart size={16} />
+          {product.available === false ? "Agotado" : "Agregar al carrito"}
+        </button>
       </div>
 
       <Footer store={store} layout={layout} />
@@ -479,6 +367,7 @@ export function ProductDetailPage({
           else onTabChange?.(tab);
         }}
       />
+
     </div>
   );
 }

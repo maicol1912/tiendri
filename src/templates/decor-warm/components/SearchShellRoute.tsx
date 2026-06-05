@@ -3,7 +3,7 @@
 // Decor Warm Template — SearchShellRoute
 // Client boundary. Debounced search (300ms) + navigation wiring.
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, } from "react";
 import { SearchPage } from "./SearchPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
@@ -36,7 +36,6 @@ export function SearchShellRoute({
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounce
@@ -68,15 +67,6 @@ export function SearchShellRoute({
 
   const recommendations = products.slice(0, 4);
 
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
-
   const handleAddToCart = useCallback(
     (product: DecorWarmProduct) => {
       addItem({
@@ -107,7 +97,6 @@ export function SearchShellRoute({
       popularSearches={popularSearches}
       isSearching={isSearching}
       currencySymbol={currencySymbol}
-      wishlistedIds={wishlistedIds}
       layout={layout}
       grid={grid}
       onBack={nav.goHome}
@@ -118,7 +107,6 @@ export function SearchShellRoute({
         setIsSearching(false);
       }}
       onProductClick={(id) => nav.goProduct(id)}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onSuggestionClick={(q) => setQuery(q)}
       onTabChange={handleTabChange}

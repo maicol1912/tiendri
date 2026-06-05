@@ -37,15 +37,13 @@ interface HomePageProps {
   videoData?: VideoData | null;
   sections: HomePageSection[];
   activeCategoryId?: string;
-  wishlistedIds?: Set<string>;
   cartItemCount?: number;
   onCategoryClick: (categoryId: string) => void;
   onProductClick: (productId: string) => void;
   onViewAllClick: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
-  onBottomNavTab: (tab: "home" | "cart" | "wishlist" | "account") => void;
-  onWishlistToggle?: (productId: string) => void;
+  onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
   onPromoCardClick?: (card: PromoCard) => void;
 }
 
@@ -61,7 +59,6 @@ export function HomePage({
   videoData,
   sections,
   activeCategoryId,
-  wishlistedIds,
   cartItemCount = 0,
   onCategoryClick,
   onProductClick,
@@ -69,7 +66,6 @@ export function HomePage({
   onSearchClick,
   onCartClick,
   onBottomNavTab,
-  onWishlistToggle,
   onPromoCardClick,
 }: HomePageProps) {
   const gridMobile = config.grid.products.mobile;
@@ -112,8 +108,6 @@ export function HomePage({
           products={bestSellers}
           onProductClick={onProductClick}
           onViewAll={onViewAllClick}
-          wishlistedIds={wishlistedIds}
-          onWishlistToggle={onWishlistToggle}
           gridMobile={gridMobile}
           gridDesktop={gridDesktop}
           cardStyle={cardStyle}
@@ -130,8 +124,6 @@ export function HomePage({
           products={featuredProducts}
           onProductClick={onProductClick}
           onViewAll={onViewAllClick}
-          wishlistedIds={wishlistedIds}
-          onWishlistToggle={onWishlistToggle}
           gridMobile={gridMobile}
           gridDesktop={gridDesktop}
           cardStyle={cardStyle}

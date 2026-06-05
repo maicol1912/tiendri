@@ -1,24 +1,25 @@
 // Pet V3 Template — Bottom Navigation
-// 4 tabs: Tienda, Explorar, Favoritos, Cuenta. Active tab uses primary color.
+// 4 tabs: Tienda, Explorar, Carrito, Info. Active tab uses primary color.
 // Hidden on lg+ desktop.
 // ZERO hardcoded colors — all via CSS variables.
 
-import { Store, Search, Heart, User } from "lucide-react";
+import { Store, Search, ShoppingCart, Info } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavProps {
   activeTab: NavTab;
+  cartItemCount?: number;
   onTabChange?: (tab: NavTab) => void;
 }
 
 const tabs: Array<{ id: NavTab; label: string; Icon: typeof Store }> = [
   { id: "shop", label: "Tienda", Icon: Store },
   { id: "explore", label: "Explorar", Icon: Search },
-  { id: "favourite", label: "Favoritos", Icon: Heart },
-  { id: "account", label: "Cuenta", Icon: User },
+  { id: "cart", label: "Carrito", Icon: ShoppingCart },
+  { id: "info", label: "Info", Icon: Info },
 ];
 
-export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
+export function BottomNav({ activeTab, cartItemCount = 0, onTabChange }: BottomNavProps) {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
       <div
@@ -38,12 +39,19 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                 aria-label={label}
                 aria-current={isActive ? "page" : undefined}
               >
-                <Icon
-                  className={`w-6 h-6 transition-colors ${
-                    isActive ? "text-[var(--t-primary)]" : "text-[var(--t-text-primary)]"
-                  }`}
-                  strokeWidth={isActive ? 2.2 : 1.8}
-                />
+                <div className="relative">
+                  <Icon
+                    className={`w-6 h-6 transition-colors ${
+                      isActive ? "text-[var(--t-primary)]" : "text-[var(--t-text-primary)]"
+                    }`}
+                    strokeWidth={isActive ? 2.2 : 1.8}
+                  />
+                  {id === "cart" && cartItemCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center">
+                      {cartItemCount > 9 ? "9+" : cartItemCount}
+                    </span>
+                  )}
+                </div>
                 <span
                   className={`text-xs font-medium transition-colors ${
                     isActive ? "text-[var(--t-primary)]" : "text-[var(--t-text-primary)]"

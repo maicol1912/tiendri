@@ -30,6 +30,7 @@ export function CartShellRoute({
     (tab: NavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "search") nav.goSearch();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );

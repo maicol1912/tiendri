@@ -5,7 +5,7 @@
 // ZERO hardcoded colors — all via var(--t-*) or per-product cardBgColor (content data)
 
 import Image from "next/image";
-import { Bookmark, Star, Plus } from "lucide-react";
+import { Star, Plus } from "lucide-react";
 import type { FurnitureProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 
@@ -13,7 +13,6 @@ interface ProductCardProps {
   product: FurnitureProduct;
   currencySymbol?: string;
   onProductClick?: (id: string) => void;
-  onWishlistToggle?: (id: string) => void;
   onAddToCart?: (id: string) => void;
   layout?: {
     cardStyle?: string;
@@ -26,7 +25,6 @@ export function ProductCard({
   product,
   currencySymbol = "$",
   onProductClick,
-  onWishlistToggle,
   onAddToCart,
   layout,
 }: ProductCardProps) {
@@ -69,19 +67,6 @@ export function ProductCard({
             </span>
           </div>
         )}
-
-        {/* Bookmark button */}
-        <button
-          aria-label={product.inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-          onClick={(e) => {
-            e.stopPropagation();
-            onWishlistToggle?.(product.id);
-          }}
-          className="absolute top-2.5 right-2.5 z-10 flex items-center justify-center w-8 h-8 rounded-[var(--t-radius-button)] transition-transform hover:scale-110"
-          style={{ backgroundColor: product.inWishlist ? "var(--t-bookmark-bg)" : "rgba(38, 166, 154, 0.85)" }}
-        >
-          <Bookmark size={14} strokeWidth={2} style={{ fill: "white", color: "white" }} />
-        </button>
 
         {/* Star rating badge */}
         {rating > 0 && (

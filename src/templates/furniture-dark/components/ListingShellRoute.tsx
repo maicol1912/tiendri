@@ -17,21 +17,11 @@ export function ListingShellRoute() {
 
   const initialCategory = searchParams.get("category") ?? undefined;
   const [activeCategoryId, setActiveCategoryId] = useState<string | undefined>(initialCategory);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
   // Filter products by category
   const filteredProducts = activeCategoryId
     ? mockProducts.filter((p) => p.categoryId === activeCategoryId)
     : mockProducts;
-
-  function toggleWishlist(productId: string) {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }
 
   function handleCategoryClick(categoryId: string) {
     const next = categoryId === activeCategoryId ? undefined : categoryId;
@@ -50,7 +40,6 @@ export function ListingShellRoute() {
       categories={mockCategories}
       categoryBanner={mockCategoryBanner}
       activeCategoryId={activeCategoryId}
-      wishlistedIds={wishlistedIds}
       cartItemCount={totalItems}
       onBack={() => router.push(TEMPLATE_BASE)}
       onCategoryClick={handleCategoryClick}
@@ -59,10 +48,11 @@ export function ListingShellRoute() {
       }
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
-      onWishlistToggle={toggleWishlist}
       onBottomNavTab={(tab) => {
         if (tab === "home") router.push(TEMPLATE_BASE);
         else if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
+        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
+        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
       }}
     />
   );

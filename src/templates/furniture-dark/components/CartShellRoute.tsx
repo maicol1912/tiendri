@@ -28,7 +28,8 @@ export function CartShellRoute() {
       onCartClick={() => {}}
       onBottomNavTab={(tab) => {
         if (tab === "home") router.push(TEMPLATE_BASE);
-        else if (tab === "wishlist") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
+        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
       }}
     />
   );

@@ -6,7 +6,6 @@
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
-import { Heart, Star } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 
 function formatPrice(amount: number): string {
@@ -20,8 +19,6 @@ function formatPrice(amount: number): string {
 
 interface ProductCardProps {
   product: StorefrontProduct;
-  isWishlisted?: boolean;
-  onWishlistToggle?: (productId: string) => void;
   onClick?: (productId: string) => void;
   cardStyle?: string;
   hoverEffect?: string;
@@ -30,8 +27,6 @@ interface ProductCardProps {
 
 export function ProductCard({
   product,
-  isWishlisted = false,
-  onWishlistToggle,
   onClick,
 }: ProductCardProps) {
   const discountPct =
@@ -72,24 +67,6 @@ export function ProductCard({
           </div>
         )}
 
-        {/* Wishlist button */}
-        {onWishlistToggle && (
-          <button
-            type="button"
-            className="absolute top-2 right-2 flex items-center justify-center w-8 h-8 rounded-full transition-opacity hover:opacity-80 active:scale-90"
-            style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
-            onClick={(e) => { e.stopPropagation(); onWishlistToggle(product.id); }}
-            aria-label={isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-          >
-            <Heart
-              size={14}
-              strokeWidth={2}
-              fill={isWishlisted ? "var(--t-primary)" : "none"}
-              style={{ color: isWishlisted ? "var(--t-primary)" : "rgba(0,0,0,0.5)" }}
-            />
-          </button>
-        )}
-
         {/* Discount badge */}
         {discountPct !== null && (
           <div
@@ -107,23 +84,6 @@ export function ProductCard({
 
       {/* ── Text below card — on dark page background, no card bg */}
       <div className="mt-3 space-y-1">
-        {/* Rating */}
-        {product.rating !== undefined && (
-          <div className="flex items-center gap-1">
-            <Star size={11} fill="var(--t-rating-star)" style={{ color: "var(--t-rating-star)" }} />
-            <span
-              style={{
-                fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: "var(--t-text-muted)",
-              }}
-            >
-              {product.rating.toFixed(1)}
-            </span>
-          </div>
-        )}
-
         {/* Name */}
         <p
           className="line-clamp-2 leading-tight"

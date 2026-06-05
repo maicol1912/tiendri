@@ -61,7 +61,8 @@ export function ProductDetailShellRoute({
       onAddToCart={handleAddToCart}
       onTabChange={(tab) => {
         if (tab === "cart") nav.goCart();
-        else if (tab === "wishlist") nav.goSearch();
+        else if (tab === "listing") nav.goListing();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

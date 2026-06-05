@@ -30,7 +30,6 @@ export function ListingShellRoute({
   const { totalItems, addItem } = useCart();
   const { config } = useLayoutConfig<TechPremiumConfig>();
 
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<FilterGroup[]>(initialFilters);
@@ -73,24 +72,10 @@ export function ListingShellRoute({
     return true;
   });
 
-  const enrichedProducts = filteredProducts.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id) ? true : (p.inWishlist ?? false),
-  }));
-
   const handleProductClick = useCallback(
     (productId: string) => nav.goProduct(productId),
     [nav]
   );
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
 
   const handleAddToCart = useCallback(
     (productId: string) => {
@@ -137,6 +122,7 @@ export function ListingShellRoute({
       if (tab === "home") nav.goHome();
       else if (tab === "search") nav.goSearch();
       else if (tab === "cart") nav.goCart();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );
@@ -157,15 +143,15 @@ export function ListingShellRoute({
   return (
     <ProductListingPage
       store={store}
-      products={enrichedProducts}
+      products={filteredProducts}
       navLinks={config.navLinks}
       footerServices={config.footerServices}
       footerAssistance={config.footerAssistance}
       grid={config.grid}
       filters={filters}
-      totalProducts={enrichedProducts.length}
+      totalProducts={filteredProducts.length}
       currentPage={currentPage}
-      totalPages={Math.ceil(enrichedProducts.length / 9) || 1}
+      totalPages={Math.ceil(filteredProducts.length / 9) || 1}
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
@@ -173,7 +159,6 @@ export function ListingShellRoute({
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={handleProductClick}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onPageChange={(page: number) => {
         setCurrentPage(page);

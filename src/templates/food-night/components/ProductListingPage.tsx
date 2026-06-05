@@ -100,7 +100,6 @@ export function ProductListingPage({
                   variant={index % 2 === 0 ? "tall" : "short"}
                   layout={layout}
                   onClick={() => onProductClick?.(product.id)}
-                  onWishlistToggle={() => onWishlistToggle?.(product.id)}
                 />
               ))}
             </div>

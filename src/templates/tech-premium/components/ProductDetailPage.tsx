@@ -5,7 +5,7 @@
 // Visual only — handlers come as props.
 
 import Image from "next/image";
-import { ChevronRight, ChevronDown, Truck, Store, ShieldCheck, Star } from "lucide-react";
+import { ChevronRight, ChevronDown, Truck, Store, ShieldCheck } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -17,8 +17,6 @@ import type {
   StorefrontProduct,
   NavTab,
   SpecBadge,
-  ReviewData,
-  RatingDistribution,
 } from "../types";
 
 interface ProductDetailPageProps {
@@ -30,50 +28,23 @@ interface ProductDetailPageProps {
   grid: TechPremiumConfig["grid"];
   relatedProducts?: StorefrontProduct[];
   specBadges?: SpecBadge[];
-  reviews?: ReviewData[];
-  overallRating?: number;
-  totalReviews?: number;
-  ratingDistribution?: RatingDistribution[];
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
   selectedImageIndex?: number;
   selectedStorage?: string;
   selectedColor?: number;
-  isWishlisted?: boolean;
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onWishlistToggle?: () => void;
   onAddToCart?: () => void;
   onImageSelect?: (index: number) => void;
   onStorageSelect?: (storage: string) => void;
   onColorSelect?: (index: number) => void;
   onProductClick?: (productId: string) => void;
-  onWishlistToggleProduct?: (productId: string) => void;
   onAddToCartProduct?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
-}
-
-function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
-  return (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          className={`${
-            star <= Math.floor(rating)
-              ? "fill-[var(--t-rating-star)] text-[var(--t-rating-star)]"
-              : star - 0.5 <= rating
-                ? "fill-[var(--t-rating-star)]/50 text-[var(--t-rating-star)]"
-                : "fill-none text-[var(--t-rating-bar-bg)]"
-          }`}
-          style={{ width: size, height: size }}
-        />
-      ))}
-    </div>
-  );
 }
 
 export function ProductDetailPage({
@@ -85,33 +56,20 @@ export function ProductDetailPage({
   grid,
   relatedProducts = [],
   specBadges = [],
-  reviews = [],
-  overallRating = 4.8,
-  totalReviews = 125,
-  ratingDistribution = [
-    { label: "Excelente", count: 100, percentage: 80 },
-    { label: "Bueno", count: 11, percentage: 40 },
-    { label: "Regular", count: 3, percentage: 15 },
-    { label: "Por debajo del promedio", count: 8, percentage: 35 },
-    { label: "Malo", count: 1, percentage: 7 },
-  ],
   activeTab = "home",
   cartItemCount = 0,
   currencySymbol = "$",
   selectedImageIndex = 0,
   selectedStorage,
   selectedColor = 0,
-  isWishlisted = false,
   onBack,
   onSearchClick,
   onCartClick,
-  onWishlistToggle,
   onAddToCart,
   onImageSelect,
   onStorageSelect,
   onColorSelect,
   onProductClick,
-  onWishlistToggleProduct,
   onAddToCartProduct,
   onTabChange,
   onNavLinkClick,
@@ -333,13 +291,6 @@ export function ProductDetailPage({
           <div className="flex flex-wrap gap-4">
             <button
               type="button"
-              className="flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border border-[var(--t-text-primary)] bg-[var(--t-section-bg)] text-[var(--t-text-primary)] text-base font-medium text-center cursor-pointer hover:opacity-80 transition-colors"
-              onClick={onWishlistToggle}
-            >
-              {isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-            </button>
-            <button
-              type="button"
               className="flex-1 min-w-[136px] px-14 py-4 rounded-[6px] border-none bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium text-center cursor-pointer hover:opacity-90 transition-colors disabled:opacity-50"
               onClick={onAddToCart}
               disabled={!product.inStock}
@@ -463,13 +414,6 @@ export function ProductDetailPage({
         <div className="flex flex-col gap-4">
           <button
             type="button"
-            className="w-full px-14 py-4 rounded-[6px] border border-[var(--t-text-primary)] bg-[var(--t-section-bg)] text-[var(--t-text-primary)] text-base font-medium text-center cursor-pointer"
-            onClick={onWishlistToggle}
-          >
-            {isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-          </button>
-          <button
-            type="button"
             className="w-full px-14 py-4 rounded-[6px] border-none bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-medium text-center cursor-pointer disabled:opacity-50"
             onClick={onAddToCart}
             disabled={!product.inStock}
@@ -552,89 +496,6 @@ export function ProductDetailPage({
         </div>
       </section>
 
-      {/* ── Reviews Section ── */}
-      <section aria-label="Reseñas de clientes" className="px-4 py-10 lg:px-[160px] lg:py-[88px] flex flex-col gap-8 items-center">
-        <div className="w-full flex flex-col gap-12">
-          <h2 className="text-2xl font-medium text-[var(--t-text-primary)]">Reseñas</h2>
-
-          {/* Overall rating + bar chart */}
-          <div className="flex flex-wrap gap-[60px] items-center">
-            {/* Rating card */}
-            <div className="bg-[var(--t-background)] rounded-[25px] p-8 flex flex-col lg:flex-row gap-4 items-center flex-1 min-w-[260px] lg:min-w-0 lg:flex-none lg:w-auto">
-              <div className="flex flex-col items-center gap-4 flex-1">
-                <span className="text-[56px] font-medium text-[var(--t-text-primary)] leading-[56px]">{overallRating}</span>
-                <span className="text-[15px] font-medium text-[var(--t-text-primary)]/30">de {totalReviews} reseñas</span>
-              </div>
-              <StarRating rating={overallRating} size={24} />
-            </div>
-
-            {/* Bar chart */}
-            <div className="flex flex-col gap-6 flex-1 min-w-[302px]">
-              {ratingDistribution.map(({ label, count, percentage }) => (
-                <div key={label} className="flex items-center gap-4">
-                  <span className="text-lg font-medium text-[var(--t-text-primary)] w-[116px] lg:w-[150px] shrink-0">{label}</span>
-                  <div className="flex-1 flex items-center">
-                    <div className="bg-[var(--t-rating-bar-bg)] rounded-2xl w-full h-[5px] overflow-hidden">
-                      <div
-                        className="bg-[var(--t-rating-star)] h-full rounded-2xl"
-                        style={{ width: `${percentage}%` }}
-                        role="progressbar"
-                        aria-valuenow={percentage}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                      />
-                    </div>
-                  </div>
-                  <span className="text-base font-medium text-[var(--t-text-primary)]/40 text-right w-[30px]">{count}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Comment input */}
-          <div className="w-full border border-[var(--t-border-mid)]/50 rounded-[7px] px-4 py-6">
-            <span className="text-sm text-[var(--t-text-muted)] tracking-[-0.07px]">Dejar un comentario</span>
-          </div>
-        </div>
-
-        {/* Review cards */}
-        <div className="w-full flex flex-col gap-6">
-          {reviews.map((review) => (
-            <article key={review.id} className="bg-[var(--t-background)] rounded-[10px] flex gap-[19px] items-start pl-4 pr-7 py-6">
-              <div className="flex flex-col gap-2 flex-1 min-w-0">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-start justify-between">
-                    <span className="text-[17px] font-bold text-[var(--t-text-primary)]">{review.author}</span>
-                    <span className="text-sm font-medium text-[var(--t-text-primary)]/20 text-right">{review.date}</span>
-                  </div>
-                  <StarRating rating={review.rating} size={16} />
-                </div>
-                <p className="text-[15px] font-medium text-[var(--t-text-muted)] leading-6">{review.text}</p>
-                {review.images && review.images.length > 0 && (
-                  <div className="flex gap-2 mt-1">
-                    {review.images.map((img, idx) => (
-                      <div key={img} className="relative w-[118px] h-[88px] rounded-[6px] overflow-hidden">
-                        <Image src={img} alt={`Imagen de reseña ${idx + 1}`} fill className="object-cover" sizes="118px" loading="lazy" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {reviews.length > 0 && (
-          <button
-            type="button"
-            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-[var(--t-section-bg)] text-sm font-medium text-[var(--t-text-primary)] cursor-pointer hover:opacity-80 transition-colors"
-          >
-            Ver más
-            <ChevronDown className="w-6 h-6" aria-hidden="true" />
-          </button>
-        )}
-      </section>
-
       {/* ── Related Products ── */}
       {relatedProducts.length > 0 && (
         <section aria-label="Productos relacionados" className="px-4 py-10 lg:px-[160px] lg:py-20 flex flex-col gap-8">
@@ -646,7 +507,6 @@ export function ProductDetailPage({
                 product={p}
                 currencySymbol={currencySymbol}
                 onClick={() => onProductClick?.(p.id)}
-                onWishlistToggle={() => onWishlistToggleProduct?.(p.id)}
                 onAddToCart={() => onAddToCartProduct?.(p.id)}
               />
             ))}

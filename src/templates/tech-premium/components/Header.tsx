@@ -1,11 +1,11 @@
 // Tech Premium Template — Header
 // Figma desktop: logo (left), search bar (#F5F5F5 rounded, center-left),
-// nav links "Home About Contact Us Blog" (center), icons heart+cart+user (right).
+// nav links "Home About Contact Us Blog" (center), cart icon (right).
 // Figma mobile: logo (left), hamburger icon (right).
 // Border-bottom: #B5B5B5. Padding: px-[160px] desktop, px-4 mobile.
 // Visual only — handlers come as props.
 
-import { Heart, ShoppingCart, User, Menu } from "lucide-react";
+import { ShoppingCart, Menu } from "lucide-react";
 import { SearchBar } from "./SearchBar";
 import type { StoreInfo } from "../types";
 
@@ -20,7 +20,6 @@ interface HeaderProps {
   cartItemCount?: number;
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onWishlistClick?: () => void;
   onMenuClick?: () => void;
   onNavLinkClick?: (href: string) => void;
 }
@@ -31,7 +30,6 @@ export function Header({
   cartItemCount = 0,
   onSearchClick,
   onCartClick,
-  onWishlistClick,
   onMenuClick,
   onNavLinkClick,
 }: HeaderProps) {
@@ -74,14 +72,6 @@ export function Header({
         <div className="flex items-center gap-6 ml-8">
           <button
             type="button"
-            className="p-0 bg-transparent border-none cursor-pointer"
-            onClick={onWishlistClick}
-            aria-label="Favoritos"
-          >
-            <Heart className="w-6 h-6 text-[var(--t-text-primary)]" />
-          </button>
-          <button
-            type="button"
             className="relative p-0 bg-transparent border-none cursor-pointer"
             onClick={onCartClick}
             aria-label={`Carrito${cartItemCount > 0 ? `, ${cartItemCount} artículos` : ""}`}
@@ -92,13 +82,6 @@ export function Header({
                 {cartItemCount > 9 ? "9+" : cartItemCount}
               </span>
             )}
-          </button>
-          <button
-            type="button"
-            className="p-0 bg-transparent border-none cursor-pointer"
-            aria-label="Mi cuenta"
-          >
-            <User className="w-6 h-6 text-[var(--t-text-primary)]" />
           </button>
         </div>
       </div>

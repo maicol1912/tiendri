@@ -39,7 +39,8 @@ export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRoutePr
       onDecrementItem={decrementItem}
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();
-        else if (tab === "wishlist") nav.goSearch();
+        else if (tab === "listing") nav.goListing();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

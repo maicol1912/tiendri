@@ -5,10 +5,8 @@
 // Desktop: store name left | search center | cart + avatar right
 // All colors via var(--t-*)
 
-import Image from "next/image";
-import { Menu, Search, ShoppingCart, User } from "lucide-react";
+import { Menu, Search, ShoppingCart } from "lucide-react";
 import type { StoreInfo } from "../types";
-import { ASSETS } from "../mock/assets";
 
 interface HeaderProps {
   store: StoreInfo;
@@ -16,7 +14,6 @@ interface HeaderProps {
   onMenuClick?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onProfileClick?: () => void;
   onCatalogClick?: () => void;
   layout?: { headerStyle?: string };
 }
@@ -27,7 +24,6 @@ export function Header({
   onMenuClick,
   onSearchClick,
   onCartClick,
-  onProfileClick,
   onCatalogClick,
 }: HeaderProps) {
   return (
@@ -81,25 +77,35 @@ export function Header({
 
         <button
           type="button"
-          onClick={onProfileClick}
-          className="flex items-center justify-center w-9 h-9 overflow-hidden"
+          onClick={onCartClick}
+          className="relative flex items-center justify-center w-9 h-9"
           style={{
             borderRadius: "50%",
-            border: "2px solid var(--t-primary)",
-            cursor: "pointer",
-            padding: 0,
             backgroundColor: "var(--t-surface)",
+            border: "none",
+            cursor: "pointer",
           }}
-          aria-label="Mi perfil"
+          aria-label={`Carrito${cartItemCount > 0 ? ` — ${cartItemCount} artículos` : ""}`}
         >
-          <Image
-            src={ASSETS.avatarUser}
-            alt="Avatar usuario"
-            width={36}
-            height={36}
-            className="object-cover"
-            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-          />
+          <ShoppingCart size={18} strokeWidth={2} style={{ color: "var(--t-primary)" }} />
+          {cartItemCount > 0 && (
+            <span
+              className="absolute -top-1 -right-1 flex items-center justify-center"
+              style={{
+                width: 18,
+                height: 18,
+                borderRadius: "50%",
+                backgroundColor: "var(--t-badge-bg)",
+                color: "var(--t-badge-text)",
+                fontSize: "9px",
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-hidden="true"
+            >
+              {cartItemCount > 9 ? "9+" : cartItemCount}
+            </span>
+          )}
         </button>
       </div>
 
@@ -201,28 +207,6 @@ export function Header({
             )}
           </button>
 
-          <button
-            type="button"
-            onClick={onProfileClick}
-            className="flex items-center justify-center w-10 h-10 overflow-hidden"
-            style={{
-              borderRadius: "50%",
-              border: "2px solid var(--t-primary)",
-              cursor: "pointer",
-              padding: 0,
-              backgroundColor: "var(--t-surface)",
-            }}
-            aria-label="Mi perfil"
-          >
-            <Image
-              src={ASSETS.avatarUser}
-              alt="Avatar usuario"
-              width={40}
-              height={40}
-              className="object-cover"
-              style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-            />
-          </button>
         </div>
       </div>
     </header>

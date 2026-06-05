@@ -1,7 +1,7 @@
 "use client";
 
 // Decor Warm Template — ListingShellRoute
-// Client boundary. Wires category filtering, navigation, cart, wishlist.
+// Client boundary. Wires category filtering, navigation, and cart.
 
 import { useState, useCallback } from "react";
 import { ProductListingPage } from "./ProductListingPage";
@@ -34,19 +34,9 @@ export function ListingShellRoute({
   const grid = config?.grid ?? decorWarmConfig.grid;
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
   const handleCategoryChange = useCallback((id: string | null) => {
     setActiveCategoryId(id);
-  }, []);
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
   }, []);
 
   const handleAddToCart = useCallback(
@@ -66,7 +56,7 @@ export function ListingShellRoute({
     (tab: DecorWarmNavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "cart") nav.goCart();
-      else if (tab === "wishlist") nav.goHome();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );
@@ -82,16 +72,13 @@ export function ListingShellRoute({
       products={visibleProducts}
       activeCategoryId={activeCategoryId}
       cartItemCount={totalItems}
-      wishlistCount={wishlistedIds.size}
       currencySymbol={currencySymbol}
-      wishlistedIds={wishlistedIds}
       layout={layout}
       grid={grid}
       onBack={nav.goHome}
       onSearchOpen={nav.goSearch}
       onCategoryChange={handleCategoryChange}
       onProductClick={(id) => nav.goProduct(id)}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onTabChange={handleTabChange}
     />

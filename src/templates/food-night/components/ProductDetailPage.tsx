@@ -11,8 +11,6 @@ import { BottomNav } from "./BottomNav";
 import { QuantityStepper } from "./QuantityStepper";
 import { SizeSelector } from "./SizeSelector";
 import { StickyBottomBar } from "./StickyBottomBar";
-import { Star } from "lucide-react";
-import { Heart } from "lucide-react";
 import type { StoreInfo, StorefrontProduct, SizeOption, NavTab } from "../types";
 
 interface ProductDetailPageProps {
@@ -23,7 +21,6 @@ interface ProductDetailPageProps {
   selectedSizeId?: string | null;
   quantity?: number;
   isDescriptionExpanded?: boolean;
-  inWishlist?: boolean;
   activeTab?: NavTab;
   cartItemCount?: number;
   layout?: { headerStyle?: string; footerStyle?: string };
@@ -32,7 +29,6 @@ interface ProductDetailPageProps {
   onDecrement?: () => void;
   onIncrement?: () => void;
   onAddToCart?: () => void;
-  onWishlistToggle?: () => void;
   onToggleDescription?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -55,7 +51,6 @@ export function ProductDetailPage({
   selectedSizeId = null,
   quantity = 1,
   isDescriptionExpanded = false,
-  inWishlist = false,
   activeTab = "home",
   cartItemCount = 0,
   layout,
@@ -64,15 +59,12 @@ export function ProductDetailPage({
   onDecrement,
   onIncrement,
   onAddToCart,
-  onWishlistToggle,
   onToggleDescription,
   onSearchClick,
   onCartClick,
   onTabChange,
 }: ProductDetailPageProps) {
   const primaryImage = product.images[0]?.url ?? null;
-  const rating = product.rating ?? 5.0;
-  const reviewCount = product.reviewCount ?? 0;
 
   const floatingButtonStyle: React.CSSProperties = {
     width: 36,
@@ -155,23 +147,6 @@ export function ProductDetailPage({
                 >
                   <ArrowLeft size={18} strokeWidth={2} style={{ color: "var(--t-button-text)" }} />
                 </button>
-
-                <button
-                  type="button"
-                  onClick={onWishlistToggle}
-                  className="absolute top-3 right-3 z-10 flex items-center justify-center"
-                  style={floatingButtonStyle}
-                  aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-                >
-                  <Heart
-                    size={16}
-                    strokeWidth={2}
-                    style={{
-                      color: inWishlist ? "var(--t-primary)" : "var(--t-button-text)",
-                      fill: inWishlist ? "var(--t-primary)" : "transparent",
-                    }}
-                  />
-                </button>
               </div>
             </div>
 
@@ -195,23 +170,6 @@ export function ProductDetailPage({
                   priority
                 />
               ) : null}
-
-              <button
-                type="button"
-                onClick={onWishlistToggle}
-                className="absolute top-3 right-3 z-10 flex items-center justify-center"
-                style={floatingButtonStyle}
-                aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-              >
-                <Heart
-                  size={16}
-                  strokeWidth={2}
-                  style={{
-                    color: inWishlist ? "var(--t-primary)" : "var(--t-button-text)",
-                    fill: inWishlist ? "var(--t-primary)" : "transparent",
-                  }}
-                />
-              </button>
             </div>
           </div>
 
@@ -224,24 +182,6 @@ export function ProductDetailPage({
             >
               {product.name}
             </h1>
-
-            {/* Rating */}
-            <div className="flex items-center gap-2">
-              <Star
-                size={14}
-                strokeWidth={0}
-                fill="var(--t-rating-star)"
-                style={{ color: "var(--t-rating-star)" }}
-              />
-              <span className="text-[13px] font-semibold" style={{ color: "var(--t-text-primary)" }}>
-                {rating.toFixed(1)}
-              </span>
-              {reviewCount > 0 && (
-                <span className="text-[13px] font-normal" style={{ color: "var(--t-text-muted)" }}>
-                  ({formatReviewCount(reviewCount)} reseñas)
-                </span>
-              )}
-            </div>
 
             {/* Description */}
             {product.description && (

@@ -30,7 +30,6 @@ export function HomeShell({
   const { config } = useLayoutConfig<FoodNightConfig>();
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
   const layout = config?.layout ?? foodNightConfig.layout;
   const grid = config?.grid ?? foodNightConfig.grid;
@@ -42,25 +41,11 @@ export function HomeShell({
       ? products
       : products.filter((p) => p.categoryId === activeCategoryId);
 
-  const enrichedProducts = filteredProducts.map((p) => ({
-    ...p,
-    inWishlist: wishlistedIds.has(p.id) ? true : (p.inWishlist ?? false),
-  }));
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
-  }, []);
-
   return (
     <HomePage
       store={store}
       categories={categories}
-      products={enrichedProducts}
+      products={filteredProducts}
       activeCategoryId={activeCategoryId}
       activeTab="home"
       cartItemCount={totalItems}
@@ -73,10 +58,10 @@ export function HomeShell({
       onCartClick={nav.goCart}
       onCategoryChange={(id) => setActiveCategoryId((prev) => (prev === id ? null : id))}
       onProductClick={nav.goProduct}
-      onWishlistToggle={handleWishlistToggle}
       onTabChange={(tab) => {
         if (tab === "search") nav.goSearch();
         else if (tab === "cart") nav.goCart();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

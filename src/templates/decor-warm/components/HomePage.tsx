@@ -248,11 +248,6 @@ export function HomePage({
                 product={product}
                 currencySymbol={currencySymbol}
                 layout={layout}
-                onWishlistToggle={
-                  onWishlistToggle
-                    ? () => onWishlistToggle(product.id)
-                    : undefined
-                }
                 onAddToCart={
                   onAddToCart ? () => onAddToCart(product) : undefined
                 }
@@ -298,10 +293,8 @@ export function HomePage({
       <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
-        wishlistCount={wishlistCount}
         onTabChange={(tab) => {
           if (tab === "cart") onCartOpen?.();
-          else if (tab === "wishlist") onWishlistOpen?.();
           else onTabChange?.(tab);
         }}
       />

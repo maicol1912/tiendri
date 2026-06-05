@@ -10,8 +10,6 @@ import {
   mockDiscountProducts as tpMockDiscountProducts,
   mockDetailProduct as tpMockDetailProduct,
   mockSpecBadges,
-  mockReviews,
-  mockRatingDistribution,
 } from "@/templates/tech-premium/mock/data";
 import { ProductDetailShellRoute as TechPremiumProductDetailShellRoute } from "@/templates/tech-premium/components/ProductDetailShellRoute";
 import {
@@ -353,10 +351,6 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
         product={product}
         relatedProducts={relatedProducts}
         specBadges={mockSpecBadges}
-        reviews={mockReviews}
-        overallRating={4.9}
-        totalReviews={125}
-        ratingDistribution={mockRatingDistribution}
       />
     </>
   );

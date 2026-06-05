@@ -1,10 +1,10 @@
 "use client";
 
 // Food Night — Bottom Navigation
-// Floating pill, 4 tabs: Inicio, Carrito, Favoritos, Cuenta.
+// Floating pill, 4 tabs: Inicio, Carrito, Buscar, Info.
 // md:hidden on desktop.
 
-import { Home, ShoppingBag, Heart, User } from "lucide-react";
+import { Home, ShoppingBag, Search, Store } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavProps {
@@ -16,8 +16,8 @@ interface BottomNavProps {
 const TABS: { id: NavTab; label: string; Icon: typeof Home }[] = [
   { id: "home", label: "Inicio", Icon: Home },
   { id: "cart", label: "Carrito", Icon: ShoppingBag },
-  { id: "favorites", label: "Favoritos", Icon: Heart },
-  { id: "account", label: "Cuenta", Icon: User },
+  { id: "search", label: "Buscar", Icon: Search },
+  { id: "info", label: "Info", Icon: Store },
 ];
 
 export function BottomNav({

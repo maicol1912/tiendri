@@ -5,7 +5,7 @@
 // ZERO hardcoded colors, ZERO hardcoded border radius, ZERO hardcoded hover classes.
 
 import Image from "next/image";
-import { Heart, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { hoverEffectClass, imageRatioClass, cardStyleClass } from "../utils/layout-classes";
 
@@ -19,7 +19,6 @@ interface ProductCardProps {
     cardImageRatio?: string;
   };
   onClick?: () => void;
-  onWishlistToggle?: () => void;
 }
 
 function formatPrice(price: number, symbol: string = "$"): string {
@@ -32,11 +31,9 @@ export function ProductCard({
   variant = "short",
   layout,
   onClick,
-  onWishlistToggle,
 }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
   const rating = product.rating ?? 5.0;
-  const isWishlisted = product.inWishlist ?? false;
 
   // Masonry variant maps to layout override when no explicit layout.cardImageRatio
   const effectiveRatio = layout?.cardImageRatio ?? (variant === "tall" ? "portrait" : "square");
@@ -91,34 +88,6 @@ export function ProductCard({
             </svg>
           </div>
         )}
-
-        {/* Wishlist heart */}
-        <button
-          type="button"
-          className="absolute top-2 right-2 z-10 flex items-center justify-center"
-          style={{
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            backgroundColor: "var(--t-card-bg)",
-            border: "none",
-            cursor: "pointer",
-          }}
-          aria-label={isWishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
-          onClick={(e) => {
-            e.stopPropagation();
-            onWishlistToggle?.();
-          }}
-        >
-          <Heart
-            size={13}
-            strokeWidth={2}
-            style={{
-              color: isWishlisted ? "var(--t-primary)" : "var(--t-text-primary)",
-              fill: isWishlisted ? "var(--t-primary)" : "transparent",
-            }}
-          />
-        </button>
 
         {/* Unavailable overlay */}
         {!product.available && (

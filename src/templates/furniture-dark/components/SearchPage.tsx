@@ -21,7 +21,7 @@ interface SearchPageProps {
   onProductClick: (productId: string) => void;
   onBack: () => void;
   onCartClick: () => void;
-  onBottomNavTab: (tab: "home" | "cart" | "wishlist" | "account") => void;
+  onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
 }
 
 export function SearchPage({

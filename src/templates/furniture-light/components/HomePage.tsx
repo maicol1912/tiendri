@@ -51,7 +51,6 @@ interface HomePageProps {
   onSearchClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
-  onWishlistToggle?: (productId: string) => void;
   onAddToCart?: (productId: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
   onStyleClick?: (id: string) => void;
@@ -79,7 +78,6 @@ export function HomePage({
   onSearchClick,
   onCategoryChange,
   onProductClick,
-  onWishlistToggle,
   onAddToCart,
   onTabChange,
   onStyleClick,
@@ -167,7 +165,6 @@ export function HomePage({
               currencySymbol={currencySymbol}
               layout={layout}
               onProductClick={onProductClick}
-              onWishlistToggle={onWishlistToggle}
               onAddToCart={onAddToCart}
             />
           ))}
@@ -213,7 +210,6 @@ export function HomePage({
               currencySymbol={currencySymbol}
               layout={layout}
               onProductClick={onProductClick}
-              onWishlistToggle={onWishlistToggle}
               onAddToCart={onAddToCart}
             />
           ))}

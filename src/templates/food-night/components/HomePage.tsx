@@ -44,11 +44,8 @@ interface HomePageProps {
   onSearchClick?: () => void;
   onFilterClick?: () => void;
   onCartClick?: () => void;
-  onWishlistClick?: () => void;
-  onProfileClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
-  onWishlistToggle?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
 }
 
@@ -67,11 +64,8 @@ export function HomePage({
   onSearchClick,
   onFilterClick,
   onCartClick,
-  onWishlistClick,
-  onProfileClick,
   onCategoryChange,
   onProductClick,
-  onWishlistToggle,
   onTabChange,
 }: HomePageProps) {
   const productsMobile = grid?.products?.mobile ?? 2;
@@ -115,7 +109,6 @@ export function HomePage({
                 variant={index % 2 === 0 ? "tall" : "short"}
                 layout={layout}
                 onClick={() => onProductClick?.(product.id)}
-                onWishlistToggle={() => onWishlistToggle?.(product.id)}
               />
             ))}
           </div>
@@ -149,8 +142,6 @@ export function HomePage({
         layout={layout}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
-        onWishlistClick={onWishlistClick}
-        onProfileClick={onProfileClick}
       />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12 pt-4">

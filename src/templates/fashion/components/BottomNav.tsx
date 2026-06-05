@@ -1,8 +1,8 @@
 // Fashion Template — Bottom Navigation (mobile only)
-// Minimal: Home, Search, Cart. Hidden on md+.
+// Minimal: Home, Search, Cart, Info. Hidden on md+.
 // Visual only — handlers come as props.
 
-import { Home, Search, ShoppingBag } from "lucide-react";
+import { Home, Search, ShoppingBag, Store } from "lucide-react";
 import type { NavTab } from "../types";
 
 interface BottomNavTab {
@@ -21,6 +21,7 @@ const TABS: BottomNavTab[] = [
   { id: "home", label: "Inicio", icon: Home },
   { id: "search", label: "Buscar", icon: Search },
   { id: "cart", label: "Carrito", icon: ShoppingBag },
+  { id: "info", label: "Info", icon: Store },
 ];
 
 export function BottomNav({

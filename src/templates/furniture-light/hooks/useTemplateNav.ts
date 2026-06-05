@@ -15,6 +15,7 @@ export interface TemplateNav {
   goCart: () => void;
   goSearch: () => void;
   goCheckout: () => void;
+  goInfo: () => void;
 }
 
 export function useTemplateNav(): TemplateNav {
@@ -31,5 +32,6 @@ export function useTemplateNav(): TemplateNav {
     goCart: () => router.push(`${basePath}/carrito`),
     goSearch: () => router.push(`${basePath}/buscar`),
     goCheckout: () => router.push(`${basePath}/checkout`),
+    goInfo: () => router.push(`${basePath}/info`),
   };
 }

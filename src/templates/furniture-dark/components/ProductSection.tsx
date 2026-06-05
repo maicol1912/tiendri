@@ -12,8 +12,6 @@ interface ProductSectionProps {
   products: StorefrontProduct[];
   onProductClick?: (productId: string) => void;
   onViewAll?: () => void;
-  wishlistedIds?: Set<string>;
-  onWishlistToggle?: (productId: string) => void;
   gridMobile?: number;
   gridDesktop?: number;
   cardStyle?: string;
@@ -26,8 +24,6 @@ export function ProductSection({
   products,
   onProductClick,
   onViewAll,
-  wishlistedIds,
-  onWishlistToggle,
   gridMobile = 2,
   gridDesktop = 4,
   cardStyle,
@@ -85,8 +81,6 @@ export function ProductSection({
           <ProductCard
             key={product.id}
             product={product}
-            isWishlisted={wishlistedIds?.has(product.id)}
-            onWishlistToggle={onWishlistToggle}
             onClick={onProductClick}
             cardStyle={cardStyle}
             hoverEffect={hoverEffect}

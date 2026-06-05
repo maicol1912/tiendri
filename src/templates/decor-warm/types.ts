@@ -43,7 +43,7 @@ export interface DecorWarmCategoryIcon {
 
 // ── Nav tab type ──────────────────────────────────────────────────────────────
 
-export type DecorWarmNavTab = "home" | "categories" | "cart" | "wishlist" | "profile";
+export type DecorWarmNavTab = "home" | "categories" | "cart" | "info";
 
 // ── Promo banner slide ────────────────────────────────────────────────────────
 

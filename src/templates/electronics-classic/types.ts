@@ -37,7 +37,7 @@ export interface StorefrontStore {
   };
 }
 
-export type NavTab = "home" | "search" | "cart" | "wishlist" | "account";
+export type NavTab = "home" | "search" | "cart" | "wishlist" | "account" | "info";
 
 export interface HeroBanner {
   id: string;

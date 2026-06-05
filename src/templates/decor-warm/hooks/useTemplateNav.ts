@@ -13,7 +13,7 @@ export interface TemplateNav {
   goCart: () => void;
   goSearch: () => void;
   goCheckout: () => void;
-  goWishlist: () => void;
+  goInfo: () => void;
 }
 
 export const TEMPLATE_BASE = "decor-warm";
@@ -32,6 +32,6 @@ export function useTemplateNav(): TemplateNav {
     goCart: () => router.push(`${basePath}/carrito`),
     goSearch: () => router.push(`${basePath}/buscar`),
     goCheckout: () => router.push(`${basePath}/checkout`),
-    goWishlist: () => router.push(`${basePath}/favoritos`),
+    goInfo: () => router.push(`${basePath}/info`),
   };
 }

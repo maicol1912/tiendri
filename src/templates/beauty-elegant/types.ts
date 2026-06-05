@@ -31,7 +31,7 @@ export interface BeautyElegantCategory {
 
 // ── Navigation tab type ───────────────────────────────────────────────────────
 
-export type NavTab = "home" | "calendar" | "tickets" | "profile";
+export type NavTab = "home" | "search" | "cart" | "info";
 
 // ── Cart item ─────────────────────────────────────────────────────────────────
 

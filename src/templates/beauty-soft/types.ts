@@ -43,7 +43,7 @@ export interface HeroBannerData {
 
 // ── Navigation tab type ───────────────────────────────────────────────────────
 
-export type NavTab = "home" | "cart" | "favorites" | "profile";
+export type NavTab = "home" | "cart" | "search" | "info";
 
 // ── Cart item (for checkout) ──────────────────────────────────────────────────
 

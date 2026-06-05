@@ -56,6 +56,7 @@ export function SearchShellRoute() {
       onBottomNavTab={(tab) => {
         if (tab === "home") router.push(TEMPLATE_BASE);
         else if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
+        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
       }}
     />
   );

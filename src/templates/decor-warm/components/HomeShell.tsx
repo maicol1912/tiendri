@@ -2,7 +2,7 @@
 
 // Decor Warm Template — HomeShell
 // Client boundary. Reads live config from useLayoutConfig().
-// Wires navigation, category filter, cart state, wishlist, and promo autoplay.
+// Wires navigation, category filter, cart state, and promo autoplay.
 
 import { useState, useCallback, useEffect } from "react";
 import { HomePage } from "./HomePage";
@@ -50,7 +50,6 @@ export function HomeShell({
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [activeIconId, setActiveIconId] = useState<string | null>(null);
-  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
   const [activePromoSlide, setActivePromoSlide] = useState(0);
 
   // Promo autoplay: advance every 4s when slides exist
@@ -70,15 +69,6 @@ export function HomeShell({
   const handleIconChange = useCallback((id: string | null) => {
     setActiveIconId(id);
     setActiveCategoryId(null);
-  }, []);
-
-  const handleWishlistToggle = useCallback((productId: string) => {
-    setWishlistedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
-      return next;
-    });
   }, []);
 
   const handleAddToCart = useCallback(
@@ -108,11 +98,10 @@ export function HomeShell({
     (tab: DecorWarmNavTab) => {
       if (tab === "home") nav.goHome();
       else if (tab === "categories") nav.goListing();
+      else if (tab === "info") nav.goInfo();
     },
     [nav]
   );
-
-  const wishlistCount = wishlistedIds.size;
 
   return (
     <HomePage
@@ -127,22 +116,18 @@ export function HomeShell({
       activeTab="home"
       activePromoSlide={activePromoSlide}
       cartItemCount={totalItems}
-      wishlistCount={wishlistCount}
       currencySymbol={currencySymbol}
       layout={layout}
       grid={grid}
       sections={[...sections]}
-      wishlistedIds={wishlistedIds}
       onCategoryChange={handleCategoryChange}
       onIconCategoryChange={handleIconChange}
       onProductClick={handleProductClick}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onBestSellerClick={handleBestSellerClick}
       onPromoSlideChange={setActivePromoSlide}
       onSearchOpen={nav.goSearch}
       onCartOpen={nav.goCart}
-      onWishlistOpen={() => nav.goWishlist()}
       onTabChange={handleTabChange}
       onSeeAll={nav.goListing}
     />

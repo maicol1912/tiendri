@@ -224,7 +224,6 @@ export function HomePage({
               currencySymbol={currencySymbol}
               layout={layout}
               onClick={() => onProductClick?.(product.id)}
-              onWishlistToggle={() => onWishlistToggle?.(product.id)}
               onAddToCart={() => onAddToCart?.(product.id)}
             />
           ))}
@@ -295,7 +294,6 @@ export function HomePage({
               currencySymbol={currencySymbol}
               layout={layout}
               onClick={() => onProductClick?.(product.id)}
-              onWishlistToggle={() => onWishlistToggle?.(product.id)}
               onAddToCart={() => onAddToCart?.(product.id)}
             />
           ))}
@@ -403,7 +401,6 @@ export function HomePage({
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
-        onWishlistClick={onWishlistClick}
         onMenuClick={onMenuClick}
         onNavLinkClick={onNavLinkClick}
       />

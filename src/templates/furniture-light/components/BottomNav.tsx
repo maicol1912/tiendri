@@ -1,11 +1,11 @@
 "use client";
 
 // Furniture Light — Bottom Navigation (mobile only)
-// 4 tabs: Inicio | Descubrir | Favoritos | Perfil
+// 4 tabs: Inicio | Descubrir | Carrito | Info
 // Active: primary color indicator bar at top + filled icon
 // ZERO hardcoded colors
 
-import { Home, Sofa, Bookmark, User } from "lucide-react";
+import { Home, Sofa, ShoppingCart, Store } from "lucide-react";
 import type { FurnitureNavTab } from "../types";
 
 interface BottomNavProps {
@@ -14,11 +14,12 @@ interface BottomNavProps {
   onTabChange?: (tab: FurnitureNavTab) => void;
 }
 
-export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
+export function BottomNav({ activeTab, cartItemCount = 0, onTabChange }: BottomNavProps) {
   const tabs: Array<{
     key: FurnitureNavTab;
     label: string;
     icon: (active: boolean) => React.ReactNode;
+    badge?: boolean;
   }> = [
     {
       key: "home",
@@ -31,14 +32,15 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
       icon: (active) => <Sofa size={24} strokeWidth={active ? 2.2 : 1.6} fill={active ? "currentColor" : "none"} />,
     },
     {
-      key: "wishlist",
-      label: "Favoritos",
-      icon: (active) => <Bookmark size={24} strokeWidth={active ? 2.2 : 1.6} fill={active ? "currentColor" : "none"} />,
+      key: "cart",
+      label: "Carrito",
+      icon: (active) => <ShoppingCart size={24} strokeWidth={active ? 2.2 : 1.6} fill={active ? "currentColor" : "none"} />,
+      badge: true,
     },
     {
-      key: "cart",
-      label: "Perfil",
-      icon: (active) => <User size={24} strokeWidth={active ? 2.2 : 1.6} fill={active ? "currentColor" : "none"} />,
+      key: "info",
+      label: "Info",
+      icon: (active) => <Store size={24} strokeWidth={active ? 2.2 : 1.6} fill={active ? "currentColor" : "none"} />,
     },
   ];
 
@@ -51,6 +53,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
       <div className="flex items-center justify-around px-6">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.key;
+          const showBadge = tab.badge && cartItemCount > 0;
           return (
             <button
               key={tab.key}
@@ -66,7 +69,21 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                   style={{ backgroundColor: "var(--t-primary)" }}
                 />
               )}
-              {tab.icon(isActive)}
+              <div className="relative">
+                {tab.icon(isActive)}
+                {showBadge && (
+                  <span
+                    className="absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold leading-none"
+                    style={{
+                      backgroundColor: "var(--t-badge-bg)",
+                      color: "var(--t-badge-text)",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {cartItemCount > 9 ? "9+" : cartItemCount}
+                  </span>
+                )}
+              </div>
             </button>
           );
         })}

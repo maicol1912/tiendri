@@ -2,7 +2,7 @@
 // Glassmorphic header: backdrop-blur + purple border tint.
 // Visible md+. Logo + nav links + search + cart icons.
 
-import { Search, ShoppingCart, User } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import type { StoreInfo } from "../types";
 
 interface HeaderProps {
@@ -81,14 +81,6 @@ export function Header({
             )}
           </button>
 
-          <button
-            type="button"
-            className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] transition-colors hover:bg-[var(--t-icon-pill-bg)]"
-            style={{ background: "none", border: "none", cursor: "pointer" }}
-            aria-label="Perfil"
-          >
-            <User size={20} strokeWidth={1.75} color="var(--t-text-secondary)" />
-          </button>
         </div>
       </div>
     </header>

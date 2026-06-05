@@ -1,16 +1,15 @@
 "use client";
 
-// Decor Warm Template — Bottom Navigation (5 tabs)
-// Home, Categories, Cart, Wishlist, Profile.
+// Decor Warm Template — Bottom Navigation (4 tabs)
+// Home, Categories, Cart, Info.
 // Active: filled icon with peach dot below. lg:hidden on desktop.
 
-import { Home, LayoutGrid, ShoppingCart, Heart, User } from "lucide-react";
+import { Home, LayoutGrid, ShoppingCart, Store } from "lucide-react";
 import type { DecorWarmNavTab } from "../types";
 
 interface BottomNavProps {
   activeTab?: DecorWarmNavTab;
   cartItemCount?: number;
-  wishlistCount?: number;
   onTabChange?: (tab: DecorWarmNavTab) => void;
 }
 
@@ -18,14 +17,12 @@ const TABS: { id: DecorWarmNavTab; label: string; Icon: typeof Home }[] = [
   { id: "home", label: "Inicio", Icon: Home },
   { id: "categories", label: "Categorías", Icon: LayoutGrid },
   { id: "cart", label: "Carrito", Icon: ShoppingCart },
-  { id: "wishlist", label: "Favoritos", Icon: Heart },
-  { id: "profile", label: "Perfil", Icon: User },
+  { id: "info", label: "Info", Icon: Store },
 ];
 
 export function BottomNav({
   activeTab = "home",
   cartItemCount = 0,
-  wishlistCount = 0,
   onTabChange,
 }: BottomNavProps) {
   return (
@@ -88,26 +85,6 @@ export function BottomNav({
                     aria-hidden="true"
                   >
                     {cartItemCount > 9 ? "9+" : cartItemCount}
-                  </span>
-                )}
-                {/* Wishlist badge */}
-                {id === "wishlist" && wishlistCount > 0 && (
-                  <span
-                    className="absolute -top-1.5 -right-1.5 flex items-center justify-center"
-                    style={{
-                      width: 16,
-                      height: 16,
-                      borderRadius: "50%",
-                      backgroundColor: "var(--t-peach)",
-                      color: "#FFFFFF",
-                      fontFamily: "'Poppins', sans-serif",
-                      fontSize: "9px",
-                      fontWeight: 700,
-                      lineHeight: 1,
-                    }}
-                    aria-hidden="true"
-                  >
-                    {wishlistCount > 9 ? "9+" : wishlistCount}
                   </span>
                 )}
               </div>

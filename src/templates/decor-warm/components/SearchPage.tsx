@@ -198,11 +198,10 @@ export function SearchPage({
               {recommendations.map((p) => (
                 <ProductCard
                   key={p.id}
-                  product={{ ...p, inWishlist: wishlistedIds?.has(p.id) ?? p.inWishlist }}
+                  product={p}
                   currencySymbol={currencySymbol}
                   layout={layout}
                   onClick={onProductClick ? () => onProductClick(p.id) : undefined}
-                  onWishlistToggle={onWishlistToggle ? () => onWishlistToggle(p.id) : undefined}
                   onAddToCart={onAddToCart ? () => onAddToCart(p) : undefined}
                 />
               ))}
@@ -242,11 +241,10 @@ export function SearchPage({
               {results.map((p) => (
                 <ProductCard
                   key={p.id}
-                  product={{ ...p, inWishlist: wishlistedIds?.has(p.id) ?? p.inWishlist }}
+                  product={p}
                   currencySymbol={currencySymbol}
                   layout={layout}
                   onClick={onProductClick ? () => onProductClick(p.id) : undefined}
-                  onWishlistToggle={onWishlistToggle ? () => onWishlistToggle(p.id) : undefined}
                   onAddToCart={onAddToCart ? () => onAddToCart(p) : undefined}
                 />
               ))}

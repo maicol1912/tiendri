@@ -28,15 +28,10 @@ export function ProductDetailShellRoute({
   const { totalItems, addItem } = useCart();
   const { config } = useLayoutConfig<FurnitureLightConfig>();
 
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [dimensionUnit, setDimensionUnit] = useState<"cm" | "inch">("cm");
   const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
-
-  const handleWishlistToggle = useCallback(() => {
-    setIsWishlisted((prev) => !prev);
-  }, []);
 
   const handleAddToCart = useCallback(() => {
     if (product.available === false) return;
@@ -93,7 +88,7 @@ export function ProductDetailShellRoute({
   return (
     <ProductDetailPage
       store={store}
-      product={{ ...product, inWishlist: isWishlisted }}
+      product={product}
       navLinks={config.navLinks}
       relatedProducts={enrichedRelated}
       grid={config.grid}
@@ -103,18 +98,15 @@ export function ProductDetailShellRoute({
       currencySymbol={currencySymbol}
       selectedImageIndex={selectedImageIndex}
       selectedColorIndex={selectedColorIndex}
-      isWishlisted={isWishlisted}
       dimensionUnit={dimensionUnit}
       onBack={nav.goHome}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
-      onWishlistToggle={handleWishlistToggle}
       onAddToCart={handleAddToCart}
       onImageSelect={setSelectedImageIndex}
       onColorSelect={setSelectedColorIndex}
       onDimensionUnitToggle={() => setDimensionUnit((u) => (u === "cm" ? "inch" : "cm"))}
       onProductClick={(id) => nav.goProduct(id)}
-      onWishlistToggleProduct={handleWishlistToggleProduct}
       onAddToCartProduct={handleAddToCartProduct}
       onTabChange={handleTabChange}
     />
