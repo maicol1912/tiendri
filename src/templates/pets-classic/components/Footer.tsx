@@ -25,7 +25,7 @@ export function Footer({ store, layout }: FooterProps) {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <p style={{ fontSize: "16px", fontWeight: 700, color: "var(--t-text-footer)", marginBottom: 12 }}>
+              <p style={{ fontSize: "18px", fontWeight: 800, color: "var(--t-text-footer)", letterSpacing: "-0.01em", marginBottom: 12 }}>
                 {store.name}
               </p>
               <p style={{ fontSize: "13px", color: "var(--t-text-footer)", lineHeight: 1.6 }}>
@@ -67,7 +67,7 @@ export function Footer({ store, layout }: FooterProps) {
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-4 text-center">
-          <p style={{ fontSize: "16px", fontWeight: 700, color: "var(--t-text-primary)" }}>
+          <p style={{ fontSize: "18px", fontWeight: 800, color: "var(--t-text-primary)", letterSpacing: "-0.01em" }}>
             {store.name}
           </p>
 
@@ -86,10 +86,17 @@ export function Footer({ store, layout }: FooterProps) {
             </div>
           )}
 
-          <div
-            style={{ width: 40, height: 2, backgroundColor: "var(--t-primary)", borderRadius: 9999 }}
-            aria-hidden="true"
-          />
+          <div className="flex items-center gap-3 w-full max-w-xs" aria-hidden="true">
+            <div style={{ flex: 1, height: 1, backgroundColor: "var(--t-border)" }} />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--t-primary)" opacity={0.6}>
+              <ellipse cx="7" cy="5" rx="2" ry="2.5" />
+              <ellipse cx="12" cy="3.5" rx="2" ry="2.5" />
+              <ellipse cx="17" cy="5" rx="2" ry="2.5" />
+              <ellipse cx="5" cy="10" rx="2" ry="2.5" />
+              <path d="M8 14c0 0 1-3 4-3s4 3 4 3 1 4-1 5.5S11 18 9 16.5 8 14 8 14z" />
+            </svg>
+            <div style={{ flex: 1, height: 1, backgroundColor: "var(--t-border)" }} />
+          </div>
 
           <p style={{ fontSize: "11px", color: "var(--t-text-muted)" }}>
             Creado con{" "}

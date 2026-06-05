@@ -125,11 +125,11 @@ export function CartPage({
                   <div
                     className="relative flex-shrink-0"
                     style={{
-                      width: 70,
-                      height: 70,
-                      borderRadius: "var(--t-radius-category)",
+                      width: 80,
+                      height: 80,
+                      borderRadius: "var(--t-radius-card)",
                       overflow: "hidden",
-                      backgroundColor: "var(--t-surface)",
+                      backgroundColor: "#fff",
                     }}
                   >
                     {item.imageUrl ? (
@@ -137,8 +137,8 @@ export function CartPage({
                         src={item.imageUrl}
                         alt={item.name}
                         fill
-                        className="object-contain p-1"
-                        sizes="70px"
+                        className="object-cover"
+                        sizes="80px"
                       />
                     ) : (
                       <div className="w-full h-full" style={{ backgroundColor: "var(--t-surface)" }} />

@@ -116,6 +116,7 @@ export function HomePage({
         <CategoryRow
           categories={categories}
           activeCategoryId={activeCategoryId}
+          animationLevel={layout?.animationLevel}
           onCategoryChange={onCategoryChange}
         />
       </section>
@@ -130,29 +131,50 @@ export function HomePage({
         aria-labelledby="featured-heading"
       >
         <div className="flex items-center justify-between mb-4">
-          <h2
-            id="featured-heading"
-            style={{ fontSize: "16px", fontWeight: 700, color: "var(--t-text-primary)" }}
-          >
-            Destacados
-          </h2>
+          <div>
+            <h2
+              id="featured-heading"
+              style={{
+                fontSize: "20px",
+                fontWeight: 800,
+                color: "var(--t-text-primary)",
+                letterSpacing: "-0.01em",
+                lineHeight: 1.2,
+                fontFamily: "var(--t-font-heading, inherit)",
+              }}
+            >
+              Destacados
+            </h2>
+            <div
+              style={{
+                width: 32,
+                height: 3,
+                borderRadius: 9999,
+                backgroundColor: "var(--t-primary)",
+                marginTop: 4,
+              }}
+              aria-hidden="true"
+            />
+          </div>
           <button
             type="button"
             onClick={onProductClick ? () => {} : undefined}
             style={{
               fontSize: "12px",
-              fontWeight: 600,
+              fontWeight: 700,
               color: "var(--t-primary)",
               background: "none",
               border: "none",
               cursor: "pointer",
+              letterSpacing: "0.03em",
+              textTransform: "uppercase",
             }}
           >
-            Ver todos &rsaquo;
+            Ver todos ›
           </button>
         </div>
         <div
-          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-3`}
+          className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}
         >
           {filteredFeatured.slice(0, 4).map((product) => (
             <ProductCard
@@ -191,24 +213,45 @@ export function HomePage({
         aria-labelledby="popular-heading"
       >
         <div className="flex items-center justify-between mb-4">
-          <h2
-            id="popular-heading"
-            style={{ fontSize: "16px", fontWeight: 700, color: "var(--t-text-primary)" }}
-          >
-            Más populares
-          </h2>
+          <div>
+            <h2
+              id="popular-heading"
+              style={{
+                fontSize: "20px",
+                fontWeight: 800,
+                color: "var(--t-text-primary)",
+                letterSpacing: "-0.01em",
+                lineHeight: 1.2,
+                fontFamily: "var(--t-font-heading, inherit)",
+              }}
+            >
+              Más populares
+            </h2>
+            <div
+              style={{
+                width: 32,
+                height: 3,
+                borderRadius: 9999,
+                backgroundColor: "var(--t-primary)",
+                marginTop: 4,
+              }}
+              aria-hidden="true"
+            />
+          </div>
           <button
             type="button"
             style={{
               fontSize: "12px",
-              fontWeight: 600,
+              fontWeight: 700,
               color: "var(--t-primary)",
               background: "none",
               border: "none",
               cursor: "pointer",
+              letterSpacing: "0.03em",
+              textTransform: "uppercase",
             }}
           >
-            Ver todos &rsaquo;
+            Ver todos ›
           </button>
         </div>
 
@@ -226,8 +269,8 @@ export function HomePage({
                   className="w-full overflow-hidden mb-3"
                   style={{
                     borderRadius: "var(--t-radius-card)",
-                    backgroundColor: "var(--t-card-bg)",
-                    border: "1px solid var(--t-border)",
+                    background: "var(--t-card-bg)",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.08)",
                     aspectRatio: "1",
                   }}
                 >
@@ -235,14 +278,14 @@ export function HomePage({
                     <img
                       src={product.images[0].url}
                       alt={product.name}
-                      className="w-full h-full object-contain p-4"
+                      className="w-full h-full object-contain p-2"
                     />
                   )}
                 </div>
                 <p
                   style={{
                     fontSize: "13px",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--t-text-primary)",
                     overflow: "hidden",
                     whiteSpace: "nowrap",
@@ -251,7 +294,7 @@ export function HomePage({
                 >
                   {product.name}
                 </p>
-                <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--t-text-primary)", marginTop: 2 }}>
+                <p style={{ fontSize: "14px", fontWeight: 800, color: "var(--t-primary)", marginTop: 2 }}>
                   {currencySymbol}{formatPrice(product.price)}
                 </p>
               </button>
@@ -317,6 +360,7 @@ export function HomePage({
       <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        animationLevel={layout?.animationLevel}
         onTabChange={(tab) => {
           if (tab === "cart") onCartClick?.();
           else if (tab === "home") onSearchClick?.();

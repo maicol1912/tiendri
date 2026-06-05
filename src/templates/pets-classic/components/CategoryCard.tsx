@@ -3,18 +3,37 @@
 // Pets Classic — Category Icon Card
 // SVG icons from Figma assets. Active: primary bg + white inner rect.
 // All colors via var(--t-*)
+// Press spring + active transition gated by animationLevel prop.
 
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { PetsClassicCategory } from "../types";
+
+type AnimationLevel = "full" | "subtle" | "none";
 
 interface CategoryIconItemProps {
   category: PetsClassicCategory;
   isActive?: boolean;
+  animationLevel?: AnimationLevel;
   onClick?: (id: string) => void;
 }
 
-export function CategoryIconItem({ category, isActive = false, onClick }: CategoryIconItemProps) {
+export function CategoryIconItem({
+  category,
+  isActive = false,
+  animationLevel = "none",
+  onClick,
+}: CategoryIconItemProps) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  // Active indicator transition: 200ms cubic-bezier(0.23, 1, 0.32, 1) for "full" and "subtle"
+  const hasActiveTransition = animationLevel === "full" || animationLevel === "subtle";
+  // Press spring (scale down on :active) only for "full"
+  const hasPressSpring = animationLevel === "full";
+
+  // Compute transform for the icon container
+  const containerTransform = hasPressSpring && isPressed ? "scale(0.94)" : "scale(1)";
+
   return (
     <button
       type="button"
@@ -23,6 +42,11 @@ export function CategoryIconItem({ category, isActive = false, onClick }: Catego
       style={{ background: "none", border: "none", cursor: "pointer", minWidth: 54 }}
       aria-label={category.name}
       aria-pressed={isActive}
+      onMouseDown={() => hasPressSpring && setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
+      onMouseLeave={() => setIsPressed(false)}
+      onTouchStart={() => hasPressSpring && setIsPressed(true)}
+      onTouchEnd={() => setIsPressed(false)}
     >
       {/* Icon container */}
       <div
@@ -32,13 +56,18 @@ export function CategoryIconItem({ category, isActive = false, onClick }: Catego
           height: 54,
           borderRadius: "var(--t-radius-category)",
           backgroundColor: isActive ? "var(--t-category-active-bg)" : "var(--t-card-bg)",
-          transition: "all 0.15s ease",
+          // Active state transition: smooth bg + shadow swap
+          transition: hasActiveTransition
+            ? "background-color 200ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms ease-out"
+            : "all 0.15s ease",
+          transform: containerTransform,
           boxShadow: isActive
             ? "0 4px 4px rgba(0,0,0,0.15)"
             : "0 1px 2px rgba(0,0,0,0.2), 0 2px 6px 2px rgba(0,0,0,0.1)",
+          willChange: hasPressSpring ? "transform" : undefined,
         }}
       >
-        {/* Active: white inner rect */}
+        {/* Active: white inner rect — fades in smoothly */}
         {isActive && (
           <div
             className="absolute flex items-center justify-center"
@@ -67,7 +96,7 @@ export function CategoryIconItem({ category, isActive = false, onClick }: Catego
           fontSize: "10px",
           fontWeight: 500,
           color: "var(--t-text-primary)",
-          transition: "color 0.15s ease",
+          transition: hasActiveTransition ? "color 200ms cubic-bezier(0.23, 1, 0.32, 1)" : "color 0.15s ease",
           whiteSpace: "nowrap",
         }}
       >
@@ -82,10 +111,16 @@ export function CategoryIconItem({ category, isActive = false, onClick }: Catego
 interface CategoryRowProps {
   categories: PetsClassicCategory[];
   activeCategoryId: string | null;
+  animationLevel?: AnimationLevel;
   onCategoryChange?: (id: string | null) => void;
 }
 
-export function CategoryRow({ categories, activeCategoryId, onCategoryChange }: CategoryRowProps) {
+export function CategoryRow({
+  categories,
+  activeCategoryId,
+  animationLevel = "none",
+  onCategoryChange,
+}: CategoryRowProps) {
   const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -114,6 +149,7 @@ export function CategoryRow({ categories, activeCategoryId, onCategoryChange }: 
           key={cat.id}
           category={cat}
           isActive={activeCategoryId === cat.id}
+          animationLevel={animationLevel}
           onClick={(id) => {
             // Toggle off if already active
             onCategoryChange?.(activeCategoryId === id ? null : id);

@@ -74,6 +74,7 @@ Equipo de agentes definido en `ai/AGENTS.md`. Consultar para: tabla de agentes, 
 
 | Dominio | Agente | Archivo |
 |---------|--------|---------|
+| Dirección creativa, briefs, anti-slop, review visual | Lucas | `ai/agents/creative-director.md` |
 | UI/UX, paletas, tipografía | Valentina | `ai/agents/uiux-designer.md` |
 | Frontend, animaciones, componentes | Camilo | `ai/agents/frontend-senior.md` |
 | Backend, DB, Server Actions | Santiago | `ai/agents/backend-expert.md` |
@@ -84,6 +85,12 @@ Equipo de agentes definido en `ai/AGENTS.md`. Consultar para: tabla de agentes, 
 | Testing, QA | Andrea | `ai/agents/qa-tester.md` |
 
 ## Reglas de workflow
+
+### Rol de Lucas — Director Creativo (OBLIGATORIO)
+- **Lucas** = DIRECCIÓN: briefs creativos, anti-slop validation, review visual, scoring final.
+- Lucas DIRIGE a Valentina, Camilo, Sofía y Andrea. NO diseña, NO codea, NO escribe copy.
+- Para trabajo visual significativo (templates, redesigns, landings): Lucas genera brief → CTO aprueba → equipo ejecuta.
+- Lucas valida output con: impeccable (audit/critique), taste-skill (AI Slop Test), emil-design-eng (animaciones).
 
 ### Separación Valentina ↔ Camilo (OBLIGATORIO)
 - **Valentina** = VISUAL: HTML + Tailwind + CSS variables. CERO lógica, CERO estado, CERO Framer Motion code.

@@ -52,11 +52,11 @@ function Slide({ slide }: { slide: PromoSlide }) {
             {slide.badge}
           </span>
         )}
-        <p style={{ fontSize: "22px", fontWeight: 800, color: "#1A1A1A", lineHeight: 1.15, marginBottom: 4 }}>
+        <p style={{ fontSize: "22px", fontWeight: 800, color: "var(--t-text-primary)", lineHeight: 1.15, marginBottom: 4 }}>
           {slide.headline}
         </p>
         {slide.subtext && (
-          <p style={{ fontSize: "12px", fontWeight: 400, color: "#555555", lineHeight: 1.4 }}>
+          <p style={{ fontSize: "12px", fontWeight: 400, color: "var(--t-text-secondary)", lineHeight: 1.4 }}>
             {slide.subtext}
           </p>
         )}

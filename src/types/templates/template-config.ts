@@ -12,6 +12,7 @@ import type {
   HeaderStyle,
   FooterStyle,
   GridBreakpoint,
+  AnimationLevel,
 } from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
@@ -59,6 +60,8 @@ export interface TemplateLayoutConfig {
   bannerHeight: BannerHeight;
   headerStyle: HeaderStyle;
   footerStyle: FooterStyle;
+  shadowStyle?: "neutral" | "hue-tinted";
+  animationLevel?: AnimationLevel;
 }
 
 // Full template config — what each template exposes as its default contract.

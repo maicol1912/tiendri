@@ -16,6 +16,7 @@ export type HeaderStyle = "standard" | "centered" | "minimal";
 export type FooterStyle = "columns" | "minimal" | "centered";
 export type BorderRadius = "sharp" | "rounded" | "pill";
 export type Appearance = "light" | "dark";
+export type AnimationLevel = "none" | "subtle" | "full";
 
 // Grid breakpoint — number of columns per viewport
 export interface GridBreakpoint {

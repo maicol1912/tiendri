@@ -55,7 +55,7 @@ export const petsClassicConfig = {
   },
 
   font: "Poppins",
-  headingFont: "var(--font-display), ui-sans-serif, system-ui, sans-serif",
+  headingFont: "Plus Jakarta Sans, var(--font-display), ui-sans-serif, system-ui, sans-serif",
 
   grid: {
     products: { mobile: 2, desktop: 4 },
@@ -79,6 +79,8 @@ export const petsClassicConfig = {
     bannerHeight: "normal" as const,
     headerStyle: "standard" as const,
     footerStyle: "minimal" as const,
+    shadowStyle: "hue-tinted" as const,
+    animationLevel: "full" as const,
   },
 
   sections: [

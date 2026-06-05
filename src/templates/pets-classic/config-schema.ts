@@ -20,6 +20,13 @@ export const petsClassicConfigSchema: TemplateConfigSchema = {
     ],
     fontPairs: [
       {
+        key: "premium",
+        label: "Plus Jakarta Sans + Poppins (Premium)",
+        body: "Poppins",
+        heading: "Plus Jakarta Sans",
+        preview: "Aa Bb Cc",
+      },
+      {
         key: "modern",
         label: "Poppins + Poppins (Original)",
         body: "Poppins",
@@ -92,6 +99,42 @@ export const petsClassicConfigSchema: TemplateConfigSchema = {
                 type: "textarea",
                 defaultValue: "Tu tienda de mascotas de confianza.",
                 maxLength: 200,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "appearance",
+        label: "Apariencia",
+        icon: "Sparkles",
+        sections: [
+          {
+            id: "visual-effects",
+            label: "Efectos visuales",
+            fields: [
+              {
+                key: "layout.shadowStyle",
+                label: "Estilo de sombras",
+                type: "select" as const,
+                description: "Sombras neutras o con tono del color principal",
+                defaultValue: "hue-tinted",
+                options: [
+                  { value: "neutral", label: "Neutro (gris)" },
+                  { value: "hue-tinted", label: "Tono del color principal" },
+                ],
+              },
+              {
+                key: "layout.animationLevel",
+                label: "Nivel de animaciones",
+                type: "select" as const,
+                description: "Controla cuánto movimiento tiene tu tienda",
+                defaultValue: "full",
+                options: [
+                  { value: "none", label: "Sin animaciones" },
+                  { value: "subtle", label: "Sutiles" },
+                  { value: "full", label: "Completas (recomendado)" },
+                ],
               },
             ],
           },

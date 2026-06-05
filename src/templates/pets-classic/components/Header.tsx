@@ -124,8 +124,9 @@ export function Header({
               height: 44,
               borderRadius: "var(--t-radius-button)",
               backgroundColor: "var(--t-search-bg)",
-              border: "1px solid var(--t-border)",
+              border: "1.5px solid var(--t-border-input, var(--t-border))",
               cursor: "pointer",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
             }}
             aria-label="Buscar productos"
           >

@@ -56,6 +56,7 @@ export function ProductDetailPage({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [inWishlist, setInWishlist] = useState(product.inWishlist ?? false);
+  const [isCartBtnPressed, setIsCartBtnPressed] = useState(false);
 
   const activeImage = product.images[activeImageIndex]?.url ?? null;
   const hasDiscount =
@@ -116,10 +117,12 @@ export function ProductDetailPage({
             <div className="flex flex-col gap-3">
               {/* Main image */}
               <div
-                className="relative w-full aspect-square overflow-hidden flex items-center justify-center"
+                className="relative w-full overflow-hidden flex items-center justify-center"
                 style={{
                   borderRadius: "var(--t-radius-card)",
-                  backgroundColor: "var(--t-surface)",
+                  backgroundColor: "#fff",
+                  aspectRatio: "4/3",
+                  maxHeight: "420px",
                 }}
               >
                 {activeImage ? (
@@ -127,7 +130,7 @@ export function ProductDetailPage({
                     src={activeImage}
                     alt={product.name}
                     fill
-                    className="object-contain p-6"
+                    className="object-contain p-3"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     priority
                   />
@@ -204,11 +207,13 @@ export function ProductDetailPage({
               <div>
                 <h1
                   style={{
-                    fontSize: "20px",
-                    fontWeight: 700,
+                    fontSize: "28px",
+                    fontWeight: 800,
                     color: "var(--t-text-primary)",
-                    lineHeight: 1.3,
-                    marginBottom: 8,
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
+                    fontFamily: "var(--t-font-heading, inherit)",
+                    marginBottom: 10,
                   }}
                 >
                   {product.name}
@@ -220,12 +225,12 @@ export function ProductDetailPage({
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        size={14}
+                        size={18}
                         strokeWidth={0}
                         fill={i < fullStars ? "var(--t-rating-star)" : "var(--t-rating-bar-bg)"}
                       />
                     ))}
-                    <span style={{ fontSize: "12px", color: "var(--t-text-muted)", marginLeft: 4 }}>
+                    <span style={{ fontSize: "12px", color: "var(--t-text-muted)", marginLeft: 8 }}>
                       {rating.toFixed(1)}
                     </span>
                   </div>
@@ -233,41 +238,66 @@ export function ProductDetailPage({
               </div>
 
               {/* Price */}
-              <div className="flex items-baseline gap-3">
-                <span style={{ fontSize: "26px", fontWeight: 800, color: "var(--t-text-primary)" }}>
-                  {currencySymbol}{formatPrice(product.price)}
-                </span>
-                {hasDiscount && product.compare_at_price && (
-                  <>
+              <div
+                style={{
+                  backgroundColor: "var(--t-surface)",
+                  borderRadius: "var(--t-radius-card)",
+                  padding: "12px 16px",
+                }}
+              >
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <span style={{ fontSize: "32px", fontWeight: 900, color: "var(--t-primary)", letterSpacing: "-0.02em" }}>
+                    {currencySymbol}{formatPrice(product.price)}
+                  </span>
+                  {hasDiscount && product.compare_at_price && (
                     <span style={{ fontSize: "16px", color: "var(--t-text-muted)", textDecoration: "line-through" }}>
                       {currencySymbol}{formatPrice(product.compare_at_price)}
                     </span>
-                    <span
-                      className="px-2 py-0.5"
-                      style={{
-                        borderRadius: 9999,
-                        backgroundColor: "var(--t-badge-bg)",
-                        color: "var(--t-badge-text)",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                      }}
-                    >
-                      -{Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
-                    </span>
-                  </>
+                  )}
+                </div>
+                {hasDiscount && product.compare_at_price && (
+                  <span
+                    className="inline-block px-2 py-0.5 mt-1"
+                    style={{
+                      borderRadius: 9999,
+                      backgroundColor: "var(--t-badge-bg)",
+                      color: "var(--t-badge-text)",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    Ahorrás {Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
+                  </span>
                 )}
               </div>
 
               {/* Availability */}
-              <p
-                style={{
-                  fontSize: "12px",
-                  fontWeight: 600,
-                  color: product.available ? "var(--t-primary)" : "var(--t-text-muted)",
-                }}
-              >
-                {product.available ? "En stock" : "Agotado"}
-              </p>
+              <div className="flex items-center gap-2">
+                {product.available ? (
+                  <>
+                    <span
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: "50%",
+                        backgroundColor: "#22C55E",
+                        boxShadow: "0 0 0 3px rgba(34,197,94,0.2)",
+                        display: "inline-block",
+                        flexShrink: 0,
+                      }}
+                      aria-hidden="true"
+                    />
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: "#16A34A" }}>
+                      En stock
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--t-text-muted)" }}>
+                    Agotado
+                  </span>
+                )}
+              </div>
 
               {/* Description */}
               {product.description && (
@@ -282,13 +312,15 @@ export function ProductDetailPage({
                   {product.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1"
+                      className="px-3 py-1.5"
                       style={{
                         borderRadius: "var(--t-radius-button)",
                         backgroundColor: "var(--t-spec-badge-bg)",
-                        color: "var(--t-text-secondary)",
+                        color: "var(--t-primary)",
                         fontSize: "11px",
-                        fontWeight: 500,
+                        fontWeight: 700,
+                        letterSpacing: "0.03em",
+                        border: "1px solid rgba(var(--t-primary-rgb), 0.2)",
                       }}
                     >
                       {tag}
@@ -352,17 +384,37 @@ export function ProductDetailPage({
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex items-center gap-2 px-8 py-3 flex-1"
+                    className="flex items-center gap-2 px-8 py-3.5 flex-1"
                     style={{
                       borderRadius: "var(--t-radius-button)",
-                      backgroundColor: "var(--t-button-bg)",
+                      background: "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)",
                       color: "var(--t-button-text)",
                       border: "none",
                       cursor: "pointer",
-                      fontSize: "14px",
-                      fontWeight: 700,
+                      fontSize: "15px",
+                      fontWeight: 800,
+                      letterSpacing: "0.02em",
                       justifyContent: "center",
+                      boxShadow: "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)",
+                      // Press feedback: scale(0.97) on active — animationLevel "full" or "subtle"
+                      transform:
+                        (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") && isCartBtnPressed
+                          ? "scale(0.97)"
+                          : "scale(1)",
+                      transition:
+                        layout?.animationLevel === "full" || layout?.animationLevel === "subtle"
+                          ? "transform 100ms ease-out"
+                          : undefined,
+                      willChange:
+                        layout?.animationLevel === "full" ? "transform" : undefined,
                     }}
+                    onMouseDown={() => {
+                      if (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") {
+                        setIsCartBtnPressed(true);
+                      }
+                    }}
+                    onMouseUp={() => setIsCartBtnPressed(false)}
+                    onMouseLeave={() => setIsCartBtnPressed(false)}
                   >
                     <ShoppingBag size={16} />
                     Agregar al carrito
@@ -440,17 +492,43 @@ export function ProductDetailPage({
             <button
               type="button"
               onClick={handleAddToCart}
-              className="flex items-center gap-2 py-3 flex-1"
+              className="flex items-center gap-2 py-3.5 flex-1"
               style={{
                 borderRadius: "var(--t-radius-button)",
-                backgroundColor: "var(--t-button-bg)",
+                background: "linear-gradient(135deg, var(--t-button-bg) 0%, color-mix(in srgb, var(--t-button-bg) 80%, #000) 100%)",
                 color: "var(--t-button-text)",
                 border: "none",
                 cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: 700,
+                fontSize: "15px",
+                fontWeight: 800,
+                letterSpacing: "0.02em",
                 justifyContent: "center",
+                boxShadow: "0 4px 16px rgba(var(--t-primary-rgb), 0.30), 0 1px 4px rgba(0,0,0,0.10)",
+                // Press feedback: same isCartBtnPressed state as desktop (shared)
+                transform:
+                  (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") && isCartBtnPressed
+                    ? "scale(0.97)"
+                    : "scale(1)",
+                transition:
+                  layout?.animationLevel === "full" || layout?.animationLevel === "subtle"
+                    ? "transform 100ms ease-out"
+                    : undefined,
+                willChange:
+                  layout?.animationLevel === "full" ? "transform" : undefined,
               }}
+              onMouseDown={() => {
+                if (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") {
+                  setIsCartBtnPressed(true);
+                }
+              }}
+              onMouseUp={() => setIsCartBtnPressed(false)}
+              onMouseLeave={() => setIsCartBtnPressed(false)}
+              onTouchStart={() => {
+                if (layout?.animationLevel === "full" || layout?.animationLevel === "subtle") {
+                  setIsCartBtnPressed(true);
+                }
+              }}
+              onTouchEnd={() => setIsCartBtnPressed(false)}
             >
               <ShoppingBag size={16} />
               Agregar al carrito
@@ -462,6 +540,7 @@ export function ProductDetailPage({
       <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        animationLevel={layout?.animationLevel}
         onTabChange={(tab) => {
           if (tab === "cart") onCartClick?.();
           else onTabChange?.(tab);
