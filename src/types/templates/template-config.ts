@@ -16,9 +16,23 @@ import type {
   ButtonStyle,
   BadgeStyle,
   PriceDisplay,
+  ShadowElevation,
+  TransitionSpeed,
+  TransitionEasing,
+  BorderRadiusScale,
+  DividerStyle,
+  CardBorderTreatment,
+  ImageFit,
+  ImageBorderRadius,
+  ImageHoverEffect,
+  GridColumnsMobile,
+  GridColumnsDesktop,
+  ContainerMaxWidth,
+  CardPadding,
 } from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
+import type { StructuralVariants } from "./structural-variants";
 
 // Color design tokens a template defines.
 // Core tokens are required; templates can add extras via the index signature.
@@ -69,6 +83,23 @@ export interface TemplateLayoutConfig {
   buttonStyle?: ButtonStyle;
   badgeStyle?: BadgeStyle;
   priceDisplay?: PriceDisplay;
+  // Phase 1 extended — effect tokens forwarded from presets
+  shadowElevation?: ShadowElevation;
+  transitionSpeed?: TransitionSpeed;
+  transitionEasing?: TransitionEasing;
+  // Phase 1 extended — chrome tokens
+  borderRadiusScale?: BorderRadiusScale;
+  dividerStyle?: DividerStyle;
+  // Phase 1 extended — card tokens
+  cardBorderTreatment?: CardBorderTreatment;
+  imageFit?: ImageFit;
+  imageBorderRadius?: ImageBorderRadius;
+  imageHoverEffect?: ImageHoverEffect;
+  // Phase 1 extended — layout tokens
+  gridColumnsMobile?: GridColumnsMobile;
+  gridColumnsDesktop?: GridColumnsDesktop;
+  containerMaxWidth?: ContainerMaxWidth;
+  cardPadding?: CardPadding;
 }
 
 // Full template config — what each template exposes as its default contract.
@@ -101,6 +132,9 @@ export interface TemplateConfig {
   branding?: BrandingConfig;
   content?: ContentConfig;
   business?: BusinessConfig;
+
+  /** Default structural variant overrides — templates can ship with structural defaults. */
+  structuralVariants?: StructuralVariants;
 
   // Template-specific data (nav links, footer content, tabs, searches, etc.)
   [key: string]: unknown;

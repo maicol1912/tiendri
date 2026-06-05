@@ -24,12 +24,14 @@ import { BottomNav } from "./BottomNav";
 import { HeroBanner } from "./HeroBanner";
 import { BannerGrid } from "./BannerGrid";
 import { CategorySection } from "./CategorySection";
+import { CategoryTabsSection } from "./CategoryTabsSection";
 import { ProductCard } from "./ProductCard";
 import { PopularProductCard } from "./PopularProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import { tabStyleClasses, bannerHeightClass } from "../utils/layout-classes";
 import { techPremiumConfig } from "../config";
 import type { TechPremiumConfig } from "../config";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 import type {
   StoreInfo,
   Category,
@@ -69,6 +71,7 @@ interface HomePageProps {
   sections?: readonly HomeSectionConfig[];
   layout?: TechPremiumConfig["layout"];
   grid?: TechPremiumConfig["grid"];
+  structuralVariants?: StructuralVariants;
   activeTab?: NavTab;
   activeProductTab?: ProductTab;
   activeCategoryId?: string | null;
@@ -108,6 +111,7 @@ export function HomePage({
   sections = techPremiumConfig.sections,
   layout,
   grid = techPremiumConfig.grid,
+  structuralVariants,
   activeTab = "home",
   activeProductTab = "new-arrival",
   activeCategoryId = null,
@@ -132,7 +136,13 @@ export function HomePage({
   // ── Local render functions — one per configurable section ──────────────────
 
   function renderHero() {
-    return <HeroBanner data={heroBanner} onCtaClick={onHeroCtaClick} />;
+    return (
+      <HeroBanner
+        data={heroBanner}
+        heroVariant={structuralVariants?.heroVariant ?? "contained"}
+        onCtaClick={onHeroCtaClick}
+      />
+    );
   }
 
   function renderBanners() {
@@ -140,6 +150,98 @@ export function HomePage({
   }
 
   function renderCategories() {
+    const navStyle = structuralVariants?.categoryNavStyle ?? "horizontal-scroll";
+
+    const sectionHeading = (
+      <h2
+        id="categories-heading"
+        className="text-[var(--t-text-primary)] tracking-[0.24px]"
+        style={{
+          fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+          fontSize: "var(--t-type-heading-size, 1.5rem)",
+          letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
+          textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+        }}
+      >
+        Explorar por categoría
+      </h2>
+    );
+
+    if (navStyle === "grid") {
+      return (
+        <section
+          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
+          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
+          aria-labelledby="categories-heading"
+        >
+          <div className="mb-8">{sectionHeading}</div>
+          <div
+            className="grid grid-cols-2 lg:grid-cols-3"
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
+          >
+            {categories.map((cat) => (
+              <CategorySection
+                key={cat.id}
+                category={cat}
+                isActive={activeCategoryId === cat.id}
+                onClick={() => onCategoryClick?.(cat.id)}
+              />
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    if (navStyle === "tabs") {
+      return (
+        <section
+          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
+          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
+          aria-labelledby="categories-heading"
+        >
+          <div className="mb-8">{sectionHeading}</div>
+          <CategoryTabsSection
+            categories={categories}
+            activeCategoryId={activeCategoryId}
+            onCategoryClick={onCategoryClick}
+          />
+        </section>
+      );
+    }
+
+    if (navStyle === "chips") {
+      return (
+        <section
+          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
+          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
+          aria-labelledby="categories-heading"
+        >
+          <div className="mb-8">{sectionHeading}</div>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => {
+              const isActive = activeCategoryId === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors cursor-pointer
+                    ${isActive
+                      ? "bg-[var(--t-category-active-bg)] text-[var(--t-category-active-text)] border-[var(--t-primary)]"
+                      : "bg-[var(--t-surface)] text-[var(--t-primary)] border-[var(--t-border)] hover:border-[var(--t-primary)]"
+                    }`}
+                  onClick={() => onCategoryClick?.(cat.id)}
+                  aria-pressed={isActive}
+                >
+                  {cat.name}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      );
+    }
+
+    // horizontal-scroll — default, identical to original
     return (
       <section
         className="bg-[var(--t-background)] px-6 lg:px-[160px]"
@@ -148,18 +250,7 @@ export function HomePage({
       >
         {/* Section header */}
         <div className="flex items-center justify-between mb-8">
-          <h2
-            id="categories-heading"
-            className="text-[var(--t-text-primary)] tracking-[0.24px]"
-            style={{
-              fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
-              fontSize: "var(--t-type-heading-size, 1.5rem)",
-              letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
-              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
-            }}
-          >
-            Explorar por categoría
-          </h2>
+          {sectionHeading}
           <div className="flex gap-4">
             <button
               type="button"
@@ -237,6 +328,8 @@ export function HomePage({
               product={product}
               currencySymbol={currencySymbol}
               layout={layout}
+              structuralVariants={structuralVariants}
+              addToCartStyle={structuralVariants?.addToCartStyle}
               onClick={() => onProductClick?.(product.id)}
               onAddToCart={() => onAddToCart?.(product.id)}
             />
@@ -317,6 +410,8 @@ export function HomePage({
               product={product}
               currencySymbol={currencySymbol}
               layout={layout}
+              structuralVariants={structuralVariants}
+              addToCartStyle={structuralVariants?.addToCartStyle}
               onClick={() => onProductClick?.(product.id)}
               onAddToCart={() => onAddToCart?.(product.id)}
             />

@@ -12,6 +12,7 @@ import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { techPremiumConfig } from "../config";
 import type { TechPremiumConfig } from "../config";
+import type { ResolvedStoreConfig } from "@/types/templates";
 import type {
   StoreInfo,
   Category,
@@ -51,7 +52,8 @@ export function HomeShell({
 }: HomeShellProps) {
   const nav = useTemplateNav();
   const { totalItems, addItem } = useCart();
-  const { config } = useLayoutConfig<TechPremiumConfig>();
+  const { config: rawConfig } = useLayoutConfig<TechPremiumConfig>();
+  const config = rawConfig as TechPremiumConfig & ResolvedStoreConfig;
 
   const [activeProductTab, setActiveProductTab] = useState<ProductTab>("new-arrival");
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
@@ -119,6 +121,7 @@ export function HomeShell({
       sections={resolvedSections}
       layout={config.layout}
       grid={config.grid}
+      structuralVariants={config.structuralVariants}
       activeTab="home"
       activeProductTab={activeProductTab}
       activeCategoryId={activeCategoryId}

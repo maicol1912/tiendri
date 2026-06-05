@@ -1,6 +1,6 @@
 "use client";
 
-// PresetPicker — Grid of 8 style preset cards for the Apariencia tab.
+// PresetPicker — Grid of 13 style preset cards for the Apariencia tab.
 // Shows preset name, description, target store tags, and active indicator.
 
 import { Check } from "lucide-react";

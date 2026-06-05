@@ -19,6 +19,11 @@ import {
   Cormorant_Garamond,
   IBM_Plex_Sans,
   IBM_Plex_Mono,
+  Space_Mono,
+  Bebas_Neue,
+  Lato,
+  Caveat,
+  Nunito,
 } from "next/font/google";
 // NextFont type from next/dist/compiled/@next/font does not include `variable`
 // because it's only present when the font is initialized with the `variable` option.
@@ -95,6 +100,75 @@ const functionalHeading = IBM_Plex_Mono({
   display: "swap",
 });
 
+// ── mono-geometric: Space Mono + Inter ───────────────────────────────────────
+// Techy monospaced heading + neutral body — ideal for electronics, gadgets,
+// developer tools, and stores with a digital/code aesthetic.
+
+const monoGeometricBody = Inter({
+  subsets: ["latin"],
+  variable: "--font-body-mono-geometric",
+  display: "swap",
+});
+
+const monoGeometricHeading = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-heading-mono-geometric",
+  display: "swap",
+});
+
+// ── display-impact: Bebas Neue + Inter ────────────────────────────────────────
+// Bold condensed display heading + neutral body — high-energy stores: sports,
+// streetwear, food, entertainment.
+
+const displayImpactBody = Inter({
+  subsets: ["latin"],
+  variable: "--font-body-display-impact",
+  display: "swap",
+});
+
+const displayImpactHeading = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-heading-display-impact",
+  display: "swap",
+});
+
+// ── whisper-light: Cormorant Garamond + Lato ─────────────────────────────────
+// High-contrast editorial serif heading + humanist body — luxury, jewelry,
+// wedding, and high-end lifestyle brands.
+
+const whisperLightBody = Lato({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-body-whisper-light",
+  display: "swap",
+});
+
+const whisperLightHeading = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-heading-whisper-light",
+  display: "swap",
+});
+
+// ── handcraft-mix: Caveat + Nunito ───────────────────────────────────────────
+// Handwritten heading + friendly rounded body — artisan goods, bakeries,
+// craft stores, and personal brands.
+
+const handcraftMixBody = Nunito({
+  subsets: ["latin"],
+  variable: "--font-body-handcraft-mix",
+  display: "swap",
+});
+
+const handcraftMixHeading = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-heading-handcraft-mix",
+  display: "swap",
+});
+
 // ── Font pair map ─────────────────────────────────────────────────────────────
 
 export interface FontPair {
@@ -107,6 +181,10 @@ export const fontPairs: Record<string, FontPair> = {
   warm: { body: warmBody, heading: warmHeading },
   elegant: { body: elegantBody, heading: elegantHeading },
   functional: { body: functionalBody, heading: functionalHeading },
+  "mono-geometric": { body: monoGeometricBody, heading: monoGeometricHeading },
+  "display-impact": { body: displayImpactBody, heading: displayImpactHeading },
+  "whisper-light": { body: whisperLightBody, heading: whisperLightHeading },
+  "handcraft-mix": { body: handcraftMixBody, heading: handcraftMixHeading },
 };
 
 /**

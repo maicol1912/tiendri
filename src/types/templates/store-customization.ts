@@ -9,10 +9,24 @@ import type {
   TemplateGridConfig,
   TemplateLayoutConfig,
 } from "./template-config";
-import type { Appearance, DensityLevel } from "./primitives";
+import type {
+  Appearance,
+  DensityLevel,
+  BodyFontSize,
+  BodyLineHeight,
+  DisplaySize,
+  CardTextAlign,
+  HeadingDecoration,
+  ColorStrategy,
+  BackgroundTreatment,
+  CardBackground,
+  ImageOverlayHover,
+  AccentDistribution,
+} from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
 import type { TypographyConfig } from "./typography";
+import type { StructuralVariants } from "./structural-variants";
 
 // Re-export the shared section types so consumers only need to import from this module
 export type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
@@ -29,6 +43,18 @@ export interface ThemeCustomization {
   presetId?: string;
   /** Typography personality — set by presets, fine-tunable by merchant */
   typography?: TypographyConfig;
+  bodyFontSize?: BodyFontSize;
+  bodyLineHeight?: BodyLineHeight;
+  displaySize?: DisplaySize;
+  cardTextAlign?: CardTextAlign;
+  headingFontStyle?: "normal" | "italic";
+  headingDecoration?: HeadingDecoration;
+  /** Color personality tokens — set by presets, fine-tunable by merchant */
+  colorStrategy?: ColorStrategy;
+  backgroundTreatment?: BackgroundTreatment;
+  cardBackground?: CardBackground;
+  imageOverlayHover?: ImageOverlayHover;
+  accentDistribution?: AccentDistribution;
 }
 
 // Partial layout overrides — grid columns, section order/visibility, and UI style options.
@@ -40,6 +66,7 @@ export interface LayoutCustomization {
   sections?: SectionConfig[];
   /** Spacing density level — set by presets, controls spacing multiplier tokens */
   density?: DensityLevel;
+  structuralVariants?: StructuralVariants;
 }
 
 // The complete customization blob saved to Supabase as JSONB.

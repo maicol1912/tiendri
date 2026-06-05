@@ -204,5 +204,15 @@ export function resolveTemplateConfig(
     // these fields are completely unaffected.
     theme: customization.theme,
     layoutDensity: customization.layout?.density,
+    structuralVariants: customization.layout?.structuralVariants ?? template.structuralVariants,
+    // Effect tokens — assembled from the merged layout so buildCssVars can read
+    // a single canonical object instead of reaching into layout sub-fields.
+    effects: {
+      animationLevel: customization.layout?.layout?.animationLevel ?? template.layout?.animationLevel,
+      shadowStyle: customization.layout?.layout?.shadowStyle ?? template.layout?.shadowStyle,
+      shadowElevation: customization.layout?.layout?.shadowElevation,
+      transitionSpeed: customization.layout?.layout?.transitionSpeed,
+      transitionEasing: customization.layout?.layout?.transitionEasing,
+    },
   };
 }

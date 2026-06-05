@@ -1,38 +1,124 @@
 // Preset System — StylePreset type
-// A StylePreset is a named bundle of layout and typographic values that
-// collectively produce a coherent visual character for a storefront.
+// A StylePreset is a named bundle of visual tokens that collectively produce
+// a coherent aesthetic for a storefront.
 // Presets only write to StoreCustomization — they never modify template config.ts.
 
-import type { TypographyConfig } from "@/types/templates/typography";
-import type { DensityLevel } from "@/types/templates/primitives";
-import type { TemplateLayoutConfig } from "@/types/templates/template-config";
+import type {
+  FontPairKey,
+  DensityPreset,
+  CardStyle,
+  CardHover,
+  CardImageRatio,
+  AnimationLevel,
+  ShadowStyle,
+  HeaderStyle,
+  BannerHeight,
+  ButtonStyle,
+  BadgeStyle,
+  PriceDisplay,
+  ShadowElevation,
+  TransitionSpeed,
+  TransitionEasing,
+  ColorStrategy,
+  BackgroundTreatment,
+  CardBackground,
+  ImageOverlayHover,
+  AccentDistribution,
+  BorderRadiusScale,
+  DividerStyle,
+  CardBorderTreatment,
+  ImageFit,
+  ImageBorderRadius,
+  ImageHoverEffect,
+  GridColumnsMobile,
+  GridColumnsDesktop,
+  ContainerMaxWidth,
+  CardPadding,
+  HeadingDecoration,
+  BodyFontSize,
+  BodyLineHeight,
+  DisplaySize,
+  CardTextAlign,
+} from "@/types/templates/primitives";
+import type { HeadingScale } from "@/types/templates/typography";
+
+export interface TypographyTokens {
+  fontPair?: FontPairKey;
+  headingWeight?: number;
+  headingScale?: HeadingScale;
+  headingTracking?: string;
+  headingTransform?: "none" | "uppercase";
+  headingFontStyle?: "normal" | "italic";
+  headingDecoration?: HeadingDecoration;
+  bodyFontSize?: BodyFontSize;
+  bodyLineHeight?: BodyLineHeight;
+  displaySize?: DisplaySize;
+  cardTextAlign?: CardTextAlign;
+}
+
+export interface LayoutTokens {
+  density?: DensityPreset;
+  gridColumnsMobile?: GridColumnsMobile;
+  gridColumnsDesktop?: GridColumnsDesktop;
+  containerMaxWidth?: ContainerMaxWidth;
+  cardImageRatio?: CardImageRatio;
+  cardPadding?: CardPadding;
+  headerStyle?: HeaderStyle;
+  bannerHeight?: BannerHeight;
+}
+
+export interface CardTokens {
+  cardStyle?: CardStyle;
+  cardHover?: CardHover;
+  cardBorderTreatment?: CardBorderTreatment;
+  imageFit?: ImageFit;
+  imageBorderRadius?: ImageBorderRadius;
+  imageHoverEffect?: ImageHoverEffect;
+}
+
+export interface EffectTokens {
+  animationLevel?: AnimationLevel;
+  shadowStyle?: ShadowStyle;
+  shadowElevation?: ShadowElevation;
+  transitionSpeed?: TransitionSpeed;
+  transitionEasing?: TransitionEasing;
+}
+
+export interface ColorTokens {
+  colorStrategy?: ColorStrategy;
+  backgroundTreatment?: BackgroundTreatment;
+  cardBackground?: CardBackground;
+  imageOverlayHover?: ImageOverlayHover;
+  accentDistribution?: AccentDistribution;
+}
+
+export interface ChromeTokens {
+  buttonStyle?: ButtonStyle;
+  badgeStyle?: BadgeStyle;
+  priceDisplay?: PriceDisplay;
+  borderRadiusScale?: BorderRadiusScale;
+  dividerStyle?: DividerStyle;
+}
+
+export interface GeneClusterValues {
+  spatialArchitecture: string;
+  typographyPersonality: string;
+  imagePhilosophy: string;
+  navigationArchitecture: string;
+  decorationStrategy: string;
+  motionPersonality: string;
+}
 
 export interface StylePreset {
   id: string;
   name: string;
   description: string;
-  /** Store types this preset is designed for */
   targetStores: string[];
-  theme: {
-    /** Universal font pair key: "elegant" | "warm" | "functional" | "modern" */
-    fontPair: string;
-    typography: TypographyConfig;
-  };
-  layout: {
-    density: DensityLevel;
-    /** Partial layout overrides — only preset-managed fields */
-    layout: Pick<
-      TemplateLayoutConfig,
-      | "cardStyle"
-      | "cardHoverEffect"
-      | "cardImageRatio"
-      | "animationLevel"
-      | "shadowStyle"
-      | "headerStyle"
-      | "bannerHeight"
-      | "buttonStyle"
-      | "badgeStyle"
-      | "priceDisplay"
-    >;
-  };
+  genes?: GeneClusterValues;
+  typography: TypographyTokens;
+  layout: LayoutTokens;
+  cards: CardTokens;
+  effects: EffectTokens;
+  color: ColorTokens;
+  chrome: ChromeTokens;
 }

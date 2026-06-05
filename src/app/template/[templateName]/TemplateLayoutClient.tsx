@@ -1290,12 +1290,14 @@ export function TemplateLayoutClient({
   // Cast is safe: MutableConfig and AnyTemplateConfig share the same shape.
   const cssVars = buildCssVars(config as unknown as ResolvedStoreConfig);
 
-  // Resolve font pair CSS variable classes for templates that use non-default fonts.
-  // This ensures next/font CSS variables (e.g. --font-body-elegant) are available
-  // in the template preview scope without requiring a server-side font loader.
-  const fontPairKey = templateName === "furniture-dark" ? "elegant" : null;
-  const fontPairClasses = fontPairKey
-    ? `${fontPairs[fontPairKey]!.body.variable} ${fontPairs[fontPairKey]!.heading.variable}`
+  // Resolve font pair CSS variable classes.
+  // Priority: active preset (config.fontPair) → template default → none.
+  // next/font CSS variable classes must be present on a DOM ancestor for the
+  // font-family var to resolve — they are not injected by buildCssVars.
+  const resolvedFontPairKey = config.fontPair ?? (templateName === "furniture-dark" ? "elegant" : undefined);
+  const resolvedFontPair = resolvedFontPairKey ? (fontPairs[resolvedFontPairKey] ?? null) : null;
+  const fontPairClasses = resolvedFontPair
+    ? `${resolvedFontPair.body.variable} ${resolvedFontPair.heading.variable}`
     : "";
 
   return (

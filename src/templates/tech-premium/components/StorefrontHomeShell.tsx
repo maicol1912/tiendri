@@ -182,6 +182,7 @@ export function StorefrontHomeShell() {
       sections={sections}
       layout={config.layout as TechPremiumConfig["layout"]}
       grid={config.grid as TechPremiumConfig["grid"]}
+      structuralVariants={config.structuralVariants}
       activeTab="home"
       activeProductTab={activeProductTab}
       activeCategoryId={activeCategoryId}

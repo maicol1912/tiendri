@@ -181,6 +181,7 @@ const cssPixelValue = z
 
 export const themeSchema = z.object({
   paletteId: z.string().max(60, "ID de paleta inválido").optional(),
+  presetId: z.string().max(60, "ID de preset inválido").optional(),
   colors: z
     .object({
       primary: hexColor,
@@ -197,21 +198,174 @@ export const themeSchema = z.object({
     })
     .optional(),
   fontPair: z
-    .enum(["modern", "warm", "elegant", "functional"], {
+    .enum(["modern", "warm", "elegant", "functional", "mono-geometric", "display-impact", "whisper-light", "handcraft-mix"], {
       error: "Par de fuentes inválido",
     })
     .optional(),
+  typography: z
+    .object({
+      headingWeight: z.number().int().min(100).max(900).optional(),
+      headingScale: z.enum(["sm", "md", "lg", "xl", "2xl"]).optional(),
+      headingTracking: z.string().optional(),
+      headingTransform: z.enum(["none", "uppercase"]).optional(),
+    })
+    .optional(),
+  bodyFontSize: z.enum(["sm", "base", "lg"]).optional(),
+  bodyLineHeight: z.enum(["tight", "normal", "relaxed", "loose"]).optional(),
+  displaySize: z.enum(["md", "lg", "xl", "2xl"]).optional(),
+  cardTextAlign: z.enum(["left", "center"]).optional(),
+  headingFontStyle: z.enum(["normal", "italic"]).optional(),
+  headingDecoration: z.enum(["none", "underline", "overline", "highlight"]).optional(),
+  colorStrategy: z.enum(["monotone", "duotone", "accent-pop", "gradient"]).optional(),
+  backgroundTreatment: z.enum(["solid", "subtle-gradient", "pattern"]).optional(),
+  cardBackground: z.enum(["white", "surface", "transparent", "primary-tint"]).optional(),
+  imageOverlayHover: z.enum(["none", "dark-scrim", "color-tint", "blur"]).optional(),
+  accentDistribution: z.enum(["buttons-only", "badges-and-buttons", "everywhere", "minimal"]).optional(),
 });
 
 export type ThemeInput = z.infer<typeof themeSchema>;
 
+// ── Layout schema ──────────────────────────────────────────────────────────────
+
+const layoutOptionsSchema = z.object({
+  cardStyle: z.enum(["flat", "shadow", "bordered", "elevated"]).optional(),
+  cardHoverEffect: z.enum(["none", "lift", "scale", "glow"]).optional(),
+  cardImageRatio: z.enum(["square", "portrait", "wide"]).optional(),
+  animationLevel: z.enum(["none", "subtle", "full"]).optional(),
+  shadowStyle: z.enum(["neutral", "hue-tinted"]).optional(),
+  shadowElevation: z.enum(["none", "xs", "sm", "md", "lg", "xl"]).optional(),
+  transitionSpeed: z.enum(["instant", "fast", "normal", "slow", "very-slow"]).optional(),
+  transitionEasing: z.enum(["linear", "ease", "ease-in-out", "spring"]).optional(),
+  headerStyle: z.enum(["standard", "centered", "minimal"]).optional(),
+  bannerHeight: z.enum(["short", "normal", "tall"]).optional(),
+  buttonStyle: z.enum(["filled", "outlined", "ghost"]).optional(),
+  badgeStyle: z.enum(["pill", "square"]).optional(),
+  priceDisplay: z.enum(["prominent", "standard", "subtle"]).optional(),
+  borderRadiusScale: z.enum(["sharp", "xs", "sm", "md", "lg", "xl", "pill"]).optional(),
+  dividerStyle: z.enum(["none", "line", "dots", "dash"]).optional(),
+  imageFit: z.enum(["cover", "contain"]).optional(),
+  imageBorderRadius: z.enum(["same-as-card", "none", "rounded", "circle"]).optional(),
+  imageHoverEffect: z.enum(["none", "zoom", "slide-up", "grayscale-to-color", "brightness"]).optional(),
+  cardBorderTreatment: z.enum(["none", "subtle", "prominent", "left-accent", "top-accent"]).optional(),
+  cardPadding: z.enum(["none", "tight", "normal", "spacious"]).optional(),
+}).optional();
+
+const structuralVariantsSchema = z.object({
+  cardContentLayout: z.enum(["below-image", "overlay-bottom", "overlay-full", "side-by-side"]).optional(),
+  heroVariant: z.enum(["full-bleed", "contained", "split", "text-only"]).optional(),
+  categoryNavStyle: z.enum(["horizontal-scroll", "grid", "tabs", "chips"]).optional(),
+  addToCartStyle: z.enum(["full-width", "icon-button", "floating-fab", "on-hover-only"]).optional(),
+}).optional();
+
+const gridColumnsSchema = z.object({
+  mobile: z.number().int().min(1).max(6).optional(),
+  desktop: z.number().int().min(1).max(6).optional(),
+}).optional();
+
+const gridSchema = z.object({
+  products: gridColumnsSchema,
+  categories: gridColumnsSchema,
+  listing: gridColumnsSchema,
+  search: gridColumnsSchema,
+}).optional();
+
+export const layoutCustomizationSchema = z.object({
+  density: z.enum(["compact", "balanced", "spacious"]).optional(),
+  containerMaxWidth: z.enum(["narrow", "medium", "wide", "full"]).optional(),
+  gridColumnsMobile: z.union([z.literal(1), z.literal(2)]).optional(),
+  gridColumnsDesktop: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
+  grid: gridSchema,
+  layout: layoutOptionsSchema,
+  structuralVariants: structuralVariantsSchema,
+});
+
+export type LayoutCustomizationInput = z.infer<typeof layoutCustomizationSchema>;
+
 // ── Combined store customization schema ────────────────────────────────────────
 
-export const storeCustomizationSchema = z.object({
+const baseStoreCustomizationSchema = z.object({
+  templateId: z.string().min(1, "templateId es obligatorio"),
   branding: brandingSchema.optional(),
   content: contentSchema.optional(),
   business: businessSchema.optional(),
   theme: themeSchema.optional(),
+  layout: layoutCustomizationSchema.optional(),
+  appearance: z.enum(["light", "dark"]).optional(),
 });
+
+// ── Forbidden combination refinements ─────────────────────────────────────────
+// Each refinement delegates to the shared guardrails check functions so the
+// validation logic has a single source of truth.
+
+import { FORBIDDEN_COMBINATIONS } from "@/lib/presets/guardrails";
+import type { StylePreset } from "@/lib/presets/preset-types";
+
+type BaseInput = z.infer<typeof baseStoreCustomizationSchema>;
+
+/**
+ * Coerce a flat StoreCustomizationInput into the Partial<StylePreset> shape
+ * that FORBIDDEN_COMBINATIONS check functions expect.
+ */
+function toPresetShape(data: BaseInput): Partial<StylePreset> {
+  return {
+    typography: {
+      headingTransform: data.theme?.typography?.headingTransform,
+      headingFontStyle: data.theme?.headingFontStyle,
+      headingDecoration: data.theme?.headingDecoration,
+      bodyLineHeight: data.theme?.bodyLineHeight,
+    },
+    layout: {
+      density: data.layout?.density,
+      gridColumnsMobile: data.layout?.gridColumnsMobile,
+      cardImageRatio: data.layout?.layout?.cardImageRatio,
+    },
+    cards: {
+      cardStyle: data.layout?.layout?.cardStyle,
+      imageFit: data.layout?.layout?.imageFit,
+      imageBorderRadius: data.layout?.layout?.imageBorderRadius,
+      // cardContentLayout lives in structuralVariants — cast through unknown for the check
+      ...(data.layout?.structuralVariants?.cardContentLayout !== undefined && {
+        cardContentLayout: data.layout.structuralVariants.cardContentLayout,
+      }),
+    } as unknown as StylePreset["cards"],
+    effects: {
+      shadowElevation: data.layout?.layout?.shadowElevation,
+      transitionSpeed: data.layout?.layout?.transitionSpeed,
+      animationLevel: data.layout?.layout?.animationLevel,
+    },
+    color: {
+      backgroundTreatment: data.theme?.backgroundTreatment,
+      cardBackground: data.theme?.cardBackground,
+      colorStrategy: data.theme?.colorStrategy,
+    },
+    chrome: {
+      buttonStyle: data.layout?.layout?.buttonStyle,
+      priceDisplay: data.layout?.layout?.priceDisplay,
+      borderRadiusScale: data.layout?.layout?.borderRadiusScale,
+      badgeStyle: data.layout?.layout?.badgeStyle,
+      ...(data.layout?.structuralVariants?.addToCartStyle !== undefined && {
+        addToCartStyle: data.layout.structuralVariants.addToCartStyle,
+      }),
+    } as unknown as StylePreset["chrome"],
+  };
+}
+
+// Build the schema by chaining one .refine() per forbidden combination.
+// Each check returns true = valid (combination NOT present), false = violation.
+const [first, ...rest] = FORBIDDEN_COMBINATIONS;
+
+const withFirst = baseStoreCustomizationSchema.refine(
+  (data) => !first!.check(toPresetShape(data)),
+  { message: first!.message },
+);
+
+export const storeCustomizationSchema = rest.reduce(
+  (schema, rule) =>
+    schema.refine(
+      (data) => !rule.check(toPresetShape(data)),
+      { message: rule.message },
+    ),
+  withFirst,
+);
 
 export type StoreCustomizationInput = z.infer<typeof storeCustomizationSchema>;

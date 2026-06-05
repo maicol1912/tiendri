@@ -199,6 +199,12 @@ html {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+  /* on-hover-only add-to-cart: always visible on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .touch-device-visible {
+      opacity: 1 !important;
+    }
+  }
 }
 
 @layer base {

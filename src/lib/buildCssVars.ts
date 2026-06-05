@@ -6,11 +6,15 @@
 //   colors:  camelCase key → --t-{kebab-case-key}   e.g. cardBg → --t-card-bg
 //   radius:  key → --t-radius-{key}                  e.g. card → --t-radius-card
 //   fonts:   --font-body, --font-heading, --template-heading-font
+//   effects: --t-fx-* motion/interaction tokens from EffectTokens
 //
 // Grid and layout values are NOT CSS vars — they're consumed as props by
 // components (e.g. grid-cols-{n} classes built from config.grid.products.mobile).
 
 import type { ResolvedStoreConfig } from "@/types/templates";
+import type { AnimationLevel, TransitionSpeed, TransitionEasing, ShadowElevation, BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, BodyLineHeight, DisplaySize } from "@/types/templates/primitives";
+import { DEFAULT_PRESET_VALUES } from "@/lib/presets/preset-defaults";
+import type { EffectTokens, CardTokens, LayoutTokens, ColorTokens, TypographyTokens } from "@/lib/presets/preset-types";
 
 /**
  * Convert a camelCase string to kebab-case.
@@ -37,6 +41,213 @@ function hexToRgb(hex: string): string {
   const b = parseInt(full.slice(4, 6), 16);
   if (isNaN(r) || isNaN(g) || isNaN(b)) return "";
   return `${r}, ${g}, ${b}`;
+}
+
+const TRANSITION_SPEED_MAP: Record<TransitionSpeed, string> = {
+  instant: "0ms",
+  fast: "150ms",
+  normal: "250ms",
+  slow: "400ms",
+  "very-slow": "600ms",
+};
+
+const TRANSITION_EASING_MAP: Record<TransitionEasing, string> = {
+  linear: "linear",
+  ease: "ease",
+  "ease-in-out": "ease-in-out",
+  spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+};
+
+const SHADOW_ELEVATION_MAP: Record<ShadowElevation, string> = {
+  none: "0",
+  xs: "0.5",
+  sm: "1",
+  md: "1.5",
+  lg: "2",
+  xl: "3",
+};
+
+const ANIMATION_HOVER_SCALE: Record<AnimationLevel, string> = {
+  none: "1",
+  subtle: "1.02",
+  full: "1.05",
+};
+
+const ANIMATION_HOVER_LIFT: Record<AnimationLevel, string> = {
+  none: "0px",
+  subtle: "-2px",
+  full: "-4px",
+};
+
+const ANIMATION_HOVER_GLOW_SPREAD: Record<AnimationLevel, string> = {
+  none: "0px",
+  subtle: "4px",
+  full: "12px",
+};
+
+const ANIMATION_HOVER_GLOW_OPACITY: Record<AnimationLevel, string> = {
+  none: "0",
+  subtle: "0.15",
+  full: "0.3",
+};
+
+const ANIMATION_ENTER_DISTANCE: Record<AnimationLevel, string> = {
+  none: "0px",
+  subtle: "8px",
+  full: "20px",
+};
+
+const ANIMATION_ENTER_DURATION: Record<AnimationLevel, string> = {
+  none: "0ms",
+  subtle: "300ms",
+  full: "500ms",
+};
+
+function buildEffectVars(effects: EffectTokens): Record<string, string> {
+  const defaults = DEFAULT_PRESET_VALUES.effects;
+  const level: AnimationLevel = effects.animationLevel ?? (defaults.animationLevel as AnimationLevel);
+  const speed: TransitionSpeed = effects.transitionSpeed ?? (defaults.transitionSpeed as TransitionSpeed);
+  const easing: TransitionEasing = effects.transitionEasing ?? (defaults.transitionEasing as TransitionEasing);
+  const elevation: ShadowElevation = effects.shadowElevation ?? (defaults.shadowElevation as ShadowElevation);
+
+  return {
+    "--t-fx-duration": TRANSITION_SPEED_MAP[speed],
+    "--t-fx-easing": TRANSITION_EASING_MAP[easing],
+    "--t-fx-hover-scale": ANIMATION_HOVER_SCALE[level],
+    "--t-fx-hover-lift": ANIMATION_HOVER_LIFT[level],
+    "--t-fx-hover-glow-spread": ANIMATION_HOVER_GLOW_SPREAD[level],
+    "--t-fx-hover-glow-opacity": ANIMATION_HOVER_GLOW_OPACITY[level],
+    "--t-fx-enter-distance": ANIMATION_ENTER_DISTANCE[level],
+    "--t-fx-enter-duration": ANIMATION_ENTER_DURATION[level],
+    "--t-shadow-scale": SHADOW_ELEVATION_MAP[elevation],
+  };
+}
+
+const BODY_FONT_SIZE_MAP: Record<BodyFontSize, string> = {
+  sm: "0.875rem",
+  base: "1rem",
+  lg: "1.125rem",
+};
+
+const BODY_LINE_HEIGHT_MAP: Record<BodyLineHeight, string> = {
+  tight: "1.35",
+  normal: "1.5",
+  relaxed: "1.65",
+  loose: "1.8",
+};
+
+const DISPLAY_SIZE_MAP: Record<DisplaySize, string> = {
+  md: "2.5rem",
+  lg: "3.5rem",
+  xl: "5rem",
+  "2xl": "7rem",
+};
+
+function buildTypographyExtendedVars(typography: TypographyTokens): Record<string, string> {
+  const defaults = DEFAULT_PRESET_VALUES.typography;
+  const bodyFontSize: BodyFontSize = typography.bodyFontSize ?? (defaults.bodyFontSize as BodyFontSize);
+  const bodyLineHeight: BodyLineHeight = typography.bodyLineHeight ?? (defaults.bodyLineHeight as BodyLineHeight);
+  const displaySize: DisplaySize = typography.displaySize ?? (defaults.displaySize as DisplaySize);
+  const headingWeight = typography.headingWeight ?? defaults.headingWeight;
+  const headingTracking = typography.headingTracking ?? defaults.headingTracking;
+  const headingFontStyle = typography.headingFontStyle ?? defaults.headingFontStyle;
+
+  return {
+    "--t-type-body-size": BODY_FONT_SIZE_MAP[bodyFontSize],
+    "--t-type-body-line-height": BODY_LINE_HEIGHT_MAP[bodyLineHeight],
+    "--t-type-body-weight": "400",
+    "--t-type-display-size": DISPLAY_SIZE_MAP[displaySize],
+    "--t-type-display-weight": String(headingWeight),
+    "--t-type-display-tracking": headingTracking ?? (defaults.headingTracking as string),
+    "--t-type-heading-style": headingFontStyle ?? (defaults.headingFontStyle as string),
+    "--t-type-paragraph-max-width": "65ch",
+    "--t-type-card-align": typography.cardTextAlign ?? (defaults.cardTextAlign as string),
+  };
+}
+
+const BORDER_RADIUS_SCALE_MAP: Record<BorderRadiusScale, string> = {
+  sharp: "0",
+  xs: "0.125rem",
+  sm: "0.25rem",
+  md: "0.5rem",
+  lg: "0.75rem",
+  xl: "1rem",
+  pill: "9999px",
+};
+
+const IMAGE_BORDER_RADIUS_MAP: Record<ImageBorderRadius, string> = {
+  "same-as-card": "var(--t-radius-base)",
+  none: "0",
+  rounded: "0.5rem",
+  circle: "9999px",
+};
+
+const CARD_PADDING_MAP: Record<CardPadding, string> = {
+  none: "0",
+  tight: "0.5rem",
+  normal: "0.75rem",
+  spacious: "1.25rem",
+};
+
+function buildCardVars(cards: CardTokens, borderRadiusScale?: BorderRadiusScale): Record<string, string> {
+  const cardDefaults = DEFAULT_PRESET_VALUES.cards;
+  const layoutDefaults = DEFAULT_PRESET_VALUES.layout;
+  const scale: BorderRadiusScale = borderRadiusScale ?? (DEFAULT_PRESET_VALUES.chrome.borderRadiusScale as BorderRadiusScale);
+  const imageBorderRadius: ImageBorderRadius = cards.imageBorderRadius ?? (cardDefaults.imageBorderRadius as ImageBorderRadius);
+  const cardPadding: CardPadding = layoutDefaults.cardPadding as CardPadding;
+  const baseValue = BORDER_RADIUS_SCALE_MAP[scale];
+
+  return {
+    "--t-radius-base": baseValue,
+    "--t-radius-sm": "calc(var(--t-radius-base) * 0.5)",
+    "--t-radius-lg": scale === "pill" ? "9999px" : "calc(var(--t-radius-base) * 2)",
+    "--t-radius-image": IMAGE_BORDER_RADIUS_MAP[imageBorderRadius],
+    "--t-card-padding": CARD_PADDING_MAP[cardPadding],
+  };
+}
+
+const CONTAINER_MAX_WIDTH_MAP: Record<ContainerMaxWidth, string> = {
+  narrow: "960px",
+  medium: "1152px",
+  wide: "1344px",
+  full: "100%",
+};
+
+const IMAGE_FIT_VAR_MAP: Record<ImageFit, string> = {
+  cover: "cover",
+  contain: "contain",
+};
+
+function buildLayoutVars(layout: LayoutTokens): Record<string, string> {
+  const defaults = DEFAULT_PRESET_VALUES.layout;
+  const cardDefaults = DEFAULT_PRESET_VALUES.cards;
+  const colsMobile: GridColumnsMobile = layout.gridColumnsMobile ?? (defaults.gridColumnsMobile as GridColumnsMobile);
+  const colsDesktop: GridColumnsDesktop = layout.gridColumnsDesktop ?? (defaults.gridColumnsDesktop as GridColumnsDesktop);
+  const containerMaxWidth: ContainerMaxWidth = layout.containerMaxWidth ?? (defaults.containerMaxWidth as ContainerMaxWidth);
+  const imageFit: ImageFit = (cardDefaults.imageFit as ImageFit);
+
+  return {
+    "--t-grid-cols-mobile": String(colsMobile),
+    "--t-grid-cols-desktop": String(colsDesktop),
+    "--t-container-max": CONTAINER_MAX_WIDTH_MAP[containerMaxWidth],
+    "--t-image-fit": IMAGE_FIT_VAR_MAP[imageFit],
+  };
+}
+
+const CARD_BACKGROUND_MAP: Record<CardBackground, string> = {
+  white: "white",
+  surface: "surface",
+  transparent: "transparent",
+  "primary-tint": "primary-tint",
+};
+
+function buildColorVars(color: ColorTokens): Record<string, string> {
+  const defaults = DEFAULT_PRESET_VALUES.color;
+  const cardBackground: CardBackground = color.cardBackground ?? (defaults.cardBackground as CardBackground);
+
+  return {
+    "--t-card-bg-mode": CARD_BACKGROUND_MAP[cardBackground],
+  };
 }
 
 /**
@@ -102,6 +313,18 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
     vars["--t-type-heading-size"] = scaleMap[typography.headingScale] ?? "2rem";
     vars["--t-type-heading-tracking"] = typography.headingTracking;
     vars["--t-type-heading-transform"] = typography.headingTransform;
+
+    // Extended body/display fields live directly on ThemeCustomization, not inside typography.
+    const extendedTokens: TypographyTokens = {
+      headingWeight: typography.headingWeight,
+      headingTracking: typography.headingTracking,
+      bodyFontSize: config.theme?.bodyFontSize,
+      bodyLineHeight: config.theme?.bodyLineHeight,
+      displaySize: config.theme?.displaySize,
+      cardTextAlign: config.theme?.cardTextAlign,
+      headingFontStyle: config.theme?.headingFontStyle,
+    };
+    Object.assign(vars, buildTypographyExtendedVars(extendedTokens));
   }
 
   // ── Spacing/density tokens → --t-space-* ──────────────────────────────────
@@ -118,6 +341,54 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars["--t-space-card"]    = spacing.card;
   vars["--t-space-item"]    = spacing.item;
   vars["--t-space-gap"]     = spacing.gap;
+
+  // ── Effect tokens → --t-fx-* ──────────────────────────────────────────────
+  // Motion/interaction personality tokens. Reads animationLevel from layout
+  // (set by applyPreset) and the extended effect fields from config.effects when
+  // present, falling back to DEFAULT_PRESET_VALUES.effects for all undefined fields.
+  const effectInput: EffectTokens = {
+    animationLevel: config.layout?.animationLevel,
+    shadowStyle: config.layout?.shadowStyle,
+    ...config.effects,
+  };
+  Object.assign(vars, buildEffectVars(effectInput));
+
+  // ── Card tokens → --t-radius-*, --t-card-padding ──────────────────────────
+  // Read from config.layout (the merged TemplateLayoutConfig) where applyPreset
+  // writes card/chrome fields, then resolve through buildCardVars.
+  const cardInput: CardTokens = {
+    cardStyle: config.layout?.cardStyle,
+    cardHover: config.layout?.cardHoverEffect,
+    cardBorderTreatment: config.layout?.cardBorderTreatment,
+    imageFit: config.layout?.imageFit,
+    imageBorderRadius: config.layout?.imageBorderRadius,
+    imageHoverEffect: config.layout?.imageHoverEffect,
+  };
+  const chromeRadiusScale = config.layout?.borderRadiusScale;
+  Object.assign(vars, buildCardVars(cardInput, chromeRadiusScale));
+
+  // ── Layout tokens → --t-grid-cols-*, --t-container-max, --t-image-fit ─────
+  const layoutInput: LayoutTokens = {
+    gridColumnsMobile: config.layout?.gridColumnsMobile,
+    gridColumnsDesktop: config.layout?.gridColumnsDesktop,
+    containerMaxWidth: config.layout?.containerMaxWidth,
+    cardImageRatio: config.layout?.cardImageRatio,
+    cardPadding: config.layout?.cardPadding,
+    headerStyle: config.layout?.headerStyle,
+    bannerHeight: config.layout?.bannerHeight,
+  };
+  Object.assign(vars, buildLayoutVars(layoutInput));
+
+  // ── Color tokens → --t-card-bg-mode ──────────────────────────────────────
+  // Color personality fields live on config.theme (set by applyPreset → theme.*)
+  const colorInput: ColorTokens = {
+    colorStrategy: config.theme?.colorStrategy,
+    backgroundTreatment: config.theme?.backgroundTreatment,
+    cardBackground: config.theme?.cardBackground,
+    imageOverlayHover: config.theme?.imageOverlayHover,
+    accentDistribution: config.theme?.accentDistribution,
+  };
+  Object.assign(vars, buildColorVars(colorInput));
 
   return vars;
 }
