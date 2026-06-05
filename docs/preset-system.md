@@ -73,9 +73,12 @@ localStorage("tiendri_demo-store_customization")
         │
         ▼
 resolveTemplateConfig(templateConfig, storeCustomization)
-        │  Unchanged — shallow-merges as before
+        │  Signature unchanged — shallow-merges as before
+        │  Return type EXTENDED with two new optional fields:
+        │    • `theme` (ThemeCustomization) — forwarded from StoreCustomization
+        │    • `layoutDensity` (DensityLevel) — forwarded from StoreCustomization.layout.density
+        │  This is additive and backward-compatible — no existing consumer breaks
         │  layout.layout already handled by existing merge
-        │  theme.typography + layout.density are new fields, merged same way
         │
         ▼
 ResolvedStoreConfig
@@ -150,6 +153,23 @@ The function preserves everything the merchant has set (branding, content, busin
 // Reset = re-apply the same preset
 const reset = applyPreset(current.theme?.presetId ?? "directo", current);
 ```
+
+### Font Pair Fallback Strategy
+
+Presets reference **universal font pair keys**: `"elegant"`, `"warm"`, `"functional"`, `"modern"`. These four keys are the only values a preset will ever write to `theme.fontPair`.
+
+Each template **MUST** define all 4 of these keys in their `fontPairs` array in `config-schema.ts`. If a template is missing one of the keys, the preset's `fontPair` value is stored in `StoreCustomization` but the template's font pair picker will fall back to the template's first defined font pair at render time.
+
+The fallback logic sits at the render layer — `applyPreset` itself always writes the key unconditionally:
+
+```typescript
+// In applyPreset — font pair is always written; fallback happens at render time
+fontPair: preset.theme.fontPair, // Template must define this key; falls back to first pair if missing
+```
+
+This means the preset system never crashes on a template that hasn't been fully updated, but the visual result may differ from intent until all 4 universal keys are defined.
+
+> **Phase 1a task:** Standardize the 4 universal font pair keys (`"elegant"`, `"warm"`, `"functional"`, `"modern"`) across all 11 templates in their `config-schema.ts` `fontPairs` arrays.
 
 ### The Golden Rule
 
@@ -244,9 +264,9 @@ Each preset writes the following fields in `StoreCustomization`:
 
 **Target store:** Grocery, hardware, everyday goods. Stores where conversion speed matters more than aesthetics.
 
-**Description:** Compact layout, functional typography, prices always prominent. Bordered cards create clear visual separation. Square badges and solid buttons are no-nonsense.
+**Description:** Compact layout, functional typography, prices always prominent. Bordered cards create clear visual separation. Square badges and filled buttons are no-nonsense.
 
-**Genes:** Compact density · Functional type · Prominent prices · Bordered cards · Square badges · Solid buttons
+**Genes:** Compact density · Functional type · Prominent prices · Bordered cards · Square badges · Filled buttons
 
 | Field | Value |
 |---|---|
@@ -263,7 +283,7 @@ Each preset writes the following fields in `StoreCustomization`:
 | `layout.layout.shadowStyle` | `"neutral"` |
 | `layout.layout.headerStyle` | `"standard"` |
 | `layout.layout.bannerHeight` | `"short"` |
-| `layout.layout.buttonStyle` | `"solid"` |
+| `layout.layout.buttonStyle` | `"filled"` |
 | `layout.layout.badgeStyle` | `"square"` |
 | `layout.layout.priceDisplay` | `"prominent"` |
 
@@ -350,7 +370,7 @@ Each preset writes the following fields in `StoreCustomization`:
 | `layout.layout.shadowStyle` | `"neutral"` |
 | `layout.layout.headerStyle` | `"standard"` |
 | `layout.layout.bannerHeight` | `"short"` |
-| `layout.layout.buttonStyle` | `"solid"` |
+| `layout.layout.buttonStyle` | `"filled"` |
 | `layout.layout.badgeStyle` | `"square"` |
 | `layout.layout.priceDisplay` | `"prominent"` |
 
@@ -416,6 +436,22 @@ Each preset writes the following fields in `StoreCustomization`:
 
 ---
 
+### Fields NOT Managed by Presets
+
+The following `TemplateLayoutConfig` fields are **intentionally excluded** from all 8 presets. They remain at the template's default value unless the merchant explicitly changes them in the Estilo Visual tab:
+
+| Field | Reason left to merchant |
+|---|---|
+| `footerStyle` | Highly template-specific; presets don't prescribe footer structure |
+| `navStyle` | Navigation behavior is a merchant choice, not a visual personality |
+| `tabStyle` | Tab styling varies too much between templates to preset reliably |
+
+Presets intentionally leave these alone because they are highly template-specific. A merchant changing their preset should not find their navigation layout suddenly different. These fields are configurable directly in the Estilo Visual tab and are never overwritten by `applyPreset`.
+
+> **Note:** `cardImageRatio` IS preset-managed — it appears in every preset table above. Do not confuse it with the non-managed fields listed here.
+
+---
+
 ## 4. New Types Required
 
 ### 4.1 New Primitives — `src/types/templates/primitives.ts`
@@ -424,7 +460,7 @@ Add these union types:
 
 ```typescript
 // Button visual style
-export type ButtonStyle = "filled" | "outlined" | "ghost" | "solid";
+export type ButtonStyle = "filled" | "outlined" | "ghost";
 
 // Badge shape style
 export type BadgeStyle = "pill" | "square";
@@ -643,9 +679,9 @@ New layout fields that are scalar values (not JSX-structural) become CSS vars:
 
 ### Implementation — Updated `buildCssVars`
 
-The function signature stays unchanged. The new logic reads `config.theme?.typography` and `config.layout?.density` (both are new optional fields passed through from `ResolvedStoreConfig`).
+The function signature stays unchanged. The new logic reads `config.theme?.typography` and `config.layoutDensity` (both are new optional fields on `ResolvedStoreConfig`).
 
-**Important:** `resolveTemplateConfig` must pass these through. Since `typography` lives in `StoreCustomization.theme` (not in `TemplateConfig`), the resolver needs to forward it:
+**Important:** `resolveTemplateConfig` signature is unchanged, but its **return type is EXTENDED** with two new optional fields (`theme`, `layoutDensity`). This is additive and backward-compatible — no existing consumer breaks. Since `typography` lives in `StoreCustomization.theme` (not in `TemplateConfig`), the resolver needs to forward it:
 
 ```typescript
 // In resolveTemplateConfig return value — add to existing spread:
@@ -742,7 +778,6 @@ const buttonClass = {
   filled:   "bg-[--t-button-bg] text-[--t-button-text]",
   outlined: "border-2 border-[--t-primary] text-[--t-primary] bg-transparent",
   ghost:    "text-[--t-primary] bg-transparent hover:bg-[--t-primary]/10",
-  solid:    "bg-[--t-primary] text-white",
 }[config.layout.buttonStyle ?? "filled"];
 ```
 
@@ -757,7 +792,6 @@ export const BUTTON_CLASS_MAP: Record<ButtonStyle, string> = {
   filled:   "bg-[--t-button-bg] text-[--t-button-text] border-transparent",
   outlined: "border-2 border-[--t-primary] text-[--t-primary] bg-transparent hover:bg-[--t-primary]/5",
   ghost:    "text-[--t-primary] bg-transparent hover:bg-[--t-primary]/10 border-transparent",
-  solid:    "bg-[--t-primary] text-white border-transparent hover:opacity-90",
 };
 
 export const BADGE_CLASS_MAP: Record<BadgeStyle, string> = {
@@ -865,7 +899,9 @@ However, layout fields set by the preset (cardStyle, buttonStyle, etc.) are also
 
 ### "Estilo visual" — Layout Controls Tab Group
 
-Phase 1b also adds a new tab group in the dashboard tab list — **"Estilo visual"** — driven by the schema. This tab group contains a `ConfigSection` with `select` fields for all layout options:
+> **Note:** The `estilo-visual` tab group **already exists** from Phase 0 — it was added as part of the initial schema system and already contains: `cardStyle`, `cardHoverEffect`, `cardImageRatio`, `headerStyle`, `footerStyle`, `navStyle`, `bannerHeight`, `animationLevel`, and `shadowStyle`.
+
+Phase 1b does **NOT** create this tab group — it adds the **3 NEW fields** (`buttonStyle`, `badgeStyle`, `priceDisplay`) to the existing sections. The schema snippet below shows the complete desired state of the tab group after Phase 1b, including both existing and new fields:
 
 ```typescript
 // Added to each template's config-schema.ts tabGroups array
@@ -898,7 +934,6 @@ Phase 1b also adds a new tab group in the dashboard tab list — **"Estilo visua
             { label: "Relleno", value: "filled" },
             { label: "Contorno", value: "outlined" },
             { label: "Fantasma", value: "ghost" },
-            { label: "Sólido", value: "solid" },
           ],
         },
         {
@@ -1035,6 +1070,8 @@ If a merchant has made multiple fine-tuning changes and the result looks bad, th
 - `src/lib/buildCssVars.ts` — add typography token emission, spacing token emission
 - `src/lib/resolveTemplateConfig.ts` — forward `theme` and `layoutDensity` through to `ResolvedStoreConfig`
 
+**Additional task — font pair keys:** Standardize the 4 universal font pair keys (`"elegant"`, `"warm"`, `"functional"`, `"modern"`) across all 11 templates in their `config-schema.ts` `fontPairs` arrays. Templates missing any of these keys will fall back to their first font pair when a preset is applied (see Section 2 — Font Pair Fallback Strategy).
+
 **Scope:** ~8 files, ~200 lines of net new code. Zero UI changes. Zero component changes.
 
 **Verification:** `npx tsc --noEmit` must pass. Run `applyPreset("minimalista", mockCustomization)` in a test and verify the output matches Section 3.
@@ -1049,7 +1086,7 @@ If a merchant has made multiple fine-tuning changes and the result looks bad, th
 
 **Files to update:**
 - `src/app/(dashboard)/dashboard/configuracion/tabs/theme-tab.tsx` — integrate `PresetTabSection` before palette picker; handle `presetId` state; call `applyPreset` on selection
-- Each template's `config-schema.ts` — add the `"estilo-visual"` tab group (see Section 7)
+- Each template's `config-schema.ts` — the `"estilo-visual"` tab group already exists from Phase 0; add the 3 NEW fields (`buttonStyle`, `badgeStyle`, `priceDisplay`) to the existing `layout-options` section (see Section 7)
 
 **Onboarding flow:**
 - Check if `customization.theme?.presetId` is `undefined` on mount
@@ -1116,7 +1153,7 @@ When a merchant first visits the dashboard after Phase 1 ships:
 
 ### Backward Compatibility Guarantees
 
-1. **`resolveTemplateConfig` signature is unchanged.** No call site breaks.
+1. **`resolveTemplateConfig` signature is unchanged, but its return type gains two new optional fields** (`theme`, `layoutDensity`). Existing consumers that don't read these fields are completely unaffected — the addition is additive and backward-compatible.
 2. **`buildCssVars` signature is unchanged.** New CSS vars are additive. Components that don't read them are unaffected.
 3. **`TemplateLayoutConfig` additions are optional fields.** No template's `config.ts` needs updating — the new fields default to `undefined` and components must handle `undefined` with a sensible fallback (e.g. `config.layout.buttonStyle ?? "filled"`).
 4. **`ThemeCustomization` additions are optional.** Old `StoreCustomization` blobs without `presetId` or `typography` deserialize correctly — new fields are simply `undefined`.
