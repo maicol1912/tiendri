@@ -20,6 +20,7 @@ interface CartPageProps {
   cartItemCount?: number;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onContinueShopping?: () => void;
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
   onRemove?: (productId: string) => void;
@@ -37,6 +38,7 @@ export function CartPage({
   cartItemCount = 0,
   onSearchClick,
   onCartClick,
+  onContinueShopping,
   onIncrement,
   onDecrement,
   onRemove,
@@ -104,6 +106,7 @@ export function CartPage({
             total={total}
             currencySymbol={currencySymbol}
             onCheckout={onCheckout}
+            onContinueShopping={onContinueShopping}
           />
         )}
       </main>

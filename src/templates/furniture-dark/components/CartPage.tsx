@@ -133,6 +133,7 @@ export function CartPage({
               <CartSummary
                 subtotal={totalPrice}
                 onCheckout={onCheckout}
+                onContinueShopping={onContinueShopping}
               />
             </div>
           </div>

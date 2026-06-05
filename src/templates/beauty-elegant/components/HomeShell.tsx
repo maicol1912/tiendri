@@ -35,6 +35,7 @@ export function HomeShell({
   const layout = config?.layout ?? beautyElegantConfig.layout;
   const grid = config?.grid ?? beautyElegantConfig.grid;
   const sections = config?.sections ?? beautyElegantConfig.sections;
+  const heroBanner = config?.content?.heroBanner ?? beautyElegantConfig.content.heroBanner;
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
 
@@ -73,6 +74,7 @@ export function HomeShell({
         activeTab="home"
         cartItemCount={totalItems}
         currencySymbol={currencySymbol}
+        heroBanner={heroBanner}
         layout={layout}
         grid={grid}
         sections={[...sections]}

@@ -178,6 +178,7 @@ export function CartPage({
           total={total}
           currencySymbol={currencySymbol}
           onCheckout={onCheckout}
+          onContinueShopping={onGoHome}
         />
       )}
 

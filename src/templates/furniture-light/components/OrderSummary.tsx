@@ -8,6 +8,7 @@ interface OrderSummaryProps {
   total: number;
   currencySymbol?: string;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
 }
 
 function fmt(price: number, symbol: string): string {
@@ -20,6 +21,7 @@ export function OrderSummary({
   total,
   currencySymbol = "$",
   onCheckout,
+  onContinueShopping,
 }: OrderSummaryProps) {
   return (
     <div
@@ -80,6 +82,20 @@ export function OrderSummary({
         }}
       >
         Continuar al pago
+      </button>
+
+      <button
+        type="button"
+        onClick={onContinueShopping}
+        className="w-full py-2.5 mt-2 text-sm font-medium transition-opacity hover:opacity-80"
+        style={{
+          borderRadius: "var(--t-radius-button)",
+          backgroundColor: "transparent",
+          color: "rgba(255,255,255,0.7)",
+          border: "1px solid rgba(255,255,255,0.2)",
+        }}
+      >
+        Seguir comprando
       </button>
     </div>
   );

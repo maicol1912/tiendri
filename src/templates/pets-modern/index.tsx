@@ -36,6 +36,8 @@ export { SearchPage } from "./components/SearchPage";
 export { SearchShellRoute } from "./components/SearchShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
+export { ProductListingPage } from "./components/ProductListingPage";
+export { ListingShellRoute } from "./components/ListingShellRoute";
 export { CartProvider, useCart } from "./context/CartContext";
 export type {
   StoreInfo,

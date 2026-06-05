@@ -35,6 +35,7 @@ export function HomeShell({
   const layout = config?.layout ?? foodNightConfig.layout;
   const grid = config?.grid ?? foodNightConfig.grid;
   const sections = config?.sections ?? foodNightConfig.sections;
+  const heroBanner = config?.content?.heroBanner ?? foodNightConfig.content.heroBanner;
 
   const filteredProducts =
     activeCategoryId === null
@@ -64,6 +65,7 @@ export function HomeShell({
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
+      heroBanner={heroBanner}
       sections={sections}
       layout={layout}
       grid={grid}

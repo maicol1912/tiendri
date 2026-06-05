@@ -15,6 +15,7 @@ interface CartPageProps {
   activeTab: NavTab;
   onBack?: () => void;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
   onRemove?: (productId: string) => void;
@@ -28,6 +29,7 @@ export function CartPage({
   activeTab,
   onBack,
   onCheckout,
+  onContinueShopping,
   onIncrement,
   onDecrement,
   onRemove,
@@ -81,6 +83,7 @@ export function CartPage({
               totalPrice={totalPrice}
               currencySymbol={currencySymbol}
               onCheckout={onCheckout}
+              onContinueShopping={onContinueShopping}
             />
           </div>
         )}

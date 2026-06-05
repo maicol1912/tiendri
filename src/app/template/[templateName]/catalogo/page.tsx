@@ -16,8 +16,12 @@ import {
   mockCategories as fashionMockCategories,
 } from "@/templates/fashion/mock/data";
 import { ListingShellRoute as FashionListingShellRoute } from "@/templates/fashion/components/ListingShellRoute";
-import { mockCategories as petsModernMockCategories } from "@/templates/pets-modern/mock/data";
-import { ExploreShellRoute as PetsModernExploreShellRoute } from "@/templates/pets-modern/components/ExploreShellRoute";
+import {
+  mockStore as petsModernMockStore,
+  mockCategories as petsModernMockCategories,
+  mockProducts as petsModernMockProducts,
+} from "@/templates/pets-modern/mock/data";
+import { ListingShellRoute as PetsModernListingShellRoute } from "@/templates/pets-modern/components/ListingShellRoute";
 import { ListingShellRoute as ElectronicsClassicListingShellRoute } from "@/templates/electronics-classic/components/ListingShellRoute";
 import { ListingShellRoute as FurnitureDarkListingShellRoute } from "@/templates/furniture-dark/components/ListingShellRoute";
 import {
@@ -73,7 +77,13 @@ export default async function CatalogoPage({ params }: CatalogoPageProps) {
 
   // ── Pets Modern ──────────────────────────────────────────────────────────────────
   if (templateName === "pets-modern") {
-    return <PetsModernExploreShellRoute categories={petsModernMockCategories} />;
+    return (
+      <PetsModernListingShellRoute
+        store={petsModernMockStore}
+        categories={petsModernMockCategories}
+        products={petsModernMockProducts}
+      />
+    );
   }
 
   // ── Electronics Classic ───────────────────────────────────────────────────────

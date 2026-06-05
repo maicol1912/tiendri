@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { Header } from "./Header";
 import { SearchBar } from "./SearchBar";
 import { CategorySection } from "./CategorySection";
+import { HeroBanner } from "./HeroBanner";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -22,6 +23,12 @@ interface HomePageProps {
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
+  heroBanner?: {
+    title?: string;
+    subtitle?: string;
+    ctaText?: string;
+    imageUrl?: string;
+  };
   sections?: readonly HomeSectionConfig[];
   layout?: {
     cardStyle?: string;
@@ -53,6 +60,7 @@ export function HomePage({
   activeTab = "home",
   cartItemCount = 0,
   currencySymbol = "$",
+  heroBanner,
   sections,
   layout,
   grid,
@@ -70,6 +78,18 @@ export function HomePage({
   const productsDesktop = grid?.products?.desktop ?? 4;
 
   const sectionRenderers: Record<string, () => React.ReactNode> = {
+    hero: () => (
+      <section className="mb-5" aria-label="Banner principal" key="hero">
+        <HeroBanner
+          title={heroBanner?.title}
+          subtitle={heroBanner?.subtitle}
+          ctaText={heroBanner?.ctaText}
+          imageUrl={heroBanner?.imageUrl}
+          onCtaClick={onSearchClick}
+        />
+      </section>
+    ),
+
     categories: () =>
       categories.length > 0 ? (
         <section className="mb-5" aria-label="Categorías" key="categories">
@@ -116,6 +136,7 @@ export function HomePage({
   };
 
   const activeSections = sections ?? [
+    { id: "hero", visible: true },
     { id: "categories", visible: true },
     { id: "products", visible: true },
   ];

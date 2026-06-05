@@ -11,6 +11,7 @@ import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { Header } from "./Header";
+import { HeroBanner } from "./HeroBanner";
 import { gridColsClass } from "../utils/grid-classes";
 import type { BeautyElegantProduct, BeautyElegantCategory, NavTab } from "../types";
 import type { StoreInfo } from "../types";
@@ -23,6 +24,12 @@ interface HomePageProps {
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
+  heroBanner?: {
+    title?: string;
+    subtitle?: string;
+    ctaText?: string;
+    imageUrl?: string;
+  };
   layout?: {
     cardStyle?: string;
     cardHoverEffect?: string;
@@ -50,6 +57,7 @@ export function HomePage({
   activeTab = "home",
   cartItemCount = 0,
   currencySymbol = "$",
+  heroBanner,
   layout,
   grid,
   sections,
@@ -58,6 +66,7 @@ export function HomePage({
   onSearchOpen,
   onCartOpen,
   onTabChange,
+  onSeeAll,
 }: HomePageProps) {
   const productGrid = grid?.products ?? { mobile: 2, desktop: 4 };
   const gridClass = gridColsClass(productGrid.mobile, productGrid.desktop);
@@ -71,21 +80,16 @@ export function HomePage({
 
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     hero: () => (
-      /* Mobile-only brand welcome header */
-      <div className="md:hidden">
-        <h1
-          className="text-[28px] font-extrabold leading-tight m-0"
-          style={{ color: "var(--t-text-primary)" }}
-        >
-          {store.name}
-        </h1>
-        <p
-          className="text-sm mt-1"
-          style={{ color: "var(--t-text-muted)", margin: "4px 0 0 0" }}
-        >
-          Bienvenida, explora nuestros productos
-        </p>
-      </div>
+      <section aria-label="Banner principal">
+        <HeroBanner
+          title={heroBanner?.title}
+          subtitle={heroBanner?.subtitle}
+          ctaText={heroBanner?.ctaText}
+          imageUrl={heroBanner?.imageUrl}
+          storeName={store.name}
+          onCtaClick={onSeeAll}
+        />
+      </section>
     ),
 
     categories: () => (
@@ -165,7 +169,9 @@ export function HomePage({
       {/* Bottom Navigation — mobile only */}
       <BottomNav
         activeTab={activeTab}
+        cartItemCount={cartItemCount}
         onTabChange={onTabChange}
+        onCartClick={onCartOpen}
       />
     </div>
   );

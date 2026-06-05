@@ -10,12 +10,14 @@ export interface OrderSummaryProps {
   totalPrice: number;
   currencySymbol?: string;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
 }
 
 export function OrderSummary({
   totalPrice,
   currencySymbol = "$",
   onCheckout,
+  onContinueShopping,
 }: OrderSummaryProps) {
   return (
     <div className="mt-6 lg:mt-0 lg:w-[380px] lg:sticky lg:top-24">
@@ -48,6 +50,19 @@ export function OrderSummary({
           className="w-full mt-5 h-[56px] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-bold uppercase rounded-[var(--t-radius-button)] transition-colors hover:opacity-90 active:opacity-80"
         >
           Continuar al checkout
+        </button>
+
+        <button
+          type="button"
+          onClick={onContinueShopping}
+          className="w-full mt-2 h-[44px] text-sm font-medium rounded-[var(--t-radius-button)] transition-colors hover:opacity-80"
+          style={{
+            backgroundColor: "transparent",
+            color: "var(--t-text-secondary)",
+            border: "1px solid var(--t-border)",
+          }}
+        >
+          Seguir comprando
         </button>
       </div>
     </div>

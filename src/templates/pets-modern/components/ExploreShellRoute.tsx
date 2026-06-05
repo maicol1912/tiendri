@@ -40,7 +40,7 @@ export function ExploreShellRoute({ categories }: ExploreShellRouteProps) {
       activeFilter={activeFilter}
       activeTab="explore"
       onFilterChange={setActiveFilter}
-      onCategoryClick={() => {}}
+      onCategoryClick={(categoryId) => nav.goListing()}
       onSearchClick={nav.goSearch}
       onTabChange={handleTabChange}
       layout={config.layout}

@@ -6,12 +6,14 @@ interface OrderSummaryProps {
   totalPrice: number;
   currencySymbol?: string;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
 }
 
 export function OrderSummary({
   totalPrice,
   currencySymbol = "$",
   onCheckout,
+  onContinueShopping,
 }: OrderSummaryProps) {
   const formattedTotal = `${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}`;
 
@@ -94,6 +96,26 @@ export function OrderSummary({
           onClick={onCheckout}
         >
           Finalizar compra
+        </button>
+
+        {/* Seguir comprando — text link */}
+        <button
+          type="button"
+          className="w-full flex items-center justify-center border-0 cursor-pointer"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "14px",
+            fontWeight: 500,
+            color: "var(--t-text-secondary)",
+            backgroundColor: "transparent",
+            height: "36px",
+            lineHeight: "22px",
+            letterSpacing: "-0.408px",
+            marginTop: "4px",
+          }}
+          onClick={onContinueShopping}
+        >
+          Seguir comprando
         </button>
       </div>
     </div>

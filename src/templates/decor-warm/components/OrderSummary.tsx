@@ -11,6 +11,7 @@ interface OrderSummaryProps {
   total: number;
   currencySymbol?: string;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
 }
 
 export function OrderSummary({
@@ -18,6 +19,7 @@ export function OrderSummary({
   total,
   currencySymbol = "$",
   onCheckout,
+  onContinueShopping,
 }: OrderSummaryProps) {
   return (
     <div
@@ -99,7 +101,7 @@ export function OrderSummary({
       </div>
 
       {/* Check Out — 207×45px peach pill */}
-      <div className="max-w-3xl mx-auto w-full flex justify-center mt-1">
+      <div className="max-w-3xl mx-auto w-full flex flex-col items-center gap-2 mt-1">
         <button
           type="button"
           style={{
@@ -117,6 +119,24 @@ export function OrderSummary({
           onClick={onCheckout}
         >
           Hacer pedido
+        </button>
+
+        {/* Seguir comprando — text link */}
+        <button
+          type="button"
+          style={{
+            backgroundColor: "transparent",
+            color: "var(--t-text-secondary)",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "13px",
+            fontWeight: 500,
+            border: "none",
+            cursor: "pointer",
+            padding: "4px 0",
+          }}
+          onClick={onContinueShopping}
+        >
+          Seguir comprando
         </button>
       </div>
     </div>

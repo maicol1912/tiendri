@@ -126,6 +126,7 @@ export const foodNightConfig = {
   ],
 
   sections: [
+    { id: "hero" as const, visible: true },
     { id: "categories" as const, visible: true },
     { id: "products" as const, visible: true },
   ],

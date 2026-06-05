@@ -9,6 +9,7 @@ import { HeroBanner } from "./HeroBanner";
 import { TrendingCard } from "./TrendingCard";
 import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
+import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
 import type {
@@ -36,6 +37,7 @@ interface HomePageProps {
     cardHoverEffect?: string;
     cardImageRatio?: string;
     headerStyle?: string;
+    footerStyle?: string;
   };
   grid?: {
     products?: { mobile: number; desktop: number };
@@ -172,7 +174,7 @@ export function HomePage({
   };
 
   return (
-    <div className="min-h-screen bg-[var(--t-background)] pb-24 lg:pb-8">
+    <div className="min-h-screen bg-[var(--t-background)]">
       {/* Header */}
       <Header
         storeName={store.name}
@@ -192,6 +194,9 @@ export function HomePage({
             <Fragment key={s.id}>{sectionRenderers[s.id]?.()}</Fragment>
           ))}
       </main>
+
+      {/* Footer */}
+      <Footer store={store} layout={layout} />
 
       {/* Bottom Nav — mobile only */}
       <BottomNav activeTab={activeTab} onTabChange={onTabChange} />

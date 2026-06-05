@@ -19,9 +19,10 @@ interface CartSummaryProps {
   subtotal: number;
   discount?: number;
   onCheckout: () => void;
+  onContinueShopping?: () => void;
 }
 
-export function CartSummary({ subtotal, discount = 0, onCheckout }: CartSummaryProps) {
+export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShopping }: CartSummaryProps) {
   const [voucher, setVoucher] = useState("");
   const total = subtotal - discount;
 
@@ -148,6 +149,24 @@ export function CartSummary({ subtotal, discount = 0, onCheckout }: CartSummaryP
         onClick={onCheckout}
       >
         IR AL CHECKOUT
+      </button>
+
+      {/* Seguir comprando */}
+      <button
+        type="button"
+        className="w-full py-2.5 rounded-[var(--t-radius-button)] transition-opacity hover:opacity-80"
+        style={{
+          backgroundColor: "transparent",
+          color: "var(--t-text-secondary)",
+          fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
+          fontSize: "13px",
+          fontWeight: 500,
+          border: "1px solid var(--t-border-mid)",
+          letterSpacing: "-0.26px",
+        }}
+        onClick={onContinueShopping}
+      >
+        Seguir comprando
       </button>
     </div>
   );
