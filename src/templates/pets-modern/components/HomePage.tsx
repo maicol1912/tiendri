@@ -5,9 +5,9 @@
 
 import { Fragment } from "react";
 import { Header } from "./Header";
-import { PromoBanner } from "./PromoBanner";
+import { HeroBanner } from "./HeroBanner";
 import { TrendingCard } from "./TrendingCard";
-import { PetTypeCard } from "./PetTypeCard";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
@@ -85,7 +85,7 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     "promo-banner": () => (
       <section className="mt-4 md:mt-6" key="promo-banner">
-        <PromoBanner banner={promoBanner} />
+        <HeroBanner banner={promoBanner} />
       </section>
     ),
     trending: () => (
@@ -131,14 +131,14 @@ export function HomePage({
         {/* Mobile: horizontal scroll */}
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide lg:hidden -mx-4 px-4">
           {petTypes.map((pt) => (
-            <PetTypeCard key={pt.id} petType={pt} onClick={onExploreClick} />
+            <CategorySection key={pt.id} petType={pt} onClick={onExploreClick} />
           ))}
         </div>
 
         {/* Desktop: grid */}
         <div className={`hidden lg:grid ${gridColsClass(petTypesGrid.mobile, petTypesGrid.desktop)} gap-6`}>
           {petTypes.map((pt) => (
-            <PetTypeCard key={pt.id} petType={pt} onClick={onExploreClick} />
+            <CategorySection key={pt.id} petType={pt} onClick={onExploreClick} />
           ))}
         </div>
       </section>

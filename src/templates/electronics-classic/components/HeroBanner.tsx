@@ -6,17 +6,17 @@ import Image from "next/image";
 import type { HeroBanner } from "../types";
 import { bannerHeightClass } from "../utils/layout-classes";
 
-interface HeroSectionProps {
+interface HeroBannerProps {
   banner: HeroBanner;
   layout?: { bannerHeight?: string };
   onCtaClick?: () => void;
 }
 
-export function HeroSection({
+export function HeroBanner({
   banner,
   layout,
   onCtaClick,
-}: HeroSectionProps) {
+}: HeroBannerProps) {
   const heightClass = bannerHeightClass(layout?.bannerHeight ?? "normal");
 
   return (

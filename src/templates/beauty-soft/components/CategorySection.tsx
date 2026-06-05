@@ -7,19 +7,19 @@
 import { useRef, useEffect } from "react";
 import type { BeautySoftCategory } from "../types";
 
-interface CategoryCardProps {
+interface CategorySectionProps {
   categories: BeautySoftCategory[];
   activeCategoryId?: string | null;
   onCategoryChange?: (id: string | null) => void;
   onSeeAll?: () => void;
 }
 
-export function CategoryCard({
+export function CategorySection({
   categories,
   activeCategoryId = null,
   onCategoryChange,
   onSeeAll,
-}: CategoryCardProps) {
+}: CategorySectionProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Wheel-to-horizontal-scroll per tiendri-rules.md section 6.1

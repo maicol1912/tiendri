@@ -1,13 +1,13 @@
 "use client";
 
-// Pets Classic — Promo Banner
+// Pets Classic — Hero Banner
 // Mobile: single slide + dots. Desktop: 2 slides side by side.
 // Card layout: left 50% text, right 50% large image.
 
 import Image from "next/image";
 import type { PromoSlide } from "../types";
 
-interface PromoBannerProps {
+interface HeroBannerProps {
   slides: PromoSlide[];
   activeIndex: number;
   onDotClick?: (index: number) => void;
@@ -82,7 +82,7 @@ function Slide({ slide }: { slide: PromoSlide }) {
   );
 }
 
-export function PromoBanner({ slides, activeIndex, onDotClick }: PromoBannerProps) {
+export function HeroBanner({ slides, activeIndex, onDotClick }: HeroBannerProps) {
   if (!slides.length) return null;
 
   return (

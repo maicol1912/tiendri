@@ -5,13 +5,13 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { CategoryTabs } from "./CategoryTabs";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
 import type { FurnitureProduct, FurnitureCategory, FurnitureStoreInfo, FurnitureNavTab } from "../types";
 
-interface ListingPageProps {
+interface ProductListingPageProps {
   store: FurnitureStoreInfo;
   navLinks?: readonly { label: string; href: string }[];
   products: FurnitureProduct[];
@@ -31,7 +31,7 @@ interface ListingPageProps {
   onTabChange?: (tab: FurnitureNavTab) => void;
 }
 
-export function ListingPage({
+export function ProductListingPage({
   store,
   navLinks = [],
   products,
@@ -49,7 +49,7 @@ export function ListingPage({
   onWishlistToggle,
   onAddToCart,
   onTabChange,
-}: ListingPageProps) {
+}: ProductListingPageProps) {
   const gridCols = grid?.listing ?? { mobile: 2, desktop: 3 };
 
   return (
@@ -76,7 +76,7 @@ export function ListingPage({
         {/* Category tabs */}
         {categories.length > 0 && (
           <div className="py-3 border-b border-[var(--t-border)]">
-            <CategoryTabs
+            <CategorySection
               categories={categories}
               activeCategoryId={activeCategoryId}
               onCategoryChange={onCategoryChange}

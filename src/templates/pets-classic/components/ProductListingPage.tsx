@@ -7,7 +7,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
-import { CategoryRow } from "./CategoryCard";
+import { CategoryRow } from "./CategorySection";
 import { gridColsClass } from "../utils/grid-classes";
 import { petsClassicConfig } from "../config";
 import type { PetsClassicConfig } from "../config";

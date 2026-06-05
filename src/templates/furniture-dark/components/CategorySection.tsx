@@ -6,13 +6,13 @@
 import Image from "next/image";
 import type { StorefrontCategory } from "../types";
 
-interface CategoryPillProps {
+interface CategorySectionProps {
   category: StorefrontCategory;
   isActive?: boolean;
   onClick?: (categoryId: string) => void;
 }
 
-export function CategoryPill({ category, isActive = false, onClick }: CategoryPillProps) {
+export function CategorySection({ category, isActive = false, onClick }: CategorySectionProps) {
   return (
     <button
       type="button"

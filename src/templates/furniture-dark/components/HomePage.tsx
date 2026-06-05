@@ -15,8 +15,8 @@ import type { FurnitureDarkConfig } from "../config";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { PromoCarousel } from "./PromoCarousel";
-import { CategoryPill } from "./CategoryPill";
+import { HeroBanner } from "./HeroBanner";
+import { CategorySection } from "./CategorySection";
 import { VideoSection } from "./VideoSection";
 import { ProductSection } from "./ProductSection";
 
@@ -82,7 +82,7 @@ export function HomePage({
   const sectionRenderers: Record<string, () => ReactNode> = {
     "promo-carousel": () =>
       promoCards.length > 0 ? (
-        <PromoCarousel key="promo-carousel" cards={promoCards} onCardClick={onPromoCardClick} />
+        <HeroBanner key="promo-carousel" cards={promoCards} onCardClick={onPromoCardClick} />
       ) : null,
 
     categories: () =>
@@ -90,7 +90,7 @@ export function HomePage({
         <div key="categories" className="px-5">
           <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none" style={{ scrollbarWidth: "none" }}>
             {categories.map((cat) => (
-              <CategoryPill
+              <CategorySection
                 key={cat.id}
                 category={cat}
                 isActive={activeCategoryId === cat.id}

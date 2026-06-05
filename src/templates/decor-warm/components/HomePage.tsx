@@ -1,7 +1,7 @@
 "use client";
 
 // Decor Warm Template — Home Page Layout
-// Sections: hero (PromoBanner), categories (CategoryIconCard row),
+// Sections: hero (HeroBanner), categories (CategorySection row),
 //           best-seller (BestSellerCard), products (ProductCard grid).
 // Dynamic section ordering via sectionRenderers pattern.
 // ZERO hardcoded colors.
@@ -10,8 +10,8 @@ import React, { Fragment, useRef, useEffect } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { PromoBanner } from "./PromoBanner";
-import { CategoryIconCard } from "./CategoryIconCard";
+import { HeroBanner } from "./HeroBanner";
+import { CategorySection } from "./CategorySection";
 
 import { BestSellerCard } from "./BestSellerCard";
 import { ProductCard } from "./ProductCard";
@@ -119,7 +119,7 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     // ── Hero promo banner ──────────────────────────────────────────────────────
     hero: () => (
-      <PromoBanner
+      <HeroBanner
         slides={promoSlides}
         activeSlide={activePromoSlide}
         onSlideChange={onPromoSlideChange}
@@ -137,7 +137,7 @@ export function HomePage({
         >
           <div className="flex items-start gap-3 pb-2 min-w-max">
             {categoryIcons.map((icon) => (
-              <CategoryIconCard
+              <CategorySection
                 key={icon.id}
                 category={icon}
                 isActive={activeIconId === icon.id}

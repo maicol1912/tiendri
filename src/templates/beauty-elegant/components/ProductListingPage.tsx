@@ -6,7 +6,7 @@
 import { useState, useCallback } from "react";
 import { ChevronLeft } from "lucide-react";
 import { ProductCard } from "./ProductCard";
-import { CategoryNav } from "./CategoryNav";
+import { CategorySection } from "./CategorySection";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
@@ -91,7 +91,7 @@ export function ProductListingPage({
           borderBottom: "1px solid var(--t-nav-border)",
         }}
       >
-        <CategoryNav
+        <CategorySection
           categories={categories}
           activeCategoryId={activeCategoryId}
           onCategoryChange={handleCategoryChange}

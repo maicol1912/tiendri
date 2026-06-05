@@ -7,8 +7,8 @@ import { Fragment } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { PromoBanner } from "./PromoBanner";
-import { CategoryRow } from "./CategoryCard";
+import { HeroBanner } from "./HeroBanner";
+import { CategoryRow } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import { petsClassicConfig } from "../config";
@@ -94,7 +94,7 @@ export function HomePage({
     if (!promoSlides.length) return null;
     return (
       <section className="px-4 md:px-6 lg:px-8 pt-4 pb-2 max-w-6xl mx-auto w-full">
-        <PromoBanner
+        <HeroBanner
           slides={promoSlides}
           activeIndex={activePromoIndex}
           onDotClick={onPromoDotClick}

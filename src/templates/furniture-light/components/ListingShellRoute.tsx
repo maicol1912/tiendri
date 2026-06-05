@@ -4,7 +4,7 @@
 // Rendered at /template/furniture-light/catalogo
 
 import { useState, useCallback } from "react";
-import { ListingPage } from "./ListingPage";
+import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
@@ -76,7 +76,7 @@ export function ListingShellRoute({
   );
 
   return (
-    <ListingPage
+    <ProductListingPage
       store={store}
       navLinks={config.navLinks}
       products={enrichedProducts}

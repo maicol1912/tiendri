@@ -6,7 +6,7 @@
 
 import React, { Fragment } from "react";
 import { SearchBar } from "./SearchBar";
-import { CategoryNav } from "./CategoryNav";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -91,7 +91,7 @@ export function HomePage({
     categories: () => (
       <section aria-labelledby="categories-heading">
         <h2 id="categories-heading" className="sr-only">Categorías</h2>
-        <CategoryNav
+        <CategorySection
           categories={categories}
           activeCategoryId={activeCategoryId}
           onCategoryChange={onCategoryChange}

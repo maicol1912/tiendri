@@ -6,7 +6,7 @@
 
 import { Fragment } from "react";
 import { Header } from "./Header";
-import { HeroSection } from "./HeroSection";
+import { HeroBanner } from "./HeroBanner";
 import { CollectionSection } from "./CollectionSection";
 import { EditorialSection } from "./EditorialSection";
 import { Footer } from "./Footer";
@@ -59,7 +59,7 @@ export function HomePage({
 
   function renderHero() {
     return (
-      <HeroSection
+      <HeroBanner
         products={products.slice(0, 4)}
         currencySymbol={currencySymbol}
         onShopClick={onShopClick}

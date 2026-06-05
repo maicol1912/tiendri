@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { useCart } from "../context/CartContext";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
-import { ListingPage } from "./ListingPage";
+import { ProductListingPage } from "./ProductListingPage";
 import type { ElectronicsClassicConfig } from "../config";
 import { mockProducts, mockCategories, mockStore } from "../mock/data";
 import type { SortOption } from "../types";
@@ -35,7 +35,7 @@ export function ListingShellRoute({ initialCategory }: ListingShellRouteProps) {
   const grid = config.grid as Record<string, { mobile: number; desktop: number }> | undefined;
 
   return (
-    <ListingPage
+    <ProductListingPage
       store={mockStore}
       categories={mockCategories}
       products={mockProducts}

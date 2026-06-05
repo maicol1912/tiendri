@@ -1,4 +1,4 @@
-// Fashion Template — Hero Section
+// Fashion Template — Hero Banner
 // Category links stacked, search bar, "NUEVA COLECCIÓN" headline, product carousel.
 // "Ir a la tienda" CTA button with arrow.
 // Visual only — no local state; handlers come as props.
@@ -10,7 +10,7 @@ import { gridColsClass } from "../utils/grid-classes";
 import { imageRatioClass } from "../utils/layout-classes";
 import type { StorefrontProduct } from "../types";
 
-interface HeroSectionProps {
+interface HeroBannerProps {
   products: StorefrontProduct[];
   navCategories?: string[];
   currencySymbol?: string;
@@ -26,7 +26,7 @@ interface HeroSectionProps {
   };
 }
 
-export function HeroSection({
+export function HeroBanner({
   products,
   navCategories = ["HOMBRES", "MUJERES", "NIÑOS"],
   currencySymbol = "$",
@@ -36,7 +36,7 @@ export function HeroSection({
   onSearchFocus,
   grid,
   layout,
-}: HeroSectionProps) {
+}: HeroBannerProps) {
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "portrait");
   const desktopGrid = gridColsClass(grid?.mobile ?? 2, grid?.desktop ?? 4);
   const enableImageHover = (layout?.cardHoverEffect ?? "scale") !== "none";

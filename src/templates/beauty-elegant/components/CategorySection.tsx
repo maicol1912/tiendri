@@ -1,21 +1,21 @@
 "use client";
 
-// Beauty Elegant Template — Category Navigation
+// Beauty Elegant Template — Category Section
 // Horizontal scrollable tabs. Active = primary color with underline indicator.
 
 import type { BeautyElegantCategory } from "../types";
 
-interface CategoryNavProps {
+interface CategorySectionProps {
   categories: BeautyElegantCategory[];
   activeCategoryId?: string | null;
   onCategoryChange?: (id: string | null) => void;
 }
 
-export function CategoryNav({
+export function CategorySection({
   categories,
   activeCategoryId = null,
   onCategoryChange,
-}: CategoryNavProps) {
+}: CategorySectionProps) {
   const allItems: Array<{ id: string | null; name: string }> = [
     { id: null, name: "Todos" },
     ...categories.map((c) => ({ id: c.id, name: c.name })),

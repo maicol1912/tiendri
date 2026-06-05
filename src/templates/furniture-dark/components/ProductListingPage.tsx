@@ -7,12 +7,12 @@ import { ChevronLeft, SlidersHorizontal } from "lucide-react";
 import type { StorefrontStore, StorefrontProduct, StorefrontCategory, CategoryBannerData } from "../types";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
-import { CategoryPill } from "./CategoryPill";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import { bannerHeightClass } from "../utils/layout-classes";
 
-interface ListingPageProps {
+interface ProductListingPageProps {
   store: StorefrontStore;
   products: StorefrontProduct[];
   categories: StorefrontCategory[];
@@ -35,7 +35,7 @@ interface ListingPageProps {
   onBottomNavTab: (tab: "home" | "cart" | "wishlist" | "account") => void;
 }
 
-export function ListingPage({
+export function ProductListingPage({
   store,
   products,
   categories,
@@ -56,7 +56,7 @@ export function ListingPage({
   onCartClick,
   onWishlistToggle,
   onBottomNavTab,
-}: ListingPageProps) {
+}: ProductListingPageProps) {
   return (
     <div
       className="min-h-screen pb-28 lg:pb-12"
@@ -121,7 +121,7 @@ export function ListingPage({
             style={{ scrollbarWidth: "none" }}
           >
             {categories.map((cat) => (
-              <CategoryPill
+              <CategorySection
                 key={cat.id}
                 category={cat}
                 isActive={activeCategoryId === cat.id}

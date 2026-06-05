@@ -4,7 +4,7 @@
 // Full catalog with category filter pills + masonry stagger grid
 
 import { Header } from "./Header";
-import { CategoryPills } from "./CategoryPills";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -80,7 +80,7 @@ export function ProductListingPage({
         {/* Category filter */}
         {categories.length > 0 && (
           <section className="mb-5" aria-label="Filtrar por categoría">
-            <CategoryPills
+            <CategorySection
               categories={categories}
               activeCategoryId={activeCategoryId}
               onCategoryChange={onCategoryChange}

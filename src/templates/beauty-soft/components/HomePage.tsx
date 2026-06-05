@@ -7,7 +7,7 @@ import React, { Fragment } from "react";
 import { Header } from "./Header";
 import { HeroBanner } from "./HeroBanner";
 import { SearchBar } from "./SearchBar";
-import { CategoryCard } from "./CategoryCard";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -77,7 +77,7 @@ export function HomePage({
     ),
 
     categories: () => (
-      <CategoryCard
+      <CategorySection
         categories={categories}
         activeCategoryId={activeCategoryId}
         onCategoryChange={onCategoryChange}

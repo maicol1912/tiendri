@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
-import { ListingPage } from "./ListingPage";
+import { ProductListingPage } from "./ProductListingPage";
 import { mockStore, mockCategories, mockProducts, mockCategoryBanner } from "../mock/data";
 
 export function ListingShellRoute() {
@@ -44,7 +44,7 @@ export function ListingShellRoute() {
   }
 
   return (
-    <ListingPage
+    <ProductListingPage
       store={mockStore}
       products={filteredProducts}
       categories={mockCategories}

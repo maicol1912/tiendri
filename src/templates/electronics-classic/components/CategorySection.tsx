@@ -1,11 +1,11 @@
-// Electronics Classic — Category Card
+// Electronics Classic — Category Section
 // Image bg with gradient overlay + label at bottom.
 // All colors via var(--t-*) — ZERO hardcoded hex.
 
 import Image from "next/image";
 import type { StorefrontCategory } from "../types";
 
-interface CategoryCardProps {
+interface CategorySectionProps {
   category: StorefrontCategory;
   layout?: {
     cardStyle?: string;
@@ -14,10 +14,10 @@ interface CategoryCardProps {
   onCategoryClick?: (categoryId: string) => void;
 }
 
-export function CategoryCard({
+export function CategorySection({
   category,
   onCategoryClick,
-}: CategoryCardProps) {
+}: CategorySectionProps) {
   return (
     <article
       className="group relative overflow-hidden rounded-[var(--t-radius-card)] cursor-pointer hover:shadow-lg transition-all duration-200"

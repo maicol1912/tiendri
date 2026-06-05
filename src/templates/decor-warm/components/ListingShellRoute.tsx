@@ -4,7 +4,7 @@
 // Client boundary. Wires category filtering, navigation, cart, wishlist.
 
 import { useState, useCallback } from "react";
-import { ListingPage } from "./ListingPage";
+import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "../context/CartContext";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
@@ -77,7 +77,7 @@ export function ListingShellRoute({
       : products.filter((p) => p.categoryId === activeCategoryId);
 
   return (
-    <ListingPage
+    <ProductListingPage
       categories={categories}
       products={visibleProducts}
       activeCategoryId={activeCategoryId}

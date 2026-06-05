@@ -6,17 +6,17 @@
 import { useRef, useEffect } from "react";
 import type { Category } from "../types";
 
-interface CategoryPillsProps {
+interface CategorySectionProps {
   categories: Category[];
   activeCategoryId: string | null;
   onCategoryChange?: (id: string | null) => void;
 }
 
-export function CategoryPills({
+export function CategorySection({
   categories,
   activeCategoryId,
   onCategoryChange,
-}: CategoryPillsProps) {
+}: CategorySectionProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Wheel → horizontal scroll (tiendri-rules.md §6.1)

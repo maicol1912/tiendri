@@ -7,7 +7,7 @@ import { SlidersHorizontal, X, Search, ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { CategoryTabs } from "./CategoryTabs";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
@@ -144,7 +144,7 @@ export function SearchPage({
         {/* Category pills */}
         {categories.length > 0 && (
           <div className="py-3 border-b border-[var(--t-border)]">
-            <CategoryTabs
+            <CategorySection
               categories={categories}
               activeCategoryId={activeCategoryId}
               onCategoryChange={onCategoryChange}

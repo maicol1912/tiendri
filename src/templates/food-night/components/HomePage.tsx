@@ -7,7 +7,7 @@
 import { Fragment } from "react";
 import { Header } from "./Header";
 import { SearchBar } from "./SearchBar";
-import { CategoryPills } from "./CategoryPills";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -73,7 +73,7 @@ export function HomePage({
     categories: () =>
       categories.length > 0 ? (
         <section className="mb-5" aria-label="Categorías" key="categories">
-          <CategoryPills
+          <CategorySection
             categories={categories}
             activeCategoryId={activeCategoryId}
             onCategoryChange={onCategoryChange}

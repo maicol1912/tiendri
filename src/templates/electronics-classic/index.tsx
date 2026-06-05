@@ -13,7 +13,7 @@ export { HomeShell } from "./components/HomeShell";
 export { HomePage } from "./components/HomePage";
 export { ProductDetailPage } from "./components/ProductDetailPage";
 export { ProductDetailShellRoute } from "./components/ProductDetailShellRoute";
-export { ListingPage } from "./components/ListingPage";
+export { ProductListingPage } from "./components/ProductListingPage";
 export { ListingShellRoute } from "./components/ListingShellRoute";
 export { CartPage } from "./components/CartPage";
 export { CartShellRoute } from "./components/CartShellRoute";

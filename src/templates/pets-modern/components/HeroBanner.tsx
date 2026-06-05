@@ -1,15 +1,15 @@
-// Pet V3 Template — Promo Banner
+// Pet V3 Template — Hero Banner
 // Green gradient rounded card with product image left, title + discount right.
 // ZERO hardcoded colors — gradient via CSS variables.
 
 import Image from "next/image";
 import type { PromoBannerData } from "../types";
 
-interface PromoBannerProps {
+interface HeroBannerProps {
   banner: PromoBannerData;
 }
 
-export function PromoBanner({ banner }: PromoBannerProps) {
+export function HeroBanner({ banner }: HeroBannerProps) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-[var(--t-radius-card)]"

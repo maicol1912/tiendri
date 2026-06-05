@@ -9,7 +9,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { HeroBanner } from "./HeroBanner";
 import { WalletBar } from "./WalletBar";
-import { CategoryTabs } from "./CategoryTabs";
+import { CategorySection } from "./CategorySection";
 import { RoomStylesSection } from "./RoomStylesSection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
@@ -113,7 +113,7 @@ export function HomePage({
   function renderCategories() {
     return (
       <div className="mb-4">
-        <CategoryTabs
+        <CategorySection
           categories={categories}
           activeCategoryId={activeCategoryId}
           onCategoryChange={onCategoryChange}

@@ -1,6 +1,6 @@
 "use client";
 
-// Decor Warm Template — Category Icon Card
+// Decor Warm Template — Category Section
 // 66px linen rounded square with Lucide icon.
 // Active: peach background, white icon.
 
@@ -39,17 +39,17 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Bath,
 };
 
-interface CategoryIconCardProps {
+interface CategorySectionProps {
   category: DecorWarmCategoryIcon;
   isActive?: boolean;
   onClick?: () => void;
 }
 
-export function CategoryIconCard({
+export function CategorySection({
   category,
   isActive = false,
   onClick,
-}: CategoryIconCardProps) {
+}: CategorySectionProps) {
   const IconComponent: LucideIcon = ICON_MAP[category.icon] ?? LayoutGrid;
 
   return (

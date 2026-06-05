@@ -1,4 +1,4 @@
-// Electronics Classic — Listing Page (Presentational)
+// Electronics Classic — Product Listing Page (Presentational)
 // Sidebar + product grid + pagination + filter drawer (mobile).
 // All colors via var(--t-*). ZERO hardcoded hex.
 
@@ -15,7 +15,7 @@ import { gridColsClass } from "../utils/grid-classes";
 
 const ITEMS_PER_PAGE = 12;
 
-interface ListingPageProps {
+interface ProductListingPageProps {
   store: StorefrontStore;
   categories: StorefrontCategory[];
   products: StorefrontProduct[];
@@ -46,7 +46,7 @@ interface ListingPageProps {
   onProductClick?: (productId: string) => void;
 }
 
-export function ListingPage({
+export function ProductListingPage({
   store,
   categories,
   products,
@@ -69,7 +69,7 @@ export function ListingPage({
   onOpenFilterDrawer,
   onCloseFilterDrawer,
   onProductClick,
-}: ListingPageProps) {
+}: ProductListingPageProps) {
   // Filter + sort
   const filtered = products
     .filter((p) =>

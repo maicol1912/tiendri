@@ -23,7 +23,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { HeroBanner } from "./HeroBanner";
 import { BannerGrid } from "./BannerGrid";
-import { CategoryCard } from "./CategoryCard";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { PopularProductCard } from "./PopularProductCard";
 import { gridColsClass } from "../utils/grid-classes";
@@ -174,7 +174,7 @@ export function HomePage({
         {/* Category cards — mobile: 3x2 grid, desktop: single row */}
         <div className={`grid ${gridColsClass(grid.categories.mobile, grid.categories.desktop)} gap-4 lg:gap-8`}>
           {categories.map((cat) => (
-            <CategoryCard
+            <CategorySection
               key={cat.id}
               category={cat}
               isActive={activeCategoryId === cat.id}

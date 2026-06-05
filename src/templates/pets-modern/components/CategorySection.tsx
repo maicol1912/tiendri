@@ -1,4 +1,4 @@
-// Pet V3 Template — Pet Type Card
+// Pet V3 Template — Category Section
 // Rounded card with soft colored bg, pet image + label.
 // bgColor is per-item data, not a theme token (intentional inline style).
 // ZERO hardcoded colors for theme elements — all via CSS variables.
@@ -6,12 +6,12 @@
 import Image from "next/image";
 import type { PetType } from "../types";
 
-interface PetTypeCardProps {
+interface CategorySectionProps {
   petType: PetType;
   onClick?: () => void;
 }
 
-export function PetTypeCard({ petType, onClick }: PetTypeCardProps) {
+export function CategorySection({ petType, onClick }: CategorySectionProps) {
   return (
     <button
       onClick={onClick}

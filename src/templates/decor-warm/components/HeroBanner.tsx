@@ -1,23 +1,23 @@
 "use client";
 
-// Decor Warm Template — Hero Promotional Banner
+// Decor Warm Template — Hero Banner
 // Full-width lifestyle image. Mobile: carousel with dot indicators.
 // Desktop: 2 banners side by side.
 
 import Image from "next/image";
 import type { DecorWarmPromoSlide } from "../types";
 
-interface PromoBannerProps {
+interface HeroBannerProps {
   slides: DecorWarmPromoSlide[];
   activeSlide?: number;
   onSlideChange?: (index: number) => void;
 }
 
-export function PromoBanner({
+export function HeroBanner({
   slides,
   activeSlide = 0,
   onSlideChange,
-}: PromoBannerProps) {
+}: HeroBannerProps) {
   if (!slides.length) return null;
 
   return (

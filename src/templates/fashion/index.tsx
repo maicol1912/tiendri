@@ -24,7 +24,7 @@ export { Footer } from "./components/Footer";
 export { BottomNav } from "./components/BottomNav";
 export { SearchBar } from "./components/SearchBar";
 export { ProductCard } from "./components/ProductCard";
-export { HeroSection } from "./components/HeroSection";
+export { HeroBanner } from "./components/HeroBanner";
 export { EditorialSection } from "./components/EditorialSection";
 export { CollectionSection } from "./components/CollectionSection";
 export { ColorSwatch } from "./components/ColorSwatch";

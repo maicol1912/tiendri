@@ -16,8 +16,8 @@ import type {
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { HeroSection } from "./HeroSection";
-import { CategoryCard } from "./CategoryCard";
+import { HeroBanner as HeroBannerComponent } from "./HeroBanner";
+import { CategorySection } from "./CategorySection";
 import { ProductSection as ProductSectionComponent } from "./ProductSection";
 import { FeatureCards } from "./FeatureCards";
 import { PromoBanner as PromoBannerComponent } from "./PromoBanner";
@@ -100,7 +100,7 @@ export function HomePage({
   // Section renderers (Rule 17)
   const sectionRenderers: SectionRendererMap = {
     hero: () => (
-      <HeroSection
+      <HeroBannerComponent
         key="hero"
         banner={heroBanner}
         layout={layout}
@@ -124,7 +124,7 @@ export function HomePage({
             )}`}
           >
             {categories.map((cat) => (
-              <CategoryCard
+              <CategorySection
                 key={cat.id}
                 category={cat}
                 layout={layout}

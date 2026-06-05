@@ -9,7 +9,7 @@
 import { Armchair, Table, Archive, Sofa, BedDouble, UtensilsCrossed, Bath, Monitor } from "lucide-react";
 import type { FurnitureCategory } from "../types";
 
-interface CategoryTabsProps {
+interface CategorySectionProps {
   categories: FurnitureCategory[];
   activeCategoryId: string | null;
   onCategoryChange?: (id: string | null) => void;
@@ -35,7 +35,7 @@ function getCategoryIcon(name: string, icon?: string): React.ReactNode {
   return <Armchair size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />;
 }
 
-export function CategoryTabs({ categories, activeCategoryId, onCategoryChange }: CategoryTabsProps) {
+export function CategorySection({ categories, activeCategoryId, onCategoryChange }: CategorySectionProps) {
   return (
     <section
       aria-label="Categorías"

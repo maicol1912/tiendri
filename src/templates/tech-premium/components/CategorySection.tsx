@@ -1,4 +1,4 @@
-// Tech Premium Template — Category Card
+// Tech Premium Template — Category Section
 // Figma: #EDEDED bg, rounded-[15px], 160x128 desktop, 100x100 mobile, icon 48px + label below.
 // Categories: Phones, Smart Watches, Cameras, Headphones, Computers, Gaming.
 // Visual only — handler comes as prop.
@@ -31,17 +31,17 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Gaming: Gamepad2,
 };
 
-interface CategoryCardProps {
+interface CategorySectionProps {
   category: Category;
   isActive?: boolean;
   onClick?: () => void;
 }
 
-export function CategoryCard({
+export function CategorySection({
   category,
   isActive = false,
   onClick,
-}: CategoryCardProps) {
+}: CategorySectionProps) {
   const Icon = ICON_MAP[category.icon] ?? ICON_MAP[category.name] ?? Smartphone;
 
   return (

@@ -10,12 +10,12 @@ import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import type { PromoCard } from "../types";
 
-interface PromoCarouselProps {
+interface HeroBannerProps {
   cards: PromoCard[];
   onCardClick?: (card: PromoCard) => void;
 }
 
-export function PromoCarousel({ cards, onCardClick }: PromoCarouselProps) {
+export function HeroBanner({ cards, onCardClick }: HeroBannerProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   function handleWheel(e: React.WheelEvent<HTMLDivElement>) {

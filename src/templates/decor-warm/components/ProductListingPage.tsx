@@ -1,4 +1,4 @@
-// Decor Warm Template — Category Listing Page (Presentational)
+// Decor Warm Template — Product Listing Page (Presentational)
 // Header with back + title + search icon.
 // Category tab bar filter.
 // Product grid.
@@ -12,7 +12,7 @@ import { gridColsClass } from "../utils/grid-classes";
 import type { DecorWarmProduct, DecorWarmCategory, DecorWarmNavTab } from "../types";
 import type { DecorWarmConfig } from "../config";
 
-interface ListingPageProps {
+interface ProductListingPageProps {
   categories: DecorWarmCategory[];
   products: DecorWarmProduct[];
   activeCategoryId?: string | null;
@@ -31,7 +31,7 @@ interface ListingPageProps {
   onTabChange?: (tab: DecorWarmNavTab) => void;
 }
 
-export function ListingPage({
+export function ProductListingPage({
   categories,
   products,
   activeCategoryId = null,
@@ -48,7 +48,7 @@ export function ListingPage({
   onWishlistToggle,
   onAddToCart,
   onTabChange,
-}: ListingPageProps) {
+}: ProductListingPageProps) {
   const listingGridClass = gridColsClass(
     grid?.listing?.mobile ?? 2,
     grid?.listing?.desktop ?? 4
