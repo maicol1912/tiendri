@@ -55,6 +55,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 key: "layout.cardStyle",
                 label: "Estilo de tarjetas",
                 type: "select" as const,
+                defaultValue: "flat",
                 options: [
                   { value: "flat", label: "Plano" },
                   { value: "shadow", label: "Con sombra" },
@@ -66,6 +67,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 key: "layout.cardHoverEffect",
                 label: "Efecto al pasar el mouse",
                 type: "select" as const,
+                defaultValue: "scale",
                 options: [
                   { value: "none", label: "Ninguno" },
                   { value: "lift", label: "Elevar" },
@@ -77,6 +79,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 key: "layout.cardImageRatio",
                 label: "Proporción de imágenes",
                 type: "select" as const,
+                defaultValue: "square",
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Vertical" },
@@ -93,6 +96,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 key: "layout.headerStyle",
                 label: "Estilo del encabezado",
                 type: "select" as const,
+                defaultValue: "standard",
                 options: [
                   { value: "standard", label: "Estándar" },
                   { value: "centered", label: "Centrado" },
@@ -103,6 +107,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 key: "layout.footerStyle",
                 label: "Estilo del pie de página",
                 type: "select" as const,
+                defaultValue: "columns",
                 options: [
                   { value: "columns", label: "En columnas" },
                   { value: "minimal", label: "Mínimo" },
@@ -110,13 +115,52 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.bannerHeight",
-                label: "Altura del banner principal",
+                key: "layout.navStyle",
+                label: "Estilo de categorías",
                 type: "select" as const,
+                defaultValue: "grid",
+                options: [
+                  { value: "grid", label: "Cuadrícula" },
+                  { value: "pills", label: "Pastillas" },
+                  { value: "scroll", label: "Desplazable" },
+                ],
+              },
+              {
+                key: "layout.bannerHeight",
+                label: "Altura del banner",
+                type: "select" as const,
+                defaultValue: "normal",
                 options: [
                   { value: "short", label: "Bajo" },
                   { value: "normal", label: "Normal" },
                   { value: "tall", label: "Alto" },
+                ],
+              },
+            ],
+          },
+          {
+            id: "efectos",
+            label: "Efectos",
+            fields: [
+              {
+                key: "layout.animationLevel",
+                label: "Nivel de animaciones",
+                type: "select" as const,
+                defaultValue: "subtle",
+                options: [
+                  { value: "none", label: "Sin animaciones" },
+                  { value: "subtle", label: "Sutil" },
+                  { value: "full", label: "Completo" },
+                ],
+              },
+              {
+                key: "layout.shadowStyle",
+                label: "Estilo de sombras",
+                type: "select" as const,
+                defaultValue: "neutral",
+                options: [
+                  { value: "neutral", label: "Neutral" },
+                  { value: "hue-tinted", label: "Con tinte de color" },
                 ],
               },
             ],

@@ -192,7 +192,142 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
       },
 
       // ─────────────────────────────────────────────────────────────────────
-      // Tab 3 — Footer
+      // Tab 3 — Apariencia
+      // ─────────────────────────────────────────────────────────────────────
+      {
+        id: "apariencia",
+        label: "Apariencia",
+        icon: "Sliders",
+        sections: [
+          {
+            id: "tarjetas",
+            label: "Tarjetas de producto",
+            description: "Ajustá el estilo visual de las tarjetas en la tienda.",
+            icon: "LayoutGrid",
+            fields: [
+              {
+                key: "layout.cardStyle",
+                type: "select",
+                label: "Estilo de tarjetas",
+                options: [
+                  { value: "flat", label: "Plana" },
+                  { value: "shadow", label: "Con sombra" },
+                  { value: "bordered", label: "Con borde" },
+                  { value: "elevated", label: "Elevada" },
+                ],
+                defaultValue: "flat",
+              },
+              {
+                key: "layout.cardHoverEffect",
+                type: "select",
+                label: "Efecto al pasar el mouse",
+                options: [
+                  { value: "none", label: "Ninguno" },
+                  { value: "lift", label: "Elevar" },
+                  { value: "scale", label: "Escalar" },
+                  { value: "glow", label: "Brillar" },
+                ],
+                defaultValue: "none",
+              },
+              {
+                key: "layout.cardImageRatio",
+                type: "select",
+                label: "Proporción de imágenes",
+                options: [
+                  { value: "square", label: "Cuadrada" },
+                  { value: "portrait", label: "Retrato" },
+                  { value: "wide", label: "Panorámica" },
+                ],
+                defaultValue: "portrait",
+              },
+            ],
+          },
+          {
+            id: "estructura",
+            label: "Estructura de la tienda",
+            description: "Configurá el encabezado, pie de página y categorías.",
+            icon: "Layout",
+            fields: [
+              {
+                key: "layout.headerStyle",
+                type: "select",
+                label: "Estilo del encabezado",
+                options: [
+                  { value: "standard", label: "Estándar" },
+                  { value: "centered", label: "Centrado" },
+                  { value: "minimal", label: "Minimalista" },
+                ],
+                defaultValue: "standard",
+              },
+              {
+                key: "layout.footerStyle",
+                type: "select",
+                label: "Estilo del pie de página",
+                options: [
+                  { value: "columns", label: "Columnas" },
+                  { value: "minimal", label: "Minimalista" },
+                  { value: "centered", label: "Centrado" },
+                ],
+                defaultValue: "minimal",
+              },
+              {
+                key: "layout.navStyle",
+                type: "select",
+                label: "Estilo de categorías",
+                options: [
+                  { value: "grid", label: "Cuadrícula" },
+                  { value: "pills", label: "Píldoras" },
+                  { value: "scroll", label: "Scroll horizontal" },
+                ],
+                defaultValue: "pills",
+              },
+              {
+                key: "layout.bannerHeight",
+                type: "select",
+                label: "Altura del banner",
+                options: [
+                  { value: "short", label: "Bajo" },
+                  { value: "normal", label: "Normal" },
+                  { value: "tall", label: "Alto" },
+                ],
+                defaultValue: "normal",
+              },
+            ],
+          },
+          {
+            id: "efectos",
+            label: "Efectos visuales",
+            description: "Animaciones y estilo de sombras en la tienda.",
+            icon: "Sparkles",
+            fields: [
+              {
+                key: "layout.animationLevel",
+                type: "select",
+                label: "Nivel de animaciones",
+                options: [
+                  { value: "none", label: "Sin animaciones" },
+                  { value: "subtle", label: "Sutiles" },
+                  { value: "full", label: "Completas" },
+                ],
+                defaultValue: "none",
+              },
+              {
+                key: "layout.shadowStyle",
+                type: "select",
+                label: "Estilo de sombras",
+                options: [
+                  { value: "neutral", label: "Neutro" },
+                  { value: "hue-tinted", label: "Tono del color principal" },
+                ],
+                defaultValue: "neutral",
+              },
+            ],
+          },
+        ],
+      },
+
+      // ─────────────────────────────────────────────────────────────────────
+      // Tab 4 — Footer
       // ─────────────────────────────────────────────────────────────────────
       {
         id: "footer",

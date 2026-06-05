@@ -115,7 +115,134 @@ export const decorWarmConfigSchema: TemplateConfigSchema = {
         ],
       },
 
-      // Tab 2 — Grilla y diseño
+      // Tab 2 — Apariencia
+      {
+        id: "apariencia",
+        label: "Apariencia",
+        icon: "Sliders",
+        sections: [
+          {
+            id: "tarjetas",
+            label: "Tarjetas de producto",
+            fields: [
+              {
+                key: "layout.cardStyle",
+                type: "select",
+                label: "Estilo de tarjetas",
+                defaultValue: "flat",
+                options: [
+                  { value: "flat", label: "Plano" },
+                  { value: "shadow", label: "Con sombra" },
+                  { value: "bordered", label: "Con borde" },
+                  { value: "elevated", label: "Elevado" },
+                ],
+              },
+              {
+                key: "layout.cardHoverEffect",
+                type: "select",
+                label: "Efecto al pasar el mouse",
+                defaultValue: "none",
+                options: [
+                  { value: "none", label: "Ninguno" },
+                  { value: "lift", label: "Elevar" },
+                  { value: "scale", label: "Agrandar" },
+                  { value: "glow", label: "Brillar" },
+                ],
+              },
+              {
+                key: "layout.cardImageRatio",
+                type: "select",
+                label: "Proporción de imágenes",
+                defaultValue: "square",
+                options: [
+                  { value: "square", label: "Cuadrada" },
+                  { value: "portrait", label: "Vertical" },
+                  { value: "wide", label: "Horizontal" },
+                ],
+              },
+            ],
+          },
+          {
+            id: "estructura",
+            label: "Estructura de la tienda",
+            fields: [
+              {
+                key: "layout.headerStyle",
+                type: "select",
+                label: "Estilo del encabezado",
+                defaultValue: "standard",
+                options: [
+                  { value: "standard", label: "Estándar" },
+                  { value: "centered", label: "Centrado" },
+                  { value: "minimal", label: "Mínimo" },
+                ],
+              },
+              {
+                key: "layout.footerStyle",
+                type: "select",
+                label: "Estilo del pie de página",
+                defaultValue: "minimal",
+                options: [
+                  { value: "columns", label: "En columnas" },
+                  { value: "minimal", label: "Mínimo" },
+                  { value: "centered", label: "Centrado" },
+                ],
+              },
+              {
+                key: "layout.navStyle",
+                type: "select",
+                label: "Estilo de categorías",
+                defaultValue: "scroll",
+                options: [
+                  { value: "grid", label: "Cuadrícula" },
+                  { value: "pills", label: "Pastillas" },
+                  { value: "scroll", label: "Desplazable" },
+                ],
+              },
+              {
+                key: "layout.bannerHeight",
+                type: "select",
+                label: "Altura del banner",
+                defaultValue: "normal",
+                options: [
+                  { value: "short", label: "Bajo" },
+                  { value: "normal", label: "Normal" },
+                  { value: "tall", label: "Alto" },
+                ],
+              },
+            ],
+          },
+          {
+            id: "efectos",
+            label: "Efectos",
+            fields: [
+              {
+                key: "layout.animationLevel",
+                type: "select",
+                label: "Nivel de animaciones",
+                defaultValue: "subtle",
+                options: [
+                  { value: "none", label: "Sin animaciones" },
+                  { value: "subtle", label: "Sutil" },
+                  { value: "full", label: "Completo" },
+                ],
+              },
+              {
+                key: "layout.shadowStyle",
+                type: "select",
+                label: "Estilo de sombras",
+                defaultValue: "neutral",
+                options: [
+                  { value: "neutral", label: "Neutral" },
+                  { value: "hue-tinted", label: "Con tinte de color" },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      // Tab 3 — Grilla y diseño
       {
         id: "diseno",
         label: "Diseño",

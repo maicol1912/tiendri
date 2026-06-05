@@ -88,7 +88,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 options: [
                   { value: "standard", label: "Estándar" },
                   { value: "centered", label: "Centrado" },
-                  { value: "minimal", label: "Mínimo" },
+                  { value: "minimal", label: "Minimalista" },
                 ],
               },
               {
@@ -96,10 +96,59 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 label: "Estilo del pie de página",
                 type: "select" as const,
                 options: [
-                  { value: "minimal", label: "Mínimo" },
-                  { value: "columns", label: "En columnas" },
+                  { value: "columns", label: "Columnas" },
+                  { value: "minimal", label: "Minimalista" },
                   { value: "centered", label: "Centrado" },
                 ],
+              },
+              {
+                key: "layout.navStyle",
+                label: "Estilo de categorías",
+                type: "select" as const,
+                options: [
+                  { value: "grid", label: "Cuadrícula" },
+                  { value: "pills", label: "Píldoras" },
+                  { value: "scroll", label: "Scroll horizontal" },
+                ],
+                defaultValue: "pills",
+              },
+              {
+                key: "layout.bannerHeight",
+                label: "Altura del banner",
+                type: "select" as const,
+                options: [
+                  { value: "short", label: "Bajo" },
+                  { value: "normal", label: "Normal" },
+                  { value: "tall", label: "Alto" },
+                ],
+                defaultValue: "normal",
+              },
+            ],
+          },
+          {
+            id: "efectos",
+            label: "Efectos visuales",
+            fields: [
+              {
+                key: "layout.animationLevel",
+                label: "Nivel de animaciones",
+                type: "select" as const,
+                options: [
+                  { value: "none", label: "Sin animaciones" },
+                  { value: "subtle", label: "Sutiles" },
+                  { value: "full", label: "Completas" },
+                ],
+                defaultValue: "none",
+              },
+              {
+                key: "layout.shadowStyle",
+                label: "Estilo de sombras",
+                type: "select" as const,
+                options: [
+                  { value: "neutral", label: "Neutro" },
+                  { value: "hue-tinted", label: "Tono del color principal" },
+                ],
+                defaultValue: "neutral",
               },
             ],
           },
