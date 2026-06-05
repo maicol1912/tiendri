@@ -6,9 +6,11 @@
 //
 // Colors section: shows palette picker by default.
 // "Personalizar colores" toggle reveals individual color pickers (advanced).
+// Personalidad section: preset picker at the top of the panel.
 
 import { useState, useCallback, useMemo } from "react";
 import { GripVertical } from "lucide-react";
+import { stylePresets } from "@/lib/presets";
 import {
   DndContext,
   closestCenter,
@@ -117,7 +119,19 @@ export interface MutableLayout {
   bannerHeight: string;
   headerStyle: string;
   footerStyle: string;
+  buttonStyle: string;
+  badgeStyle: string;
+  priceDisplay: string;
+  animationLevel: string;
+  shadowStyle: string;
   [key: string]: string;
+}
+
+export interface MutableTypography {
+  headingWeight: number;
+  headingScale: string;
+  headingTracking: string;
+  headingTransform: string;
 }
 
 export interface MutableSectionEntry {
@@ -131,14 +145,22 @@ export interface MutableConfig {
   grid: MutableGrid;
   layout: MutableLayout;
   sections: MutableSectionEntry[];
+  /** Typography settings — set by presets, fine-tunable per field */
+  theme?: {
+    typography?: MutableTypography;
+  };
+  /** Density level — compact / balanced / spacious */
+  layoutDensity?: string;
 }
 
 // ── Accordion section names ───────────────────────────────────────────────────
 
-type PanelSection = "colors" | "radius" | "grid" | "layout" | "sections";
+type PanelSection = "personalidad" | "colors" | "tipografia" | "radius" | "grid" | "layout" | "sections";
 
 const PANEL_SECTIONS: { id: PanelSection; label: string; description: string }[] = [
+  { id: "personalidad", label: "✦ Personalidad", description: "Elegí el estilo general de tu tienda" },
   { id: "colors", label: "🎨 Colores de tu tienda", description: "Personalizá los colores de tu tienda" },
+  { id: "tipografia", label: "Aa Tipografía", description: "Ajustá el estilo de los títulos" },
   { id: "radius", label: "📐 Bordes y esquinas", description: "Ajustá qué tan redondeadas son las esquinas" },
   { id: "grid", label: "📱 Productos por fila", description: "Elegí cuántos productos mostrar por fila" },
   { id: "layout", label: "✨ Estilo visual", description: "Cambiá el estilo visual de tu tienda" },
@@ -295,8 +317,11 @@ export function ThemeCustomizer({
   palettes,
 }: ThemeCustomizerProps) {
   const [openSections, setOpenSections] = useState<Set<PanelSection>>(
-    new Set(["colors"])
+    new Set(["personalidad"])
   );
+
+  // Preset picker state
+  const [activePresetId, setActivePresetId] = useState<string | undefined>(undefined);
 
   // Palette picker state
   const [activePaletteId, setActivePaletteId] = useState<string | undefined>(undefined);
@@ -392,6 +417,67 @@ export function ThemeCustomizer({
         ...config,
         layout: { ...config.layout, [key]: value },
       });
+    },
+    [config, onConfigChange]
+  );
+
+  const applyStylePreset = useCallback(
+    (presetId: string) => {
+      const preset = stylePresets.find((p) => p.id === presetId);
+      if (!preset) return;
+      setActivePresetId(presetId);
+      onConfigChange({
+        ...config,
+        layout: {
+          ...config.layout,
+          cardStyle: preset.layout.layout.cardStyle,
+          cardHoverEffect: preset.layout.layout.cardHoverEffect,
+          cardImageRatio: preset.layout.layout.cardImageRatio,
+          animationLevel: preset.layout.layout.animationLevel ?? "subtle",
+          shadowStyle: preset.layout.layout.shadowStyle ?? "neutral",
+          headerStyle: preset.layout.layout.headerStyle,
+          bannerHeight: preset.layout.layout.bannerHeight,
+          buttonStyle: preset.layout.layout.buttonStyle ?? "filled",
+          badgeStyle: preset.layout.layout.badgeStyle ?? "pill",
+          priceDisplay: preset.layout.layout.priceDisplay ?? "standard",
+        },
+        layoutDensity: preset.layout.density,
+        theme: {
+          ...config.theme,
+          typography: {
+            headingWeight: preset.theme.typography.headingWeight,
+            headingScale: preset.theme.typography.headingScale,
+            headingTracking: preset.theme.typography.headingTracking,
+            headingTransform: preset.theme.typography.headingTransform,
+          },
+        },
+      });
+    },
+    [config, onConfigChange]
+  );
+
+  const updateTypography = useCallback(
+    (key: keyof MutableTypography, value: string | number) => {
+      onConfigChange({
+        ...config,
+        theme: {
+          ...config.theme,
+          typography: {
+            headingWeight: config.theme?.typography?.headingWeight ?? 700,
+            headingScale: config.theme?.typography?.headingScale ?? "xl",
+            headingTracking: config.theme?.typography?.headingTracking ?? "-0.02em",
+            headingTransform: config.theme?.typography?.headingTransform ?? "none",
+            [key]: value,
+          },
+        },
+      });
+    },
+    [config, onConfigChange]
+  );
+
+  const updateDensity = useCallback(
+    (value: string) => {
+      onConfigChange({ ...config, layoutDensity: value });
     },
     [config, onConfigChange]
   );
@@ -575,6 +661,123 @@ export function ThemeCustomizer({
                   <p style={{ color: "#555", fontSize: "11px", marginBottom: "12px", lineHeight: 1.5, marginTop: "2px" }}>
                     {description}
                   </p>
+
+                  {/* ── PERSONALIDAD ─────────────────────────────────── */}
+                  {id === "personalidad" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      {stylePresets.map((preset) => {
+                        const isSelected = activePresetId === preset.id;
+                        return (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() => applyStylePreset(preset.id)}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "10px",
+                              padding: "10px 12px",
+                              background: isSelected ? "#1a2a1a" : "#222",
+                              border: isSelected
+                                ? "1.5px solid #4a9eff"
+                                : "1.5px solid #2a2a2a",
+                              borderRadius: "8px",
+                              cursor: "pointer",
+                              textAlign: "left",
+                              transition: "border-color 0.15s, background 0.15s",
+                              width: "100%",
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) {
+                                (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) {
+                                (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                              }
+                            }}
+                          >
+                            {/* Content */}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "6px",
+                                  marginBottom: "2px",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontSize: "12px",
+                                    fontWeight: 600,
+                                    color: isSelected ? "#fff" : "#e5e5e5",
+                                  }}
+                                >
+                                  {preset.name}
+                                </span>
+                                <span
+                                  style={{
+                                    fontSize: "10px",
+                                    color: "#555",
+                                    background: "#2a2a2a",
+                                    borderRadius: "99px",
+                                    padding: "1px 6px",
+                                    flexShrink: 0,
+                                  }}
+                                >
+                                  {preset.layout.density}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  fontSize: "11px",
+                                  color: "#666",
+                                  lineHeight: 1.4,
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                {preset.description}
+                              </div>
+                            </div>
+
+                            {/* Selected indicator */}
+                            {isSelected && (
+                              <div
+                                style={{
+                                  width: "18px",
+                                  height: "18px",
+                                  borderRadius: "50%",
+                                  background: "#4a9eff",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  flexShrink: 0,
+                                }}
+                              >
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                  <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
+                      <p
+                        style={{
+                          marginTop: "6px",
+                          fontSize: "10px",
+                          color: "#444",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        El preset ajusta el layout, tipografía y densidad. Los colores se mantienen.
+                      </p>
+                    </div>
+                  )}
 
                   {/* ── COLORS ───────────────────────────────────────── */}
                   {id === "colors" && (
@@ -821,6 +1024,118 @@ export function ThemeCustomizer({
                     </div>
                   )}
 
+                  {/* ── TIPOGRAFÍA ───────────────────────────────────── */}
+                  {id === "tipografia" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      {/* Heading Weight */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Peso del título
+                        </label>
+                        <select
+                          value={config.theme?.typography?.headingWeight ?? 700}
+                          onChange={(e) =>
+                            updateTypography("headingWeight", Number(e.target.value))
+                          }
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value={400}>Fino (400)</option>
+                          <option value={500}>Regular (500)</option>
+                          <option value={600}>Semibold (600)</option>
+                          <option value={700}>Bold (700)</option>
+                          <option value={800}>Extrabold (800)</option>
+                        </select>
+                      </div>
+
+                      {/* Heading Scale */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Tamaño del título
+                        </label>
+                        <select
+                          value={config.theme?.typography?.headingScale ?? "xl"}
+                          onChange={(e) =>
+                            updateTypography("headingScale", e.target.value)
+                          }
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="md">Compacto</option>
+                          <option value="lg">Normal</option>
+                          <option value="xl">Grande</option>
+                          <option value="2xl">Muy grande</option>
+                        </select>
+                      </div>
+
+                      {/* Heading Tracking */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Espaciado entre letras
+                        </label>
+                        <select
+                          value={config.theme?.typography?.headingTracking ?? "-0.02em"}
+                          onChange={(e) =>
+                            updateTypography("headingTracking", e.target.value)
+                          }
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="-0.03em">Comprimido</option>
+                          <option value="-0.02em">Apretado</option>
+                          <option value="-0.01em">Normal</option>
+                          <option value="0em">Espaciado</option>
+                          <option value="0.05em">Amplio</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+
                   {/* ── RADIUS ───────────────────────────────────────── */}
                   {id === "radius" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -918,6 +1233,39 @@ export function ThemeCustomizer({
                   {/* ── LAYOUT ───────────────────────────────────────── */}
                   {id === "layout" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      {/* Density */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Espaciado general
+                        </label>
+                        <select
+                          value={config.layoutDensity ?? "balanced"}
+                          onChange={(e) => updateDensity(e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="compact">Compacto</option>
+                          <option value="balanced">Equilibrado</option>
+                          <option value="spacious">Espacioso</option>
+                        </select>
+                      </div>
+
+                      {/* Template-specific layout options */}
                       {layoutOptions.map(({ key, label: lLabel, options }) => (
                         <div key={key}>
                           <label
@@ -952,6 +1300,164 @@ export function ThemeCustomizer({
                           </select>
                         </div>
                       ))}
+
+                      {/* Button style */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Estilo de botones
+                        </label>
+                        <select
+                          value={config.layout.buttonStyle ?? "filled"}
+                          onChange={(e) => updateLayout("buttonStyle", e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="filled">Relleno</option>
+                          <option value="outlined">Con borde</option>
+                          <option value="ghost">Fantasma</option>
+                        </select>
+                      </div>
+
+                      {/* Badge style */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Forma de etiquetas
+                        </label>
+                        <select
+                          value={config.layout.badgeStyle ?? "pill"}
+                          onChange={(e) => updateLayout("badgeStyle", e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="pill">Redondeada</option>
+                          <option value="square">Cuadrada</option>
+                        </select>
+                      </div>
+
+                      {/* Price display */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Prominencia del precio
+                        </label>
+                        <select
+                          value={config.layout.priceDisplay ?? "standard"}
+                          onChange={(e) => updateLayout("priceDisplay", e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="prominent">Destacado</option>
+                          <option value="standard">Estándar</option>
+                          <option value="subtle">Sutil</option>
+                        </select>
+                      </div>
+
+                      {/* Animation level */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Nivel de animaciones
+                        </label>
+                        <select
+                          value={config.layout.animationLevel ?? "subtle"}
+                          onChange={(e) => updateLayout("animationLevel", e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="none">Sin animaciones</option>
+                          <option value="subtle">Sutiles</option>
+                          <option value="full">Completas</option>
+                        </select>
+                      </div>
+
+                      {/* Shadow style */}
+                      <div>
+                        <label
+                          style={{
+                            display: "block",
+                            color: "#aaa",
+                            fontSize: "12px",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          Estilo de sombras
+                        </label>
+                        <select
+                          value={config.layout.shadowStyle ?? "neutral"}
+                          onChange={(e) => updateLayout("shadowStyle", e.target.value)}
+                          style={{
+                            width: "100%",
+                            padding: "6px 8px",
+                            background: "#2a2a2a",
+                            border: "1px solid #3a3a3a",
+                            borderRadius: "6px",
+                            color: "#e5e5e5",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="neutral">Neutral</option>
+                          <option value="hue-tinted">Tintada con color</option>
+                        </select>
+                      </div>
                     </div>
                   )}
 
