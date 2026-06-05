@@ -198,8 +198,8 @@ export const fashionConfigSchema: TemplateConfigSchema = {
       // Covers: layout options (cardStyle, hover, ratio, header, footer, nav, banner, animations, shadows)
       // ───────────────────────────────────────────────────────────────────
       {
-        id: "apariencia",
-        label: "Apariencia",
+        id: "estilo-visual",
+        label: "Estilo visual",
         icon: "Sliders",
         sections: [
           {
@@ -207,7 +207,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
             label: "Tarjetas de producto",
             fields: [
               {
-                key: "layout.cardStyle",
+                key: "layout.layout.cardStyle",
                 type: "select",
                 label: "Estilo de tarjetas",
                 defaultValue: "flat",
@@ -219,7 +219,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardHoverEffect",
+                key: "layout.layout.cardHoverEffect",
                 type: "select",
                 label: "Efecto al pasar el mouse",
                 defaultValue: "scale",
@@ -231,7 +231,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardImageRatio",
+                key: "layout.layout.cardImageRatio",
                 type: "select",
                 label: "Proporción de imágenes",
                 defaultValue: "portrait",
@@ -248,7 +248,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
             label: "Estructura de la tienda",
             fields: [
               {
-                key: "layout.headerStyle",
+                key: "layout.layout.headerStyle",
                 type: "select",
                 label: "Estilo del encabezado",
                 defaultValue: "centered",
@@ -259,7 +259,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.footerStyle",
+                key: "layout.layout.footerStyle",
                 type: "select",
                 label: "Estilo del pie de página",
                 defaultValue: "minimal",
@@ -270,7 +270,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.navStyle",
+                key: "layout.layout.navStyle",
                 type: "select",
                 label: "Estilo de categorías",
                 defaultValue: "scroll",
@@ -281,7 +281,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.bannerHeight",
+                key: "layout.layout.bannerHeight",
                 type: "select",
                 label: "Altura del banner",
                 defaultValue: "tall",
@@ -298,7 +298,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
             label: "Efectos",
             fields: [
               {
-                key: "layout.animationLevel",
+                key: "layout.layout.animationLevel",
                 type: "select",
                 label: "Nivel de animaciones",
                 defaultValue: "subtle",
@@ -309,7 +309,7 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.shadowStyle",
+                key: "layout.layout.shadowStyle",
                 type: "select",
                 label: "Estilo de sombras",
                 defaultValue: "neutral",

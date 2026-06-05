@@ -210,8 +210,8 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
       // Tab 2 — Apariencia
       // ───────────────────────────────────────────────────────────────────
       {
-        id: "apariencia",
-        label: "Apariencia",
+        id: "estilo-visual",
+        label: "Estilo visual",
         icon: "Palette",
         sections: [
           {
@@ -220,7 +220,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
             description: "Estilo visual de las tarjetas en catálogo y buscador.",
             fields: [
               {
-                key: "layout.cardStyle",
+                key: "layout.layout.cardStyle",
                 type: "select" as const,
                 label: "Estilo de tarjetas",
                 description: "Cómo se presentan las tarjetas de productos",
@@ -233,7 +233,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardHoverEffect",
+                key: "layout.layout.cardHoverEffect",
                 type: "select" as const,
                 label: "Efecto al pasar el mouse",
                 description: "Animación de las tarjetas al interactuar",
@@ -246,7 +246,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardImageRatio",
+                key: "layout.layout.cardImageRatio",
                 type: "select" as const,
                 label: "Proporción de imágenes",
                 description: "Forma de las imágenes en las tarjetas",
@@ -265,7 +265,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
             description: "Disposición del encabezado, pie de página y categorías.",
             fields: [
               {
-                key: "layout.headerStyle",
+                key: "layout.layout.headerStyle",
                 type: "select" as const,
                 label: "Estilo del encabezado",
                 description: "Disposición del encabezado de tu tienda",
@@ -277,7 +277,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.footerStyle",
+                key: "layout.layout.footerStyle",
                 type: "select" as const,
                 label: "Estilo del pie de página",
                 description: "Disposición del footer de tu tienda",
@@ -289,7 +289,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.navStyle",
+                key: "layout.layout.navStyle",
                 type: "select" as const,
                 label: "Estilo de categorías",
                 description: "Cómo se muestran las categorías",
@@ -301,7 +301,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.bannerHeight",
+                key: "layout.layout.bannerHeight",
                 type: "select" as const,
                 label: "Altura del banner",
                 description: "Tamaño del banner principal en la portada",
@@ -320,7 +320,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
             description: "Animaciones y sombras de la tienda.",
             fields: [
               {
-                key: "layout.animationLevel",
+                key: "layout.layout.animationLevel",
                 type: "select" as const,
                 label: "Nivel de animaciones",
                 description: "Controla cuánto movimiento tiene tu tienda",
@@ -332,7 +332,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.shadowStyle",
+                key: "layout.layout.shadowStyle",
                 type: "select" as const,
                 label: "Estilo de sombras",
                 description: "Sombras neutras o con tono del color principal",

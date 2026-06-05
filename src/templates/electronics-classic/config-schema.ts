@@ -44,15 +44,15 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
   content: {
     tabGroups: [
       {
-        id: "appearance",
-        label: "Apariencia",
+        id: "estilo-visual",
+        label: "Estilo visual",
         sections: [
           {
             id: "cards",
             label: "Tarjetas de producto",
             fields: [
               {
-                key: "layout.cardStyle",
+                key: "layout.layout.cardStyle",
                 label: "Estilo de tarjetas",
                 type: "select" as const,
                 defaultValue: "flat",
@@ -64,7 +64,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardHoverEffect",
+                key: "layout.layout.cardHoverEffect",
                 label: "Efecto al pasar el mouse",
                 type: "select" as const,
                 defaultValue: "scale",
@@ -76,7 +76,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardImageRatio",
+                key: "layout.layout.cardImageRatio",
                 label: "Proporción de imágenes",
                 type: "select" as const,
                 defaultValue: "square",
@@ -93,7 +93,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
             label: "Navegación",
             fields: [
               {
-                key: "layout.headerStyle",
+                key: "layout.layout.headerStyle",
                 label: "Estilo del encabezado",
                 type: "select" as const,
                 defaultValue: "standard",
@@ -104,7 +104,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.footerStyle",
+                key: "layout.layout.footerStyle",
                 label: "Estilo del pie de página",
                 type: "select" as const,
                 defaultValue: "columns",
@@ -115,7 +115,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.navStyle",
+                key: "layout.layout.navStyle",
                 label: "Estilo de categorías",
                 type: "select" as const,
                 defaultValue: "grid",
@@ -126,7 +126,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.bannerHeight",
+                key: "layout.layout.bannerHeight",
                 label: "Altura del banner",
                 type: "select" as const,
                 defaultValue: "normal",
@@ -143,7 +143,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
             label: "Efectos",
             fields: [
               {
-                key: "layout.animationLevel",
+                key: "layout.layout.animationLevel",
                 label: "Nivel de animaciones",
                 type: "select" as const,
                 defaultValue: "subtle",
@@ -154,7 +154,7 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.shadowStyle",
+                key: "layout.layout.shadowStyle",
                 label: "Estilo de sombras",
                 type: "select" as const,
                 defaultValue: "neutral",

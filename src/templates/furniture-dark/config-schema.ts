@@ -36,15 +36,15 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
   content: {
     tabGroups: [
       {
-        id: "appearance",
-        label: "Apariencia",
+        id: "estilo-visual",
+        label: "Estilo visual",
         sections: [
           {
             id: "cards",
             label: "Tarjetas de producto",
             fields: [
               {
-                key: "layout.cardStyle",
+                key: "layout.layout.cardStyle",
                 label: "Estilo de tarjetas",
                 type: "select" as const,
                 options: [
@@ -55,7 +55,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardHoverEffect",
+                key: "layout.layout.cardHoverEffect",
                 label: "Efecto al pasar el mouse",
                 type: "select" as const,
                 options: [
@@ -66,7 +66,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.cardImageRatio",
+                key: "layout.layout.cardImageRatio",
                 label: "Forma de las imágenes",
                 type: "select" as const,
                 options: [
@@ -82,7 +82,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
             label: "Encabezado y pie de página",
             fields: [
               {
-                key: "layout.headerStyle",
+                key: "layout.layout.headerStyle",
                 label: "Estilo del encabezado",
                 type: "select" as const,
                 options: [
@@ -92,7 +92,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.footerStyle",
+                key: "layout.layout.footerStyle",
                 label: "Estilo del pie de página",
                 type: "select" as const,
                 options: [
@@ -102,7 +102,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "layout.navStyle",
+                key: "layout.layout.navStyle",
                 label: "Estilo de categorías",
                 type: "select" as const,
                 options: [
@@ -113,7 +113,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 defaultValue: "pills",
               },
               {
-                key: "layout.bannerHeight",
+                key: "layout.layout.bannerHeight",
                 label: "Altura del banner",
                 type: "select" as const,
                 options: [
@@ -130,7 +130,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
             label: "Efectos visuales",
             fields: [
               {
-                key: "layout.animationLevel",
+                key: "layout.layout.animationLevel",
                 label: "Nivel de animaciones",
                 type: "select" as const,
                 options: [
@@ -141,7 +141,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 defaultValue: "none",
               },
               {
-                key: "layout.shadowStyle",
+                key: "layout.layout.shadowStyle",
                 label: "Estilo de sombras",
                 type: "select" as const,
                 options: [

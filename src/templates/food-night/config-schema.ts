@@ -195,8 +195,8 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
       // Tab 3 — Apariencia
       // ─────────────────────────────────────────────────────────────────────
       {
-        id: "apariencia",
-        label: "Apariencia",
+        id: "estilo-visual",
+        label: "Estilo visual",
         icon: "Sliders",
         sections: [
           {
@@ -206,7 +206,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
             icon: "LayoutGrid",
             fields: [
               {
-                key: "layout.cardStyle",
+                key: "layout.layout.cardStyle",
                 type: "select",
                 label: "Estilo de tarjetas",
                 options: [
@@ -218,7 +218,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "flat",
               },
               {
-                key: "layout.cardHoverEffect",
+                key: "layout.layout.cardHoverEffect",
                 type: "select",
                 label: "Efecto al pasar el mouse",
                 options: [
@@ -230,7 +230,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "none",
               },
               {
-                key: "layout.cardImageRatio",
+                key: "layout.layout.cardImageRatio",
                 type: "select",
                 label: "Proporción de imágenes",
                 options: [
@@ -249,7 +249,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
             icon: "Layout",
             fields: [
               {
-                key: "layout.headerStyle",
+                key: "layout.layout.headerStyle",
                 type: "select",
                 label: "Estilo del encabezado",
                 options: [
@@ -260,7 +260,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "standard",
               },
               {
-                key: "layout.footerStyle",
+                key: "layout.layout.footerStyle",
                 type: "select",
                 label: "Estilo del pie de página",
                 options: [
@@ -271,7 +271,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "minimal",
               },
               {
-                key: "layout.navStyle",
+                key: "layout.layout.navStyle",
                 type: "select",
                 label: "Estilo de categorías",
                 options: [
@@ -282,7 +282,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "pills",
               },
               {
-                key: "layout.bannerHeight",
+                key: "layout.layout.bannerHeight",
                 type: "select",
                 label: "Altura del banner",
                 options: [
@@ -301,7 +301,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
             icon: "Sparkles",
             fields: [
               {
-                key: "layout.animationLevel",
+                key: "layout.layout.animationLevel",
                 type: "select",
                 label: "Nivel de animaciones",
                 options: [
@@ -312,7 +312,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "none",
               },
               {
-                key: "layout.shadowStyle",
+                key: "layout.layout.shadowStyle",
                 type: "select",
                 label: "Estilo de sombras",
                 options: [
