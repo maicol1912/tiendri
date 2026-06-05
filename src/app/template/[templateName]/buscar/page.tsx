@@ -36,6 +36,21 @@ import {
   mockProducts as decorWarmMockProducts,
 } from "@/templates/decor-warm/mock/data";
 import { SearchShellRoute as DecorWarmSearchShellRoute } from "@/templates/decor-warm/components/SearchShellRoute";
+import {
+  mockStore as foodNightMockStore,
+  mockProducts as foodNightMockProducts,
+} from "@/templates/food-night/mock/data";
+import { SearchShellRoute as FoodNightSearchShellRoute } from "@/templates/food-night/components/SearchShellRoute";
+import {
+  mockStore as furnitureLightMockStore,
+  mockProducts as furnitureLightMockProducts,
+} from "@/templates/furniture-light/mock/data";
+import { SearchShellRoute as FurnitureLightSearchShellRoute } from "@/templates/furniture-light/components/SearchShellRoute";
+import {
+  mockStore as petsClassicMockStore,
+  mockProducts as petsClassicMockProducts,
+} from "@/templates/pets-classic/mock/data";
+import { SearchShellRoute as PetsClassicSearchShellRoute } from "@/templates/pets-classic/components/SearchShellRoute";
 
 export const metadata: Metadata = {
   title: "Buscar",
@@ -98,6 +113,33 @@ export default async function BuscarPage({ params }: BuscarPageProps) {
       <DecorWarmSearchShellRoute
         store={decorWarmMockStore}
         products={decorWarmMockProducts}
+      />
+    );
+  }
+
+  if (templateName === "food-night") {
+    return (
+      <FoodNightSearchShellRoute
+        store={foodNightMockStore}
+        products={foodNightMockProducts}
+      />
+    );
+  }
+
+  if (templateName === "furniture-light") {
+    return (
+      <FurnitureLightSearchShellRoute
+        store={furnitureLightMockStore}
+        allProducts={furnitureLightMockProducts}
+      />
+    );
+  }
+
+  if (templateName === "pets-classic") {
+    return (
+      <PetsClassicSearchShellRoute
+        store={petsClassicMockStore}
+        allProducts={petsClassicMockProducts}
       />
     );
   }

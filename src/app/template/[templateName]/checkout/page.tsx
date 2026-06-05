@@ -16,6 +16,12 @@ import { mockStore as beautyElegantMockStore } from "@/templates/beauty-elegant/
 import { CheckoutShellRoute as BeautyElegantCheckoutShellRoute } from "@/templates/beauty-elegant/components/CheckoutShellRoute";
 import { mockStore as decorWarmMockStore } from "@/templates/decor-warm/mock/data";
 import { CheckoutShellRoute as DecorWarmCheckoutShellRoute } from "@/templates/decor-warm/components/CheckoutShellRoute";
+import { mockStore as foodNightMockStore } from "@/templates/food-night/mock/data";
+import { CheckoutShellRoute as FoodNightCheckoutShellRoute } from "@/templates/food-night/components/CheckoutShellRoute";
+import { mockStore as furnitureLightMockStore } from "@/templates/furniture-light/mock/data";
+import { CheckoutShellRoute as FurnitureLightCheckoutShellRoute } from "@/templates/furniture-light/components/CheckoutShellRoute";
+import { mockStore as petsClassicMockStore } from "@/templates/pets-classic/mock/data";
+import { CheckoutShellRoute as PetsClassicCheckoutShellRoute } from "@/templates/pets-classic/components/CheckoutShellRoute";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -54,6 +60,18 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
 
   if (templateName === "decor-warm") {
     return <DecorWarmCheckoutShellRoute store={decorWarmMockStore} />;
+  }
+
+  if (templateName === "food-night") {
+    return <FoodNightCheckoutShellRoute store={foodNightMockStore} />;
+  }
+
+  if (templateName === "furniture-light") {
+    return <FurnitureLightCheckoutShellRoute store={furnitureLightMockStore} mode="preview" />;
+  }
+
+  if (templateName === "pets-classic") {
+    return <PetsClassicCheckoutShellRoute store={petsClassicMockStore} />;
   }
 
   return <TechPremiumCheckoutShellRoute store={tpMockStore} mode="preview" />;

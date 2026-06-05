@@ -41,6 +41,10 @@ export async function getTemplateSchema(
       const { furnitureDarkConfigSchema } = await import("./furniture-dark/config-schema");
       return furnitureDarkConfigSchema;
     }
+    case "pets-classic": {
+      const { petsClassicConfigSchema } = await import("./pets-classic/config-schema");
+      return petsClassicConfigSchema;
+    }
     case "beauty-soft": {
       const { beautySoftConfigSchema } = await import("./beauty-soft/config-schema");
       return beautySoftConfigSchema;
@@ -52,6 +56,14 @@ export async function getTemplateSchema(
     case "decor-warm": {
       const { decorWarmConfigSchema } = await import("./decor-warm/config-schema");
       return decorWarmConfigSchema;
+    }
+    case "furniture-light": {
+      const { furnitureLightConfigSchema } = await import("./furniture-light/config-schema");
+      return furnitureLightConfigSchema;
+    }
+    case "food-night": {
+      const { foodNightConfigSchema } = await import("./food-night/config-schema");
+      return foodNightConfigSchema;
     }
     default:
       return null;
@@ -67,21 +79,27 @@ export async function getTemplateSchema(
 import { techPremiumConfigSchema } from "./tech-premium/config-schema";
 import { fashionConfigSchema } from "./fashion/config-schema";
 import { petsModernConfigSchema } from "./pets-modern/config-schema";
+import { petsClassicConfigSchema } from "./pets-classic/config-schema";
 import { electronicsClassicConfigSchema } from "./electronics-classic/config-schema";
 import { furnitureDarkConfigSchema } from "./furniture-dark/config-schema";
 import { beautySoftConfigSchema } from "./beauty-soft/config-schema";
 import { beautyElegantConfigSchema } from "./beauty-elegant/config-schema";
 import { decorWarmConfigSchema } from "./decor-warm/config-schema";
+import { foodNightConfigSchema } from "./food-night/config-schema";
+import { furnitureLightConfigSchema } from "./furniture-light/config-schema";
 
 const syncRegistry: Record<string, TemplateConfigSchema> = {
   "tech-premium": techPremiumConfigSchema,
   fashion: fashionConfigSchema,
   "pets-modern": petsModernConfigSchema,
+  "pets-classic": petsClassicConfigSchema,
   "electronics-classic": electronicsClassicConfigSchema,
   "furniture-dark": furnitureDarkConfigSchema,
+  "furniture-light": furnitureLightConfigSchema,
   "beauty-soft": beautySoftConfigSchema,
   "beauty-elegant": beautyElegantConfigSchema,
   "decor-warm": decorWarmConfigSchema,
+  "food-night": foodNightConfigSchema,
 };
 
 /**

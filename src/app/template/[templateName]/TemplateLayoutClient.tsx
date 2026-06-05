@@ -68,11 +68,26 @@ import { decorWarmConfig } from "@/templates/decor-warm/config";
 import { decorWarmPalettes } from "@/templates/decor-warm/palettes";
 import type { DecorWarmConfig } from "@/templates/decor-warm/config";
 
+import { CartProvider as FoodNightCartProvider } from "@/templates/food-night/context/CartContext";
+import { foodNightConfig } from "@/templates/food-night/config";
+import { foodNightPalettes } from "@/templates/food-night/palettes";
+import type { FoodNightConfig } from "@/templates/food-night/config";
+
+import { CartProvider as FurnitureLightCartProvider } from "@/templates/furniture-light/context/CartContext";
+import { furnitureLightConfig } from "@/templates/furniture-light/config";
+import { furnitureLightPalettes } from "@/templates/furniture-light/palettes";
+import type { FurnitureLightConfig } from "@/templates/furniture-light/config";
+
+import { CartProvider as PetsClassicCartProvider } from "@/templates/pets-classic/context/CartContext";
+import { petsClassicConfig } from "@/templates/pets-classic/config";
+import { petsClassicPalettes } from "@/templates/pets-classic/palettes";
+import type { PetsClassicConfig } from "@/templates/pets-classic/config";
+
 import type { ResolvedStoreConfig } from "@/types/templates";
 
 // ── Generic config type ───────────────────────────────────────────────────────
 
-type AnyTemplateConfig = TechPremiumConfig | FashionConfig | PetsModernConfig | ElectronicsClassicConfig | FurnitureDarkConfig | BeautySoftConfig | BeautyElegantConfig | DecorWarmConfig;
+type AnyTemplateConfig = TechPremiumConfig | FashionConfig | PetsModernConfig | PetsClassicConfig | ElectronicsClassicConfig | FurnitureDarkConfig | FurnitureLightConfig | BeautySoftConfig | BeautyElegantConfig | DecorWarmConfig | FoodNightConfig;
 
 // ── Context — exposes configOverride to all page children ─────────────────────
 // The context stores the config as `unknown` so the provider is template-agnostic.
@@ -831,6 +846,241 @@ const DECOR_WARM_SECTION_LABELS: CustomizerSectionLabel[] = [
   { id: "products", label: "Productos" },
 ];
 
+// ── Food Night field metadata ─────────────────────────────────────────────────
+
+const FOOD_NIGHT_COLOR_FIELDS: CustomizerColorField[] = [
+  { key: "primary", label: "Color principal (CTA, activos)" },
+  { key: "background", label: "Fondo de la página" },
+  { key: "cardBg", label: "Fondo de tarjetas" },
+  { key: "buttonBg", label: "Color de botones" },
+  { key: "buttonText", label: "Texto de botones" },
+  { key: "textPrimary", label: "Texto principal" },
+  { key: "textMuted", label: "Texto secundario" },
+  { key: "ratingStar", label: "Color de estrellas" },
+  { key: "badgeBg", label: "Color del badge de carrito" },
+  { key: "footerBg", label: "Fondo del pie de página" },
+];
+
+const FOOD_NIGHT_GRID_FIELDS: CustomizerGridField[] = [
+  {
+    key: "products",
+    mobileLabel: "Productos por fila (celular)",
+    desktopLabel: "Productos por fila (computador)",
+  },
+  {
+    key: "listing",
+    mobileLabel: "Catálogo por fila (celular)",
+    desktopLabel: "Catálogo por fila (computador)",
+  },
+  {
+    key: "search",
+    mobileLabel: "Búsqueda por fila (celular)",
+    desktopLabel: "Búsqueda por fila (computador)",
+  },
+];
+
+const FOOD_NIGHT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
+  {
+    key: "cardStyle",
+    label: "Estilo de tarjetas",
+    options: [
+      { value: "flat", label: "Plano" },
+      { value: "shadow", label: "Con sombra" },
+      { value: "bordered", label: "Con borde" },
+      { value: "elevated", label: "Elevado" },
+    ],
+  },
+  {
+    key: "cardHoverEffect",
+    label: "Efecto al pasar el mouse",
+    options: [
+      { value: "none", label: "Ninguno" },
+      { value: "lift", label: "Elevar" },
+      { value: "scale", label: "Agrandar" },
+      { value: "glow", label: "Brillar" },
+    ],
+  },
+  {
+    key: "cardImageRatio",
+    label: "Forma de las imágenes",
+    options: [
+      { value: "portrait", label: "Vertical" },
+      { value: "square", label: "Cuadrada" },
+      { value: "wide", label: "Horizontal" },
+    ],
+  },
+  {
+    key: "headerStyle",
+    label: "Estilo del encabezado",
+    options: [
+      { value: "standard", label: "Estándar" },
+      { value: "centered", label: "Centrado" },
+      { value: "minimal", label: "Mínimo" },
+    ],
+  },
+  {
+    key: "footerStyle",
+    label: "Estilo del pie de página",
+    options: [
+      { value: "minimal", label: "Mínimo" },
+      { value: "columns", label: "En columnas" },
+      { value: "centered", label: "Centrado" },
+    ],
+  },
+];
+
+const FOOD_NIGHT_SECTION_LABELS: CustomizerSectionLabel[] = [
+  { id: "categories", label: "Categorías" },
+  { id: "products", label: "Productos" },
+];
+
+// ── Furniture Light field metadata ────────────────────────────────────────────
+
+const FURNITURE_LIGHT_COLOR_FIELDS: CustomizerColorField[] = [
+  { key: "primary", label: "Color principal (naranja)" },
+  { key: "secondary", label: "Color secundario (navy)" },
+  { key: "background", label: "Fondo de la página" },
+  { key: "cardBg", label: "Fondo de tarjetas" },
+  { key: "headerBg", label: "Fondo del encabezado" },
+  { key: "footerBg", label: "Fondo del pie de página" },
+  { key: "buttonBg", label: "Color de botones" },
+  { key: "buttonText", label: "Texto de botones" },
+  { key: "textPrimary", label: "Texto principal" },
+  { key: "textMuted", label: "Texto secundario" },
+  { key: "border", label: "Color de bordes" },
+  { key: "bookmarkBg", label: "Color del marcador (teal)" },
+];
+
+const FURNITURE_LIGHT_GRID_FIELDS: CustomizerGridField[] = [
+  { key: "products", mobileLabel: "Productos por fila (celular)", desktopLabel: "Productos por fila (computador)" },
+  { key: "categories", mobileLabel: "Categorías por fila (celular)", desktopLabel: "Categorías por fila (computador)" },
+  { key: "listing", mobileLabel: "Catálogo por fila (celular)", desktopLabel: "Catálogo por fila (computador)" },
+  { key: "search", mobileLabel: "Búsqueda por fila (celular)", desktopLabel: "Búsqueda por fila (computador)" },
+];
+
+const FURNITURE_LIGHT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
+  {
+    key: "cardStyle",
+    label: "Estilo de tarjetas",
+    options: [
+      { value: "flat", label: "Plano" },
+      { value: "shadow", label: "Con sombra" },
+      { value: "bordered", label: "Con borde" },
+      { value: "elevated", label: "Elevado" },
+    ],
+  },
+  {
+    key: "cardHoverEffect",
+    label: "Efecto al pasar el mouse",
+    options: [
+      { value: "none", label: "Ninguno" },
+      { value: "lift", label: "Elevar" },
+      { value: "scale", label: "Agrandar" },
+    ],
+  },
+  {
+    key: "cardImageRatio",
+    label: "Forma de las imágenes",
+    options: [
+      { value: "square", label: "Cuadrada" },
+      { value: "portrait", label: "Vertical" },
+      { value: "wide", label: "Horizontal" },
+    ],
+  },
+  {
+    key: "headerStyle",
+    label: "Estilo del encabezado",
+    options: [
+      { value: "standard", label: "Estándar" },
+      { value: "centered", label: "Centrado" },
+      { value: "minimal", label: "Mínimo" },
+    ],
+  },
+  {
+    key: "footerStyle",
+    label: "Estilo del pie de página",
+    options: [
+      { value: "minimal", label: "Mínimo" },
+      { value: "columns", label: "En columnas" },
+    ],
+  },
+];
+
+const FURNITURE_LIGHT_SECTION_LABELS: CustomizerSectionLabel[] = [
+  { id: "hero", label: "Banner principal" },
+  { id: "categories", label: "Categorías" },
+  { id: "flash-sale", label: "Ofertas flash" },
+  { id: "room-styles", label: "Estilos de habitación" },
+  { id: "products", label: "Todos los productos" },
+];
+
+// ── Pets Classic field metadata ───────────────────────────────────────────────
+
+const PETS_CLASSIC_COLOR_FIELDS: CustomizerColorField[] = [
+  { key: "primary", label: "Color principal (naranja)" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de la página" },
+  { key: "cardBg", label: "Fondo de tarjetas" },
+  { key: "headerBg", label: "Fondo del encabezado" },
+  { key: "footerBg", label: "Fondo del pie de página" },
+  { key: "buttonBg", label: "Color de botones" },
+  { key: "buttonText", label: "Texto de botones" },
+  { key: "textPrimary", label: "Texto principal" },
+  { key: "border", label: "Color de bordes" },
+];
+
+const PETS_CLASSIC_GRID_FIELDS: CustomizerGridField[] = [
+  { key: "products", mobileLabel: "Productos por fila (celular)", desktopLabel: "Productos por fila (computador)" },
+  { key: "categories", mobileLabel: "Categorías por fila (celular)", desktopLabel: "Categorías por fila (computador)" },
+  { key: "listing", mobileLabel: "Catálogo por fila (celular)", desktopLabel: "Catálogo por fila (computador)" },
+  { key: "search", mobileLabel: "Búsqueda por fila (celular)", desktopLabel: "Búsqueda por fila (computador)" },
+];
+
+const PETS_CLASSIC_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
+  {
+    key: "cardStyle",
+    label: "Estilo de tarjetas",
+    options: [
+      { value: "flat", label: "Plano" },
+      { value: "shadow", label: "Con sombra" },
+      { value: "bordered", label: "Con borde" },
+      { value: "elevated", label: "Elevado" },
+    ],
+  },
+  {
+    key: "cardHoverEffect",
+    label: "Efecto al pasar el mouse",
+    options: [
+      { value: "none", label: "Ninguno" },
+      { value: "lift", label: "Elevar" },
+      { value: "scale", label: "Agrandar" },
+    ],
+  },
+  {
+    key: "cardImageRatio",
+    label: "Forma de las imágenes",
+    options: [
+      { value: "portrait", label: "Vertical" },
+      { value: "square", label: "Cuadrada" },
+    ],
+  },
+  {
+    key: "footerStyle",
+    label: "Estilo del pie de página",
+    options: [
+      { value: "minimal", label: "Mínimo" },
+      { value: "columns", label: "En columnas" },
+    ],
+  },
+];
+
+const PETS_CLASSIC_SECTION_LABELS: CustomizerSectionLabel[] = [
+  { id: "promo-banner", label: "Banner promocional" },
+  { id: "categories", label: "Categorías" },
+  { id: "featured", label: "Productos destacados" },
+  { id: "popular", label: "Más populares" },
+];
+
 // ── Per-template static config registry ───────────────────────────────────────
 
 interface TemplateUIConfig {
@@ -916,6 +1166,33 @@ const TEMPLATE_UI_CONFIGS: Record<string, TemplateUIConfig> = {
     sectionLabels: DECOR_WARM_SECTION_LABELS,
     palettes: decorWarmPalettes as CustomizerPalette[],
   },
+  "food-night": {
+    defaultConfig: foodNightConfig,
+    label: "Food Night",
+    colorFields: FOOD_NIGHT_COLOR_FIELDS,
+    gridFields: FOOD_NIGHT_GRID_FIELDS,
+    layoutOptions: FOOD_NIGHT_LAYOUT_OPTIONS,
+    sectionLabels: FOOD_NIGHT_SECTION_LABELS,
+    palettes: foodNightPalettes as CustomizerPalette[],
+  },
+  "furniture-light": {
+    defaultConfig: furnitureLightConfig,
+    label: "Furniture Light",
+    colorFields: FURNITURE_LIGHT_COLOR_FIELDS,
+    gridFields: FURNITURE_LIGHT_GRID_FIELDS,
+    layoutOptions: FURNITURE_LIGHT_LAYOUT_OPTIONS,
+    sectionLabels: FURNITURE_LIGHT_SECTION_LABELS,
+    palettes: furnitureLightPalettes as CustomizerPalette[],
+  },
+  "pets-classic": {
+    defaultConfig: petsClassicConfig,
+    label: "Pets Classic",
+    colorFields: PETS_CLASSIC_COLOR_FIELDS,
+    gridFields: PETS_CLASSIC_GRID_FIELDS,
+    layoutOptions: PETS_CLASSIC_LAYOUT_OPTIONS,
+    sectionLabels: PETS_CLASSIC_SECTION_LABELS,
+    palettes: petsClassicPalettes as CustomizerPalette[],
+  },
 };
 
 // ── Sliders icon (inline SVG) ─────────────────────────────────────────────────
@@ -975,6 +1252,15 @@ function CartWrapper({ templateName, storeSlug, children }: CartWrapperProps) {
   }
   if (templateName === "decor-warm") {
     return <DecorWarmCartProvider slug={storeSlug}>{children}</DecorWarmCartProvider>;
+  }
+  if (templateName === "food-night") {
+    return <FoodNightCartProvider slug={storeSlug}>{children}</FoodNightCartProvider>;
+  }
+  if (templateName === "furniture-light") {
+    return <FurnitureLightCartProvider slug={storeSlug}>{children}</FurnitureLightCartProvider>;
+  }
+  if (templateName === "pets-classic") {
+    return <PetsClassicCartProvider slug={storeSlug}>{children}</PetsClassicCartProvider>;
   }
   // Default: tech-premium (and any future template that hasn't migrated yet)
   return <TechPremiumCartProvider slug={storeSlug}>{children}</TechPremiumCartProvider>;

@@ -51,6 +51,28 @@ import {
   mockBestSellers as decorWarmMockBestSellers,
 } from "@/templates/decor-warm/mock/data";
 import { HomeShell as DecorWarmHomeShell } from "@/templates/decor-warm/components/HomeShell";
+import {
+  mockStore as foodNightMockStore,
+  mockCategories as foodNightMockCategories,
+  mockProducts as foodNightMockProducts,
+} from "@/templates/food-night/mock/data";
+import { HomeShell as FoodNightHomeShell } from "@/templates/food-night/components/HomeShell";
+import {
+  mockStore as furnitureLightMockStore,
+  mockCategories as furnitureLightMockCategories,
+  mockProducts as furnitureLightMockProducts,
+  mockHeroBanner as furnitureLightMockHeroBanner,
+  mockStyleCards as furnitureLightMockStyleCards,
+  mockRoomBannerImage as furnitureLightMockRoomBannerImage,
+} from "@/templates/furniture-light/mock/data";
+import { HomeShell as FurnitureLightHomeShell } from "@/templates/furniture-light/components/HomeShell";
+import {
+  mockStore as petsClassicMockStore,
+  mockCategories as petsClassicMockCategories,
+  mockProducts as petsClassicMockProducts,
+  mockPromoSlides as petsClassicMockPromoSlides,
+} from "@/templates/pets-classic/mock/data";
+import { HomeShell as PetsClassicHomeShell } from "@/templates/pets-classic/components/HomeShell";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -105,6 +127,21 @@ export async function generateMetadata({
       title: "Decor Warm — Vista previa | Tiendri",
       description:
         "Decor Warm: la plantilla ideal para tiendas de muebles, decoración y hogar con estética cálida y acogedora.",
+    },
+    "food-night": {
+      title: "Food Night — Vista previa | Tiendri",
+      description:
+        "Food Night: la plantilla ideal para restaurantes, pizzerías y delivery de comida. Diseño oscuro y apetitoso.",
+    },
+    "furniture-light": {
+      title: "Furniture Light — Vista previa | Tiendri",
+      description:
+        "Furniture Light: la plantilla ideal para tiendas de muebles y decoración del hogar. Diseño claro, moderno y acogedor.",
+    },
+    "pets-classic": {
+      title: "Pets Classic — Vista previa | Tiendri",
+      description:
+        "Pets Classic: la plantilla clásica para tiendas de mascotas, accesorios y productos veterinarios. Diseño cálido con acentos naranja.",
     },
   };
 
@@ -221,6 +258,44 @@ export default async function TemplatePreviewPage({
         products={decorWarmMockProducts}
         promoSlides={decorWarmMockPromoSlides}
         bestSellers={decorWarmMockBestSellers}
+      />
+    );
+  }
+
+  // food-night: render food night home shell
+  if (templateName === "food-night") {
+    return (
+      <FoodNightHomeShell
+        store={foodNightMockStore}
+        categories={foodNightMockCategories}
+        products={foodNightMockProducts}
+      />
+    );
+  }
+
+  // furniture-light: render furniture light home shell
+  if (templateName === "furniture-light") {
+    return (
+      <FurnitureLightHomeShell
+        store={furnitureLightMockStore}
+        categories={furnitureLightMockCategories}
+        products={furnitureLightMockProducts}
+        heroBannerImage={furnitureLightMockHeroBanner.image}
+        heroBannerTitle={furnitureLightMockHeroBanner.title}
+        heroBannerSubtitle={furnitureLightMockHeroBanner.subtitle}
+        styleCards={furnitureLightMockStyleCards}
+      />
+    );
+  }
+
+  // pets-classic: render pets classic home shell
+  if (templateName === "pets-classic") {
+    return (
+      <PetsClassicHomeShell
+        store={petsClassicMockStore}
+        categories={petsClassicMockCategories}
+        products={petsClassicMockProducts}
+        promoSlides={petsClassicMockPromoSlides}
       />
     );
   }

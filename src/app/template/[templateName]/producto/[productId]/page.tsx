@@ -47,6 +47,25 @@ import {
   mockDetailProduct as decorWarmMockDetailProduct,
 } from "@/templates/decor-warm/mock/data";
 import { ProductDetailShellRoute as DecorWarmProductDetailShellRoute } from "@/templates/decor-warm/components/ProductDetailShellRoute";
+import {
+  mockStore as foodNightMockStore,
+  mockProducts as foodNightMockProducts,
+  mockDetailProduct as foodNightMockDetailProduct,
+  mockSizeOptions as foodNightMockSizeOptions,
+} from "@/templates/food-night/mock/data";
+import { ProductDetailShellRoute as FoodNightProductDetailShellRoute } from "@/templates/food-night/components/ProductDetailShellRoute";
+import {
+  mockStore as furnitureLightMockStore,
+  mockProducts as furnitureLightMockProducts,
+  mockDetailProduct as furnitureLightMockDetailProduct,
+} from "@/templates/furniture-light/mock/data";
+import { ProductDetailShellRoute as FurnitureLightProductDetailShellRoute } from "@/templates/furniture-light/components/ProductDetailShellRoute";
+import {
+  mockStore as petsClassicMockStore,
+  mockProducts as petsClassicMockProducts,
+  mockDetailProduct as petsClassicMockDetailProduct,
+} from "@/templates/pets-classic/mock/data";
+import { ProductDetailShellRoute as PetsClassicProductDetailShellRoute } from "@/templates/pets-classic/components/ProductDetailShellRoute";
 
 interface ProductDetailPageProps {
   params: Promise<{ templateName: string; productId: string }>;
@@ -217,6 +236,67 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
         store={decorWarmMockStore}
         product={product}
         categories={decorWarmMockCategories}
+      />
+    );
+  }
+
+  // ── Food Night ─────────────────────────────────────────────────────────────────
+  if (templateName === "food-night") {
+    const product =
+      foodNightMockProducts.find((p) => p.id === productId || p.slug === productId) ??
+      (productId === foodNightMockDetailProduct.id || productId === foodNightMockDetailProduct.slug
+        ? foodNightMockDetailProduct
+        : null);
+
+    if (!product) notFound();
+
+    return (
+      <FoodNightProductDetailShellRoute
+        store={foodNightMockStore}
+        product={product}
+        sizeOptions={foodNightMockSizeOptions}
+      />
+    );
+  }
+
+  // ── Furniture Light ───────────────────────────────────────────────────────────
+  if (templateName === "furniture-light") {
+    const product =
+      furnitureLightMockProducts.find((p) => p.id === productId || p.slug === productId) ??
+      (productId === furnitureLightMockDetailProduct.id || productId === furnitureLightMockDetailProduct.slug
+        ? furnitureLightMockDetailProduct
+        : null);
+
+    if (!product) notFound();
+
+    const relatedProducts = furnitureLightMockProducts
+      .filter((p) => p.id !== product.id)
+      .slice(0, 4);
+
+    return (
+      <FurnitureLightProductDetailShellRoute
+        store={furnitureLightMockStore}
+        product={product}
+        relatedProducts={relatedProducts}
+      />
+    );
+  }
+
+  // ── Pets Classic ──────────────────────────────────────────────────────────────
+  if (templateName === "pets-classic") {
+    const product =
+      petsClassicMockProducts.find((p) => p.id === productId || p.slug === productId) ??
+      (productId === petsClassicMockDetailProduct.id || productId === petsClassicMockDetailProduct.slug
+        ? petsClassicMockDetailProduct
+        : null);
+
+    if (!product) notFound();
+
+    return (
+      <PetsClassicProductDetailShellRoute
+        store={petsClassicMockStore}
+        product={product}
+        allProducts={petsClassicMockProducts}
       />
     );
   }

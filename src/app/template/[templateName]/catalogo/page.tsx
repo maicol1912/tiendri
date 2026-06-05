@@ -38,6 +38,24 @@ import {
   mockProducts as decorWarmMockProducts,
 } from "@/templates/decor-warm/mock/data";
 import { ListingShellRoute as DecorWarmListingShellRoute } from "@/templates/decor-warm/components/ListingShellRoute";
+import {
+  mockStore as foodNightMockStore,
+  mockCategories as foodNightMockCategories,
+  mockProducts as foodNightMockProducts,
+} from "@/templates/food-night/mock/data";
+import { ListingShellRoute as FoodNightListingShellRoute } from "@/templates/food-night/components/ListingShellRoute";
+import {
+  mockStore as furnitureLightMockStore,
+  mockCategories as furnitureLightMockCategories,
+  mockProducts as furnitureLightMockProducts,
+} from "@/templates/furniture-light/mock/data";
+import { ListingShellRoute as FurnitureLightListingShellRoute } from "@/templates/furniture-light/components/ListingShellRoute";
+import {
+  mockStore as petsClassicMockStore,
+  mockCategories as petsClassicMockCategories,
+  mockProducts as petsClassicMockProducts,
+} from "@/templates/pets-classic/mock/data";
+import { ListingShellRoute as PetsClassicListingShellRoute } from "@/templates/pets-classic/components/ListingShellRoute";
 
 interface CatalogoPageProps {
   params: Promise<{ templateName: string }>;
@@ -97,6 +115,39 @@ export default async function CatalogoPage({ params }: CatalogoPageProps) {
         store={decorWarmMockStore}
         categories={decorWarmMockCategories}
         products={decorWarmMockProducts}
+      />
+    );
+  }
+
+  // ── Food Night ─────────────────────────────────────────────────────────────────
+  if (templateName === "food-night") {
+    return (
+      <FoodNightListingShellRoute
+        store={foodNightMockStore}
+        categories={foodNightMockCategories}
+        products={foodNightMockProducts}
+      />
+    );
+  }
+
+  // ── Furniture Light ───────────────────────────────────────────────────────────
+  if (templateName === "furniture-light") {
+    return (
+      <FurnitureLightListingShellRoute
+        store={furnitureLightMockStore}
+        products={furnitureLightMockProducts}
+        categories={furnitureLightMockCategories}
+      />
+    );
+  }
+
+  // ── Pets Classic ──────────────────────────────────────────────────────────────
+  if (templateName === "pets-classic") {
+    return (
+      <PetsClassicListingShellRoute
+        store={petsClassicMockStore}
+        categories={petsClassicMockCategories}
+        products={petsClassicMockProducts}
       />
     );
   }

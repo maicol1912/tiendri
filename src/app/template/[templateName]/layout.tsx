@@ -22,10 +22,13 @@ import { mockStore as furnitureDarkMockStore } from "@/templates/furniture-dark/
 import { mockStore as beautySoftMockStore } from "@/templates/beauty-soft/mock/data";
 import { mockStore as beautyElegantMockStore } from "@/templates/beauty-elegant/mock/data";
 import { mockStore as decorWarmMockStore } from "@/templates/decor-warm/mock/data";
+import { mockStore as foodNightMockStore } from "@/templates/food-night/mock/data";
+import { mockStore as furnitureLightMockStore } from "@/templates/furniture-light/mock/data";
+import { mockStore as petsClassicMockStore } from "@/templates/pets-classic/mock/data";
 
 // Templates that use the full TemplateLayoutClient layout (CSS vars + customizer + cart).
 // Templates NOT in this set get a transparent wrapper — they manage their own providers.
-const LAYOUT_SUPPORTED_TEMPLATES = new Set(["tech-premium", "fashion", "pets-modern", "electronics-classic", "furniture-dark", "beauty-soft", "beauty-elegant", "decor-warm"]);
+const LAYOUT_SUPPORTED_TEMPLATES = new Set(["tech-premium", "fashion", "pets-modern", "pets-classic", "electronics-classic", "furniture-dark", "furniture-light", "beauty-soft", "beauty-elegant", "decor-warm", "food-night"]);
 
 interface TemplateLayoutProps {
   children: React.ReactNode;
@@ -40,6 +43,9 @@ function getStoreSlug(templateName: string): string {
   if (templateName === "beauty-soft") return beautySoftMockStore.slug;
   if (templateName === "beauty-elegant") return beautyElegantMockStore.slug;
   if (templateName === "decor-warm") return decorWarmMockStore.slug;
+  if (templateName === "food-night") return foodNightMockStore.slug;
+  if (templateName === "furniture-light") return furnitureLightMockStore.slug;
+  if (templateName === "pets-classic") return petsClassicMockStore.slug;
   return techPremiumMockStore.slug;
 }
 

@@ -16,6 +16,12 @@ import { mockStore as beautyElegantMockStore } from "@/templates/beauty-elegant/
 import { CartShellRoute as BeautyElegantCartShellRoute } from "@/templates/beauty-elegant/components/CartShellRoute";
 import { mockStore as decorWarmMockStore } from "@/templates/decor-warm/mock/data";
 import { CartShellRoute as DecorWarmCartShellRoute } from "@/templates/decor-warm/components/CartShellRoute";
+import { mockStore as foodNightMockStore } from "@/templates/food-night/mock/data";
+import { CartShellRoute as FoodNightCartShellRoute } from "@/templates/food-night/components/CartShellRoute";
+import { mockStore as furnitureLightMockStore } from "@/templates/furniture-light/mock/data";
+import { CartShellRoute as FurnitureLightCartShellRoute } from "@/templates/furniture-light/components/CartShellRoute";
+import { mockStore as petsClassicMockStore } from "@/templates/pets-classic/mock/data";
+import { CartShellRoute as PetsClassicCartShellRoute } from "@/templates/pets-classic/components/CartShellRoute";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -54,6 +60,18 @@ export default async function CarritoPage({ params }: CarritoPageProps) {
 
   if (templateName === "decor-warm") {
     return <DecorWarmCartShellRoute store={decorWarmMockStore} />;
+  }
+
+  if (templateName === "food-night") {
+    return <FoodNightCartShellRoute store={foodNightMockStore} />;
+  }
+
+  if (templateName === "furniture-light") {
+    return <FurnitureLightCartShellRoute store={furnitureLightMockStore} />;
+  }
+
+  if (templateName === "pets-classic") {
+    return <PetsClassicCartShellRoute store={petsClassicMockStore} />;
   }
 
   return <TechPremiumCartShellRoute store={tpMockStore} />;
