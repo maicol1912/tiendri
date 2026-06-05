@@ -15,6 +15,8 @@ interface ProductCardProps {
   product: PetsClassicProduct;
   currencySymbol?: string;
   onClick?: () => void;
+  /** When true, forces a compact 4/3 image ratio and reduced padding for grid listings */
+  listingMode?: boolean;
   layout?: {
     cardStyle?: string;
     cardHoverEffect?: string;
@@ -45,7 +47,7 @@ function getHoverShadow(shadowStyle: string | undefined): string {
   return "0 4px 16px rgba(0,0,0,0.10)";
 }
 
-export function ProductCard({ product, currencySymbol = "$", onClick, layout }: ProductCardProps) {
+export function ProductCard({ product, currencySymbol = "$", onClick, listingMode = false, layout }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
   const hasDiscount =
     product.compare_at_price !== null && product.compare_at_price > product.price;
@@ -54,7 +56,10 @@ export function ProductCard({ product, currencySymbol = "$", onClick, layout }: 
   const animationLevel = layout?.animationLevel ?? "none";
 
   const styleClass = cardStyleClass(layout?.cardStyle ?? "flat");
-  const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "portrait");
+  // In listing mode use a compact wide ratio so cards don't tower over the grid
+  const ratioClass = listingMode
+    ? imageRatioClass("wide")
+    : imageRatioClass(layout?.cardImageRatio ?? "portrait");
 
   // Detect if device supports hover (pointer: fine) — guards scale on desktop only.
   // Initialise to false (SSR-safe) and flip on client.
@@ -169,7 +174,7 @@ export function ProductCard({ product, currencySymbol = "$", onClick, layout }: 
       </div>
 
       {/* Info area */}
-      <div className="flex flex-col gap-1 px-3 pb-4 pt-2">
+      <div className={`flex flex-col gap-1 pt-2 ${listingMode ? "px-2 pb-3" : "px-3 pb-4"}`}>
         <p
           style={{
             fontSize: "13px",

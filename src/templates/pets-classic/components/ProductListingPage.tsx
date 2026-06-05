@@ -31,6 +31,7 @@ interface ProductListingPageProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
+  onCatalogClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
@@ -50,6 +51,7 @@ export function ProductListingPage({
   onSearchClick,
   onCartClick,
   onMenuClick,
+  onCatalogClick,
   onTabChange,
   onCategoryChange,
   onProductClick,
@@ -73,6 +75,7 @@ export function ProductListingPage({
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
+        onCatalogClick={onCatalogClick}
       />
 
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-4 pb-32 lg:pb-8">
@@ -134,6 +137,7 @@ export function ProductListingPage({
                 product={product}
                 currencySymbol={currencySymbol}
                 layout={layout}
+                listingMode
                 onClick={() => onProductClick?.(product.id)}
               />
             ))}

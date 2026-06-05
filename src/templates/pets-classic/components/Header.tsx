@@ -17,6 +17,7 @@ interface HeaderProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onProfileClick?: () => void;
+  onCatalogClick?: () => void;
   layout?: { headerStyle?: string };
 }
 
@@ -27,6 +28,7 @@ export function Header({
   onSearchClick,
   onCartClick,
   onProfileClick,
+  onCatalogClick,
 }: HeaderProps) {
   return (
     <header
@@ -103,7 +105,7 @@ export function Header({
 
       {/* Desktop header */}
       <div className="hidden lg:flex items-center gap-4 px-8 h-16 max-w-7xl mx-auto">
-        <div className="flex-shrink-0">
+        <div className="flex items-center gap-6 flex-shrink-0">
           <span
             style={{
               fontSize: "20px",
@@ -113,6 +115,34 @@ export function Header({
           >
             {store.name}
           </span>
+
+          <button
+            type="button"
+            onClick={onCatalogClick}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "var(--t-text-secondary)",
+              padding: "4px 2px",
+              letterSpacing: "0.01em",
+              borderBottom: "2px solid transparent",
+              transition: "color 150ms ease, border-color 150ms ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "var(--t-primary)";
+              (e.currentTarget as HTMLButtonElement).style.borderBottomColor = "var(--t-primary)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.color = "var(--t-text-secondary)";
+              (e.currentTarget as HTMLButtonElement).style.borderBottomColor = "transparent";
+            }}
+            aria-label="Ir al catálogo"
+          >
+            Catálogo
+          </button>
         </div>
 
         <div className="flex-1 mx-8 max-w-lg">

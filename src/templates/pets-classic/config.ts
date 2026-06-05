@@ -60,7 +60,7 @@ export const petsClassicConfig = {
   grid: {
     products: { mobile: 2, desktop: 4 },
     categories: { mobile: 3, desktop: 6 },
-    listing: { mobile: 2, desktop: 3 },
+    listing: { mobile: 2, desktop: 4 },
     search: { mobile: 2, desktop: 4 },
   },
 

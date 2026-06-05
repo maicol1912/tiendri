@@ -69,7 +69,7 @@ export interface PromoSlide {
   imagePosition?: string;
 }
 
-export type NavTab = "home" | "wishlist" | "cart" | "profile";
+export type NavTab = "home" | "wishlist" | "cart" | "profile" | "listing";
 
 export interface CartItem {
   productId: string;

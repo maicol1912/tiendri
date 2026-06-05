@@ -41,17 +41,19 @@ export function ListingShellRoute({
       products={products}
       layout={config.layout ?? petsClassicConfig.layout}
       grid={config.grid ?? petsClassicConfig.grid}
-      activeTab="home"
+      activeTab="listing"
       activeCategoryId={activeCategoryId}
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onCatalogClick={nav.goListing}
       onCategoryChange={setActiveCategoryId}
       onProductClick={nav.goProduct}
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();
         else if (tab === "cart") nav.goCart();
+        else if (tab === "listing") nav.goListing();
       }}
     />
   );

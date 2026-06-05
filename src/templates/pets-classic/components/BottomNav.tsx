@@ -5,7 +5,7 @@
 // All colors via var(--t-*)
 // Tab selection spring animation gated by animationLevel prop.
 
-import { MessageSquare, Heart, ShoppingBag, User } from "lucide-react";
+import { Home, LayoutGrid, ShoppingBag, User } from "lucide-react";
 import { useRef, useEffect } from "react";
 import type { NavTab } from "../types";
 
@@ -18,9 +18,9 @@ interface BottomNavProps {
   onTabChange?: (tab: NavTab) => void;
 }
 
-const TABS: { id: NavTab; label: string; Icon: typeof MessageSquare }[] = [
-  { id: "home", label: "Inicio", Icon: MessageSquare },
-  { id: "wishlist", label: "Favoritos", Icon: Heart },
+const TABS: { id: NavTab; label: string; Icon: typeof Home }[] = [
+  { id: "home", label: "Inicio", Icon: Home },
+  { id: "listing", label: "Catálogo", Icon: LayoutGrid },
   { id: "cart", label: "Carrito", Icon: ShoppingBag },
   { id: "profile", label: "Perfil", Icon: User },
 ];
@@ -42,7 +42,7 @@ const SPRING_KEYFRAMES = `
 interface TabIconProps {
   isActive: boolean;
   animationLevel: AnimationLevel;
-  Icon: typeof MessageSquare;
+  Icon: typeof Home;
 }
 
 function TabIcon({ isActive, animationLevel, Icon }: TabIconProps) {

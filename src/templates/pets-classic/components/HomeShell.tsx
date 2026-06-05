@@ -83,6 +83,7 @@ export function HomeShell({
       currencySymbol={currencySymbol}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onCatalogClick={nav.goListing}
       onCategoryChange={(id) => setActiveCategoryId(id)}
       onProductClick={nav.goProduct}
       onAddToCart={handleAddToCart}

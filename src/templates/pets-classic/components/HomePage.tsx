@@ -43,6 +43,7 @@ interface HomePageProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
+  onCatalogClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onAddToCart?: (productId: string) => void;
@@ -71,6 +72,7 @@ export function HomePage({
   onSearchClick,
   onCartClick,
   onMenuClick,
+  onCatalogClick,
   onCategoryChange,
   onProductClick,
   onAddToCart,
@@ -348,6 +350,7 @@ export function HomePage({
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
+        onCatalogClick={onCatalogClick ?? onSeeAll}
       />
 
       <main className="pb-4">
@@ -366,7 +369,7 @@ export function HomePage({
         animationLevel={layout?.animationLevel}
         onTabChange={(tab) => {
           if (tab === "cart") onCartClick?.();
-          else if (tab === "home") onSearchClick?.();
+          else if (tab === "listing") (onCatalogClick ?? onSeeAll)?.();
           else onTabChange?.(tab);
         }}
       />
