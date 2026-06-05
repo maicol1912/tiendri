@@ -81,6 +81,7 @@ Sofía escribe para vender, no para decorar. Cada palabra tiene un trabajo: conv
 | Skill | Cuándo cargar |
 |-------|---------------|
 | `ai/skills/humanizalo/` | SIEMPRE — auditoría anti-AI en todo lo que escribe |
+| `ai/skills/impeccable/` | Comando `clarify` — UX copy, labels, error messages, microcopy con craft profesional |
 
 ## Principios
 

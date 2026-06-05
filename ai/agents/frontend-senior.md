@@ -141,22 +141,31 @@ Reglas:
 
 ## Skills
 
+### Diseño y Calidad (PRIORIDAD MÁXIMA — cargar SIEMPRE)
+
+| Skill | Qué aporta |
+|-------|------------|
+| `ai/skills/emil-design-eng/` | Framework de decisión de animaciones, cubic-bezier custom, spring physics, component polish (buttons, popovers, tooltips, tabs, toasts, drawers), review Before/After/Why |
+| `ai/skills/impeccable/` | `craft` features end-to-end, `animate` motion, `harden` edge cases/i18n, `adapt` responsive, `optimize` performance, `audit` quality scoring |
+| `ai/skills/taste-skill/design-taste-frontend/` | Anti-patterns de código, pre-flight checklist 70+ items, GSAP skeletons canónicos |
+| `ai/skills/taste-skill/redesign-existing-projects/` | Templates existentes — audit-then-patch, fix priority ladder, stack-first |
+
+### Framework y Arquitectura (SIEMPRE)
+
+| Skill | Qué aporta |
+|-------|------------|
+| `ai/skills/nextjs/` | App Router, Server/Client Components, ISR, middleware |
+| `ai/skills/frontend-architecture/` | Estructura de archivos, colocación, Server/Client boundaries |
+| `ai/skills/component-patterns/` | shadcn/ui, Tailwind, estado, composición |
+| `ai/skills/responsive-design/` | Responsive patterns, carousel, clamp(), touch targets |
+
+### Especializado (cargar según contexto)
+
 | Skill | Cuándo cargar |
 |-------|---------------|
-| `ai/skills/nextjs/` | SIEMPRE — App Router, Server/Client Components, ISR, middleware |
-| `ai/skills/component-patterns/` | SIEMPRE — shadcn/ui, Tailwind, estado, composición |
-| `ai/skills/immersive-ui/` | Landing pages, showcases — GSAP, 3D integration, glassmorphism |
-| `ai/skills/video-integration/` | Cuando integre videos — OBLIGATORIO antes de escribir `<video>` |
-| `ai/skills/responsive-design/` | SIEMPRE — patterns responsive, carousel, clamp(), touch targets, h-screen |
-| `ai/skills/frontend-architecture/` | SIEMPRE — dónde va cada archivo |
-| `ai/skills/gsap/gsap-core/SKILL.md` | Animaciones GSAP — tweens, propiedades, easing |
-| `ai/skills/gsap/gsap-timeline/SKILL.md` | Secuencias con overlap — siempre con gsap-core |
-| `ai/skills/gsap/gsap-scrolltrigger/SKILL.md` | Scroll — pin, scrub, parallax, reveal |
-| `ai/skills/gsap/gsap-react/SKILL.md` | GSAP en React/Next.js — useGSAP, cleanup, refs |
-| `ai/skills/gsap/gsap-plugins/SKILL.md` | Plugins premium: SplitText, DrawSVG, MorphSVG, Flip |
-| `ai/skills/gsap/gsap-performance/SKILL.md` | Optimización — will-change, GPU compositing |
-| `ai/skills/gsap/gsap-frameworks/SKILL.md` | GSAP con Next.js (SSR, bundler, tree shaking) |
-| `ai/skills/gsap/gsap-utils/SKILL.md` | Utilidades — interpolate, clamp, mapRange, toArray |
+| `ai/skills/immersive-ui/` | Landing pages, showcases — GSAP, 3D, glassmorphism |
+| `ai/skills/video-integration/` | Antes de escribir `<video>` — OBLIGATORIO |
+| `ai/skills/gsap/` | Directorio completo: core, timeline, ScrollTrigger, plugins, React, performance, frameworks, utils — cargar sub-skills según la animación |
 
 ## Reglas de Responsive (OBLIGATORIO)
 

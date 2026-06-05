@@ -4,13 +4,14 @@
 
 | Agente | Nombre | Rol | Disponibilidad | Skills |
 |--------|--------|-----|----------------|--------|
+| [creative-director](ai/agents/creative-director.md) | Lucas | Director Creativo | Siempre | `impeccable/`, `taste-skill/`, `emil-design-eng/` |
 | [backend-expert](ai/agents/backend-expert.md) | Santiago | Backend: Supabase, PostgreSQL, Server Actions, auth, migraciones | Siempre | `supabase/` |
-| [frontend-senior](ai/agents/frontend-senior.md) | Camilo | Frontend: React, Next.js, Tailwind, shadcn/ui, performance | Siempre | `nextjs/`, `component-patterns/` |
-| [uiux-designer](ai/agents/uiux-designer.md) | Valentina | UI/UX: diseño visual, templates, Framer Motion, anti-AI | Siempre | `design-system/`, `component-patterns/` |
-| [web-copywriter](ai/agents/web-copywriter.md) | Sofía | Copy: landing, CTAs, microcopy, español neutro LATAM | Siempre | `humanizalo/` |
+| [frontend-senior](ai/agents/frontend-senior.md) | Camilo | Frontend: React, Next.js, Tailwind, shadcn/ui, performance | Siempre | `nextjs/`, `component-patterns/`, `impeccable/`, `taste-skill/`, `emil-design-eng/` |
+| [uiux-designer](ai/agents/uiux-designer.md) | Valentina | UI/UX: diseño visual, templates, Framer Motion, anti-AI | Siempre | `design-system/`, `component-patterns/`, `impeccable/`, `taste-skill/` |
+| [web-copywriter](ai/agents/web-copywriter.md) | Sofía | Copy: landing, CTAs, microcopy, español neutro LATAM | Siempre | `humanizalo/`, `impeccable/` |
 | [security-analyst](ai/agents/security-analyst.md) | Diego | Seguridad: auditoría, reportes, no corrige | Bajo demanda | `security-audit/` |
 | [seo-specialist](ai/agents/seo-specialist.md) | Martín | SEO: metadata, structured data, scoring 100pts, implementa | Siempre | `seo/`, `nextjs/` |
-| [qa-tester](ai/agents/qa-tester.md) | Andrea | QA: testing exploratorio, edge cases, mobile, solo reporta | Bajo demanda | — |
+| [qa-tester](ai/agents/qa-tester.md) | Andrea | QA: testing exploratorio, edge cases, mobile, solo reporta | Bajo demanda | `impeccable/`, `emil-design-eng/` |
 | [ai-content-specialist](ai/agents/ai-content-specialist.md) | Steve | AI Content: prompts para GPT Image 2 + Kling, mockups, videos, branding-aware | Bajo demanda | `design-system/`, `immersive-ui/` |
 
 ## Skills
@@ -36,6 +37,9 @@
 | [figma-mcp](ai/skills/figma-mcp/SKILL.md) | `ai/skills/figma-mcp/` | Figma MCP extraction workflow, asset bank organization, design-to-code | Orquestador, Camilo, Valentina |
 | [figma-replication](ai/skills/figma-replication/SKILL.md) | `ai/skills/figma-replication/` | Pipeline completo Figma→template: extracción con fallback manual, design tokens, fidelity checklist, validación browser | Valentina, Camilo |
 | [template-qa](ai/skills/template-qa/SKILL.md) | `ai/skills/template-qa/` | QA post-implementación: 8 checks (IDs, imágenes, navegación, slugs, mock data, componentes, responsive, cleanup) | Orquestador, Andrea, Camilo |
+| [impeccable](ai/skills/impeccable/SKILL.md) | `ai/skills/impeccable/` | 22 comandos de diseño frontend: shape, craft, audit, critique, polish, animate, typeset, layout, colorize, bolder, harden, adapt — anti-patterns estrictos, OKLCH obligatorio | Lucas, Valentina, Camilo, Sofía, Andrea |
+| [taste-skill](ai/skills/taste-skill/) | `ai/skills/taste-skill/` | Anti-slop framework: 13 variantes (design-taste-frontend v2, redesign-existing-projects, high-end-visual-design, image-to-code, etc.) — brief inference, 50+ anti-patterns, pre-flight checklist | Lucas, Valentina, Camilo |
+| [emil-design-eng](ai/skills/emil-design-eng/SKILL.md) | `ai/skills/emil-design-eng/` | Emil Kowalski: animation decisions, cubic-bezier custom, spring physics, component polish (buttons, popovers, tooltips, tabs, toasts, drawers), review Before/After/Why | Lucas, Camilo, Andrea |
 
 ## Workflow
 

@@ -133,7 +133,10 @@ Andrea NO corre automáticamente. Se activa bajo demanda para testear una featur
 
 ## Skills
 
-Andrea no tiene skills específicas — su conocimiento es experiencia en testing y comprensión de flujos de usuario.
+| Skill | Cuándo cargar |
+|-------|---------------|
+| `ai/skills/impeccable/` | Comando `audit` — auditoría visual con scoring 0-20, severity P0-P3, 5 dimensiones (accesibilidad, performance, theming, responsive, anti-patterns) |
+| `ai/skills/emil-design-eng/` | Review de animaciones — checklist de 11 anti-patterns, formato tabla Before/After/Why, verificación de easing/duración/transform-origin |
 
 ## Principios
 

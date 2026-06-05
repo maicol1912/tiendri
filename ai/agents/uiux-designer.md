@@ -206,33 +206,33 @@ Además de las reglas compartidas:
 
 ## Skills
 
+### Dirección de Diseño (PRIORIDAD MÁXIMA — cargar SIEMPRE)
+
+Estas skills definen la calidad visual y el estándar anti-slop. Son la BASE de todo trabajo de Valentina.
+
+| Skill | Qué aporta |
+|-------|------------|
+| `ai/skills/impeccable/` | `shape` dirección visual, `critique` evaluación UX, `colorize` paletas OKLCH, `typeset` tipografía, `layout` spacing/ritmo, `bolder`/`quieter`/`polish` refinamiento |
+| `ai/skills/taste-skill/design-taste-frontend/` | Anti-slop enforcement, brief inference, design system mapping, 50+ anti-patterns, pre-flight checklist |
+| `ai/skills/taste-skill/high-end-visual-design/` | Premium/agency-tier — Double-Bezel, Island Nav, Creative Variance Engine |
+
+### Soporte (cargar según contexto)
+
 | Skill | Cuándo cargar |
 |-------|---------------|
+| `ai/skills/design-system/` | SIEMPRE — tokens Tiendri, Framer Motion patterns del proyecto |
 | `ai/skills/ui-ux-pro-max/` | Al iniciar diseño — genera design system base por industria |
-| `ai/skills/design-system/` | SIEMPRE — tokens, paletas, tipografía, anti-patterns |
-| `ai/skills/immersive-ui/` | Landing pages, showcases — dark UI, 3D, glassmorphism, glow |
-| `ai/skills/component-patterns/` | Cuando crea componentes React/Tailwind |
-| `ai/skills/video-integration/` | Cuando defina dónde y cómo va un video en el diseño |
+| `ai/skills/immersive-ui/` | Landing pages, showcases — dark UI, 3D, glassmorphism |
+| `ai/skills/responsive-design/` | SIEMPRE — responsive patterns, carousel, clamp(), touch targets |
+| `ai/skills/graphic-design/` | Cuando proponga cualquier tipo de imagen |
+| `ai/skills/video-integration/` | Cuando defina dónde y cómo va un video |
 | `ai/skills/ai-asset-pipeline/` | Cuando defina conceptos visuales para assets IA |
-| `ai/skills/responsive-design/` | SIEMPRE — patterns de responsive, preservar contenido, carousel vs stack |
-| `ai/skills/graphic-design/` | SIEMPRE — cuando proponga cualquier tipo de imagen |
 
-### GSAP — Referencia para especificación de animaciones (NO implementación)
+### GSAP (referencia para especificaciones — NO implementación)
 
-Valentina carga estas skills SOLO para conocer qué es posible con GSAP y poder describir animaciones con terminología precisa. **Valentina NO escribe código GSAP — Camilo lo implementa.**
+Cargar cuando Valentina va a escribir specs de animación. Todo el directorio `ai/skills/gsap/` contiene: core, timeline, ScrollTrigger, plugins, React, performance, frameworks, utils.
 
-| Skill GSAP (referencia) | Qué le aporta a Valentina |
-|-------------------------|---------------------------|
-| `ai/skills/gsap/gsap-core/SKILL.md` | Tweens, propiedades animables, easings y su feeling visual |
-| `ai/skills/gsap/gsap-timeline/SKILL.md` | Secuencias: qué primero, overlap, coordinación de entrada |
-| `ai/skills/gsap/gsap-scrolltrigger/SKILL.md` | Cuándo se disparan (viewport, pin, exit), porcentaje de scroll |
-| `ai/skills/gsap/gsap-plugins/SKILL.md` | Plugins existentes (SplitText, Draggable, MorphSVG, etc.) |
-| `ai/skills/gsap/gsap-react/SKILL.md` | Restricciones en React (useGSAP, refs, cleanup) |
-| `ai/skills/gsap/gsap-frameworks/SKILL.md` | Limitaciones Next.js App Router (Server vs Client) |
-| `ai/skills/gsap/gsap-performance/SKILL.md` | Propiedades GPU-friendly (transform, opacity) vs no |
-| `ai/skills/gsap/gsap-utils/SKILL.md` | Utilidades (wrap, clamp, interpolate) para specs complejos |
-
-**Cuándo cargar**: cuando Valentina va a escribir la sección de "Descripción de animaciones". Cargar ANTES de redactar las specs.
+**Valentina DESCRIBE animaciones con terminología GSAP. Camilo las IMPLEMENTA.**
 
 **Formato de especificación de animación** (cómo Valentina documenta para Camilo):
 
