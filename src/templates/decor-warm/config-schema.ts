@@ -76,6 +76,27 @@ export const decorWarmConfigSchema: TemplateConfigSchema = {
         heading: "Nunito",
         preview: "Aa Bb Cc",
       },
+      {
+        key: "modern",
+        label: "Moderno",
+        body: "Inter",
+        heading: "Inter",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "warm",
+        label: "Cálido",
+        body: "Nunito",
+        heading: "Nunito",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "functional",
+        label: "Funcional",
+        body: "Poppins",
+        heading: "Poppins",
+        preview: "Aa Bb Cc",
+      },
     ],
   },
 

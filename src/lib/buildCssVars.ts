@@ -88,5 +88,36 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
     vars["--template-heading-font"] = config.headingFont;
   }
 
+  // ── Typography tokens → --t-type-* ────────────────────────────────────────
+  // Set by presets; fine-tunable per-field. Absent when no preset has been applied.
+  const typography = config.theme?.typography;
+  if (typography) {
+    const scaleMap: Record<string, string> = {
+      md: "1.5rem",
+      lg: "2rem",
+      xl: "2.5rem",
+      "2xl": "3.5rem",
+    };
+    vars["--t-type-heading-weight"] = String(typography.headingWeight);
+    vars["--t-type-heading-size"] = scaleMap[typography.headingScale] ?? "2rem";
+    vars["--t-type-heading-tracking"] = typography.headingTracking;
+    vars["--t-type-heading-transform"] = typography.headingTransform;
+  }
+
+  // ── Spacing/density tokens → --t-space-* ──────────────────────────────────
+  // Density level resolves to a set of spacing multiplier tokens.
+  // Defaults to "balanced" when no preset has been applied.
+  const density = config.layoutDensity ?? "balanced";
+  const spacingMap: Record<string, Record<string, string>> = {
+    compact:  { section: "2rem",  card: "0.75rem", item: "0.5rem",  gap: "0.75rem" },
+    balanced: { section: "3rem",  card: "1rem",    item: "0.75rem", gap: "1rem"    },
+    spacious: { section: "5rem",  card: "1.5rem",  item: "1rem",    gap: "1.5rem"  },
+  };
+  const spacing = spacingMap[density] ?? spacingMap["balanced"]!;
+  vars["--t-space-section"] = spacing.section;
+  vars["--t-space-card"]    = spacing.card;
+  vars["--t-space-item"]    = spacing.item;
+  vars["--t-space-gap"]     = spacing.gap;
+
   return vars;
 }

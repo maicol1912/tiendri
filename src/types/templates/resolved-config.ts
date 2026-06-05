@@ -4,13 +4,20 @@
 // or raw StoreCustomization directly.
 
 import type { TemplateConfig } from "./template-config";
-import type { StoreCustomization } from "./store-customization";
+import type { ThemeCustomization, StoreCustomization } from "./store-customization";
 import type { TemplateConfigSchema } from "./config-schema";
+import type { DensityLevel } from "./primitives";
 
-// ResolvedStoreConfig has the same shape as TemplateConfig because the resolver
-// just deep-merges merchant overrides into the template defaults.
-// Using a type alias (not a new interface) makes assignability trivial.
-export type ResolvedStoreConfig = TemplateConfig;
+// ResolvedStoreConfig extends TemplateConfig with runtime-resolved fields
+// forwarded from the merchant's StoreCustomization. The two new optional fields
+// are additive and backward-compatible — consumers that don't read them are unaffected.
+export interface ResolvedStoreConfig extends TemplateConfig {
+  /** Merchant's full theme object — forwarded from StoreCustomization.theme.
+   * Carries presetId, typography, fontPair, and color/radius overrides (for buildCssVars). */
+  theme?: ThemeCustomization;
+  /** Resolved density level — forwarded from StoreCustomization.layout.density. */
+  layoutDensity?: DensityLevel;
+}
 
 // MockStoreConfig = same type, just populated with static mock data instead of
 // a live Supabase-resolved merge. Same contract, different data source.

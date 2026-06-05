@@ -81,7 +81,7 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
       },
       {
         key: "warm",
-        label: "Calido",
+        label: "Cálido",
         body: "Poppins",
         heading: "Playfair Display",
         preview: "Aa Bb Cc",
@@ -91,6 +91,13 @@ export const petsModernConfigSchema: TemplateConfigSchema = {
         label: "Funcional",
         body: "IBM Plex Sans",
         heading: "IBM Plex Mono",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "elegant",
+        label: "Elegante",
+        body: "DM Sans",
+        heading: "Cormorant Garamond",
         preview: "Aa Bb Cc",
       },
     ],

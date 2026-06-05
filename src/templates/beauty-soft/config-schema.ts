@@ -83,6 +83,27 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
         heading: "Outfit",
         preview: "Aa Bb Cc",
       },
+      {
+        key: "modern",
+        label: "Moderno",
+        body: "Inter",
+        heading: "Inter",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "warm",
+        label: "Cálido",
+        body: "Nunito",
+        heading: "Nunito",
+        preview: "Aa Bb Cc",
+      },
+      {
+        key: "functional",
+        label: "Funcional",
+        body: "DM Sans",
+        heading: "DM Sans",
+        preview: "Aa Bb Cc",
+      },
     ],
   },
 

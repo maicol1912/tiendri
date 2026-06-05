@@ -198,5 +198,11 @@ export function resolveTemplateConfig(
     branding: finalBranding,
     content: finalContent,
     business: resolvedBusiness,
+    // Forwarded from merchant customization — used by buildCssVars for
+    // typography tokens (--t-type-*) and spacing/density tokens (--t-space-*).
+    // These are additive and backward-compatible: consumers that don't read
+    // these fields are completely unaffected.
+    theme: customization.theme,
+    layoutDensity: customization.layout?.density,
   };
 }

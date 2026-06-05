@@ -9,9 +9,10 @@ import type {
   TemplateGridConfig,
   TemplateLayoutConfig,
 } from "./template-config";
-import type { Appearance } from "./primitives";
+import type { Appearance, DensityLevel } from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
+import type { TypographyConfig } from "./typography";
 
 // Re-export the shared section types so consumers only need to import from this module
 export type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
@@ -24,6 +25,10 @@ export interface ThemeCustomization {
   radius?: Partial<TemplateRadiusTokens>;
   /** Font pair key — e.g. "modern" | "warm" | "elegant" | "functional" */
   fontPair?: string;
+  /** ID of the active style preset — e.g. "minimalista", "directo" */
+  presetId?: string;
+  /** Typography personality — set by presets, fine-tunable by merchant */
+  typography?: TypographyConfig;
 }
 
 // Partial layout overrides — grid columns, section order/visibility, and UI style options.
@@ -33,6 +38,8 @@ export interface LayoutCustomization {
   // Full section array when provided — replaces the template default entirely
   // (order matters: array position = render position).
   sections?: SectionConfig[];
+  /** Spacing density level — set by presets, controls spacing multiplier tokens */
+  density?: DensityLevel;
 }
 
 // The complete customization blob saved to Supabase as JSONB.

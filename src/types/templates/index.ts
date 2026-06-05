@@ -5,4 +5,5 @@ export type * from "./template-config";
 export type * from "./store-customization";
 export type * from "./resolved-config";
 export type * from "./config-schema";
+export type * from "./typography";
 export { isRepeatableSection } from "./config-schema";

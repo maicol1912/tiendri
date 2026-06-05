@@ -13,6 +13,9 @@ import type {
   FooterStyle,
   GridBreakpoint,
   AnimationLevel,
+  ButtonStyle,
+  BadgeStyle,
+  PriceDisplay,
 } from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
@@ -62,6 +65,10 @@ export interface TemplateLayoutConfig {
   footerStyle: FooterStyle;
   shadowStyle?: "neutral" | "hue-tinted";
   animationLevel?: AnimationLevel;
+  // Phase 1 — preset-managed style primitives
+  buttonStyle?: ButtonStyle;
+  badgeStyle?: BadgeStyle;
+  priceDisplay?: PriceDisplay;
 }
 
 // Full template config — what each template exposes as its default contract.

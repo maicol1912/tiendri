@@ -30,6 +30,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
       { key: "elegant", label: "Cormorant + DM Sans (elegante)", body: "DM Sans", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
       { key: "warm", label: "Playfair + Poppins (clásico)", body: "Poppins", heading: "Playfair Display", preview: "Aa Bb Cc" },
       { key: "modern", label: "Inter + Space Grotesk (moderno)", body: "Inter", heading: "Space Grotesk", preview: "Aa Bb Cc" },
+      { key: "functional", label: "Funcional", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
     ],
   },
 

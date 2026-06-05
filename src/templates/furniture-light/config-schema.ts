@@ -23,6 +23,7 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
       { key: "warm", label: "Cálido", body: "Poppins", heading: "Playfair Display", preview: "Aa Bb Cc" },
       { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
       { key: "minimal", label: "Mínimo", body: "Nunito", heading: "Nunito", preview: "Aa Bb Cc" },
+      { key: "functional", label: "Funcional", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
     ],
   },
 

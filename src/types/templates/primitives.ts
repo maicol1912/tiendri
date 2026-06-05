@@ -18,6 +18,18 @@ export type BorderRadius = "sharp" | "rounded" | "pill";
 export type Appearance = "light" | "dark";
 export type AnimationLevel = "none" | "subtle" | "full";
 
+// Button visual style — filled, outlined (border only), or ghost (text only)
+export type ButtonStyle = "filled" | "outlined" | "ghost";
+
+// Badge shape style — pill (fully rounded) or square (slight radius)
+export type BadgeStyle = "pill" | "square";
+
+// Price display prominence — how visually dominant the price is
+export type PriceDisplay = "prominent" | "standard" | "subtle";
+
+// Layout density level — controls spacing multipliers throughout the template
+export type DensityLevel = "compact" | "balanced" | "spacious";
+
 // Grid breakpoint — number of columns per viewport
 export interface GridBreakpoint {
   mobile: number; // 1–6

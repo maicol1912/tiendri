@@ -35,6 +35,10 @@ export const electronicsClassicConfigSchema: TemplateConfigSchema = {
       { key: "tech", label: "Tech (Inter)", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
       { key: "sharp", label: "Futurista (Roboto)", body: "Roboto", heading: "Roboto Condensed", preview: "Aa Bb Cc" },
       { key: "clean", label: "Limpio (DM Sans)", body: "DM Sans", heading: "DM Sans", preview: "Aa Bb Cc" },
+      { key: "modern", label: "Moderno", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
+      { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
+      { key: "warm", label: "Cálido", body: "Nunito", heading: "Nunito", preview: "Aa Bb Cc" },
+      { key: "functional", label: "Funcional", body: "Roboto", heading: "Roboto", preview: "Aa Bb Cc" },
     ],
   },
 
