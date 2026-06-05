@@ -1,7 +1,7 @@
 "use client";
 
 // ThemeTab — Template & appearance configuration
-// Shows palette picker (when schema has palettes), color pickers, radius, fonts.
+// Shows preset picker, palette picker (when schema has palettes), color pickers, radius, fonts.
 // Save: persists to localStorage key `tiendri_demo-store_customization`
 
 import { useState, useMemo, useCallback } from "react";
@@ -14,7 +14,9 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
 import type { TemplateConfigSchema, ColorPalette } from "@/types/templates/config-schema";
-import { updateTheme } from "../actions";
+import { updateTheme, readCustomization, CUSTOMIZATION_STORAGE_KEY } from "../actions";
+import { applyPreset } from "@/lib/presets";
+import { PresetPicker } from "./preset-picker";
 
 // ── Fallback hardcoded arrays (used when no schema is provided) ─────────────
 
@@ -186,6 +188,10 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
 
   // ── State ──────────────────────────────────────────────────────────────────
 
+  const [presetId, setPresetId] = useState<string | undefined>(
+    initialTheme?.presetId
+  );
+
   const [paletteId, setPaletteId] = useState<string | undefined>(
     initialTheme?.paletteId
   );
@@ -213,6 +219,27 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
   );
 
   // ── Handlers ──────────────────────────────────────────────────────────────
+
+  const handlePresetSelect = useCallback((selectedPresetId: string) => {
+    // Read full customization, apply preset, write back, then update local state
+    const current = readCustomization();
+    const updated = applyPreset(selectedPresetId, current);
+
+    try {
+      localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(updated));
+    } catch {
+      toast.error("Error al guardar la personalidad. Intentá de nuevo.");
+      return;
+    }
+
+    // Sync local state with preset-applied values
+    setPresetId(selectedPresetId);
+    if (updated.theme?.fontPair) {
+      setFontPair(updated.theme.fontPair);
+    }
+
+    toast.success("Personalidad aplicada. Podés ajustar los detalles abajo.");
+  }, []);
 
   const handlePaletteSelect = useCallback((id: string) => {
     setPaletteId(id);
@@ -265,6 +292,7 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
     }
 
     const theme: ThemeCustomization = {
+      ...(presetId ? { presetId } : {}),
       ...(paletteId ? { paletteId } : {}),
       ...(Object.keys(colorOverrides).length > 0 ? { colors: colorOverrides } : {}),
       radius,
@@ -284,6 +312,22 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Preset picker — Personalidad de tu tienda */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Personalidad de tu tienda</CardTitle>
+          <CardDescription>
+            Elegí un estilo base. Después podés personalizar los detalles.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PresetPicker
+            activePresetId={presetId}
+            onPresetSelect={handlePresetSelect}
+          />
+        </CardContent>
+      </Card>
+
       {/* Template selection */}
       <Card>
         <CardHeader>
