@@ -1,1171 +1,505 @@
-# Style Preset System — Complete Technical Reference
+# Sistema de Presets de Estilo — Referencia Técnica Completa
 
-> Phase 1 of the Tiendri V2 customization roadmap.
-> This document is the single source of truth for implementing the preset system end-to-end.
-> Read `docs/template-system.md` first if you are not yet familiar with the template architecture.
-
----
-
-## Table of Contents
-
-1. [Overview](#1-overview)
-2. [Architecture](#2-architecture)
-3. [The 8 Presets](#3-the-8-presets)
-4. [New Types Required](#4-new-types-required)
-5. [buildCssVars Expansion](#5-buildcssvars-expansion)
-6. [Component Consumption Pattern](#6-component-consumption-pattern)
-7. [Dashboard Integration](#7-dashboard-integration)
-8. [Anti-Ugliness Guardrails](#8-anti-ugliness-guardrails)
-9. [Implementation Plan](#9-implementation-plan)
-10. [Migration Notes](#10-migration-notes)
+> Fuente de verdad para el sistema de presets tal como fue implementado.
+> Leer `docs/template-system.md` antes si no estás familiarizado con la arquitectura de templates.
 
 ---
 
-## 1. Overview
+## Tabla de contenidos
 
-### What Is the Preset System?
-
-A **style preset** is a one-click personality for a merchant's storefront. It is a named bundle of layout and typographic values that collectively produce a coherent visual character — compact and direct, spacious and editorial, vibrant and expressive, etc.
-
-Presets do **not** replace the color palette system. A merchant picks a palette for colors, and separately picks a preset for personality. The two systems compose: you can have the "Boutique" preset with any of the 16 color palettes.
-
-### How It Fits Into the Architecture
-
-The template system has three layers:
-
-```
-Template (structure)     — what pages and sections exist, where elements live
-Preset (personality)     — density, typographic scale, card style, motion level
-Fine-tuning (overrides)  — per-field tweaks: exact radius, individual color token
-```
-
-Templates define structure and structural defaults. Presets define multi-field personalities expressed as `StoreCustomization` overrides. Fine-tuning is what the merchant does after picking a preset — individual radius sliders, color pickers, etc.
-
-### Key Invariant: Presets Are Universal
-
-All 8 presets are available in all 11 templates. A preset is a `StoreCustomization` patch — it writes to the merchant's override layer, not to the template. The template's `config.ts` is never touched. This means:
-
-- `/template/[name]` preview pages always show the template's own defaults
-- Presets only manifest in the merchant's live store
-- Switching presets is non-destructive — it overwrites the preset-managed fields in `StoreCustomization`, while preserving branding, content, and business fields
+1. [Qué es un preset](#1-qué-es-un-preset)
+2. [Arquitectura y flujo de datos](#2-arquitectura-y-flujo-de-datos)
+3. [Los 13 presets](#3-los-13-presets)
+4. [Tipo StylePreset — 6 sub-objetos](#4-tipo-stylepreset--6-sub-objetos)
+5. [Tipos primitivos](#5-tipos-primitivos)
+6. [DEFAULT_PRESET_VALUES](#6-default_preset_values)
+7. [buildCssVars — 5 builders composables](#7-buildcssvars--5-builders-composables)
+8. [Sistema de gene clusters](#8-sistema-de-gene-clusters)
+9. [Guardrails — combinaciones prohibidas y dependencias](#9-guardrails--combinaciones-prohibidas-y-dependencias)
+10. [Cómo agregar un nuevo preset](#10-cómo-agregar-un-nuevo-preset)
 
 ---
 
-## 2. Architecture
+## 1. Qué es un preset
 
-### Data Flow
+Un **preset de estilo** es una personalidad visual completa para una tienda. Es un bundle nombrado de tokens visuales que colectivamente producen un carácter estético coherente — compacto y directo, espacioso y editorial, vibrante y expresivo, etc.
+
+Los presets **no reemplazan el sistema de paletas de colores**. Un merchant elige una paleta para colores y por separado elige un preset para personalidad. Los dos sistemas se componen: podés tener el preset "Galería" con cualquiera de las paletas de color disponibles.
+
+### Invariante fundamental: los presets son universales
+
+Los 13 presets están disponibles en todos los templates. Un preset es un patch de `StoreCustomization` — escribe sobre la capa de overrides del merchant, nunca sobre el `config.ts` del template.
+
+---
+
+## 2. Arquitectura y flujo de datos
 
 ```
-Merchant clicks preset
-        │
-        ▼
+Merchant selecciona preset
+        |
+        v
 applyPreset(presetId, current: StoreCustomization) → StoreCustomization
-        │
-        │  Writes to:
-        │   theme.presetId
-        │   theme.fontPair
-        │   theme.typography  (new)
-        │   layout.layout     (existing TemplateLayoutConfig fields)
-        │   layout.density    (new)
-        │
-        ▼
+        |
+        | Escribe todos los campos de los 6 sub-objetos del preset
+        |
+        v
 localStorage("tiendri_demo-store_customization")
-        │
-        ▼
+        |
+        v
 resolveTemplateConfig(templateConfig, storeCustomization)
-        │  Signature unchanged — shallow-merges as before
-        │  Return type EXTENDED with two new optional fields:
-        │    • `theme` (ThemeCustomization) — forwarded from StoreCustomization
-        │    • `layoutDensity` (DensityLevel) — forwarded from StoreCustomization.layout.density
-        │  This is additive and backward-compatible — no existing consumer breaks
-        │  layout.layout already handled by existing merge
-        │
-        ▼
+        | Shallow-merge; reenvía theme y layoutDensity
+        |
+        v
 ResolvedStoreConfig
-        │
-        ▼
-buildCssVars(resolvedConfig)   ← EXPANDED to emit typography + spacing tokens
-        │
-        ▼
-CSS custom properties injected on .template-scope
-        │
-        ├── --t-*          (color tokens — unchanged)
-        ├── --t-radius-*   (radius tokens — unchanged)
-        ├── --t-type-*     (typography tokens — NEW)
-        └── --t-space-*    (spacing/density tokens — NEW)
-        │
-        ▼
-Template components read tokens via CSS vars + structural props via config
+        |
+        v
+buildCssVars(resolvedConfig)
+        | 5 builders composables
+        |
+        v
+CSS custom properties en .template-scope
+        |
+        +-- --t-{color-key}            (colores)
+        +-- --t-radius-*               (radio)
+        +-- --font-body / --font-heading
+        +-- --t-type-*                 (tipografía)
+        +-- --t-space-*                (espaciado/densidad)
+        +-- --t-fx-*                   (efectos y movimiento)
+        +-- --t-grid-cols-*            (grid)
+        +-- --t-container-max
+        +-- --t-card-bg-mode
+        |
+        v
+Componentes leen tokens vía CSS vars + decisiones estructurales vía props
 ```
 
-### Where Presets Are Defined
+### Archivos del sistema
 
 ```
 src/lib/presets/
-├── preset-types.ts     ← StylePreset type, TypographyConfig, DensityConfig
-├── presets.ts          ← stylePresets constant — the 8 preset objects
-└── apply-preset.ts     ← applyPreset(presetId, current) → StoreCustomization
+├── preset-types.ts      — StylePreset + 6 sub-interfaces + GeneClusterValues
+├── presets.ts           — stylePresets: StylePreset[] — los 13 presets
+├── preset-defaults.ts   — DEFAULT_PRESET_VALUES
+├── guardrails.ts        — FORBIDDEN_COMBINATIONS (10) + DEPENDENCY_RULES (14)
+└── apply-preset.ts      — applyPreset(presetId, current) → StoreCustomization
+
+src/lib/
+└── buildCssVars.ts      — 5 builders composables → CSS vars dict
 ```
 
-### How Preset Application Works
+---
 
-`applyPreset` is a pure function:
+## 3. Los 13 presets
+
+| # | ID | Nombre | Densidad | Tipografía | Target stores |
+|---|---|---|---|---|---|
+| 1 | `galeria` | Galería | spacious | whisper-light | Joyería, boutique de diseño, arte |
+| 2 | `boutique-elegante` | Boutique Elegante | spacious | elegant | Moda femenina, beauty, accesorios |
+| 3 | `mercado-popular` | Mercado Popular | compact | functional | Abarrotes, variedades, supermercado |
+| 4 | `neon-night` | Neon Night | balanced | modern | Gaming, sneakers, vida nocturna |
+| 5 | `artesanal-rustico` | Artesanal Rústico | balanced | handcraft-mix | Artesanías, café especial, orgánicos |
+| 6 | `corporate-catalog` | Corporate Catalog | compact | functional | Ferreterías, B2B, repuestos |
+| 7 | `instagram-aesthetic` | Instagram Aesthetic | spacious | modern | Moda juvenil, accesorios trendy, lifestyle |
+| 8 | `vintage-retro` | Vintage Retro | balanced | elegant | Ropa vintage, coleccionables, discos |
+| 9 | `deportivo-energy` | Deportivo Energy | balanced | display-impact | Ropa deportiva, suplementos, equipamiento |
+| 10 | `tech-premium` | Tech Premium | balanced | mono-geometric | Electrónica, gadgets, computadores |
+| 11 | `tropical-vibrante` | Tropical Vibrante | balanced | warm | Moda caribeña, artesanías coloridas, frutas |
+| 12 | `pop-juvenil` | Pop Juvenil | compact | display-impact | Cultura pop, stickers, merch |
+| 13 | `editorial-lujo` | Editorial Lujo | spacious | whisper-light | Gastronomía especial, libros, arte y diseño |
+
+### Gene clusters por preset
+
+Cada preset tiene 6 genes anotados. La regla-de-4-de-6 garantiza que no dos presets compartan más de 4 de los 6 valores principales de genes — esto evita duplicación de personalidades.
+
+| ID | G1 spatialArchitecture | G2 typographyPersonality | G3 imagePhilosophy | G4 navigationArchitecture | G5 decorationStrategy | G6 motionPersonality |
+|---|---|---|---|---|---|---|
+| `galeria` | monastic | whisper-serif | gallery-museum | minimal-float | subtle-lines | gentle-ease |
+| `boutique-elegante` | editorial | editorial-serif | lifestyle-context | centered-elegant | subtle-lines | smooth-professional |
+| `mercado-popular` | market-packed | bold-statement | catalog-clean | standard-functional | graphic-bold | bounce-playful |
+| `neon-night` | balanced | bold-statement | hero-dominant | bottom-mobile-first | graphic-bold | dramatic-entrance |
+| `artesanal-rustico` | balanced | handcraft | lifestyle-context | standard-functional | organic-texture | gentle-ease |
+| `corporate-catalog` | dense-catalog | clean-sans | catalog-clean | sidebar-browse | none-zen | static-none |
+| `instagram-aesthetic` | editorial | clean-sans | lifestyle-context | bottom-mobile-first | none-zen | smooth-professional |
+| `vintage-retro` | balanced | editorial-serif | gallery-museum | centered-elegant | organic-texture | gentle-ease |
+| `deportivo-energy` | balanced | loud-display | hero-dominant | standard-functional | geometric-accent | dramatic-entrance |
+| `tech-premium` | balanced | clean-sans | catalog-clean | minimal-float | subtle-lines | smooth-professional |
+| `tropical-vibrante` | balanced | bold-statement | lifestyle-context | standard-functional | graphic-bold | bounce-playful |
+| `pop-juvenil` | dense-catalog | loud-display | hero-dominant | bottom-mobile-first | graphic-bold | dramatic-entrance |
+| `editorial-lujo` | editorial | whisper-serif | lifestyle-context | minimal-float | subtle-lines | smooth-professional |
+
+---
+
+## 4. Tipo StylePreset — 6 sub-objetos
+
+Definido en `src/lib/presets/preset-types.ts`. Un `StylePreset` tiene 46 propiedades distribuidas en 6 sub-objetos:
 
 ```typescript
-// src/lib/presets/apply-preset.ts
-import { stylePresets } from "./presets";
-import type { StoreCustomization } from "@/types/templates/store-customization";
-
-export function applyPreset(
-  presetId: string,
-  current: StoreCustomization,
-): StoreCustomization {
-  const preset = stylePresets.find((p) => p.id === presetId);
-  if (!preset) return current;
-
-  return {
-    ...current,
-    theme: {
-      ...current.theme,
-      presetId,
-      fontPair: preset.theme.fontPair,
-      typography: preset.theme.typography,
-    },
-    layout: {
-      ...current.layout,
-      density: preset.layout.density,
-      layout: {
-        ...current.layout?.layout,
-        ...preset.layout.layout,
-      },
-    },
-  };
-}
-```
-
-The function preserves everything the merchant has set (branding, content, business, palette, radius, per-token color overrides) and replaces only the preset-managed fields.
-
-### How Reset Works
-
-"Reset to preset defaults" re-applies the currently active preset over the current customization. This restores only preset-managed fields, leaving fine-tuning overrides applied after the preset in place. If the merchant wants a clean slate, they pick a preset with no prior fine-tuning.
-
-```typescript
-// Reset = re-apply the same preset
-const reset = applyPreset(current.theme?.presetId ?? "directo", current);
-```
-
-### Font Pair Fallback Strategy
-
-Presets reference **universal font pair keys**: `"elegant"`, `"warm"`, `"functional"`, `"modern"`. These four keys are the only values a preset will ever write to `theme.fontPair`.
-
-Each template **MUST** define all 4 of these keys in their `fontPairs` array in `config-schema.ts`. If a template is missing one of the keys, the preset's `fontPair` value is stored in `StoreCustomization` but the template's font pair picker will fall back to the template's first defined font pair at render time.
-
-The fallback logic sits at the render layer — `applyPreset` itself always writes the key unconditionally:
-
-```typescript
-// In applyPreset — font pair is always written; fallback happens at render time
-fontPair: preset.theme.fontPair, // Template must define this key; falls back to first pair if missing
-```
-
-This means the preset system never crashes on a template that hasn't been fully updated, but the visual result may differ from intent until all 4 universal keys are defined.
-
-> **Phase 1a task:** Standardize the 4 universal font pair keys (`"elegant"`, `"warm"`, `"functional"`, `"modern"`) across all 11 templates in their `config-schema.ts` `fontPairs` arrays.
-
-### The Golden Rule
-
-**Presets NEVER modify any template's `config.ts`.** They only write to `StoreCustomization`. This is not a convention — it is an architectural invariant. `config.ts` is the template's static contract and must not be mutated at runtime.
-
----
-
-## 3. The 8 Presets
-
-### Preset Value Notation
-
-Each preset writes the following fields in `StoreCustomization`:
-
-| Field path | Type | Notes |
-|---|---|---|
-| `theme.presetId` | `string` | The preset's own ID |
-| `theme.fontPair` | `string` | Font pair key |
-| `theme.typography` | `TypographyConfig` | New — heading scale, weight, tracking |
-| `layout.density` | `DensityLevel` | New — spacing multiplier |
-| `layout.layout.cardStyle` | `CardStyle` | Existing field |
-| `layout.layout.cardHoverEffect` | `HoverEffect` | Existing field |
-| `layout.layout.cardImageRatio` | `ImageRatio` | Existing field |
-| `layout.layout.animationLevel` | `AnimationLevel` | Existing field |
-| `layout.layout.shadowStyle` | `"neutral" \| "hue-tinted"` | Existing field |
-| `layout.layout.headerStyle` | `HeaderStyle` | Existing field |
-| `layout.layout.bannerHeight` | `BannerHeight` | Existing field |
-| `layout.layout.buttonStyle` | `ButtonStyle` | New primitive |
-| `layout.layout.badgeStyle` | `BadgeStyle` | New primitive |
-| `layout.layout.priceDisplay` | `PriceDisplay` | New primitive |
-
----
-
-### Preset 1 — Minimalista
-
-**Target store:** High-end boutique, studio, artisan brand. Stores that sell on aesthetics and restraint.
-
-**Description:** Maximum breathing room. No decoration competes with the product. Ghost buttons, flat cards, subtle shadows. Typography is expressive but sparse.
-
-**Genes:** Spacious · Expressive type · Subtle color · Flat cards · Ghost buttons
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"elegant"` |
-| `theme.typography.headingWeight` | `700` |
-| `theme.typography.headingScale` | `"xl"` |
-| `theme.typography.headingTracking` | `"-0.02em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"spacious"` |
-| `layout.layout.cardStyle` | `"flat"` |
-| `layout.layout.cardHoverEffect` | `"lift"` |
-| `layout.layout.cardImageRatio` | `"wide"` |
-| `layout.layout.animationLevel` | `"subtle"` |
-| `layout.layout.shadowStyle` | `"neutral"` |
-| `layout.layout.headerStyle` | `"centered"` |
-| `layout.layout.bannerHeight` | `"tall"` |
-| `layout.layout.buttonStyle` | `"ghost"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"subtle"` |
-
----
-
-### Preset 2 — Boutique
-
-**Target store:** Fashion, accessories, beauty. Stores where brand feel is part of the sale.
-
-**Description:** Warm density with tactile card presentation. Hue-tinted shadows give depth. Pill badges and filled buttons reinforce brand color. Expressive typography stays elegant.
-
-**Genes:** Balanced density · Expressive type · Hue-tinted shadows · Elevated cards · Pill badges · Filled buttons
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"warm"` |
-| `theme.typography.headingWeight` | `600` |
-| `theme.typography.headingScale` | `"lg"` |
-| `theme.typography.headingTracking` | `"-0.01em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"balanced"` |
-| `layout.layout.cardStyle` | `"elevated"` |
-| `layout.layout.cardHoverEffect` | `"lift"` |
-| `layout.layout.cardImageRatio` | `"portrait"` |
-| `layout.layout.animationLevel` | `"subtle"` |
-| `layout.layout.shadowStyle` | `"hue-tinted"` |
-| `layout.layout.headerStyle` | `"centered"` |
-| `layout.layout.bannerHeight` | `"normal"` |
-| `layout.layout.buttonStyle` | `"filled"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"standard"` |
-
----
-
-### Preset 3 — Directo
-
-**Target store:** Grocery, hardware, everyday goods. Stores where conversion speed matters more than aesthetics.
-
-**Description:** Compact layout, functional typography, prices always prominent. Bordered cards create clear visual separation. Square badges and filled buttons are no-nonsense.
-
-**Genes:** Compact density · Functional type · Prominent prices · Bordered cards · Square badges · Filled buttons
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"functional"` |
-| `theme.typography.headingWeight` | `700` |
-| `theme.typography.headingScale` | `"md"` |
-| `theme.typography.headingTracking` | `"0em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"compact"` |
-| `layout.layout.cardStyle` | `"bordered"` |
-| `layout.layout.cardHoverEffect` | `"none"` |
-| `layout.layout.cardImageRatio` | `"square"` |
-| `layout.layout.animationLevel` | `"none"` |
-| `layout.layout.shadowStyle` | `"neutral"` |
-| `layout.layout.headerStyle` | `"standard"` |
-| `layout.layout.bannerHeight` | `"short"` |
-| `layout.layout.buttonStyle` | `"filled"` |
-| `layout.layout.badgeStyle` | `"square"` |
-| `layout.layout.priceDisplay` | `"prominent"` |
-
----
-
-### Preset 4 — Editorial
-
-**Target store:** Art prints, books, specialty food, collectibles. Stores that tell a story.
-
-**Description:** Wide images dominate, text breathes, layout feels like a magazine. Outlined buttons maintain sophistication. Expressive, spacious, story-first.
-
-**Genes:** Spacious density · Expressive type · Subtle color · Wide-image cards · Outlined buttons
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"elegant"` |
-| `theme.typography.headingWeight` | `400` |
-| `theme.typography.headingScale` | `"2xl"` |
-| `theme.typography.headingTracking` | `"-0.03em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"spacious"` |
-| `layout.layout.cardStyle` | `"flat"` |
-| `layout.layout.cardHoverEffect` | `"scale"` |
-| `layout.layout.cardImageRatio` | `"wide"` |
-| `layout.layout.animationLevel` | `"subtle"` |
-| `layout.layout.shadowStyle` | `"neutral"` |
-| `layout.layout.headerStyle` | `"minimal"` |
-| `layout.layout.bannerHeight` | `"tall"` |
-| `layout.layout.buttonStyle` | `"outlined"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"subtle"` |
-
----
-
-### Preset 5 — Vibrante
-
-**Target store:** Youth fashion, sports, sneakers, pop culture. Stores that need energy.
-
-**Description:** Full animation, glow hover effects, elevated cards that pop. Fills every pixel with brand color intensity. Pill badges and high-contrast filled buttons.
-
-**Genes:** Balanced density · Full animation · Glow hover · Elevated cards · Hue-tinted shadows · Pill badges
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"modern"` |
-| `theme.typography.headingWeight` | `800` |
-| `theme.typography.headingScale` | `"xl"` |
-| `theme.typography.headingTracking` | `"-0.02em"` |
-| `theme.typography.headingTransform` | `"uppercase"` |
-| `layout.density` | `"balanced"` |
-| `layout.layout.cardStyle` | `"elevated"` |
-| `layout.layout.cardHoverEffect` | `"glow"` |
-| `layout.layout.cardImageRatio` | `"square"` |
-| `layout.layout.animationLevel` | `"full"` |
-| `layout.layout.shadowStyle` | `"hue-tinted"` |
-| `layout.layout.headerStyle` | `"standard"` |
-| `layout.layout.bannerHeight` | `"normal"` |
-| `layout.layout.buttonStyle` | `"filled"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"prominent"` |
-
----
-
-### Preset 6 — Técnico
-
-**Target store:** Electronics, tools, components, B2B. Stores where spec sheets matter.
-
-**Description:** Dense, information-forward. Shadow cards create depth without decoration. Prices are prominent. Functional typography maximizes legibility at small sizes. Square badges read like labels.
-
-**Genes:** Compact density · Functional type · Prominent prices · Shadow cards · Square badges
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"functional"` |
-| `theme.typography.headingWeight` | `600` |
-| `theme.typography.headingScale` | `"md"` |
-| `theme.typography.headingTracking` | `"0em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"compact"` |
-| `layout.layout.cardStyle` | `"shadow"` |
-| `layout.layout.cardHoverEffect` | `"lift"` |
-| `layout.layout.cardImageRatio` | `"square"` |
-| `layout.layout.animationLevel` | `"subtle"` |
-| `layout.layout.shadowStyle` | `"neutral"` |
-| `layout.layout.headerStyle` | `"standard"` |
-| `layout.layout.bannerHeight` | `"short"` |
-| `layout.layout.buttonStyle` | `"filled"` |
-| `layout.layout.badgeStyle` | `"square"` |
-| `layout.layout.priceDisplay` | `"prominent"` |
-
----
-
-### Preset 7 — Natural
-
-**Target store:** Plants, wellness, organic food, handmade goods. Earth-friendly aesthetics.
-
-**Description:** Spacious, unhurried. Hue-tinted shadows pick up the brand's warm palette. Outlined buttons feel handcrafted. Pill badges are soft. No uppercase, no aggression.
-
-**Genes:** Spacious density · Default type · Hue-tinted shadows · Flat/soft cards · Outlined buttons · Pill badges
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"warm"` |
-| `theme.typography.headingWeight` | `500` |
-| `theme.typography.headingScale` | `"lg"` |
-| `theme.typography.headingTracking` | `"0em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"spacious"` |
-| `layout.layout.cardStyle` | `"flat"` |
-| `layout.layout.cardHoverEffect` | `"scale"` |
-| `layout.layout.cardImageRatio` | `"portrait"` |
-| `layout.layout.animationLevel` | `"subtle"` |
-| `layout.layout.shadowStyle` | `"hue-tinted"` |
-| `layout.layout.headerStyle` | `"centered"` |
-| `layout.layout.bannerHeight` | `"normal"` |
-| `layout.layout.buttonStyle` | `"outlined"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"standard"` |
-
----
-
-### Preset 8 — Nocturno
-
-**Target store:** Music, night life, gaming, premium electronics. Dark-mode-native aesthetics.
-
-**Description:** Dark palette, full animation, glow hover. The preset sets the structural personality; the merchant pairs it with a dark color palette (e.g. "Obsidian", "Midnight Luxury"). Expressive type, hue-tinted glow.
-
-**Note:** Nocturno does NOT automatically switch to dark mode — that is the responsibility of the `appearance` field and palette. Nocturno sets the structural personality; the merchant must also select a dark palette from the Paletas section.
-
-**Genes:** Balanced density · Expressive type · Full animation · Glow hover · Elevated cards · Hue-tinted shadows
-
-| Field | Value |
-|---|---|
-| `theme.fontPair` | `"modern"` |
-| `theme.typography.headingWeight` | `700` |
-| `theme.typography.headingScale` | `"xl"` |
-| `theme.typography.headingTracking` | `"-0.02em"` |
-| `theme.typography.headingTransform` | `"none"` |
-| `layout.density` | `"balanced"` |
-| `layout.layout.cardStyle` | `"elevated"` |
-| `layout.layout.cardHoverEffect` | `"glow"` |
-| `layout.layout.cardImageRatio` | `"square"` |
-| `layout.layout.animationLevel` | `"full"` |
-| `layout.layout.shadowStyle` | `"hue-tinted"` |
-| `layout.layout.headerStyle` | `"centered"` |
-| `layout.layout.bannerHeight` | `"tall"` |
-| `layout.layout.buttonStyle` | `"filled"` |
-| `layout.layout.badgeStyle` | `"pill"` |
-| `layout.layout.priceDisplay` | `"standard"` |
-
----
-
-### Fields NOT Managed by Presets
-
-The following `TemplateLayoutConfig` fields are **intentionally excluded** from all 8 presets. They remain at the template's default value unless the merchant explicitly changes them in the Estilo Visual tab:
-
-| Field | Reason left to merchant |
-|---|---|
-| `footerStyle` | Highly template-specific; presets don't prescribe footer structure |
-| `navStyle` | Navigation behavior is a merchant choice, not a visual personality |
-| `tabStyle` | Tab styling varies too much between templates to preset reliably |
-
-Presets intentionally leave these alone because they are highly template-specific. A merchant changing their preset should not find their navigation layout suddenly different. These fields are configurable directly in the Estilo Visual tab and are never overwritten by `applyPreset`.
-
-> **Note:** `cardImageRatio` IS preset-managed — it appears in every preset table above. Do not confuse it with the non-managed fields listed here.
-
----
-
-## 4. New Types Required
-
-### 4.1 New Primitives — `src/types/templates/primitives.ts`
-
-Add these union types:
-
-```typescript
-// Button visual style
-export type ButtonStyle = "filled" | "outlined" | "ghost";
-
-// Badge shape style
-export type BadgeStyle = "pill" | "square";
-
-// Price display prominence
-export type PriceDisplay = "prominent" | "standard" | "subtle";
-
-// Layout density level
-export type DensityLevel = "compact" | "balanced" | "spacious";
-
-// Typography heading scale
-export type HeadingScale = "md" | "lg" | "xl" | "2xl";
-```
-
-### 4.2 New Typography Config Type
-
-Create `src/types/templates/typography.ts`:
-
-```typescript
-// Typography personality config — controlled by presets, fine-tunable by merchant.
-// All values produce CSS custom properties via buildCssVars.
-export interface TypographyConfig {
-  /** Heading font weight: 400 | 500 | 600 | 700 | 800 */
-  headingWeight: number;
-  /** Scale multiplier bucket for heading font-size relative to base */
-  headingScale: HeadingScale;
-  /** Letter-spacing for headings: "-0.03em" | "-0.02em" | "-0.01em" | "0em" */
-  headingTracking: string;
-  /** Text transform for headings */
-  headingTransform: "none" | "uppercase" | "capitalize";
-}
-```
-
-Export `TypographyConfig` and `HeadingScale` from `src/types/templates/index.ts`.
-
-### 4.3 Updated `TemplateLayoutConfig` — `src/types/templates/template-config.ts`
-
-Add new fields to the existing interface:
-
-```typescript
-export interface TemplateLayoutConfig {
-  // Existing fields (unchanged)
-  cardStyle: CardStyle;
-  cardHoverEffect: HoverEffect;
-  cardImageRatio: ImageRatio;
-  navStyle: NavStyle;
-  tabStyle: TabStyle;
-  bannerHeight: BannerHeight;
-  headerStyle: HeaderStyle;
-  footerStyle: FooterStyle;
-  shadowStyle?: "neutral" | "hue-tinted";
-  animationLevel?: AnimationLevel;
-
-  // New fields added for Phase 1
-  buttonStyle?: ButtonStyle;
-  badgeStyle?: BadgeStyle;
-  priceDisplay?: PriceDisplay;
-}
-```
-
-### 4.4 Updated `ThemeCustomization` — `src/types/templates/store-customization.ts`
-
-Add new fields:
-
-```typescript
-export interface ThemeCustomization {
-  paletteId?: string;
-  colors?: Partial<TemplateColorTokens>;
-  radius?: Partial<TemplateRadiusTokens>;
-  fontPair?: string;
-  /** ID of the active style preset */
-  presetId?: string;
-  /** Typography personality — set by presets, fine-tunable */
-  typography?: TypographyConfig;
-}
-```
-
-### 4.5 Updated `LayoutCustomization` — `src/types/templates/store-customization.ts`
-
-Add density:
-
-```typescript
-export interface LayoutCustomization {
-  grid?: Partial<TemplateGridConfig>;
-  layout?: Partial<TemplateLayoutConfig>;
-  sections?: SectionConfig[];
-  /** Spacing density level — set by presets */
-  density?: DensityLevel;
-}
-```
-
-### 4.6 The `StylePreset` Type — `src/lib/presets/preset-types.ts`
-
-```typescript
-import type { TypographyConfig } from "@/types/templates/typography";
-import type { DensityLevel } from "@/types/templates/primitives";
-import type { TemplateLayoutConfig } from "@/types/templates/template-config";
-
 export interface StylePreset {
   id: string;
   name: string;
   description: string;
-  /** Store types this preset is designed for */
   targetStores: string[];
-  theme: {
-    fontPair: string;
-    typography: TypographyConfig;
-  };
-  layout: {
-    density: DensityLevel;
-    /** Partial layout overrides — only preset-managed fields */
-    layout: Pick<
-      TemplateLayoutConfig,
-      | "cardStyle"
-      | "cardHoverEffect"
-      | "cardImageRatio"
-      | "animationLevel"
-      | "shadowStyle"
-      | "headerStyle"
-      | "bannerHeight"
-      | "buttonStyle"
-      | "badgeStyle"
-      | "priceDisplay"
-    >;
-  };
+  genes?: GeneClusterValues;
+  typography: TypographyTokens;   // 11 propiedades
+  layout: LayoutTokens;           //  8 propiedades
+  cards: CardTokens;              //  6 propiedades
+  effects: EffectTokens;          //  5 propiedades
+  color: ColorTokens;             //  5 propiedades
+  chrome: ChromeTokens;           //  5 propiedades
 }
 ```
 
-### 4.7 The `stylePresets` Constant — `src/lib/presets/presets.ts`
+### Sub-objeto 1: `typography` (TypographyTokens)
 
-```typescript
-import type { StylePreset } from "./preset-types";
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `fontPair` | `FontPairKey` | Clave de la pareja tipográfica |
+| `headingWeight` | `number` | Peso del encabezado (300–900) |
+| `headingScale` | `HeadingScale` | Escala del encabezado ("md" \| "lg" \| "xl" \| "2xl") |
+| `headingTracking` | `string` | Letter-spacing del encabezado (ej: "-0.02em") |
+| `headingTransform` | `"none" \| "uppercase"` | Text-transform del encabezado |
+| `headingFontStyle` | `"normal" \| "italic"` | Estilo de fuente del encabezado |
+| `headingDecoration` | `HeadingDecoration` | Decoración del encabezado |
+| `bodyFontSize` | `BodyFontSize` | Tamaño del cuerpo de texto |
+| `bodyLineHeight` | `BodyLineHeight` | Altura de línea del cuerpo |
+| `displaySize` | `DisplaySize` | Tamaño del display hero |
+| `cardTextAlign` | `CardTextAlign` | Alineación de texto en tarjetas |
 
-export const stylePresets: StylePreset[] = [
-  {
-    id: "minimalista",
-    name: "Minimalista",
-    description: "Elegante y silencioso. El producto habla solo.",
-    targetStores: ["Boutique", "Estudio", "Artesanías"],
-    theme: {
-      fontPair: "elegant",
-      typography: {
-        headingWeight: 700,
-        headingScale: "xl",
-        headingTracking: "-0.02em",
-        headingTransform: "none",
-      },
-    },
-    layout: {
-      density: "spacious",
-      layout: {
-        cardStyle: "flat",
-        cardHoverEffect: "lift",
-        cardImageRatio: "wide",
-        animationLevel: "subtle",
-        shadowStyle: "neutral",
-        headerStyle: "centered",
-        bannerHeight: "tall",
-        buttonStyle: "ghost",
-        badgeStyle: "pill",
-        priceDisplay: "subtle",
-      },
-    },
-  },
-  // ... remaining 7 presets (see Section 3 for complete values)
-];
-```
+### Sub-objeto 2: `layout` (LayoutTokens)
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `density` | `DensityPreset` | Nivel de densidad de espaciado |
+| `gridColumnsMobile` | `GridColumnsMobile` | Columnas en móvil (1 o 2) |
+| `gridColumnsDesktop` | `GridColumnsDesktop` | Columnas en desktop (2–5) |
+| `containerMaxWidth` | `ContainerMaxWidth` | Ancho máximo del contenedor |
+| `cardImageRatio` | `CardImageRatio` | Proporción de imagen en tarjeta |
+| `cardPadding` | `CardPadding` | Padding interno de tarjeta |
+| `headerStyle` | `HeaderStyle` | Estilo del header |
+| `bannerHeight` | `BannerHeight` | Altura del banner principal |
+
+### Sub-objeto 3: `cards` (CardTokens)
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `cardStyle` | `CardStyle` | Estilo visual de la tarjeta |
+| `cardHover` | `CardHover` | Efecto hover de la tarjeta |
+| `cardBorderTreatment` | `CardBorderTreatment` | Tratamiento del borde de la tarjeta |
+| `imageFit` | `ImageFit` | Cómo ajusta la imagen dentro de la tarjeta |
+| `imageBorderRadius` | `ImageBorderRadius` | Radio de borde de la imagen |
+| `imageHoverEffect` | `ImageHoverEffect` | Efecto hover sobre la imagen |
+
+### Sub-objeto 4: `effects` (EffectTokens)
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `animationLevel` | `AnimationLevel` | Nivel de animaciones (none/subtle/full) |
+| `shadowStyle` | `ShadowStyle` | Estilo de sombras (neutral/hue-tinted) |
+| `shadowElevation` | `ShadowElevation` | Elevación de sombra (none/xs/sm/md/lg/xl) |
+| `transitionSpeed` | `TransitionSpeed` | Velocidad de transiciones |
+| `transitionEasing` | `TransitionEasing` | Curva de aceleración |
+
+### Sub-objeto 5: `color` (ColorTokens)
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `colorStrategy` | `ColorStrategy` | Estrategia de color (monotone/duotone/accent-pop/gradient) |
+| `backgroundTreatment` | `BackgroundTreatment` | Tratamiento del fondo |
+| `cardBackground` | `CardBackground` | Color de fondo de tarjeta |
+| `imageOverlayHover` | `ImageOverlayHover` | Overlay al hacer hover sobre imagen |
+| `accentDistribution` | `AccentDistribution` | Dónde se aplica el color de acento |
+
+### Sub-objeto 6: `chrome` (ChromeTokens)
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `buttonStyle` | `ButtonStyle` | Estilo de botones (filled/outlined/ghost) |
+| `badgeStyle` | `BadgeStyle` | Forma de badges (pill/square) |
+| `priceDisplay` | `PriceDisplay` | Prominencia del precio (prominent/standard/subtle) |
+| `borderRadiusScale` | `BorderRadiusScale` | Escala global de radio de bordes |
+| `dividerStyle` | `DividerStyle` | Estilo de separadores |
 
 ---
 
-## 5. buildCssVars Expansion
+## 5. Tipos primitivos
 
-### New CSS Variables
+Definidos en `src/types/templates/primitives.ts`. Todos los valores de los 6 sub-objetos usan estos tipos:
 
-`buildCssVars` must emit three new groups of CSS custom properties:
+| Tipo | Valores |
+|---|---|
+| `FontPairKey` | `"modern"` \| `"warm"` \| `"elegant"` \| `"functional"` \| `"mono-geometric"` \| `"display-impact"` \| `"whisper-light"` \| `"handcraft-mix"` |
+| `DensityLevel` / `DensityPreset` | `"compact"` \| `"balanced"` \| `"spacious"` |
+| `CardStyle` | `"flat"` \| `"shadow"` \| `"bordered"` \| `"elevated"` |
+| `CardHover` / `HoverEffect` | `"none"` \| `"lift"` \| `"scale"` \| `"glow"` |
+| `CardImageRatio` / `ImageRatio` | `"square"` \| `"portrait"` \| `"wide"` |
+| `AnimationLevel` | `"none"` \| `"subtle"` \| `"full"` |
+| `ShadowStyle` | `"neutral"` \| `"hue-tinted"` |
+| `ShadowElevation` | `"none"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"` |
+| `TransitionSpeed` | `"instant"` \| `"fast"` \| `"normal"` \| `"slow"` \| `"very-slow"` |
+| `TransitionEasing` | `"linear"` \| `"ease"` \| `"ease-in-out"` \| `"spring"` |
+| `ButtonStyle` | `"filled"` \| `"outlined"` \| `"ghost"` |
+| `BadgeStyle` | `"pill"` \| `"square"` |
+| `PriceDisplay` | `"prominent"` \| `"standard"` \| `"subtle"` |
+| `BorderRadiusScale` | `"sharp"` \| `"xs"` \| `"sm"` \| `"md"` \| `"lg"` \| `"xl"` \| `"pill"` |
+| `CardBackground` | `"white"` \| `"surface"` \| `"transparent"` \| `"primary-tint"` |
+| `ColorStrategy` | `"monotone"` \| `"duotone"` \| `"accent-pop"` \| `"gradient"` |
+| `BackgroundTreatment` | `"solid"` \| `"subtle-gradient"` \| `"pattern"` |
+| `AccentDistribution` | `"buttons-only"` \| `"badges-and-buttons"` \| `"everywhere"` \| `"minimal"` |
+| `HeadingDecoration` | `"none"` \| `"underline"` \| `"overline"` \| `"highlight"` |
+| `BodyFontSize` | `"sm"` \| `"base"` \| `"lg"` |
+| `BodyLineHeight` | `"tight"` \| `"normal"` \| `"relaxed"` \| `"loose"` |
+| `DisplaySize` | `"md"` \| `"lg"` \| `"xl"` \| `"2xl"` |
+| `HeadingScale` | `"md"` \| `"lg"` \| `"xl"` \| `"2xl"` |
+| `CardPadding` | `"none"` \| `"tight"` \| `"normal"` \| `"spacious"` |
+| `ContainerMaxWidth` | `"narrow"` \| `"medium"` \| `"wide"` \| `"full"` |
+| `ImageFit` | `"cover"` \| `"contain"` |
+| `ImageBorderRadius` | `"same-as-card"` \| `"none"` \| `"rounded"` \| `"circle"` |
+| `ImageHoverEffect` | `"none"` \| `"zoom"` \| `"slide-up"` \| `"grayscale-to-color"` \| `"brightness"` |
+| `CardBorderTreatment` | `"none"` \| `"subtle"` \| `"prominent"` \| `"left-accent"` \| `"top-accent"` |
+| `DividerStyle` | `"none"` \| `"line"` \| `"dots"` \| `"dash"` |
+| `GridColumnsMobile` | `1` \| `2` |
+| `GridColumnsDesktop` | `2` \| `3` \| `4` \| `5` |
 
-#### Group 1: Typography Tokens (`--t-type-*`)
+---
 
-| Config field | CSS variable | Example value |
-|---|---|---|
-| `theme.typography.headingWeight` | `--t-type-heading-weight` | `700` |
-| `theme.typography.headingScale` | `--t-type-heading-scale` | (resolved — see table below) |
-| `theme.typography.headingTracking` | `--t-type-heading-tracking` | `-0.02em` |
-| `theme.typography.headingTransform` | `--t-type-heading-transform` | `none` |
+## 6. DEFAULT_PRESET_VALUES
 
-`headingScale` is a bucket name, not a CSS value. It resolves to a `font-size` CSS value:
+Definido en `src/lib/presets/preset-defaults.ts`. Es el fallback para cada campo cuando un preset no especifica un valor. También lo usa `buildCssVars` para resolver valores de los 5 builders cuando `config.*` es `undefined`.
 
-| `headingScale` | `--t-type-heading-size` | Notes |
-|---|---|---|
-| `"md"` | `1.5rem` | h1 at 24px |
-| `"lg"` | `2rem` | h1 at 32px |
-| `"xl"` | `2.5rem` | h1 at 40px |
-| `"2xl"` | `3.5rem` | h1 at 56px |
+| Sub-objeto | Valores por defecto |
+|---|---|
+| `typography` | fontPair: "modern", headingWeight: 600, headingScale: "lg", headingTracking: "-0.01em", headingTransform: "none", bodyFontSize: "base", bodyLineHeight: "normal", displaySize: "lg", cardTextAlign: "left" |
+| `layout` | density: "balanced", gridColumnsMobile: 2, gridColumnsDesktop: 3, containerMaxWidth: "medium", cardImageRatio: "square", cardPadding: "normal", headerStyle: "standard", bannerHeight: "normal" |
+| `cards` | cardStyle: "elevated", cardHover: "lift", cardBorderTreatment: "none", imageFit: "cover", imageBorderRadius: "same-as-card", imageHoverEffect: "zoom" |
+| `effects` | animationLevel: "subtle", shadowStyle: "neutral", shadowElevation: "sm", transitionSpeed: "normal", transitionEasing: "ease" |
+| `color` | colorStrategy: "accent-pop", backgroundTreatment: "solid", cardBackground: "white", imageOverlayHover: "none", accentDistribution: "badges-and-buttons" |
+| `chrome` | buttonStyle: "filled", badgeStyle: "pill", priceDisplay: "standard", borderRadiusScale: "md", dividerStyle: "none" |
 
-#### Group 2: Spacing/Density Tokens (`--t-space-*`)
+---
 
-`density` is a bucket that resolves to a set of spacing multiplier tokens:
+## 7. buildCssVars — 5 builders composables
 
-| Density | `--t-space-section` | `--t-space-card` | `--t-space-item` | `--t-space-gap` |
+Definido en `src/lib/buildCssVars.ts`. Toma un `ResolvedStoreConfig` y devuelve un `Record<string, string>` de CSS custom properties listo para usar como `style` prop.
+
+La función principal llama a 5 builders especializados:
+
+### Builder 1: `buildEffectVars(effects)` → `--t-fx-*`
+
+Convierte `EffectTokens` en tokens de movimiento e interacción.
+
+| CSS var | Fuente |
+|---|---|
+| `--t-fx-duration` | `TRANSITION_SPEED_MAP[transitionSpeed]` |
+| `--t-fx-easing` | `TRANSITION_EASING_MAP[transitionEasing]` |
+| `--t-fx-hover-scale` | `ANIMATION_HOVER_SCALE[animationLevel]` |
+| `--t-fx-hover-lift` | `ANIMATION_HOVER_LIFT[animationLevel]` |
+| `--t-fx-hover-glow-spread` | `ANIMATION_HOVER_GLOW_SPREAD[animationLevel]` |
+| `--t-fx-hover-glow-opacity` | `ANIMATION_HOVER_GLOW_OPACITY[animationLevel]` |
+| `--t-fx-enter-distance` | `ANIMATION_ENTER_DISTANCE[animationLevel]` |
+| `--t-fx-enter-duration` | `ANIMATION_ENTER_DURATION[animationLevel]` |
+| `--t-shadow-scale` | `SHADOW_ELEVATION_MAP[shadowElevation]` |
+
+### Builder 2: `buildTypographyExtendedVars(typography)` → `--t-type-*`
+
+Convierte `TypographyTokens` en tokens de tipografía extendida.
+
+| CSS var | Fuente |
+|---|---|
+| `--t-type-body-size` | `BODY_FONT_SIZE_MAP[bodyFontSize]` |
+| `--t-type-body-line-height` | `BODY_LINE_HEIGHT_MAP[bodyLineHeight]` |
+| `--t-type-body-weight` | `"400"` (fijo) |
+| `--t-type-display-size` | `DISPLAY_SIZE_MAP[displaySize]` |
+| `--t-type-display-weight` | `headingWeight` |
+| `--t-type-display-tracking` | `headingTracking` |
+| `--t-type-heading-style` | `headingFontStyle` |
+| `--t-type-paragraph-max-width` | `"65ch"` (fijo) |
+| `--t-type-card-align` | `cardTextAlign` |
+
+Además, cuando `config.theme?.typography` está presente, `buildCssVars` emite directamente:
+
+| CSS var | Fuente |
+|---|---|
+| `--t-type-heading-weight` | `typography.headingWeight` |
+| `--t-type-heading-size` | scaleMap[typography.headingScale] (md→1.5rem, lg→2rem, xl→2.5rem, 2xl→3.5rem) |
+| `--t-type-heading-tracking` | `typography.headingTracking` |
+| `--t-type-heading-transform` | `typography.headingTransform` |
+
+### Builder 3: `buildCardVars(cards, borderRadiusScale)` → `--t-radius-*`, `--t-card-padding`
+
+Convierte `CardTokens` + `BorderRadiusScale` en tokens de tarjeta.
+
+| CSS var | Fuente |
+|---|---|
+| `--t-radius-base` | `BORDER_RADIUS_SCALE_MAP[borderRadiusScale]` |
+| `--t-radius-sm` | `calc(var(--t-radius-base) * 0.5)` |
+| `--t-radius-lg` | `calc(var(--t-radius-base) * 2)` o `9999px` si pill |
+| `--t-radius-image` | `IMAGE_BORDER_RADIUS_MAP[imageBorderRadius]` |
+| `--t-card-padding` | `CARD_PADDING_MAP[cardPadding]` |
+
+### Builder 4: `buildLayoutVars(layout)` → `--t-grid-cols-*`, `--t-container-max`, `--t-image-fit`
+
+Convierte `LayoutTokens` en tokens de layout.
+
+| CSS var | Fuente |
+|---|---|
+| `--t-grid-cols-mobile` | `gridColumnsMobile` |
+| `--t-grid-cols-desktop` | `gridColumnsDesktop` |
+| `--t-container-max` | `CONTAINER_MAX_WIDTH_MAP[containerMaxWidth]` |
+| `--t-image-fit` | `IMAGE_FIT_VAR_MAP[imageFit]` |
+
+### Builder 5: `buildColorVars(color)` → `--t-card-bg-mode`
+
+Convierte `ColorTokens` en el modo de fondo de tarjeta.
+
+| CSS var | Fuente |
+|---|---|
+| `--t-card-bg-mode` | `CARD_BACKGROUND_MAP[cardBackground]` |
+
+### Tokens de densidad/espaciado (emitidos directamente)
+
+El builder de densidad no es una función separada — está inline en `buildCssVars`. Lee `config.layoutDensity` y emite:
+
+| Densidad | `--t-space-section` | `--t-space-card` | `--t-space-item` | `--t-space-gap` |
 |---|---|---|---|---|
 | `"compact"` | `2rem` | `0.75rem` | `0.5rem` | `0.75rem` |
 | `"balanced"` | `3rem` | `1rem` | `0.75rem` | `1rem` |
 | `"spacious"` | `5rem` | `1.5rem` | `1rem` | `1.5rem` |
 
-These four tokens cascade through the `.template-scope` div. Components read them for section padding, card internal padding, list item gaps, and grid gaps.
+### Tokens de color (emitidos directamente)
 
-#### Group 3: Layout Style Tokens (`--t-layout-*`)
-
-New layout fields that are scalar values (not JSX-structural) become CSS vars:
-
-| Config field | CSS variable | Notes |
-|---|---|---|
-| `layout.layout.shadowStyle` | `--t-shadow-style` | `"neutral"` \| `"hue-tinted"` |
-
-`buttonStyle`, `badgeStyle`, and `priceDisplay` are **NOT** CSS vars — they are structural decisions that change JSX (which element or className branch is rendered). Components read these from the `config` prop directly.
-
-### Implementation — Updated `buildCssVars`
-
-The function signature stays unchanged. The new logic reads `config.theme?.typography` and `config.layoutDensity` (both are new optional fields on `ResolvedStoreConfig`).
-
-**Important:** `resolveTemplateConfig` signature is unchanged, but its **return type is EXTENDED** with two new optional fields (`theme`, `layoutDensity`). This is additive and backward-compatible — no existing consumer breaks. Since `typography` lives in `StoreCustomization.theme` (not in `TemplateConfig`), the resolver needs to forward it:
-
-```typescript
-// In resolveTemplateConfig return value — add to existing spread:
-return {
-  ...template,
-  colors: { ... },
-  radius: { ... },
-  grid: { ... },
-  layout: { ... },
-  sections: ...,
-  branding: ...,
-  content: ...,
-  business: ...,
-  // New forwarded fields
-  theme: customization.theme,           // forwards presetId, typography, fontPair
-  layoutDensity: customization.layout?.density,  // forwards density
-};
-```
-
-Then in `buildCssVars`:
-
-```typescript
-// New section — Typography tokens
-const typography = config.theme?.typography;
-if (typography) {
-  const scaleMap: Record<string, string> = {
-    md: "1.5rem",
-    lg: "2rem",
-    xl: "2.5rem",
-    "2xl": "3.5rem",
-  };
-  vars["--t-type-heading-weight"] = String(typography.headingWeight);
-  vars["--t-type-heading-size"] = scaleMap[typography.headingScale] ?? "2rem";
-  vars["--t-type-heading-tracking"] = typography.headingTracking;
-  vars["--t-type-heading-transform"] = typography.headingTransform;
-}
-
-// New section — Density/spacing tokens
-const density = config.layoutDensity ?? "balanced";
-const spacingMap: Record<string, Record<string, string>> = {
-  compact:  { section: "2rem",  card: "0.75rem", item: "0.5rem",  gap: "0.75rem" },
-  balanced: { section: "3rem",  card: "1rem",    item: "0.75rem", gap: "1rem"    },
-  spacious: { section: "5rem",  card: "1.5rem",  item: "1rem",    gap: "1.5rem"  },
-};
-const spacing = spacingMap[density] ?? spacingMap.balanced;
-vars["--t-space-section"] = spacing.section;
-vars["--t-space-card"]    = spacing.card;
-vars["--t-space-item"]    = spacing.item;
-vars["--t-space-gap"]     = spacing.gap;
-```
-
-### Updated `ResolvedStoreConfig` Type
-
-`ResolvedStoreConfig` (defined in `src/types/templates/index.ts` or `template-config.ts`) must include the forwarded fields:
-
-```typescript
-// ResolvedStoreConfig extends TemplateConfig with runtime-resolved fields
-export interface ResolvedStoreConfig extends TemplateConfig {
-  theme?: ThemeCustomization;       // merchant's full theme object
-  layoutDensity?: DensityLevel;     // resolved density level
-}
-```
+- Todos los campos en `config.colors` se emiten como `--t-{kebab-case-key}` (ej: `cardBg` → `--t-card-bg`).
+- `config.colors.primary` genera también `--t-primary-rgb` como `"R, G, B"` para `rgba(var(--t-primary-rgb), 0.10)`.
+- Todos los campos en `config.radius` se emiten como `--t-radius-{key}`.
+- Fonts: `--font-body`, `--font-sans`, `--font-heading`, `--template-heading-font`.
 
 ---
 
-## 6. Component Consumption Pattern
+## 8. Sistema de gene clusters
 
-### The Two Rules
-
-**Rule 1: CSS vars for cascading visual properties.**
-Values that style without changing structure (colors, spacing, font-size, font-weight, letter-spacing, shadow intensity) are read from CSS variables. Components never read these from props.
-
-```tsx
-// Good — reads from CSS var, works everywhere .template-scope is injected
-<h2 className="font-[--t-type-heading-weight]"
-    style={{
-      fontSize: "var(--t-type-heading-size)",
-      letterSpacing: "var(--t-type-heading-tracking)",
-      textTransform: "var(--t-type-heading-transform)" as React.CSSProperties["textTransform"],
-    }}>
-  {title}
-</h2>
-
-// Good — spacing from density token
-<section style={{ paddingTop: "var(--t-space-section)", paddingBottom: "var(--t-space-section)" }}>
-```
-
-**Rule 2: Props for structural (JSX-branching) decisions.**
-Values that determine which element or className branch to render are read from `config` props. These are `buttonStyle`, `badgeStyle`, and `priceDisplay`.
-
-```tsx
-// Good — structural decision via config prop
-const buttonClass = {
-  filled:   "bg-[--t-button-bg] text-[--t-button-text]",
-  outlined: "border-2 border-[--t-primary] text-[--t-primary] bg-transparent",
-  ghost:    "text-[--t-primary] bg-transparent hover:bg-[--t-primary]/10",
-}[config.layout.buttonStyle ?? "filled"];
-```
-
-### Standard Pattern: Tailwind Class Maps
-
-Every template that renders buttons, badges, or prices should use a class-map object to branch on the config value. The maps should be defined at the module level (not inline) to avoid re-creation on every render:
+Cada preset declara 6 genes en el sub-objeto `genes: GeneClusterValues`:
 
 ```typescript
-// In template/[name]/utils/style-maps.ts
-
-export const BUTTON_CLASS_MAP: Record<ButtonStyle, string> = {
-  filled:   "bg-[--t-button-bg] text-[--t-button-text] border-transparent",
-  outlined: "border-2 border-[--t-primary] text-[--t-primary] bg-transparent hover:bg-[--t-primary]/5",
-  ghost:    "text-[--t-primary] bg-transparent hover:bg-[--t-primary]/10 border-transparent",
-};
-
-export const BADGE_CLASS_MAP: Record<BadgeStyle, string> = {
-  pill:    "rounded-full",
-  square:  "rounded-sm",
-};
-
-export const PRICE_CLASS_MAP: Record<PriceDisplay, string> = {
-  prominent: "text-xl font-bold text-[--t-primary]",
-  standard:  "text-base font-semibold text-[--t-foreground]",
-  subtle:    "text-sm font-medium text-[--t-text-muted]",
-};
+export interface GeneClusterValues {
+  spatialArchitecture: string;    // G1: qué tan denso/abierto
+  typographyPersonality: string;  // G2: personalidad tipográfica
+  imagePhilosophy: string;        // G3: rol de las imágenes
+  navigationArchitecture: string; // G4: patrón de navegación
+  decorationStrategy: string;     // G5: decoración y ornamentación
+  motionPersonality: string;      // G6: comportamiento del movimiento
+}
 ```
 
-### What Components Need Updating
+### Regla-de-4-de-6
 
-Across all 11 templates, the following component types need to consume the new tokens:
+No dos presets pueden compartir más de 4 de los 6 valores principales de genes. Esto garantiza que cada preset tenga una personalidad distinguible de todos los demás.
 
-| Component type | New tokens to consume | Method |
-|---|---|---|
-| Section wrappers | `--t-space-section` | CSS var via `style` prop |
-| Card components | `--t-space-card`, `--t-space-gap` | CSS var |
-| H1/H2 headings | `--t-type-heading-size`, `--t-type-heading-weight`, `--t-type-heading-tracking`, `--t-type-heading-transform` | CSS var |
-| CTA buttons | `buttonStyle` | Prop → class map |
-| Product badges | `badgeStyle` | Prop → class map |
-| Price labels | `priceDisplay` | Prop → class map |
-| Product card grids | `--t-space-gap` | CSS var |
+### Regla de polarización
 
-**Migration order:** tech-premium first (reference implementation), then extend to remaining 10 templates in Phase 1c.
-
-### Card-Level Structural Logic
-
-Cards may also need to branch on `cardStyle`. The existing class-map pattern applies:
-
-```typescript
-// Already exists in some templates — standardize this pattern
-export const CARD_STYLE_MAP: Record<CardStyle, string> = {
-  flat:     "shadow-none border-0 bg-[--t-card-bg]",
-  shadow:   "shadow-md border-0 bg-[--t-card-bg]",
-  bordered: "shadow-none border border-[--t-border] bg-[--t-card-bg]",
-  elevated: "shadow-lg border-0 bg-[--t-card-bg] hover:shadow-xl",
-};
-
-export const HOVER_EFFECT_MAP: Record<HoverEffect, string> = {
-  none:  "",
-  lift:  "transition-transform hover:-translate-y-1",
-  scale: "transition-transform hover:scale-[1.02]",
-  glow:  "transition-shadow hover:shadow-[0_0_20px_rgba(var(--t-primary-rgb),0.3)]",
-};
-```
+Cada preset debe tener al menos 3 genes con valores extremos (no valores medios/neutros). Esto evita presets "beige" sin carácter.
 
 ---
 
-## 7. Dashboard Integration
+## 9. Guardrails — combinaciones prohibidas y dependencias
 
-### Where the Preset Picker Lives
+Definidos en `src/lib/presets/guardrails.ts`.
 
-The preset picker is a new section inside the **"Apariencia"** tab, rendered before the palette picker. The tab order becomes:
+### 10 combinaciones prohibidas (FORBIDDEN_COMBINATIONS)
 
-```
-Apariencia tab
-  1. Template picker (existing)
-  2. Preset picker      ← NEW (Phase 1b)
-  3. Palette picker (existing)
-  4. Font pair picker (existing, still fine-tunable post-preset)
-  5. Advanced colors (existing)
-  6. Radius sliders (existing)
-```
+| ID | Campos afectados | Descripción | Mensaje |
+|---|---|---|---|
+| `flat-no-shadow` | `cards.cardStyle` + `effects.shadowElevation` | Tarjeta plana no puede tener sombra elevada (solo "none" o "xs") | "Combinación no permitida: tarjeta plana no puede tener sombra elevada." |
+| `overlay-needs-cover` | `cards.cardContentLayout` + `cards.imageFit` | Overlay de card requiere imageFit "cover" | "Combinación no permitida: overlay de tarjeta requiere imageFit 'cover', no 'contain'." |
+| `no-uppercase-italic` | `typography.headingTransform` + `typography.headingFontStyle` | Uppercase + italic se ve mal en español | "Combinación no permitida: títulos en mayúsculas e itálica se ven mal en español." |
+| `radius-consistency` | `chrome.borderRadiusScale` + `chrome.badgeStyle` | Bordes "sharp" son incompatibles con badges redondeados | "Combinación no permitida: escala de bordes 'sharp' no es compatible con badges redondeados." |
+| `pattern-bg-noise` | `color.backgroundTreatment` + `color.cardBackground` | Fondo de patrón + tarjeta transparente genera ruido visual | "Combinación no permitida: fondo con patrón y tarjetas transparentes generan ruido visual." |
+| `slow-full-animation` | `effects.transitionSpeed` + `effects.animationLevel` | Velocidad "very-slow" + animación "full" hace la tienda difícil de usar | "Combinación no permitida: velocidad muy lenta con animaciones completas hace la tienda difícil de usar." |
+| `ghost-no-price` | `chrome.buttonStyle` + `chrome.priceDisplay` | Botón ghost + precio subtle elimina el CTA | "Combinación no permitida: botón fantasma y precio sutil eliminan el llamado a la acción." |
+| `sidebyside-needs-single-col` | `cards.cardContentLayout` + `layout.gridColumnsMobile` | Layout lado a lado requiere 1 columna en móvil | "Combinación no permitida: tarjeta lado a lado requiere 1 columna en móvil." |
+| `lineheight-density-conflict` | `typography.bodyLineHeight` + `layout.density` | Interlineado "loose" + densidad "compact" es inconsistente | "Combinación no permitida: interlineado suelto y densidad compacta generan inconsistencia visual." |
+| `circle-wide-distortion` | `cards.imageBorderRadius` + `layout.cardImageRatio` | Imagen circular + proporción wide produce distorsión | "Combinación no permitida: imagen circular con proporción ancha produce distorsión." |
 
-### Preset Picker UI Spec
+### 14 reglas de dependencia (DEPENDENCY_RULES)
 
-The preset picker is a grid of cards — 2 columns on mobile, 4 on desktop (or 2+2). Each card shows:
+Se dividen en reglas **hard** (deshabilitan controles) y **soft** (muestran advertencias).
 
-- Preset name (large, in the preset's heading font)
-- One-line description
-- A visual "gene strip": 4 small icons representing density, card style, animation level, and button style
-- A "Seleccionado" badge when active
+#### Hard rules (6)
 
-When a preset is selected:
-1. Call `applyPreset(presetId, readCustomization())` → get new `StoreCustomization`
-2. Write new customization to localStorage
-3. Update local React state
-4. Show a toast: "Personalidad aplicada. Podés ajustar los detalles abajo."
+| ID | Trigger | Campo afectado | Valores permitidos |
+|---|---|---|---|
+| `flat-limits-elevation` | `cards.cardStyle === "flat"` | `effects.shadowElevation` | `["none", "xs"]` |
+| `overlay-forces-cover` | `cards.cardContentLayout === "overlay-*"` | `cards.imageFit` | `["cover"]` |
+| `no-animation-no-hover` | `effects.animationLevel === "none"` | `cards.cardHover` | `["none"]` |
+| `sidebyside-mobile-cols` | `cards.cardContentLayout === "side-by-side"` | `layout.gridColumnsMobile` | `["1"]` |
+| `instant-speed-hides-easing` | `effects.transitionSpeed === "instant"` | `effects.transitionEasing` | `[]` (deshabilitado) |
+| `text-only-hero-hides-banner` | `layout.heroVariant === "text-only"` | `layout.bannerHeight` | `[]` (deshabilitado) |
 
-### The Onboarding Flow
+#### Soft rules (8)
 
-On first visit (when `customization.theme?.presetId` is `undefined`), show a modal or inline banner:
+| ID | Trigger | Campo afectado | Recomendación |
+|---|---|---|---|
+| `sharp-radius-image-hint` | `chrome.borderRadiusScale === "sharp"` | `cards.imageBorderRadius` | `["none", "same-as-card"]` |
+| `pill-radius-badge-hint` | `chrome.borderRadiusScale === "pill"` | `chrome.badgeStyle` | `["pill"]` |
+| `pattern-bg-card-hint` | `color.backgroundTreatment === "pattern"` | `color.cardBackground` | `["white", "surface"]` |
+| `highlight-heading-normal` | `typography.headingDecoration === "highlight"` | `typography.headingFontStyle` | `["normal"]` |
+| `monotone-accent-hint` | `color.colorStrategy === "monotone"` | `color.accentDistribution` | `["minimal", "buttons-only"]` |
+| `on-hover-only-needs-animation` | `chrome.addToCartStyle === "on-hover-only"` | `effects.animationLevel` | `["subtle", "full"]` |
+| `loose-lineheight-density-hint` | `typography.bodyLineHeight === "loose"` | `layout.density` | `["balanced", "spacious"]` |
+| `circle-image-square-ratio` | `cards.imageBorderRadius === "circle"` | `layout.cardImageRatio` | `["square"]` |
 
-```
-"¿Qué tipo de tienda sos?"
-[Preset cards grid]
-"Elegí una personalidad de inicio. Siempre podés cambiarla."
-[Botón: Continuar con Directo]  ← default fallback
-```
+---
 
-This ensures every merchant starts with a coherent visual personality rather than raw defaults.
+## 10. Cómo agregar un nuevo preset
 
-The onboarding state is tracked in `customization.theme.presetId` — if it's set, onboarding is done.
+### Paso 1: Verificar unicidad de genes
 
-### Fine-Tuning Controls After Preset
+Antes de definir el preset, listar los 6 genes y verificar que no comparta más de 4 valores con ningún preset existente (ver tabla de gene clusters en sección 3). Si hay violación, cambiar al menos 2 genes.
 
-After a preset is applied, the palette picker, font pair, and advanced color controls all remain usable. They act as fine-tuning layers on top of the preset. The system's resolution order (palette → per-token overrides) means per-token changes always win over preset values.
+### Paso 2: Verificar que no viola guardrails
 
-However, layout fields set by the preset (cardStyle, buttonStyle, etc.) are also individually accessible from the schema-form section in "Estilo visual" (see below). A merchant may pick "Boutique" and then change `cardStyle` from `elevated` to `flat` — the preset ID is preserved in `theme.presetId` but the individual field override wins.
+Revisar las 10 `FORBIDDEN_COMBINATIONS` en `src/lib/presets/guardrails.ts`. El check de cada combinación es una función `check(preset)` que podés ejecutar manualmente contra el objeto de tu nuevo preset antes de agregarlo.
 
-### "Estilo visual" — Layout Controls Tab Group
+### Paso 3: Agregar el preset a `stylePresets`
 
-> **Note:** The `estilo-visual` tab group **already exists** from Phase 0 — it was added as part of the initial schema system and already contains: `cardStyle`, `cardHoverEffect`, `cardImageRatio`, `headerStyle`, `footerStyle`, `navStyle`, `bannerHeight`, `animationLevel`, and `shadowStyle`.
-
-Phase 1b does **NOT** create this tab group — it adds the **3 NEW fields** (`buttonStyle`, `badgeStyle`, `priceDisplay`) to the existing sections. The schema snippet below shows the complete desired state of the tab group after Phase 1b, including both existing and new fields:
+En `src/lib/presets/presets.ts`, agregar el nuevo objeto al array `stylePresets`:
 
 ```typescript
-// Added to each template's config-schema.ts tabGroups array
 {
-  id: "estilo-visual",
-  label: "Estilo visual",
-  icon: "Sliders",
-  sections: [
-    {
-      id: "layout-options",
-      label: "Opciones de diseño",
-      description: "Ajustá la personalidad visual de tu tienda.",
-      fields: [
-        {
-          key: "layout.layout.cardStyle",
-          type: "select",
-          label: "Estilo de tarjetas",
-          options: [
-            { label: "Plano", value: "flat" },
-            { label: "Sombra", value: "shadow" },
-            { label: "Con borde", value: "bordered" },
-            { label: "Elevado", value: "elevated" },
-          ],
-        },
-        {
-          key: "layout.layout.buttonStyle",
-          type: "select",
-          label: "Estilo de botones",
-          options: [
-            { label: "Relleno", value: "filled" },
-            { label: "Contorno", value: "outlined" },
-            { label: "Fantasma", value: "ghost" },
-          ],
-        },
-        {
-          key: "layout.layout.cardHoverEffect",
-          type: "select",
-          label: "Efecto al pasar el cursor",
-          options: [
-            { label: "Ninguno", value: "none" },
-            { label: "Elevación", value: "lift" },
-            { label: "Escala", value: "scale" },
-            { label: "Resplandor", value: "glow" },
-          ],
-        },
-        {
-          key: "layout.layout.animationLevel",
-          type: "select",
-          label: "Nivel de animaciones",
-          options: [
-            { label: "Sin animaciones", value: "none" },
-            { label: "Sutiles", value: "subtle" },
-            { label: "Completas", value: "full" },
-          ],
-        },
-        {
-          key: "layout.layout.badgeStyle",
-          type: "select",
-          label: "Forma de etiquetas",
-          options: [
-            { label: "Redondeado", value: "pill" },
-            { label: "Cuadrado", value: "square" },
-          ],
-        },
-        {
-          key: "layout.layout.priceDisplay",
-          type: "select",
-          label: "Prominencia de precios",
-          options: [
-            { label: "Destacado", value: "prominent" },
-            { label: "Normal", value: "standard" },
-            { label: "Discreto", value: "subtle" },
-          ],
-        },
-        {
-          key: "layout.layout.bannerHeight",
-          type: "select",
-          label: "Altura del banner principal",
-          options: [
-            { label: "Bajo", value: "short" },
-            { label: "Normal", value: "normal" },
-            { label: "Alto", value: "tall" },
-          ],
-        },
-        {
-          key: "layout.layout.headerStyle",
-          type: "select",
-          label: "Estilo del encabezado",
-          options: [
-            { label: "Estándar", value: "standard" },
-            { label: "Centrado", value: "centered" },
-            { label: "Mínimo", value: "minimal" },
-          ],
-        },
-        {
-          key: "layout.layout.shadowStyle",
-          type: "select",
-          label: "Estilo de sombras",
-          options: [
-            { label: "Neutro", value: "neutral" },
-            { label: "Tono del color", value: "hue-tinted" },
-          ],
-        },
-      ],
-    },
-  ],
+  id: "mi-nuevo-preset",        // kebab-case, único
+  name: "Mi Nuevo Preset",      // nombre visible al merchant
+  description: "Una línea que describe la personalidad.",
+  targetStores: ["Tipo A", "Tipo B"],
+  genes: {
+    spatialArchitecture: "...",
+    typographyPersonality: "...",
+    imagePhilosophy: "...",
+    navigationArchitecture: "...",
+    decorationStrategy: "...",
+    motionPersonality: "...",
+  },
+  typography: { /* TypographyTokens */ },
+  layout: { /* LayoutTokens */ },
+  cards: { /* CardTokens */ },
+  effects: { /* EffectTokens */ },
+  color: { /* ColorTokens */ },
+  chrome: { /* ChromeTokens */ },
 }
 ```
 
-The dashboard reads this via the existing `DynamicTabContent` renderer — no new dashboard component code required.
+Todos los campos son opcionales en `StylePreset` (tienen `?`). Los campos omitidos se resuelven con `DEFAULT_PRESET_VALUES` en `buildCssVars`.
 
-### "Reset to Preset" Behavior
+### Paso 4: Verificar tipos
 
-Each field in the "Estilo visual" section shows its current value. If it differs from the active preset's default, a "Restablecer" button appears (same UX as the existing color override reset in `ThemeTab`).
-
-A "Restablecer al preset" button at the top of the "Estilo visual" tab calls `applyPreset` and re-applies all preset fields, discarding per-field overrides.
-
----
-
-## 8. Anti-Ugliness Guardrails
-
-### dependsOn Rules
-
-The following field combinations produce ugly results and should be hidden or warned:
-
-| Condition | Action |
-|---|---|
-| `animationLevel === "full"` AND `cardStyle === "bordered"` | Show warning: "Las animaciones completas combinan mejor con tarjetas elevadas." |
-| `cardHoverEffect === "glow"` AND `shadowStyle === "neutral"` | Show warning: "El resplandor se ve mejor con sombras en tono del color." Auto-suggest switching `shadowStyle` to `"hue-tinted"`. |
-| `priceDisplay === "subtle"` AND `animationLevel === "full"` | No warning — these are independent enough. |
-| `buttonStyle === "ghost"` AND `cardStyle === "flat"` | Show info: "Estilo muy minimalista — ideal para boutiques y galerías de arte." (positive reinforcement) |
-| `headingTransform === "uppercase"` AND `fontPair === "elegant"` | Show warning: "Las fuentes elegantes generalmente no usan mayúsculas forzadas." |
-
-### Contrast Checking
-
-When a merchant switches to `buttonStyle === "ghost"` or `buttonStyle === "outlined"`, the UI must verify that `--t-primary` has sufficient contrast against `--t-background` (WCAG AA, ratio ≥ 4.5:1). If not, show an inline warning:
-
-```
-"El color principal tiene bajo contraste con el fondo en el estilo de botón seleccionado. 
-Cambiá la paleta o ajustá el color principal."
+```bash
+npx tsc --noEmit
 ```
 
-Contrast check runs client-side using the hex values in `StoreCustomization`. Use the existing `hexToRgb` helper from `buildCssVars.ts`.
+TypeScript verificará que todos los valores usados existen en los tipos union correspondientes.
 
-### The "Reset to Preset" Escape Hatch
+### Paso 5: (Opcional) Agregar a un vibe
 
-If a merchant has made multiple fine-tuning changes and the result looks bad, the single "Restablecer al preset" action restores the 8 preset-managed fields to their preset defaults without touching branding, content, business, or the color palette. This is the primary escape hatch.
-
----
-
-## 9. Implementation Plan
-
-### Phase 1a — Types, Preset Definitions, buildCssVars (2–3 days)
-
-**Files to create:**
-- `src/types/templates/typography.ts` — `TypographyConfig` type
-- `src/lib/presets/preset-types.ts` — `StylePreset` type
-- `src/lib/presets/presets.ts` — `stylePresets` constant with all 8 presets
-- `src/lib/presets/apply-preset.ts` — `applyPreset` pure function
-
-**Files to update:**
-- `src/types/templates/primitives.ts` — add `ButtonStyle`, `BadgeStyle`, `PriceDisplay`, `DensityLevel`, `HeadingScale`
-- `src/types/templates/template-config.ts` — add `buttonStyle?`, `badgeStyle?`, `priceDisplay?` to `TemplateLayoutConfig`; add `layoutDensity?` and `theme?` to `ResolvedStoreConfig`
-- `src/types/templates/store-customization.ts` — add `presetId?`, `typography?` to `ThemeCustomization`; add `density?` to `LayoutCustomization`
-- `src/types/templates/index.ts` — re-export new types
-- `src/lib/buildCssVars.ts` — add typography token emission, spacing token emission
-- `src/lib/resolveTemplateConfig.ts` — forward `theme` and `layoutDensity` through to `ResolvedStoreConfig`
-
-**Additional task — font pair keys:** Standardize the 4 universal font pair keys (`"elegant"`, `"warm"`, `"functional"`, `"modern"`) across all 11 templates in their `config-schema.ts` `fontPairs` arrays. Templates missing any of these keys will fall back to their first font pair when a preset is applied (see Section 2 — Font Pair Fallback Strategy).
-
-**Scope:** ~8 files, ~200 lines of net new code. Zero UI changes. Zero component changes.
-
-**Verification:** `npx tsc --noEmit` must pass. Run `applyPreset("minimalista", mockCustomization)` in a test and verify the output matches Section 3.
+Si el preset corresponde a una categoría de vibes del onboarding, agregarlo en `src/lib/onboarding/vibe-preset-map.ts` al array `presetIds` del vibe correspondiente.
 
 ---
 
-### Phase 1b — Dashboard Preset Picker UI (2–3 days)
-
-**Files to create:**
-- `src/app/(dashboard)/dashboard/configuracion/tabs/preset-picker.tsx` — preset grid card component
-- `src/app/(dashboard)/dashboard/configuracion/tabs/preset-tab-section.tsx` — preset section for ThemeTab
-
-**Files to update:**
-- `src/app/(dashboard)/dashboard/configuracion/tabs/theme-tab.tsx` — integrate `PresetTabSection` before palette picker; handle `presetId` state; call `applyPreset` on selection
-- Each template's `config-schema.ts` — the `"estilo-visual"` tab group already exists from Phase 0; add the 3 NEW fields (`buttonStyle`, `badgeStyle`, `priceDisplay`) to the existing `layout-options` section (see Section 7)
-
-**Onboarding flow:**
-- Check if `customization.theme?.presetId` is `undefined` on mount
-- If undefined, show the onboarding banner with preset cards
-- Default selection: "Directo" (safe, compact, conversion-focused)
-
-**Scope:** ~4 files, ~300 lines. Pure UI, no backend changes.
-
----
-
-### Phase 1c — Component Updates Across Templates (3–4 days)
-
-Start with **tech-premium** as the reference implementation.
-
-For each template, update:
-1. Section wrapper components — read `--t-space-section` from CSS var
-2. Heading components — read `--t-type-heading-*` from CSS var
-3. Card components — use `CARD_STYLE_MAP`, `HOVER_EFFECT_MAP`
-4. Button components — use `BUTTON_CLASS_MAP` from `config.layout.buttonStyle`
-5. Badge components — use `BADGE_CLASS_MAP` from `config.layout.badgeStyle`
-6. Price labels — use `PRICE_CLASS_MAP` from `config.layout.priceDisplay`
-7. Grid containers — read `--t-space-gap` from CSS var
-
-Create `src/templates/[name]/utils/style-maps.ts` per template (or a single shared one at `src/templates/_shared/style-maps.ts` if the maps are identical across all templates — prefer shared).
-
-**Scope:** 11 templates × ~6 component types = ~66 component updates. Most are simple className additions.
-
----
-
-### Phase 1d — Sync ThemeCustomizer with Dashboard (1 day)
-
-The `ThemeCustomizer` component (used for live preview) must also read `presetId` from `StoreCustomization` and reflect it in its UI state. Currently it does not show a preset picker.
-
-**Files to update:**
-- `src/components/customizer/theme-customizer.tsx` — add preset picker section (can reuse the `PresetTabSection` component from Phase 1b)
-
-**Note:** This phase is lower priority. The dashboard is the primary merchant interface. ThemeCustomizer is a supplementary live-preview tool.
-
----
-
-### Total Estimated Scope
-
-| Phase | Duration | Risk |
-|---|---|---|
-| 1a: Types + logic | 2–3 days | Low — pure TypeScript, no UI |
-| 1b: Dashboard UI | 2–3 days | Low — follows existing tab patterns |
-| 1c: Component updates | 3–4 days | Medium — many files, but mechanical |
-| 1d: ThemeCustomizer sync | 1 day | Low — reuses Phase 1b components |
-| **Total** | **8–11 days** | Low–Medium |
-
----
-
-## 10. Migration Notes
-
-### Existing Merchant Customizations
-
-Merchants who have customized layout fields (cardStyle, headerStyle, etc.) before the preset system exists will have those values in `StoreCustomization.layout.layout`. Since `resolveTemplateConfig` shallow-merges layout fields, their existing values continue to win over any template defaults.
-
-When a merchant first visits the dashboard after Phase 1 ships:
-- `theme.presetId` is `undefined` — the onboarding banner appears
-- Their existing layout overrides are preserved in `layout.layout`
-- If they pick a preset, `applyPreset` overwrites the preset-managed layout fields with preset values (existing fine-tuning is replaced for those specific fields)
-- If they dismiss onboarding without picking a preset, nothing changes
-
-### Backward Compatibility Guarantees
-
-1. **`resolveTemplateConfig` signature is unchanged, but its return type gains two new optional fields** (`theme`, `layoutDensity`). Existing consumers that don't read these fields are completely unaffected — the addition is additive and backward-compatible.
-2. **`buildCssVars` signature is unchanged.** New CSS vars are additive. Components that don't read them are unaffected.
-3. **`TemplateLayoutConfig` additions are optional fields.** No template's `config.ts` needs updating — the new fields default to `undefined` and components must handle `undefined` with a sensible fallback (e.g. `config.layout.buttonStyle ?? "filled"`).
-4. **`ThemeCustomization` additions are optional.** Old `StoreCustomization` blobs without `presetId` or `typography` deserialize correctly — new fields are simply `undefined`.
-5. **Template `config.ts` files are never modified.** All preset logic is in `StoreCustomization` layer only.
-
-### Template Schema Migration
-
-Each template's `config-schema.ts` gains a new tab group (`"estilo-visual"`) in Phase 1b. This is additive — the dashboard reads all tab groups and renders them. Adding a new tab group never breaks existing tab groups.
-
-Templates that haven't had their `config-schema.ts` updated yet will simply not show the "Estilo visual" tab — the existing behavior is preserved.
-
----
-
-_Last updated: 2026-06-04_
-_Author: Camilo (Frontend Senior) — Phase 1 Preset System documentation_
+_Última actualización: 2026-06-06_
+_Basado en: `src/lib/presets/presets.ts`, `preset-types.ts`, `preset-defaults.ts`, `guardrails.ts`, `src/lib/buildCssVars.ts`, `src/types/templates/primitives.ts`_

@@ -9,11 +9,17 @@ Leer ANTES de cualquier tarea:
 
 | Doc | Qué contiene |
 |-----|--------------|
-| `docs/vision.md` | Qué es Tiendri, problema, solución, target, diferenciador, marca |
-| `docs/mvp.md` | Scope del MVP, features, reglas de negocio, flujos UX, pricing |
-| `docs/technical.md` | Stack, modelo de datos, schema DB, templates, arquitectura |
-| `docs/competitors.md` | Análisis de 5 competidores + oportunidades |
+| `docs/product.md` | Visión, MVP scope, flujos UX, competidores, marca |
+| `docs/technical.md` | Stack, modelo de datos, schema DB, arquitectura |
+| `docs/template-system.md` | Sistema de templates, config-schema, guía de desarrollo |
+| `docs/preset-system.md` | 13 presets, 46 propiedades, gene clusters, guardrails |
+| `docs/composable-sections.md` | 8 slots intercambiables, 38 variantes, registries, routers |
+| `docs/onboarding.md` | Wizard 5 pasos, vibes, tour guiado, checklist |
+| `docs/css-variables.md` | Catálogo completo ~77 CSS vars, uso en templates |
+| `docs/variant-guide.md` | Cómo agregar variantes de secciones y presets |
 | `docs/merchant-customization.md` | Roadmap de customización por merchant |
+| `docs/dashboard.md` | Estructura del dashboard, tabs, persistence |
+| `docs/decisions.md` | ADRs — decisiones arquitectónicas |
 | `ai/rules/tiendri-rules.md` | Reglas de negocio, código, errores, seguridad — OBLIGATORIO |
 
 ## Stack
@@ -33,17 +39,20 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 ## Estructura clave
 - `src/app/` — rutas (marketing, auth, onboarding, dashboard, template/[name], [slug])
 - `src/templates/` — sistema de templates (tech-premium implementado)
+- `src/templates/_shared/` — shared section variant registries
 - `src/templates/registry.ts` — template schema registry (async + sync loaders)
 - `src/types/templates/` — contratos globales (TemplateConfig, 5 capas)
 - `src/types/domain/` — domain types del dashboard (Category, Subcategory, Product, ActionResult)
 - `src/types/store.ts` — tipos compartidos (Product, Category, StoreInfo)
 - `src/lib/` — utilidades (resolveTemplateConfig, supabase clients)
+- `src/lib/onboarding/` — onboarding provider, vibes, first-time utils
 - `src/lib/repositories/` — repository pattern: interfaces + localStorage implementations + factory
 - `src/lib/validators/` — Zod schemas (category, product, store-customization)
 - `src/hooks/` — React hooks: useCategories, useSubcategories, useProducts, useImageUpload
 - `src/components/customizer/` — Theme Customizer genérico
 - `src/components/dashboard/` — dashboard shell: sidebar, header, breadcrumbs
 - `src/components/dashboard/schema-form/` — dynamic form renderer (DynamicField, DynamicSection, RepeatableSection, DynamicTabContent)
+- `src/components/onboarding/` — wizard step components
 - `src/components/shared/` — reusable components: ConfirmDialog, DataTable, EmptyState, SortableList, PriceInput, VariantEditor, StorageIndicator
 - `ai/skills/` — skills del proyecto (template-migrator, etc.)
 - `ai/rules/` — reglas arquitectónicas
@@ -53,6 +62,8 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - Leer `ai/rules/tiendri-rules.md` antes de cualquier trabajo
 - Leer `ai/rules/template-architecture-rules.md` para trabajo con templates
 - Templates: `satisfies TemplateConfig`, CSS vars `--t-*`, zero hardcoded colors
+- Secciones composables: 8 slots intercambiables, cada sección registrada en `_shared/` con variantes
+- Presets: 13 presets definidos en `preset-system.md`; respetar gene clusters y guardrails
 - Texto UI en español colombiano
 - Conventional commits
 
