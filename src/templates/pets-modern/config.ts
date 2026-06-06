@@ -167,6 +167,18 @@ export const petsModernConfig = {
     { id: "products" as const, visible: true },
   ],
 
+  // ── Default recipe (composable section defaults) ─────────────────────────
+  recipe: {
+    defaultHeroVariant: "gradient-promo" as const,
+    defaultCategoryNavVariant: "image-pills" as const,
+    defaultCardContentLayout: "below-image" as const,
+    defaultBottomNavVariant: "flat-solid" as const,
+    defaultHeaderVariant: "minimal-dark" as const,
+    defaultFooterVariant: "compact-row" as const,
+    defaultCartVariant: "minimal" as const,
+    defaultCheckoutVariant: "minimal" as const,
+  },
+
   // ── Default branding ─────────────────────────────────────────────────────────
   branding: {
     storeName: "Pet Shop",

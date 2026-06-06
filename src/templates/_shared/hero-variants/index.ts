@@ -7,6 +7,8 @@ const FullBleed = dynamic(() => import('./FullBleed')) as React.ComponentType<He
 const Split = dynamic(() => import('./Split')) as React.ComponentType<HeroProps>;
 const TextOnly = dynamic(() => import('./TextOnly')) as React.ComponentType<HeroProps>;
 const PromoCarousel = dynamic(() => import('./PromoCarousel')) as React.ComponentType<HeroProps>;
+const GradientPromo = dynamic(() => import('./GradientPromo')) as React.ComponentType<HeroProps>;
+const SplitCarousel = dynamic(() => import('./SplitCarousel')) as React.ComponentType<HeroProps>;
 
 export const HERO_REGISTRY: Record<HeroVariant, React.ComponentType<HeroProps>> = {
   contained: Contained,
@@ -14,6 +16,8 @@ export const HERO_REGISTRY: Record<HeroVariant, React.ComponentType<HeroProps>> 
   split: Split,
   'text-only': TextOnly,
   'promo-carousel': PromoCarousel,
+  'gradient-promo': GradientPromo,
+  'split-carousel': SplitCarousel,
 };
 
 export type { HeroProps, HeroStaticProps, HeroCarouselProps } from './types';

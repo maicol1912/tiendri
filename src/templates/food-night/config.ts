@@ -131,6 +131,17 @@ export const foodNightConfig = {
     { id: "products" as const, visible: true },
   ],
 
+  recipe: {
+    defaultHeroVariant: "split" as const,
+    defaultCategoryNavVariant: "chips" as const,
+    defaultCardContentLayout: "masonry-variant" as const,
+    defaultBottomNavVariant: "flat-solid" as const,
+    defaultHeaderVariant: "minimal-dark" as const,
+    defaultFooterVariant: "compact-row" as const,
+    defaultCartVariant: "minimal" as const,
+    defaultCheckoutVariant: "minimal" as const,
+  },
+
   branding: {
     storeName: "Mi Restaurante",
     description: "Tu restaurante favorito en Tiendri",

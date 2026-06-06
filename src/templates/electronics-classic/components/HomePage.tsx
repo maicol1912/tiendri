@@ -19,6 +19,12 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { HeroBanner as HeroBannerComponent } from "./HeroBanner";
 import { CategorySection } from "./CategorySection";
+import { HeaderRouter } from "./HeaderRouter";
+import { HeroRouter } from "./HeroRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
+import { electronicsClassicConfig } from "../config";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 import { ProductSection as ProductSectionComponent } from "./ProductSection";
 import { FeatureCards } from "./FeatureCards";
 import { PromoBanner as PromoBannerComponent } from "./PromoBanner";
@@ -49,6 +55,7 @@ interface HomePageProps {
     footerStyle?: string;
   };
   sections?: string[];
+  structuralVariants?: StructuralVariants;
   // Event handlers
   onNavigate?: (path: string) => void;
   onCategoryClick?: (categoryId: string) => void;
@@ -94,6 +101,7 @@ export function HomePage({
   onCartClick,
   onHeroCtaClick,
   onPromoCtaClick,
+  structuralVariants,
 }: HomePageProps) {
   const categoriesGrid = grid.categories ?? { mobile: 2, desktop: 4 };
   const productsGrid = grid.products ?? { mobile: 2, desktop: 4 };
@@ -101,10 +109,11 @@ export function HomePage({
   // Section renderers (Rule 17)
   const sectionRenderers: SectionRendererMap = {
     hero: () => (
-      <HeroBannerComponent
+      <HeroRouter
         key="hero"
         banner={heroBanner}
-        layout={layout}
+        structuralVariants={structuralVariants}
+        recipe={electronicsClassicConfig.recipe}
         onCtaClick={onHeroCtaClick}
       />
     ),
@@ -196,12 +205,12 @@ export function HomePage({
       className="min-h-screen"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      <Header
+      <HeaderRouter
         store={store}
-        cartCount={cartCount}
-        layout={layout}
-        onNavigate={onNavigate}
-        onSearchSubmit={onSearchSubmit}
+        structuralVariants={structuralVariants}
+        recipe={electronicsClassicConfig.recipe}
+        cartItemCount={cartCount}
+        onSearchClick={onSearchSubmit ? () => onSearchSubmit("") : undefined}
         onCartClick={onCartClick}
       />
 
@@ -213,8 +222,16 @@ export function HomePage({
         })}
       </main>
 
-      <Footer store={store} layout={layout} />
-      <BottomNav cartCount={cartCount} onNavigate={onNavigate} />
+      <FooterRouter
+        store={store}
+        structuralVariants={structuralVariants}
+        recipe={electronicsClassicConfig.recipe}
+      />
+      <BottomNavRouter
+        cartItemCount={cartCount}
+        structuralVariants={structuralVariants}
+        recipe={electronicsClassicConfig.recipe}
+      />
     </div>
   );
 }

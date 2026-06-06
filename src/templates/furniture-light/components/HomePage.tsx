@@ -7,6 +7,11 @@ import React, { Fragment } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
+import { HeaderRouter } from "./HeaderRouter";
+import { HeroRouter } from "./HeroRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 import { HeroBanner } from "./HeroBanner";
 import { WalletBar } from "./WalletBar";
 import { CategorySection } from "./CategorySection";
@@ -55,6 +60,7 @@ interface HomePageProps {
   onTabChange?: (tab: FurnitureNavTab) => void;
   onStyleClick?: (id: string) => void;
   onSeeAll?: () => void;
+  structuralVariants?: StructuralVariants;
 }
 
 export function HomePage({
@@ -82,6 +88,7 @@ export function HomePage({
   onTabChange,
   onStyleClick,
   onSeeAll,
+  structuralVariants,
 }: HomePageProps) {
   // Flash sale products — discounted items or first 4 products
   const flashSaleProducts = products
@@ -101,10 +108,12 @@ export function HomePage({
   function renderHero() {
     return (
       <div className="px-4 md:px-6 lg:px-8 mb-4">
-        <HeroBanner
+        <HeroRouter
           title={heroBannerTitle ?? furnitureLightConfig.content.heroBanner.title}
           subtitle={heroBannerSubtitle ?? furnitureLightConfig.content.heroBanner.subtitle}
           bannerImage={heroBannerImage}
+          structuralVariants={structuralVariants}
+          recipe={furnitureLightConfig.recipe}
         />
       </div>
     );
@@ -256,12 +265,14 @@ export function HomePage({
       />
 
       {/* Sticky Header */}
-      <Header
+      <HeaderRouter
         store={store}
-        navLinks={navLinks as NavLink[]}
+        structuralVariants={structuralVariants}
+        recipe={furnitureLightConfig.recipe}
         cartItemCount={cartItemCount}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
+        navLinks={navLinks as NavLink[]}
       />
 
       {/* Main content */}
@@ -279,12 +290,18 @@ export function HomePage({
       </main>
 
       {/* Footer */}
-      <Footer store={store} layout={layout} />
+      <FooterRouter
+        store={store}
+        structuralVariants={structuralVariants}
+        recipe={furnitureLightConfig.recipe}
+      />
 
       {/* Bottom nav — mobile only */}
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        structuralVariants={structuralVariants}
+        recipe={furnitureLightConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "search") onSearchClick?.();
           else if (tab === "cart") onCartClick?.();

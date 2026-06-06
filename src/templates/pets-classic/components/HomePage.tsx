@@ -4,9 +4,9 @@
 // All colors via var(--t-*), ZERO hardcoded hex.
 
 import { Fragment } from "react";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { HeaderRouter } from "./HeaderRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { HeroBanner } from "./HeroBanner";
 import { CategoryRow } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
@@ -14,6 +14,7 @@ import { gridColsClass } from "../utils/grid-classes";
 import { petsClassicConfig } from "../config";
 import type { PetsClassicConfig } from "../config";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 import type {
   StoreInfo,
   PetsClassicCategory,
@@ -51,6 +52,7 @@ interface HomePageProps {
   onTabChange?: (tab: NavTab) => void;
   onPromoDotClick?: (index: number) => void;
   onSeeAll?: () => void;
+  structuralVariants?: StructuralVariants;
 }
 
 function formatPrice(price: number): string {
@@ -80,6 +82,7 @@ export function HomePage({
   onTabChange,
   onPromoDotClick,
   onSeeAll,
+  structuralVariants,
 }: HomePageProps) {
   const featuredProducts = products.filter((p) => p.featured);
   const popularProducts = products.filter((p) => !p.featured);
@@ -354,13 +357,14 @@ export function HomePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
 
-      <Header
+      <HeaderRouter
         store={store}
+        structuralVariants={structuralVariants}
+        recipe={petsClassicConfig.recipe}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
-        onCatalogClick={onCatalogClick ?? onSeeAll}
       />
 
       <main className="pb-4">
@@ -371,15 +375,21 @@ export function HomePage({
           ))}
       </main>
 
-      <Footer store={store} layout={layout} />
+      <FooterRouter
+        store={store}
+        structuralVariants={structuralVariants}
+        recipe={petsClassicConfig.recipe}
+        services={petsClassicConfig.footerServices}
+        assistance={petsClassicConfig.footerAssistance}
+      />
 
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
-        animationLevel={layout?.animationLevel}
+        structuralVariants={structuralVariants}
+        recipe={petsClassicConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "cart") onCartClick?.();
-          else if (tab === "listing") (onCatalogClick ?? onSeeAll)?.();
           else onTabChange?.(tab);
         }}
       />

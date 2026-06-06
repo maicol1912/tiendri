@@ -140,6 +140,17 @@ export const decorWarmConfig = {
     { id: "products" as const, visible: true },
   ],
 
+  recipe: {
+    defaultHeroVariant: "promo-carousel" as const,
+    defaultCategoryNavVariant: "icon-grid" as const,
+    defaultCardContentLayout: "action-buttons" as const,
+    defaultBottomNavVariant: "flat-solid" as const,
+    defaultHeaderVariant: "color-accented" as const,
+    defaultFooterVariant: "compact-row" as const,
+    defaultCartVariant: "minimal" as const,
+    defaultCheckoutVariant: "minimal" as const,
+  },
+
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de decoración y muebles en Tiendri",

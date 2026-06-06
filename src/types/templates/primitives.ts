@@ -58,13 +58,13 @@ export type TemplateId = string;
 
 // Preset system — Phase 0 new union types
 
-export type CardContentLayout = "below-image" | "overlay-bottom" | "overlay-full" | "side-by-side" | "dark-elevated";
-export type HeroVariant = "full-bleed" | "contained" | "split" | "text-only" | "promo-carousel";
-export type FooterVariant = "three-column" | "compact-row";
+export type CardContentLayout = "below-image" | "overlay-bottom" | "overlay-full" | "side-by-side" | "dark-elevated" | "lifestyle-background" | "featured-animated" | "glassmorphic-discount" | "action-buttons" | "masonry-variant";
+export type HeroVariant = "full-bleed" | "contained" | "split" | "text-only" | "promo-carousel" | "gradient-promo" | "split-carousel";
+export type FooterVariant = "three-column" | "compact-row" | "social-icons";
 export type CategoryNavPattern = "horizontal-scroll" | "grid" | "tabs" | "chips" | "icon-grid" | "image-pills";
 export type CategoryNavVariant = "icon-grid" | "image-pills" | "horizontal-scroll" | "tab-bar" | "chips";
 export type AddToCartStyle = "compact" | "full-width" | "icon-button" | "floating-fab" | "on-hover-only";
-export type BottomNavVariant = "flat-solid" | "frosted-glass";
+export type BottomNavVariant = "flat-solid" | "frosted-glass" | "rounded-top";
 export type TransitionSpeed = "instant" | "fast" | "normal" | "slow" | "very-slow";
 export type TransitionEasing = "linear" | "ease" | "ease-in-out" | "spring";
 export type ShadowElevation = "none" | "xs" | "sm" | "md" | "lg" | "xl";
@@ -89,6 +89,6 @@ export type GridColumnsDesktop = 2 | 3 | 4 | 5;
 export type ContainerMaxWidth = "narrow" | "medium" | "wide" | "full";
 export type ImageFit = "cover" | "contain";
 export type CardPadding = "none" | "tight" | "normal" | "spacious";
-export type HeaderVariant = "minimal-dark" | "location-greeting";
+export type HeaderVariant = "minimal-dark" | "location-greeting" | "multi-tier" | "notification" | "glassmorphic" | "color-accented";
 export type CartVariant = "detailed" | "minimal";
 export type CheckoutVariant = "detailed" | "minimal";

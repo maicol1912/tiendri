@@ -138,6 +138,18 @@ export const beautySoftConfig = {
     { id: "products" as const, visible: true },
   ],
 
+  // ── Default recipe (composable section defaults) ─────────────────────────
+  recipe: {
+    defaultHeroVariant: "split" as const,
+    defaultCategoryNavVariant: "chips" as const,
+    defaultCardContentLayout: "below-image" as const,
+    defaultBottomNavVariant: "flat-solid" as const,
+    defaultHeaderVariant: "location-greeting" as const,
+    defaultFooterVariant: "social-icons" as const,
+    defaultCartVariant: "minimal" as const,
+    defaultCheckoutVariant: "minimal" as const,
+  },
+
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de belleza online en Tiendri",

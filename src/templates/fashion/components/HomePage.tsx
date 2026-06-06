@@ -5,14 +5,15 @@
 // ThemeCustomizer can control visibility and order.
 
 import { Fragment } from "react";
-import { Header } from "./Header";
+import { HeaderRouter } from "./HeaderRouter";
 import { HeroBanner } from "./HeroBanner";
 import { CollectionSection } from "./CollectionSection";
 import { EditorialSection } from "./EditorialSection";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { fashionConfig } from "../config";
 import type { FashionConfig } from "../config";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 import type { StoreInfo, StorefrontProduct, NavTab, HomeSectionConfig } from "../types";
 
 interface Collection {
@@ -30,6 +31,7 @@ interface HomePageProps {
   sections?: readonly HomeSectionConfig[];
   layout?: FashionConfig["layout"];
   grid?: FashionConfig["grid"];
+  structuralVariants?: StructuralVariants;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
@@ -48,6 +50,7 @@ export function HomePage({
   sections = fashionConfig.sections,
   layout = fashionConfig.layout,
   grid = fashionConfig.grid,
+  structuralVariants,
   onSearchClick,
   onCartClick,
   onMenuClick,
@@ -118,11 +121,12 @@ export function HomePage({
       style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
     >
       {/* ── Sticky Header — structural, always rendered ── */}
-      <Header
+      <HeaderRouter
         store={store}
+        structuralVariants={structuralVariants}
+        recipe={fashionConfig.recipe}
         navLinks={fashionConfig.navLinks}
         cartItemCount={cartItemCount}
-        layout={layout}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
@@ -138,16 +142,19 @@ export function HomePage({
       </main>
 
       {/* ── Footer — structural, always rendered ── */}
-      <Footer
+      <FooterRouter
         store={store}
+        structuralVariants={structuralVariants}
+        recipe={fashionConfig.recipe}
         services={fashionConfig.footerServices}
         assistance={fashionConfig.footerAssistance}
-        layout={layout}
       />
 
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        structuralVariants={structuralVariants}
+        recipe={fashionConfig.recipe}
         onTabChange={onTabChange}
       />
     </div>

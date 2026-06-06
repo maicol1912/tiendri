@@ -12,6 +12,12 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { HeroBanner } from "./HeroBanner";
 import { CategorySection } from "./CategorySection";
+import { HeaderRouter } from "./HeaderRouter";
+import { HeroRouter } from "./HeroRouter";
+import { CategoryNavRouter } from "./CategoryNavRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
+import { decorWarmConfig } from "../config";
 
 import { BestSellerCard } from "./BestSellerCard";
 import { ProductCard } from "./ProductCard";
@@ -26,6 +32,7 @@ import type {
 } from "../types";
 import type { StoreInfo } from "@/types/store";
 import type { DecorWarmConfig } from "../config";
+import type { StructuralVariants } from "@/types/templates/structural-variants";
 
 interface HomePageProps {
   store: StoreInfo;
@@ -45,6 +52,7 @@ interface HomePageProps {
   grid?: DecorWarmConfig["grid"];
   sections?: Array<{ id: string; visible: boolean }>;
   wishlistedIds?: Set<string>;
+  structuralVariants?: StructuralVariants;
   onCategoryChange?: (id: string | null) => void;
   onIconCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
@@ -77,6 +85,7 @@ export function HomePage({
   grid,
   sections,
   wishlistedIds,
+  structuralVariants,
   onCategoryChange,
   onIconCategoryChange,
   onProductClick,
@@ -119,10 +128,13 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     // ── Hero promo banner ──────────────────────────────────────────────────────
     hero: () => (
-      <HeroBanner
+      <HeroRouter
         slides={promoSlides}
         activeSlide={activePromoSlide}
+        structuralVariants={structuralVariants}
+        recipe={decorWarmConfig.recipe}
         onSlideChange={onPromoSlideChange}
+        onCtaClick={onSeeAll}
       />
     ),
 
@@ -276,10 +288,13 @@ export function HomePage({
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
-      <Header
+      <HeaderRouter
         store={store}
+        structuralVariants={structuralVariants}
+        recipe={decorWarmConfig.recipe}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchOpen}
+        onCartClick={onCartOpen}
       />
 
       <main
@@ -293,11 +308,17 @@ export function HomePage({
           ))}
       </main>
 
-      <Footer store={store} />
+      <FooterRouter
+        store={store}
+        structuralVariants={structuralVariants}
+        recipe={decorWarmConfig.recipe}
+      />
 
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        structuralVariants={structuralVariants}
+        recipe={decorWarmConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "cart") onCartOpen?.();
           else onTabChange?.(tab);
