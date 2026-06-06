@@ -15,21 +15,23 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { TourChecklist } from "@/components/dashboard/tour-checklist";
 
 interface NavItem {
   label: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
+  tourTarget?: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Productos", href: "/dashboard/productos", icon: Package },
-  { label: "Categorías", href: "/dashboard/categorias", icon: FolderTree },
+  { label: "Productos", href: "/dashboard/productos", icon: Package, tourTarget: "productos" },
+  { label: "Categorías", href: "/dashboard/categorias", icon: FolderTree, tourTarget: "categorias" },
   { label: "Biblioteca", href: "/dashboard/biblioteca", icon: Images },
   { label: "Banners", href: "/dashboard/banners", icon: ImageIcon },
-  { label: "Compartir", href: "/dashboard/compartir", icon: Share2 },
-  { label: "Configuración", href: "/dashboard/configuracion", icon: Settings },
+  { label: "Compartir", href: "/dashboard/compartir", icon: Share2, tourTarget: "compartir" },
+  { label: "Configuración", href: "/dashboard/configuracion", icon: Settings, tourTarget: "configuracion" },
 ];
 
 const STORE_STORAGE_KEY = "tiendri_demo-store_store";
@@ -102,6 +104,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                 key={item.href}
                 href={item.href}
                 onClick={onNavigate}
+                {...(item.tourTarget ? { 'data-tour': item.tourTarget } : {})}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-150",
                   active
@@ -117,6 +120,11 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
         </nav>
       </ScrollArea>
 
+      {/* Onboarding checklist */}
+      <div className="px-3 pb-2">
+        <TourChecklist />
+      </div>
+
       {/* Bottom section */}
       <div className="border-t border-zinc-800 px-3 py-3">
         {storeSlug ? (
@@ -124,6 +132,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             href={`/${storeSlug}`}
             target="_blank"
             rel="noopener noreferrer"
+            data-tour="preview"
             className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors duration-150 hover:bg-zinc-800/60 hover:text-white"
           >
             <ExternalLink className="h-4 w-4 shrink-0" />
