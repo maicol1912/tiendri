@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BrandingTab } from "./tabs/branding-tab";
 import { ThemeTab } from "./tabs/theme-tab";
 import { BusinessTab } from "./tabs/business-tab";
+import { SectionPicker } from "./tabs/section-picker";
 import { DynamicTabContent } from "@/components/dashboard/schema-form";
 import { getTemplateSchemaSync } from "@/templates/registry";
 import { setByPath } from "@/lib/config-path-utils";
@@ -98,10 +99,11 @@ export function ConfiguracionClient({
   const dynamicTabGroups: ConfigTabGroup[] =
     schema?.content.tabGroups ?? [];
 
-  // Build the tab list: Identidad -> [dynamic tabs] -> Apariencia -> Negocio
+  // Build the tab list: Identidad -> [dynamic tabs] -> Secciones -> Apariencia -> Negocio
   const tabs: { value: string; label: string }[] = [
     { value: "identidad", label: "Identidad" },
     ...dynamicTabGroups.map((tg) => ({ value: tg.id, label: tg.label })),
+    { value: "secciones", label: "Secciones" },
     { value: "apariencia", label: "Apariencia" },
     { value: "negocio", label: "Negocio" },
   ];
@@ -171,6 +173,13 @@ export function ConfiguracionClient({
               />
             </TabsContent>
           ))}
+
+          {/* Universal tab: Secciones */}
+          <TabsContent value="secciones">
+            <SectionPicker
+              initialVariants={customization.layout?.structuralVariants}
+            />
+          </TabsContent>
 
           {/* Universal tab: Apariencia */}
           <TabsContent value="apariencia">
