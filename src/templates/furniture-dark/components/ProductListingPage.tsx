@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ChevronLeft, SlidersHorizontal } from "lucide-react";
 import type { StorefrontStore, StorefrontProduct, StorefrontCategory, CategoryBannerData } from "../types";
 import { Header } from "./Header";
-import { BottomNav } from "./BottomNav";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
@@ -189,7 +189,7 @@ export function ProductListingPage({
         )}
       </div>
 
-      <BottomNav
+      <BottomNavRouter
         activeTab="home"
         cartItemCount={cartItemCount}
         onTab={onBottomNavTab}

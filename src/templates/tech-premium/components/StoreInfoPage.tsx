@@ -4,8 +4,8 @@
 
 import { MapPin, Phone, Mail, Share2, Clock } from "lucide-react";
 import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import type { StoreInfo, NavTab } from "../types";
 
 interface StoreInfoPageProps {
@@ -171,9 +171,9 @@ export function StoreInfoPage({
         )}
       </main>
 
-      <Footer store={store} services={footerServices} assistance={footerAssistance} />
+      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
 
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

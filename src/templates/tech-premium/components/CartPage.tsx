@@ -4,8 +4,8 @@
 // Visual only — handlers come as props.
 
 import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
@@ -115,10 +115,10 @@ export function CartPage({
       </main>
 
       {/* Footer */}
-      <Footer store={store} services={footerServices} assistance={footerAssistance} />
+      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
 
       {/* Bottom nav — mobile */}
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

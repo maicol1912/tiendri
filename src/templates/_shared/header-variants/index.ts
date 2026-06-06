@@ -1,0 +1,13 @@
+import dynamic from 'next/dynamic';
+import type { HeaderVariant } from '@/types/templates';
+import type { HeaderProps } from './types';
+
+const MinimalDark = dynamic(() => import('./MinimalDark')) as React.ComponentType<HeaderProps>;
+const LocationGreeting = dynamic(() => import('./LocationGreeting')) as React.ComponentType<HeaderProps>;
+
+export const HEADER_REGISTRY: Record<HeaderVariant, React.ComponentType<HeaderProps>> = {
+  'minimal-dark': MinimalDark,
+  'location-greeting': LocationGreeting,
+};
+
+export type { HeaderProps } from './types';

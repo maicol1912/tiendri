@@ -6,8 +6,8 @@
 
 import Image from "next/image";
 import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { CheckoutForm } from "./CheckoutForm";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { TemplateLayoutConfig } from "@/types/templates";
@@ -172,9 +172,9 @@ export function CheckoutPage({
         )}
       </main>
 
-      <Footer store={store} services={footerServices} assistance={footerAssistance} />
+      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
 
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

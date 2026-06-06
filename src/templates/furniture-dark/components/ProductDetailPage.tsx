@@ -6,7 +6,7 @@
 import { ChevronLeft } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { Header } from "./Header";
-import { BottomNav } from "./BottomNav";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { ImageGallery } from "./ImageGallery";
 import { ProductInfo } from "./ProductInfo";
 import { StickyBottomBar } from "./StickyBottomBar";
@@ -119,7 +119,7 @@ export function ProductDetailPage({
       />
 
       {/* Mobile bottom nav */}
-      <BottomNav
+      <BottomNavRouter
         activeTab="home"
         cartItemCount={cartItemCount}
         onTab={(tab) => {

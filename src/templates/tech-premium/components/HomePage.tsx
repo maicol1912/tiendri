@@ -17,9 +17,9 @@
 
 import { Fragment } from "react";
 import Image from "next/image";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { HeaderRouter } from "./HeaderRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { HeroBanner } from "./HeroBanner";
 import { BannerGrid } from "./BannerGrid";
 import { CategoryNavRouter } from "./CategoryNavRouter";
@@ -386,13 +386,15 @@ export function HomePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
       {/* ── Sticky Header — structural, always rendered ── */}
-      <Header
+      <HeaderRouter
         store={store}
-        navLinks={navLinks}
+        structuralVariants={structuralVariants}
+        recipe={techPremiumConfig.recipe}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
+        navLinks={navLinks}
         onNavLinkClick={onNavLinkClick}
       />
 
@@ -406,16 +408,19 @@ export function HomePage({
       </main>
 
       {/* ── Footer — structural, always rendered ── */}
-      <Footer
+      <FooterRouter
         store={store}
         services={footerServices}
         assistance={footerAssistance}
+        structuralVariants={structuralVariants}
       />
 
       {/* ── Bottom navigation — mobile only, structural ── */}
-      <BottomNav
+      <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}
+        structuralVariants={structuralVariants}
+        recipe={techPremiumConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "search") onSearchClick?.();
           else if (tab === "cart") onCartClick?.();

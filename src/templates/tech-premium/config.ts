@@ -189,6 +189,8 @@ export const techPremiumConfig = {
     defaultHeroVariant: "contained" as const,
     defaultCategoryNavVariant: "horizontal-scroll" as const,
     defaultCardContentLayout: "below-image" as const,
+    defaultBottomNavVariant: "flat-solid" as const,
+    defaultHeaderVariant: "minimal-dark" as const,
   },
 
   // ── Default branding (store identity) ────────────────────────────────────

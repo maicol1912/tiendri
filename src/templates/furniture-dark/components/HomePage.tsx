@@ -12,9 +12,9 @@ import type {
   VideoData,
 } from "../types";
 import type { FurnitureDarkConfig } from "../config";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { BottomNav } from "./BottomNav";
+import { HeaderRouter } from "./HeaderRouter";
+import { FooterRouter } from "./FooterRouter";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { HeroRouter } from "./HeroRouter";
 import { CategoryNavRouter } from "./CategoryNavRouter";
 import { VideoSection } from "./VideoSection";
@@ -147,8 +147,9 @@ export function HomePage({
       style={{ backgroundColor: "var(--t-background)", fontFamily: "var(--font-body, 'Urbanist', sans-serif)" }}
     >
       {/* Header */}
-      <Header
+      <HeaderRouter
         store={store}
+        recipe={config.recipe}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
@@ -186,10 +187,10 @@ export function HomePage({
       </main>
 
       {/* Footer */}
-      <Footer store={store} />
+      <FooterRouter store={store} />
 
       {/* Mobile bottom navigation */}
-      <BottomNav
+      <BottomNavRouter
         activeTab="home"
         cartItemCount={cartItemCount}
         onTab={onBottomNavTab}

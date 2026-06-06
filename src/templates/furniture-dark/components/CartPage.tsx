@@ -7,7 +7,7 @@ import { ShoppingBag } from "lucide-react";
 import type { CartItem } from "../types";
 import type { StorefrontStore } from "../types";
 import { Header } from "./Header";
-import { BottomNav } from "./BottomNav";
+import { BottomNavRouter } from "./BottomNavRouter";
 import { CartItemRow } from "./CartItemRow";
 import { CartSummary } from "./CartSummary";
 
@@ -142,7 +142,7 @@ export function CartPage({
         )}
       </div>
 
-      <BottomNav
+      <BottomNavRouter
         activeTab="cart"
         cartItemCount={cartItemCount}
         onTab={onBottomNavTab}
