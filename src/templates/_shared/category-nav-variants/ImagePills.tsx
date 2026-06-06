@@ -1,5 +1,6 @@
 'use client'
 
+import type React from 'react'
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import type { CategoryNavProps } from './types'
@@ -27,8 +28,8 @@ export default function ImagePills({
   return (
     <div
       ref={scrollRef}
-      className="flex overflow-x-auto gap-2"
-      style={{ scrollbarWidth: 'none' }}
+      className="flex gap-3 overflow-x-auto pb-1 scrollbar-none"
+      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
     >
       {categories.map((cat) => {
         const isActive = activeCategoryId === cat.id

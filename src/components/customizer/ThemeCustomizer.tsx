@@ -626,7 +626,7 @@ export function ThemeCustomizer({
           cardContentLayout: config.structural?.cardContentLayout ?? "below-image",
           heroVariant: config.structural?.heroVariant ?? "full-bleed",
           categoryNavStyle: config.structural?.categoryNavStyle ?? "horizontal-scroll",
-          addToCartStyle: config.structural?.addToCartStyle ?? "full-width",
+          addToCartStyle: config.structural?.addToCartStyle ?? "compact",
           [key]: value,
         },
       });
@@ -1752,8 +1752,9 @@ export function ThemeCustomizer({
                       <ControlField
                         label="Estilo de agregar al carrito"
                         field="chrome.addToCartStyle"
-                        value={config.structural?.addToCartStyle ?? "full-width"}
+                        value={config.structural?.addToCartStyle ?? "compact"}
                         options={[
+                          { value: "compact", label: "Compacto" },
                           { value: "full-width", label: "Botón completo" },
                           { value: "icon-button", label: "Ícono" },
                           { value: "floating-fab", label: "Flotante" },

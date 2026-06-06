@@ -10,7 +10,7 @@ export default function CardBelowImage({
   product,
   currencySymbol,
   layout,
-  addToCartStyle = 'full-width',
+  addToCartStyle,
   onClick,
   onAddToCart,
   buttonClass,
@@ -21,6 +21,9 @@ export default function CardBelowImage({
   hoverFxClass,
   imageFitClass,
 }: CardLayoutProps) {
+  // Resolve addToCartStyle — undefined means "compact" (original pre-router behavior).
+  // Explicit 'full-width' stretches the button across the card.
+  const resolvedAddToCartStyle = addToCartStyle ?? 'compact';
   const imageUrl = product.images[0]?.url ?? '/placeholder.png';
   const imageAlt = `${product.name} imagen del producto`;
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? 'square');
@@ -31,11 +34,11 @@ export default function CardBelowImage({
       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
       : null;
 
-  const needsGroup = addToCartStyle === 'on-hover-only';
+  const needsGroup = resolvedAddToCartStyle === 'on-hover-only';
 
   return (
     <article
-      className={`${cardBgClass} ${hoverFxClass} ${cardBorderClass} rounded-[var(--t-radius-base)] flex flex-col items-center gap-4 min-w-0 max-w-sm w-full mx-auto relative${needsGroup ? ' group' : ''}`}
+      className={`${cardBgClass} ${hoverFxClass} ${cardBorderClass} rounded-[var(--t-radius-card)] flex flex-col items-center gap-4 min-w-0 max-w-sm w-full mx-auto relative${needsGroup ? ' group' : ''}`}
       style={{ padding: 'var(--t-card-padding, 1.5rem 1rem)' }}
     >
       {discountPercent !== null && (
@@ -82,18 +85,21 @@ export default function CardBelowImage({
           </p>
         </div>
 
-        {(addToCartStyle === 'full-width' || addToCartStyle === 'on-hover-only') && (
+        {(resolvedAddToCartStyle === 'compact' ||
+          resolvedAddToCartStyle === 'full-width' ||
+          resolvedAddToCartStyle === 'on-hover-only') && (
           <button
             type="button"
             className={[
               buttonClass,
-              'text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 lg:px-16 py-3 cursor-pointer border hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full',
-              addToCartStyle === 'on-hover-only'
-                ? 'opacity-0 group-hover:opacity-100 touch-device-visible'
+              'text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 lg:px-16 py-3 cursor-pointer border hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap',
+              resolvedAddToCartStyle === 'full-width' ? 'w-full' : '',
+              resolvedAddToCartStyle === 'on-hover-only'
+                ? 'opacity-0 group-hover:opacity-100 touch-device-visible w-full'
                 : '',
-            ].join(' ')}
+            ].join(' ').trim()}
             style={
-              addToCartStyle === 'on-hover-only'
+              resolvedAddToCartStyle === 'on-hover-only'
                 ? ({ transitionDuration: 'var(--t-fx-duration, 200ms)' } as React.CSSProperties)
                 : undefined
             }
@@ -111,7 +117,7 @@ export default function CardBelowImage({
         )}
       </div>
 
-      {addToCartStyle === 'icon-button' && (
+      {resolvedAddToCartStyle === 'icon-button' && (
         <button
           type="button"
           className={`${buttonClass} absolute bottom-3 right-3 w-9 h-9 flex items-center justify-center rounded-[var(--t-radius-button)] cursor-pointer border hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -128,7 +134,7 @@ export default function CardBelowImage({
         </button>
       )}
 
-      {addToCartStyle === 'floating-fab' && (
+      {resolvedAddToCartStyle === 'floating-fab' && (
         <button
           type="button"
           className={`${buttonClass} absolute bottom-3 right-3 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer border-0 shadow-md hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed`}

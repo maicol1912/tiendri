@@ -42,20 +42,26 @@ export function CategoryNavRouter({
     structuralVariants?.categoryNavVariant ??
     legacyMapped ??
     recipe?.defaultCategoryNavVariant ??
-    'icon-grid';
+    'horizontal-scroll';
 
   const variant: CategoryNavVariant = VALID_VARIANTS.has(raw as CategoryNavVariant)
     ? (raw as CategoryNavVariant)
-    : 'icon-grid';
+    : 'horizontal-scroll';
 
   const NavComponent = CATEGORY_NAV_REGISTRY[variant];
   const sharedCategories = toSharedCategories(categories);
 
   return (
-    <NavComponent
-      categories={sharedCategories}
-      activeCategoryId={activeCategoryId}
-      onCategoryClick={onCategoryClick}
-    />
+    <section
+      className="bg-[var(--t-background)] px-6 lg:px-[160px]"
+      style={{ paddingTop: 'var(--t-space-section, 2.5rem)', paddingBottom: 'var(--t-space-section, 2.5rem)' }}
+      aria-labelledby="categories-heading"
+    >
+      <NavComponent
+        categories={sharedCategories}
+        activeCategoryId={activeCategoryId}
+        onCategoryClick={onCategoryClick}
+      />
+    </section>
   );
 }

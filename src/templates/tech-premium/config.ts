@@ -187,7 +187,7 @@ export const techPremiumConfig = {
   // ── Default recipe (composable section defaults) ─────────────────────────
   recipe: {
     defaultHeroVariant: "contained" as const,
-    defaultCategoryNavVariant: "icon-grid" as const,
+    defaultCategoryNavVariant: "horizontal-scroll" as const,
     defaultCardContentLayout: "below-image" as const,
   },
 
