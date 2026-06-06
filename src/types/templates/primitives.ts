@@ -58,9 +58,10 @@ export type TemplateId = string;
 
 // Preset system — Phase 0 new union types
 
-export type CardContentLayout = "below-image" | "overlay-bottom" | "overlay-full" | "side-by-side";
-export type HeroVariant = "full-bleed" | "contained" | "split" | "text-only";
-export type CategoryNavPattern = "horizontal-scroll" | "grid" | "tabs" | "chips";
+export type CardContentLayout = "below-image" | "overlay-bottom" | "overlay-full" | "side-by-side" | "dark-elevated";
+export type HeroVariant = "full-bleed" | "contained" | "split" | "text-only" | "promo-carousel";
+export type CategoryNavPattern = "horizontal-scroll" | "grid" | "tabs" | "chips" | "icon-grid" | "image-pills";
+export type CategoryNavVariant = "icon-grid" | "image-pills" | "horizontal-scroll" | "tab-bar" | "chips";
 export type AddToCartStyle = "full-width" | "icon-button" | "floating-fab" | "on-hover-only";
 export type TransitionSpeed = "instant" | "fast" | "normal" | "slow" | "very-slow";
 export type TransitionEasing = "linear" | "ease" | "ease-in-out" | "spring";

@@ -15,8 +15,8 @@ import type { FurnitureDarkConfig } from "../config";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { HeroBanner } from "./HeroBanner";
-import { CategorySection } from "./CategorySection";
+import { HeroRouter } from "./HeroRouter";
+import { CategoryNavRouter } from "./CategoryNavRouter";
 import { VideoSection } from "./VideoSection";
 import { ProductSection } from "./ProductSection";
 
@@ -76,24 +76,27 @@ export function HomePage({
 
   // Section renderers map
   const sectionRenderers: Record<string, () => ReactNode> = {
-    "promo-carousel": () =>
-      promoCards.length > 0 ? (
-        <HeroBanner key="promo-carousel" cards={promoCards} onCardClick={onPromoCardClick} />
-      ) : null,
+    "promo-carousel": () => (
+      <HeroRouter
+        key="promo-carousel"
+        promoCards={promoCards}
+        recipe={config.recipe}
+        onCardClick={(cardId) => {
+          const card = promoCards.find((c) => c.id === cardId);
+          if (card) onPromoCardClick?.(card);
+        }}
+      />
+    ),
 
     categories: () =>
       categories.length > 0 ? (
         <div key="categories" className="px-5">
-          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none" style={{ scrollbarWidth: "none" }}>
-            {categories.map((cat) => (
-              <CategorySection
-                key={cat.id}
-                category={cat}
-                isActive={activeCategoryId === cat.id}
-                onClick={onCategoryClick}
-              />
-            ))}
-          </div>
+          <CategoryNavRouter
+            categories={categories}
+            activeCategoryId={activeCategoryId}
+            recipe={config.recipe}
+            onCategoryClick={onCategoryClick}
+          />
         </div>
       ) : null,
 

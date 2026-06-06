@@ -17,14 +17,12 @@
 
 import { Fragment } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { HeroBanner } from "./HeroBanner";
 import { BannerGrid } from "./BannerGrid";
-import { CategorySection } from "./CategorySection";
-import { CategoryTabsSection } from "./CategoryTabsSection";
+import { CategoryNavRouter } from "./CategoryNavRouter";
 import { ProductCard } from "./ProductCard";
 import { PopularProductCard } from "./PopularProductCard";
 import { gridColsClass } from "../utils/grid-classes";
@@ -150,140 +148,14 @@ export function HomePage({
   }
 
   function renderCategories() {
-    const navStyle = structuralVariants?.categoryNavStyle ?? "horizontal-scroll";
-
-    const sectionHeading = (
-      <h2
-        id="categories-heading"
-        className="text-[var(--t-text-primary)] tracking-[0.24px]"
-        style={{
-          fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
-          fontSize: "var(--t-type-heading-size, 1.5rem)",
-          letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
-          textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
-        }}
-      >
-        Explorar por categoría
-      </h2>
-    );
-
-    if (navStyle === "grid") {
-      return (
-        <section
-          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
-          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
-          aria-labelledby="categories-heading"
-        >
-          <div className="mb-8">{sectionHeading}</div>
-          <div
-            className="grid grid-cols-2 lg:grid-cols-3"
-            style={{ gap: "var(--t-space-gap, 1rem)" }}
-          >
-            {categories.map((cat) => (
-              <CategorySection
-                key={cat.id}
-                category={cat}
-                isActive={activeCategoryId === cat.id}
-                onClick={() => onCategoryClick?.(cat.id)}
-              />
-            ))}
-          </div>
-        </section>
-      );
-    }
-
-    if (navStyle === "tabs") {
-      return (
-        <section
-          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
-          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
-          aria-labelledby="categories-heading"
-        >
-          <div className="mb-8">{sectionHeading}</div>
-          <CategoryTabsSection
-            categories={categories}
-            activeCategoryId={activeCategoryId}
-            onCategoryClick={onCategoryClick}
-          />
-        </section>
-      );
-    }
-
-    if (navStyle === "chips") {
-      return (
-        <section
-          className="bg-[var(--t-background)] px-6 lg:px-[160px]"
-          style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
-          aria-labelledby="categories-heading"
-        >
-          <div className="mb-8">{sectionHeading}</div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => {
-              const isActive = activeCategoryId === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors cursor-pointer
-                    ${isActive
-                      ? "bg-[var(--t-category-active-bg)] text-[var(--t-category-active-text)] border-[var(--t-primary)]"
-                      : "bg-[var(--t-surface)] text-[var(--t-primary)] border-[var(--t-border)] hover:border-[var(--t-primary)]"
-                    }`}
-                  onClick={() => onCategoryClick?.(cat.id)}
-                  aria-pressed={isActive}
-                >
-                  {cat.name}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      );
-    }
-
-    // horizontal-scroll — default, identical to original
     return (
-      <section
-        className="bg-[var(--t-background)] px-6 lg:px-[160px]"
-        style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
-        aria-labelledby="categories-heading"
-      >
-        {/* Section header */}
-        <div className="flex items-center justify-between mb-8">
-          {sectionHeading}
-          <div className="flex gap-4">
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
-              aria-label="Categorías anteriores"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
-              aria-label="Siguientes categorías"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Category cards — mobile: 3x2 grid, desktop: single row */}
-        <div
-          className={`grid ${gridColsClass(grid.categories.mobile, grid.categories.desktop)}`}
-          style={{ gap: "var(--t-space-gap, 1rem)" }}
-        >
-          {categories.map((cat) => (
-            <CategorySection
-              key={cat.id}
-              category={cat}
-              isActive={activeCategoryId === cat.id}
-              onClick={() => onCategoryClick?.(cat.id)}
-            />
-          ))}
-        </div>
-      </section>
+      <CategoryNavRouter
+        categories={categories}
+        activeCategoryId={activeCategoryId}
+        structuralVariants={structuralVariants}
+        recipe={techPremiumConfig.recipe}
+        onCategoryClick={onCategoryClick}
+      />
     );
   }
 

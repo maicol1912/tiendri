@@ -46,6 +46,32 @@ export interface ProductImage {
   sort_order: number;
 }
 
+// ── Composable template shared contracts ─────────────────────────────────────
+// Superset interfaces used by cross-template adapters.
+// Templates map their native types to these via toSharedStore / toSharedCategories.
+
+export interface SharedStoreInfo {
+  name: string;
+  slug: string;
+  logo?: string | null;
+  description?: string | null;
+  whatsapp?: string | null;
+  social_links?: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+    tiktok?: string;
+    youtube?: string;
+  } | null;
+}
+
+export interface SharedCategory {
+  id: string;
+  name: string;
+  image?: string | null;
+  icon?: string | null;
+}
+
 export interface StorefrontProduct {
   id: string;
   name: string;

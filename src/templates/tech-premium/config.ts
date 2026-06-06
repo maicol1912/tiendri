@@ -184,6 +184,13 @@ export const techPremiumConfig = {
     { id: "summer-sale" as const, visible: true },
   ],
 
+  // ── Default recipe (composable section defaults) ─────────────────────────
+  recipe: {
+    defaultHeroVariant: "contained" as const,
+    defaultCategoryNavVariant: "icon-grid" as const,
+    defaultCardContentLayout: "below-image" as const,
+  },
+
   // ── Default branding (store identity) ────────────────────────────────────
   // These are template-level placeholder defaults. Merchants override via
   // /dashboard/configuracion → Identidad tab.

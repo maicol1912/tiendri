@@ -126,6 +126,13 @@ export const furnitureDarkConfig = {
     "Lámparas",
   ],
 
+  // ── Default recipe (composable section defaults) ─────────────────────────
+  recipe: {
+    defaultHeroVariant: "promo-carousel" as const,
+    defaultCategoryNavVariant: "image-pills" as const,
+    defaultCardContentLayout: "below-image" as const,
+  },
+
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de muebles y decoración",
