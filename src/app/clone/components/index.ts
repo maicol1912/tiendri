@@ -1,0 +1,12 @@
+export { Navbar } from './Navbar';
+export { Hero } from './Hero';
+export { Deals } from './Deals';
+export { Discover } from './Discover';
+export { Hotel } from './Hotel';
+export { Benefits } from './Benefits';
+export { Partners } from './Partners';
+export { Reviews } from './Reviews';
+export { Founders } from './Founders';
+export { CTA } from './CTA';
+export { Footer } from './Footer';
+export { PopupModal } from './PopupModal';

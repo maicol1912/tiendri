@@ -40,6 +40,7 @@
 | [impeccable](ai/skills/impeccable/SKILL.md) | `ai/skills/impeccable/` | 22 comandos de diseño frontend: shape, craft, audit, critique, polish, animate, typeset, layout, colorize, bolder, harden, adapt — anti-patterns estrictos, OKLCH obligatorio | Lucas, Valentina, Camilo, Sofía, Andrea |
 | [taste-skill](ai/skills/taste-skill/) | `ai/skills/taste-skill/` | Anti-slop framework: 13 variantes (design-taste-frontend v2, redesign-existing-projects, high-end-visual-design, image-to-code, etc.) — brief inference, 50+ anti-patterns, pre-flight checklist | Lucas, Valentina, Camilo |
 | [emil-design-eng](ai/skills/emil-design-eng/SKILL.md) | `ai/skills/emil-design-eng/` | Emil Kowalski: animation decisions, cubic-bezier custom, spring physics, component polish (buttons, popovers, tooltips, tabs, toasts, drawers), review Before/After/Why | Lucas, Camilo, Andrea |
+| [clone-website](ai/skills/clone-website/SKILL.md) | `ai/skills/clone-website/` | Pixel-perfect website cloning: browser MCP extraction, getComputedStyle specs, parallel builder agents, visual QA diff | Orquestador, Camilo, Valentina |
 
 ## Workflow
 
