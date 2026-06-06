@@ -1,15 +1,14 @@
 // Tech Premium Template — Cart Page
 // Desktop: 2-col — cart items left, order summary right (sticky).
 // Mobile: stacked — items + summary below.
-// Visual only — handlers come as props.
+// Cart content delegated to CartRouter (swappable variant).
 
 import { Header } from "./Header";
 import { FooterRouter } from "./FooterRouter";
 import { BottomNavRouter } from "./BottomNavRouter";
-import { CartItemRow } from "./CartItemRow";
-import { OrderSummary } from "./OrderSummary";
-import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { CartRouter } from "./CartRouter";
 import type { TemplateLayoutConfig } from "@/types/templates";
+import type { StructuralVariants, TemplateRecipe } from "@/types/templates/structural-variants";
 import type { StoreInfo, CartItem, NavTab } from "../types";
 
 interface CartPageProps {
@@ -19,6 +18,8 @@ interface CartPageProps {
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   layout?: Partial<TemplateLayoutConfig>;
+  structuralVariants?: StructuralVariants;
+  recipe?: TemplateRecipe;
   shipping?: number;
   tax?: number;
   currencySymbol?: string;
@@ -30,6 +31,7 @@ interface CartPageProps {
   onDecrement?: (productId: string) => void;
   onRemove?: (productId: string) => void;
   onCheckout?: () => void;
+  onContinueShopping?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
 }
@@ -41,6 +43,8 @@ export function CartPage({
   footerServices,
   footerAssistance,
   layout,
+  structuralVariants,
+  recipe,
   shipping = 29,
   tax = 50,
   currencySymbol = "$",
@@ -52,17 +56,14 @@ export function CartPage({
   onDecrement,
   onRemove,
   onCheckout,
+  onContinueShopping,
   onTabChange,
   onNavLinkClick,
 }: CartPageProps) {
-  const proceedBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = subtotal + tax + shipping;
-  const isEmpty = items.length === 0;
 
   return (
     <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
-      {/* Header */}
       <Header
         store={store}
         navLinks={navLinks}
@@ -72,52 +73,26 @@ export function CartPage({
         onNavLinkClick={onNavLinkClick}
       />
 
-      {/* Main content */}
       <main className="flex-1 px-4 py-10 lg:px-[160px] lg:py-[112px]">
-        {isEmpty ? (
-          <div className="flex flex-col items-center justify-center gap-6 py-20">
-            <p className="text-xl font-semibold text-[var(--t-text-primary)]">Tu carrito está vacío</p>
-            <p className="text-base text-[var(--t-text-secondary)]">Explorá los productos y agregá artículos a tu carrito</p>
-          </div>
-        ) : (
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Left: Cart items */}
-            <div className="flex flex-col gap-10 flex-1 min-w-0">
-              <h1 className="text-2xl font-semibold text-[var(--t-text-primary)]">Carrito de compras</h1>
-
-              <div className="flex flex-col gap-10">
-                {items.map((item, idx) => (
-                  <CartItemRow
-                    key={item.productId}
-                    item={item}
-                    currencySymbol={currencySymbol}
-                    isLast={idx === items.length - 1}
-                    onIncrement={onIncrement}
-                    onDecrement={onDecrement}
-                    onRemove={onRemove}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Order Summary */}
-            <OrderSummary
-              subtotal={subtotal}
-              tax={tax}
-              shipping={shipping}
-              total={total}
-              currencySymbol={currencySymbol}
-              buttonStyle={layout?.buttonStyle}
-              onCheckout={onCheckout}
-            />
-          </div>
-        )}
+        <CartRouter
+          items={items}
+          subtotal={subtotal}
+          shipping={shipping}
+          tax={tax}
+          currencySymbol={currencySymbol}
+          buttonStyle={layout?.buttonStyle}
+          structuralVariants={structuralVariants}
+          recipe={recipe}
+          onIncrement={onIncrement}
+          onDecrement={onDecrement}
+          onRemove={onRemove}
+          onCheckout={onCheckout}
+          onContinueShopping={onContinueShopping}
+        />
       </main>
 
-      {/* Footer */}
       <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
 
-      {/* Bottom nav — mobile */}
       <BottomNavRouter
         activeTab={activeTab}
         cartItemCount={cartItemCount}

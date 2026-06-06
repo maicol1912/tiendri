@@ -90,3 +90,5 @@ export type ContainerMaxWidth = "narrow" | "medium" | "wide" | "full";
 export type ImageFit = "cover" | "contain";
 export type CardPadding = "none" | "tight" | "normal" | "spacious";
 export type HeaderVariant = "minimal-dark" | "location-greeting";
+export type CartVariant = "detailed" | "minimal";
+export type CheckoutVariant = "detailed" | "minimal";

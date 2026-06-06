@@ -1,4 +1,4 @@
-import type { CardContentLayout, HeroVariant, CategoryNavPattern, CategoryNavVariant, AddToCartStyle, BottomNavVariant, HeaderVariant, FooterVariant } from "./primitives";
+import type { CardContentLayout, HeroVariant, CategoryNavPattern, CategoryNavVariant, AddToCartStyle, BottomNavVariant, HeaderVariant, FooterVariant, CartVariant, CheckoutVariant } from "./primitives";
 
 export interface StructuralVariants {
   cardContentLayout?: CardContentLayout;
@@ -9,6 +9,8 @@ export interface StructuralVariants {
   bottomNavVariant?: BottomNavVariant;
   headerVariant?: HeaderVariant;
   footerVariant?: FooterVariant;
+  cartVariant?: CartVariant;
+  checkoutVariant?: CheckoutVariant;
 }
 
 export interface TemplateRecipe {
@@ -18,4 +20,6 @@ export interface TemplateRecipe {
   defaultBottomNavVariant: BottomNavVariant;
   defaultHeaderVariant?: HeaderVariant;
   defaultFooterVariant?: FooterVariant;
+  defaultCartVariant?: CartVariant;
+  defaultCheckoutVariant?: CheckoutVariant;
 }
