@@ -24,7 +24,7 @@ export function CelebrationScreen() {
   const { state, resetState } = useOnboarding()
   const router = useRouter()
 
-  const bgColor = state.accentColor ? ACCENT_HEX[state.accentColor] : '#FF5C00'
+  const bgColor = state.accentColor ? ACCENT_HEX[state.accentColor] : '#000000'
   const storeUrl = `tiendri.co/${state.slug || 'tu-tienda'}`
   const waText = encodeURIComponent(`Mirá mi nueva tienda: https://${storeUrl}`)
   const waUrl = `https://wa.me/?text=${waText}`

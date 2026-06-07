@@ -114,7 +114,7 @@ export function CTA({ onOpenSignup: _onOpenSignup }: CTAProps) {
               </form>
             )}
             {status === 'error' && (
-              <p className="text-red-600 text-sm mt-2" role="alert">
+              <p className="text-neutral-600 text-sm mt-2" role="alert">
                 Oops! Something went wrong while submitting the form.
               </p>
             )}

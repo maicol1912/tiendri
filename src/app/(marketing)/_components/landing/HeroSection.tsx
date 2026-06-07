@@ -95,67 +95,19 @@ function HeroDesktop({ sectionRef }: HeroSectionProps) {
         backgroundColor: '#f7f7f8',
       }}
     >
-      {/* Back city layer */}
-      <div
+      <img
+        src="/clone-assets/hero-storefronts.png"
+        alt=""
+        loading="eager"
         style={{
+          position: 'absolute',
+          bottom: '-15%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '160vw',
           zIndex: 10,
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          display: 'flex',
-          width: '100%',
         }}
-      >
-        <div style={{ width: '130vw', position: 'absolute', display: 'flex' }}>
-          <img
-            src="/clone-assets/city-builds-2.avif"
-            alt=""
-            loading="eager"
-            style={{ width: '100%' }}
-          />
-        </div>
-      </div>
-
-      {/* Middle city layer */}
-      <div
-        style={{
-          zIndex: 30,
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          width: '100%',
-        }}
-      >
-        <div style={{ width: '130vw', position: 'absolute', display: 'flex' }}>
-          <img
-            src="/clone-assets/city-middle.avif"
-            alt=""
-            loading="eager"
-            style={{ width: '100%' }}
-          />
-        </div>
-      </div>
-
-      {/* Front city layer */}
-      <div
-        style={{
-          zIndex: 30,
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          display: 'flex',
-          width: '100%',
-        }}
-      >
-        <div style={{ width: '130vw', position: 'absolute', display: 'flex' }}>
-          <img
-            src="/clone-assets/city-front.avif"
-            alt=""
-            loading="eager"
-            style={{ width: '100%' }}
-          />
-        </div>
-      </div>
+      />
 
       {/* Heading overlay */}
       <div
@@ -291,7 +243,7 @@ function HeroTablet() {
     <section className="hidden md:block lg:hidden relative overflow-hidden">
       <div className="relative w-full">
         <img
-          src="/clone-assets/hero-tablet.avif"
+          src="/clone-assets/hero-storefronts.png"
           alt=""
           style={{ width: '100%', objectFit: 'cover' }}
           loading="eager"
@@ -348,15 +300,16 @@ function HeroMobile() {
   return (
     <section className="block md:hidden relative overflow-hidden" style={{ minHeight: '85vh', backgroundColor: '#f7f7f8' }}>
       <img
-        src="/clone-assets/hero-mobile-city.avif"
+        src="/clone-assets/hero-storefronts.png"
         alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, zIndex: 0 }}
         loading="eager"
       />
       <div
         style={{
           position: 'absolute',
           inset: 0,
+          zIndex: 1,
           background: 'linear-gradient(to bottom, transparent 20%, rgba(247,247,248,0.7) 60%, #f7f7f8 100%)',
         }}
       />

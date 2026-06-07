@@ -45,9 +45,9 @@ export function MediaLibraryGrid({
 
   if (assets.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-zinc-700 py-16 text-center">
-        <div className="flex size-14 items-center justify-center rounded-full bg-zinc-800">
-          <ImageIcon className="size-7 text-zinc-500" />
+      <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-gray-300 py-16 text-center">
+        <div className="flex size-14 items-center justify-center rounded-full bg-gray-100">
+          <ImageIcon className="size-7 text-gray-400" />
         </div>
         <div className="space-y-1">
           <p className="text-sm font-medium text-foreground">

@@ -126,13 +126,13 @@ const CARD_LAYOUT_VARIANTS: VariantOption<CardContentLayout>[] = [
     value: "overlay-full",
     label: "Foto completa",
     description: "Overlay oscuro sobre toda la imagen",
-    bgClass: "bg-red-900",
+    bgClass: "bg-neutral-800",
   },
   {
     value: "side-by-side",
     label: "Lado a lado",
     description: "Imagen y texto en columnas",
-    bgClass: "bg-rose-900",
+    bgClass: "bg-neutral-700",
   },
   {
     value: "dark-elevated",

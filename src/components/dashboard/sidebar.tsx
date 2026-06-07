@@ -76,16 +76,16 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col">
       {/* Store identity */}
-      <div className="border-b border-zinc-800 px-4 py-5">
+      <div className="border-b border-gray-200 px-4 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-sm font-semibold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-900 text-sm font-semibold text-white">
             {storeName.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-white">
+            <p className="truncate text-sm font-medium text-gray-900">
               {storeName}
             </p>
-            <span className="inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-medium tracking-wide text-zinc-400">
+            <span className="inline-block rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium tracking-wide text-gray-500">
               Gratis
             </span>
           </div>
@@ -108,8 +108,8 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-150",
                   active
-                    ? "border-l-2 border-primary bg-zinc-800 pl-[10px] font-medium text-white"
-                    : "text-zinc-400 hover:bg-zinc-800/60 hover:text-white"
+                    ? "border-l-2 border-primary bg-gray-100 pl-[10px] font-medium text-gray-900"
+                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -126,20 +126,20 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {/* Bottom section */}
-      <div className="border-t border-zinc-800 px-3 py-3">
+      <div className="border-t border-gray-200 px-3 py-3">
         {storeSlug ? (
           <a
             href={`/${storeSlug}`}
             target="_blank"
             rel="noopener noreferrer"
             data-tour="preview"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-400 transition-colors duration-150 hover:bg-zinc-800/60 hover:text-white"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900"
           >
             <ExternalLink className="h-4 w-4 shrink-0" />
             Ver mi tienda
           </a>
         ) : (
-          <span className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-500">
+          <span className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400">
             <ExternalLink className="h-4 w-4 shrink-0" />
             Ver mi tienda
           </span>
@@ -152,7 +152,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 /** Desktop-only fixed sidebar */
 export function DashboardSidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-zinc-800 bg-zinc-950 lg:block">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-gray-200 bg-white lg:block">
       <SidebarNav />
     </aside>
   );

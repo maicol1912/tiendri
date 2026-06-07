@@ -58,8 +58,8 @@ export function OnboardingShell({
                 key={step}
                 className={cn(
                   'h-1.5 flex-1 rounded-full transition-all duration-300',
-                  isPast && 'bg-[#FF5C00]',
-                  isCurrent && 'bg-[#FF5C00] opacity-100',
+                  isPast && 'bg-black',
+                  isCurrent && 'bg-black opacity-100',
                   !isPast && !isCurrent && 'bg-gray-200'
                 )}
               />
@@ -105,7 +105,7 @@ export function OnboardingShell({
           className={cn(
             'min-w-[140px] h-12 rounded-xl font-semibold text-sm transition-all',
             canProceed
-              ? 'bg-[#FF5C00] hover:bg-[#E55200] text-white'
+              ? 'bg-black hover:bg-neutral-800 text-white'
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           )}
         >

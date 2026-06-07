@@ -43,7 +43,7 @@ export const electronicsClassicConfig = {
     // Footer
     footerBg: "#FFFFFF",
     // Badge (cart count, etc.)
-    badgeBg: "#EF4444",
+    badgeBg: "#0079EB",
     badgeText: "#FFFFFF",
     // Rating
     ratingStar: "#FBBF24",

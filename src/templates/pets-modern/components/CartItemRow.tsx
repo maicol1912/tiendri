@@ -74,7 +74,7 @@ export function CartItemRow({
       {/* Remove button */}
       <button
         onClick={() => onRemove?.(item.productId)}
-        className="p-2 text-[var(--t-text-muted)] hover:text-red-500 transition-colors flex-shrink-0"
+        className="p-2 text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)] transition-colors flex-shrink-0"
         aria-label="Eliminar producto"
       >
         <Trash2 className="w-4 h-4" />

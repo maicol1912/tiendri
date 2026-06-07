@@ -159,7 +159,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                   </div>
 
                   {submitted === 'error' && (
-                    <p className="text-sm text-red-600" role="alert">
+                    <p className="text-sm text-neutral-600" role="alert">
                       Oops! Something went wrong. Please try again.
                     </p>
                   )}

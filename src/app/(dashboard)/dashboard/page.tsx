@@ -47,11 +47,11 @@ interface StatCardProps {
 
 function StatCard({ label, value, icon: Icon, accent }: StatCardProps) {
   return (
-    <Card className="border-zinc-800 bg-zinc-900/50">
+    <Card className="border-gray-200 bg-white shadow-sm">
       <CardContent className="flex items-center gap-4 p-4">
         <div
           className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${
-            accent ? 'bg-primary/10 text-primary' : 'bg-zinc-800 text-zinc-400'
+            accent ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500'
           }`}
         >
           <Icon className="size-5" />
@@ -79,9 +79,9 @@ function QuickAction({ label, description, icon: Icon, onClick }: QuickActionPro
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 text-left transition-colors hover:border-zinc-700 hover:bg-zinc-800/70"
+      className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 text-left shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
     >
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500">
         <Icon className="size-4" />
       </div>
       <div className="min-w-0">
@@ -256,7 +256,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Storage indicator */}
-      <Card className="border-zinc-800 bg-zinc-900/50">
+      <Card className="border-gray-200 bg-white shadow-sm">
         <CardContent className="p-4">
           <StorageIndicator storeId={storeId} />
         </CardContent>

@@ -44,7 +44,7 @@ function FormField({
   const inputStyle = {
     width: "100%",
     backgroundColor: "var(--t-surface)",
-    border: error ? "1px solid #EF4444" : "1px solid var(--t-border-input)",
+    border: error ? "1px solid var(--t-primary)" : "1px solid var(--t-border-input)",
     borderRadius: "var(--t-radius-category)",
     padding: "10px 14px",
     color: "var(--t-dark-mode)",
@@ -91,7 +91,7 @@ function FormField({
       {error && (
         <span
           style={{
-            color: "#EF4444",
+            color: "var(--t-primary)",
             fontFamily: "'League Spartan', sans-serif",
             fontSize: "12px",
           }}

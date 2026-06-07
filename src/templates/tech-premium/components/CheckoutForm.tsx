@@ -42,7 +42,7 @@ export function CheckoutForm({ formData = {}, onFieldChange, onSubmit }: Checkou
             <label htmlFor={`checkout-${key}`} className="text-sm font-medium text-[var(--t-text-subtle)]">
               {label}{" "}
               {required && (
-                <span className="text-red-500" aria-hidden="true">
+                <span className="text-[var(--t-primary)]" aria-hidden="true">
                   *
                 </span>
               )}

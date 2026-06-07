@@ -54,7 +54,7 @@ export function DashboardBreadcrumbs() {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="mb-4 hidden text-sm text-zinc-400 md:block"
+      className="mb-4 hidden text-sm text-gray-400 md:block"
     >
       <ol className="flex items-center gap-1.5">
         {crumbs.map((crumb, index) => {
@@ -63,18 +63,18 @@ export function DashboardBreadcrumbs() {
           return (
             <li key={crumb.href} className="flex items-center gap-1.5">
               {index > 0 && (
-                <span className="text-zinc-600" aria-hidden="true">
+                <span className="text-gray-300" aria-hidden="true">
                   /
                 </span>
               )}
               {isLast ? (
-                <span className="font-medium text-white" aria-current="page">
+                <span className="font-medium text-gray-900" aria-current="page">
                   {crumb.label}
                 </span>
               ) : (
                 <Link
                   href={crumb.href}
-                  className="transition-colors duration-150 hover:text-white"
+                  className="transition-colors duration-150 hover:text-gray-900"
                 >
                   {crumb.label}
                 </Link>

@@ -43,10 +43,10 @@
 
 | Fuente | Uso | Pesos disponibles |
 |---|---|---|
-| Inter | Cuerpo (body text) — dashboard, landing, templates | 100, 400, 500, 600, 700 |
-| Space Grotesk | Titulares (headings) — landing, templates | 400, 500, 600, 700 |
+| Inter | Cuerpo (body text) — dashboard, landing, templates | 400, 500, 600, 700 |
+| Aeonik | Titulares (headings) — landing, templates | 400 (Air), 900 (Black) |
 
-> **Nota**: Space Grotesk NO tiene peso 100 ni 300. Si un heading usa `font-thin` o `font-light`, agregar `fontFamily: "var(--font-sans)"` para que herede Inter en su lugar.
+> **Nota**: Aeonik es una fuente custom con dos pesos extremos: Air (400) y Black (900). Para headings que requieran pesos intermedios, usar Inter como fallback via `fontFamily: "var(--font-sans)"`.
 
 Las fuentes dentro de los templates se scopean via `.template-scope` usando la variable CSS `--template-heading-font`. Cada template puede sobreescribir la fuente de headings independientemente.
 

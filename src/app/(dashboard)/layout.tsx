@@ -34,11 +34,11 @@ export default function DashboardLayout({
   }, []);
 
   if (checking) {
-    return <div className="min-h-screen bg-zinc-950" />;
+    return <div className="min-h-screen bg-gray-50" />;
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-gray-50">
       <DashboardSidebar />
       <div className="lg:pl-64">
         <DashboardHeader />

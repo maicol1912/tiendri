@@ -44,7 +44,7 @@ function SwatchButton({ swatch, selected, onSelect }: SwatchButtonProps) {
       title={swatch.label}
       className={cn(
         'w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-150',
-        selected ? 'border-[#FF5C00] scale-110 shadow-md' : 'border-transparent hover:scale-105',
+        selected ? 'border-black scale-110 shadow-md' : 'border-transparent hover:scale-105',
         swatch.id === 'blanco' && 'border-gray-200'
       )}
       style={{ backgroundColor: swatch.hex }}
@@ -156,7 +156,7 @@ export function Step5Branding() {
                 variant="ghost"
                 size="sm"
                 onClick={handleRemoveLogo}
-                className="text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
+                className="text-neutral-500 hover:text-neutral-800 hover:bg-neutral-100 shrink-0"
               >
                 Quitar
               </Button>
@@ -170,7 +170,7 @@ export function Step5Branding() {
               onClick={() => fileInputRef.current?.click()}
               onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
               className={cn(
-                'flex flex-col items-center justify-center gap-2 p-8 bg-white rounded-xl border-2 border-dashed border-gray-200 cursor-pointer transition-colors hover:border-[#FF5C00] hover:bg-orange-50/30',
+                'flex flex-col items-center justify-center gap-2 p-8 bg-white rounded-xl border-2 border-dashed border-gray-200 cursor-pointer transition-colors hover:border-black hover:bg-neutral-50',
                 isProcessing && 'opacity-60 pointer-events-none'
               )}
             >

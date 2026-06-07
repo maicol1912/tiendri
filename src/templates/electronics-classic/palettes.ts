@@ -43,7 +43,7 @@ export const electronicsClassicPalettes: ColorPalette[] = [
       buttonBg: "#444444",
       buttonText: "#FFFFFF",
       footerBg: "#FFFFFF",
-      badgeBg: "#EF4444",
+      badgeBg: "#0079EB",
       badgeText: "#FFFFFF",
       ratingStar: "#FBBF24",
       ratingBarBg: "#E5E7EB",

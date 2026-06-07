@@ -71,10 +71,10 @@ export function MediaItemCard({
     <>
       <div
         className={cn(
-          'group relative overflow-hidden rounded-lg border bg-zinc-900 transition-all duration-150',
+          'group relative overflow-hidden rounded-lg border bg-white transition-all duration-150',
           selectable
             ? 'cursor-pointer hover:border-primary/50'
-            : 'border-zinc-800',
+            : 'border-gray-200',
           selected && 'border-primary ring-2 ring-primary ring-offset-2 ring-offset-background'
         )}
         onClick={handleCardClick}
@@ -91,7 +91,7 @@ export function MediaItemCard({
         aria-label={selectable ? `Seleccionar ${asset.filename}` : undefined}
       >
         {/* Thumbnail */}
-        <div className="aspect-square w-full overflow-hidden bg-zinc-800">
+        <div className="aspect-square w-full overflow-hidden bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset.url}
@@ -130,7 +130,7 @@ export function MediaItemCard({
                     onChange={(e) => setAltDraft(e.target.value)}
                     onKeyDown={handleAltKeyDown}
                     onBlur={handleAltSubmit}
-                    className="w-full rounded border border-zinc-600 bg-zinc-800 px-1.5 py-0.5 text-[10px] text-white outline-none focus:border-primary"
+                    className="w-full rounded border border-gray-300 bg-white px-1.5 py-0.5 text-[10px] text-gray-900 outline-none focus:border-primary"
                     placeholder="Texto alternativo..."
                     onClick={(e) => e.stopPropagation()}
                   />
@@ -141,7 +141,7 @@ export function MediaItemCard({
                       e.stopPropagation();
                       setIsEditingAlt(true);
                     }}
-                    className="truncate text-[10px] text-zinc-400 hover:text-white transition-colors"
+                    className="truncate text-[10px] text-zinc-300 hover:text-white transition-colors"
                     aria-label="Editar texto alternativo"
                     title="Editar texto alternativo"
                   >

@@ -3,16 +3,6 @@
 import { useRef, type RefObject } from 'react';
 import { usePhoneScroll } from '../../_hooks/usePhoneScroll';
 
-/**
- * HowItWorksSection — Tiendri Landing (Light / Clone style)
- *
- * Visual structure: clone Deals (phone drop animation + side text + marquee).
- * Content: Tiendri's "Cómo funciona" — 3 pasos, métricas, canales.
- *
- * Phone animation: drops from -140% above hero, settles at 0% as user scrolls.
- * Marquee: partner/channel logos (WhatsApp, Instagram, etc.) + placeholder brand slots.
- */
-
 export interface HowItWorksSectionProps {
   heroRef: RefObject<HTMLElement | null>;
 }
@@ -144,7 +134,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
           className="hidden lg:flex"
           style={{
             justifyContent: 'space-between',
-            alignItems: 'flex-start',
+            alignItems: 'stretch',
             width: '100%',
             position: 'relative',
             zIndex: 10,
@@ -153,8 +143,8 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
         >
 
           {/* Left column — borderRight frames the content block on desktop */}
-          <div className="flex flex-col" style={{ paddingRight: 20, position: 'relative', borderRight: '1px solid #e4e4e7' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '30ch', gap: 20 }}>
+          <div className="flex flex-col" style={{ paddingRight: 20, position: 'relative', borderRight: '1px solid #e4e4e7', justifyContent: 'center', alignSelf: 'stretch' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30ch', gap: 20, textAlign: 'center' }}>
               <div>
                 <div style={{ fontSize: 20, fontWeight: 700, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
                   Sube tus productos y elige una plantilla
@@ -166,22 +156,6 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
                 </div>
               </div>
             </div>
-
-            <div
-              style={{
-                backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)',
-                height: 2,
-                width: '30ch',
-                marginTop: 62,
-                marginBottom: 48,
-              }}
-            />
-
-            {/* Step images */}
-            <div style={{ width: '30ch', display: 'flex', flexDirection: 'column', gap: 0 }}>
-              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
-            </div>
-
           </div>
 
           {/* Center phone — animated drop */}
@@ -198,62 +172,22 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
             <div
               ref={phoneRef}
               style={{
-                height: 720,
+                height: 756,
                 position: 'relative',
                 willChange: 'transform',
                 transform: 'translate3d(0px, -80%, 0px)',
-                width: 350,
+                width: 368,
               }}
               aria-label="Tiendri app en celular"
             >
-              {/* Phone screen content */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  margin: '4%',
-                  zIndex: 10,
-                  overflow: 'hidden',
-                  clipPath: 'polygon(90% 0, 96% 2%, 100% 5%, 100% 94%, 97% 98%, 90% 100%, 13% 100%, 3% 99%, 0 95%, 0 5%, 4% 2%, 11% 0)',
-                  backgroundColor: '#f7f7f8',
-                }}
-              >
-                {/* TODO: imagen — captura de pantalla de la app Tiendri mostrando catálogo de productos */}
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(135deg, #f0f4ff 0%, #e8f4e8 50%, #fff3e0 100%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: 12,
-                    gap: 8,
-                  }}
-                >
-                  <div style={{ backgroundColor: 'white', borderRadius: 8, padding: '8px 10px', boxShadow: '0 1px 6px rgba(0,0,0,0.08)' }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#000', marginBottom: 2, fontFamily: "'Aeonik', sans-serif" }}>🛍️ Dulce Canela</div>
-                    <div style={{ fontSize: 9, color: '#888', fontFamily: "'Aeonik', sans-serif" }}>Tortas y postres</div>
-                  </div>
-                  {['Torta Red Velvet · $75.000', 'Cupcakes ×12 · $48.000', 'Cheesecake · $65.000'].map((item, i) => (
-                    <div key={i} style={{ backgroundColor: 'white', borderRadius: 6, padding: '6px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                      <span style={{ fontSize: 9, color: '#333', fontFamily: "'Aeonik', sans-serif" }}>{item}</span>
-                      <span style={{ fontSize: 9, backgroundColor: '#000', color: 'white', borderRadius: 3, padding: '2px 5px', fontFamily: "'Aeonik', sans-serif" }}>Pedir</span>
-                    </div>
-                  ))}
-                  <div style={{ backgroundColor: '#25D366', borderRadius: 6, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
-                    <span style={{ fontSize: 9, color: 'white', fontWeight: 600, fontFamily: "'Aeonik', sans-serif" }}>📲 Pedido por WhatsApp</span>
-                  </div>
-                  <div style={{ fontSize: 8, color: '#aaa', textAlign: 'center', marginTop: 4, fontFamily: "'Aeonik', sans-serif" }}>tiendri.com/dulce-canela</div>
-                </div>
-              </div>
-
-              {/* Phone frame */}
               <img
-                src="/clone-assets/mobile-frame.avif"
-                alt=""
-                aria-hidden="true"
-                style={{ position: 'relative', zIndex: 100, width: '100%', height: '100%', objectFit: 'contain' }}
-                loading="eager"
+                src="/clone-assets/phone-scroll-content.png"
+                alt="Tienda Moda Élite"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
               />
             </div>
           </div>
@@ -302,8 +236,8 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
             <div
               ref={mobilePhoneRef}
               style={{
-                width: 220,
-                height: 480,
+                width: 231,
+                height: 504,
                 position: 'relative',
                 willChange: 'transform',
                 transform: 'translate3d(0px, -110%, 0px)',
@@ -311,53 +245,14 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
               }}
               aria-label="Tiendri app en celular"
             >
-              {/* Phone screen content */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  margin: '4%',
-                  zIndex: 10,
-                  overflow: 'hidden',
-                  clipPath: 'polygon(90% 0, 96% 2%, 100% 5%, 100% 94%, 97% 98%, 90% 100%, 13% 100%, 3% 99%, 0 95%, 0 5%, 4% 2%, 11% 0)',
-                  backgroundColor: '#f7f7f8',
-                }}
-              >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(135deg, #f0f4ff 0%, #e8f4e8 50%, #fff3e0 100%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: 12,
-                    gap: 6,
-                  }}
-                >
-                  <div style={{ backgroundColor: 'white', borderRadius: 8, padding: '8px 10px', boxShadow: '0 1px 6px rgba(0,0,0,0.08)' }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#000', marginBottom: 2, fontFamily: "'Aeonik', sans-serif" }}>🛍️ Dulce Canela</div>
-                    <div style={{ fontSize: 9, color: '#888', fontFamily: "'Aeonik', sans-serif" }}>Tortas y postres</div>
-                  </div>
-                  {['Torta Red Velvet · $75.000', 'Cupcakes ×12 · $48.000', 'Cheesecake · $65.000'].map((item, i) => (
-                    <div key={i} style={{ backgroundColor: 'white', borderRadius: 6, padding: '6px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                      <span style={{ fontSize: 9, color: '#333', fontFamily: "'Aeonik', sans-serif" }}>{item}</span>
-                      <span style={{ fontSize: 9, backgroundColor: '#000', color: 'white', borderRadius: 3, padding: '2px 5px', fontFamily: "'Aeonik', sans-serif" }}>Pedir</span>
-                    </div>
-                  ))}
-                  <div style={{ backgroundColor: '#25D366', borderRadius: 6, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
-                    <span style={{ fontSize: 9, color: 'white', fontWeight: 600, fontFamily: "'Aeonik', sans-serif" }}>📲 Pedido por WhatsApp</span>
-                  </div>
-                  <div style={{ fontSize: 8, color: '#aaa', textAlign: 'center', marginTop: 2, fontFamily: "'Aeonik', sans-serif" }}>tiendri.com/dulce-canela</div>
-                </div>
-              </div>
-
-              {/* Phone frame */}
               <img
-                src="/clone-assets/mobile-frame.avif"
-                alt=""
-                aria-hidden="true"
-                style={{ position: 'relative', zIndex: 100, width: '100%', height: '100%', objectFit: 'contain' }}
-                loading="eager"
+                src="/clone-assets/phone-scroll-content.png"
+                alt="Tienda Moda Élite"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
               />
             </div>
           </div>
@@ -369,14 +264,8 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
                 Sube tus productos y elige una plantilla
               </div>
               <div style={{ fontSize: 15, fontWeight: 400, lineHeight: '20px', color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
-                Tu tienda queda activa desde el primer día.
+                Tu tienda queda activa desde el primer día en tu propia URL.
               </div>
-            </div>
-
-            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '85%', maxWidth: 320 }}>
-              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
             </div>
 
             <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
@@ -391,11 +280,6 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
               <span style={{ color: 'gray', fontSize: 16, lineHeight: '20px', fontFamily: "'Aeonik', sans-serif" }}>de comisión</span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '85%', maxWidth: 320 }}>
-              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
-            </div>
-
-            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
           </div>
         </div>
 

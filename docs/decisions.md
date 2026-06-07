@@ -126,21 +126,21 @@ Formato: título, contexto, decisión, alternativas consideradas, consecuencias.
 
 ---
 
-## ADR-008: Fonts — Inter body + Space Grotesk headings, scoped por template
+## ADR-008: Fonts — Inter body + Aeonik headings, scoped por template
 
 **Fecha**: 2026-05-21
-**Estado**: Aceptada
+**Estado**: Actualizada (2026-06-07)
 
-**Contexto**: El diseño de Figma usa Inter para body y Space Grotesk para headings. Space Grotesk no tiene weight 100/300, lo que causa problemas cuando headings usan font-thin.
+**Contexto**: El diseño actual usa Inter para body y Aeonik (fuente custom) para headings. Aeonik tiene dos pesos: Air (400) y Black (900), lo que da un contraste tipográfico marcado entre headings livianos y bold.
 
-**Decisión**: Ambas fuentes cargadas en root layout como CSS variables (`--font-inter`, `--font-display`). La aplicación a headings es POR TEMPLATE via `.template-scope` utility + `--template-heading-font`. Headings que usan font-thin/light necesitan override explícito a Inter.
+**Decisión**: Ambas fuentes cargadas en root layout como CSS variables (`--font-inter`, `--font-display`). La aplicación a headings es POR TEMPLATE via `.template-scope` utility + `--template-heading-font`. Para headings que requieran pesos intermedios no disponibles en Aeonik, usar Inter como fallback.
 
 **Alternativas**:
-- Solo Inter para todo → Descartada: pierde la identidad visual de Space Grotesk en headings.
+- Solo Inter para todo → Descartada: pierde la identidad visual de Aeonik en headings.
 - Font global para headings → Descartada: cada template podría necesitar fuentes diferentes.
 - Cargar fuentes por template (next/font dinámico) → Diferida: se implementará cuando haya templates con fuentes distintas.
 
-**Consecuencias**: Font scoping per-template. Tech-premium usa Space Grotesk para headings pero Inter para elementos con font-thin. Futuros templates pueden definir su propia `headingFont` en config.
+**Consecuencias**: Font scoping per-template. La landing page usa Aeonik Black (900) para hero h1 (80-130px) y section h2 (48-80px), con Inter para body text. Futuros templates pueden definir su propia `headingFont` en config.
 
 ---
 

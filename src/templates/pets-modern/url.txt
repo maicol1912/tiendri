@@ -1,0 +1,7 @@
+Figma: https://www.figma.com/design/XjtZ3LxUnyrMfu0Ek3PchP
+Page: Screens (node 0:1)
+
+Frames:
+- Home Screen: node 1:8 (414x896)
+- Product Detail: node 1:96 (414x896)
+- Explore Categories: node 1:155 (414x896)

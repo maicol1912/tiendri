@@ -18,13 +18,13 @@ import { lerp } from '../../_lib/animations';
 
 const PHONES = [
   {
-    src: '/clone-assets/discover-phone-1.avif',
+    src: '/clone-assets/discover-phone-1.png',
     alt: 'Dulce Canela — tienda de tortas',
     label: 'Personalizable',
     desc: 'Colores, fuentes y logo de tu negocio. En minutos.',
   },
   {
-    src: '/clone-assets/discover-phone-2.avif',
+    src: '/clone-assets/discover-phone-2.png',
     alt: 'Ferretería Don Carlos — materiales',
     label: 'Sin comisiones',
     desc: 'Lo que vendás queda en tu bolsillo. Sin letra chica.',

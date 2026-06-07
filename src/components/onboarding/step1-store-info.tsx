@@ -65,11 +65,11 @@ export function Step1StoreInfo() {
             value={state.storeName}
             onChange={(e) => handleStoreNameChange(e.target.value)}
             placeholder="Ej: Perfumería Valentina"
-            className="h-12 text-base border-gray-200 focus-visible:ring-[#FF5C00]"
+            className="h-12 text-base border-gray-200 focus-visible:ring-black"
             autoFocus
           />
           {errors.storeName && (
-            <p className="text-xs text-red-500">{errors.storeName}</p>
+            <p className="text-xs text-neutral-600">{errors.storeName}</p>
           )}
           {state.slug && !errors.storeName && (
             <p className="text-xs text-[#6B6B6B]">
@@ -93,11 +93,11 @@ export function Step1StoreInfo() {
               onChange={(e) => handleWhatsappChange(e.target.value)}
               placeholder="3001234567"
               inputMode="numeric"
-              className="rounded-l-none h-full border-gray-200 focus-visible:ring-[#FF5C00]"
+              className="rounded-l-none h-full border-gray-200 focus-visible:ring-black"
             />
           </div>
           {errors.whatsapp && (
-            <p className="text-xs text-red-500">{errors.whatsapp}</p>
+            <p className="text-xs text-neutral-600">{errors.whatsapp}</p>
           )}
         </div>
       </div>

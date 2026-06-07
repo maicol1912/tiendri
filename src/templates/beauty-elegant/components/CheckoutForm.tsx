@@ -39,7 +39,7 @@ function FormField({
     color: "var(--t-text-primary)",
     backgroundColor: "var(--t-icon-pill-bg)",
     border: error
-      ? "1.5px solid #DC2626"
+      ? "1.5px solid var(--t-primary)"
       : "1.5px solid var(--t-border-input)",
     borderRadius: "16px",
     padding: "12px 16px",
@@ -85,7 +85,7 @@ function FormField({
       )}
 
       {error && (
-        <span className="text-xs" style={{ color: "#DC2626" }}>
+        <span className="text-xs" style={{ color: "var(--t-primary)" }}>
           {error}
         </span>
       )}

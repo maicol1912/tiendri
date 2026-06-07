@@ -25,12 +25,12 @@ export function PresetPreviewCard({ preset, selected, onSelect }: PresetPreviewC
       className={cn(
         'relative flex flex-col gap-3 p-5 bg-white rounded-xl border-2 text-left transition-all duration-150 w-full',
         selected
-          ? 'border-[#FF5C00] shadow-sm'
+          ? 'border-black shadow-sm'
           : 'border-gray-200 hover:border-gray-300'
       )}
     >
       {selected && (
-        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-[#FF5C00] flex items-center justify-center shrink-0">
+        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-black flex items-center justify-center shrink-0">
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
             <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

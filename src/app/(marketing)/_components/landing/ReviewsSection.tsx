@@ -3,16 +3,6 @@
 import { useState } from 'react';
 import { REVIEW_RESTING, REVIEW_HOVER, type ReviewPosition } from '../../_lib/animations';
 
-/**
- * ReviewsSection — Tiendri Landing (Light / Clone style)
- *
- * Visual structure: clone Reviews (5 scattered cards, hover to spread).
- * Content: Tiendri merchant testimonials in Colombian Spanish.
- *
- * Desktop: 1100×600 absolute-positioned cluster. Hover fans cards out.
- * Mobile: vertically stacked cards.
- */
-
 interface ReviewCardProps {
   text: string;
   author: string;
@@ -24,15 +14,6 @@ interface ReviewCardProps {
   restingTransform: string;
   hoverTransform: string;
   isContainerHovered: boolean;
-}
-
-interface MobileReviewCardProps {
-  text: string;
-  author: string;
-  role: string;
-  variant: 'black' | 'violet' | 'default' | 'green';
-  stars?: boolean;
-  starsVariant?: 'white' | 'black' | 'default';
 }
 
 function StarRating({ variant }: { variant?: 'white' | 'black' | 'default' }) {
@@ -96,35 +77,6 @@ function ReviewCard({ text, author, role, variant, stars, starsVariant, restingT
   );
 }
 
-function MobileReviewCard({ text, author, role, variant, stars, starsVariant }: MobileReviewCardProps) {
-  const bgColors: Record<string, string> = {
-    black: 'bg-black',
-    violet: 'bg-[#8D8AFF]',
-    default: 'bg-[#f2f3f3]',
-    green: 'bg-[#CDE06A]',
-  };
-  const textColors: Record<string, string> = {
-    black: 'text-white',
-    violet: 'text-white',
-    default: 'text-neutral-700',
-    green: 'text-black',
-  };
-
-  return (
-    <div
-      className={`${bgColors[variant]} rounded-[20px] w-full`}
-      style={{ padding: 28, boxShadow: '0px 4px 20px 0px rgba(0,0,0,0.07)' }}
-    >
-      {stars && <StarRating variant={starsVariant} />}
-      <p className={`text-sm leading-relaxed ${textColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{text}</p>
-      <div className="mt-4">
-        <p className={`text-sm font-semibold ${textColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{author}</p>
-        <p className={`text-xs mt-0.5 opacity-60 ${textColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{role}</p>
-      </div>
-    </div>
-  );
-}
-
 const REVIEWS = [
   {
     text: 'Antes me llegaban mensajes de WhatsApp preguntando precio, talla, color... ahora los pedidos llegan con todo. Ahorro una hora al día fácil.',
@@ -168,8 +120,23 @@ const REVIEWS = [
   },
 ];
 
+const BG_COLORS: Record<string, string> = {
+  black: '#000000',
+  violet: '#8D8AFF',
+  default: '#f2f3f3',
+  green: '#CDE06A',
+};
+
+const TEXT_COLORS: Record<string, string> = {
+  black: '#ffffff',
+  violet: '#ffffff',
+  default: '#404040',
+  green: '#000000',
+};
+
 export function ReviewsSection() {
   const [isHovered, setIsHovered] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
     <section
@@ -188,7 +155,6 @@ export function ReviewsSection() {
         </h2>
       </div>
 
-      {/* Desktop: scattered card cluster */}
       <div
         className="relative hidden lg:block"
         style={{ width: 1100, height: 600 }}
@@ -214,24 +180,89 @@ export function ReviewsSection() {
         ))}
       </div>
 
-      {/* Mobile: vertically stacked */}
       <div
-        className="flex lg:hidden flex-col gap-4 w-full"
-        style={{ maxWidth: 480 }}
+        className="flex lg:hidden flex-col w-full"
+        style={{ maxWidth: 480, borderTop: '1px solid #e4e4e7' }}
         role="list"
         aria-label="Testimonios de comerciantes"
       >
-        {REVIEWS.map((review, i) => (
-          <MobileReviewCard
-            key={i}
-            text={review.text}
-            author={review.author}
-            role={review.role}
-            variant={review.variant}
-            stars={review.stars}
-            starsVariant={review.starsVariant}
-          />
-        ))}
+        {REVIEWS.map((review, i) => {
+          const isOpen = openIndex === i;
+          const bg = BG_COLORS[review.variant];
+          const textColor = TEXT_COLORS[review.variant];
+          const isDark = review.variant === 'black' || review.variant === 'violet';
+
+          return (
+            <div
+              key={i}
+              role="listitem"
+              style={{ borderBottom: '1px solid #e4e4e7' }}
+            >
+              <button
+                type="button"
+                className="flex items-center justify-between gap-4 w-full text-left py-5"
+                aria-expanded={isOpen}
+                onClick={() => setOpenIndex(i)}
+              >
+                <span
+                  className="text-base font-semibold"
+                  style={{ color: '#18181b', fontFamily: "'Aeonik', sans-serif" }}
+                >
+                  {review.author}
+                </span>
+                <svg
+                  className="w-5 h-5 flex-shrink-0"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                  style={{
+                    transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s ease',
+                  }}
+                >
+                  <path d="M10 4v12M4 10h12" stroke="#71717a" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              {isOpen && (
+                <div
+                  className="rounded-[20px] mb-5"
+                  style={{
+                    backgroundColor: bg,
+                    padding: 28,
+                    boxShadow: '0px 4px 20px 0px rgba(0,0,0,0.07)',
+                  }}
+                >
+                  {review.stars && <StarRating variant={review.starsVariant} />}
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: textColor, fontFamily: "'Aeonik', sans-serif" }}
+                  >
+                    {review.text}
+                  </p>
+                  <div className="mt-4">
+                    <p
+                      className="text-sm font-semibold"
+                      style={{ color: textColor, fontFamily: "'Aeonik', sans-serif" }}
+                    >
+                      {review.author}
+                    </p>
+                    <p
+                      className="text-xs mt-0.5"
+                      style={{
+                        color: textColor,
+                        opacity: isDark ? 0.6 : 0.7,
+                        fontFamily: "'Aeonik', sans-serif",
+                      }}
+                    >
+                      {review.role}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
