@@ -36,7 +36,7 @@ function ReviewCard({ text, author, variant, stars, starsVariant, restingTransfo
   const bgColors: Record<string, string> = {
     black: "bg-black",
     violet: "bg-[#8D8AFF]",
-    default: "bg-white",
+    default: "bg-[#f2f3f3]",
     green: "bg-[#CDE06A]",
   };
   const textColors: Record<string, string> = {
@@ -56,9 +56,13 @@ function ReviewCard({ text, author, variant, stars, starsVariant, restingTransfo
     <div
       className={`absolute ${bgColors[variant]} rounded-[20px] overflow-hidden`}
       style={{
-        width: 250,
-        minHeight: 280,
-        padding: 30,
+        width: 300,
+        minHeight: 336,
+        padding: 36,
+        left: '50%',
+        top: '50%',
+        marginLeft: -150,
+        marginTop: -168,
         boxShadow: variant === 'default'
           ? '0px 0px 12px 0px rgba(0,0,0,0.03)'
           : '0px 8.52px 31.95px 0px rgba(0,0,0,0.10)',
@@ -79,11 +83,10 @@ export function Reviews() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="bg-white py-24 px-6" aria-labelledby="reviews-heading">
-      <div className="max-w-[1280px] mx-auto">
+    <section className="bg-white flex flex-col items-center justify-center" style={{ minHeight: '100vh', padding: '60px 20px' }} aria-labelledby="reviews-heading">
 
         {/* Heading */}
-        <div className="mb-20">
+        <div className="text-center mb-16">
           <p className="text-neutral-500 text-sm font-medium mb-4">Rating &amp; Reviews</p>
           <h2
             id="reviews-heading"
@@ -94,9 +97,9 @@ export function Reviews() {
           </h2>
         </div>
 
-        {/* Cards cluster — 1100×600 container. Hover fans cards out. */}
+        {/* Cards cluster — 1100×600 container, centered */}
         <div
-          className="relative mx-auto"
+          className="relative"
           style={{ width: 1100, height: 600 }}
           role="list"
           aria-label="Customer reviews"
@@ -165,7 +168,6 @@ export function Reviews() {
             isContainerHovered={isHovered}
           />
         </div>
-      </div>
     </section>
   );
 }

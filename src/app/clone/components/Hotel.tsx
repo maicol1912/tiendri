@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { lerp, HOTEL_CONFIG } from '../lib/animations';
 
 const mobileCards = [
   { iconSrc: '/clone-assets/hotel-icon-1.svg', title: 'Fully flexible rates.', dark: false },
@@ -18,58 +17,50 @@ const HOTEL_WINDOWS = [
 ];
 
 const HOTEL_CARDS = [
-  { src: '/clone-assets/hotel-card-1.avif', alt: 'Fully flexible rates' },
-  { src: '/clone-assets/hotel-card-2.avif', alt: 'Semi-flexible options' },
-  { src: '/clone-assets/hotel-card-3.avif', alt: 'Amend or cancel your booking online' },
-  { src: '/clone-assets/hotel-card-4.avif', alt: 'On-demand customer service' },
+  { src: '/clone-assets/hotel-card-1.avif', alt: 'Fully flexible rates', inset: '12% auto auto 14%' },
+  { src: '/clone-assets/hotel-card-3.avif', alt: 'Semi-flexible options', inset: '24% 14% auto auto' },
+  { src: '/clone-assets/hotel-card-2.avif', alt: 'Amend or cancel your booking online', inset: '45% auto auto 15%' },
+  { src: '/clone-assets/hotel-card-4.avif', alt: 'On-demand customer service', inset: '54% 15% auto auto' },
 ];
 
 /**
  * Hotel section — "Book and relax"
  *
  * Desktop:
- * - Black overlay (data-hotel="black-overlay") fades out as user scrolls in
- * - 4 window images (data-hotel="window-1" … "window-4") reveal in sequence
- * - 4 feature cards (data-hotel="card-1" … "card-4") slide up with 0.3s delay
+ * - Grey building base image fills the container
+ * - Black overlay (data-hotel="black-overlay") sits absolute over it, fades out on scroll
+ * - 4 window images (data-hotel="window-1" … "window-4") are absolute, reveal in sequence
+ * - 4 feature cards (data-hotel="card-1" … "card-4") are ABSOLUTELY POSITIONED around the
+ *   building (top-left, right, lower-left, lower-right), slide up with 0.3s delay
  *
  * Mobile: 2×2 feature card grid + hotel image
  *
- * Animation uses Intersection-Observer + scroll-position tracking via RAF loop.
- * DOM nodes are queried by data-hotel attributes (Valentina's convention).
+ * Animation is scroll-driven: progress = scrollInSection / (sectionHeight * 0.6)
+ * Each window+card pair fires once when its threshold is crossed.
  */
 export function Hotel() {
   const sectionRef = useRef<HTMLElement>(null);
+
+  const blackRef = useRef<HTMLImageElement>(null);
+  const windowRefs = [
+    useRef<HTMLImageElement>(null),
+    useRef<HTMLImageElement>(null),
+    useRef<HTMLImageElement>(null),
+    useRef<HTMLImageElement>(null),
+  ];
+  const cardRefs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const blackOverlay = section.querySelector<HTMLElement>('[data-hotel="black-overlay"]');
-    const windows = Array.from({ length: 4 }, (_, i) =>
-      section.querySelector<HTMLElement>(`[data-hotel="window-${i + 1}"]`),
-    );
-    const cards = Array.from({ length: 4 }, (_, i) =>
-      section.querySelector<HTMLElement>(`[data-hotel="card-${i + 1}"]`),
-    );
-    const bodyText = section.querySelector<HTMLElement>('[data-hotel="body-text"]');
-
-    const triggered = new Array<boolean>(4).fill(false);
-    let rafId: number;
-    let ticking = false;
-
-    // Reveal body text on entry
-    const bodyObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && bodyText) {
-          bodyText.style.opacity = '1';
-          bodyText.style.transform = 'translateY(0)';
-          bodyObserver.disconnect();
-        }
-      },
-      { threshold: 0.3 },
-    );
-    if (bodyText) bodyObserver.observe(bodyText);
+    const triggered = [false, false, false, false];
+    const thresholds = [0.05, 0.25, 0.45, 0.65];
 
     function update() {
       if (!section) return;
@@ -78,44 +69,32 @@ export function Hotel() {
       const scrollInSection = -rect.top;
       const progress = Math.min(1, Math.max(0, scrollInSection / (sectionH * 0.6)));
 
-      // Fade out black overlay
-      if (blackOverlay) {
-        const opacity = Math.max(0, 1 - progress * HOTEL_CONFIG.blackFade.speed);
-        blackOverlay.style.opacity = String(opacity);
+      if (blackRef.current) {
+        blackRef.current.style.opacity = String(Math.max(0, 1 - progress * 1.5));
       }
 
-      // Reveal each window + card pair when threshold crossed
-      HOTEL_CONFIG.pairs.forEach((config, i) => {
-        if (progress > config.threshold && !triggered[i]) {
+      thresholds.forEach((threshold, i) => {
+        if (progress > threshold && !triggered[i]) {
           triggered[i] = true;
 
-          if (windows[i] && !prefersReducedMotion) {
-            windows[i]!.style.transition = `opacity ${HOTEL_CONFIG.revealDuration} ease`;
-            windows[i]!.style.opacity = '1';
-          } else if (windows[i]) {
-            windows[i]!.style.opacity = '1';
-          }
+          const win = windowRefs[i].current;
+          const card = cardRefs[i].current;
 
-          if (cards[i] && !prefersReducedMotion) {
-            cards[i]!.style.transition = `opacity ${HOTEL_CONFIG.revealDuration} ease ${HOTEL_CONFIG.cardDelay}, transform ${HOTEL_CONFIG.revealDuration} ease ${HOTEL_CONFIG.cardDelay}`;
-            cards[i]!.style.opacity = '1';
-            cards[i]!.style.transform = 'translateY(0)';
-          } else if (cards[i]) {
-            cards[i]!.style.opacity = '1';
-            cards[i]!.style.transform = 'translateY(0)';
+          if (win) {
+            win.style.transition = 'opacity 0.8s ease';
+            win.style.opacity = '1';
+          }
+          if (card) {
+            card.style.transition = 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
           }
         }
       });
     }
 
     function onScroll() {
-      if (!ticking) {
-        rafId = requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
-        ticking = true;
-      }
+      update();
     }
 
     update();
@@ -123,50 +102,47 @@ export function Hotel() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(rafId);
-      bodyObserver.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="hotel-sc overflow-hidden"
+      className="overflow-hidden"
       aria-labelledby="hotel-heading"
     >
       {/* Header — black background */}
-      <div
-        className="bg-black px-6 lg:px-10 py-16"
-        style={{ willChange: 'background' }}
-      >
-        <div className="max-w-[1280px] mx-auto">
+      <div className="bg-black px-6 lg:px-10" style={{ paddingTop: 130, paddingBottom: 130 }}>
+        <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
           <h2
             id="hotel-heading"
-            className="text-white font-black leading-tight mb-6"
+            className="text-white font-black leading-tight"
             style={{ fontSize: 'clamp(40px, 6vw, 80px)' }}
           >
             Book and relax
           </h2>
-          <p
-            data-hotel="body-text"
-            className="text-neutral-400 text-base max-w-xl leading-relaxed"
-            style={{
-              opacity: 0,
-              transform: 'translateY(20px)',
-              transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
-            }}
-          >
+          <p className="text-neutral-400 text-base max-w-xl leading-relaxed">
             Flexible options give you more time to get ready for your trip and less time stressing if things change.
           </p>
         </div>
       </div>
 
-      {/* Desktop building + animated cards */}
+      {/* ── Desktop: building with absolutely positioned cards ── */}
       <div
-        className="hidden lg:block relative w-full bg-black"
-        style={{ minHeight: '90vh', willChange: 'width, height' }}
+        className="hidden lg:block"
+        style={{
+          position: 'relative',
+          width: '100%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          top: -4,
+          borderBottomRightRadius: 20,
+          borderBottomLeftRadius: 20,
+          overflow: 'hidden',
+        }}
       >
-        {/* Grey base hotel building */}
+        {/* Grey base building — sets the container height */}
         <img
           src="/clone-assets/hotel-grey.avif"
           alt="Hotel building"
@@ -174,55 +150,63 @@ export function Hotel() {
           loading="lazy"
         />
 
-        {/* Black overlay — fades out on scroll */}
+        {/* Black overlay — position:absolute inset:0, fades out on scroll */}
         <img
-          data-hotel="black-overlay"
+          ref={blackRef}
           src="/clone-assets/hotel-black.avif"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: 'opacity', opacity: 1 }}
+          style={{
+            position: 'absolute',
+            inset: '0%',
+            width: '100%',
+            opacity: 1,
+          }}
+          loading="lazy"
         />
 
-        {/* Window overlays — reveal one by one */}
-        {HOTEL_WINDOWS.map((w, i) => (
-          <img
-            key={i}
-            data-hotel={`window-${i + 1}`}
-            src={w.src}
-            alt={w.alt}
-            className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-            style={{ opacity: 0 }}
-            loading="lazy"
-          />
-        ))}
-
-        {/* Feature cards — slide up sequentially */}
-        <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-5 px-8">
-          {HOTEL_CARDS.map((card, i) => (
-            <div
+        {/* Window overlays — each absolutely covers the full building, reveals in sequence */}
+        <div style={{ position: 'absolute', inset: '0%', height: '100%' }}>
+          {HOTEL_WINDOWS.map((w, i) => (
+            <img
               key={i}
-              data-hotel={`card-${i + 1}`}
-              className="rounded-2xl overflow-hidden shadow-2xl bg-white"
+              ref={windowRefs[i]}
+              src={w.src}
+              alt={w.alt}
               style={{
+                position: 'absolute',
+                inset: '0%',
+                width: '100%',
                 opacity: 0,
-                transform: 'translateY(40px)',
-                width: '22%',
-                maxWidth: 280,
               }}
-            >
-              <img
-                src={card.src}
-                alt={card.alt}
-                className="w-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            />
           ))}
         </div>
+
+        {/* Feature cards — absolutely positioned around the building, NOT in a row */}
+        {HOTEL_CARDS.map((card, i) => (
+          <div
+            key={i}
+            ref={cardRefs[i]}
+            style={{
+              position: 'absolute',
+              inset: card.inset,
+              width: '13%',
+              opacity: 0,
+              transform: 'translateY(40px)',
+            }}
+          >
+            <img
+              src={card.src}
+              alt={card.alt}
+              style={{ width: '100%', display: 'block' }}
+              loading="lazy"
+            />
+          </div>
+        ))}
       </div>
 
-      {/* Mobile view */}
+      {/* ── Mobile view ── */}
       <div className="block lg:hidden">
         {/* 2×2 feature card grid */}
         <div className="grid grid-cols-2 gap-px bg-neutral-200" role="list">

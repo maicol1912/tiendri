@@ -112,17 +112,17 @@ export const headingRevealVariants = {
 export type ReviewPosition = 1 | 2 | 3 | 4 | 5;
 
 export const REVIEW_RESTING: Record<ReviewPosition, string> = {
-  1: 'translate3d(60%,20%,0) rotateZ(-6deg)',
-  2: 'translate3d(-10%,10%,0) rotateZ(-10deg)',
-  3: 'translate3d(-55%,10%,0) rotateZ(11deg)',
-  4: 'translate3d(40%,-40%,0) rotateZ(-2deg)',
-  5: 'translate3d(-20%,-40%,0) rotateZ(13deg)',
+  1: 'translate3d(-60%, 10%, 0) rotateZ(-6deg)',
+  2: 'translate3d(10%, -30%, 0) rotateZ(5deg)',
+  3: 'translate3d(70%, -10%, 0) rotateZ(4deg)',
+  4: 'translate3d(-10%, 40%, 0) rotateZ(-3deg)',
+  5: 'translate3d(50%, 25%, 0) rotateZ(11deg)',
 };
 
 export const REVIEW_HOVER: Record<ReviewPosition, string> = {
-  1: 'translate3d(-5%,5%,0) rotateZ(-6deg)',
-  2: 'translate3d(15%,-15%,0) rotateZ(-3deg)',
-  3: 'translate3d(70%,-5%,0) rotateZ(5deg)',
-  4: 'translate3d(15%,55%,0) rotateZ(-2deg)',
-  5: 'translate3d(50%,45%,0) rotateZ(8deg)',
+  1: 'translate3d(-170%, -40%, 0) rotateZ(0deg)',
+  2: 'translate3d(0%, -45%, 0) rotateZ(0deg)',
+  3: 'translate3d(170%, -40%, 0) rotateZ(0deg)',
+  4: 'translate3d(-85%, 60%, 0) rotateZ(0deg)',
+  5: 'translate3d(85%, 55%, 0) rotateZ(0deg)',
 };

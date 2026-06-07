@@ -1,274 +1,329 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { lerp } from '../lib/animations';
 
-// ─── Phone image data ────────────────────────────────────────────────────────
+// ─── Lerp (exact copy from original JS) ──────────────────────────────────────
+function lerp(start: number, end: number, t: number): number {
+  return start + (end - start) * Math.min(1, Math.max(0, t));
+}
 
-const phones = [
-  {
-    src: '/clone-assets/discover-phone-1.avif',
-    alt: 'Preference screen',
-    label: 'Preference',
-    description: 'Nearest hotels to your event are shown on an easy-to-use map.',
-    position: 'left' as const,
-  },
-  {
-    src: '/clone-assets/discover-phone-2.avif',
-    alt: 'Save screen',
-    label: 'Save',
-    description: 'Your exclusive discount code and secret prices with savings up to 50%.',
-    position: 'center' as const,
-  },
-  {
-    src: '/clone-assets/discover-phone-3.png',
-    alt: 'Book screen',
-    label: 'Book',
-    description: 'Compare and book your perfect hotel or apartment in seconds.',
-    position: 'right' as const,
-  },
-];
-
-// ─── Mobile / tablet static version ─────────────────────────────────────────
-// Shown on screens < lg. Three phone cards in a row with labels below.
-
+// ─── Mobile / tablet static version (section.static-discover-sc) ─────────────
+// Shown on screens < 992px. Hidden on desktop via CSS.
 function DiscoverStatic() {
   return (
     <section
-      className="block lg:hidden bg-black"
-      style={{ paddingTop: 80, paddingBottom: 80 }}
-      aria-labelledby="discover-heading-mobile"
+      className="block lg:hidden"
+      style={{ willChange: 'background', backgroundColor: 'rgb(0,0,0)' }}
     >
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-        {/* Header */}
-        <div style={{ marginBottom: 64 }}>
-          <p
-            style={{
-              color: '#9ca3af',
-              fontSize: 14,
-              fontWeight: 500,
-              marginBottom: 16,
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-            }}
-          >
+      {/* container-full static-discover-s */}
+      <div style={{ maxWidth: '100%', padding: '80px 5%' }}>
+        {/* discover-header-block */}
+        <div style={{ textAlign: 'center', marginBottom: 60 }}>
+          {/* body-m grey */}
+          <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'gray' }}>
             Discover
-          </p>
-          <h2
-            id="discover-heading-mobile"
-            style={{
-              color: '#fff',
-              fontWeight: 900,
-              lineHeight: 1,
-              fontSize: 'clamp(40px, 8vw, 64px)',
-              margin: 0,
-            }}
-          >
-            Easy search
-          </h2>
+          </div>
+          {/* view-heading-easy > heading-block-1 */}
+          <div>
+            <div>
+              {/* heading-h1 white */}
+              <h2
+                style={{
+                  paddingBottom: 7,
+                  fontSize: 50,
+                  fontWeight: 700,
+                  lineHeight: '50px',
+                  color: 'white',
+                  margin: 0,
+                }}
+              >
+                Easy search
+              </h2>
+            </div>
+          </div>
         </div>
 
-        {/* Phone cards */}
+        {/* mobiles-wrapper-s */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: 24,
+            gap: 20,
             overflowX: 'auto',
-            paddingBottom: 16,
           }}
         >
-          {phones.map((phone) => (
-            <div
-              key={phone.label}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: 220,
-                flexShrink: 0,
-              }}
-            >
+          {/* discovery-mobile-s #1 */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: 260,
+              flexShrink: 0,
+            }}
+          >
+            <div className="mobile-wrapper-size">
+              <img
+                className="image"
+                src="/clone-assets/discover-phone-1.avif"
+                alt="Preference"
+                style={{ width: '100%', display: 'block' }}
+              />
+            </div>
+            {/* down-position-block-s */}
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              {/* down-text-block */}
               <div
                 style={{
-                  width: '100%',
-                  borderRadius: 24,
-                  overflow: 'hidden',
-                  aspectRatio: '9 / 19',
-                }}
-              >
-                <img
-                  src={phone.src}
-                  alt={phone.alt}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-              </div>
-              <div
-                style={{
-                  paddingTop: 24,
-                  width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 8,
+                  width: 200,
+                  paddingTop: 46,
+                  rowGap: 10,
                 }}
               >
-                <h3
+                {/* heading-h4 white */}
+                <h1
                   style={{
-                    color: '#fff',
-                    fontWeight: 900,
-                    fontSize: 20,
+                    fontSize: 28,
+                    fontWeight: 700,
+                    lineHeight: '32px',
+                    color: 'white',
                     margin: 0,
-                    lineHeight: 1.2,
                   }}
                 >
-                  {phone.label}
-                </h3>
-                <p style={{ color: '#9ca3af', fontSize: 13, margin: 0, lineHeight: 1.5 }}>
-                  {phone.description}
-                </p>
+                  Preference
+                </h1>
+                {/* body-s grey */}
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'gray' }}>
+                  Nearest hotels to your event are shown on an easy-to-use map.
+                </div>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* discovery-mobile-s #2 */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: 260,
+              flexShrink: 0,
+            }}
+          >
+            <div className="mobile-wrapper-size">
+              <img
+                className="image"
+                src="/clone-assets/discover-phone-2.avif"
+                alt="Save"
+                style={{ width: '100%', display: 'block' }}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: 200,
+                  paddingTop: 46,
+                  rowGap: 10,
+                }}
+              >
+                <h1
+                  style={{
+                    fontSize: 28,
+                    fontWeight: 700,
+                    lineHeight: '32px',
+                    color: 'white',
+                    margin: 0,
+                  }}
+                >
+                  Save
+                </h1>
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'gray' }}>
+                  Your exclusive discount code and secret prices with savings up to 50%.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* discovery-mobile-s #3 */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: 260,
+              flexShrink: 0,
+            }}
+          >
+            <div className="mobile-wrapper-size">
+              <img
+                className="image"
+                src="/clone-assets/discover-phone-3.png"
+                alt="Book"
+                style={{ width: '100%', display: 'block' }}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: 200,
+                  paddingTop: 46,
+                  rowGap: 10,
+                }}
+              >
+                <h1
+                  style={{
+                    fontSize: 28,
+                    fontWeight: 700,
+                    lineHeight: '32px',
+                    color: 'white',
+                    margin: 0,
+                  }}
+                >
+                  Book
+                </h1>
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'gray' }}>
+                  Compare and book your perfect hotel or apartment in seconds.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── Desktop scroll-driven version ──────────────────────────────────────────
+// ─── Desktop scroll-driven version (section.discover-sc) ─────────────────────
 //
-// Structure (mirrors original Webflow HTML exactly):
+// LITERAL translation of the original HTML/CSS/JS:
 //
-//   <section class="discover-sc"> ← black bg, full width
-//     <div class="discover-height">  ← height:400vh; position:relative; top:-100vh
-//       <div class="discover-sticky"> ← height:100vh; position:sticky; top:0; overflow:hidden
-//         <div id="discover-scroll-container"> ← starts at translateY(30%), animates to 0%
-//           <div class="discovery-content">
-//             <div class="discover-header-block"> ← opacity:0; scale(1.7); fades in then out
-//             <div class="mobiles-block">
-//               <div class="discovery-mobile left">  ← translate3d(-70%,40vh,0); h:85%; w:387px
-//               <div class="discovery-mobile center"> ← translate3d(0,40vh,0);    h:115%; w:524px
-//               <div class="discovery-mobile right">  ← translate3d(70%,40vh,0);  h:85%; w:387px
+// Structure:
+//   section.discover-sc                    bg:#000, position:relative, z-index:50
+//     div.discover-subhead                 z-index:10, height:300vh, position:relative
+//       div.discover-height                height:400vh, position:relative, top:-100vh
+//         div.discover-sticky              height:100vh, position:sticky, top:0, overflow:hidden
+//           div#discover-scroll-container  width:100vw, height:100%, willChange:transform, transform:translateY(30%)
+//             div.discovery-content        width:100%, height:100vh, position:relative
+//               div.discover-header-block  textAlign:center, opacity:0, scale(1.7), translateY(10vh)
+//               div.mobiles-block          display:flex, justifyContent:space-around, alignItems:center, width:100%, height:100%
+//                 div.discovery-mobile.left    position:ABSOLUTE, z-index:10, width:387px, height:85%, transform:translate3d(-70%,40vh,0)
+//                   img.image
+//                   div.down-position-block    position:absolute, inset:auto 0% 0%, height:1px
+//                     div.down-text-block      width:200px, paddingTop:46px
+//                 div.discovery-mobile.center  position:relative (flex anchor), z-index:20, width:524px, height:115%, transform:translate3d(0,40vh,0)
+//                   img.image
+//                   div.down-position-block
+//                 div.discovery-mobile.right   position:ABSOLUTE, z-index:10, width:387px, height:85%, transform:translate3d(70%,40vh,0)
+//                   img.image
+//                   div.down-position-block
 //
-// The phones use % height relative to the STICKY container (100vh),
-// so 85% = 85vh and 115% = 115vh effectively — but we compute from the container's
-// actual height for correctness. The original HTML uses % of parent (.discovery-content
-// or .mobiles-block) which itself fills the sticky container.
+// ANIMATION (exact JS copy):
+//   progress = -discoverHeight.getBoundingClientRect().top / (discoverHeight.offsetHeight - window.innerHeight)
+//   containerY  = lerp(30, 0, progress * 3)       → clamps at 0 after p=0.333
+//   header p<0.3: opacity=p/0.3, scale=lerp(1.7,1.3,t),    translateY=lerp(10,5,t)
+//   header p≥0.3: opacity=lerp(1,0,t2), scale=lerp(1.3,1,t2), translateY=lerp(5,0,t2)
+//   phoneX       = lerp(70, 110, progress)    → X offset in % of phone width
+//   phoneY       = lerp(40, -10, progress)    → Y in vh (rise from below)
+//   sideHeight   = lerp(85, 70, progress)     → % of mobiles-block (=100vh)
+//   centerHeight = lerp(115, 70, progress)    → % of mobiles-block
 //
-// ANIMATION (from original JS, exact values):
-//   progress = scrolled / (400vh - 100vh)  = scrolled / totalScroll
-//
-//   containerY = lerp(30, 0, progress*3)   → clamps at 0 after p=0.33
-//   header:
-//     p < 0.3: opacity=p/0.3, scale=lerp(1.7,1.3,t), translateY=lerp(10,5,t)
-//     p ≥ 0.3: opacity=lerp(1,0,t2), scale=lerp(1.3,1,t2), translateY=lerp(5,0,t2)
-//   phones:
-//     phoneX = lerp(70, 110, progress)     → X spread outward (% of own width)
-//     phoneY = lerp(40, -10, progress)     → Y rise (vh)
-//     sideH  = lerp(85, 70, progress)      → side phone height (% → use vh directly)
-//     centerH= lerp(115, 70, progress)     → center phone height (%)
-//
-// IMPORTANT: height "85%" in the original is % of the parent (.mobiles-block),
-// which stretches to fill the sticky 100vh container. We replicate with vh.
-//
-// LABEL POSITIONING: Labels sit BELOW each phone (not inside/overlaid).
-// Each .discovery-mobile is a flex column: [phone image] + [down-position-block].
-// The phone image fills the animated height, labels sit below it.
-// Labels fade in as the progress approaches 1.
+// LABELS: always in DOM inside each .discovery-mobile via .down-position-block
+// (position:absolute, bottom:0). NO separate fade. They appear as phones rise.
 
 function DiscoverDesktop() {
-  const heightRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const discoverHeightRef = useRef<HTMLDivElement>(null);
+  const discoverContainerRef = useRef<HTMLDivElement>(null);
+  const discoverHeaderRef = useRef<HTMLDivElement>(null);
   const phoneLeftRef = useRef<HTMLDivElement>(null);
   const phoneCenterRef = useRef<HTMLDivElement>(null);
   const phoneRightRef = useRef<HTMLDivElement>(null);
-  const labelsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let rafId: number;
     let ticking = false;
 
-    function update() {
-      const height = heightRef.current;
-      const container = containerRef.current;
-      const header = headerRef.current;
-      const left = phoneLeftRef.current;
-      const center = phoneCenterRef.current;
-      const right = phoneRightRef.current;
-      const labels = labelsRef.current;
+    function updateDiscoverAnimation() {
+      const discoverHeight = discoverHeightRef.current;
+      const discoverContainer = discoverContainerRef.current;
+      const discoverHeader = discoverHeaderRef.current;
+      const phoneLeft = phoneLeftRef.current;
+      const phoneCenter = phoneCenterRef.current;
+      const phoneRight = phoneRightRef.current;
 
-      if (!height) return;
+      if (!discoverHeight) return;
 
-      const rect = height.getBoundingClientRect();
-      const totalScroll = height.offsetHeight - window.innerHeight;
+      // Exact copy of original JS (verbatim from index.html line 1508-1511):
+      // scrolled = -rect.top  (no innerHeight offset — original does NOT subtract it)
+      // totalScroll = discoverHeight.offsetHeight - window.innerHeight
+      const rect = discoverHeight.getBoundingClientRect();
+      const totalScroll = discoverHeight.offsetHeight - window.innerHeight;
       const scrolled = -rect.top;
       const progress = Math.min(1, Math.max(0, scrolled / totalScroll));
 
-      // Container: translateY(30%) → translateY(0%) (first 33% of scroll)
-      if (container) {
+      if (discoverContainer) {
         const containerY = lerp(30, 0, progress * 3);
-        container.style.transform = `translateY(${containerY}%)`;
+        discoverContainer.style.transform = 'translateY(' + containerY + '%)';
       }
 
-      // Header: fade in (p 0→0.3) then fade out (p 0.3→0.7)
-      if (header) {
-        let opacity: number;
-        let scale: number;
-        let translateY: number;
+      if (discoverHeader) {
+        let headerOpacity: number;
+        let headerScale: number;
+        let headerY: number;
 
-        if (progress < 0.3) {
-          const t = progress / 0.3;
-          opacity = t;
-          scale = lerp(1.7, 1.3, t);
-          translateY = lerp(10, 5, t);
+        if (progress < 0.25) {
+          const t = progress / 0.25;
+          headerOpacity = t;
+          headerScale = lerp(1.7, 1.1, t);
+          headerY = lerp(24, 12, t);
+        } else if (progress < 0.65) {
+          headerOpacity = 1;
+          headerScale = 1.1;
+          headerY = 12;
         } else {
-          const t2 = Math.min(1, (progress - 0.3) / 0.4);
-          opacity = lerp(1, 0, t2);
-          scale = lerp(1.3, 1, t2);
-          translateY = lerp(5, 0, t2);
+          const t2 = (progress - 0.65) / 0.35;
+          headerOpacity = lerp(1, 0, t2);
+          headerScale = lerp(1.1, 1, t2);
+          headerY = lerp(12, 5, t2);
         }
 
-        header.style.opacity = String(opacity);
-        header.style.transform = `scale(${scale}) translateY(${translateY}vh)`;
+        discoverHeader.style.opacity = String(headerOpacity);
+        discoverHeader.style.transform = 'scale(' + headerScale + ') translateY(' + headerY + 'vh)';
       }
 
-      // Phones: spread from ±70% to ±110% translateX of own width,
-      //         rise from 40vh to -10vh, heights equalize
-      if (left && center && right) {
+      if (phoneLeft && phoneCenter && phoneRight) {
         const phoneX = lerp(70, 110, progress);
         const phoneY = lerp(40, -10, progress);
-        const sideH = lerp(85, 70, progress);
-        const centerH = lerp(115, 70, progress);
+        const sideHeight = lerp(85, 70, progress);
+        const centerHeight = lerp(115, 70, progress);
 
-        left.style.transform = `translate3d(-${phoneX}%, ${phoneY}vh, 0)`;
-        left.style.height = `${sideH}vh`;
-
-        center.style.transform = `translate3d(0px, ${phoneY}vh, 0)`;
-        center.style.height = `${centerH}vh`;
-
-        right.style.transform = `translate3d(${phoneX}%, ${phoneY}vh, 0)`;
-        right.style.height = `${sideH}vh`;
-      }
-
-      // Labels: fade in during last 30% of scroll (p 0.7→1)
-      if (labels) {
-        const labelOpacity = Math.min(1, Math.max(0, (progress - 0.7) / 0.3));
-        labels.style.opacity = String(labelOpacity);
+        phoneLeft.style.transform = 'translate3d(-' + phoneX + '%, ' + phoneY + 'vh, 0)';
+        phoneLeft.style.height = sideHeight + '%';
+        phoneCenter.style.transform = 'translate3d(0, ' + phoneY + 'vh, 0)';
+        phoneCenter.style.height = centerHeight + '%';
+        phoneRight.style.transform = 'translate3d(' + phoneX + '%, ' + phoneY + 'vh, 0)';
+        phoneRight.style.height = sideHeight + '%';
       }
     }
 
     function onScroll() {
       if (!ticking) {
-        rafId = requestAnimationFrame(() => {
-          update();
+        rafId = requestAnimationFrame(function () {
+          updateDiscoverAnimation();
           ticking = false;
         });
         ticking = true;
       }
     }
 
-    update();
+    // Initial call (exact copy from original)
+    updateDiscoverAnimation();
+
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', onScroll);
@@ -277,294 +332,346 @@ function DiscoverDesktop() {
   }, []);
 
   return (
-    // Outer 400vh scroll budget, top:-100vh overlaps with previous section.
-    // marginBottom:-100vh compensates so the next section follows immediately.
-    <div
-      ref={heightRef}
-      className="hidden lg:block bg-black"
+    // section.discover-sc — hidden on mobile, shown on desktop
+    // bg:#000, position:relative, z-index:50
+    <section
+      className="hidden lg:block"
       style={{
-        height: '400vh',
+        willChange: 'background',
+        backgroundColor: 'rgb(0,0,0)',
         position: 'relative',
-        top: '-100vh',
-        marginBottom: '-100vh',
+        zIndex: 50,
       }}
     >
-      {/* Sticky panel — pinned at viewport top for the full 400vh scroll */}
+      {/* div.discover-subhead — z-index:10, height:300vh, position:relative */}
       <div
         style={{
-          height: '100vh',
-          position: 'sticky',
-          top: 0,
-          overflow: 'hidden',
-          backgroundColor: '#000',
+          zIndex: 10,
+          height: '200vh',
+          position: 'relative',
         }}
       >
-        {/* Animated container — slides from Y=30% to Y=0% */}
+        {/* div.discover-height — height:400vh, position:relative, top:-100vh */}
         <div
-          ref={containerRef}
+          ref={discoverHeightRef}
           style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            willChange: 'transform',
-            transform: 'translateY(30%)',
+            height: '300vh',
             position: 'relative',
+            top: '-100vh',
           }}
         >
-          {/* Heading — starts scaled up & invisible, fades in then out */}
-          <div
-            ref={headerRef}
-            style={{
-              textAlign: 'center',
-              marginBottom: 48,
-              willChange: 'opacity, transform',
-              opacity: 0,
-              transform: 'scale(1.7) translateY(10vh)',
-              position: 'relative',
-              zIndex: 50,
-              pointerEvents: 'none',
-            }}
-            aria-labelledby="discover-heading"
-          >
-            <p
-              style={{
-                color: '#9ca3af',
-                fontSize: 14,
-                fontWeight: 500,
-                marginBottom: 12,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-              }}
-            >
-              Discover
-            </p>
-            <h2
-              id="discover-heading"
-              style={{
-                color: '#fff',
-                fontWeight: 900,
-                lineHeight: 1,
-                fontSize: 'clamp(56px, 7vw, 96px)',
-                margin: 0,
-              }}
-            >
-              Easy search
-            </h2>
-          </div>
-
-          {/*
-            Phones container — flex row, no gap.
-            Side phones overlap center via translateX(±70% of own width) + z-index.
-            The flex row just provides horizontal layout; actual position driven by translateX.
-            Each phone div is a flex column: [img fills animated height] + [label below].
-          */}
+          {/* div.discover-sticky — height:100vh, position:sticky, top:0, overflow:hidden */}
           <div
             style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-              position: 'relative',
-              width: '100%',
+              height: '100vh',
+              position: 'sticky',
+              top: 0,
+              overflow: 'hidden',
             }}
           >
-            {/* LEFT phone — 387px wide, starts at -70% translateX (overlapping center),
-                spreads to -110% as scroll progresses. z-index:10 (behind center). */}
+            {/* div.container-full.discover-s #discover-scroll-container
+                width:100vw, height:100%, willChange:transform, transform:translateY(30%)
+                Exact match to original HTML — no paddingTop, no extra height */}
             <div
-              ref={phoneLeftRef}
+              ref={discoverContainerRef}
+              id="discover-scroll-container"
               style={{
-                width: 387,
-                height: '85vh',
-                position: 'relative',
-                zIndex: 10,
-                flexShrink: 0,
-                willChange: 'transform, height',
-                transform: 'translate3d(-70%, 40vh, 0px)',
-                borderRadius: 40,
-                overflow: 'hidden',
-                backgroundColor: '#111',
+                width: '100vw',
+                height: '100%',
+                willChange: 'transform',
+                transform: 'translateY(30%)',
               }}
             >
-              <img
-                src="/clone-assets/discover-phone-1.avif"
-                alt="Preference"
+              {/* div.discovery-content — width:100%, height:100vh, position:relative */}
+              <div
                 style={{
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
+                  height: '100vh',
+                  position: 'relative',
                 }}
-              />
-            </div>
-
-            {/* CENTER phone — 524px wide, starts at translateY(40vh), no X shift.
-                z-index:30 (on top of side phones). Tallest initially (115vh). */}
-            <div
-              ref={phoneCenterRef}
-              style={{
-                width: 524,
-                height: '115vh',
-                position: 'relative',
-                zIndex: 30,
-                flexShrink: 0,
-                willChange: 'transform, height',
-                transform: 'translate3d(0px, 40vh, 0px)',
-                borderRadius: 40,
-                overflow: 'hidden',
-                backgroundColor: '#111',
-              }}
-            >
-              <img
-                src="/clone-assets/discover-phone-2.avif"
-                alt="Save"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
-            </div>
-
-            {/* RIGHT phone — 387px wide, starts at +70% translateX,
-                spreads to +110% as scroll progresses. z-index:10 (behind center). */}
-            <div
-              ref={phoneRightRef}
-              style={{
-                width: 387,
-                height: '85vh',
-                position: 'relative',
-                zIndex: 10,
-                flexShrink: 0,
-                willChange: 'transform, height',
-                transform: 'translate3d(70%, 40vh, 0px)',
-                borderRadius: 40,
-                overflow: 'hidden',
-                backgroundColor: '#111',
-              }}
-            >
-              <img
-                src="/clone-assets/discover-phone-3.png"
-                alt="Book"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
-            </div>
-          </div>
-
-          {/*
-            Labels row — positioned below the phones, aligned to each phone's center.
-            Uses absolute positioning so it doesn't affect the phone layout.
-            Fades in during the last 30% of scroll progress.
-
-            The label columns are centered under each phone. We use the same
-            widths as the phones (387 / 524 / 387) and the same order.
-            The overall width = 387 + 524 + 387 = 1298px, centered in the container.
-          */}
-          <div
-            ref={labelsRef}
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              marginTop: 40,
-              opacity: 0,
-              willChange: 'opacity',
-              pointerEvents: 'none',
-              width: '100%',
-              maxWidth: 1298,
-            }}
-          >
-            {/* Label: Preference (left phone) */}
-            <div
-              style={{
-                width: 387,
-                flexShrink: 0,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ maxWidth: 260 }}>
-                <h3
+              >
+                {/* div.discover-header-block
+                    textAlign:center, willChange:opacity,transform
+                    initial: opacity:0, transform:scale3d(1.7,1.7,1) translateY(10vh) */}
+                <div
+                  ref={discoverHeaderRef}
                   style={{
-                    color: '#fff',
-                    fontWeight: 900,
-                    fontSize: 24,
-                    margin: '0 0 8px',
-                    lineHeight: 1.2,
+                    textAlign: 'center',
+                    fontSize: 65,
+                    lineHeight: '65px',
+                    willChange: 'opacity, transform',
+                    opacity: 0,
+                    transform: 'scale3d(1.7,1.7,1) translateY(10vh)',
                   }}
                 >
-                  Preference
-                </h3>
-                <p style={{ color: '#9ca3af', fontSize: 14, margin: 0, lineHeight: 1.6 }}>
-                  Nearest hotels to your event are shown on an easy-to-use map.
-                </p>
-              </div>
-            </div>
+                  {/* body-m grey */}
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 400,
+                      lineHeight: '24px',
+                      color: 'gray',
+                    }}
+                  >
+                    Discover
+                  </div>
+                  {/* view-heading-easy > heading-block-1 */}
+                  <div>
+                    <div>
+                      {/* heading-h1 white */}
+                      <h2
+                        style={{
+                          paddingBottom: 7,
+                          fontSize: 50,
+                          fontWeight: 700,
+                          lineHeight: '50px',
+                          color: 'white',
+                          margin: 0,
+                        }}
+                      >
+                        Easy search
+                      </h2>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Label: Save (center phone) */}
-            <div
-              style={{
-                width: 524,
-                flexShrink: 0,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ maxWidth: 320 }}>
-                <h3
+                {/* div.mobiles-block
+                    display:flex, justifyContent:space-around, alignItems:center
+                    width:100%, height:100% (= 100vh) */}
+                <div
                   style={{
-                    color: '#fff',
-                    fontWeight: 900,
-                    fontSize: 24,
-                    margin: '0 0 8px',
-                    lineHeight: 1.2,
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
                   }}
                 >
-                  Save
-                </h3>
-                <p style={{ color: '#9ca3af', fontSize: 14, margin: 0, lineHeight: 1.6 }}>
-                  Your exclusive discount code and secret prices with savings up to 50%.
-                </p>
-              </div>
-            </div>
+                  {/* div.discovery-mobile.left
+                      position:absolute (from CSS), z-index:10
+                      willChange:transform,width,height
+                      initial: transform:translate3d(-70%,40vh,0px), height:85%, width:387px */}
+                  <div
+                    ref={phoneLeftRef}
+                    style={{
+                      willChange: 'transform, width, height',
+                      transform: 'translate3d(-70%, 40vh, 0px)',
+                      height: '85%',
+                      width: 387,
+                      maxHeight: 1440,
+                      position: 'absolute',
+                      zIndex: 10,
+                    }}
+                  >
+                    <img
+                      className="image"
+                      src="/clone-assets/discover-phone-1.avif"
+                      alt="Preference"
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                    />
+                    {/* div.down-position-block
+                        position:absolute, inset:auto 0% 0% (bottom:0, left:0, right:0)
+                        height:1px, display:flex, justifyContent:center, alignItems:flex-start */}
+                    <div
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        height: 1,
+                        display: 'flex',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        top: 'auto',
+                      }}
+                    >
+                      {/* div.down-text-block — width:200px, paddingTop:46px, flexCol, rowGap:10px */}
+                      <div
+                        style={{
+                          rowGap: 10,
+                          flexDirection: 'column',
+                          width: 200,
+                          paddingTop: 46,
+                          display: 'flex',
+                        }}
+                      >
+                        {/* heading-h4 white */}
+                        <h1
+                          style={{
+                            fontSize: 28,
+                            fontWeight: 700,
+                            lineHeight: '32px',
+                            color: 'white',
+                            margin: 0,
+                          }}
+                        >
+                          Preference
+                        </h1>
+                        {/* body-s grey */}
+                        <div
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            lineHeight: '20px',
+                            color: 'gray',
+                          }}
+                        >
+                          Nearest hotels to your event are shown on an easy-to-use map.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Label: Book (right phone) */}
-            <div
-              style={{
-                width: 387,
-                flexShrink: 0,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ maxWidth: 260 }}>
-                <h3
-                  style={{
-                    color: '#fff',
-                    fontWeight: 900,
-                    fontSize: 24,
-                    margin: '0 0 8px',
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Book
-                </h3>
-                <p style={{ color: '#9ca3af', fontSize: 14, margin: 0, lineHeight: 1.6 }}>
-                  Compare and book your perfect hotel or apartment in seconds.
-                </p>
+                  {/* div.discovery-mobile.center
+                      position:relative (flex anchor — NOT absolute)
+                      z-index:20
+                      willChange:transform,width,height
+                      initial: transform:translate3d(0px,40vh,0px), height:115%, width:524px */}
+                  <div
+                    ref={phoneCenterRef}
+                    style={{
+                      willChange: 'transform, width, height',
+                      transform: 'translate3d(0px, 40vh, 0px)',
+                      height: '115%',
+                      width: 524,
+                      maxHeight: 1440,
+                      position: 'relative',
+                      zIndex: 20,
+                    }}
+                  >
+                    <img
+                      className="image"
+                      src="/clone-assets/discover-phone-2.avif"
+                      alt="Save"
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                    />
+                    {/* down-position-block */}
+                    <div
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        height: 1,
+                        display: 'flex',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        top: 'auto',
+                      }}
+                    >
+                      <div
+                        style={{
+                          rowGap: 10,
+                          flexDirection: 'column',
+                          width: 200,
+                          paddingTop: 46,
+                          display: 'flex',
+                        }}
+                      >
+                        <h1
+                          style={{
+                            fontSize: 28,
+                            fontWeight: 700,
+                            lineHeight: '32px',
+                            color: 'white',
+                            margin: 0,
+                          }}
+                        >
+                          Save
+                        </h1>
+                        <div
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            lineHeight: '20px',
+                            color: 'gray',
+                          }}
+                        >
+                          Your exclusive discount code and secret prices with savings up to 50%.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* div.discovery-mobile.right
+                      position:absolute (from CSS), z-index:10
+                      willChange:transform,width,height
+                      initial: transform:translate3d(70%,40vh,0px), height:85%, width:387px */}
+                  <div
+                    ref={phoneRightRef}
+                    style={{
+                      willChange: 'transform, width, height',
+                      transform: 'translate3d(70%, 40vh, 0px)',
+                      height: '85%',
+                      width: 387,
+                      maxHeight: 1440,
+                      position: 'absolute',
+                      zIndex: 10,
+                    }}
+                  >
+                    <img
+                      className="image"
+                      src="/clone-assets/discover-phone-3.png"
+                      alt="Book"
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                    />
+                    {/* down-position-block */}
+                    <div
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        height: 1,
+                        display: 'flex',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        top: 'auto',
+                      }}
+                    >
+                      <div
+                        style={{
+                          rowGap: 10,
+                          flexDirection: 'column',
+                          width: 200,
+                          paddingTop: 46,
+                          display: 'flex',
+                        }}
+                      >
+                        <h1
+                          style={{
+                            fontSize: 28,
+                            fontWeight: 700,
+                            lineHeight: '32px',
+                            color: 'white',
+                            margin: 0,
+                          }}
+                        >
+                          Book
+                        </h1>
+                        <div
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            lineHeight: '20px',
+                            color: 'gray',
+                          }}
+                        >
+                          Compare and book your perfect hotel or apartment in seconds.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* #how-it-works anchor */}
+      <div id="how-it-works" style={{ position: 'absolute' }} />
+    </section>
   );
 }
 
