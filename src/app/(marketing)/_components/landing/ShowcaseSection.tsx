@@ -143,83 +143,141 @@ function ShowcaseDesktop() {
   const phoneRightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // lg breakpoint mirrors Tailwind's 1024px
+    const LG_BREAKPOINT = 1024;
+
     let rafId: number;
     let ticking = false;
+    let scrollCleanup: (() => void) | null = null;
 
-    function updateAnimation() {
-      const discoverHeight = discoverHeightRef.current;
+    function resetTransforms() {
       const discoverContainer = discoverContainerRef.current;
       const discoverHeader = discoverHeaderRef.current;
       const phoneLeft = phoneLeftRef.current;
       const phoneCenter = phoneCenterRef.current;
       const phoneRight = phoneRightRef.current;
 
-      if (!discoverHeight) return;
+      if (discoverContainer) discoverContainer.style.transform = 'translateY(30%)';
+      if (discoverHeader) {
+        discoverHeader.style.opacity = '0';
+        discoverHeader.style.transform = 'scale3d(1.7,1.7,1) translateY(10vh)';
+      }
+      if (phoneLeft) {
+        phoneLeft.style.transform = 'translate3d(-70%, 40vh, 0px)';
+        phoneLeft.style.height = '85%';
+      }
+      if (phoneCenter) {
+        phoneCenter.style.transform = 'translate3d(0px, 40vh, 0px)';
+        phoneCenter.style.height = '115%';
+      }
+      if (phoneRight) {
+        phoneRight.style.transform = 'translate3d(70%, 40vh, 0px)';
+        phoneRight.style.height = '85%';
+      }
+    }
 
-      const rect = discoverHeight.getBoundingClientRect();
-      const totalScroll = discoverHeight.offsetHeight - window.innerHeight;
-      const scrolled = -rect.top;
-      const progress = Math.min(1, Math.max(0, scrolled / totalScroll));
-
-      if (discoverContainer) {
-        const containerY = lerp(30, 0, progress * 3);
-        discoverContainer.style.transform = 'translateY(' + containerY + '%)';
+    function setupScrollListener() {
+      if (scrollCleanup) {
+        scrollCleanup();
+        scrollCleanup = null;
       }
 
-      if (discoverHeader) {
-        let headerOpacity: number;
-        let headerScale: number;
-        let headerY: number;
+      // Only attach scroll animation on desktop viewports
+      if (window.innerWidth < LG_BREAKPOINT) {
+        resetTransforms();
+        return;
+      }
 
-        if (progress < 0.25) {
-          const t = progress / 0.25;
-          headerOpacity = t;
-          headerScale = lerp(1.7, 1.1, t);
-          headerY = lerp(24, 12, t);
-        } else if (progress < 0.65) {
-          headerOpacity = 1;
-          headerScale = 1.1;
-          headerY = 12;
-        } else {
-          const t2 = (progress - 0.65) / 0.35;
-          headerOpacity = lerp(1, 0, t2);
-          headerScale = lerp(1.1, 1, t2);
-          headerY = lerp(12, 5, t2);
+      function updateAnimation() {
+        const discoverHeight = discoverHeightRef.current;
+        const discoverContainer = discoverContainerRef.current;
+        const discoverHeader = discoverHeaderRef.current;
+        const phoneLeft = phoneLeftRef.current;
+        const phoneCenter = phoneCenterRef.current;
+        const phoneRight = phoneRightRef.current;
+
+        if (!discoverHeight) return;
+
+        const rect = discoverHeight.getBoundingClientRect();
+        const totalScroll = discoverHeight.offsetHeight - window.innerHeight;
+        const scrolled = -rect.top;
+        const progress = Math.min(1, Math.max(0, scrolled / totalScroll));
+
+        if (discoverContainer) {
+          const containerY = lerp(30, 0, progress * 3);
+          discoverContainer.style.transform = 'translateY(' + containerY + '%)';
         }
 
-        discoverHeader.style.opacity = String(headerOpacity);
-        discoverHeader.style.transform = 'scale(' + headerScale + ') translateY(' + headerY + 'vh)';
+        if (discoverHeader) {
+          let headerOpacity: number;
+          let headerScale: number;
+          let headerY: number;
+
+          if (progress < 0.25) {
+            const t = progress / 0.25;
+            headerOpacity = t;
+            headerScale = lerp(1.7, 1.1, t);
+            headerY = lerp(24, 12, t);
+          } else if (progress < 0.65) {
+            headerOpacity = 1;
+            headerScale = 1.1;
+            headerY = 12;
+          } else {
+            const t2 = (progress - 0.65) / 0.35;
+            headerOpacity = lerp(1, 0, t2);
+            headerScale = lerp(1.1, 1, t2);
+            headerY = lerp(12, 5, t2);
+          }
+
+          discoverHeader.style.opacity = String(headerOpacity);
+          discoverHeader.style.transform = 'scale(' + headerScale + ') translateY(' + headerY + 'vh)';
+        }
+
+        if (phoneLeft && phoneCenter && phoneRight) {
+          const phoneX = lerp(70, 110, progress);
+          const phoneY = lerp(40, -10, progress);
+          const sideHeight = lerp(85, 70, progress);
+          const centerHeight = lerp(115, 70, progress);
+
+          phoneLeft.style.transform = 'translate3d(-' + phoneX + '%, ' + phoneY + 'vh, 0)';
+          phoneLeft.style.height = sideHeight + '%';
+          phoneCenter.style.transform = 'translate3d(0, ' + phoneY + 'vh, 0)';
+          phoneCenter.style.height = centerHeight + '%';
+          phoneRight.style.transform = 'translate3d(' + phoneX + '%, ' + phoneY + 'vh, 0)';
+          phoneRight.style.height = sideHeight + '%';
+        }
       }
 
-      if (phoneLeft && phoneCenter && phoneRight) {
-        const phoneX = lerp(70, 110, progress);
-        const phoneY = lerp(40, -10, progress);
-        const sideHeight = lerp(85, 70, progress);
-        const centerHeight = lerp(115, 70, progress);
-
-        phoneLeft.style.transform = 'translate3d(-' + phoneX + '%, ' + phoneY + 'vh, 0)';
-        phoneLeft.style.height = sideHeight + '%';
-        phoneCenter.style.transform = 'translate3d(0, ' + phoneY + 'vh, 0)';
-        phoneCenter.style.height = centerHeight + '%';
-        phoneRight.style.transform = 'translate3d(' + phoneX + '%, ' + phoneY + 'vh, 0)';
-        phoneRight.style.height = sideHeight + '%';
+      function onScroll() {
+        if (!ticking) {
+          rafId = requestAnimationFrame(function () {
+            updateAnimation();
+            ticking = false;
+          });
+          ticking = true;
+        }
       }
+
+      updateAnimation();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      scrollCleanup = () => {
+        window.removeEventListener('scroll', onScroll);
+        cancelAnimationFrame(rafId);
+      };
     }
 
-    function onScroll() {
-      if (!ticking) {
-        rafId = requestAnimationFrame(function () {
-          updateAnimation();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
+    // Initial setup
+    setupScrollListener();
 
-    updateAnimation();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    // Re-setup on resize so transforms reset when breakpoint crosses lg
+    function onResize() {
+      setupScrollListener();
+    }
+    window.addEventListener('resize', onResize, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      if (scrollCleanup) scrollCleanup();
+      window.removeEventListener('resize', onResize);
       cancelAnimationFrame(rafId);
     };
   }, []);

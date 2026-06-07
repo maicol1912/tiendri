@@ -13,8 +13,7 @@ import { type RefObject } from 'react';
  * Tablet: single background image with fade + heading.
  * Mobile: faded background, large heading, info pins row.
  *
- * Note: the city layers use clone-assets — no Tiendri-specific hero image available yet.
- * TODO: replace /clone-assets/city-*.avif with Tiendri-branded hero backgrounds.
+ * Hero backgrounds: 3-layer parallax of diverse commercial storefronts (GPT Image 2).
  */
 
 export interface HeroSectionProps {
@@ -183,7 +182,7 @@ function HeroDesktop({ sectionRef }: HeroSectionProps) {
             fontFamily: "'Aeonik', sans-serif",
           }}
         >
-          listo en <span style={{ opacity: 0.5 }}>5</span> minutos
+          listo en 5 minutos
         </p>
         <h1
           style={{

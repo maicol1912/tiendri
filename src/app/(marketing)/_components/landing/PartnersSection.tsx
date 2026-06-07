@@ -358,15 +358,29 @@ export function PartnersSection() {
           </p>
         </div>
 
-        {/* 3 plan cards — desktop: 3 cols, mobile: stack */}
+        {/* 3 plan cards — desktop: 3 cols, mobile: horizontal scroll */}
         <div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start"
+          className="hidden md:grid md:grid-cols-3 gap-6 items-start"
           style={{ paddingTop: 24 }}
         >
           {PLANS.map((plan) => (
             <div
               key={plan.key}
               className={plan.isPro ? 'relative md:-mt-4' : ''}
+            >
+              <PlanCard plan={plan} />
+            </div>
+          ))}
+        </div>
+        <div
+          className="flex md:hidden gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4"
+          style={{ paddingTop: 24, scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+        >
+          {PLANS.map((plan) => (
+            <div
+              key={plan.key}
+              className="snap-center shrink-0"
+              style={{ width: '80%' }}
             >
               <PlanCard plan={plan} />
             </div>

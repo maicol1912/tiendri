@@ -79,9 +79,11 @@ export function CtaSection() {
         {/* Benefit 1 — Personalizable: image left, text right */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-4 lg:items-center">
           <div data-animate data-animate-delay="0s" className="relative">
-            <div className="flex flex-col gap-4 lg:hidden">
-              <img src="/clone-assets/benf-col-3.avif" alt="" className="w-full rounded-2xl object-cover" />
-              <img src="/clone-assets/benf-col-2.avif" alt="" className="w-full rounded-2xl object-cover" />
+            <div className="block lg:hidden relative" style={{ marginBottom: 80 }}>
+              <img src="/clone-assets/benf-col-3.avif" alt="" className="rounded-2xl object-cover" style={{ width: '65%' }} />
+              <div className="absolute" style={{ right: 0, bottom: '-40%', width: '43%', zIndex: 10 }}>
+                <img src="/clone-assets/benf-col-2.avif" alt="" className="w-full rounded-2xl shadow-2xl" />
+              </div>
             </div>
             <div className="hidden lg:flex relative items-start">
               <div className="flex-shrink-0 relative z-0" style={{ width: '55%' }}>
@@ -171,8 +173,11 @@ export function CtaSection() {
         {/* Benefit 3 — WhatsApp-first: image left, text right */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center">
           <div data-animate data-animate-delay="0s" className="relative">
-            <div className="block lg:hidden">
-              <img src="/clone-assets/benf-col-13.avif" alt="Pedidos por WhatsApp" className="w-full rounded-2xl object-cover" />
+            <div className="block lg:hidden relative">
+              <img src="/clone-assets/benf-col-13.avif" alt="Pedidos por WhatsApp" className="rounded-2xl object-cover" style={{ width: '65%' }} />
+              <div className="absolute" style={{ right: 0, bottom: '-10%', width: '55%', zIndex: 10 }}>
+                <img src="/clone-assets/benf-col-12.avif" alt="" className="w-full rounded-2xl shadow-2xl" />
+              </div>
             </div>
             <div className="hidden lg:block relative" style={{ transform: 'scale(0.95)', transformOrigin: 'top left', marginLeft: '30%' }}>
               <img src="/clone-assets/benf-col-13.avif" alt="Pedidos por WhatsApp" className="w-full rounded-2xl object-cover" />

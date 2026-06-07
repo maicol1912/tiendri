@@ -17,10 +17,10 @@ import { useRef, useEffect } from 'react';
  */
 
 const mobileFeatures = [
-  { icon: '🛍️', title: 'Catálogo sin límites en el plan Pro.', dark: false },
-  { icon: '📲', title: 'Pedidos por WhatsApp con detalle completo.', dark: false },
-  { icon: '⚡', title: 'Tu tienda activa en 5 minutos.', dark: false },
-  { icon: '💰', title: '0% de comisión. Siempre.', dark: true },
+  { iconSrc: '/clone-assets/hotel-icon-1.svg', title: 'Catálogo sin límites en el plan Pro.', dark: false },
+  { iconSrc: '/clone-assets/hotel-icon-2.svg', title: 'Pedidos por WhatsApp con detalle completo.', dark: false },
+  { iconSrc: '/clone-assets/hotel-icon-3.svg', title: 'Tu tienda activa en 5 minutos.', dark: false },
+  { iconSrc: '/clone-assets/hotel-icon-4.svg', title: '0% de comisión. Siempre.', dark: true },
 ];
 
 const FEATURE_WINDOWS = [
@@ -57,42 +57,96 @@ export function PricingSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const triggered = [false, false, false, false];
+    // lg breakpoint mirrors Tailwind's 1024px
+    const LG_BREAKPOINT = 1024;
+
     const thresholds = [0.05, 0.25, 0.45, 0.65];
+    let triggered = [false, false, false, false];
+    let scrollCleanup: (() => void) | null = null;
 
-    function update() {
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const sectionH = section.offsetHeight;
-      const scrollInSection = -rect.top;
-      const progress = Math.min(1, Math.max(0, scrollInSection / (sectionH * 0.6)));
-
+    function resetDesktopElements() {
+      triggered = [false, false, false, false];
       if (blackRef.current) {
-        blackRef.current.style.opacity = String(Math.max(0, 1 - progress * 1.5));
+        blackRef.current.style.transition = '';
+        blackRef.current.style.opacity = '1';
       }
-
-      thresholds.forEach((threshold, i) => {
-        if (progress > threshold && !triggered[i]) {
-          triggered[i] = true;
-          const win = windowRefs[i].current;
-          const card = cardRefs[i].current;
-
-          if (win) {
-            win.style.transition = 'opacity 0.8s ease';
-            win.style.opacity = '1';
-          }
-          if (card) {
-            card.style.transition = 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }
+      windowRefs.forEach((ref) => {
+        const el = ref.current;
+        if (el) {
+          el.style.transition = '';
+          el.style.opacity = '0';
+        }
+      });
+      cardRefs.forEach((ref) => {
+        const el = ref.current;
+        if (el) {
+          el.style.transition = '';
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(40px)';
         }
       });
     }
 
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    return () => window.removeEventListener('scroll', update);
+    function setupScrollListener() {
+      if (scrollCleanup) {
+        scrollCleanup();
+        scrollCleanup = null;
+      }
+
+      // Only run desktop animation on lg+ viewports
+      if (window.innerWidth < LG_BREAKPOINT) {
+        resetDesktopElements();
+        return;
+      }
+
+      function update() {
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        const sectionH = section.offsetHeight;
+        const scrollInSection = -rect.top;
+        const progress = Math.min(1, Math.max(0, scrollInSection / (sectionH * 0.6)));
+
+        if (blackRef.current) {
+          blackRef.current.style.opacity = String(Math.max(0, 1 - progress * 1.5));
+        }
+
+        thresholds.forEach((threshold, i) => {
+          if (progress > threshold && !triggered[i]) {
+            triggered[i] = true;
+            const win = windowRefs[i].current;
+            const card = cardRefs[i].current;
+
+            if (win) {
+              win.style.transition = 'opacity 0.8s ease';
+              win.style.opacity = '1';
+            }
+            if (card) {
+              card.style.transition = 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }
+          }
+        });
+      }
+
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+      scrollCleanup = () => window.removeEventListener('scroll', update);
+    }
+
+    // Initial setup
+    setupScrollListener();
+
+    // Re-setup on resize to reset state when breakpoint crosses lg
+    function onResize() {
+      setupScrollListener();
+    }
+    window.addEventListener('resize', onResize, { passive: true });
+
+    return () => {
+      if (scrollCleanup) scrollCleanup();
+      window.removeEventListener('resize', onResize);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -184,27 +238,32 @@ export function PricingSection() {
       <div className="block lg:hidden bg-black px-6 pb-16 pt-4">
         <div className="flex flex-col gap-5" role="list">
           {mobileFeatures.map((feat, i) => {
-            const bgColors = ['#f5f5f5', '#ffffff', '#CDE06A', '#000'];
+            const bgColors = ['#CDE06A', '#ffffff', '#ffffff', '#a78bfa'];
             const textColors = ['#000000', '#000000', '#000000', '#ffffff'];
-            const borderStyles = i === 1 ? '1px solid #e5e5e5' : 'none';
+            const dotColors = ['#ffffff', '#000000', '#000000', '#ffffff'];
+            const showDot = i === 0 || i === 3;
             return (
               <div
                 key={i}
                 role="listitem"
                 style={{
                   alignSelf: i % 2 === 0 ? 'flex-start' : 'flex-end',
-                  width: '58%',
-                  minHeight: 180,
+                  width: '55%',
+                  aspectRatio: '1',
                   backgroundColor: bgColors[i],
                   color: textColors[i],
-                  border: borderStyles,
+                  borderRadius: i % 2 === 0 ? '20px 20px 0 20px' : '20px 20px 20px 0',
+                  padding: '28px 24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
                 }}
-                className="rounded-2xl p-6 flex flex-col justify-between"
               >
                 <div>
-                  <span style={{ fontSize: 28 }} aria-hidden="true">{feat.icon}</span>
+                  {showDot && <div style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: dotColors[i], marginBottom: 8 }} />}
+                  <img src={feat.iconSrc} alt="" style={{ width: 36, height: 36 }} aria-hidden="true" />
                 </div>
-                <p className="font-bold text-sm leading-snug mt-4" style={{ color: textColors[i], fontFamily: "'Aeonik', sans-serif" }}>
+                <p style={{ fontWeight: 700, fontSize: 18, lineHeight: '22px', color: textColors[i], fontFamily: "'Aeonik', sans-serif" }}>
                   {feat.title}
                 </p>
               </div>

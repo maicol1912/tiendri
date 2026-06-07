@@ -260,25 +260,25 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
 
           {/* Right column */}
           <div className="flex flex-col" style={{ paddingLeft: 20, position: 'relative', borderLeft: '1px solid #e4e4e7' }}>
-            {/* Image at the TOP — matching the reference layout */}
-            <div style={{ width: '22ch', paddingLeft: 30, display: 'flex', flexDirection: 'column', gap: 0 }}>
-              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
+            {/* QR image */}
+            <div style={{ paddingLeft: 30, marginBottom: 16, marginTop: -90 }}>
+              <img src="/images/qr-tiendri.png" alt="QR code de tu tienda Tiendri" style={{ width: 280, borderRadius: 12 }} />
             </div>
 
-            {/* Separator line — same style as left column */}
+            {/* Separator line */}
             <div
               style={{
                 backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)',
                 height: 2,
                 width: '22ch',
                 marginLeft: 30,
-                marginTop: 48,
-                marginBottom: 48,
+                marginTop: -100,
+                marginBottom: 12,
               }}
             />
 
-            {/* Text and stat BELOW the separator */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '22ch', gap: 20, paddingLeft: 30 }}>
+            {/* Text and stat */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '22ch', gap: 8, paddingLeft: 30 }}>
               <div style={{ width: '20ch' }}>
                 <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
                   Comparte el link y recibe pedidos organizados
@@ -378,6 +378,8 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '85%', maxWidth: 320 }}>
               <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
             </div>
+
+            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
 
             <div style={{ fontSize: 18, fontWeight: 400, lineHeight: '24px', color: '#000', textAlign: 'center', fontFamily: "'Aeonik', sans-serif" }}>
               Comparte el link y recibe pedidos con todo el detalle
