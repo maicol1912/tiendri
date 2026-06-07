@@ -1,424 +1,404 @@
-'use client'
+'use client';
+
+import { useRef, type RefObject } from 'react';
+import { usePhoneScroll } from '../../_hooks/usePhoneScroll';
 
 /**
- * HowItWorksSection — Tiendri Landing (Ember Core)
+ * HowItWorksSection — Tiendri Landing (Light / Clone style)
  *
- * "Tres pasos y ya estás vendiendo"
+ * Visual structure: clone Deals (phone drop animation + side text + marquee).
+ * Content: Tiendri's "Cómo funciona" — 3 pasos, métricas, canales.
  *
- * Animations:
- *   - Timeline line: GSAP ScrollTrigger scrub — grows as user scrolls
- *   - Step cards: Framer Motion whileInView fade-up 40px
- *   - Step icons: static drop-shadow (clay icons with built-in glow)
+ * Phone animation: drops from -140% above hero, settles at 0% as user scrolls.
+ * Marquee: partner/channel logos (WhatsApp, Instagram, etc.) + placeholder brand slots.
  */
 
-import { useEffect, useRef, type ReactNode } from 'react'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
-// ── Step card variants (Valentina's layout — unchanged) ──
-
-interface StepCardProps {
-  number: string
-  title: string
-  description: ReactNode
-  visual?: ReactNode
-  variant?: 'default' | 'narrow' | 'reversed'
+export interface HowItWorksSectionProps {
+  heroRef: RefObject<HTMLElement | null>;
 }
 
-function StepCard({ number, title, description, variant = 'default' }: StepCardProps) {
-  if (variant === 'narrow') {
-    return (
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          backgroundColor: 'var(--ember-bg-elevated)',
-          border: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        <div className="p-5 md:p-7 lg:p-9">
-          <div className="flex items-start justify-between gap-4 mb-3">
-            <h3
-              className="text-xl md:text-2xl font-bold"
-              style={{ fontFamily: 'var(--ember-font-display)', color: 'var(--ember-text-primary)' }}
-            >
-              {title}
-            </h3>
-            <span
-              className="text-5xl md:text-7xl lg:text-8xl font-bold leading-none flex-shrink-0 select-none"
-              style={{
-                fontFamily: 'var(--ember-font-display)',
-                color: 'rgba(185,28,28,0.28)',
-                letterSpacing: '-0.05em',
-              }}
-              aria-hidden="true"
-            >
-              {number}
-            </span>
-          </div>
-          <div
-            className="text-base leading-relaxed"
-            style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-secondary)' }}
-          >
-            {description}
-          </div>
-        </div>
-      </div>
-    )
-  }
+const channelLogos = [
+  { src: '/clone-assets/hotel-logo-1.avif', alt: 'Canal 1' },
+  { src: '/clone-assets/hotel-logo-2.avif', alt: 'Canal 2' },
+  { src: '/clone-assets/hotel-logo-3.avif', alt: 'Canal 3' },
+  { src: '/clone-assets/hotel-logo-5.avif', alt: 'Canal 5' },
+  { src: '/clone-assets/hotel-logo-4.avif', alt: 'Canal 4' },
+  { src: '/clone-assets/hotel-logo-9.avif', alt: 'Canal 9' },
+  { src: '/clone-assets/hotel-logo-6.avif', alt: 'Canal 6' },
+  { src: '/clone-assets/hotel-logo-10.avif', alt: 'Canal 10' },
+  { src: '/clone-assets/hotel-logo-7.avif', alt: 'Canal 7' },
+];
 
-  if (variant === 'reversed') {
-    return (
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          backgroundColor: 'var(--ember-bg-elevated)',
-          border: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
-        <div className="p-5 md:p-8 lg:p-10 flex flex-col justify-center">
-          <span
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-none mb-4 select-none block"
-            style={{
-              fontFamily: 'var(--ember-font-display)',
-              color: 'rgba(185,28,28,0.28)',
-              letterSpacing: '-0.05em',
-            }}
-            aria-hidden="true"
-          >
-            {number}
-          </span>
-          <h3
-            className="text-xl md:text-2xl font-bold mb-4"
-            style={{ fontFamily: 'var(--ember-font-display)', color: 'var(--ember-text-primary)' }}
-          >
-            {title}
-          </h3>
-          <div
-            className="text-base leading-relaxed"
-            style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-secondary)' }}
-          >
-            {description}
-          </div>
-        </div>
-      </div>
-    )
+const marqueeCSS = `
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
+  .how-icon-container {
+    display: flex;
+    flex: none;
+    gap: 28px;
+    animation: marquee-left 60s linear infinite;
+  }
+  .how-icon-wrapper {
+    display: flex;
+    flex: none;
+    gap: 28px;
+    width: 1664px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .how-icon-container { animation: none; }
+  }
+`;
 
-  // Default
+function IconScroller() {
   return (
     <div
-      className="rounded-2xl overflow-hidden"
       style={{
-        backgroundColor: 'var(--ember-bg-elevated)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        backgroundColor: '#f5f5f5',
+        borderRadius: 24,
+        overflow: 'hidden',
+        width: '100%',
       }}
+      aria-hidden="true"
     >
-      <div className="p-5 md:p-8 lg:p-10 flex flex-col justify-center">
-        <span
-          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-none mb-4 select-none block"
-          style={{
-            fontFamily: 'var(--ember-font-display)',
-            color: 'rgba(185,28,28,0.28)',
-            letterSpacing: '-0.05em',
-          }}
-          aria-hidden="true"
-        >
-          {number}
-        </span>
-        <h3
-          className="text-xl md:text-2xl font-bold mb-4"
-          style={{ fontFamily: 'var(--ember-font-display)', color: 'var(--ember-text-primary)' }}
-        >
-          {title}
-        </h3>
-        <div
-          className="text-base leading-relaxed"
-          style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-secondary)' }}
-        >
-          {description}
+      <style>{marqueeCSS}</style>
+      <div className="how-icon-container">
+        <div className="how-icon-wrapper">
+          {channelLogos.map((logo, i) => (
+            <div key={`a-${i}`} style={{ flexShrink: 0, width: 160, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.5 }}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="how-icon-wrapper">
+          {channelLogos.map((logo, i) => (
+            <div key={`b-${i}`} style={{ flexShrink: 0, width: 160, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: 0.5 }}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
-}
+export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const mobilePhoneRef = useRef<HTMLDivElement>(null);
 
-export function HowItWorksSection() {
-  const lineRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Respect prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    if (!lineRef.current || !containerRef.current) return
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        lineRef.current,
-        { scaleY: 0, transformOrigin: 'top center' },
-        {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 70%',
-            end: 'bottom 30%',
-            scrub: 0.6,
-          },
-        }
-      )
-    })
-
-    return () => ctx.revert()
-  }, [])
+  usePhoneScroll(phoneRef, heroRef);
+  usePhoneScroll(mobilePhoneRef, heroRef, true);
 
   return (
     <section
       id="como-funciona"
-      className="relative py-20 md:py-28 overflow-hidden"
-      style={{ backgroundColor: 'var(--ember-bg-base)' }}
-      aria-labelledby="how-it-works-title"
+      style={{ backgroundColor: '#f8f9f9', position: 'relative', zIndex: 100 }}
+      aria-labelledby="how-heading"
     >
-      {/* Ambient glow — right side */}
       <div
-        className="absolute top-1/3 -right-40 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(185,28,28,0.07) 0%, transparent 70%)' }}
-        aria-hidden="true"
-      />
+        className="px-5 lg:px-10 pt-16 pb-16 lg:pt-[140px] lg:pb-[140px]"
+        style={{
+          maxWidth: 1280,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 48,
+          position: 'relative',
+        }}
+      >
 
-      <div className="max-w-5xl mx-auto px-5 sm:px-8 lg:px-10">
+        {/* Section heading */}
+        <div style={{ zIndex: 10, width: 'min(50ch, 100%)', textAlign: 'center', position: 'relative' }}>
+          <div className="hidden lg:block">
+            <h2
+              id="how-heading"
+              style={{ fontSize: 64, fontWeight: 700, lineHeight: '72px', color: '#000', margin: 0, whiteSpace: 'nowrap', fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Tres pasos y ya<br />estás vendiendo
+            </h2>
+          </div>
+          <div className="block lg:hidden">
+            <h2
+              aria-hidden="true"
+              style={{ fontSize: 32, fontWeight: 700, lineHeight: '38px', color: '#000', margin: 0, fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Tres pasos y ya estás vendiendo
+            </h2>
+          </div>
+        </div>
 
-        {/* Section header */}
-        <motion.div
-          className="mb-14 md:mb-18"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+        {/* ── DESKTOP layout: left text | center phone | right text ── */}
+        <div
+          className="hidden lg:flex"
+          style={{
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            width: '100%',
+            position: 'relative',
+            zIndex: 10,
+            minHeight: 600,
+          }}
         >
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.2em] mb-4"
-            style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-red-400)' }}
-          >
-            El proceso
-          </p>
-          <h2
-            id="how-it-works-title"
-            className="font-bold leading-[1.1] md:leading-[1.05] tracking-tight"
-            style={{
-              fontFamily: 'var(--ember-font-display)',
-              color: 'var(--ember-text-primary)',
-              fontSize: 'clamp(28px, 4.5vw, 52px)',
-            }}
-          >
-            Tres pasos y ya estás vendiendo
-          </h2>
-        </motion.div>
 
-        {/* Timeline container */}
-        <div ref={containerRef} className="relative flex flex-col gap-0">
+          {/* Left column — borderRight frames the content block on desktop */}
+          <div className="flex flex-col" style={{ paddingRight: 20, position: 'relative', borderRight: '1px solid #e4e4e7' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '30ch', gap: 20 }}>
+              <div>
+                <div style={{ fontSize: 20, fontWeight: 700, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+                  Sube tus productos y elige una plantilla
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
+                  Tu tienda queda activa desde el primer día en tu propia URL.
+                </div>
+              </div>
+            </div>
 
-          {/* Vertical timeline line — GSAP scrub */}
-          <div
-            className="absolute left-1/2 -translate-x-1/2 md:left-[80px] md:translate-x-0 top-0 bottom-0 w-px block"
-            style={{ backgroundColor: 'rgba(185,28,28,0.15)' }}
-            aria-hidden="true"
-          >
             <div
-              ref={lineRef}
-              className="w-full h-full"
               style={{
-                background: 'var(--ember-red-600)',
-                transformOrigin: 'top center',
+                backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)',
+                height: 2,
+                width: '30ch',
+                marginTop: 62,
+                marginBottom: 48,
               }}
             />
+
+            {/* Step images */}
+            <div style={{ width: '30ch', display: 'flex', flexDirection: 'column', gap: 0 }}>
+              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
+            </div>
+
           </div>
 
-          {/* ── STEP 1: Crea tu tienda ── */}
-          <div className="relative flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6 pb-6">
-            <motion.div
-              className="flex flex-shrink-0 w-auto md:w-40 items-center justify-center z-10 relative"
-              initial={{ scale: 0.7, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              aria-hidden="true"
+          {/* Center phone — animated drop */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              pointerEvents: 'none',
+            }}
+          >
+            <div
+              ref={phoneRef}
+              style={{
+                height: 720,
+                position: 'relative',
+                willChange: 'transform',
+                transform: 'translate3d(0px, -80%, 0px)',
+                width: 350,
+              }}
+              aria-label="Tiendri app en celular"
             >
+              {/* Phone screen content */}
               <div
-                className="w-24 h-24 md:w-36 md:h-36 rounded-full flex items-center justify-center"
                 style={{
-                  backgroundColor: 'var(--ember-bg-elevated)',
-                  border: '2px solid rgba(185,28,28,0.3)',
-                  boxShadow: '0 0 30px rgba(185,28,28,0.15)',
+                  position: 'absolute',
+                  inset: 0,
+                  margin: '4%',
+                  zIndex: 10,
+                  overflow: 'hidden',
+                  clipPath: 'polygon(90% 0, 96% 2%, 100% 5%, 100% 94%, 97% 98%, 90% 100%, 13% 100%, 3% 99%, 0 95%, 0 5%, 4% 2%, 11% 0)',
+                  backgroundColor: '#f7f7f8',
                 }}
               >
-                <Image
-                  src="/images/icons/icon-create-store.png"
-                  alt="Crea tu tienda"
-                  width={100}
-                  height={100}
-                  className="object-contain w-16 h-16 md:w-[100px] md:h-[100px]"
-                  aria-hidden="true"
-                />
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="flex-1"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardVariants}
-            >
-              <StepCard
-                number="01"
-                title="Crea tu tienda"
-                description={
-                  <>
-                    Sube tus productos, elige una plantilla y ajusta los colores con tu logo.
-                    No necesitas diseñador ni saber nada de páginas web. La tienda queda activa
-                    desde el primer día en tu propia URL:{' '}
-                    <span style={{ color: 'var(--ember-red-400)' }}>tiendri.com/tu-negocio</span>.
-                  </>
-                }
-              />
-            </motion.div>
-          </div>
-
-          {/* ── STEP 2: Compártela ── */}
-          <div className="relative flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6 pb-6">
-            <motion.div
-              className="flex flex-shrink-0 w-auto md:w-40 items-center justify-center z-10 relative"
-              initial={{ scale: 0.7, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              aria-hidden="true"
-            >
-              <div
-                className="w-24 h-24 md:w-36 md:h-36 rounded-full flex items-center justify-center"
-                style={{
-                  backgroundColor: 'var(--ember-bg-elevated)',
-                  border: '2px solid rgba(185,28,28,0.3)',
-                  boxShadow: '0 0 30px rgba(185,28,28,0.15)',
-                }}
-              >
-                <Image
-                  src="/images/icons/icon-share.png"
-                  alt="Compártela"
-                  width={100}
-                  height={100}
-                  className="object-contain w-16 h-16 md:w-[100px] md:h-[100px]"
-                  aria-hidden="true"
-                />
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="flex-1"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardVariants}
-            >
-              <StepCard
-                number="02"
-                variant="narrow"
-                title="Compártela"
-                description={
-                  <>
-                    Manda el link por donde ya estás: estados, grupos, Instagram, o imprime el
-                    código QR y pégalo en el mostrador. Tus clientes la abren en el celular,{' '}
-                    <span style={{ color: 'var(--ember-text-primary)', fontWeight: 500 }}>
-                      sin apps, sin registro.
-                    </span>
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {['WhatsApp', 'Instagram', 'Estados', 'QR Físico'].map((ch) => (
-                        <span
-                          key={ch}
-                          className="px-2.5 py-1 text-xs font-medium"
-                          style={{
-                            fontFamily: 'var(--ember-font-body)',
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid rgba(255,255,255,0.08)',
-                            borderRadius: 'var(--ember-radius-badge)',
-                            color: 'var(--ember-text-secondary)',
-                          }}
-                        >
-                          {ch}
-                        </span>
-                      ))}
+                {/* TODO: imagen — captura de pantalla de la app Tiendri mostrando catálogo de productos */}
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #f0f4ff 0%, #e8f4e8 50%, #fff3e0 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: 12,
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ backgroundColor: 'white', borderRadius: 8, padding: '8px 10px', boxShadow: '0 1px 6px rgba(0,0,0,0.08)' }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#000', marginBottom: 2, fontFamily: "'Aeonik', sans-serif" }}>🛍️ Dulce Canela</div>
+                    <div style={{ fontSize: 9, color: '#888', fontFamily: "'Aeonik', sans-serif" }}>Tortas y postres</div>
+                  </div>
+                  {['Torta Red Velvet · $75.000', 'Cupcakes ×12 · $48.000', 'Cheesecake · $65.000'].map((item, i) => (
+                    <div key={i} style={{ backgroundColor: 'white', borderRadius: 6, padding: '6px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                      <span style={{ fontSize: 9, color: '#333', fontFamily: "'Aeonik', sans-serif" }}>{item}</span>
+                      <span style={{ fontSize: 9, backgroundColor: '#000', color: 'white', borderRadius: 3, padding: '2px 5px', fontFamily: "'Aeonik', sans-serif" }}>Pedir</span>
                     </div>
-                  </>
-                }
+                  ))}
+                  <div style={{ backgroundColor: '#25D366', borderRadius: 6, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                    <span style={{ fontSize: 9, color: 'white', fontWeight: 600, fontFamily: "'Aeonik', sans-serif" }}>📲 Pedido por WhatsApp</span>
+                  </div>
+                  <div style={{ fontSize: 8, color: '#aaa', textAlign: 'center', marginTop: 4, fontFamily: "'Aeonik', sans-serif" }}>tiendri.com/dulce-canela</div>
+                </div>
+              </div>
+
+              {/* Phone frame */}
+              <img
+                src="/clone-assets/mobile-frame.avif"
+                alt=""
+                aria-hidden="true"
+                style={{ position: 'relative', zIndex: 100, width: '100%', height: '100%', objectFit: 'contain' }}
+                loading="eager"
               />
-            </motion.div>
+            </div>
           </div>
 
-          {/* ── STEP 3: Recibe los pedidos ── */}
-          <div className="relative flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6">
-            <motion.div
-              className="flex flex-shrink-0 w-auto md:w-40 items-center justify-center z-10 relative"
-              initial={{ scale: 0.7, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              aria-hidden="true"
-            >
-              <div
-                className="w-24 h-24 md:w-36 md:h-36 rounded-full flex items-center justify-center"
-                style={{
-                  backgroundColor: 'var(--ember-bg-elevated)',
-                  border: '2px solid rgba(185,28,28,0.3)',
-                  boxShadow: '0 0 30px rgba(185,28,28,0.15)',
-                }}
-              >
-                <Image
-                  src="/images/icons/icon-orders.png"
-                  alt="Recibe los pedidos organizados"
-                  width={100}
-                  height={100}
-                  className="object-contain w-16 h-16 md:w-[100px] md:h-[100px]"
-                  aria-hidden="true"
-                />
-              </div>
-            </motion.div>
+          {/* Right column */}
+          <div className="flex flex-col" style={{ paddingLeft: 20, position: 'relative', borderLeft: '1px solid #e4e4e7' }}>
+            {/* Image at the TOP — matching the reference layout */}
+            <div style={{ width: '22ch', paddingLeft: 30, display: 'flex', flexDirection: 'column', gap: 0 }}>
+              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
+            </div>
 
-            <motion.div
-              className="flex-1"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardVariants}
-            >
-              <StepCard
-                number="03"
-                variant="reversed"
-                title="Recibe los pedidos organizados"
-                description={
-                  <>
-                    Cuando alguien hace un pedido, te llega con todo incluido: productos,
-                    cantidades, variantes y datos del cliente.{' '}
-                    <span style={{ color: 'var(--ember-text-primary)', fontWeight: 500 }}>
-                      Sin que tengas que preguntar nada.
-                    </span>{' '}
-                    Funciona con WhatsApp y seguimos sumando canales.
-                  </>
-                }
-              />
-            </motion.div>
+            {/* Separator line — same style as left column */}
+            <div
+              style={{
+                backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)',
+                height: 2,
+                width: '22ch',
+                marginLeft: 30,
+                marginTop: 48,
+                marginBottom: 48,
+              }}
+            />
+
+            {/* Text and stat BELOW the separator */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '22ch', gap: 20, paddingLeft: 30 }}>
+              <div style={{ width: '20ch' }}>
+                <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+                  Comparte el link y recibe pedidos organizados
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: 60 }}>
+                <span style={{ color: 'gray', fontSize: 20, lineHeight: '20px', paddingLeft: 24, marginBottom: 12, fontFamily: "'Aeonik', sans-serif" }}>con</span>
+                <span style={{ fontSize: 100, fontWeight: 700, lineHeight: '70px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>0%</span>
+                <span style={{ color: 'gray', fontSize: 20, lineHeight: '20px', marginLeft: 'auto', marginTop: 12, fontFamily: "'Aeonik', sans-serif" }}>de comisión</span>
+              </div>
+            </div>
           </div>
 
         </div>
+
+        {/* ── MOBILE layout ── */}
+        <div className="flex lg:hidden flex-col items-center w-full" style={{ gap: 40 }}>
+
+          {/* Animated mobile phone */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative', zIndex: 10 }}>
+            <div
+              ref={mobilePhoneRef}
+              style={{
+                width: 220,
+                height: 480,
+                position: 'relative',
+                willChange: 'transform',
+                transform: 'translate3d(0px, -110%, 0px)',
+                zIndex: 10,
+              }}
+              aria-label="Tiendri app en celular"
+            >
+              {/* Phone screen content */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  margin: '4%',
+                  zIndex: 10,
+                  overflow: 'hidden',
+                  clipPath: 'polygon(90% 0, 96% 2%, 100% 5%, 100% 94%, 97% 98%, 90% 100%, 13% 100%, 3% 99%, 0 95%, 0 5%, 4% 2%, 11% 0)',
+                  backgroundColor: '#f7f7f8',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #f0f4ff 0%, #e8f4e8 50%, #fff3e0 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: 12,
+                    gap: 6,
+                  }}
+                >
+                  <div style={{ backgroundColor: 'white', borderRadius: 8, padding: '8px 10px', boxShadow: '0 1px 6px rgba(0,0,0,0.08)' }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#000', marginBottom: 2, fontFamily: "'Aeonik', sans-serif" }}>🛍️ Dulce Canela</div>
+                    <div style={{ fontSize: 9, color: '#888', fontFamily: "'Aeonik', sans-serif" }}>Tortas y postres</div>
+                  </div>
+                  {['Torta Red Velvet · $75.000', 'Cupcakes ×12 · $48.000', 'Cheesecake · $65.000'].map((item, i) => (
+                    <div key={i} style={{ backgroundColor: 'white', borderRadius: 6, padding: '6px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                      <span style={{ fontSize: 9, color: '#333', fontFamily: "'Aeonik', sans-serif" }}>{item}</span>
+                      <span style={{ fontSize: 9, backgroundColor: '#000', color: 'white', borderRadius: 3, padding: '2px 5px', fontFamily: "'Aeonik', sans-serif" }}>Pedir</span>
+                    </div>
+                  ))}
+                  <div style={{ backgroundColor: '#25D366', borderRadius: 6, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                    <span style={{ fontSize: 9, color: 'white', fontWeight: 600, fontFamily: "'Aeonik', sans-serif" }}>📲 Pedido por WhatsApp</span>
+                  </div>
+                  <div style={{ fontSize: 8, color: '#aaa', textAlign: 'center', marginTop: 2, fontFamily: "'Aeonik', sans-serif" }}>tiendri.com/dulce-canela</div>
+                </div>
+              </div>
+
+              {/* Phone frame */}
+              <img
+                src="/clone-assets/mobile-frame.avif"
+                alt=""
+                aria-hidden="true"
+                style={{ position: 'relative', zIndex: 100, width: '100%', height: '100%', objectFit: 'contain' }}
+                loading="eager"
+              />
+            </div>
+          </div>
+
+          {/* Steps text */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 28, width: '100%', padding: '0 24px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, textAlign: 'center' }}>
+              <div style={{ fontSize: 18, fontWeight: 700, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+                Sube tus productos y elige una plantilla
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 400, lineHeight: '20px', color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
+                Tu tienda queda activa desde el primer día.
+              </div>
+            </div>
+
+            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '85%', maxWidth: 320 }}>
+              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
+            </div>
+
+            <div style={{ fontSize: 18, fontWeight: 400, lineHeight: '24px', color: '#000', textAlign: 'center', fontFamily: "'Aeonik', sans-serif" }}>
+              Comparte el link y recibe pedidos con todo el detalle
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
+              <span style={{ color: 'gray', fontSize: 16, lineHeight: '20px', fontFamily: "'Aeonik', sans-serif" }}>con</span>
+              <span style={{ fontSize: 72, fontWeight: 700, lineHeight: '56px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>0%</span>
+              <span style={{ color: 'gray', fontSize: 16, lineHeight: '20px', fontFamily: "'Aeonik', sans-serif" }}>de comisión</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '85%', maxWidth: 320 }}>
+              <img src="/clone-assets/pin-frame-1.avif" alt="" style={{ width: '100%', borderRadius: 12 }} />
+            </div>
+
+            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
+          </div>
+        </div>
+
+
       </div>
     </section>
-  )
+  );
 }

@@ -1,250 +1,213 @@
-'use client'
+'use client';
+
+import { useEffect } from 'react';
 
 /**
- * CtaSection — Tiendri Landing (Ember Core)
+ * CtaSection — Tiendri Landing (Light / Clone style)
  *
- * Final call to action before footer.
+ * Visual structure: clone Benefits (scroll-triggered fade-up on elements).
+ * Content: 3 key benefit blocks — "Personalizable", "Sin comisiones", "WhatsApp-first".
  *
- * Animations:
- *   - Headline: fade-up 40px, spring physics, on viewport entry
- *   - CTA button: ember-pulse CSS animation + Framer Motion hover scale
- *   - Glow div: subtle scale breathing loop (Framer Motion)
- *   - Metrics: counter animation from 0 when entering viewport
- *   - All reduced-motion safe (checked via CSS media query in globals.css)
+ * IntersectionObserver drives fade-up on [data-animate] elements.
+ * Image clusters: using benf-col images from clone-assets.
  */
 
-import { useRef, useEffect, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
-
-// ── Counter hook — counts from 0 to target when visible ──
-function useCounter(target: number, duration = 1200, shouldStart = false) {
-  const [value, setValue] = useState(0)
-
-  useEffect(() => {
-    if (!shouldStart) return
-    // Respect prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setValue(target)
-      return
-    }
-
-    const startTime = performance.now()
-    let raf: number
-
-    function tick(now: number) {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      // Ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setValue(Math.round(eased * target))
-      if (progress < 1) raf = requestAnimationFrame(tick)
-    }
-
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [shouldStart, target, duration])
-
-  return value
-}
-
-// Metric with animated counter
-function AnimatedMetric({ stat, isVisible }: { stat: { value: string; label: string }; isVisible: boolean }) {
-  // Parse numeric part and suffix
-  const match = stat.value.match(/^([^0-9]*)(\d+)(.*)$/)
-  const prefix = match?.[1] ?? ''
-  const numericTarget = match ? parseInt(match[2], 10) : 0
-  const suffix = match?.[3] ?? ''
-
-  const count = useCounter(numericTarget, 1200, isVisible)
-  const displayValue = numericTarget > 0 ? `${prefix}${count}${suffix}` : stat.value
-
-  return (
-    <span
-      className="text-2xl sm:text-3xl font-bold"
-      style={{
-        fontFamily: 'var(--ember-font-display)',
-        color: 'var(--ember-text-primary)',
-      }}
-    >
-      {displayValue}
-    </span>
-  )
-}
-
-const STATS = [
-  { value: '5 min', label: 'para tener tu tienda' },
-  { value: '$0', label: 'para empezar' },
-  { value: '0%', label: 'de comisión' },
-]
+import { useRef } from 'react';
 
 export function CtaSection() {
-  const metricsRef = useRef<HTMLDivElement>(null)
-  const metricsVisible = useInView(metricsRef, { once: true, amount: 0.5 })
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const elements = section.querySelectorAll<HTMLElement>('[data-animate]');
+
+    elements.forEach((el) => {
+      const delay = el.dataset.animateDelay ?? '0s';
+      const baseTransform = el.style.transform || '';
+      el.dataset.baseTransform = baseTransform;
+      el.style.opacity = '0';
+      el.style.transform = `${baseTransform} translateY(30px)`;
+      el.style.transition = `opacity 0.6s ease-out ${delay}, transform 0.6s ease-out ${delay}`;
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const baseTransform = el.dataset.baseTransform || '';
+            el.style.opacity = '1';
+            el.style.transform = `${baseTransform} translateY(0)`;
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section
-      className="relative py-16 md:py-28 lg:py-36 overflow-hidden"
-      style={{ backgroundColor: 'var(--ember-bg-deep)' }}
-      aria-labelledby="cta-final-title"
-    >
-      {/* Background glow — breathing pulse */}
-      <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        aria-hidden="true"
-      >
-        <motion.div
-          style={{
-            width: '700px',
-            height: '700px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(185,28,28,0.18) 0%, rgba(185,28,28,0.07) 35%, transparent 65%)',
-            filter: 'blur(40px)',
-          }}
-          animate={{ scale: [1, 1.06, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
+    <section ref={sectionRef} className="bg-white pt-20 pb-24" aria-labelledby="cta-heading">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
 
-      {/* Subtle dot texture overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none ember-dot-texture opacity-30"
-        aria-hidden="true"
-      />
-
-      {/* Content */}
-      <div className="relative max-w-3xl mx-auto px-5 sm:px-8 lg:px-10 text-center">
-
-        {/* Overline */}
-        <motion.p
-          className="text-xs font-semibold uppercase tracking-[0.25em] mb-6"
-          style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-red-400)' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.8 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          Empieza hoy
-        </motion.p>
-
-        {/* Headline — spring physics */}
-        <motion.h2
-          id="cta-final-title"
-          className="font-bold tracking-tight leading-[1.0] mb-7"
-          style={{
-            fontFamily: 'var(--ember-font-display)',
-            color: 'var(--ember-text-primary)',
-            fontSize: 'clamp(32px, 8vw, 72px)',
-          }}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ type: 'spring', stiffness: 180, damping: 20, delay: 0.1 }}
-        >
-          ¿Listo para crear{' '}
-          <span
-            style={{
-              color: 'var(--ember-red-600)',
-              textShadow: '0 0 40px rgba(185,28,28,0.5)',
-            }}
+        {/* Section heading */}
+        <div className="mb-10 lg:mb-20">
+          <h2
+            id="cta-heading"
+            data-animate
+            data-animate-delay="0s"
+            className="hidden lg:block font-black leading-tight text-black"
+            style={{ fontSize: 'clamp(48px, 6vw, 80px)', fontFamily: "'Aeonik', sans-serif" }}
           >
-            tu tienda?
-          </span>
-        </motion.h2>
-
-        {/* Supporting copy */}
-        <motion.p
-          className="text-base md:text-lg leading-relaxed mb-10 max-w-md mx-auto"
-          style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-secondary)' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        >
-          Miles de negocios en Colombia y LATAM ya están vendiendo con Tiendri.
-          La tienda que nunca tuviste te espera.
-        </motion.p>
-
-        {/* CTA — pulsing glow */}
-        <motion.div
-          className="flex flex-col items-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
-        >
-          <motion.a
-            href="/auth?mode=register"
-            className="w-full sm:w-auto max-w-sm inline-flex items-center justify-center px-7 sm:px-10 text-base font-semibold text-white transition-colors duration-300"
-            style={{
-              fontFamily: 'var(--ember-font-body)',
-              backgroundColor: 'var(--ember-red-600)',
-              borderRadius: 'var(--ember-radius-button)',
-              animation: 'ember-pulse 2.4s ease-in-out infinite',
-              paddingTop: '18px',
-              paddingBottom: '18px',
-            }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--ember-red-500)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--ember-red-600)'
-            }}
+            Lo que te da Tiendri<br />ningún otro te da
+          </h2>
+          <h2
+            data-animate
+            data-animate-delay="0s"
+            className="block lg:hidden font-black leading-tight text-black"
+            style={{ fontSize: 'clamp(36px, 8vw, 56px)', fontFamily: "'Aeonik', sans-serif" }}
           >
-            Crear mi tienda gratis
-            <svg
-              className="ml-3 w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </motion.a>
-
-          {/* Trust note */}
-          <p
-            className="text-sm"
-            style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-muted)' }}
-          >
-            Empieza gratis.{' '}
-            <span style={{ color: 'var(--ember-text-secondary)' }}>Sin tarjeta de crédito.</span>{' '}
-            Sin comisiones.
-          </p>
-        </motion.div>
-
-        {/* Metrics — animated counters */}
-        <div
-          ref={metricsRef}
-          className="mt-14 flex flex-wrap items-center justify-center gap-0"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '40px' }}
-          aria-label="Indicadores clave"
-        >
-          {STATS.map((stat, i) => (
-            <div key={stat.label} className="flex items-center">
-              <div className="flex flex-col items-center gap-1 px-4 sm:px-8 md:px-12">
-                <AnimatedMetric stat={stat} isVisible={metricsVisible} />
-                <span
-                  className="text-xs text-center"
-                  style={{ fontFamily: 'var(--ember-font-body)', color: 'var(--ember-text-muted)' }}
-                >
-                  {stat.label}
-                </span>
-              </div>
-              {i < 2 && (
-                <div
-                  className="w-px h-8 sm:h-10 flex-shrink-0"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}
-                  aria-hidden="true"
-                />
-              )}
-            </div>
-          ))}
+            Lo que te da Tiendri ningún otro te da
+          </h2>
         </div>
+
+        {/* Benefit 1 — Personalizable: image left, text right */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-4 lg:items-center">
+          <div data-animate data-animate-delay="0s" className="relative">
+            <div className="flex flex-col gap-4 lg:hidden">
+              <img src="/clone-assets/benf-col-3.avif" alt="" className="w-full rounded-2xl object-cover" />
+              <img src="/clone-assets/benf-col-2.avif" alt="" className="w-full rounded-2xl object-cover" />
+            </div>
+            <div className="hidden lg:flex relative items-start">
+              <div className="flex-shrink-0 relative z-0" style={{ width: '55%' }}>
+                <img src="/clone-assets/benf-col-3.avif" alt="" className="w-full rounded-2xl object-cover" />
+              </div>
+              <div className="flex-shrink-0 relative z-10" style={{ width: '55%', marginLeft: '-15%' }}>
+                <img src="/clone-assets/benf-col-2.avif" alt="" className="w-full rounded-2xl object-cover" />
+                <div className="absolute -bottom-6 -left-4 w-1/2 rounded-xl overflow-hidden shadow-2xl">
+                  <img src="/clone-assets/benf-col-1.avif" alt="" className="w-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <h3
+              data-animate
+              data-animate-delay="0.1s"
+              className="font-black text-black"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Tu tienda, tu marca
+            </h3>
+            <p
+              data-animate
+              data-animate-delay="0.2s"
+              className="text-neutral-500 text-base leading-relaxed hidden lg:block"
+              style={{ fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Elige una plantilla, cambia los colores y sube tu logo. En minutos tienes una tienda
+              que parece profesional. Tus clientes ven tu marca, no la nuestra.
+            </p>
+          </div>
+        </div>
+
+        {/* Benefit 2 — Sin comisiones: text left, image right */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-16 lg:items-center">
+          <div data-animate data-animate-delay="0.2s" className="relative order-1 lg:order-2">
+            <div className="block lg:hidden">
+              <img src="/clone-assets/benf-col-8.avif" alt="" className="w-full rounded-2xl object-cover" />
+            </div>
+            <div className="hidden lg:block" style={{ transform: 'scale(0.7)', transformOrigin: 'top right' }}>
+              <div className="relative">
+                <img src="/clone-assets/benf-col-8.avif" alt="" className="w-full rounded-2xl object-cover" />
+                <div className="absolute top-1/2 left-0 flex flex-col gap-3 -translate-x-1/2" style={{ transform: 'translateY(70px)' }}>
+                  <div className="w-24 rounded-xl overflow-hidden shadow-xl">
+                    <img src="/clone-assets/benf-col-6.avif" alt="" className="w-full" />
+                  </div>
+                  <div className="w-24 rounded-xl overflow-hidden shadow-xl">
+                    <img src="/clone-assets/benf-col-9.avif" alt="" className="w-full" />
+                  </div>
+                </div>
+                <div className="absolute bottom-0 right-0 flex flex-col gap-2" style={{ transform: 'translateY(90px)' }}>
+                  <div className="w-20 rounded-xl overflow-hidden shadow-xl">
+                    <img src="/clone-assets/benf-col-10.avif" alt="" className="w-full" />
+                  </div>
+                  <div className="w-20 rounded-xl overflow-hidden shadow-xl">
+                    <img src="/clone-assets/benf-col-4.avif" alt="" className="w-full" />
+                  </div>
+                  <div className="w-20 rounded-xl overflow-hidden shadow-xl">
+                    <img src="/clone-assets/benf-col-5.avif" alt="" className="w-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 order-2 lg:order-1">
+            <h3
+              data-animate
+              data-animate-delay="0s"
+              className="font-black text-black"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+            >
+              0% de comisión, siempre
+            </h3>
+            <p
+              data-animate
+              data-animate-delay="0.1s"
+              className="text-neutral-500 text-base leading-relaxed"
+              style={{ fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Una tarifa mensual fija. Lo que vendas queda en tu bolsillo. Sin sorpresas, sin
+              letra chica, sin porcentajes por venta.
+            </p>
+          </div>
+        </div>
+
+        {/* Benefit 3 — WhatsApp-first: image left, text right */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center">
+          <div data-animate data-animate-delay="0s" className="relative">
+            <div className="block lg:hidden">
+              <img src="/clone-assets/benf-col-13.avif" alt="Pedidos por WhatsApp" className="w-full rounded-2xl object-cover" />
+            </div>
+            <div className="hidden lg:block relative" style={{ transform: 'scale(0.95)', transformOrigin: 'top left', marginLeft: '30%' }}>
+              <img src="/clone-assets/benf-col-13.avif" alt="Pedidos por WhatsApp" className="w-full rounded-2xl object-cover" />
+              <div className="absolute bottom-0 left-0 flex gap-2" style={{ transform: 'translateY(70px)' }}>
+                <div className="w-28 rounded-xl overflow-hidden shadow-xl">
+                  <img src="/clone-assets/benf-col-12.avif" alt="" className="w-full" />
+                </div>
+                <div className="w-28 rounded-xl overflow-hidden shadow-xl">
+                  <img src="/clone-assets/benf-col-11.avif" alt="" className="w-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <h3
+              data-animate
+              data-animate-delay="0.1s"
+              className="font-black text-black"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Pedidos por WhatsApp
+            </h3>
+            <p
+              data-animate
+              data-animate-delay="0.2s"
+              className="text-neutral-500 text-base leading-relaxed"
+              style={{ fontFamily: "'Aeonik', sans-serif" }}
+            >
+              Cuando alguien hace un pedido, te llega con todo incluido: productos, cantidades,
+              variantes y datos del cliente. Sin que tengas que preguntar nada. ♥
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
-  )
+  );
 }
