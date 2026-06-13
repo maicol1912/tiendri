@@ -181,7 +181,6 @@ const cssPixelValue = z
 
 export const themeSchema = z.object({
   paletteId: z.string().max(60, "ID de paleta inválido").optional(),
-  presetId: z.string().max(60, "ID de preset inválido").optional(),
   colors: z
     .object({
       primary: hexColor,
@@ -295,74 +294,6 @@ const baseStoreCustomizationSchema = z.object({
   appearance: z.enum(["light", "dark"]).optional(),
 });
 
-// ── Forbidden combination refinements ─────────────────────────────────────────
-// Each refinement delegates to the shared guardrails check functions so the
-// validation logic has a single source of truth.
-
-import { FORBIDDEN_COMBINATIONS } from "@/lib/presets/guardrails";
-import type { StylePreset } from "@/lib/presets/preset-types";
-
-type BaseInput = z.infer<typeof baseStoreCustomizationSchema>;
-
-/**
- * Coerce a flat StoreCustomizationInput into the Partial<StylePreset> shape
- * that FORBIDDEN_COMBINATIONS check functions expect.
- */
-function toPresetShape(data: BaseInput): Partial<StylePreset> {
-  return {
-    typography: {
-      headingTransform: data.theme?.typography?.headingTransform,
-      headingFontStyle: data.theme?.headingFontStyle,
-      headingDecoration: data.theme?.headingDecoration,
-      bodyLineHeight: data.theme?.bodyLineHeight,
-    },
-    layout: {
-      density: data.layout?.density,
-      gridColumnsMobile: data.layout?.gridColumnsMobile,
-      cardImageRatio: data.layout?.layout?.cardImageRatio,
-    },
-    cards: {
-      imageFit: data.layout?.layout?.imageFit,
-      imageBorderRadius: data.layout?.layout?.imageBorderRadius,
-      // cardContentLayout lives in structuralVariants — cast through unknown for the check
-      ...(data.layout?.structuralVariants?.cardContentLayout !== undefined && {
-        cardContentLayout: data.layout.structuralVariants.cardContentLayout,
-      }),
-    } as unknown as StylePreset["cards"],
-    effects: {
-      shadowElevation: data.layout?.layout?.shadowElevation,
-      transitionSpeed: data.layout?.layout?.transitionSpeed,
-    },
-    color: {
-      backgroundTreatment: data.theme?.backgroundTreatment,
-      cardBackground: data.theme?.cardBackground,
-      colorStrategy: data.theme?.colorStrategy,
-    },
-    chrome: {
-      borderRadiusScale: data.layout?.layout?.borderRadiusScale,
-      ...(data.layout?.structuralVariants?.addToCartStyle !== undefined && {
-        addToCartStyle: data.layout.structuralVariants.addToCartStyle,
-      }),
-    } as unknown as StylePreset["chrome"],
-  };
-}
-
-// Build the schema by chaining one .refine() per forbidden combination.
-// Each check returns true = valid (combination NOT present), false = violation.
-const [first, ...rest] = FORBIDDEN_COMBINATIONS;
-
-const withFirst = baseStoreCustomizationSchema.refine(
-  (data) => !first!.check(toPresetShape(data)),
-  { message: first!.message },
-);
-
-export const storeCustomizationSchema = rest.reduce(
-  (schema, rule) =>
-    schema.refine(
-      (data) => !rule.check(toPresetShape(data)),
-      { message: rule.message },
-    ),
-  withFirst,
-);
+export const storeCustomizationSchema = baseStoreCustomizationSchema;
 
 export type StoreCustomizationInput = z.infer<typeof storeCustomizationSchema>;

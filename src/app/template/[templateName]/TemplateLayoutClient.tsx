@@ -703,10 +703,22 @@ export function TemplateLayoutClient({
     ? `${resolvedFontPair.body.variable} ${resolvedFontPair.heading.variable}`
     : "";
 
+  // Merge structural → structuralVariants so ThemeCustomizer writes land on the
+  // read path. ThemeCustomizer writes to config.structural.*; components read
+  // from config.structuralVariants.*. Spread structural AFTER structuralVariants
+  // so customizer values always win over template defaults.
+  const configForContext = {
+    ...config,
+    structuralVariants: {
+      ...(config as unknown as AnyTemplateConfig & { structuralVariants?: Record<string, unknown> }).structuralVariants,
+      ...(config as unknown as { structural?: Record<string, unknown> }).structural,
+    },
+  };
+
   return (
     <CartWrapper templateName={templateName} storeSlug={storeSlug}>
       <LayoutConfigContext.Provider
-        value={{ config: config as unknown as AnyTemplateConfig }}
+        value={{ config: configForContext as unknown as AnyTemplateConfig }}
       >
         {/* template-scope div — CSS variable injection (data-driven) */}
         <div

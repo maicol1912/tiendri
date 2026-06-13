@@ -23,9 +23,7 @@ export const step3Schema = z.object({
   selectedVibe: z.enum(['elegante', 'moderno', 'energetico', 'calido', 'catalogo']),
 })
 
-export const step4Schema = z.object({
-  selectedPresetId: z.string().min(1).optional(),
-})
+export const step4Schema = z.object({})
 
 export const step5Schema = z.object({
   accentColor: z

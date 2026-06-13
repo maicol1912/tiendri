@@ -7,11 +7,8 @@ import { OnboardingShell } from '@/components/onboarding/onboarding-shell'
 import { Step1StoreInfo } from '@/components/onboarding/step1-store-info'
 import { Step2CatalogMode } from '@/components/onboarding/step2-catalog-mode'
 import { Step3VibeSelection } from '@/components/onboarding/step3-vibe-selection'
-import { Step4PresetRefinement } from '@/components/onboarding/step4-preset-refinement'
 import { Step5Branding } from '@/components/onboarding/step5-branding'
 import { CelebrationScreen } from '@/components/onboarding/celebration-screen'
-import { VIBE_CONFIGS } from '@/lib/onboarding/vibe-preset-map'
-import { applyPreset } from '@/lib/presets/apply-preset'
 import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/actions'
 import { markOnboardingCompleted } from '@/lib/onboarding/first-time'
 import type { AccentColor } from '@/types/onboarding'
@@ -87,11 +84,13 @@ function OnboardingContent() {
       catalog_mode: state.catalogMode ?? 'simple',
     }
 
-    const presetId =
-      state.selectedPresetId ??
-      (state.selectedVibe ? VIBE_CONFIGS[state.selectedVibe].defaultPresetId : 'tech-premium')
+    type PartialCustomization = {
+      templateId: string
+      theme?: { colors?: Record<string, string> }
+      branding?: { logo?: string }
+    }
 
-    let customization = applyPreset(presetId, { templateId: 'tech-premium' })
+    let customization: PartialCustomization = { templateId: 'tech-premium' }
 
     if (state.accentColor) {
       const hex = ACCENT_HEX[state.accentColor]
@@ -132,7 +131,7 @@ function OnboardingContent() {
     1: <Step1StoreInfo />,
     2: <Step2CatalogMode />,
     3: <Step3VibeSelection />,
-    4: <Step4PresetRefinement />,
+    4: <Step5Branding />,
     5: <Step5Branding />,
   }
 

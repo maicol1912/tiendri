@@ -4,9 +4,15 @@
 
 import type { StorefrontProduct } from "../types";
 import type { TemplateLayoutConfig } from "@/types/templates";
-import type { AddToCartStyle } from "@/types/templates/primitives";
+import type { AddToCartStyle, CardBorderTreatment, ImageFit, ImageBorderRadius, ImageHoverEffect } from "@/types/templates/primitives";
 import type { StructuralVariants } from "@/types/templates/structural-variants";
-import type { CardTokens } from "@/lib/presets/preset-types";
+
+interface CardTokens {
+  cardBorderTreatment?: CardBorderTreatment;
+  imageFit?: ImageFit;
+  imageBorderRadius?: ImageBorderRadius;
+  imageHoverEffect?: ImageHoverEffect;
+}
 import { cardStyleClass } from "../utils/layout-classes";
 import {
   BUTTON_STYLE_MAP,

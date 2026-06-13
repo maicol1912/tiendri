@@ -90,7 +90,6 @@ export function Step3VibeSelection() {
             selected={state.selectedVibe === vibe.id}
             onSelect={() => {
               updateField('selectedVibe', vibe.id)
-              updateField('selectedPresetId', vibe.defaultPresetId)
             }}
           />
         ))}

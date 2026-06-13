@@ -39,9 +39,7 @@ export interface ThemeCustomization {
   radius?: Partial<TemplateRadiusTokens>;
   /** Font pair key — e.g. "modern" | "warm" | "elegant" | "functional" */
   fontPair?: string;
-  /** ID of the active style preset — e.g. "minimalista", "directo" */
-  presetId?: string;
-  /** Typography personality — set by presets, fine-tunable by merchant */
+  /** Typography personality — fine-tunable by merchant */
   typography?: TypographyConfig;
   bodyFontSize?: BodyFontSize;
   bodyLineHeight?: BodyLineHeight;

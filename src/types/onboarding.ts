@@ -23,7 +23,6 @@ export interface OnboardingState {
   slug: string
   catalogMode: CatalogMode | null
   selectedVibe: VibeId | null
-  selectedPresetId: string | null
   accentColor: AccentColor | null
   logoUrl: string | null
 }
@@ -35,7 +34,6 @@ export const INITIAL_ONBOARDING_STATE: OnboardingState = {
   slug: '',
   catalogMode: null,
   selectedVibe: null,
-  selectedPresetId: null,
   accentColor: null,
   logoUrl: null,
 }

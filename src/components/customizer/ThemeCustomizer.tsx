@@ -4,14 +4,10 @@
 // Receives all template-specific metadata as props — zero template imports.
 // Desktop-only drawer; controlled by the caller via props.
 //
-// Sections are collapsible accordions. Guardrail rules from guardrails.ts
-// disable, warn, or hide controls based on current preset state.
+// Sections are collapsible accordions.
 
 import { useState, useCallback, useMemo } from "react";
 import { GripVertical } from "lucide-react";
-import { stylePresets } from "@/lib/presets";
-import { FORBIDDEN_COMBINATIONS, DEPENDENCY_RULES } from "@/lib/presets/guardrails";
-import type { StylePreset } from "@/lib/presets/preset-types";
 import {
   DndContext,
   closestCenter,
@@ -179,81 +175,6 @@ export interface MutableConfig {
   fontPair?: string;
 }
 
-// ── Build a partial StylePreset from MutableConfig for guardrail checks ────────
-
-function buildPresetSnapshot(config: MutableConfig, activePresetId?: string): Partial<StylePreset> {
-  const base = activePresetId
-    ? (stylePresets.find((p) => p.id === activePresetId) ?? {})
-    : {};
-
-  return {
-    ...base,
-    typography: {
-      headingTransform: (config.theme?.typography?.headingTransform ?? "none") as "none" | "uppercase",
-      headingFontStyle: (config.theme?.typography?.headingFontStyle ?? "normal") as "normal" | "italic",
-      headingDecoration: config.theme?.typography?.headingDecoration as StylePreset["typography"]["headingDecoration"],
-      bodyLineHeight: config.theme?.typography?.bodyLineHeight as StylePreset["typography"]["bodyLineHeight"],
-      bodyFontSize: config.theme?.typography?.bodyFontSize as StylePreset["typography"]["bodyFontSize"],
-    },
-    layout: {
-      density: config.layoutDensity as StylePreset["layout"]["density"],
-      cardImageRatio: config.layout.cardImageRatio as StylePreset["layout"]["cardImageRatio"],
-      gridColumnsMobile: (config.gridColumnsMobile ?? 2) as StylePreset["layout"]["gridColumnsMobile"],
-    },
-    cards: {
-      imageFit: config.layout.imageFit as StylePreset["cards"]["imageFit"],
-      imageBorderRadius: config.layout.imageBorderRadius as StylePreset["cards"]["imageBorderRadius"],
-    },
-    effects: {
-      shadowElevation: config.layout.shadowElevation as StylePreset["effects"]["shadowElevation"],
-      transitionSpeed: config.layout.transitionSpeed as StylePreset["effects"]["transitionSpeed"],
-      transitionEasing: config.layout.transitionEasing as StylePreset["effects"]["transitionEasing"],
-    },
-    color: {
-      colorStrategy: config.theme?.color?.colorStrategy as StylePreset["color"]["colorStrategy"],
-      backgroundTreatment: config.theme?.color?.backgroundTreatment as StylePreset["color"]["backgroundTreatment"],
-      cardBackground: config.theme?.color?.cardBackground as StylePreset["color"]["cardBackground"],
-      accentDistribution: config.theme?.color?.accentDistribution as StylePreset["color"]["accentDistribution"],
-    },
-    chrome: {
-      borderRadiusScale: config.layout.borderRadiusScale as StylePreset["chrome"]["borderRadiusScale"],
-    },
-  };
-}
-
-// ── Guardrail helpers ─────────────────────────────────────────────────────────
-
-function getActiveViolations(snapshot: Partial<StylePreset>) {
-  return FORBIDDEN_COMBINATIONS.filter((fc) => fc.check(snapshot));
-}
-
-function getHardRestrictions(snapshot: Partial<StylePreset>) {
-  return DEPENDENCY_RULES.filter((r) => r.type === "hard" && r.check(snapshot));
-}
-
-function getSoftWarnings(snapshot: Partial<StylePreset>) {
-  return DEPENDENCY_RULES.filter((r) => r.type === "soft" && r.check(snapshot));
-}
-
-function isOptionDisabled(field: string, value: string, hardRules: ReturnType<typeof getHardRestrictions>): boolean {
-  for (const rule of hardRules) {
-    if (rule.affectedField === field && rule.allowedValues && rule.allowedValues.length > 0) {
-      return !rule.allowedValues.includes(value);
-    }
-  }
-  return false;
-}
-
-function isFieldHidden(field: string, hardRules: ReturnType<typeof getHardRestrictions>): boolean {
-  return hardRules.some(
-    (r) => r.affectedField === field && (!r.allowedValues || r.allowedValues.length === 0)
-  );
-}
-
-function getWarningForField(field: string, softWarnings: ReturnType<typeof getSoftWarnings>): string | undefined {
-  return softWarnings.find((r) => r.affectedField === field)?.warningMessage;
-}
-
 // ── Shared select style ────────────────────────────────────────────────────────
 
 const selectStyle: React.CSSProperties = {
@@ -274,30 +195,21 @@ const labelStyle: React.CSSProperties = {
   marginBottom: "5px",
 };
 
-const warnStyle: React.CSSProperties = {
-  fontSize: "11px",
-  color: "#f59e0b",
-  marginTop: "4px",
-  lineHeight: 1.4,
-};
-
 // ── ControlField component ─────────────────────────────────────────────────────
 
-interface ControlFieldProps {
+function ControlField({
+  label,
+  field,
+  value,
+  options,
+  onChange,
+}: {
   label: string;
   field: string;
   value: string;
   options: { value: string; label: string }[];
-  hardRules: ReturnType<typeof getHardRestrictions>;
-  softWarnings: ReturnType<typeof getSoftWarnings>;
-  onChange: (value: string) => void;
-}
-
-function ControlField({ label, field, value, options, hardRules, softWarnings, onChange }: ControlFieldProps) {
-  if (isFieldHidden(field, hardRules)) return null;
-
-  const warning = getWarningForField(field, softWarnings);
-
+  onChange: (v: string) => void;
+}) {
   return (
     <div>
       <label style={labelStyle}>{label}</label>
@@ -306,16 +218,12 @@ function ControlField({ label, field, value, options, hardRules, softWarnings, o
         onChange={(e) => onChange(e.target.value)}
         style={selectStyle}
       >
-        {options.map((opt) => {
-          const disabled = isOptionDisabled(field, opt.value, hardRules);
-          return (
-            <option key={opt.value} value={opt.value} disabled={disabled}>
-              {opt.label}{disabled ? " (no compatible)" : ""}
-            </option>
-          );
-        })}
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
       </select>
-      {warning && <p style={warnStyle}>⚠ {warning}</p>}
     </div>
   );
 }
@@ -323,7 +231,6 @@ function ControlField({ label, field, value, options, hardRules, softWarnings, o
 // ── Accordion section names ───────────────────────────────────────────────────
 
 type PanelSection =
-  | "personalidad"
   | "tipografia"
   | "colores"
   | "formas"
@@ -333,7 +240,6 @@ type PanelSection =
   | "sections";
 
 const PANEL_SECTIONS: { id: PanelSection; label: string; description: string }[] = [
-  { id: "personalidad", label: "✦ Personalidad", description: "Elegí el estilo general de tu tienda" },
   { id: "tipografia", label: "Aa Tipografía", description: "Ajustá el estilo de los textos y títulos" },
   { id: "colores", label: "🎨 Colores", description: "Paleta, estrategia de color y fondo" },
   { id: "formas", label: "📐 Formas y bordes", description: "Radio de bordes, estilo de tarjetas y badges" },
@@ -468,9 +374,8 @@ export function ThemeCustomizer({
   palettes,
 }: ThemeCustomizerProps) {
   const [openSections, setOpenSections] = useState<Set<PanelSection>>(
-    new Set(["personalidad"])
+    new Set(["tipografia"])
   );
-  const [activePresetId, setActivePresetId] = useState<string | undefined>(undefined);
   const [activePaletteId, setActivePaletteId] = useState<string | undefined>(undefined);
   const [showAdvancedColors, setShowAdvancedColors] = useState(false);
 
@@ -485,17 +390,6 @@ export function ThemeCustomizer({
   }, [palettes, config.colors]);
 
   const selectedPaletteId = activePaletteId ?? detectedPaletteId;
-
-  // ── Guardrail computation ─────────────────────────────────────────────────
-
-  const presetSnapshot = useMemo(
-    () => buildPresetSnapshot(config, activePresetId),
-    [config, activePresetId]
-  );
-
-  const activeViolations = useMemo(() => getActiveViolations(presetSnapshot), [presetSnapshot]);
-  const hardRules = useMemo(() => getHardRestrictions(presetSnapshot), [presetSnapshot]);
-  const softWarnings = useMemo(() => getSoftWarnings(presetSnapshot), [presetSnapshot]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
@@ -621,64 +515,6 @@ export function ThemeCustomizer({
     [config, onConfigChange]
   );
 
-  const applyStylePreset = useCallback(
-    (presetId: string) => {
-      const preset = stylePresets.find((p) => p.id === presetId);
-      if (!preset) return;
-      setActivePresetId(presetId);
-      onConfigChange({
-        ...config,
-        layoutDensity: preset.layout.density,
-        fontPair: preset.typography.fontPair,
-        gridColumnsMobile: preset.layout.gridColumnsMobile ?? config.gridColumnsMobile,
-        gridColumnsDesktop: preset.layout.gridColumnsDesktop ?? config.gridColumnsDesktop,
-        containerMaxWidth: preset.layout.containerMaxWidth ?? config.containerMaxWidth,
-        layout: {
-          ...config.layout,
-          // Layout fields
-          cardImageRatio: preset.layout.cardImageRatio ?? config.layout.cardImageRatio,
-          cardPadding: preset.layout.cardPadding ?? config.layout.cardPadding,
-          // Effect fields
-          shadowElevation: preset.effects.shadowElevation ?? config.layout.shadowElevation,
-          transitionSpeed: preset.effects.transitionSpeed ?? config.layout.transitionSpeed,
-          transitionEasing: preset.effects.transitionEasing ?? config.layout.transitionEasing,
-          // Card fields
-          imageFit: preset.cards.imageFit ?? config.layout.imageFit,
-          imageBorderRadius: preset.cards.imageBorderRadius ?? config.layout.imageBorderRadius,
-          imageHoverEffect: preset.cards.imageHoverEffect ?? config.layout.imageHoverEffect,
-          cardBorderTreatment: preset.cards.cardBorderTreatment ?? config.layout.cardBorderTreatment,
-          // Chrome fields
-          borderRadiusScale: preset.chrome.borderRadiusScale ?? config.layout.borderRadiusScale,
-          dividerStyle: preset.chrome.dividerStyle ?? config.layout.dividerStyle,
-        },
-        theme: {
-          ...config.theme,
-          typography: {
-            headingWeight: preset.typography.headingWeight ?? 600,
-            headingScale: preset.typography.headingScale ?? "lg",
-            headingTracking: preset.typography.headingTracking ?? "-0.01em",
-            headingTransform: preset.typography.headingTransform ?? "none",
-            headingFontStyle: preset.typography.headingFontStyle ?? "normal",
-            headingDecoration: preset.typography.headingDecoration ?? "none",
-            bodyFontSize: preset.typography.bodyFontSize ?? "base",
-            bodyLineHeight: preset.typography.bodyLineHeight ?? "normal",
-            displaySize: preset.typography.displaySize ?? "lg",
-            cardTextAlign: preset.typography.cardTextAlign ?? "left",
-          },
-          // Color strategy
-          color: {
-            colorStrategy: preset.color.colorStrategy ?? config.theme?.color?.colorStrategy ?? "accent-pop",
-            backgroundTreatment: preset.color.backgroundTreatment ?? config.theme?.color?.backgroundTreatment ?? "solid",
-            cardBackground: preset.color.cardBackground ?? config.theme?.color?.cardBackground ?? "white",
-            imageOverlayHover: preset.color.imageOverlayHover ?? config.theme?.color?.imageOverlayHover ?? "none",
-            accentDistribution: preset.color.accentDistribution ?? config.theme?.color?.accentDistribution ?? "badges-and-buttons",
-          },
-        },
-      });
-    },
-    [config, onConfigChange]
-  );
-
   const toggleSectionVisible = useCallback(
     (index: number) => {
       const newSections = config.sections.map((s, i) =>
@@ -798,27 +634,6 @@ export function ThemeCustomizer({
         </div>
       </div>
 
-      {/* Active violations banner */}
-      {activeViolations.length > 0 && (
-        <div
-          style={{
-            margin: "10px 20px 0",
-            padding: "8px 10px",
-            background: "#2d1a1a",
-            border: "1px solid #7f1d1d",
-            borderRadius: "8px",
-            fontSize: "11px",
-            color: "#fca5a5",
-            lineHeight: 1.5,
-          }}
-        >
-          <strong style={{ display: "block", marginBottom: "4px" }}>⚠ Combinaciones no compatibles:</strong>
-          {activeViolations.map((v) => (
-            <div key={v.id} style={{ marginTop: "2px" }}>• {v.message}</div>
-          ))}
-        </div>
-      )}
-
       {/* Accordion sections */}
       <div style={{ flex: 1 }}>
         {PANEL_SECTIONS.map(({ id, label, description }) => {
@@ -854,65 +669,6 @@ export function ThemeCustomizer({
                   <p style={{ color: "#555", fontSize: "11px", marginBottom: "12px", lineHeight: 1.5, marginTop: "2px" }}>
                     {description}
                   </p>
-
-                  {/* ── PERSONALIDAD ─────────────────────────────────── */}
-                  {id === "personalidad" && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                      {stylePresets.map((preset) => {
-                        const isSelected = activePresetId === preset.id;
-                        return (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => applyStylePreset(preset.id)}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
-                              padding: "10px 12px",
-                              background: isSelected ? "#1a2a1a" : "#222",
-                              border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
-                              borderRadius: "8px",
-                              cursor: "pointer",
-                              textAlign: "left",
-                              transition: "border-color 0.15s, background 0.15s",
-                              width: "100%",
-                            }}
-                            onMouseEnter={(e) => {
-                              if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
-                            }}
-                            onMouseLeave={(e) => {
-                              if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
-                            }}
-                          >
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px" }}>
-                                <span style={{ fontSize: "12px", fontWeight: 600, color: isSelected ? "#fff" : "#e5e5e5" }}>
-                                  {preset.name}
-                                </span>
-                                <span style={{ fontSize: "10px", color: "#555", background: "#2a2a2a", borderRadius: "99px", padding: "1px 6px", flexShrink: 0 }}>
-                                  {preset.layout.density}
-                                </span>
-                              </div>
-                              <div style={{ fontSize: "11px", color: "#666", lineHeight: 1.4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                {preset.description}
-                              </div>
-                            </div>
-                            {isSelected && (
-                              <div style={{ width: "18px", height: "18px", borderRadius: "50%", background: "#4a9eff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                  <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </div>
-                            )}
-                          </button>
-                        );
-                      })}
-                      <p style={{ marginTop: "6px", fontSize: "10px", color: "#444", lineHeight: 1.5 }}>
-                        El preset ajusta el layout, tipografía y densidad. Los colores se mantienen.
-                      </p>
-                    </div>
-                  )}
 
                   {/* ── TIPOGRAFÍA ───────────────────────────────────── */}
                   {id === "tipografia" && (
@@ -992,8 +748,6 @@ export function ThemeCustomizer({
                           { value: "none", label: "Normal" },
                           { value: "uppercase", label: "MAYÚSCULAS" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateTypography("headingTransform", v)}
                       />
 
@@ -1006,8 +760,6 @@ export function ThemeCustomizer({
                           { value: "normal", label: "Normal" },
                           { value: "italic", label: "Cursiva" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateTypography("headingFontStyle", v)}
                       />
 
@@ -1022,8 +774,6 @@ export function ThemeCustomizer({
                           { value: "overline", label: "Línea superior" },
                           { value: "highlight", label: "Resaltado" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateTypography("headingDecoration", v)}
                       />
 
@@ -1052,8 +802,6 @@ export function ThemeCustomizer({
                           { value: "relaxed", label: "Relajado" },
                           { value: "loose", label: "Suelto" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateTypography("bodyLineHeight", v)}
                       />
 
@@ -1230,8 +978,6 @@ export function ThemeCustomizer({
                             { value: "accent-pop", label: "Acento pop" },
                             { value: "gradient", label: "Gradiente" },
                           ]}
-                          hardRules={hardRules}
-                          softWarnings={softWarnings}
                           onChange={(v) => updateColorToken("colorStrategy", v)}
                         />
                       </div>
@@ -1245,8 +991,6 @@ export function ThemeCustomizer({
                           { value: "subtle-gradient", label: "Gradiente sutil" },
                           { value: "pattern", label: "Patrón" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateColorToken("backgroundTreatment", v)}
                       />
 
@@ -1260,8 +1004,6 @@ export function ThemeCustomizer({
                           { value: "transparent", label: "Transparente" },
                           { value: "primary-tint", label: "Tinte primario" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateColorToken("cardBackground", v)}
                       />
 
@@ -1289,8 +1031,6 @@ export function ThemeCustomizer({
                           { value: "everywhere", label: "En todas partes" },
                           { value: "minimal", label: "Mínimo" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateColorToken("accentDistribution", v)}
                       />
                     </div>
@@ -1340,8 +1080,6 @@ export function ThemeCustomizer({
                             { value: "xl", label: "Extra grande" },
                             { value: "pill", label: "Píldora" },
                           ]}
-                          hardRules={hardRules}
-                          softWarnings={softWarnings}
                           onChange={(v) => updateLayout("borderRadiusScale", v)}
                         />
                       </div>
@@ -1357,8 +1095,6 @@ export function ThemeCustomizer({
                           { value: "left-accent", label: "Acento izquierdo" },
                           { value: "top-accent", label: "Acento superior" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("cardBorderTreatment", v)}
                       />
 
@@ -1372,8 +1108,6 @@ export function ThemeCustomizer({
                           { value: "rounded", label: "Redondeado" },
                           { value: "circle", label: "Circular" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("imageBorderRadius", v)}
                       />
 
@@ -1433,8 +1167,6 @@ export function ThemeCustomizer({
                           { value: "balanced", label: "Equilibrado" },
                           { value: "spacious", label: "Espacioso" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={updateDensity}
                       />
 
@@ -1447,8 +1179,6 @@ export function ThemeCustomizer({
                           { value: "1", label: "1 columna" },
                           { value: "2", label: "2 columnas" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => onConfigChange({ ...config, gridColumnsMobile: Number(v) })}
                       />
 
@@ -1491,8 +1221,6 @@ export function ThemeCustomizer({
                           { value: "portrait", label: "Retrato" },
                           { value: "wide", label: "Panorámico" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("cardImageRatio", v)}
                       />
 
@@ -1520,8 +1248,6 @@ export function ThemeCustomizer({
                           { value: "cover", label: "Cubrir" },
                           { value: "contain", label: "Contener" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("imageFit", v)}
                       />
 
@@ -1574,8 +1300,6 @@ export function ThemeCustomizer({
                           { value: "lg", label: "Grande" },
                           { value: "xl", label: "Muy grande" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("shadowElevation", v)}
                       />
 
@@ -1590,26 +1314,22 @@ export function ThemeCustomizer({
                           { value: "slow", label: "Lenta" },
                           { value: "very-slow", label: "Muy lenta" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateLayout("transitionSpeed", v)}
                       />
 
-                      {!isFieldHidden("effects.transitionEasing", hardRules) && (
-                        <div>
-                          <label style={labelStyle}>Tipo de transición</label>
-                          <select
-                            value={config.layout.transitionEasing ?? "ease"}
-                            onChange={(e) => updateLayout("transitionEasing", e.target.value)}
-                            style={selectStyle}
-                          >
-                            <option value="linear">Lineal</option>
-                            <option value="ease">Suave</option>
-                            <option value="ease-in-out">Entrada y salida suave</option>
-                            <option value="spring">Resorte</option>
-                          </select>
-                        </div>
-                      )}
+                      <div>
+                        <label style={labelStyle}>Tipo de transición</label>
+                        <select
+                          value={config.layout.transitionEasing ?? "ease"}
+                          onChange={(e) => updateLayout("transitionEasing", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="linear">Lineal</option>
+                          <option value="ease">Suave</option>
+                          <option value="ease-in-out">Entrada y salida suave</option>
+                          <option value="spring">Resorte</option>
+                        </select>
+                      </div>
 
                       <div>
                         <label style={labelStyle}>Efecto hover de imagen</label>
@@ -1641,8 +1361,6 @@ export function ThemeCustomizer({
                           { value: "overlay-full", label: "Overlay completo" },
                           { value: "side-by-side", label: "Lado a lado" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateStructural("cardContentLayout", v)}
                       />
 
@@ -1656,8 +1374,6 @@ export function ThemeCustomizer({
                           { value: "split", label: "Dividido" },
                           { value: "text-only", label: "Solo texto" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateStructural("heroVariant", v)}
                       />
 
@@ -1685,8 +1401,6 @@ export function ThemeCustomizer({
                           { value: "floating-fab", label: "Flotante" },
                           { value: "on-hover-only", label: "Al pasar el cursor" },
                         ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
                         onChange={(v) => updateStructural("addToCartStyle", v)}
                       />
 

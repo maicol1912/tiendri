@@ -6,16 +6,22 @@
 import type { TemplateConfig } from "./template-config";
 import type { ThemeCustomization, StoreCustomization } from "./store-customization";
 import type { TemplateConfigSchema } from "./config-schema";
-import type { DensityLevel } from "./primitives";
+import type { DensityLevel, ShadowElevation, TransitionSpeed, TransitionEasing } from "./primitives";
 import type { StructuralVariants } from "./structural-variants";
-import type { EffectTokens } from "@/lib/presets/preset-types";
+
+/** Effect/motion tokens forwarded from the merged config */
+interface EffectTokens {
+  shadowElevation?: ShadowElevation;
+  transitionSpeed?: TransitionSpeed;
+  transitionEasing?: TransitionEasing;
+}
 
 // ResolvedStoreConfig extends TemplateConfig with runtime-resolved fields
 // forwarded from the merchant's StoreCustomization. The optional fields
 // are additive and backward-compatible — consumers that don't read them are unaffected.
 export interface ResolvedStoreConfig extends TemplateConfig {
   /** Merchant's full theme object — forwarded from StoreCustomization.theme.
-   * Carries presetId, typography, fontPair, and color/radius overrides (for buildCssVars). */
+   * Carries typography, fontPair, and color/radius overrides (for buildCssVars). */
   theme?: ThemeCustomization;
   /** Resolved density level — forwarded from StoreCustomization.layout.density. */
   layoutDensity?: DensityLevel;
