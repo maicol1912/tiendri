@@ -125,18 +125,6 @@ export const furnitureLightConfig = {
     { id: "products" as const, visible: true },
   ],
 
-  // ── Default recipe (composable section defaults) ─────────────────────────
-  recipe: {
-    defaultHeroVariant: "split" as const,
-    defaultCategoryNavVariant: "horizontal-scroll" as const,
-    defaultCardContentLayout: "lifestyle-background" as const,
-    defaultBottomNavVariant: "flat-solid" as const,
-    defaultHeaderVariant: "notification" as const,
-    defaultFooterVariant: "compact-row" as const,
-    defaultCartVariant: "minimal" as const,
-    defaultCheckoutVariant: "minimal" as const,
-  },
-
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de muebles en Tiendri",

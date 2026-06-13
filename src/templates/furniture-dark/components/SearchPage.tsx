@@ -6,7 +6,7 @@ import { useRef, useEffect } from "react";
 import { ChevronLeft, Search, X } from "lucide-react";
 import type { StorefrontStore, StorefrontProduct } from "../types";
 import { Header } from "./Header";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 
@@ -178,7 +178,7 @@ export function SearchPage({
         )}
       </div>
 
-      <BottomNavRouter
+      <BottomNav
         activeTab="home"
         cartItemCount={cartItemCount}
         onTab={onBottomNavTab}

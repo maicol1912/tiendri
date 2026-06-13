@@ -12,11 +12,11 @@ import type {
   VideoData,
 } from "../types";
 import type { FurnitureDarkConfig } from "../config";
-import { HeaderRouter } from "./HeaderRouter";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
-import { HeroRouter } from "./HeroRouter";
-import { CategoryNavRouter } from "./CategoryNavRouter";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
+import { HeroBanner } from "./HeroBanner";
+import { CategorySection } from "./CategorySection";
 import { VideoSection } from "./VideoSection";
 import { ProductSection } from "./ProductSection";
 
@@ -76,27 +76,24 @@ export function HomePage({
 
   // Section renderers map
   const sectionRenderers: Record<string, () => ReactNode> = {
-    "promo-carousel": () => (
-      <HeroRouter
-        key="promo-carousel"
-        promoCards={promoCards}
-        recipe={config.recipe}
-        onCardClick={(cardId) => {
-          const card = promoCards.find((c) => c.id === cardId);
-          if (card) onPromoCardClick?.(card);
-        }}
-      />
-    ),
+    "promo-carousel": () =>
+      promoCards.length > 0 ? (
+        <HeroBanner key="promo-carousel" cards={promoCards} onCardClick={onPromoCardClick} />
+      ) : null,
 
     categories: () =>
       categories.length > 0 ? (
         <div key="categories" className="px-5">
-          <CategoryNavRouter
-            categories={categories}
-            activeCategoryId={activeCategoryId}
-            recipe={config.recipe}
-            onCategoryClick={onCategoryClick}
-          />
+          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none" style={{ scrollbarWidth: "none" }}>
+            {categories.map((cat) => (
+              <CategorySection
+                key={cat.id}
+                category={cat}
+                isActive={activeCategoryId === cat.id}
+                onClick={onCategoryClick}
+              />
+            ))}
+          </div>
         </div>
       ) : null,
 
@@ -147,9 +144,8 @@ export function HomePage({
       style={{ backgroundColor: "var(--t-background)", fontFamily: "var(--font-body, 'Urbanist', sans-serif)" }}
     >
       {/* Header */}
-      <HeaderRouter
+      <Header
         store={store}
-        recipe={config.recipe}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
@@ -187,10 +183,10 @@ export function HomePage({
       </main>
 
       {/* Footer */}
-      <FooterRouter store={store} />
+      <Footer store={store} />
 
       {/* Mobile bottom navigation */}
-      <BottomNavRouter
+      <BottomNav
         activeTab="home"
         cartItemCount={cartItemCount}
         onTab={onBottomNavTab}

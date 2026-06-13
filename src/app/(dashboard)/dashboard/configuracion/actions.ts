@@ -80,20 +80,6 @@ export function updateTheme(theme: ThemeCustomization): ActionResult {
   });
 }
 
-export function updateStructuralVariants(variants: import('@/types/templates/structural-variants').StructuralVariants): ActionResult {
-  const current = readCustomization();
-  return writeCustomization({
-    ...current,
-    layout: {
-      ...(current.layout ?? {}),
-      structuralVariants: {
-        ...(current.layout?.structuralVariants ?? {}),
-        ...variants,
-      },
-    },
-  });
-}
-
 // ── Image helpers ─────────────────────────────────────────────────────────────
 
 /** Resize a File and return a base64 WebP data URL for localStorage storage. */

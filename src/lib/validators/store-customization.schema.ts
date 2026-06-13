@@ -254,7 +254,7 @@ const structuralVariantsSchema = z.object({
   cardContentLayout: z.enum(["below-image", "overlay-bottom", "overlay-full", "side-by-side"]).optional(),
   heroVariant: z.enum(["full-bleed", "contained", "split", "text-only"]).optional(),
   categoryNavStyle: z.enum(["horizontal-scroll", "grid", "tabs", "chips"]).optional(),
-  addToCartStyle: z.enum(["compact", "full-width", "icon-button", "floating-fab", "on-hover-only"]).optional(),
+  addToCartStyle: z.enum(["full-width", "icon-button", "floating-fab", "on-hover-only"]).optional(),
 }).optional();
 
 const gridColumnsSchema = z.object({

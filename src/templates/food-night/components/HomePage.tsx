@@ -12,15 +12,8 @@ import { HeroBanner } from "./HeroBanner";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { HeaderRouter } from "./HeaderRouter";
-import { HeroRouter } from "./HeroRouter";
-import { CategoryNavRouter } from "./CategoryNavRouter";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
-import { foodNightConfig } from "../config";
 import { gridColsClass } from "../utils/grid-classes";
 import type { StoreInfo, Category, StorefrontProduct, NavTab, HomeSectionConfig } from "../types";
-import type { StructuralVariants } from "@/types/templates/structural-variants";
 
 interface HomePageProps {
   store: StoreInfo;
@@ -37,7 +30,6 @@ interface HomePageProps {
     imageUrl?: string;
   };
   sections?: readonly HomeSectionConfig[];
-  structuralVariants?: StructuralVariants;
   layout?: {
     cardStyle?: string;
     cardHoverEffect?: string;
@@ -67,7 +59,6 @@ export function HomePage({
   currencySymbol = "$",
   heroBanner,
   sections,
-  structuralVariants,
   layout,
   grid,
   onSearchClick,
@@ -83,10 +74,11 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     hero: () => (
       <section className="mb-5" aria-label="Banner principal" key="hero">
-        <HeroRouter
-          heroBanner={heroBanner}
-          structuralVariants={structuralVariants}
-          recipe={foodNightConfig.recipe}
+        <HeroBanner
+          title={heroBanner?.title}
+          subtitle={heroBanner?.subtitle}
+          ctaText={heroBanner?.ctaText}
+          imageUrl={heroBanner?.imageUrl}
           onCtaClick={onSearchClick}
         />
       </section>
@@ -94,14 +86,18 @@ export function HomePage({
 
     categories: () =>
       categories.length > 0 ? (
-        <CategoryNavRouter
+        <section
+          className="mb-5"
+          aria-label="Categorías"
           key="categories"
-          categories={categories}
-          activeCategoryId={activeCategoryId}
-          structuralVariants={structuralVariants}
-          recipe={foodNightConfig.recipe}
-          onCategoryClick={(id) => onCategoryChange?.(id)}
-        />
+          style={{ paddingTop: "var(--t-space-section, 1.25rem)", paddingBottom: "var(--t-space-section, 1.25rem)" }}
+        >
+          <CategorySection
+            categories={categories}
+            activeCategoryId={activeCategoryId}
+            onCategoryChange={onCategoryChange}
+          />
+        </section>
       ) : null,
 
     products: () =>
@@ -146,11 +142,10 @@ export function HomePage({
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
-      <HeaderRouter
+      <Header
         store={store}
-        structuralVariants={structuralVariants}
-        recipe={foodNightConfig.recipe}
         cartItemCount={cartItemCount}
+        layout={layout}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
       />
@@ -168,17 +163,11 @@ export function HomePage({
           ))}
       </main>
 
-      <FooterRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={foodNightConfig.recipe}
-      />
+      <Footer store={store} layout={layout} />
 
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
-        structuralVariants={structuralVariants}
-        recipe={foodNightConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "cart") onCartClick?.();
           else onTabChange?.(tab);

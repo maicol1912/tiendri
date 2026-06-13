@@ -5,8 +5,8 @@
 
 import { ChevronLeft, ChevronRight, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { Header } from "./Header";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { FilterSidebar } from "./FilterSidebar";
 import { gridColsClass } from "../utils/grid-classes";
@@ -256,10 +256,10 @@ export function ProductListingPage({
       </main>
 
       {/* Footer */}
-      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
+      <Footer store={store} services={footerServices} assistance={footerAssistance} />
 
       {/* Bottom nav — mobile */}
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

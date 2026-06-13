@@ -43,7 +43,7 @@ export const electronicsClassicConfig = {
     // Footer
     footerBg: "#FFFFFF",
     // Badge (cart count, etc.)
-    badgeBg: "#0079EB",
+    badgeBg: "#EF4444",
     badgeText: "#FFFFFF",
     // Rating
     ratingStar: "#FBBF24",
@@ -169,18 +169,6 @@ export const electronicsClassicConfig = {
     { id: "promo-banner" as const, visible: true },
     { id: "testimonials" as const, visible: true },
   ],
-
-  // ── Default recipe (composable section defaults) ─────────────────────────
-  recipe: {
-    defaultHeroVariant: "contained" as const,
-    defaultCategoryNavVariant: "image-pills" as const,
-    defaultCardContentLayout: "below-image" as const,
-    defaultBottomNavVariant: "flat-solid" as const,
-    defaultHeaderVariant: "multi-tier" as const,
-    defaultFooterVariant: "three-column" as const,
-    defaultCartVariant: "detailed" as const,
-    defaultCheckoutVariant: "detailed" as const,
-  },
 
   // Default branding
   branding: {

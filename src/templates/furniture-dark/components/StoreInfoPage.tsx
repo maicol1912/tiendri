@@ -4,8 +4,8 @@
 
 import { Phone, MessageCircle } from "lucide-react";
 import { Header } from "./Header";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
 import type { StorefrontStore } from "../types";
 
 type TabId = "home" | "cart" | "search" | "info";
@@ -322,9 +322,9 @@ export function StoreInfoPage({
         )}
       </main>
 
-      <FooterRouter store={store} />
+      <Footer store={store} />
 
-      <BottomNavRouter
+      <BottomNav
         activeTab="info"
         onTab={(tab) => onTabChange?.(tab)}
       />

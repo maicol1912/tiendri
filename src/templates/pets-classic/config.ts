@@ -126,18 +126,6 @@ export const petsClassicConfig = {
     "Ropa mascotas",
   ],
 
-  // ── Default recipe (composable section defaults) ─────────────────────────
-  recipe: {
-    defaultHeroVariant: "promo-carousel" as const,
-    defaultCategoryNavVariant: "icon-grid" as const,
-    defaultCardContentLayout: "featured-animated" as const,
-    defaultBottomNavVariant: "rounded-top" as const,
-    defaultHeaderVariant: "color-accented" as const,
-    defaultFooterVariant: "compact-row" as const,
-    defaultCartVariant: "detailed" as const,
-    defaultCheckoutVariant: "detailed" as const,
-  },
-
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de mascotas en Tiendri",

@@ -5,8 +5,8 @@
 import { type RefObject } from "react";
 import { Search, X } from "lucide-react";
 import { Header } from "./Header";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import type { TechPremiumConfig } from "../config";
@@ -150,10 +150,10 @@ export function SearchPage({
       </div>
 
       {/* Footer */}
-      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
+      <Footer store={store} services={footerServices} assistance={footerAssistance} />
 
       {/* Bottom nav — mobile */}
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

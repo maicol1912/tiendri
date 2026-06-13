@@ -7,8 +7,8 @@
 import Image from "next/image";
 import { ChevronRight, ChevronDown, Truck, Store, ShieldCheck } from "lucide-react";
 import { Header } from "./Header";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../utils/grid-classes";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
@@ -523,10 +523,10 @@ export function ProductDetailPage({
       </main>
 
       {/* Footer */}
-      <FooterRouter store={store} services={footerServices} assistance={footerAssistance} />
+      <Footer store={store} services={footerServices} assistance={footerAssistance} />
 
       {/* Bottom nav — mobile */}
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
         onTabChange={onTabChange}

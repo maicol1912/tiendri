@@ -166,7 +166,6 @@ export function CheckoutShellRoute({
         navLinks={config.navLinks}
         footerServices={config.footerServices}
         footerAssistance={config.footerAssistance}
-        recipe={config.recipe}
         currencySymbol={currencySymbol}
         activeTab="cart"
         cartItemCount={totalCartItems}

@@ -32,7 +32,7 @@ import type {
 } from "./primitives";
 import type { SectionConfig } from "./sections";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
-import type { StructuralVariants, TemplateRecipe } from "./structural-variants";
+import type { StructuralVariants } from "./structural-variants";
 
 // Color design tokens a template defines.
 // Core tokens are required; templates can add extras via the index signature.
@@ -135,9 +135,6 @@ export interface TemplateConfig {
 
   /** Default structural variant overrides — templates can ship with structural defaults. */
   structuralVariants?: StructuralVariants;
-
-  /** Default section variants for composable template rendering. */
-  recipe?: TemplateRecipe;
 
   // Template-specific data (nav links, footer content, tabs, searches, etc.)
   [key: string]: unknown;

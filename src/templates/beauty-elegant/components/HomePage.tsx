@@ -6,17 +6,15 @@
 
 import React, { Fragment } from "react";
 import { SearchBar } from "./SearchBar";
+import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
-import { HeaderRouter } from "./HeaderRouter";
-import { HeroRouter } from "./HeroRouter";
-import { CategoryNavRouter } from "./CategoryNavRouter";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
-import { beautyElegantConfig } from "../config";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
+import { Header } from "./Header";
+import { HeroBanner } from "./HeroBanner";
 import { gridColsClass } from "../utils/grid-classes";
 import type { BeautyElegantProduct, BeautyElegantCategory, NavTab } from "../types";
 import type { StoreInfo } from "../types";
-import type { StructuralVariants } from "@/types/templates/structural-variants";
 
 interface HomePageProps {
   store: StoreInfo;
@@ -43,7 +41,6 @@ interface HomePageProps {
     products?: { mobile: number; desktop: number };
   };
   sections?: Array<{ id: string; visible: boolean }>;
-  structuralVariants?: StructuralVariants;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onSearchOpen?: () => void;
@@ -64,7 +61,6 @@ export function HomePage({
   layout,
   grid,
   sections,
-  structuralVariants,
   onCategoryChange,
   onProductClick,
   onSearchOpen,
@@ -85,24 +81,26 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     hero: () => (
       <section aria-label="Banner principal">
-        <HeroRouter
-          heroBanner={heroBanner}
+        <HeroBanner
+          title={heroBanner?.title}
+          subtitle={heroBanner?.subtitle}
+          ctaText={heroBanner?.ctaText}
+          imageUrl={heroBanner?.imageUrl}
           storeName={store.name}
-          structuralVariants={structuralVariants}
-          recipe={beautyElegantConfig.recipe}
           onCtaClick={onSeeAll}
         />
       </section>
     ),
 
     categories: () => (
-      <CategoryNavRouter
-        categories={categories}
-        activeCategoryId={activeCategoryId}
-        structuralVariants={structuralVariants}
-        recipe={beautyElegantConfig.recipe}
-        onCategoryClick={(id) => onCategoryChange?.(id)}
-      />
+      <section aria-labelledby="categories-heading">
+        <h2 id="categories-heading" className="sr-only">Categorías</h2>
+        <CategorySection
+          categories={categories}
+          activeCategoryId={activeCategoryId}
+          onCategoryChange={onCategoryChange}
+        />
+      </section>
     ),
 
     products: () => (
@@ -148,13 +146,12 @@ export function HomePage({
       </div>
 
       {/* Desktop Header */}
-      <HeaderRouter
+      <Header
         store={store}
-        structuralVariants={structuralVariants}
-        recipe={beautyElegantConfig.recipe}
         cartItemCount={cartItemCount}
-        onSearchClick={onSearchOpen}
-        onCartClick={onCartOpen}
+        layout={layout}
+        onSearchOpen={onSearchOpen}
+        onCartOpen={onCartOpen}
       />
 
       {/* Main content */}
@@ -173,22 +170,13 @@ export function HomePage({
       </main>
 
       {/* Footer */}
-      <FooterRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={beautyElegantConfig.recipe}
-      />
+      <Footer store={store} layout={layout} />
 
       {/* Bottom Navigation — mobile only */}
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
-        structuralVariants={structuralVariants}
-        recipe={beautyElegantConfig.recipe}
-        onTabChange={(tab) => {
-          if (tab === "cart") onCartOpen?.();
-          else onTabChange?.(tab);
-        }}
+        onTabChange={onTabChange}
       />
     </div>
   );

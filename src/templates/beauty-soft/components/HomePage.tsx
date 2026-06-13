@@ -11,12 +11,6 @@ import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { HeaderRouter } from "./HeaderRouter";
-import { HeroRouter } from "./HeroRouter";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
-import { beautySoftConfig } from "../config";
-import type { StructuralVariants } from "@/types/templates/structural-variants";
 import { gridColsClass } from "../utils/grid-classes";
 import type { BeautySoftProduct, BeautySoftCategory, HeroBannerData, NavTab } from "../types";
 import type { StoreInfo } from "@/types/store";
@@ -40,7 +34,6 @@ interface HomePageProps {
   onCartOpen?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onSeeAll?: () => void;
-  structuralVariants?: StructuralVariants;
 }
 
 export function HomePage({
@@ -61,7 +54,6 @@ export function HomePage({
   onCartOpen,
   onTabChange,
   onSeeAll,
-  structuralVariants,
 }: HomePageProps) {
   const productGridClass = gridColsClass(
     grid?.products?.mobile ?? 2,
@@ -71,12 +63,7 @@ export function HomePage({
   const sectionRenderers: Record<string, () => React.ReactNode> = {
     hero: () =>
       heroBanner ? (
-        <HeroRouter
-          banner={heroBanner}
-          structuralVariants={structuralVariants}
-          recipe={beautySoftConfig.recipe}
-          onCtaClick={onSearchOpen}
-        />
+        <HeroBanner banner={heroBanner} onShopNow={onSearchOpen} layout={layout} />
       ) : null,
 
     search: () => (
@@ -184,14 +171,7 @@ export function HomePage({
       className="min-h-screen"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      <HeaderRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={beautySoftConfig.recipe}
-        cartItemCount={cartItemCount}
-        onSearchClick={onSearchOpen}
-        onCartClick={onCartOpen}
-      />
+      <Header store={store} layout={layout} />
 
       <main
         className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pt-4 pb-[calc(80px+env(safe-area-inset-bottom,0px))] lg:pb-8 flex flex-col gap-5"
@@ -204,17 +184,11 @@ export function HomePage({
           ))}
       </main>
 
-      <FooterRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={beautySoftConfig.recipe}
-      />
+      <Footer store={store} layout={layout} />
 
-      <BottomNavRouter
+      <BottomNav
         activeTab={activeTab}
         cartItemCount={cartItemCount}
-        structuralVariants={structuralVariants}
-        recipe={beautySoftConfig.recipe}
         onTabChange={(tab) => {
           if (tab === "cart") onCartOpen?.();
           else onTabChange?.(tab);

@@ -147,17 +147,6 @@ export const beautyElegantConfig = {
     { id: "products" as const, visible: true },
   ],
 
-  recipe: {
-    defaultHeroVariant: "split" as const,
-    defaultCategoryNavVariant: "chips" as const,
-    defaultCardContentLayout: "glassmorphic-discount" as const,
-    defaultBottomNavVariant: "flat-solid" as const,
-    defaultHeaderVariant: "glassmorphic" as const,
-    defaultFooterVariant: "compact-row" as const,
-    defaultCartVariant: "minimal" as const,
-    defaultCheckoutVariant: "minimal" as const,
-  },
-
   branding: {
     storeName: "Mi Tienda",
     description: "Tu tienda de belleza premium en Tiendri",

@@ -165,18 +165,6 @@ export const fashionConfig = {
     { id: "editorial" as const, visible: true },
   ],
 
-  // ── Default recipe (composable section defaults) ─────────────────────────
-  recipe: {
-    defaultHeroVariant: "text-only" as const,
-    defaultCategoryNavVariant: "horizontal-scroll" as const,
-    defaultCardContentLayout: "below-image" as const,
-    defaultBottomNavVariant: "flat-solid" as const,
-    defaultHeaderVariant: "minimal-dark" as const,
-    defaultFooterVariant: "compact-row" as const,
-    defaultCartVariant: "minimal" as const,
-    defaultCheckoutVariant: "minimal" as const,
-  },
-
   // ── Default branding ─────────────────────────────────────────────────────────
   branding: {
     storeName: "Mi Tienda de Moda",

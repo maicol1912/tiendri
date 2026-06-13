@@ -4,16 +4,14 @@
 // ZERO hardcoded colors — all via CSS variables.
 
 import React, { Fragment } from "react";
-import { HeaderRouter } from "./HeaderRouter";
+import { Header } from "./Header";
 import { HeroBanner } from "./HeroBanner";
 import { TrendingCard } from "./TrendingCard";
 import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
-import { FooterRouter } from "./FooterRouter";
-import { BottomNavRouter } from "./BottomNavRouter";
+import { Footer } from "./Footer";
+import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
-import { petsModernConfig } from "../config";
-import type { StructuralVariants } from "@/types/templates/structural-variants";
 import type {
   StoreInfo,
   PromoBannerData,
@@ -53,7 +51,6 @@ interface HomePageProps {
   onAddToCart?: (product: StorefrontProduct) => void;
   onTabChange?: (tab: NavTab) => void;
   onSeeAll?: () => void;
-  structuralVariants?: StructuralVariants;
 }
 
 export function HomePage({
@@ -75,7 +72,6 @@ export function HomePage({
   onAddToCart,
   onTabChange,
   onSeeAll,
-  structuralVariants,
 }: HomePageProps) {
   const defaultSections: readonly HomeSectionConfig[] = [
     { id: "promo-banner", visible: true },
@@ -232,13 +228,15 @@ export function HomePage({
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
       {/* Header */}
-      <HeaderRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={petsModernConfig.recipe}
+      <Header
+        storeName={store.name}
+        logoUrl={store.logo}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onExploreClick={onExploreClick}
+        onHomeClick={() => onTabChange?.("shop")}
+        layout={layout}
       />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
@@ -250,20 +248,10 @@ export function HomePage({
       </main>
 
       {/* Footer */}
-      <FooterRouter
-        store={store}
-        structuralVariants={structuralVariants}
-        recipe={petsModernConfig.recipe}
-      />
+      <Footer store={store} layout={layout} />
 
       {/* Bottom Nav — mobile only */}
-      <BottomNavRouter
-        activeTab={activeTab}
-        cartItemCount={cartItemCount}
-        structuralVariants={structuralVariants}
-        recipe={petsModernConfig.recipe}
-        onTabChange={onTabChange}
-      />
+      <BottomNav activeTab={activeTab} onTabChange={onTabChange} />
     </div>
   );
 }
