@@ -56,9 +56,9 @@ export function CheckoutPage({
           onClick={onBack}
           aria-label="Volver al carrito"
         >
-          <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-text-breadcrumb)]" />
+          <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-muted)]" />
           <span
-            className="text-[var(--t-text-breadcrumb)]"
+            className="text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "13px",
@@ -71,7 +71,7 @@ export function CheckoutPage({
 
         {/* Page title */}
         <h1
-          className="text-[var(--t-text-primary)] mb-8"
+          className="text-[var(--t-foreground)] mb-8"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "26px",
@@ -92,8 +92,8 @@ export function CheckoutPage({
               type="button"
               className="w-full mt-8 py-4 rounded-[var(--t-radius-button)] font-bold transition-opacity hover:opacity-90 active:scale-95 disabled:opacity-60"
               style={{
-                backgroundColor: "var(--t-button-bg)",
-                color: "var(--t-button-text)",
+                backgroundColor: "var(--t-primary)",
+                color: "var(--t-on-primary)",
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "14px",
                 fontWeight: 700,

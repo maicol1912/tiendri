@@ -25,12 +25,12 @@ function SharpInput({
   return (
     <div className="flex flex-col gap-1.5">
       <label
-        className="text-[10px] font-medium uppercase tracking-wider text-[var(--t-text-primary)]"
+        className="text-[10px] font-medium uppercase tracking-wider text-[var(--t-foreground)]"
         style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
       >
         {label}
         {required && (
-          <span className="text-[var(--t-text-secondary)]"> *</span>
+          <span className="text-[var(--t-muted)]"> *</span>
         )}
       </label>
       <input
@@ -47,7 +47,7 @@ function SharpInput({
           fontFamily: "var(--font-sans, 'Inter', sans-serif)",
           fontSize: "13px",
           fontWeight: 400,
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
         }}
       />
     </div>
@@ -70,7 +70,7 @@ export function CheckoutForm({
       {/* Section: Información */}
       <div className="mb-8">
         <h2
-          className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+          className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           INFORMACIÓN
@@ -108,7 +108,7 @@ export function CheckoutForm({
       {/* Section: Dirección de envío */}
       <div className="mb-8">
         <h2
-          className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+          className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           DIRECCIÓN DE ENVÍO
@@ -142,14 +142,14 @@ export function CheckoutForm({
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "1px",
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
           }}
           onClick={onSubmit}
         >
           CONTINUAR CON WHATSAPP
         </button>
         <p
-          className="text-center mt-3 text-[11px] text-[var(--t-text-muted)]"
+          className="text-center mt-3 text-[11px] text-[var(--t-muted)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
         >
           WhatsApp se abrirá para confirmar tu pedido

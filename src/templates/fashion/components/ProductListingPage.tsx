@@ -85,7 +85,7 @@ export function ProductListingPage({
       <main className="px-5 md:px-6 lg:px-8 pt-4 md:pt-6 pb-28 md:pb-12 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <p
-          className="text-center md:text-left mb-3 text-[11px] font-normal tracking-[1px] text-[var(--t-text-muted)] uppercase"
+          className="text-center md:text-left mb-3 text-[11px] font-normal tracking-[1px] text-[var(--t-muted)] uppercase"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           Inicio / Productos
@@ -93,7 +93,7 @@ export function ProductListingPage({
 
         {/* Page heading */}
         <h1
-          className="text-center md:text-left mb-5 md:mb-6 text-[28px] md:text-3xl lg:text-4xl font-bold uppercase tracking-[2px] text-[var(--t-text-primary)]"
+          className="text-center md:text-left mb-5 md:mb-6 text-[28px] md:text-3xl lg:text-4xl font-bold uppercase tracking-[2px] text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           PRODUCTOS
@@ -111,12 +111,12 @@ export function ProductListingPage({
           onClick={onFilterToggle}
         >
           <span
-            className="text-[13px] font-medium text-[var(--t-text-primary)]"
+            className="text-[13px] font-medium text-[var(--t-foreground)]"
             style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
           >
             Filtros
           </span>
-          <ChevronRight size={14} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+          <ChevronRight size={14} strokeWidth={2} className="text-[var(--t-foreground)]" />
         </button>
 
         {/* Category pills */}
@@ -144,8 +144,8 @@ export function ProductListingPage({
                   textTransform: "uppercase",
                   letterSpacing: "1px",
                   color: isActive
-                    ? "var(--t-text-primary)"
-                    : "var(--t-text-secondary)",
+                    ? "var(--t-foreground)"
+                    : "var(--t-muted)",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -159,13 +159,13 @@ export function ProductListingPage({
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p
-              className="text-lg md:text-xl font-bold uppercase tracking-wider text-[var(--t-text-primary)] mb-2"
+              className="text-lg md:text-xl font-bold uppercase tracking-wider text-[var(--t-foreground)] mb-2"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               SIN RESULTADOS
             </p>
             <p
-              className="text-sm md:text-base text-[var(--t-text-secondary)]"
+              className="text-sm md:text-base text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
             >
               No hay productos en esta categoría.

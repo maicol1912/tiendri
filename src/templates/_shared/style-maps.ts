@@ -9,7 +9,7 @@ import type { ButtonStyle, BadgeStyle, PriceDisplay, CardStyle, HoverEffect, Bac
 // "filled" reproduces the original button look (bg-[--t-button-bg]).
 // The map only covers background / border / text-color — keep existing padding/size.
 export const BUTTON_STYLE_MAP: Record<ButtonStyle, string> = {
-  filled: "bg-[var(--t-button-bg)] text-[var(--t-button-text)] border-transparent",
+  filled: "bg-[var(--t-primary)] text-[var(--t-on-primary)] border-transparent",
   outlined: "border-2 border-[var(--t-primary)] text-[var(--t-primary)] bg-transparent hover:bg-[var(--t-primary)]/5",
   ghost: "text-[var(--t-primary)] bg-transparent border-transparent hover:bg-[var(--t-primary)]/10",
 };
@@ -34,11 +34,11 @@ export const PRICE_DISPLAY_MAP: Record<PriceDisplay, { className: string; style?
   },
   standard: {
     className: "font-semibold",
-    style: { fontSize: "15px", color: "var(--t-text-primary)" },
+    style: { fontSize: "15px", color: "var(--t-foreground)" },
   },
   subtle: {
     className: "font-medium",
-    style: { fontSize: "13px", color: "var(--t-text-secondary)" },
+    style: { fontSize: "13px", color: "var(--t-muted)" },
   },
 };
 
@@ -46,10 +46,10 @@ export const PRICE_DISPLAY_MAP: Record<PriceDisplay, { className: string; style?
 // Shared card style map — same values as each template's local layout-classes.ts.
 // Templates can use this instead of duplicating the map locally.
 export const CARD_STYLE_MAP: Record<CardStyle, string> = {
-  flat: "bg-[var(--t-card-bg)]",
-  shadow: "bg-[var(--t-card-bg)] shadow-md",
-  bordered: "bg-[var(--t-section-bg)] border border-[var(--t-border)]",
-  elevated: "bg-[var(--t-section-bg)] shadow-lg",
+  flat: "bg-[var(--t-card)]",
+  shadow: "bg-[var(--t-card)] shadow-md",
+  bordered: "bg-[var(--t-background)] border border-[var(--t-border)]",
+  elevated: "bg-[var(--t-background)] shadow-lg",
 };
 
 // ── Hover effect ──────────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@
 // Furniture Dark — ImageGallery
 // Mobile: main image + dot indicators
 // Desktop: main image + thumbnail strip on left
-// Card bg: var(--t-card-bg) = #F5F5F4 (white-ish), object-contain
+// Card bg: var(--t-card) = #F5F5F4 (white-ish), object-contain
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
@@ -24,7 +24,7 @@ export function ImageGallery({ images, activeIndex, onSelect }: ImageGalleryProp
       {/* Main image */}
       <div
         className="relative flex-1 rounded-[var(--t-radius-card)] overflow-hidden aspect-square"
-        style={{ backgroundColor: "var(--t-card-bg)" }}
+        style={{ backgroundColor: "var(--t-card)" }}
       >
         {activeImage ? (
           <Image
@@ -38,7 +38,7 @@ export function ImageGallery({ images, activeIndex, onSelect }: ImageGalleryProp
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <span
-              className="text-[var(--t-text-muted)]"
+              className="text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-body, 'Urbanist', sans-serif)", fontSize: "14px" }}
             >
               Sin imagen
@@ -77,7 +77,7 @@ export function ImageGallery({ images, activeIndex, onSelect }: ImageGalleryProp
               type="button"
               className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 transition-opacity"
               style={{
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
                 opacity: idx === activeIndex ? 1 : 0.6,
                 outline:
                   idx === activeIndex

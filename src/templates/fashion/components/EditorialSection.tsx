@@ -23,7 +23,7 @@ export function EditorialSection({
         <div className="text-center max-w-md md:max-w-lg lg:max-w-xl mx-auto">
           <h2
             id="editorial-heading"
-            className="leading-none mb-4 md:mb-6 text-[28px] md:text-3xl lg:text-4xl text-[var(--t-text-primary)]"
+            className="leading-none mb-4 md:mb-6 text-[28px] md:text-3xl lg:text-4xl text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 800,
@@ -36,7 +36,7 @@ export function EditorialSection({
             {subheading}
           </h2>
           <p
-            className="text-[13px] md:text-sm lg:text-base text-[var(--t-text-muted)]"
+            className="text-[13px] md:text-sm lg:text-base text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 400,

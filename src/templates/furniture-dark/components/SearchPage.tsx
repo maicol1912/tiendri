@@ -69,24 +69,24 @@ export function SearchPage({
             onClick={onBack}
             aria-label="Volver"
           >
-            <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
 
           <div
             className="flex-1 flex items-center gap-3 px-4 py-3 rounded-[var(--t-radius-button)]"
             style={{
               backgroundColor: "var(--t-search-bg)",
-              border: "1px solid var(--t-border-input)",
+              border: "1px solid var(--t-border)",
             }}
           >
-            <Search size={16} strokeWidth={2} className="text-[var(--t-text-secondary)] flex-shrink-0" />
+            <Search size={16} strokeWidth={2} className="text-[var(--t-muted)] flex-shrink-0" />
             <input
               ref={inputRef}
               type="search"
               value={query}
               onChange={(e) => onQueryChange(e.target.value)}
               placeholder={`Buscar en ${store.name}`}
-              className="flex-1 bg-transparent outline-none text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]"
+              className="flex-1 bg-transparent outline-none text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "15px",
@@ -101,7 +101,7 @@ export function SearchPage({
                 className="flex-shrink-0"
                 aria-label="Limpiar búsqueda"
               >
-                <X size={14} strokeWidth={2} className="text-[var(--t-text-muted)]" />
+                <X size={14} strokeWidth={2} className="text-[var(--t-muted)]" />
               </button>
             )}
           </div>
@@ -114,10 +114,10 @@ export function SearchPage({
               className="w-16 h-16 rounded-full flex items-center justify-center"
               style={{ backgroundColor: "var(--t-surface)" }}
             >
-              <Search size={26} strokeWidth={1.5} className="text-[var(--t-text-muted)]" />
+              <Search size={26} strokeWidth={1.5} className="text-[var(--t-muted)]" />
             </div>
             <p
-              className="text-[var(--t-text-muted)] text-center"
+              className="text-[var(--t-muted)] text-center"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "15px",
@@ -132,7 +132,7 @@ export function SearchPage({
         {hasQuery && !hasResults && (
           <div className="flex flex-col items-center justify-center py-16 gap-4">
             <p
-              className="text-[var(--t-text-primary)] font-semibold"
+              className="text-[var(--t-foreground)] font-semibold"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "16px",
@@ -142,7 +142,7 @@ export function SearchPage({
               Sin resultados para &quot;{query}&quot;
             </p>
             <p
-              className="text-[var(--t-text-muted)]"
+              className="text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "14px",
@@ -157,7 +157,7 @@ export function SearchPage({
         {hasQuery && hasResults && (
           <>
             <p
-              className="text-[var(--t-text-muted)] mb-4"
+              className="text-[var(--t-muted)] mb-4"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "13px",

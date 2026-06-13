@@ -81,19 +81,19 @@ export function ProductCard({
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "var(--t-surface)" }}
+            style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
           >
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <rect width="40" height="40" rx="8" fill="var(--t-border)" />
+              <rect width="40" height="40" rx="8" fill="var(--t-border-light)" />
               <path
                 d="M8 28l8-8 5 5 7-9 12 12"
-                stroke="var(--t-text-muted)"
+                stroke="var(--t-muted)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
               />
-              <circle cx="14" cy="16" r="3" fill="var(--t-text-muted)" />
+              <circle cx="14" cy="16" r="3" fill="var(--t-muted)" />
             </svg>
           </div>
         )}
@@ -122,8 +122,8 @@ export function ProductCard({
             <span
               className="text-xs font-medium px-3 py-1 rounded-[var(--t-radius-button)]"
               style={{
-                backgroundColor: "var(--t-surface)",
-                color: "var(--t-text-muted)",
+                backgroundColor: "var(--t-icon-pill-bg)",
+                color: "var(--t-muted)",
               }}
             >
               Agotado
@@ -136,7 +136,7 @@ export function ProductCard({
       <div className="flex flex-col gap-0.5 px-0.5">
         <p
           className="line-clamp-1 text-sm font-bold"
-          style={{ color: "var(--t-text-primary)", lineHeight: "20px", margin: 0 }}
+          style={{ color: "var(--t-foreground)", lineHeight: "20px", margin: 0 }}
         >
           {product.name}
         </p>

@@ -76,20 +76,20 @@ export function CartPage({
           <ArrowLeft
             size={16}
             strokeWidth={1.5}
-            className="text-[var(--t-text-primary)]"
+            className="text-[var(--t-foreground)]"
           />
         </button>
 
         {/* Tab header: CARRITO / FAVORITOS */}
         <div className="flex gap-6 mb-8">
           <span
-            className="cursor-pointer text-lg md:text-xl lg:text-2xl font-bold uppercase tracking-[1.5px] text-[var(--t-text-primary)]"
+            className="cursor-pointer text-lg md:text-xl lg:text-2xl font-bold uppercase tracking-[1.5px] text-[var(--t-foreground)]"
             style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
           >
             CARRITO
           </span>
           <span
-            className="cursor-pointer text-lg md:text-xl lg:text-2xl font-normal uppercase tracking-[1.5px] text-[var(--t-text-muted)]"
+            className="cursor-pointer text-lg md:text-xl lg:text-2xl font-normal uppercase tracking-[1.5px] text-[var(--t-muted)]"
             style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
           >
             FAVORITOS
@@ -100,13 +100,13 @@ export function CartPage({
           /* Empty cart */
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p
-              className="mb-2 text-lg md:text-xl font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+              className="mb-2 text-lg md:text-xl font-bold uppercase tracking-wider text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               TU CARRITO ESTÁ VACÍO
             </p>
             <p
-              className="mb-8 text-sm md:text-base text-[var(--t-text-secondary)]"
+              className="mb-8 text-sm md:text-base text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
             >
               Explora nuestra tienda y encuentra algo que te guste.
@@ -153,7 +153,7 @@ export function CartPage({
                   fontWeight: 400,
                   textTransform: "uppercase",
                   letterSpacing: "1px",
-                  color: "var(--t-text-secondary)",
+                  color: "var(--t-muted)",
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
                 }}
@@ -177,16 +177,16 @@ export function CartPage({
 
       {/* Mobile/tablet sticky checkout bar — sits ABOVE the bottom nav */}
       {items.length > 0 && (
-        <div className="lg:hidden fixed bottom-[60px] left-0 right-0 z-40 bg-[var(--t-card-bg)] border-t border-[var(--t-border)] px-4 py-3 flex items-center justify-between">
+        <div className="lg:hidden fixed bottom-[60px] left-0 right-0 z-40 bg-[var(--t-surface)] border-t border-[var(--t-border)] px-4 py-3 flex items-center justify-between">
           <div>
             <p
-              className="text-xs text-[var(--t-text-secondary)]"
+              className="text-xs text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               Total
             </p>
             <p
-              className="text-lg font-bold text-[var(--t-text-primary)]"
+              className="text-lg font-bold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               {currencySymbol}{fmt.format(totalPrice)}

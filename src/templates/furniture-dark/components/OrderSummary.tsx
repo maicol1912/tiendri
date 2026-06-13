@@ -26,7 +26,7 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
       style={{ backgroundColor: "var(--t-spec-badge-bg)" }}
     >
       <h3
-        className="text-[var(--t-text-primary)]"
+        className="text-[var(--t-foreground)]"
         style={{
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "16px",
@@ -44,7 +44,7 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
             {/* Thumbnail */}
             <div
               className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0"
-              style={{ backgroundColor: "var(--t-card-bg)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
             >
               {item.image ? (
                 <Image
@@ -60,7 +60,7 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
             {/* Name + qty */}
             <div className="flex-1 min-w-0">
               <p
-                className="text-[var(--t-text-primary)] line-clamp-1"
+                className="text-[var(--t-foreground)] line-clamp-1"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "13px",
@@ -70,7 +70,7 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
                 {item.name}
               </p>
               <p
-                className="text-[var(--t-text-muted)] mt-0.5"
+                className="text-[var(--t-muted)] mt-0.5"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "12px",
@@ -82,7 +82,7 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
 
             {/* Price */}
             <p
-              className="text-[var(--t-text-primary)] font-semibold flex-shrink-0"
+              className="text-[var(--t-foreground)] font-semibold flex-shrink-0"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "14px",
@@ -98,10 +98,10 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
       {/* Total */}
       <div
         className="flex items-center justify-between pt-3"
-        style={{ borderTop: "1px solid var(--t-border-mid)" }}
+        style={{ borderTop: "1px solid var(--t-border)" }}
       >
         <span
-          className="text-[var(--t-text-primary)] font-semibold"
+          className="text-[var(--t-foreground)] font-semibold"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "15px",

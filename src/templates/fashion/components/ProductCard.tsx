@@ -56,7 +56,7 @@ export function ProductCard({
         ) : (
           <div className="w-full h-full bg-[var(--t-background)] flex items-center justify-center">
             <span
-              className="text-[var(--t-text-muted)] text-xs uppercase tracking-wider"
+              className="text-[var(--t-muted)] text-xs uppercase tracking-wider"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               SIN IMAGEN
@@ -66,9 +66,9 @@ export function ProductCard({
 
         {/* Out of stock overlay */}
         {!product.inStock && (
-          <div className="absolute inset-0 bg-[var(--t-card-bg)]/70 flex items-center justify-center">
+          <div className="absolute inset-0 bg-[var(--t-surface)]/70 flex items-center justify-center">
             <span
-              className="text-[var(--t-text-secondary)] text-xs uppercase tracking-widest"
+              className="text-[var(--t-muted)] text-xs uppercase tracking-widest"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               AGOTADO
@@ -81,7 +81,7 @@ export function ProductCard({
       <div className="pt-2.5 pb-1">
         {/* Line 1: product name — muted, small */}
         <p
-          className="leading-tight text-xs md:text-sm text-[var(--t-text-muted)]"
+          className="leading-tight text-xs md:text-sm text-[var(--t-muted)]"
           style={{
             fontFamily: "var(--font-sans)",
             fontWeight: 400,
@@ -92,7 +92,7 @@ export function ProductCard({
         {/* Line 2: subtitle — bold, primary color (shown only if subtitle exists) */}
         {product.subtitle && (
           <p
-            className="leading-tight text-[13px] md:text-sm text-[var(--t-text-primary)]"
+            className="leading-tight text-[13px] md:text-sm text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 600,
@@ -115,7 +115,7 @@ export function ProductCard({
           </span>
           {product.originalPrice && (
             <span
-              className="line-through text-xs md:text-sm text-[var(--t-text-muted)]"
+              className="line-through text-xs md:text-sm text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 300,

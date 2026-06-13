@@ -64,7 +64,7 @@ export function ProductDetailPage({
                 width: "47px",
                 height: "47px",
                 borderRadius: "37px",
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
               }}
               aria-label="Volver"
               onClick={onBack}
@@ -72,7 +72,7 @@ export function ProductDetailPage({
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M15 18l-6-6 6-6"
-                  stroke="var(--t-text-primary)"
+                  stroke="var(--t-foreground)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -81,7 +81,7 @@ export function ProductDetailPage({
             </button>
 
             <span
-              className="text-[20px] font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+              className="text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Detalles
@@ -94,7 +94,7 @@ export function ProductDetailPage({
                 width: "47px",
                 height: "47px",
                 borderRadius: "37px",
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
               }}
               aria-label="Carrito"
               onClick={onCartClick}
@@ -102,15 +102,15 @@ export function ProductDetailPage({
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
-                  stroke="var(--t-text-primary)"
+                  stroke="var(--t-foreground)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-text-primary)" strokeWidth="1.75" />
+                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-foreground)" strokeWidth="1.75" />
                 <path
                   d="M16 10a4 4 0 0 1-8 0"
-                  stroke="var(--t-text-primary)"
+                  stroke="var(--t-foreground)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -123,7 +123,7 @@ export function ProductDetailPage({
           <div
             className="flex-1"
             style={{
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
               borderRadius: "var(--t-radius-card)",
               overflow: "hidden",
             }}
@@ -148,11 +148,11 @@ export function ProductDetailPage({
             {/* Product info */}
             <div
               className="flex flex-col gap-[20px] px-5 pt-7 pb-5"
-              style={{ backgroundColor: "var(--t-section-bg)" }}
+              style={{ backgroundColor: "var(--t-background)" }}
             >
               {/* Name */}
               <h1
-                className="m-0 text-[24px] font-semibold text-[var(--t-text-primary)] leading-[30px] tracking-[-0.408px]"
+                className="m-0 text-[24px] font-semibold text-[var(--t-foreground)] leading-[30px] tracking-[-0.408px]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {product.name}
@@ -161,13 +161,13 @@ export function ProductDetailPage({
               {/* Price */}
               <div className="flex items-baseline gap-[4px]">
                 <span
-                  className="text-[18px] font-normal text-[var(--t-text-primary)]"
+                  className="text-[18px] font-normal text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Desde:
                 </span>
                 <span
-                  className="text-[18px] font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+                  className="text-[18px] font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {formattedPrice}
@@ -186,13 +186,13 @@ export function ProductDetailPage({
               {product.description && (
                 <div className="flex flex-col gap-[5px]">
                   <h3
-                    className="m-0 text-base font-semibold text-[var(--t-text-primary)] leading-[30px]"
+                    className="m-0 text-base font-semibold text-[var(--t-foreground)] leading-[30px]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     Descripción
                   </h3>
                   <p
-                    className="m-0 text-sm text-[var(--t-text-secondary)] leading-[20px]"
+                    className="m-0 text-sm text-[var(--t-muted)] leading-[20px]"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {product.description}
@@ -208,7 +208,7 @@ export function ProductDetailPage({
       <div
         className="fixed bottom-0 left-0 right-0 z-50 lg:relative"
         style={{
-          backgroundColor: "var(--t-section-bg)",
+          backgroundColor: "var(--t-background)",
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
           borderTop: "1px solid var(--t-border)",
         }}
@@ -224,7 +224,7 @@ export function ProductDetailPage({
               fontSize: "17px",
               fontWeight: 400,
               ...(isAdded ? { backgroundColor: "#22C55E" } : {}),
-              ...(!product.inStock ? { backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" } : {}),
+              ...(!product.inStock ? { backgroundColor: "var(--t-card)", color: "var(--t-muted)" } : {}),
               borderRadius: "var(--t-radius-button)",
               height: "47px",
               width: "205px",

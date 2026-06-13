@@ -73,7 +73,7 @@ export function ProductListingPage({
       />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12 pt-4">
-        <h1 className="text-[18px] font-bold mb-4" style={{ color: "var(--t-text-primary)" }}>
+        <h1 className="text-[18px] font-bold mb-4" style={{ color: "var(--t-foreground)" }}>
           Catálogo completo
         </h1>
 
@@ -114,7 +114,7 @@ export function ProductListingPage({
             aria-label="Sin productos"
           >
             <span style={{ fontSize: "40px" }} aria-hidden="true">🍕</span>
-            <p className="text-[14px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+            <p className="text-[14px] font-normal" style={{ color: "var(--t-muted)" }}>
               No hay platos en esta categoría
             </p>
           </div>

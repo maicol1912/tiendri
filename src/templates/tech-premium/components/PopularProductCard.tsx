@@ -27,10 +27,10 @@ const cardVariants = [
 // Dark palettes: light text on all 4 cards.
 // No index-based heuristic needed — the palette is the source of truth.
 const textVariants = [
-  "var(--t-popular-text-0)", // card 0
-  "var(--t-popular-text-1)", // card 1
-  "var(--t-popular-text-2)", // card 2
-  "var(--t-popular-text-3)", // card 3
+  "var(--t-foreground)", // card 0
+  "var(--t-foreground)", // card 1
+  "var(--t-foreground)", // card 2
+  "var(--t-foreground)", // card 3
 ] as const;
 
 interface PopularProductCardProps {

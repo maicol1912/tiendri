@@ -30,7 +30,7 @@ function InfoCard({ icon, label, value }: InfoCardProps) {
   return (
     <div
       className="flex items-start gap-4 px-4 py-4 rounded-[var(--t-radius-card)]"
-      style={{ backgroundColor: "var(--t-surface)" }}
+      style={{ backgroundColor: "var(--t-card)" }}
     >
       <div
         className="flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -47,7 +47,7 @@ function InfoCard({ icon, label, value }: InfoCardProps) {
       <div className="flex-1 min-w-0">
         <p
           style={{
-            color: "var(--t-text-muted)",
+            color: "var(--t-muted)",
             fontFamily: "'League Spartan', sans-serif",
             fontSize: "12px",
             fontWeight: 300,
@@ -101,7 +101,7 @@ export function StoreInfoPage({
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 border: "none",
                 cursor: "pointer",
               }}

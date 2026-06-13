@@ -7,7 +7,6 @@ export type {
   EffectTokens,
   ColorTokens,
   ChromeTokens,
-  GeneClusterValues,
 } from "./preset-types";
 export { stylePresets } from "./presets";
 export { applyPreset } from "./apply-preset";

@@ -81,7 +81,7 @@ export function ProductDetailPage({
   );
 
   const gridCols = grid?.listing ?? { mobile: 2, desktop: 3 };
-  const btnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const btnClass = BUTTON_STYLE_MAP["filled"];
 
   return (
     <div className="min-h-screen bg-[var(--t-background)]">
@@ -95,10 +95,10 @@ export function ProductDetailPage({
 
       <main className="pt-[60px] lg:pt-[72px] pb-6 max-w-5xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-1 px-5 md:px-6 lg:px-8 py-3 text-xs text-[var(--t-text-breadcrumb)]">
+        <div className="flex items-center gap-1 px-5 md:px-6 lg:px-8 py-3 text-xs text-[var(--t-muted)]">
           <button onClick={onBack} className="hover:text-[var(--t-primary)] transition-colors">Inicio</button>
           <ChevronRight size={12} />
-          <span className="text-[var(--t-text-primary)] font-medium line-clamp-1">{product.name}</span>
+          <span className="text-[var(--t-foreground)] font-medium line-clamp-1">{product.name}</span>
         </div>
 
         <div className="px-5 md:px-6 lg:px-8">
@@ -111,7 +111,7 @@ export function ProductDetailPage({
                 className="relative w-full overflow-hidden mb-3"
                 style={{
                   borderRadius: "var(--t-radius-card)",
-                  backgroundColor: product.cardBgColor ?? "var(--t-card-bg)",
+                  backgroundColor: product.cardBgColor ?? "var(--t-card)",
                   aspectRatio: "1 / 1",
                 }}
               >
@@ -120,7 +120,7 @@ export function ProductDetailPage({
                   <div
                     className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-[var(--t-spec-badge-bg)]"
                   >
-                    <span className="text-[10px] font-semibold text-[var(--t-text-primary)]">{product.categoryId.replace("cat-", "")}</span>
+                    <span className="text-[10px] font-semibold text-[var(--t-foreground)]">{product.categoryId.replace("cat-", "")}</span>
                   </div>
                 )}
 
@@ -129,11 +129,11 @@ export function ProductDetailPage({
                   className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm"
                   aria-label="Vista 360°"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t-foreground)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
                     <path d="M21 3v5h-5" />
                   </svg>
-                  <span className="text-[10px] font-semibold text-[var(--t-text-primary)]">360°</span>
+                  <span className="text-[10px] font-semibold text-[var(--t-foreground)]">360°</span>
                 </button>
 
                 {activeImage ? (
@@ -168,7 +168,7 @@ export function ProductDetailPage({
                         width: "64px",
                         height: "64px",
                         borderRadius: "var(--t-radius-card)",
-                        backgroundColor: product.cardBgColor ?? "var(--t-card-bg)",
+                        backgroundColor: product.cardBgColor ?? "var(--t-card)",
                         border: idx === selectedImageIndex
                           ? "2px solid var(--t-primary)"
                           : "2px solid transparent",
@@ -191,7 +191,7 @@ export function ProductDetailPage({
             <div className="mt-5 lg:mt-0">
               {/* Name + rating */}
               <h1
-                className="text-xl lg:text-2xl font-bold text-[var(--t-text-primary)] leading-tight"
+                className="text-xl lg:text-2xl font-bold text-[var(--t-foreground)] leading-tight"
                 style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
               >
                 {product.name}
@@ -200,12 +200,12 @@ export function ProductDetailPage({
 
               {/* Price */}
               <div className="flex items-center gap-3 mt-3">
-                <span className="text-2xl font-bold text-[var(--t-text-primary)]">{formattedPrice}</span>
+                <span className="text-2xl font-bold text-[var(--t-foreground)]">{formattedPrice}</span>
                 {comparePrice && (
-                  <span className="text-base text-[var(--t-text-muted)] line-through">{comparePrice}</span>
+                  <span className="text-base text-[var(--t-muted)] line-through">{comparePrice}</span>
                 )}
                 {discountPct > 0 && (
-                  <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--t-badge-bg)] text-[var(--t-badge-text)]">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--t-primary)] text-[var(--t-on-primary)]">
                     -{discountPct}%
                   </span>
                 )}
@@ -213,7 +213,7 @@ export function ProductDetailPage({
 
               {/* Description */}
               {product.description && (
-                <p className="mt-3 text-sm text-[var(--t-text-muted)] leading-relaxed">
+                <p className="mt-3 text-sm text-[var(--t-muted)] leading-relaxed">
                   {product.description}
                 </p>
               )}
@@ -221,8 +221,8 @@ export function ProductDetailPage({
               {/* Color options */}
               {product.colorOptions && product.colorOptions.length > 0 && (
                 <div className="mt-4">
-                  <p className="text-xs font-semibold text-[var(--t-text-primary)] mb-2">
-                    Color: <span className="font-normal text-[var(--t-text-muted)]">{product.colorOptions[selectedColorIndex] ?? product.colorVariant}</span>
+                  <p className="text-xs font-semibold text-[var(--t-foreground)] mb-2">
+                    Color: <span className="font-normal text-[var(--t-muted)]">{product.colorOptions[selectedColorIndex] ?? product.colorVariant}</span>
                   </p>
                   <div className="flex gap-2">
                     {product.colorOptions.map((color, idx) => (
@@ -237,10 +237,10 @@ export function ProductDetailPage({
                             : "2px solid var(--t-border)",
                           backgroundColor: idx === selectedColorIndex
                             ? "var(--t-primary)"
-                            : "var(--t-section-bg)",
+                            : "var(--t-background)",
                           color: idx === selectedColorIndex
-                            ? "var(--t-button-text)"
-                            : "var(--t-text-primary)",
+                            ? "var(--t-on-primary)"
+                            : "var(--t-foreground)",
                         }}
                       >
                         {color}
@@ -252,10 +252,10 @@ export function ProductDetailPage({
 
               {/* Key features */}
               <div className="mt-5">
-                <p className="text-sm font-bold text-[var(--t-text-primary)] mb-2">Características principales</p>
+                <p className="text-sm font-bold text-[var(--t-foreground)] mb-2">Características principales</p>
                 <ul className="space-y-1.5">
                   {["Material de alta calidad", "Diseño ergonómico", "Fácil ensamblaje", "Garantía 1 año"].map((feat) => (
-                    <li key={feat} className="flex items-center gap-2 text-xs text-[var(--t-text-muted)]">
+                    <li key={feat} className="flex items-center gap-2 text-xs text-[var(--t-muted)]">
                       <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-[var(--t-primary)]" />
                       {feat}
                     </li>
@@ -266,14 +266,14 @@ export function ProductDetailPage({
               {/* Dimension table with cm/inch toggle */}
               <div className="mt-5">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-bold text-[var(--t-text-primary)]">Dimensiones</p>
+                  <p className="text-sm font-bold text-[var(--t-foreground)]">Dimensiones</p>
                   <button
                     onClick={onDimensionUnitToggle}
                     className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-full"
                     style={{
                       border: "1px solid var(--t-border)",
-                      backgroundColor: "var(--t-section-bg)",
-                      color: "var(--t-text-primary)",
+                      backgroundColor: "var(--t-background)",
+                      color: "var(--t-foreground)",
                     }}
                   >
                     {dimensionUnit === "cm" ? "cm → pulgadas" : "pulgadas → cm"}
@@ -282,18 +282,18 @@ export function ProductDetailPage({
                 <div className="overflow-hidden" style={{ borderRadius: "var(--t-radius-card)", border: "1px solid var(--t-border)" }}>
                   <table className="w-full text-xs">
                     <thead>
-                      <tr className="bg-[var(--t-section-bg)]">
-                        <th className="text-left px-3 py-2 font-semibold text-[var(--t-text-primary)]">Medida</th>
-                        <th className="text-right px-3 py-2 font-semibold text-[var(--t-text-primary)]">{dimensionUnit === "cm" ? "cm" : "pulgadas"}</th>
+                      <tr className="bg-[var(--t-background)]">
+                        <th className="text-left px-3 py-2 font-semibold text-[var(--t-foreground)]">Medida</th>
+                        <th className="text-right px-3 py-2 font-semibold text-[var(--t-foreground)]">{dimensionUnit === "cm" ? "cm" : "pulgadas"}</th>
                       </tr>
                     </thead>
                     <tbody>
                       {[
                         { label: "Largo", cm: 120 }, { label: "Ancho", cm: 60 }, { label: "Alto", cm: 75 },
                       ].map(({ label, cm }, i) => (
-                        <tr key={label} style={{ backgroundColor: i % 2 === 0 ? "var(--t-background)" : "var(--t-section-bg)" }}>
-                          <td className="px-3 py-2 text-[var(--t-text-muted)]">{label}</td>
-                          <td className="px-3 py-2 text-right font-medium text-[var(--t-text-primary)]">
+                        <tr key={label} style={{ backgroundColor: i % 2 === 0 ? "var(--t-background)" : "var(--t-background)" }}>
+                          <td className="px-3 py-2 text-[var(--t-muted)]">{label}</td>
+                          <td className="px-3 py-2 text-right font-medium text-[var(--t-foreground)]">
                             {dimensionUnit === "cm" ? cm : Math.round(cm / 2.54)}
                           </td>
                         </tr>
@@ -321,7 +321,7 @@ export function ProductDetailPage({
           {/* Related products */}
           {relatedProducts.length > 0 && (
             <div className="mt-8">
-              <h2 className="text-[var(--t-text-primary)] mb-4" style={{ fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"], fontSize: "var(--t-type-heading-size, 1rem)", letterSpacing: "var(--t-type-heading-tracking, 0em)", textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"] }}>También te puede gustar</h2>
+              <h2 className="text-[var(--t-foreground)] mb-4" style={{ fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"], fontSize: "var(--t-type-heading-size, 1rem)", letterSpacing: "var(--t-type-heading-tracking, 0em)", textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"] }}>También te puede gustar</h2>
               <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
                 {relatedProducts.slice(0, 6).map((p) => (
                   <ProductCard

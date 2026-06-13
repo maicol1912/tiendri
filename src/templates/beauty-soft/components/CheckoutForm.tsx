@@ -50,7 +50,7 @@ function FormField({
   return (
     <div className="flex flex-col gap-[6px]">
       <label
-        className="text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+        className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
         style={{ fontFamily: "var(--font-sans)" }}
       >
         {label}
@@ -61,15 +61,15 @@ function FormField({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange?.(e.target.value)}
-        className="w-full outline-none text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]"
+        className="w-full outline-none text-sm text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]"
         style={{
           fontFamily: "var(--font-sans)",
           height: "47px",
           borderRadius: "var(--t-radius-button)",
           border: hasError
             ? "2px solid var(--t-primary)"
-            : "1.5px solid var(--t-border-input)",
-          backgroundColor: "var(--t-section-bg)",
+            : "1.5px solid var(--t-border)",
+          backgroundColor: "var(--t-background)",
           paddingLeft: "16px",
           paddingRight: "16px",
           fontSize: "14px",
@@ -108,12 +108,12 @@ export function CheckoutForm({
       <section
         className="flex flex-col gap-3 p-4"
         style={{
-          backgroundColor: "var(--t-section-bg)",
+          backgroundColor: "var(--t-background)",
           borderRadius: "var(--t-radius-card)",
         }}
       >
         <h2
-          className="m-0 text-base font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+          className="m-0 text-base font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Resumen del pedido
@@ -126,14 +126,14 @@ export function CheckoutForm({
               className="flex items-center justify-between"
             >
               <span
-                className="text-sm font-normal text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+                className="text-sm font-normal text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {item.quantity}× {item.productName}
                 {item.variantLabel ? ` (${item.variantLabel})` : ""}
               </span>
               <span
-                className="text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+                className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {currencySymbol}
@@ -148,13 +148,13 @@ export function CheckoutForm({
           style={{ borderTop: "1px solid var(--t-border)" }}
         >
           <span
-            className="text-sm font-bold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-sm font-bold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Total
           </span>
           <span
-            className="text-base font-bold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-base font-bold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {formattedTotal}
@@ -166,12 +166,12 @@ export function CheckoutForm({
       <section
         className="flex flex-col gap-4 p-4"
         style={{
-          backgroundColor: "var(--t-section-bg)",
+          backgroundColor: "var(--t-background)",
           borderRadius: "var(--t-radius-card)",
         }}
       >
         <h2
-          className="m-0 text-base font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+          className="m-0 text-base font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Datos de contacto
@@ -214,7 +214,7 @@ export function CheckoutForm({
         {/* Notes (optional, textarea style) */}
         <div className="flex flex-col gap-[6px]">
           <label
-            className="text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Notas adicionales
@@ -224,12 +224,12 @@ export function CheckoutForm({
             placeholder="Instrucciones especiales (opcional)"
             rows={3}
             onChange={(e) => onFieldChange?.("notes", e.target.value)}
-            className="w-full outline-none resize-none text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]"
+            className="w-full outline-none resize-none text-sm text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-sans)",
               borderRadius: "18px",
-              border: "1.5px solid var(--t-border-input)",
-              backgroundColor: "var(--t-section-bg)",
+              border: "1.5px solid var(--t-border)",
+              backgroundColor: "var(--t-background)",
               padding: "12px 16px",
               fontSize: "14px",
               lineHeight: "22px",
@@ -243,7 +243,7 @@ export function CheckoutForm({
       <div
         className="fixed bottom-0 left-0 right-0 z-50"
         style={{
-          backgroundColor: "var(--t-section-bg)",
+          backgroundColor: "var(--t-background)",
           paddingBottom: "env(safe-area-inset-bottom, 16px)",
           borderTop: "1px solid var(--t-border)",
         }}
@@ -257,8 +257,8 @@ export function CheckoutForm({
               fontFamily: "var(--font-heading, var(--font-sans))",
               fontSize: "17px",
               fontWeight: 600,
-              color: "var(--t-button-text)",
-              backgroundColor: "var(--t-button-bg)",
+              color: "var(--t-on-primary)",
+              backgroundColor: "var(--t-primary)",
               borderRadius: "var(--t-radius-button)",
               height: "52px",
               lineHeight: "22px",

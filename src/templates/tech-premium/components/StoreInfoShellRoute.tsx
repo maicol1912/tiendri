@@ -41,9 +41,9 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   return (
     <StoreInfoPage
       store={store}
-      navLinks={config.navLinks}
-      footerServices={config.footerServices}
-      footerAssistance={config.footerAssistance}
+      navLinks={config.content?.navLinks ?? []}
+      footerServices={config.content?.footerServices ?? []}
+      footerAssistance={config.content?.footerAssistance ?? []}
       cartItemCount={totalItems}
       activeTab="info"
       onSearchClick={nav.goSearch}

@@ -63,13 +63,13 @@ export function StoreInfoPage({
         <div
           className="flex flex-col items-center gap-3 py-10"
           style={{
-            backgroundColor: "var(--t-surface)",
+            backgroundColor: "var(--t-card)",
             borderRadius: "var(--t-radius-card)",
           }}
         >
           <div
             className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"
-            style={{ backgroundColor: "var(--t-card-bg)" }}
+            style={{ backgroundColor: "var(--t-card)" }}
           >
             {store.avatar || store.logo ? (
               <img
@@ -80,7 +80,7 @@ export function StoreInfoPage({
             ) : (
               <span
                 className="text-3xl font-bold"
-                style={{ color: "var(--t-text-primary)" }}
+                style={{ color: "var(--t-foreground)" }}
               >
                 {store.name.charAt(0).toUpperCase()}
               </span>
@@ -90,7 +90,7 @@ export function StoreInfoPage({
           <h1
             className="text-[22px] font-bold text-center leading-tight"
             style={{
-              color: "var(--t-text-primary)",
+              color: "var(--t-foreground)",
               letterSpacing: "-0.66px",
             }}
           >
@@ -103,7 +103,7 @@ export function StoreInfoPage({
           <section className="flex flex-col gap-3">
             <h2
               className="text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "var(--t-text-muted)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               Contacto
             </h2>
@@ -111,7 +111,7 @@ export function StoreInfoPage({
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: "var(--t-radius-card)",
                 borderColor: "var(--t-border)",
               }}
@@ -125,13 +125,13 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)" }}
+                    style={{ backgroundColor: "var(--t-card)" }}
                   >
                     <MessageCircle size={18} strokeWidth={1.75} style={{ color: "var(--t-primary)" }} />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs" style={{ color: "var(--t-text-muted)" }}>WhatsApp</span>
-                    <span className="text-sm font-medium" style={{ color: "var(--t-text-primary)" }}>
+                    <span className="text-xs" style={{ color: "var(--t-muted)" }}>WhatsApp</span>
+                    <span className="text-sm font-medium" style={{ color: "var(--t-foreground)" }}>
                       +{store.whatsapp}
                     </span>
                   </div>
@@ -145,13 +145,13 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)" }}
+                    style={{ backgroundColor: "var(--t-card)" }}
                   >
                     <Phone size={18} strokeWidth={1.75} style={{ color: "var(--t-primary)" }} />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs" style={{ color: "var(--t-text-muted)" }}>Teléfono</span>
-                    <span className="text-sm font-medium" style={{ color: "var(--t-text-primary)" }}>
+                    <span className="text-xs" style={{ color: "var(--t-muted)" }}>Teléfono</span>
+                    <span className="text-sm font-medium" style={{ color: "var(--t-foreground)" }}>
                       +{store.whatsapp}
                     </span>
                   </div>
@@ -166,7 +166,7 @@ export function StoreInfoPage({
           <section className="flex flex-col gap-3">
             <h2
               className="text-xs font-semibold uppercase tracking-wider"
-              style={{ color: "var(--t-text-muted)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               Redes sociales
             </h2>
@@ -174,7 +174,7 @@ export function StoreInfoPage({
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: "var(--t-radius-card)",
                 borderColor: "var(--t-border)",
               }}
@@ -188,13 +188,13 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" }}
+                    style={{ backgroundColor: "var(--t-card)", color: "var(--t-muted)" }}
                   >
                     <InstagramIcon />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs" style={{ color: "var(--t-text-muted)" }}>Instagram</span>
-                    <span className="text-sm font-medium truncate" style={{ color: "var(--t-text-primary)" }}>
+                    <span className="text-xs" style={{ color: "var(--t-muted)" }}>Instagram</span>
+                    <span className="text-sm font-medium truncate" style={{ color: "var(--t-foreground)" }}>
                       @{store.social_links.instagram.replace("@", "")}
                     </span>
                   </div>
@@ -210,13 +210,13 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" }}
+                    style={{ backgroundColor: "var(--t-card)", color: "var(--t-muted)" }}
                   >
                     <FacebookIcon />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs" style={{ color: "var(--t-text-muted)" }}>Facebook</span>
-                    <span className="text-sm font-medium truncate" style={{ color: "var(--t-text-primary)" }}>
+                    <span className="text-xs" style={{ color: "var(--t-muted)" }}>Facebook</span>
+                    <span className="text-sm font-medium truncate" style={{ color: "var(--t-foreground)" }}>
                       {store.social_links.facebook}
                     </span>
                   </div>

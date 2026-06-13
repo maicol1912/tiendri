@@ -21,19 +21,19 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
     <div
       className="flex flex-col"
       style={{
-        backgroundColor: "var(--t-section-bg)",
+        backgroundColor: "var(--t-background)",
         borderRadius: "20px",
-        border: "1px solid var(--t-nav-border)",
+        border: "1px solid var(--t-border)",
       }}
     >
       <div
         className="flex items-center justify-between px-5 pt-5 pb-3"
-        style={{ borderBottom: "1px solid var(--t-border-light)" }}
+        style={{ borderBottom: "1px solid var(--t-border)" }}
       >
-        <h2 className="text-base font-bold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+        <h2 className="text-base font-bold" style={{ color: "var(--t-foreground)", margin: 0 }}>
           Resumen del pedido
         </h2>
-        <span className="text-[13px] font-medium" style={{ color: "var(--t-text-muted)" }}>
+        <span className="text-[13px] font-medium" style={{ color: "var(--t-muted)" }}>
           {totalItems} {totalItems === 1 ? "producto" : "productos"}
         </span>
       </div>
@@ -70,10 +70,10 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
               )}
             </div>
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
-              <p className="line-clamp-1 text-[13px] font-semibold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+              <p className="line-clamp-1 text-[13px] font-semibold" style={{ color: "var(--t-foreground)", margin: 0 }}>
                 {item.productName}
               </p>
-              <p className="text-[11px]" style={{ color: "var(--t-text-muted)", margin: 0 }}>
+              <p className="text-[11px]" style={{ color: "var(--t-muted)", margin: 0 }}>
                 Cant. {item.quantity}
               </p>
             </div>
@@ -87,10 +87,10 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
         ))}
       </div>
 
-      <div className="mx-5" style={{ height: "1px", backgroundColor: "var(--t-border-light)", margin: "8px 0" }} />
+      <div className="mx-5" style={{ height: "1px", backgroundColor: "var(--t-border)", margin: "8px 0" }} />
 
       <div className="flex items-center justify-between px-5 pb-5">
-        <span className="text-[15px] font-bold" style={{ color: "var(--t-text-primary)" }}>Total</span>
+        <span className="text-[15px] font-bold" style={{ color: "var(--t-foreground)" }}>Total</span>
         <span className="text-lg font-bold" style={{ color: "var(--t-primary)" }}>
           {formatPrice(subtotal, currencySymbol)}
         </span>

@@ -33,7 +33,7 @@ export function CartItemRow({
     <div
       className="flex items-start gap-[10px]"
       style={{
-        backgroundColor: "var(--t-section-bg)",
+        backgroundColor: "var(--t-background)",
         borderRadius: "22px",
         padding: "12px",
         minHeight: "119px",
@@ -60,13 +60,13 @@ export function CartItemRow({
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "var(--t-card-bg)", borderRadius: "var(--t-radius-card)" }}
+            style={{ backgroundColor: "var(--t-card)", borderRadius: "var(--t-radius-card)" }}
           >
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-              <rect width="28" height="28" rx="6" fill="var(--t-card-bg)" />
+              <rect width="28" height="28" rx="6" fill="var(--t-card)" />
               <path
                 d="M5 20l6-6 4 4 5-7 8 9"
-                stroke="var(--t-border-mid)"
+                stroke="var(--t-border)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -80,7 +80,7 @@ export function CartItemRow({
       {/* Details */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden py-[4px]">
         <p
-          className="line-clamp-1 m-0 text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+          className="line-clamp-1 m-0 text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           {item.productName}
@@ -88,7 +88,7 @@ export function CartItemRow({
 
         {item.description && (
           <p
-            className="line-clamp-2 m-0 text-xs font-normal text-[var(--t-text-subtle)] leading-[18px] tracking-[-0.408px]"
+            className="line-clamp-2 m-0 text-xs font-normal text-[var(--t-muted)] leading-[18px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {item.description}
@@ -106,7 +106,7 @@ export function CartItemRow({
               </span>
             )}
             <span
-              className="text-base font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+              className="text-base font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {formattedPrice}
@@ -117,7 +117,7 @@ export function CartItemRow({
           <div
             className="inline-flex items-center gap-[8px]"
             style={{
-              backgroundColor: "var(--t-card-bg)",
+              backgroundColor: "var(--t-card)",
               borderRadius: "35px",
               padding: "3px 4px",
               height: "32px",
@@ -131,17 +131,17 @@ export function CartItemRow({
                 width: "26px",
                 height: "26px",
                 borderRadius: "28px",
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
                 border: "1px solid var(--t-border)",
               }}
               onClick={onDecrement}
             >
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12" stroke="var(--t-text-primary)" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="5" y1="12" x2="19" y2="12" stroke="var(--t-foreground)" strokeWidth="2.5" strokeLinecap="round" />
               </svg>
             </button>
             <span
-              className="text-xs font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+              className="text-xs font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {String(item.quantity).padStart(2, "0")}
@@ -154,13 +154,13 @@ export function CartItemRow({
                 width: "26px",
                 height: "26px",
                 borderRadius: "28px",
-                backgroundColor: "var(--t-text-primary)",
+                backgroundColor: "var(--t-foreground)",
               }}
               onClick={onIncrement}
             >
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <line x1="12" y1="5" x2="12" y2="19" stroke="var(--t-section-bg)" strokeWidth="2.5" strokeLinecap="round" />
-                <line x1="5" y1="12" x2="19" y2="12" stroke="var(--t-section-bg)" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="12" y1="5" x2="12" y2="19" stroke="var(--t-background)" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="5" y1="12" x2="19" y2="12" stroke="var(--t-background)" strokeWidth="2.5" strokeLinecap="round" />
               </svg>
             </button>
           </div>

@@ -55,13 +55,13 @@ export function CartPage({
   onTabChange,
   onNavLinkClick,
 }: CartPageProps) {
-  const proceedBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const proceedBtnClass = BUTTON_STYLE_MAP["filled"];
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = subtotal + tax + shipping;
   const isEmpty = items.length === 0;
 
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       {/* Header */}
       <Header
         store={store}
@@ -76,14 +76,14 @@ export function CartPage({
       <main className="flex-1 px-4 py-10 lg:px-[160px] lg:py-[112px]">
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center gap-6 py-20">
-            <p className="text-xl font-semibold text-[var(--t-text-primary)]">Tu carrito está vacío</p>
-            <p className="text-base text-[var(--t-text-secondary)]">Explorá los productos y agregá artículos a tu carrito</p>
+            <p className="text-xl font-semibold text-[var(--t-foreground)]">Tu carrito está vacío</p>
+            <p className="text-base text-[var(--t-muted)]">Explorá los productos y agregá artículos a tu carrito</p>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Left: Cart items */}
             <div className="flex flex-col gap-10 flex-1 min-w-0">
-              <h1 className="text-2xl font-semibold text-[var(--t-text-primary)]">Carrito de compras</h1>
+              <h1 className="text-2xl font-semibold text-[var(--t-foreground)]">Carrito de compras</h1>
 
               <div className="flex flex-col gap-10">
                 {items.map((item, idx) => (
@@ -107,7 +107,7 @@ export function CartPage({
               shipping={shipping}
               total={total}
               currencySymbol={currencySymbol}
-              buttonStyle={layout?.buttonStyle}
+              buttonStyle="filled"
               onCheckout={onCheckout}
             />
           </div>

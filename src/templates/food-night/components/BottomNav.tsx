@@ -62,7 +62,7 @@ export function BottomNav({
                 <Icon
                   size={20}
                   strokeWidth={isActive ? 2 : 1.75}
-                  style={{ color: "var(--t-text-primary)", transition: "color 0.15s ease" }}
+                  style={{ color: "var(--t-foreground)", transition: "color 0.15s ease" }}
                 />
                 {isCart && cartItemCount > 0 && (
                   <span
@@ -71,8 +71,8 @@ export function BottomNav({
                       width: 16,
                       height: 16,
                       borderRadius: "50%",
-                      backgroundColor: "var(--t-badge-bg)",
-                      color: "var(--t-badge-text)",
+                      backgroundColor: "var(--t-primary)",
+                      color: "var(--t-on-primary)",
                       fontSize: "9px",
                       fontWeight: 700,
                       lineHeight: 1,
@@ -89,7 +89,7 @@ export function BottomNav({
                     width: 4,
                     height: 4,
                     borderRadius: "50%",
-                    backgroundColor: "var(--t-text-primary)",
+                    backgroundColor: "var(--t-foreground)",
                   }}
                   aria-hidden="true"
                 />

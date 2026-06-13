@@ -150,7 +150,7 @@ export function CheckoutPage({
       <header
         className="sticky top-0 z-40"
         style={{
-          backgroundColor: "var(--t-header-bg)",
+          backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
@@ -166,7 +166,7 @@ export function CheckoutPage({
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
                 d="M19 12H5M12 19l-7-7 7-7"
-                stroke="var(--t-text-primary)"
+                stroke="var(--t-foreground)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -174,10 +174,10 @@ export function CheckoutPage({
             </svg>
           </button>
           <div className="flex items-baseline gap-2 flex-1 min-w-0">
-            <h1 className="text-lg font-bold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+            <h1 className="text-lg font-bold" style={{ color: "var(--t-foreground)", margin: 0 }}>
               Checkout
             </h1>
-            <span className="text-sm" style={{ color: "var(--t-text-muted)" }}>
+            <span className="text-sm" style={{ color: "var(--t-muted)" }}>
               {totalItems} {totalItems === 1 ? "producto" : "productos"}
             </span>
           </div>
@@ -205,11 +205,11 @@ export function CheckoutPage({
               className="flex items-center gap-2 p-3 rounded-2xl"
               style={{
                 backgroundColor: "var(--t-icon-pill-bg)",
-                border: "1px solid var(--t-border-input)",
+                border: "1px solid var(--t-border)",
               }}
             >
               <WhatsAppIcon size={20} color="var(--t-primary)" />
-              <p className="text-xs" style={{ color: "var(--t-text-primary)", margin: 0, lineHeight: "17px" }}>
+              <p className="text-xs" style={{ color: "var(--t-foreground)", margin: 0, lineHeight: "17px" }}>
                 Tu pedido se enviará por WhatsApp a{" "}
                 <strong style={{ fontWeight: 700 }}>{store.name}</strong>{" "}
                 para coordinar pago y entrega.
@@ -224,8 +224,8 @@ export function CheckoutPage({
               type="button"
               className="w-full flex items-center justify-center gap-2.5 py-4 text-sm font-bold"
               style={{
-                color: "var(--t-button-text)",
-                backgroundColor: "var(--t-button-bg)",
+                color: "var(--t-on-primary)",
+                backgroundColor: "var(--t-primary)",
                 border: "none",
                 borderRadius: "var(--t-radius-button)",
                 cursor: "pointer",
@@ -244,8 +244,8 @@ export function CheckoutPage({
       <motion.div
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
         style={{
-          backgroundColor: "var(--t-section-bg)",
-          borderTop: "1px solid var(--t-nav-border)",
+          backgroundColor: "var(--t-background)",
+          borderTop: "1px solid var(--t-border-light)",
           boxShadow: "0 -4px 16px rgba(0,0,0,0.06)",
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
         }}
@@ -258,8 +258,8 @@ export function CheckoutPage({
             type="button"
             className="w-full flex items-center justify-center gap-2.5 py-4 text-base font-bold"
             style={{
-              color: "var(--t-button-text)",
-              backgroundColor: "var(--t-button-bg)",
+              color: "var(--t-on-primary)",
+              backgroundColor: "var(--t-primary)",
               border: "none",
               borderRadius: "var(--t-radius-button)",
               cursor: "pointer",

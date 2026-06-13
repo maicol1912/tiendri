@@ -65,7 +65,7 @@ export function ProductCard({
       <div
         className={`relative w-full ${imageClass} max-h-[300px] overflow-hidden`}
         style={{
-          backgroundColor: "var(--t-card-bg)",
+          backgroundColor: "var(--t-card)",
           borderRadius: "var(--t-radius-card)",
         }}
       >
@@ -80,10 +80,10 @@ export function ProductCard({
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <rect width="40" height="40" rx="8" fill="var(--t-surface)" />
+              <rect width="40" height="40" rx="8" fill="var(--t-card)" />
               <path
                 d="M8 28l8-9 5 5 7-9 12 13"
-                stroke="var(--t-text-muted)"
+                stroke="var(--t-muted)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -102,9 +102,9 @@ export function ProductCard({
             <span
               className="px-3 py-1.5 text-[11px] font-medium"
               style={{
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: 9999,
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
               }}
             >
               Agotado
@@ -114,10 +114,10 @@ export function ProductCard({
       </div>
 
       {/* Product info */}
-      <div className={`flex flex-col gap-1 pt-2 pb-1 ${cardClass === "bg-[var(--t-card-bg)]" ? "" : "px-2"}`}>
+      <div className={`flex flex-col gap-1 pt-2 pb-1 ${cardClass === "bg-[var(--t-card)]" ? "" : "px-2"}`}>
         <p
           className="leading-snug line-clamp-2 text-[14px] font-semibold"
-          style={{ color: "var(--t-text-primary)" }}
+          style={{ color: "var(--t-foreground)" }}
         >
           {product.name}
         </p>
@@ -131,10 +131,10 @@ export function ProductCard({
             <Star
               size={11}
               strokeWidth={0}
-              fill="var(--t-rating-star)"
-              style={{ color: "var(--t-rating-star)" }}
+              fill="var(--t-accent)"
+              style={{ color: "var(--t-accent)" }}
             />
-            <span className="text-[12px] font-normal" style={{ color: "var(--t-text-primary)" }}>
+            <span className="text-[12px] font-normal" style={{ color: "var(--t-foreground)" }}>
               {rating.toFixed(1)}
             </span>
           </div>

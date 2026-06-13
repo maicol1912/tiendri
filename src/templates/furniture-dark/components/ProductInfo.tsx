@@ -53,7 +53,7 @@ export function ProductInfo({
     <div className="flex flex-col gap-5">
       {/* Name */}
       <h1
-        className="text-[var(--t-text-primary)]"
+        className="text-[var(--t-foreground)]"
         style={{
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "24px",
@@ -68,7 +68,7 @@ export function ProductInfo({
       {/* Price */}
       <div className="flex items-baseline gap-3">
         <span
-          className="text-[var(--t-text-primary)]"
+          className="text-[var(--t-foreground)]"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "28px",
@@ -81,7 +81,7 @@ export function ProductInfo({
         {product.originalPrice && product.originalPrice > product.price && (
           <>
             <span
-              className="line-through text-[var(--t-text-muted)]"
+              className="line-through text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "16px",
@@ -93,8 +93,8 @@ export function ProductInfo({
               <span
                 className="px-2 py-0.5 rounded-full text-xs font-bold"
                 style={{
-                  backgroundColor: "var(--t-badge-bg)",
-                  color: "var(--t-badge-text)",
+                  backgroundColor: "var(--t-primary)",
+                  color: "var(--t-on-primary)",
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 }}
               >
@@ -109,11 +109,12 @@ export function ProductInfo({
       {description && (
         <div>
           <p
-            className="text-[var(--t-text-secondary)] leading-relaxed"
+            className="leading-relaxed"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",
               lineHeight: "1.7",
+              color: "var(--t-text-secondary)",
             }}
           >
             {descExpanded ? description : descShort}
@@ -135,11 +136,12 @@ export function ProductInfo({
       {colors.length > 0 && (
         <div className="flex flex-col gap-3">
           <p
-            className="text-[var(--t-text-secondary)] font-medium"
+            className="font-medium"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "13px",
               fontWeight: 600,
+              color: "var(--t-text-secondary)",
             }}
           >
             Color
@@ -181,8 +183,8 @@ export function ProductInfo({
             type="button"
             className="flex-1 py-3.5 rounded-[var(--t-radius-button)] font-bold transition-opacity hover:opacity-90 active:scale-95"
             style={{
-              backgroundColor: "var(--t-button-bg)",
-              color: "var(--t-button-text)",
+              backgroundColor: "var(--t-primary)",
+              color: "var(--t-on-primary)",
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",
               fontWeight: 700,

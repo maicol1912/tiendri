@@ -46,7 +46,7 @@ export function CartPage({
       <header
         className="sticky top-0 z-40"
         style={{
-          backgroundColor: "var(--t-header-bg)",
+          backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
@@ -72,7 +72,7 @@ export function CartPage({
 
           <p
             className="absolute left-1/2 -translate-x-1/2 text-lg font-bold"
-            style={{ color: "var(--t-text-primary)", margin: 0 }}
+            style={{ color: "var(--t-foreground)", margin: 0 }}
           >
             Mi carrito
           </p>
@@ -101,10 +101,10 @@ export function CartPage({
                 <path d="M16 10a4 4 0 0 1-8 0" stroke="var(--t-primary)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className="text-base font-semibold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+            <p className="text-base font-semibold" style={{ color: "var(--t-foreground)", margin: 0 }}>
               Tu carrito está vacío
             </p>
-            <p className="text-sm" style={{ color: "var(--t-text-muted)", margin: 0 }}>
+            <p className="text-sm" style={{ color: "var(--t-muted)", margin: 0 }}>
               Agrega productos para continuar
             </p>
             <button
@@ -151,10 +151,10 @@ export function CartPage({
                 className="flex items-center justify-between p-4"
                 style={{ backgroundColor: "var(--t-icon-pill-bg)", borderRadius: "20px" }}
               >
-                <span className="text-sm font-semibold" style={{ color: "var(--t-text-primary)" }}>
+                <span className="text-sm font-semibold" style={{ color: "var(--t-foreground)" }}>
                   Total
                 </span>
-                <span className="text-lg font-bold" style={{ color: "var(--t-text-primary)" }}>
+                <span className="text-lg font-bold" style={{ color: "var(--t-foreground)" }}>
                   {formatPrice(totalPrice, currencySymbol)}
                 </span>
               </div>
@@ -181,8 +181,8 @@ export function CartPage({
           className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
           style={{
             paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))",
-            borderTop: "1px solid var(--t-nav-border)",
-            backgroundColor: "var(--t-section-bg)",
+            borderTop: "1px solid var(--t-border-light)",
+            backgroundColor: "var(--t-background)",
           }}
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
@@ -190,10 +190,10 @@ export function CartPage({
         >
           <div className="max-w-5xl mx-auto px-5 pt-3 pb-3 flex flex-col gap-3">
             <div className="flex items-center justify-between px-2">
-              <span className="text-sm font-semibold" style={{ color: "var(--t-text-primary)" }}>
+              <span className="text-sm font-semibold" style={{ color: "var(--t-foreground)" }}>
                 Total
               </span>
-              <span className="text-base font-bold" style={{ color: "var(--t-text-primary)" }}>
+              <span className="text-base font-bold" style={{ color: "var(--t-foreground)" }}>
                 {formatPrice(totalPrice, currencySymbol)}
               </span>
             </div>
@@ -201,8 +201,8 @@ export function CartPage({
               type="button"
               className="w-full flex items-center justify-center py-3.5 text-base font-bold"
               style={{
-                color: "var(--t-button-text)",
-                backgroundColor: "var(--t-button-bg)",
+                color: "var(--t-on-primary)",
+                backgroundColor: "var(--t-primary)",
                 border: "none",
                 borderRadius: "var(--t-radius-button)",
                 cursor: "pointer",

@@ -29,7 +29,7 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
   return (
     <div
       className="rounded-[var(--t-radius-card)] p-5 flex flex-col gap-4"
-      style={{ backgroundColor: "var(--t-border-light)" }}
+      style={{ backgroundColor: "var(--t-border)" }}
     >
       {/* Voucher input */}
       <div
@@ -41,7 +41,7 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
           value={voucher}
           onChange={(e) => setVoucher(e.target.value)}
           placeholder="Código de descuento"
-          className="flex-1 bg-transparent outline-none text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]"
+          className="flex-1 bg-transparent outline-none text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "14px",
@@ -61,16 +61,16 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <span
-            className="text-[var(--t-text-secondary)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",
+              color: "var(--t-text-secondary)",
             }}
           >
             Subtotal
           </span>
           <span
-            className="text-[var(--t-text-primary)] font-medium"
+            className="text-[var(--t-foreground)] font-medium"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",
@@ -84,10 +84,10 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
         {discount > 0 && (
           <div className="flex items-center justify-between">
             <span
-              className="text-[var(--t-text-secondary)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "14px",
+                color: "var(--t-text-secondary)",
               }}
             >
               Descuento
@@ -108,10 +108,10 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
 
         <div
           className="flex items-center justify-between pt-3"
-          style={{ borderTop: "1px solid var(--t-border-mid)" }}
+          style={{ borderTop: "1px solid var(--t-border)" }}
         >
           <span
-            className="text-[var(--t-text-primary)] font-semibold"
+            className="text-[var(--t-foreground)] font-semibold"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "16px",
@@ -139,8 +139,8 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
         type="button"
         className="w-full py-4 rounded-[var(--t-radius-button)] font-bold transition-opacity hover:opacity-90 active:scale-95 mt-1"
         style={{
-          backgroundColor: "var(--t-button-bg)",
-          color: "var(--t-button-text)",
+          backgroundColor: "var(--t-primary)",
+          color: "var(--t-on-primary)",
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "14px",
           fontWeight: 700,
@@ -157,11 +157,11 @@ export function CartSummary({ subtotal, discount = 0, onCheckout, onContinueShop
         className="w-full py-2.5 rounded-[var(--t-radius-button)] transition-opacity hover:opacity-80"
         style={{
           backgroundColor: "transparent",
-          color: "var(--t-text-secondary)",
+          color: "var(--t-muted)",
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "13px",
           fontWeight: 500,
-          border: "1px solid var(--t-border-mid)",
+          border: "1px solid var(--t-border)",
           letterSpacing: "-0.26px",
         }}
         onClick={onContinueShopping}

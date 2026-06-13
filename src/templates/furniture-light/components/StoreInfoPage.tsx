@@ -62,7 +62,7 @@ export function StoreInfoPage({
         {/* Encabezado tienda */}
         <div
           className="flex flex-col items-center gap-4 py-10 rounded-[var(--t-radius-card)]"
-          style={{ backgroundColor: "var(--t-section-bg)" }}
+          style={{ backgroundColor: "var(--t-background)" }}
         >
           <div
             className="w-20 h-20 rounded-[var(--t-radius-button)] flex items-center justify-center overflow-hidden bg-[var(--t-primary)]"
@@ -75,7 +75,7 @@ export function StoreInfoPage({
               />
             ) : (
               <span
-                className="text-3xl font-bold text-[var(--t-button-text)]"
+                className="text-3xl font-bold text-[var(--t-on-primary)]"
               >
                 {store.name.charAt(0).toUpperCase()}
               </span>
@@ -83,13 +83,13 @@ export function StoreInfoPage({
           </div>
 
           <h1
-            className="text-[22px] font-bold text-center leading-tight tracking-tight text-[var(--t-text-primary)]"
+            className="text-[22px] font-bold text-center leading-tight tracking-tight text-[var(--t-foreground)]"
           >
             {store.name}
           </h1>
 
           {store.description && (
-            <p className="text-sm text-center text-[var(--t-text-muted)] max-w-xs leading-relaxed">
+            <p className="text-sm text-center text-[var(--t-muted)] max-w-xs leading-relaxed">
               {store.description}
             </p>
           )}
@@ -98,14 +98,14 @@ export function StoreInfoPage({
         {/* Contacto */}
         {store.whatsapp && (
           <section className="flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--t-text-muted)]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--t-muted)]">
               Contacto
             </h2>
 
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
                 borderColor: "var(--t-border)",
               }}
@@ -120,11 +120,11 @@ export function StoreInfoPage({
                   <div
                     className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0 bg-[var(--t-primary)]"
                   >
-                    <MessageCircle size={18} strokeWidth={1.75} style={{ color: "var(--t-button-text)" }} />
+                    <MessageCircle size={18} strokeWidth={1.75} style={{ color: "var(--t-on-primary)" }} />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs text-[var(--t-text-muted)]">WhatsApp</span>
-                    <span className="text-sm font-semibold text-[var(--t-text-primary)]">
+                    <span className="text-xs text-[var(--t-muted)]">WhatsApp</span>
+                    <span className="text-sm font-semibold text-[var(--t-foreground)]">
                       +{store.whatsapp}
                     </span>
                   </div>
@@ -137,13 +137,13 @@ export function StoreInfoPage({
               >
                 <div
                   className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "var(--t-search-bg)" }}
+                  style={{ backgroundColor: "var(--t-card)" }}
                 >
-                  <Phone size={18} strokeWidth={1.75} className="text-[var(--t-text-primary)]" />
+                  <Phone size={18} strokeWidth={1.75} className="text-[var(--t-foreground)]" />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-xs text-[var(--t-text-muted)]">Teléfono</span>
-                  <span className="text-sm font-semibold text-[var(--t-text-primary)]">
+                  <span className="text-xs text-[var(--t-muted)]">Teléfono</span>
+                  <span className="text-sm font-semibold text-[var(--t-foreground)]">
                     +{store.whatsapp}
                   </span>
                 </div>
@@ -155,14 +155,14 @@ export function StoreInfoPage({
         {/* Redes sociales */}
         {(store.social_links?.instagram || store.social_links?.facebook) && (
           <section className="flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--t-text-muted)]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--t-muted)]">
               Redes sociales
             </h2>
 
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
                 borderColor: "var(--t-border)",
               }}
@@ -175,14 +175,14 @@ export function StoreInfoPage({
                   className="flex items-center gap-3 px-4 py-4 transition-opacity hover:opacity-80"
                 >
                   <div
-                    className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0 text-[var(--t-text-muted)]"
-                    style={{ backgroundColor: "var(--t-search-bg)" }}
+                    className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0 text-[var(--t-muted)]"
+                    style={{ backgroundColor: "var(--t-card)" }}
                   >
                     <InstagramIcon />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs text-[var(--t-text-muted)]">Instagram</span>
-                    <span className="text-sm font-semibold text-[var(--t-text-primary)] truncate">
+                    <span className="text-xs text-[var(--t-muted)]">Instagram</span>
+                    <span className="text-sm font-semibold text-[var(--t-foreground)] truncate">
                       @{store.social_links.instagram.replace("@", "")}
                     </span>
                   </div>
@@ -197,14 +197,14 @@ export function StoreInfoPage({
                   className="flex items-center gap-3 px-4 py-4 transition-opacity hover:opacity-80"
                 >
                   <div
-                    className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0 text-[var(--t-text-muted)]"
-                    style={{ backgroundColor: "var(--t-search-bg)" }}
+                    className="w-9 h-9 rounded-[var(--t-radius-button)] flex items-center justify-center flex-shrink-0 text-[var(--t-muted)]"
+                    style={{ backgroundColor: "var(--t-card)" }}
                   >
                     <FacebookIcon />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs text-[var(--t-text-muted)]">Facebook</span>
-                    <span className="text-sm font-semibold text-[var(--t-text-primary)] truncate">
+                    <span className="text-xs text-[var(--t-muted)]">Facebook</span>
+                    <span className="text-sm font-semibold text-[var(--t-foreground)] truncate">
                       {store.social_links.facebook}
                     </span>
                   </div>

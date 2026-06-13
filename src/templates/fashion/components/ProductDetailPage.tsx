@@ -91,16 +91,16 @@ export function ProductDetailPage({
 
       <main className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8">
         {/* Breadcrumb — desktop only */}
-        <div className="hidden md:flex items-center gap-1.5 py-4 text-[11px] text-[var(--t-text-muted)]">
-          <span className="cursor-pointer hover:text-[var(--t-text-primary)] transition-colors">
+        <div className="hidden md:flex items-center gap-1.5 py-4 text-[11px] text-[var(--t-muted)]">
+          <span className="cursor-pointer hover:text-[var(--t-foreground)] transition-colors">
             Inicio
           </span>
           <span>/</span>
-          <span className="cursor-pointer hover:text-[var(--t-text-primary)] transition-colors">
+          <span className="cursor-pointer hover:text-[var(--t-foreground)] transition-colors">
             Productos
           </span>
           <span>/</span>
-          <span className="text-[var(--t-text-primary)]">{product.name}</span>
+          <span className="text-[var(--t-foreground)]">{product.name}</span>
         </div>
 
         <div className="flex flex-col md:flex-row md:gap-8 lg:gap-12 md:items-start">
@@ -110,17 +110,17 @@ export function ProductDetailPage({
             <div className="absolute top-4 left-4 z-10">
               <button
                 type="button"
-                className="flex items-center gap-1 px-3 py-2 bg-[var(--t-card-bg)]/80 transition-opacity hover:opacity-60 border-0 cursor-pointer"
+                className="flex items-center gap-1 px-3 py-2 bg-[var(--t-surface)]/80 transition-opacity hover:opacity-60 border-0 cursor-pointer"
                 onClick={onBack}
                 aria-label="Volver"
               >
                 <ArrowLeft
                   size={16}
                   strokeWidth={1.5}
-                  className="text-[var(--t-text-primary)]"
+                  className="text-[var(--t-foreground)]"
                 />
                 <span
-                  className="text-[11px] font-medium uppercase tracking-wider text-[var(--t-text-primary)]"
+                  className="text-[11px] font-medium uppercase tracking-wider text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   Volver
@@ -144,7 +144,7 @@ export function ProductDetailPage({
                 />
               ) : (
                 <div className="w-full h-full bg-[var(--t-background)] flex items-center justify-center">
-                  <span className="text-[var(--t-text-muted)] text-xs uppercase">
+                  <span className="text-[var(--t-muted)] text-xs uppercase">
                     SIN IMAGEN
                   </span>
                 </div>
@@ -184,7 +184,7 @@ export function ProductDetailPage({
           <div className="px-5 md:px-0 py-6 md:py-2 w-full md:w-1/2">
             {/* Product name */}
             <h1
-              className="mb-3 leading-tight text-sm md:text-base lg:text-lg font-bold uppercase tracking-[1px] text-[var(--t-text-primary)]"
+              className="mb-3 leading-tight text-sm md:text-base lg:text-lg font-bold uppercase tracking-[1px] text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               {product.name}
@@ -193,21 +193,21 @@ export function ProductDetailPage({
             {/* Price row */}
             <div className="flex items-baseline justify-between mb-4 md:mb-5">
               <span
-                className="text-[11px] md:text-xs text-[var(--t-text-muted)]"
+                className="text-[11px] md:text-xs text-[var(--t-muted)]"
                 style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
               >
                 Precio incluye impuestos
               </span>
               <div className="flex items-baseline gap-2">
                 <span
-                  className="text-base md:text-lg font-semibold text-[var(--t-text-primary)]"
+                  className="text-base md:text-lg font-semibold text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   {formatPrice(product.price, currencySymbol)}
                 </span>
                 {product.originalPrice && (
                   <span
-                    className="line-through text-[13px] md:text-sm text-[var(--t-text-muted)]"
+                    className="line-through text-[13px] md:text-sm text-[var(--t-muted)]"
                     style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
                   >
                     {formatPrice(product.originalPrice, currencySymbol)}
@@ -219,7 +219,7 @@ export function ProductDetailPage({
             {/* Description */}
             {product.description && (
               <p
-                className="mb-5 text-[10px] md:text-xs lg:text-sm text-[var(--t-text-muted)]"
+                className="mb-5 text-[10px] md:text-xs lg:text-sm text-[var(--t-muted)]"
                 style={{
                   fontFamily: "var(--font-sans, 'Inter', sans-serif)",
                   fontWeight: 400,
@@ -237,7 +237,7 @@ export function ProductDetailPage({
             {product.colors && product.colors.length > 0 && (
               <div className="mb-5">
                 <p
-                  className="mb-3 text-xs font-medium text-[var(--t-text-primary)]"
+                  className="mb-3 text-xs font-medium text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   Color{selectedColor ? `: ${getColorName(selectedColor)}` : ""}
@@ -254,7 +254,7 @@ export function ProductDetailPage({
             {product.storageOptions && product.storageOptions.length > 0 && (
               <div className="mb-5">
                 <p
-                  className="mb-3 text-xs font-medium text-[var(--t-text-primary)]"
+                  className="mb-3 text-xs font-medium text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   Talla{selectedSize ? `: ${selectedSize}` : ""}

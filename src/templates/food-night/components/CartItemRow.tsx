@@ -32,7 +32,7 @@ export function CartItemRow({
   return (
     <article
       className="flex items-start gap-3 py-4"
-      style={{ borderBottom: "1px solid var(--t-border-light)" }}
+      style={{ borderBottom: "1px solid var(--t-border-mid)" }}
       aria-label={`Producto: ${item.name}`}
     >
       {/* Thumbnail */}
@@ -42,7 +42,7 @@ export function CartItemRow({
           width: 68,
           height: 68,
           borderRadius: "var(--t-radius-card)",
-          backgroundColor: "var(--t-card-bg)",
+          backgroundColor: "var(--t-card)",
         }}
       >
         {item.imageUrl ? (
@@ -64,13 +64,13 @@ export function CartItemRow({
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p
           className="text-[13px] font-semibold leading-snug truncate"
-          style={{ color: "var(--t-text-primary)" }}
+          style={{ color: "var(--t-foreground)" }}
         >
           {item.name}
         </p>
 
         {item.sizeLabel && (
-          <p className="text-[11px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+          <p className="text-[11px] font-normal" style={{ color: "var(--t-muted)" }}>
             Tamaño: {item.sizeLabel}
           </p>
         )}
@@ -80,14 +80,14 @@ export function CartItemRow({
             <Star
               size={11}
               strokeWidth={0}
-              fill="var(--t-rating-star)"
-              style={{ color: "var(--t-rating-star)" }}
+              fill="var(--t-accent)"
+              style={{ color: "var(--t-accent)" }}
             />
-            <span className="text-[11px] font-medium" style={{ color: "var(--t-text-secondary)" }}>
+            <span className="text-[11px] font-medium" style={{ color: "var(--t-muted)" }}>
               {(item.rating ?? 0).toFixed(1)}
             </span>
             {(item.reviewCount ?? 0) > 0 && (
-              <span className="text-[11px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+              <span className="text-[11px] font-normal" style={{ color: "var(--t-muted)" }}>
                 ({new Intl.NumberFormat("en-US").format(item.reviewCount ?? 0)})
               </span>
             )}
@@ -101,7 +101,7 @@ export function CartItemRow({
             onIncrement={() => onIncrement?.(item.productId)}
             size="sm"
           />
-          <span className="text-[14px] font-bold" style={{ color: "var(--t-text-primary)" }}>
+          <span className="text-[14px] font-bold" style={{ color: "var(--t-foreground)" }}>
             {formatPrice(lineTotal, currencySymbol)}
           </span>
         </div>
@@ -116,13 +116,13 @@ export function CartItemRow({
           width: 32,
           height: 32,
           borderRadius: "50%",
-          backgroundColor: "var(--t-card-bg)",
+          backgroundColor: "var(--t-card)",
           border: "none",
           cursor: "pointer",
         }}
         aria-label={`Eliminar ${item.name} del carrito`}
       >
-        <Trash2 size={14} strokeWidth={2} style={{ color: "var(--t-text-muted)" }} />
+        <Trash2 size={14} strokeWidth={2} style={{ color: "var(--t-muted)" }} />
       </button>
     </article>
   );

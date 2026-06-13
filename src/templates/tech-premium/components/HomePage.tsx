@@ -155,7 +155,7 @@ export function HomePage({
     const sectionHeading = (
       <h2
         id="categories-heading"
-        className="text-[var(--t-text-primary)] tracking-[0.24px]"
+        className="text-[var(--t-foreground)] tracking-[0.24px]"
         style={{
           fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
           fontSize: "var(--t-type-heading-size, 1.5rem)",
@@ -226,8 +226,8 @@ export function HomePage({
                   type="button"
                   className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors cursor-pointer
                     ${isActive
-                      ? "bg-[var(--t-category-active-bg)] text-[var(--t-category-active-text)] border-[var(--t-primary)]"
-                      : "bg-[var(--t-surface)] text-[var(--t-primary)] border-[var(--t-border)] hover:border-[var(--t-primary)]"
+                      ? "bg-[var(--t-primary)] text-[var(--t-on-primary)] border-[var(--t-primary)]"
+                      : "bg-[var(--t-card)] text-[var(--t-primary)] border-[var(--t-border)] hover:border-[var(--t-primary)]"
                     }`}
                   onClick={() => onCategoryClick?.(cat.id)}
                   aria-pressed={isActive}
@@ -254,14 +254,14 @@ export function HomePage({
           <div className="flex gap-4">
             <button
               type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
               aria-label="Categorías anteriores"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               type="button"
-              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-text-primary)]/40 hover:text-[var(--t-text-primary)] transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
               aria-label="Siguientes categorías"
             >
               <ChevronRight className="w-5 h-5" />
@@ -290,7 +290,7 @@ export function HomePage({
   function renderProducts() {
     return (
       <section
-        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px]"
+        className="bg-[var(--t-background)] px-6 lg:px-[160px]"
         style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
         aria-labelledby="products-heading"
       >
@@ -306,7 +306,7 @@ export function HomePage({
               type="button"
               role="tab"
               aria-selected={activeProductTab === tab.id}
-              className={`bg-transparent border-0 cursor-pointer text-sm lg:text-lg font-medium leading-8 transition-colors pb-1 whitespace-nowrap ${tabStyleClasses(layout?.tabStyle ?? "underline", activeProductTab === tab.id)}`}
+              className={`bg-transparent border-0 cursor-pointer text-sm lg:text-lg font-medium leading-8 transition-colors pb-1 whitespace-nowrap ${tabStyleClasses("underline", activeProductTab === tab.id)}`}
               onClick={() => onProductTabChange?.(tab.id)}
             >
               {tab.label}
@@ -384,13 +384,13 @@ export function HomePage({
   function renderDiscounts() {
     return (
       <section
-        className="bg-[var(--t-section-bg)] px-6 lg:px-[160px]"
+        className="bg-[var(--t-background)] px-6 lg:px-[160px]"
         style={{ paddingTop: "var(--t-space-section, 2.5rem)", paddingBottom: "var(--t-space-section, 2.5rem)" }}
         aria-labelledby="discounts-heading"
       >
         <h2
           id="discounts-heading"
-          className="text-[var(--t-text-primary)] text-left mb-8"
+          className="text-[var(--t-foreground)] text-left mb-8"
           style={{
             fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
             fontSize: "var(--t-type-heading-size, 1.5rem)",
@@ -441,7 +441,7 @@ export function HomePage({
         )}
         {/* Desktop: background image + text overlay */}
         <section
-          className={`relative hidden lg:flex items-center justify-center w-full overflow-hidden ${bannerHeightClass(layout?.bannerHeight ?? "normal")}`}
+          className={`relative hidden lg:flex items-center justify-center w-full overflow-hidden ${bannerHeightClass("normal")}`}
           aria-labelledby="summer-sale-heading"
         >
           <Image
@@ -462,7 +462,7 @@ export function HomePage({
                   {summerSaleBanner.titleBold}
                 </span>
               </h2>
-              <p className="text-[var(--t-text-summer-sale)] text-base font-normal leading-8 mt-1">
+              <p className="text-[var(--t-muted)] text-base font-normal leading-8 mt-1">
                 {summerSaleBanner.description}
               </p>
             </div>

@@ -11,7 +11,7 @@ import type { StoreInfo } from "../types";
 interface HeaderProps {
   store: StoreInfo;
   cartItemCount?: number;
-  layout?: { headerStyle?: string };
+  layout?: Record<string, unknown>;
   onSearchClick?: () => void;
   onCartClick?: () => void;
 }
@@ -28,7 +28,7 @@ export function Header({
   return (
     <header
       className="sticky top-0 z-40 w-full"
-      style={{ backgroundColor: "var(--t-header-bg)" }}
+      style={{ backgroundColor: "var(--t-background)" }}
     >
       <div className="max-w-7xl mx-auto flex items-center px-4 md:px-6 lg:px-8 h-16 w-full">
 
@@ -36,13 +36,13 @@ export function Header({
         <div className="lg:hidden flex flex-col justify-center min-w-0 flex-1">
           <span
             className="text-[12px] font-normal leading-tight"
-            style={{ color: "var(--t-text-secondary)" }}
+            style={{ color: "var(--t-muted)" }}
           >
             {greeting}
           </span>
           <span
             className="truncate text-[16px] font-bold leading-tight"
-            style={{ color: "var(--t-text-primary)" }}
+            style={{ color: "var(--t-foreground)" }}
           >
             {store.name}
           </span>
@@ -71,8 +71,8 @@ export function Header({
                 width: 32,
                 height: 32,
                 borderRadius: "50%",
-                backgroundColor: "var(--t-card-bg)",
-                color: "var(--t-text-primary)",
+                backgroundColor: "var(--t-card)",
+                color: "var(--t-foreground)",
               }}
               aria-hidden="true"
             >
@@ -104,8 +104,8 @@ export function Header({
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
-                backgroundColor: "var(--t-card-bg)",
-                color: "var(--t-text-primary)",
+                backgroundColor: "var(--t-card)",
+                color: "var(--t-foreground)",
               }}
               aria-hidden="true"
             >
@@ -114,7 +114,7 @@ export function Header({
           )}
           <span
             className="text-[18px] font-bold"
-            style={{ color: "var(--t-text-primary)" }}
+            style={{ color: "var(--t-foreground)" }}
           >
             {store.name}
           </span>
@@ -126,7 +126,7 @@ export function Header({
             className="flex items-center gap-2 w-full max-w-sm px-4 cursor-text"
             style={{
               backgroundColor: "transparent",
-              border: "1px solid var(--t-border)",
+              border: "1px solid var(--t-border-light)",
               borderRadius: "var(--t-radius-category)",
               height: 40,
             }}
@@ -141,11 +141,11 @@ export function Header({
             <Search
               size={15}
               strokeWidth={2}
-              style={{ color: "var(--t-text-muted)", flexShrink: 0 }}
+              style={{ color: "var(--t-muted)", flexShrink: 0 }}
             />
             <span
               className="text-[13px] font-normal flex-1"
-              style={{ color: "var(--t-text-muted)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               Buscar platos...
             </span>
@@ -161,13 +161,13 @@ export function Header({
             onClick={onCartClick}
             style={{ background: "none", border: "none", cursor: "pointer" }}
           >
-            <ShoppingBag size={20} strokeWidth={1.75} style={{ color: "var(--t-text-primary)" }} />
+            <ShoppingBag size={20} strokeWidth={1.75} style={{ color: "var(--t-foreground)" }} />
             {cartItemCount > 0 && (
               <span
                 className="absolute top-1 right-1 flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold leading-none"
                 style={{
-                  backgroundColor: "var(--t-badge-bg)",
-                  color: "var(--t-badge-text)",
+                  backgroundColor: "var(--t-primary)",
+                  color: "var(--t-on-primary)",
                 }}
                 aria-hidden="true"
               >

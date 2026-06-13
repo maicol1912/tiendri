@@ -39,7 +39,7 @@ export function ProductSection({
       <div className="flex items-center justify-between mb-4">
         <h2
           id={`section-${title.toLowerCase().replace(/\s+/g, "-")}`}
-          className="text-[var(--t-text-primary)]"
+          className="text-[var(--t-foreground)]"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "var(--t-type-heading-size, 1.25rem)",
@@ -66,13 +66,13 @@ export function ProductSection({
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "12px",
                 fontWeight: 700,
-                color: "var(--t-button-text)",
+                color: "var(--t-on-primary)",
                 letterSpacing: "-0.24px",
               }}
             >
               Ver todo
             </span>
-            <ChevronRight size={13} strokeWidth={2.5} style={{ color: "var(--t-button-text)" }} />
+            <ChevronRight size={13} strokeWidth={2.5} style={{ color: "var(--t-on-primary)" }} />
           </button>
         )}
       </div>

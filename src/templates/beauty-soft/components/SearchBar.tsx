@@ -23,7 +23,7 @@ export function SearchBar({
     <div
       className="flex items-center gap-3 px-4 py-3"
       style={{
-        backgroundColor: "var(--t-search-bg)",
+        backgroundColor: "var(--t-surface)",
         borderRadius: "var(--t-radius-button)",
       }}
     >
@@ -36,10 +36,10 @@ export function SearchBar({
         aria-hidden="true"
         style={{ flexShrink: 0 }}
       >
-        <circle cx="11" cy="11" r="8" stroke="var(--t-text-muted)" strokeWidth="1.75" />
+        <circle cx="11" cy="11" r="8" stroke="var(--t-muted)" strokeWidth="1.75" />
         <path
           d="M21 21l-4.35-4.35"
-          stroke="var(--t-text-muted)"
+          stroke="var(--t-muted)"
           strokeWidth="1.75"
           strokeLinecap="round"
         />
@@ -53,7 +53,7 @@ export function SearchBar({
         value={query}
         onChange={(e) => onQueryChange?.(e.target.value)}
         onFocus={onFocus}
-        className="flex-1 min-w-0 bg-transparent border-none outline-none text-[var(--t-text-primary)]"
+        className="flex-1 min-w-0 bg-transparent border-none outline-none text-[var(--t-foreground)]"
         style={{
           fontFamily: "var(--font-sans)",
           fontSize: "15px",
@@ -67,7 +67,7 @@ export function SearchBar({
         style={{
           width: "1px",
           height: "20px",
-          backgroundColor: "var(--t-border-mid)",
+          backgroundColor: "var(--t-border)",
           flexShrink: 0,
         }}
         aria-hidden="true"
@@ -83,13 +83,13 @@ export function SearchBar({
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"
-            stroke="var(--t-text-primary)"
+            stroke="var(--t-foreground)"
             strokeWidth="1.75"
             strokeLinecap="round"
           />
-          <line x1="1" y1="14" x2="7" y2="14" stroke="var(--t-text-primary)" strokeWidth="1.75" strokeLinecap="round" />
-          <line x1="9" y1="8" x2="15" y2="8" stroke="var(--t-text-primary)" strokeWidth="1.75" strokeLinecap="round" />
-          <line x1="17" y1="16" x2="23" y2="16" stroke="var(--t-text-primary)" strokeWidth="1.75" strokeLinecap="round" />
+          <line x1="1" y1="14" x2="7" y2="14" stroke="var(--t-foreground)" strokeWidth="1.75" strokeLinecap="round" />
+          <line x1="9" y1="8" x2="15" y2="8" stroke="var(--t-foreground)" strokeWidth="1.75" strokeLinecap="round" />
+          <line x1="17" y1="16" x2="23" y2="16" stroke="var(--t-foreground)" strokeWidth="1.75" strokeLinecap="round" />
         </svg>
       </button>
     </div>

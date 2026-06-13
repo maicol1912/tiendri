@@ -60,7 +60,7 @@ export function ProductCard({
       <div
         className={`relative w-full ${ratioClass}`}
         style={{
-          backgroundColor: "var(--t-surface)",
+          backgroundColor: "var(--t-secondary)",
           borderRadius: "var(--t-radius-card)",
         }}
       >
@@ -106,9 +106,9 @@ export function ProductCard({
             <span
               className="px-3 py-1"
               style={{
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: 9999,
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "11px",
                 fontWeight: 500,
@@ -126,7 +126,7 @@ export function ProductCard({
         <p
           className="leading-snug line-clamp-2 capitalize"
           style={{
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "15px",
             fontWeight: 500,
@@ -140,7 +140,7 @@ export function ProductCard({
           <p
             className="line-clamp-2 leading-snug"
             style={{
-              color: "var(--t-text-secondary)",
+              color: "var(--t-muted)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "13px",
               fontWeight: 300,
@@ -173,7 +173,7 @@ export function ProductCard({
                 <span
                   className="line-through"
                   style={{
-                    color: "var(--t-text-muted)",
+                    color: "var(--t-muted)",
                     fontFamily: "'League Spartan', sans-serif",
                     fontSize: "11px",
                     fontWeight: 300,
@@ -183,7 +183,7 @@ export function ProductCard({
                 </span>
                 <span
                   className={`text-xs font-semibold px-1.5 py-0.5 ${badgeClass}`}
-                  style={{ backgroundColor: "var(--t-badge-bg)", color: "var(--t-badge-text)" }}
+                  style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
                 >
                   -{Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
                 </span>

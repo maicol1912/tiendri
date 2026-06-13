@@ -34,7 +34,7 @@ export function CategoryTabsSection({
     <div className="flex flex-col gap-4">
       {/* Tab bar */}
       <div
-        className="flex overflow-x-auto gap-1 border-b border-[var(--t-nav-border)] pb-0"
+        className="flex overflow-x-auto gap-1 border-b border-[var(--t-border)] pb-0"
         role="tablist"
         aria-label="Categorías"
         style={{ scrollbarWidth: "none" }}
@@ -49,8 +49,8 @@ export function CategoryTabsSection({
               aria-selected={isActive}
               className={`shrink-0 px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer bg-transparent
                 ${isActive
-                  ? "border-[var(--t-primary)] text-[var(--t-text-primary)]"
-                  : "border-transparent text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)]"
+                  ? "border-[var(--t-primary)] text-[var(--t-foreground)]"
+                  : "border-transparent text-[var(--t-muted)] hover:text-[var(--t-foreground)]"
                 }`}
               onClick={() => handleTabClick(cat.id)}
             >

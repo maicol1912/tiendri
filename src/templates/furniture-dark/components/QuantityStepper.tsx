@@ -46,7 +46,7 @@ export function QuantityStepper({
         disabled={isMin}
         aria-label="Disminuir cantidad"
       >
-        <Minus size={iconSize} strokeWidth={3} style={{ color: "var(--t-button-text)" }} />
+        <Minus size={iconSize} strokeWidth={3} style={{ color: "var(--t-on-primary)" }} />
       </button>
 
       {/* Quantity display */}
@@ -56,7 +56,7 @@ export function QuantityStepper({
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: quantityFontSize,
           fontWeight: 600,
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
           letterSpacing: "-0.32px",
         }}
         aria-live="polite"
@@ -74,7 +74,7 @@ export function QuantityStepper({
         disabled={isMax}
         aria-label="Aumentar cantidad"
       >
-        <Plus size={iconSize} strokeWidth={3} style={{ color: "var(--t-button-text)" }} />
+        <Plus size={iconSize} strokeWidth={3} style={{ color: "var(--t-on-primary)" }} />
       </button>
     </div>
   );

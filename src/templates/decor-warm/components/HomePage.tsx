@@ -232,7 +232,7 @@ export function HomePage({
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <p
               style={{
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 margin: 0,

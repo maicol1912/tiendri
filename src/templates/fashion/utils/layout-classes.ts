@@ -4,13 +4,13 @@
 // can detect them without any dynamic string construction.
 
 // ── Card style ────────────────────────────────────────────────────────────────
-// "flat" → bg-[var(--t-card-bg)], no shadow (fashion default).
+// "flat" → bg-[var(--t-card)], no shadow (fashion default).
 export function cardStyleClass(style: string): string {
   const map: Record<string, string> = {
-    flat: "bg-[var(--t-card-bg)]",
-    shadow: "bg-[var(--t-card-bg)] shadow-md",
-    bordered: "bg-[var(--t-section-bg)] border border-[var(--t-border)]",
-    elevated: "bg-[var(--t-section-bg)] shadow-lg",
+    flat: "bg-[var(--t-card)]",
+    shadow: "bg-[var(--t-card)] shadow-md",
+    bordered: "bg-[var(--t-background)] border border-[var(--t-border)]",
+    elevated: "bg-[var(--t-background)] shadow-lg",
   };
   return map[style] ?? map["flat"]!;
 }
@@ -47,21 +47,21 @@ export function tabStyleClasses(
   const map: Record<string, { active: string; inactive: string }> = {
     underline: {
       active:
-        "text-[var(--t-tab-active)] border-b-2 border-[var(--t-primary)]",
+        "text-[var(--t-primary)] border-b-2 border-[var(--t-primary)]",
       inactive:
-        "text-[var(--t-text-muted)] border-b-2 border-transparent hover:text-[var(--t-primary)]/60",
+        "text-[var(--t-muted)] border-b-2 border-transparent hover:text-[var(--t-primary)]/60",
     },
     pills: {
       active:
-        "text-[var(--t-button-text)] bg-[var(--t-primary)] rounded-full px-4",
+        "text-[var(--t-on-primary)] bg-[var(--t-primary)] rounded-full px-4",
       inactive:
-        "text-[var(--t-text-muted)] bg-transparent rounded-full px-4 hover:bg-[var(--t-surface)]",
+        "text-[var(--t-muted)] bg-transparent rounded-full px-4 hover:bg-[var(--t-card)]",
     },
     bordered: {
       active:
-        "text-[var(--t-tab-active)] border border-[var(--t-primary)] rounded-md px-4",
+        "text-[var(--t-primary)] border border-[var(--t-primary)] rounded-md px-4",
       inactive:
-        "text-[var(--t-text-muted)] border border-transparent rounded-md px-4 hover:border-[var(--t-border)]",
+        "text-[var(--t-muted)] border border-transparent rounded-md px-4 hover:border-[var(--t-border)]",
     },
   };
   const styles = map[style] ?? map["underline"]!;

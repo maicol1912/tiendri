@@ -1,5 +1,5 @@
 // Furniture Dark — ProductCard
-// WHITE card bg (var(--t-card-bg) = #F5F5F4) for the IMAGE section only.
+// WHITE card bg (var(--t-card) = #F5F5F4) for the IMAGE section only.
 // Rating, name, and price sit BELOW the card on the dark page background.
 // Wishlist heart + yellow discount badge inside the image card.
 // MUST have max-w-sm w-full mx-auto per template rules
@@ -55,7 +55,7 @@ export function ProductCard({
       {/* ── Image card — white/light background, rounded */}
       <div
         className="relative aspect-square w-full overflow-hidden rounded-[var(--t-radius-card)]"
-        style={{ backgroundColor: "var(--t-card-bg)" }}
+        style={{ backgroundColor: "var(--t-card)" }}
       >
         {mainImage ? (
           <Image
@@ -68,9 +68,9 @@ export function ProductCard({
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "var(--t-card-bg)" }}
+            style={{ backgroundColor: "var(--t-card)" }}
           >
-            <span className="text-[var(--t-text-muted)] text-sm">Sin imagen</span>
+            <span className="text-[var(--t-muted)] text-sm">Sin imagen</span>
           </div>
         )}
 
@@ -79,8 +79,8 @@ export function ProductCard({
           <div
             className={`absolute top-2 left-2 px-2 py-0.5 ${badgeClass} text-xs font-bold leading-tight`}
             style={{
-              backgroundColor: "var(--t-badge-bg)",
-              color: "var(--t-badge-text)",
+              backgroundColor: "var(--t-primary)",
+              color: "var(--t-on-primary)",
               fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
             }}
           >
@@ -98,7 +98,7 @@ export function ProductCard({
             fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
             fontSize: "13px",
             fontWeight: 500,
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
             letterSpacing: "-0.26px",
           }}
         >
@@ -122,7 +122,7 @@ export function ProductCard({
               style={{
                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                 fontSize: "11px",
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
               }}
             >
               {formatPrice(product.originalPrice)}

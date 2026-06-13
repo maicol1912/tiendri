@@ -76,8 +76,8 @@ export function BottomNav({
                 <span
                   className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold leading-none"
                   style={{
-                    backgroundColor: "var(--t-badge-bg)",
-                    color: "var(--t-badge-text)",
+                    backgroundColor: "var(--t-primary)",
+                    color: "var(--t-on-primary)",
                   }}
                   aria-hidden="true"
                 >

@@ -20,7 +20,7 @@ export function Footer({ store }: FooterProps) {
     <footer
       className="w-full pb-20 lg:pb-8 pt-10"
       style={{
-        backgroundColor: "var(--t-footer-bg)",
+        backgroundColor: "var(--t-background)",
         borderTop: "1px solid var(--t-border)",
       }}
       aria-label="Pie de página de la tienda"
@@ -53,11 +53,11 @@ export function Footer({ store }: FooterProps) {
                 style={{
                   height: 32,
                   borderRadius: 9999,
-                  backgroundColor: "var(--t-surface)",
+                  backgroundColor: "var(--t-card)",
                   border: "1px solid var(--t-border)",
                   paddingLeft: 12,
                   paddingRight: 12,
-                  color: "var(--t-text-muted)",
+                  color: "var(--t-muted)",
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "12px",
                   fontWeight: 400,
@@ -78,11 +78,11 @@ export function Footer({ store }: FooterProps) {
                 style={{
                   height: 32,
                   borderRadius: 9999,
-                  backgroundColor: "var(--t-surface)",
+                  backgroundColor: "var(--t-card)",
                   border: "1px solid var(--t-border)",
                   paddingLeft: 12,
                   paddingRight: 12,
-                  color: "var(--t-text-muted)",
+                  color: "var(--t-muted)",
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "12px",
                   fontWeight: 400,
@@ -103,11 +103,11 @@ export function Footer({ store }: FooterProps) {
                 style={{
                   height: 32,
                   borderRadius: 9999,
-                  backgroundColor: "var(--t-surface)",
+                  backgroundColor: "var(--t-card)",
                   border: "1px solid var(--t-border)",
                   paddingLeft: 12,
                   paddingRight: 12,
-                  color: "var(--t-text-muted)",
+                  color: "var(--t-muted)",
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "12px",
                   fontWeight: 400,
@@ -125,7 +125,7 @@ export function Footer({ store }: FooterProps) {
         <div className="flex flex-col items-center gap-1">
           <span
             style={{
-              color: "var(--t-text-muted)",
+              color: "var(--t-muted)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "12px",
               fontWeight: 400,
@@ -150,7 +150,7 @@ export function Footer({ store }: FooterProps) {
         {store.whatsapp && (
           <p
             style={{
-              color: "var(--t-text-muted)",
+              color: "var(--t-muted)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "11px",
               fontWeight: 300,

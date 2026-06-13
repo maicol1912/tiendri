@@ -26,10 +26,10 @@ export function QuantityStepper({
         disabled={quantity <= min}
         aria-label="Reducir cantidad"
       >
-        <Minus size={12} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+        <Minus size={12} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
       </button>
       <span
-        className="w-8 text-center text-[13px] font-medium text-[var(--t-text-primary)] border-x border-[var(--t-border)]"
+        className="w-8 text-center text-[13px] font-medium text-[var(--t-foreground)] border-x border-[var(--t-border)]"
         style={{
           fontFamily: "var(--font-sans, 'Inter', sans-serif)",
           lineHeight: "32px",
@@ -43,7 +43,7 @@ export function QuantityStepper({
         onClick={onIncrement}
         aria-label="Aumentar cantidad"
       >
-        <Plus size={12} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+        <Plus size={12} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
       </button>
     </div>
   );

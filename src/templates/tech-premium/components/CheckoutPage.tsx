@@ -67,7 +67,7 @@ export function CheckoutPage({
   onTabChange,
   onNavLinkClick,
 }: CheckoutPageProps) {
-  const whatsappBtnClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const whatsappBtnClass = BUTTON_STYLE_MAP["filled"];
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const isEmpty = items.length === 0;
 
@@ -75,7 +75,7 @@ export function CheckoutPage({
     `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
 
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <Header
         store={store}
         navLinks={navLinks}
@@ -88,8 +88,8 @@ export function CheckoutPage({
       <main className="flex-1 px-4 py-10 lg:px-[160px] lg:py-16">
         {isEmpty ? (
           <div className="flex flex-col items-center gap-4 py-20">
-            <p className="text-xl font-semibold text-[var(--t-text-primary)]">No hay artículos para finalizar la compra</p>
-            <p className="text-base text-[var(--t-text-secondary)]">Agregá artículos al carrito primero</p>
+            <p className="text-xl font-semibold text-[var(--t-foreground)]">No hay artículos para finalizar la compra</p>
+            <p className="text-base text-[var(--t-muted)]">Agregá artículos al carrito primero</p>
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-12 max-w-5xl mx-auto">
@@ -102,14 +102,14 @@ export function CheckoutPage({
 
             {/* Right: Summary */}
             <aside className="lg:w-[380px] shrink-0">
-              <div className="border border-[var(--t-border-light)] rounded-[10px] px-6 py-8 flex flex-col gap-6 lg:sticky lg:top-24">
+              <div className="border border-[var(--t-border)] rounded-[10px] px-6 py-8 flex flex-col gap-6 lg:sticky lg:top-24">
                 <h2 className="text-lg font-bold text-[var(--t-primary)]">Resumen del pedido</h2>
 
                 {/* Items list */}
                 <div className="flex flex-col gap-4">
                   {items.map((item) => (
                     <div key={item.productId} className="flex items-center gap-3">
-                      <div className="relative w-12 h-12 shrink-0 bg-[var(--t-card-bg)] rounded">
+                      <div className="relative w-12 h-12 shrink-0 bg-[var(--t-card)] rounded">
                         {item.imageUrl && (
                           <Image
                             src={item.imageUrl}
@@ -122,10 +122,10 @@ export function CheckoutPage({
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[var(--t-text-primary)] truncate">{item.name}</p>
-                        <p className="text-xs text-[var(--t-text-secondary)]">x{item.quantity}</p>
+                        <p className="text-sm font-medium text-[var(--t-foreground)] truncate">{item.name}</p>
+                        <p className="text-xs text-[var(--t-muted)]">x{item.quantity}</p>
                       </div>
-                      <span className="text-sm font-medium text-[var(--t-text-primary)] shrink-0">
+                      <span className="text-sm font-medium text-[var(--t-foreground)] shrink-0">
                         {fmt(item.price * item.quantity)}
                       </span>
                     </div>
@@ -133,9 +133,9 @@ export function CheckoutPage({
                 </div>
 
                 {/* Total */}
-                <div className="border-t border-[var(--t-border-light)] pt-4 flex items-center justify-between">
-                  <span className="text-base font-semibold text-[var(--t-text-primary)]">Total</span>
-                  <span className="text-base font-semibold text-[var(--t-text-primary)]">{fmt(subtotal)}</span>
+                <div className="border-t border-[var(--t-border)] pt-4 flex items-center justify-between">
+                  <span className="text-base font-semibold text-[var(--t-foreground)]">Total</span>
+                  <span className="text-base font-semibold text-[var(--t-foreground)]">{fmt(subtotal)}</span>
                 </div>
 
                 {/* CTA */}
@@ -149,9 +149,9 @@ export function CheckoutPage({
                       <WhatsAppIcon />
                       Enviar por WhatsApp
                     </button>
-                    <p className="text-xs text-center text-[var(--t-text-secondary)]">
+                    <p className="text-xs text-center text-[var(--t-muted)]">
                       ¿Te gustó este template?{" "}
-                      <span className="text-[var(--t-text-primary)] underline cursor-pointer font-medium">
+                      <span className="text-[var(--t-foreground)] underline cursor-pointer font-medium">
                         Creá tu tienda gratis
                       </span>
                     </p>

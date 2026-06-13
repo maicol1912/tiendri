@@ -23,7 +23,7 @@ interface SearchShellRouteProps {
 export function SearchShellRoute({
   store,
   products,
-  popularSearches = decorWarmConfig.popularSearches as unknown as string[],
+  popularSearches = decorWarmConfig.content.popularSearches as unknown as string[],
   currencySymbol = "$",
 }: SearchShellRouteProps) {
   const nav = useTemplateNav();

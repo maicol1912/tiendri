@@ -32,9 +32,9 @@ export function CheckoutForm({
   const total = subtotal + SHIPPING;
 
   const inputClass =
-    "w-full px-3.5 py-3 text-sm rounded-[var(--t-radius-button)] border border-[var(--t-border-input)] bg-[var(--t-search-bg)] text-[var(--t-text-primary)] placeholder-[var(--t-text-muted)] outline-none focus:border-[var(--t-primary)] transition-colors";
+    "w-full px-3.5 py-3 text-sm rounded-[var(--t-radius-button)] border border-[var(--t-border)] bg-[var(--t-card)] text-[var(--t-foreground)] placeholder-[var(--t-muted)] outline-none focus:border-[var(--t-primary)] transition-colors";
 
-  const labelClass = "block text-xs font-semibold text-[var(--t-text-primary)] mb-1";
+  const labelClass = "block text-xs font-semibold text-[var(--t-foreground)] mb-1";
 
   return (
     <div className="lg:grid lg:grid-cols-[1fr_360px] lg:gap-8 lg:items-start">
@@ -45,7 +45,7 @@ export function CheckoutForm({
           className="p-4"
           style={{ borderRadius: "var(--t-radius-card)", border: "1px solid var(--t-border)", backgroundColor: "var(--t-background)" }}
         >
-          <p className="text-sm font-bold text-[var(--t-text-primary)] mb-4">Información de contacto</p>
+          <p className="text-sm font-bold text-[var(--t-foreground)] mb-4">Información de contacto</p>
           <div className="space-y-3">
             <div>
               <label className={labelClass}>Nombre completo *</label>
@@ -88,7 +88,7 @@ export function CheckoutForm({
           className="p-4"
           style={{ borderRadius: "var(--t-radius-card)", border: "1px solid var(--t-border)", backgroundColor: "var(--t-background)" }}
         >
-          <p className="text-sm font-bold text-[var(--t-text-primary)] mb-4">Entrega</p>
+          <p className="text-sm font-bold text-[var(--t-foreground)] mb-4">Entrega</p>
           <div className="space-y-3">
             <div>
               <label className={labelClass}>Dirección *</label>
@@ -119,24 +119,24 @@ export function CheckoutForm({
           className="p-4"
           style={{ borderRadius: "var(--t-radius-card)", border: "1px solid var(--t-border)", backgroundColor: "var(--t-background)" }}
         >
-          <p className="text-sm font-bold text-[var(--t-text-primary)] mb-3">Productos ({items.length})</p>
+          <p className="text-sm font-bold text-[var(--t-foreground)] mb-3">Productos ({items.length})</p>
           <div className="space-y-3">
             {items.map((item) => (
               <div key={item.productId} className="flex items-center gap-3">
                 <div
                   className="relative shrink-0 overflow-hidden"
-                  style={{ width: "52px", height: "52px", borderRadius: "var(--t-radius-card)", backgroundColor: "var(--t-card-bg)" }}
+                  style={{ width: "52px", height: "52px", borderRadius: "var(--t-radius-card)", backgroundColor: "var(--t-card)" }}
                 >
                   {item.imageUrl && (
                     <Image src={item.imageUrl} alt={item.name} fill className="object-contain p-1" sizes="52px" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-[var(--t-text-primary)] line-clamp-1">{item.name}</p>
-                  {item.variant && <p className="text-[10px] text-[var(--t-text-muted)]">{item.variant}</p>}
-                  <p className="text-xs text-[var(--t-text-muted)]">x{item.quantity}</p>
+                  <p className="text-xs font-semibold text-[var(--t-foreground)] line-clamp-1">{item.name}</p>
+                  {item.variant && <p className="text-[10px] text-[var(--t-muted)]">{item.variant}</p>}
+                  <p className="text-xs text-[var(--t-muted)]">x{item.quantity}</p>
                 </div>
-                <p className="text-sm font-bold text-[var(--t-text-primary)] shrink-0">{fmt(item.price * item.quantity, currencySymbol)}</p>
+                <p className="text-sm font-bold text-[var(--t-foreground)] shrink-0">{fmt(item.price * item.quantity, currencySymbol)}</p>
               </div>
             ))}
           </div>
@@ -145,9 +145,9 @@ export function CheckoutForm({
           <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[var(--t-border)]">
             <div
               className="w-[52px] h-[52px] shrink-0 flex items-center justify-center"
-              style={{ borderRadius: "var(--t-radius-card)", backgroundColor: "var(--t-section-bg)" }}
+              style={{ borderRadius: "var(--t-radius-card)", backgroundColor: "var(--t-background)" }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t-text-muted)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t-muted)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="1" y="3" width="15" height="13" />
                 <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                 <circle cx="5.5" cy="18.5" r="2.5" />
@@ -155,10 +155,10 @@ export function CheckoutForm({
               </svg>
             </div>
             <div className="flex-1">
-              <p className="text-xs font-semibold text-[var(--t-text-primary)]">Envío estándar</p>
-              <p className="text-[10px] text-[var(--t-text-muted)]">3-5 días hábiles</p>
+              <p className="text-xs font-semibold text-[var(--t-foreground)]">Envío estándar</p>
+              <p className="text-[10px] text-[var(--t-muted)]">3-5 días hábiles</p>
             </div>
-            <p className="text-sm font-bold text-[var(--t-text-primary)]">{fmt(SHIPPING, currencySymbol)}</p>
+            <p className="text-sm font-bold text-[var(--t-foreground)]">{fmt(SHIPPING, currencySymbol)}</p>
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@ export function CheckoutForm({
           style={{
             borderRadius: "var(--t-radius-button)",
             backgroundColor: "var(--t-primary)",
-            color: "var(--t-button-text)",
+            color: "var(--t-on-primary)",
           }}
         >
           {/* WhatsApp icon */}

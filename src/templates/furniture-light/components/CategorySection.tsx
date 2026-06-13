@@ -17,14 +17,14 @@ interface CategorySectionProps {
 }
 
 const CATEGORY_ICON_MAP: Record<string, React.ReactNode> = {
-  table:     <Table     size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  chair:     <Armchair  size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  cabinet:   <Archive   size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  sofa:      <Sofa      size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  bed:       <BedDouble size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  kitchen:   <UtensilsCrossed size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  bathroom:  <Bath      size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
-  workspace: <Monitor   size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />,
+  table:     <Table     size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  chair:     <Armchair  size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  cabinet:   <Archive   size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  sofa:      <Sofa      size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  bed:       <BedDouble size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  kitchen:   <UtensilsCrossed size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  bathroom:  <Bath      size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
+  workspace: <Monitor   size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />,
 };
 
 function getCategoryIcon(name: string, icon?: string): React.ReactNode {
@@ -33,7 +33,7 @@ function getCategoryIcon(name: string, icon?: string): React.ReactNode {
   for (const [key, el] of Object.entries(CATEGORY_ICON_MAP)) {
     if (lower.includes(key)) return el;
   }
-  return <Armchair size={20} strokeWidth={1.8} style={{ color: "var(--t-text-primary)" }} />;
+  return <Armchair size={20} strokeWidth={1.8} style={{ color: "var(--t-foreground)" }} />;
 }
 
 export function CategorySection({ categories, activeCategoryId, onCategoryChange, onSeeAll }: CategorySectionProps) {
@@ -45,7 +45,7 @@ export function CategorySection({ categories, activeCategoryId, onCategoryChange
       {/* Section header */}
       <div className="flex items-center justify-between mb-4">
         <h2
-          className="text-base font-bold text-[var(--t-text-primary)]"
+          className="text-base font-bold text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
         >
           Categorías
@@ -87,7 +87,7 @@ export function CategorySection({ categories, activeCategoryId, onCategoryChange
                 style={{
                   backgroundColor: isActive
                     ? "var(--t-category-icon-active-bg, #FFF3E6)"
-                    : "var(--t-surface)",
+                    : "var(--t-card)",
                   border: isActive
                     ? "2px solid var(--t-primary)"
                     : "none",
@@ -96,7 +96,7 @@ export function CategorySection({ categories, activeCategoryId, onCategoryChange
                 {getCategoryIcon(cat.name, cat.icon)}
               </div>
               {/* Label */}
-              <span className="text-[11px] font-medium text-[var(--t-text-muted)]">
+              <span className="text-[11px] font-medium text-[var(--t-muted)]">
                 {cat.name}
               </span>
             </button>

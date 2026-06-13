@@ -109,19 +109,8 @@ export interface MutableGrid {
 }
 
 export interface MutableLayout {
-  cardStyle: string;
-  cardHoverEffect: string;
+  // Fields in TemplateLayoutConfig
   cardImageRatio: string;
-  tabStyle: string;
-  navStyle: string;
-  bannerHeight: string;
-  headerStyle: string;
-  footerStyle: string;
-  buttonStyle: string;
-  badgeStyle: string;
-  priceDisplay: string;
-  animationLevel: string;
-  shadowStyle: string;
   shadowElevation: string;
   transitionSpeed: string;
   transitionEasing: string;
@@ -132,6 +121,20 @@ export interface MutableLayout {
   imageHoverEffect: string;
   cardBorderTreatment: string;
   cardPadding: string;
+  // Preset-managed fields (not in TemplateLayoutConfig, stored at runtime)
+  cardStyle: string;
+  cardHoverEffect: string;
+  animationLevel: string;
+  shadowStyle: string;
+  headerStyle: string;
+  bannerHeight: string;
+  buttonStyle: string;
+  badgeStyle: string;
+  priceDisplay: string;
+  // Legacy template-specific fields (still used by per-template layout options)
+  tabStyle: string;
+  navStyle: string;
+  footerStyle: string;
   [key: string]: string;
 }
 

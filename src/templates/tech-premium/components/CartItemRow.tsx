@@ -44,7 +44,7 @@ export function CartItemRow({
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full bg-[var(--t-card-bg)] rounded" />
+          <div className="w-full h-full bg-[var(--t-card)] rounded" />
         )}
       </div>
 
@@ -52,8 +52,8 @@ export function CartItemRow({
       <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-0 flex-1 min-w-0">
         {/* Name + SKU */}
         <div className="flex flex-col gap-2 flex-1 min-w-[106px]">
-          <p className="text-base font-medium text-[var(--t-text-primary)] line-clamp-2">{item.name}</p>
-          <p className="text-sm text-[var(--t-text-primary)]">
+          <p className="text-base font-medium text-[var(--t-foreground)] line-clamp-2">{item.name}</p>
+          <p className="text-sm text-[var(--t-foreground)]">
             #{item.productId.replace(/\D/g, "").slice(0, 14) || "00000000"}
           </p>
         </div>
@@ -68,10 +68,10 @@ export function CartItemRow({
               onClick={() => onDecrement?.(item.productId)}
               aria-label="Disminuir cantidad"
             >
-              <Minus className="w-4 h-4 text-[var(--t-text-primary)]" />
+              <Minus className="w-4 h-4 text-[var(--t-foreground)]" />
             </button>
-            <div className="border border-[var(--t-border-mid)]/50 rounded px-4 py-2 min-w-[32px] text-center">
-              <span className="text-base font-medium text-[var(--t-text-primary)]">{item.quantity}</span>
+            <div className="border border-[var(--t-border)]/50 rounded px-4 py-2 min-w-[32px] text-center">
+              <span className="text-base font-medium text-[var(--t-foreground)]">{item.quantity}</span>
             </div>
             <button
               type="button"
@@ -79,12 +79,12 @@ export function CartItemRow({
               onClick={() => onIncrement?.(item.productId)}
               aria-label="Aumentar cantidad"
             >
-              <Plus className="w-4 h-4 text-[var(--t-text-primary)]" />
+              <Plus className="w-4 h-4 text-[var(--t-foreground)]" />
             </button>
           </div>
 
           {/* Price */}
-          <span className="text-xl font-medium text-[var(--t-text-primary)] tracking-[0.6px] whitespace-nowrap">
+          <span className="text-xl font-medium text-[var(--t-foreground)] tracking-[0.6px] whitespace-nowrap">
             {fmt(item.price * item.quantity)}
           </span>
 
@@ -95,7 +95,7 @@ export function CartItemRow({
             onClick={() => onRemove?.(item.productId)}
             aria-label={`Eliminar ${item.name} del carrito`}
           >
-            <X className="w-5 h-5 text-[var(--t-text-primary)]" />
+            <X className="w-5 h-5 text-[var(--t-foreground)]" />
           </button>
         </div>
       </div>

@@ -29,7 +29,7 @@ export function BottomNav({
     <nav
       className="lg:hidden fixed bottom-0 left-0 right-0 z-50"
       style={{
-        backgroundColor: "var(--t-header-bg)",
+        backgroundColor: "var(--t-background)",
         borderTop: "1px solid var(--t-border)",
         height: 64,
         paddingBottom: "env(safe-area-inset-bottom, 0px)",

@@ -81,7 +81,7 @@ export function ImageCarousel({
       className="relative w-full overflow-hidden"
       style={{
         aspectRatio: "345 / 279",
-        backgroundColor: "var(--t-card-bg)",
+        backgroundColor: "var(--t-card)",
         borderRadius: "var(--t-radius-card)",
         maxHeight: "420px",
       }}
@@ -118,16 +118,16 @@ export function ImageCarousel({
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
           <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-            <rect width="56" height="56" rx="12" fill="var(--t-card-bg)" />
+            <rect width="56" height="56" rx="12" fill="var(--t-card)" />
             <path
               d="M12 40l11-11 7 7 10-13 16 17"
-              stroke="var(--t-border-mid)"
+              stroke="var(--t-border)"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
             />
-            <circle cx="19" cy="22" r="4" fill="var(--t-border-mid)" />
+            <circle cx="19" cy="22" r="4" fill="var(--t-border)" />
           </svg>
         </div>
       )}
@@ -142,7 +142,7 @@ export function ImageCarousel({
               width: "47px",
               height: "47px",
               borderRadius: "50%",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
             }}
             aria-label="Volver"
@@ -152,7 +152,7 @@ export function ImageCarousel({
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M15 18l-6-6 6-6"
-                stroke="var(--t-text-primary)"
+                stroke="var(--t-foreground)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -161,7 +161,7 @@ export function ImageCarousel({
           </motion.button>
 
           <span
-            className="text-[20px] font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Detalles
@@ -174,7 +174,7 @@ export function ImageCarousel({
               width: "47px",
               height: "47px",
               borderRadius: "50%",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
             }}
             aria-label="Carrito"
@@ -184,15 +184,15 @@ export function ImageCarousel({
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
-                stroke="var(--t-text-primary)"
+                stroke="var(--t-foreground)"
                 strokeWidth="1.75"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-text-primary)" strokeWidth="1.75" />
+              <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-foreground)" strokeWidth="1.75" />
               <path
                 d="M16 10a4 4 0 0 1-8 0"
-                stroke="var(--t-text-primary)"
+                stroke="var(--t-foreground)"
                 strokeWidth="1.75"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -224,7 +224,7 @@ export function ImageCarousel({
                 borderRadius: "14px",
                 backgroundColor:
                   index === activeIndex
-                    ? "var(--t-text-primary)"
+                    ? "var(--t-foreground)"
                     : "rgba(0,0,0,0.37)",
                 transition: "width 0.25s ease, background-color 0.2s ease",
                 flexShrink: 0,

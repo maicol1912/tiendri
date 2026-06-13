@@ -47,9 +47,9 @@ export function CartShellRoute({
     <CartPage
       store={store}
       items={items}
-      navLinks={config.navLinks}
-      footerServices={config.footerServices}
-      footerAssistance={config.footerAssistance}
+      navLinks={config.content?.navLinks ?? []}
+      footerServices={config.content?.footerServices ?? []}
+      footerAssistance={config.content?.footerAssistance ?? []}
       shipping={29}
       tax={50}
       currencySymbol={currencySymbol}

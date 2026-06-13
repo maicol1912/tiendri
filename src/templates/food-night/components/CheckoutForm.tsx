@@ -42,8 +42,8 @@ const inputBaseStyle: React.CSSProperties = {
   width: "100%",
   padding: "10px 14px",
   borderRadius: "var(--t-radius-category)",
-  backgroundColor: "var(--t-card-bg)",
-  color: "var(--t-text-primary)",
+  backgroundColor: "var(--t-card)",
+  color: "var(--t-foreground)",
   fontSize: "13px",
   fontWeight: 400,
   outline: "none",
@@ -61,14 +61,14 @@ export function CheckoutForm({ data, errors = {}, onChange }: CheckoutFormProps)
     >
       {FIELDS.map((field) => {
         const error = errors[field.id];
-        const borderColor = error ? "var(--t-primary)" : "var(--t-border-light)";
+        const borderColor = error ? "var(--t-primary)" : "var(--t-border)";
 
         return (
           <div key={field.id} className="flex flex-col gap-1">
             <label
               htmlFor={`fn-checkout-${field.id}`}
               className="text-[12px] font-medium"
-              style={{ color: "var(--t-text-secondary)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               {field.label}
               {field.required && (

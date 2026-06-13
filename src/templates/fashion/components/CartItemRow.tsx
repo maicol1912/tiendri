@@ -40,7 +40,7 @@ export function CartItemRow({
             />
           ) : (
             <div className="w-full h-full bg-[var(--t-background)] flex items-center justify-center">
-              <span className="text-[var(--t-text-muted)] text-[10px]">
+              <span className="text-[var(--t-muted)] text-[10px]">
                 IMG
               </span>
             </div>
@@ -49,14 +49,14 @@ export function CartItemRow({
         {/* X close button */}
         <button
           type="button"
-          className="absolute top-2 right-2 w-6 h-6 bg-[var(--t-card-bg)]/80 flex items-center justify-center transition-opacity hover:opacity-60 border-0 cursor-pointer"
+          className="absolute top-2 right-2 w-6 h-6 bg-[var(--t-surface)]/80 flex items-center justify-center transition-opacity hover:opacity-60 border-0 cursor-pointer"
           onClick={() => onRemove?.(item.productId)}
           aria-label={`Eliminar ${item.name}`}
         >
           <X
             size={14}
             strokeWidth={1.5}
-            className="text-[var(--t-text-primary)]"
+            className="text-[var(--t-foreground)]"
           />
         </button>
       </div>
@@ -64,21 +64,21 @@ export function CartItemRow({
       {/* Product info + controls */}
       <div className="flex-1 min-w-0 py-1">
         <p
-          className="leading-tight text-xs md:text-sm text-[var(--t-text-muted)]"
+          className="leading-tight text-xs md:text-sm text-[var(--t-muted)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
         >
           {item.name}
         </p>
         {item.variantName && (
           <p
-            className="leading-tight text-[13px] md:text-sm font-semibold text-[var(--t-text-primary)]"
+            className="leading-tight text-[13px] md:text-sm font-semibold text-[var(--t-foreground)]"
             style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
           >
             {item.variantName}
           </p>
         )}
         <p
-          className="mt-1 text-sm md:text-base font-medium text-[var(--t-text-primary)]"
+          className="mt-1 text-sm md:text-base font-medium text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           {lineTotal}
@@ -93,10 +93,10 @@ export function CartItemRow({
               onClick={() => onDecrement?.(item.productId)}
               aria-label="Reducir cantidad"
             >
-              <Minus size={12} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+              <Minus size={12} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
             </button>
             <span
-              className="w-8 text-center text-[13px] font-medium text-[var(--t-text-primary)] border-x border-[var(--t-border)]"
+              className="w-8 text-center text-[13px] font-medium text-[var(--t-foreground)] border-x border-[var(--t-border)]"
               style={{
                 fontFamily: "var(--font-sans, 'Inter', sans-serif)",
                 lineHeight: "32px",
@@ -110,7 +110,7 @@ export function CartItemRow({
               onClick={() => onIncrement?.(item.productId)}
               aria-label="Aumentar cantidad"
             >
-              <Plus size={12} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+              <Plus size={12} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
             </button>
           </div>
           <button
@@ -121,7 +121,7 @@ export function CartItemRow({
             <RotateCw
               size={14}
               strokeWidth={1.5}
-              className="text-[var(--t-text-secondary)]"
+              className="text-[var(--t-muted)]"
             />
           </button>
         </div>

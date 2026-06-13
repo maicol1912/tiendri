@@ -23,7 +23,7 @@ export function VideoSection({ video }: VideoSectionProps) {
         style={{
           borderRadius: "var(--t-radius-card)",
           aspectRatio: "16/9",
-          backgroundColor: "var(--t-border-light)",
+          backgroundColor: "var(--t-border)",
         }}
       >
         {!playing ? (
@@ -49,7 +49,7 @@ export function VideoSection({ video }: VideoSectionProps) {
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
               {video.title && (
                 <p
-                  className="text-[var(--t-text-primary)] text-center px-4"
+                  className="text-[var(--t-foreground)] text-center px-4"
                   style={{
                     fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                     fontSize: "20px",
@@ -72,7 +72,7 @@ export function VideoSection({ video }: VideoSectionProps) {
                 <Play
                   size={28}
                   strokeWidth={0}
-                  fill="var(--t-text-primary)"
+                  fill="var(--t-foreground)"
                   style={{ marginLeft: 3 }}
                 />
               </button>

@@ -51,7 +51,7 @@ export function HeroBanner({
         {navCategories.map((cat) => (
           <span
             key={cat}
-            className="cursor-pointer text-[var(--t-text-primary)]/60 hover:text-[var(--t-text-primary)] transition-colors uppercase"
+            className="cursor-pointer text-[var(--t-foreground)]/60 hover:text-[var(--t-foreground)] transition-colors uppercase"
             style={{
               fontFamily: "var(--font-sans)",
               fontSize: "14px",
@@ -78,7 +78,7 @@ export function HeroBanner({
         <div>
           <h1
             id="hero-heading"
-            className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-text-primary)]"
+            className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 400,
@@ -89,7 +89,7 @@ export function HeroBanner({
             NUEVA
           </h1>
           <h1
-            className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-text-primary)]"
+            className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 800,
@@ -102,7 +102,7 @@ export function HeroBanner({
         </div>
         <div className="text-right pt-1 md:pt-2">
           <p
-            className="text-base md:text-lg text-[var(--t-text-muted)]"
+            className="text-base md:text-lg text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 400,
@@ -111,7 +111,7 @@ export function HeroBanner({
             Verano
           </p>
           <p
-            className="text-base md:text-lg text-[var(--t-text-muted)]"
+            className="text-base md:text-lg text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 400,
@@ -150,7 +150,7 @@ export function HeroBanner({
               ) : (
                 <div className="w-full h-full bg-[var(--t-background)] flex items-center justify-center">
                   <span
-                    className="text-[var(--t-text-muted)] text-xs"
+                    className="text-[var(--t-muted)] text-xs"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     SIN IMAGEN
@@ -161,7 +161,7 @@ export function HeroBanner({
             <div className="pt-2">
               {/* Line 1: category/type — muted */}
               <p
-                className="leading-tight text-[var(--t-text-muted)]"
+                className="leading-tight text-[var(--t-muted)]"
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: "12px",
@@ -173,7 +173,7 @@ export function HeroBanner({
               {/* Line 2: subtitle — bold */}
               {product.subtitle && (
                 <p
-                  className="leading-tight text-[var(--t-text-primary)]"
+                  className="leading-tight text-[var(--t-foreground)]"
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: "13px",
@@ -185,7 +185,7 @@ export function HeroBanner({
               )}
               {/* Line 3: price */}
               <p
-                className="mt-0.5 text-[var(--t-text-primary)]"
+                className="mt-0.5 text-[var(--t-foreground)]"
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: "13px",
@@ -223,7 +223,7 @@ export function HeroBanner({
               ) : (
                 <div className="w-full h-full bg-[var(--t-background)] flex items-center justify-center">
                   <span
-                    className="text-[var(--t-text-muted)] text-xs"
+                    className="text-[var(--t-muted)] text-xs"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     SIN IMAGEN
@@ -234,7 +234,7 @@ export function HeroBanner({
             <div className="pt-2.5">
               {/* Line 1: category/type — muted */}
               <p
-                className="leading-tight text-xs md:text-sm text-[var(--t-text-muted)]"
+                className="leading-tight text-xs md:text-sm text-[var(--t-muted)]"
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: 400,
@@ -245,7 +245,7 @@ export function HeroBanner({
               {/* Line 2: subtitle — bold */}
               {product.subtitle && (
                 <p
-                  className="leading-tight text-[13px] md:text-sm text-[var(--t-text-primary)]"
+                  className="leading-tight text-[13px] md:text-sm text-[var(--t-foreground)]"
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontWeight: 600,
@@ -256,7 +256,7 @@ export function HeroBanner({
               )}
               {/* Line 3: price */}
               <p
-                className="mt-0.5 text-[13px] md:text-sm text-[var(--t-text-primary)]"
+                className="mt-0.5 text-[13px] md:text-sm text-[var(--t-foreground)]"
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: 500,
@@ -278,7 +278,7 @@ export function HeroBanner({
         aria-label="Ir a la tienda"
       >
         <span
-          className="text-[13px] md:text-sm text-[var(--t-text-primary)]"
+          className="text-[13px] md:text-sm text-[var(--t-foreground)]"
           style={{
             fontFamily: "var(--font-sans)",
             fontWeight: 500,
@@ -287,7 +287,7 @@ export function HeroBanner({
         >
           Ir a la tienda
         </span>
-        <ArrowRight size={16} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+        <ArrowRight size={16} strokeWidth={2} className="text-[var(--t-foreground)]" />
       </button>
     </section>
   );

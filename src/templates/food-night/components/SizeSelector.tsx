@@ -23,7 +23,7 @@ export function SizeSelector({
     <div className="flex flex-col gap-3">
       <span
         className="text-[14px] font-semibold"
-        style={{ color: "var(--t-text-primary)" }}
+        style={{ color: "var(--t-foreground)" }}
       >
         {label}
       </span>
@@ -45,11 +45,11 @@ export function SizeSelector({
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
-                backgroundColor: isSelected ? "var(--t-category-active-bg)" : "transparent",
+                backgroundColor: isSelected ? "var(--t-primary)" : "transparent",
                 border: isSelected
-                  ? "2px solid var(--t-category-active-bg)"
+                  ? "2px solid var(--t-primary)"
                   : "1.5px solid var(--t-border)",
-                color: isSelected ? "var(--t-category-active-text)" : "var(--t-text-primary)",
+                color: isSelected ? "var(--t-on-primary)" : "var(--t-foreground)",
                 cursor: "pointer",
               }}
             >

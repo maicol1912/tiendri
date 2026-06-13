@@ -32,10 +32,10 @@ export function ProductCard({
     product.originalPrice !== undefined &&
     product.originalPrice > product.price;
 
-  const cardBg = cardStyleClass(layout?.cardStyle ?? "flat");
-  const hoverFx = hoverEffectClass(layout?.cardHoverEffect ?? "none");
+  const cardBg = cardStyleClass("flat");
+  const hoverFx = hoverEffectClass("none");
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "square");
-  const priceConfig = PRICE_DISPLAY_MAP[layout?.priceDisplay ?? "standard"];
+  const priceConfig = PRICE_DISPLAY_MAP["standard"];
 
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
   const formattedOriginalPrice =
@@ -62,7 +62,7 @@ export function ProductCard({
       {/* Product image container */}
       <div
         className={`relative w-full overflow-hidden rounded-[var(--t-radius-card)] ${imgRatio}`}
-        style={{ backgroundColor: "var(--t-section-bg)" }}
+        style={{ backgroundColor: "var(--t-background)" }}
       >
         {primaryImage ? (
           <Image
@@ -76,16 +76,16 @@ export function ProductCard({
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <rect width="40" height="40" rx="8" fill="var(--t-card-bg)" />
+              <rect width="40" height="40" rx="8" fill="var(--t-card)" />
               <path
                 d="M8 28l8-8 5 5 7-9 12 12"
-                stroke="var(--t-text-muted)"
+                stroke="var(--t-muted)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
               />
-              <circle cx="14" cy="16" r="3" fill="var(--t-text-muted)" />
+              <circle cx="14" cy="16" r="3" fill="var(--t-muted)" />
             </svg>
           </div>
         )}
@@ -99,8 +99,8 @@ export function ProductCard({
             <span
               className="text-xs font-medium px-3 py-1 rounded-[var(--t-radius-button)]"
               style={{
-                backgroundColor: "var(--t-card-bg)",
-                color: "var(--t-text-secondary)",
+                backgroundColor: "var(--t-card)",
+                color: "var(--t-muted)",
                 fontFamily: "var(--font-sans)",
               }}
             >
@@ -116,7 +116,7 @@ export function ProductCard({
         style={{ lineHeight: "22px", letterSpacing: "-0.408px" }}
       >
         <p
-          className="line-clamp-1 m-0 text-sm font-semibold text-[var(--t-text-primary)]"
+          className="line-clamp-1 m-0 text-sm font-semibold text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans)", fontSize: "14px", lineHeight: "22px" }}
         >
           {product.name}

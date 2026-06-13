@@ -11,59 +11,25 @@ export const foodNightConfig = {
   description: "Ideal para restaurantes, pizzerías y delivery de comida — estética oscura y apetitosa",
 
   colors: {
-    // Primary — CTA buttons, active states, accent
-    primary: "#F13658",
-    // Secondary — dark surface inside cards/headers
-    secondary: "#292526",
-    // Page background
-    background: "#0E0600",
-    // Text
-    textPrimary: "#FFFFFF",
-    textSecondary: "#CAC9C9",
-    textMuted: "#878787",
-    textFooter: "#878787",
-    textBreadcrumb: "#CAC9C9",
-    textSummerSale: "#878787",
-    textSubtle: "#CAC9C9",
-    // Surfaces
-    headerBg: "#0E0600",
-    sectionBg: "#0E0600",
-    cardBg: "#292526",
-    surface: "#292526",
-    searchBg: "transparent",
-    reviewBg: "#1A1210",
-    paginationBg: "#292526",
-    specBadgeBg: "#292526",
-    // Borders
-    border: "#DFDEDE",
-    borderLight: "rgba(255,255,255,0.08)",
-    borderInput: "#DFDEDE",
-    borderMid: "rgba(255,255,255,0.08)",
-    navBorder: "rgba(255,255,255,0.08)",
-    // Buttons
-    buttonBg: "#FFFFFF",
-    buttonText: "#121111",
-    // Footer
-    footerBg: "#0E0600",
-    // Badges (cart count)
-    badgeBg: "#F13658",
-    badgeText: "#FFFFFF",
-    // Rating star
-    ratingStar: "#FFD33C",
-    ratingBarBg: "#292526",
-    // Tab active (category pills)
-    tabActive: "#FFFFFF",
-    categoryActiveBg: "#FFFFFF",
-    categoryActiveText: "#121111",
-    // Popular product card backgrounds (dark progression)
-    popularBg0: "#3A2820",
-    popularBg1: "#2C1E18",
-    popularBg2: "#1E1410",
-    popularBg3: "#120C08",
-    popularText0: "#FFFFFF",
-    popularText1: "#FFFFFF",
-    popularText2: "#FFFFFF",
-    popularText3: "#FFFFFF",
+    primary: '#F13658',
+    secondary: '#292526',
+    background: '#0E0600',
+    foreground: '#FFFFFF',
+    card: '#292526',
+    border: '#DFDEDE',
+    muted: '#878787',
+    accent: '#FFD33C',
+    onPrimary: '#FFFFFF',
+    // Extra tokens
+    buttonBg: '#FFFFFF',
+    buttonText: '#121111',
+    searchBg: 'transparent',
+    categoryActiveBg: '#FFFFFF',
+    categoryActiveText: '#121111',
+    borderLight: 'rgba(255,255,255,0.08)',
+    borderMid: 'rgba(255,255,255,0.08)',
+    navBorder: 'rgba(255,255,255,0.08)',
+    textSecondary: '#CAC9C9',
   },
 
   font: "Inter",
@@ -83,47 +49,13 @@ export const foodNightConfig = {
   },
 
   layout: {
-    cardStyle: "flat" as const,
-    cardHoverEffect: "none" as const,
     cardImageRatio: "portrait" as const,
-    tabStyle: "pills" as const,
-    navStyle: "pills" as const,
-    bannerHeight: "normal" as const,
-    headerStyle: "standard" as const,
-    footerStyle: "minimal" as const,
+    heroVariant: "minimal" as const,
+    cardVariant: "detailed" as const,
+    categoryVariant: "horizontal-scroll" as const,
+    gridDensity: "compact" as const,
+    spacingDensity: "tight" as const,
   },
-
-  navLinks: [
-    { label: "Inicio", href: "/" },
-    { label: "Catálogo", href: "/listing" },
-  ],
-
-  footerServices: [
-    "Domicilios",
-    "Pedidos corporativos",
-    "Descuentos especiales",
-  ],
-
-  footerAssistance: [
-    "Preguntas frecuentes",
-    "Rastrear pedido",
-    "Términos de uso",
-  ],
-
-  productTabs: [
-    { id: "new-arrival" as const, label: "Nuevos" },
-    { id: "bestseller" as const, label: "Más pedidos" },
-    { id: "featured" as const, label: "Destacados" },
-  ],
-
-  popularSearches: [
-    "Pizza",
-    "Hamburguesa",
-    "Pollo",
-    "Vegetariano",
-    "Combos",
-    "Bebidas",
-  ],
 
   sections: [
     { id: "hero" as const, visible: true },

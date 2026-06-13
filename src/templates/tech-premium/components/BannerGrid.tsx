@@ -50,7 +50,7 @@ export function BannerGrid({ banners, onBannerClick }: BannerGridProps) {
               >
                 {wide.title}
               </h2>
-              <p className="text-[var(--t-text-muted)] text-sm font-medium leading-6">
+              <p className="text-[var(--t-muted)] text-sm font-medium leading-6">
                 {wide.description}
               </p>
             </div>
@@ -83,7 +83,7 @@ export function BannerGrid({ banners, onBannerClick }: BannerGridProps) {
                     <span className="font-bold">{smallLeft.titleBold}</span>
                   )}
                 </h3>
-                <p className="text-[var(--t-text-muted)] text-sm font-medium leading-6">
+                <p className="text-[var(--t-muted)] text-sm font-medium leading-6">
                   {smallLeft.description}
                 </p>
               </div>
@@ -114,7 +114,7 @@ export function BannerGrid({ banners, onBannerClick }: BannerGridProps) {
                     <span className="font-semibold">{smallRight.titleBold}</span>
                   )}
                 </h3>
-                <p className="text-[var(--t-text-muted)] text-sm font-medium leading-6">
+                <p className="text-[var(--t-muted)] text-sm font-medium leading-6">
                   {smallRight.description}
                 </p>
               </div>
@@ -137,7 +137,7 @@ export function BannerGrid({ banners, onBannerClick }: BannerGridProps) {
                 <span className="font-medium">{tall.titleBold}</span>
               )}
             </h2>
-            <p className="text-[var(--t-text-muted)] text-sm font-medium leading-6">
+            <p className="text-[var(--t-muted)] text-sm font-medium leading-6">
               {tall.description}
             </p>
             {tall.ctaText && (
@@ -192,7 +192,7 @@ export function BannerGrid({ banners, onBannerClick }: BannerGridProps) {
                   <span className="font-bold">{banner.titleBold}</span>
                 )}
               </h3>
-              <p className="text-[var(--t-text-muted)] text-sm font-medium leading-6 max-w-[280px]">
+              <p className="text-[var(--t-muted)] text-sm font-medium leading-6 max-w-[280px]">
                 {banner.description}
               </p>
               {banner.ctaText && (

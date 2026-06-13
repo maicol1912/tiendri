@@ -33,7 +33,7 @@ export function CategorySection({
             style={{
               fontSize: "14px",
               fontWeight: isActive ? 600 : 500,
-              color: isActive ? "var(--t-tab-active)" : "var(--t-text-secondary)",
+              color: isActive ? "var(--t-primary)" : "var(--t-muted)",
               backgroundColor: "transparent",
               border: "none",
               cursor: "pointer",
@@ -48,7 +48,7 @@ export function CategorySection({
                 className="absolute bottom-0 left-0 right-0"
                 style={{
                   height: "2px",
-                  backgroundColor: "var(--t-tab-active)",
+                  backgroundColor: "var(--t-primary)",
                   borderRadius: "1px",
                 }}
               />

@@ -120,7 +120,7 @@ export function HomePage({
       {/* ── Sticky Header — structural, always rendered ── */}
       <Header
         store={store}
-        navLinks={fashionConfig.navLinks}
+        navLinks={fashionConfig.content.navLinks}
         cartItemCount={cartItemCount}
         layout={layout}
         onSearchClick={onSearchClick}
@@ -140,8 +140,8 @@ export function HomePage({
       {/* ── Footer — structural, always rendered ── */}
       <Footer
         store={store}
-        services={fashionConfig.footerServices}
-        assistance={fashionConfig.footerAssistance}
+        services={fashionConfig.content.footerServices}
+        assistance={fashionConfig.content.footerAssistance}
         layout={layout}
       />
 

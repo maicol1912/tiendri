@@ -153,7 +153,7 @@ export function ProductDetailPage({
             backgroundColor: isAdded
               ? "#22C55E"
               : !product.inStock
-                ? "var(--t-text-muted)"
+                ? "var(--t-muted)"
                 : undefined,
             borderRadius: "var(--t-radius-button)",
             cursor: product.inStock ? "pointer" : "not-allowed",
@@ -292,7 +292,7 @@ export function ProductDetailPage({
               <h2
                 id="related-heading"
                 className="text-xl font-bold mb-6"
-                style={{ color: "var(--t-text-primary)" }}
+                style={{ color: "var(--t-foreground)" }}
               >
                 También te puede gustar
               </h2>
@@ -320,7 +320,7 @@ export function ProductDetailPage({
           <h2
             id="related-heading-mobile"
             className="text-lg font-bold mb-4"
-            style={{ color: "var(--t-text-primary)" }}
+            style={{ color: "var(--t-foreground)" }}
           >
             También te puede gustar
           </h2>

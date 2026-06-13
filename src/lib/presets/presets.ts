@@ -16,14 +16,6 @@ export const stylePresets: StylePreset[] = [
     name: "Galería",
     description: "El producto como obra de arte. Silencio y luz.",
     targetStores: ["Joyería", "Boutique de diseño", "Arte"],
-    genes: {
-      spatialArchitecture: "monastic",
-      typographyPersonality: "whisper-serif",
-      imagePhilosophy: "gallery-museum",
-      navigationArchitecture: "minimal-float",
-      decorationStrategy: "subtle-lines",
-      motionPersonality: "gentle-ease",
-    },
     typography: {
       fontPair: "whisper-light",
       headingWeight: 300,
@@ -87,14 +79,6 @@ export const stylePresets: StylePreset[] = [
     name: "Boutique Elegante",
     description: "Lujo accesible con calidez dorada. La marca es la experiencia.",
     targetStores: ["Moda femenina", "Beauty", "Accesorios"],
-    genes: {
-      spatialArchitecture: "editorial",
-      typographyPersonality: "editorial-serif",
-      imagePhilosophy: "lifestyle-context",
-      navigationArchitecture: "centered-elegant",
-      decorationStrategy: "subtle-lines",
-      motionPersonality: "smooth-professional",
-    },
     typography: {
       fontPair: "elegant",
       headingWeight: 400,
@@ -158,14 +142,6 @@ export const stylePresets: StylePreset[] = [
     name: "Mercado Popular",
     description: "La energía del mercado en tu pantalla. Directo al producto.",
     targetStores: ["Abarrotes", "Variedades", "Supermercado"],
-    genes: {
-      spatialArchitecture: "market-packed",
-      typographyPersonality: "bold-statement",
-      imagePhilosophy: "catalog-clean",
-      navigationArchitecture: "standard-functional",
-      decorationStrategy: "graphic-bold",
-      motionPersonality: "bounce-playful",
-    },
     typography: {
       fontPair: "functional",
       headingWeight: 900,
@@ -231,14 +207,6 @@ export const stylePresets: StylePreset[] = [
     name: "Neon Night",
     description: "La tienda que no duerme. Potencia y resplandor en cada píxel.",
     targetStores: ["Gaming", "Sneakers", "Vida nocturna"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "bold-statement",
-      imagePhilosophy: "hero-dominant",
-      navigationArchitecture: "bottom-mobile-first",
-      decorationStrategy: "graphic-bold",
-      motionPersonality: "dramatic-entrance",
-    },
     typography: {
       fontPair: "modern",
       headingWeight: 800,
@@ -302,14 +270,6 @@ export const stylePresets: StylePreset[] = [
     name: "Artesanal Rústico",
     description: "Hecho con manos colombianas. La historia detrás del producto.",
     targetStores: ["Artesanías", "Café especial", "Orgánicos"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "handcraft",
-      imagePhilosophy: "lifestyle-context",
-      navigationArchitecture: "standard-functional",
-      decorationStrategy: "organic-texture",
-      motionPersonality: "gentle-ease",
-    },
     typography: {
       fontPair: "handcraft-mix",
       headingWeight: 400,
@@ -373,14 +333,6 @@ export const stylePresets: StylePreset[] = [
     name: "Corporate Catalog",
     description: "Datos primero, decisión rápida. Catálogo profesional.",
     targetStores: ["Ferreterías", "B2B", "Repuestos"],
-    genes: {
-      spatialArchitecture: "dense-catalog",
-      typographyPersonality: "clean-sans",
-      imagePhilosophy: "catalog-clean",
-      navigationArchitecture: "sidebar-browse",
-      decorationStrategy: "none-zen",
-      motionPersonality: "static-none",
-    },
     typography: {
       fontPair: "functional",
       headingWeight: 700,
@@ -446,14 +398,6 @@ export const stylePresets: StylePreset[] = [
     name: "Instagram Aesthetic",
     description: "Tu feed, tu tienda. Visual-first para la generación digital.",
     targetStores: ["Moda juvenil", "Accesorios trendy", "Lifestyle"],
-    genes: {
-      spatialArchitecture: "editorial",
-      typographyPersonality: "clean-sans",
-      imagePhilosophy: "lifestyle-context",
-      navigationArchitecture: "bottom-mobile-first",
-      decorationStrategy: "none-zen",
-      motionPersonality: "smooth-professional",
-    },
     typography: {
       fontPair: "modern",
       headingWeight: 600,
@@ -517,14 +461,6 @@ export const stylePresets: StylePreset[] = [
     name: "Vintage Retro",
     description: "El sabor de antes, el precio de hoy. Nostalgia con carácter.",
     targetStores: ["Ropa vintage", "Coleccionables", "Discos"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "editorial-serif",
-      imagePhilosophy: "gallery-museum",
-      navigationArchitecture: "centered-elegant",
-      decorationStrategy: "organic-texture",
-      motionPersonality: "gentle-ease",
-    },
     typography: {
       fontPair: "elegant",
       headingWeight: 700,
@@ -588,14 +524,6 @@ export const stylePresets: StylePreset[] = [
     name: "Deportivo Energy",
     description: "Ponete las pilas. Velocidad, fuerza y color en cada scroll.",
     targetStores: ["Ropa deportiva", "Suplementos", "Equipamiento"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "loud-display",
-      imagePhilosophy: "hero-dominant",
-      navigationArchitecture: "standard-functional",
-      decorationStrategy: "geometric-accent",
-      motionPersonality: "dramatic-entrance",
-    },
     typography: {
       fontPair: "display-impact",
       headingWeight: 900,
@@ -659,14 +587,6 @@ export const stylePresets: StylePreset[] = [
     name: "Tech Premium",
     description: "Potencia y sofisticación. El negro que vende tecnología.",
     targetStores: ["Electrónica", "Gadgets", "Computadores"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "clean-sans",
-      imagePhilosophy: "catalog-clean",
-      navigationArchitecture: "minimal-float",
-      decorationStrategy: "subtle-lines",
-      motionPersonality: "smooth-professional",
-    },
     typography: {
       fontPair: "mono-geometric",
       headingWeight: 700,
@@ -730,14 +650,6 @@ export const stylePresets: StylePreset[] = [
     name: "Tropical Vibrante",
     description: "Colombia en colores. Alegría, sabor y vida en tu catálogo.",
     targetStores: ["Moda caribeña", "Artesanías coloridas", "Frutas tropicales"],
-    genes: {
-      spatialArchitecture: "balanced",
-      typographyPersonality: "bold-statement",
-      imagePhilosophy: "lifestyle-context",
-      navigationArchitecture: "standard-functional",
-      decorationStrategy: "graphic-bold",
-      motionPersonality: "bounce-playful",
-    },
     typography: {
       fontPair: "warm",
       headingWeight: 700,
@@ -801,14 +713,6 @@ export const stylePresets: StylePreset[] = [
     name: "Pop Juvenil",
     description: "Rápido, brillante, tuyo. El catálogo que no necesita instrucciones.",
     targetStores: ["Cultura pop", "Stickers", "Merch"],
-    genes: {
-      spatialArchitecture: "dense-catalog",
-      typographyPersonality: "loud-display",
-      imagePhilosophy: "hero-dominant",
-      navigationArchitecture: "bottom-mobile-first",
-      decorationStrategy: "graphic-bold",
-      motionPersonality: "dramatic-entrance",
-    },
     typography: {
       fontPair: "display-impact",
       headingWeight: 900,
@@ -874,14 +778,6 @@ export const stylePresets: StylePreset[] = [
     name: "Editorial Lujo",
     description: "La revista que podés comprar. Narrativa visual de alto nivel.",
     targetStores: ["Gastronomía especial", "Libros", "Arte y diseño"],
-    genes: {
-      spatialArchitecture: "editorial",
-      typographyPersonality: "whisper-serif",
-      imagePhilosophy: "lifestyle-context",
-      navigationArchitecture: "minimal-float",
-      decorationStrategy: "subtle-lines",
-      motionPersonality: "smooth-professional",
-    },
     typography: {
       fontPair: "whisper-light",
       headingWeight: 600,

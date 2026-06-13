@@ -23,7 +23,7 @@ export function Header({
     <header
       className="hidden md:block sticky top-0 z-40"
       style={{
-        backgroundColor: "var(--t-header-bg)",
+        backgroundColor: "var(--t-background)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderBottom: "1px solid var(--t-nav-border)",
@@ -33,7 +33,7 @@ export function Header({
         {/* Brand name */}
         <h1
           className="text-[22px] font-extrabold m-0"
-          style={{ color: "var(--t-text-primary)" }}
+          style={{ color: "var(--t-foreground)" }}
         >
           {store.name}
         </h1>
@@ -44,7 +44,7 @@ export function Header({
             <span
               key={link}
               className="text-sm font-medium cursor-pointer transition-colors hover:text-[var(--t-primary)]"
-              style={{ color: "var(--t-text-secondary)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               {link}
             </span>
@@ -60,7 +60,7 @@ export function Header({
             aria-label="Buscar"
             onClick={onSearchOpen}
           >
-            <Search size={20} strokeWidth={1.75} color="var(--t-text-secondary)" />
+            <Search size={20} strokeWidth={1.75} color="var(--t-muted)" />
           </button>
 
           <button
@@ -70,11 +70,11 @@ export function Header({
             aria-label="Carrito de compras"
             onClick={onCartOpen}
           >
-            <ShoppingCart size={20} strokeWidth={1.75} color="var(--t-text-secondary)" />
+            <ShoppingCart size={20} strokeWidth={1.75} color="var(--t-muted)" />
             {cartItemCount > 0 && (
               <span
-                className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 rounded-[var(--t-radius-button)] text-[var(--t-badge-text)] text-[9px] font-bold leading-none"
-                style={{ backgroundColor: "var(--t-badge-bg)" }}
+                className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 rounded-[var(--t-radius-button)] text-[var(--t-on-primary)] text-[9px] font-bold leading-none"
+                style={{ backgroundColor: "var(--t-primary)" }}
               >
                 {cartItemCount > 99 ? "99+" : cartItemCount}
               </span>

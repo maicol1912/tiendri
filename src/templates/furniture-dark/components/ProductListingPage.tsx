@@ -76,10 +76,10 @@ export function ProductListingPage({
             onClick={onBack}
             aria-label="Volver"
           >
-            <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
           <h1
-            className="text-[var(--t-text-primary)]"
+            className="text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "var(--t-type-heading-size, 1.375rem)",
@@ -98,9 +98,9 @@ export function ProductListingPage({
             style={{ backgroundColor: "var(--t-surface)" }}
             aria-label="Filtros"
           >
-            <SlidersHorizontal size={14} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <SlidersHorizontal size={14} strokeWidth={2} className="text-[var(--t-foreground)]" />
             <span
-              className="text-[var(--t-text-primary)]"
+              className="text-[var(--t-foreground)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "13px",
@@ -145,7 +145,7 @@ export function ProductListingPage({
             {categoryBanner.title && (
               <div className="absolute inset-0 flex items-end p-5" style={{ background: "rgba(0,0,0,0.4)" }}>
                 <h2
-                  className="text-[var(--t-text-primary)]"
+                  className="text-[var(--t-foreground)]"
                   style={{
                     fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                     fontSize: "22px",
@@ -164,7 +164,7 @@ export function ProductListingPage({
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 gap-4">
             <p
-              className="text-[var(--t-text-muted)]"
+              className="text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "16px",

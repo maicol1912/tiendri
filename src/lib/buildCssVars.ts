@@ -3,10 +3,13 @@
 // data-driven instead of hardcoded per-key entries.
 //
 // Output:
-//   colors:  camelCase key → --t-{kebab-case-key}   e.g. cardBg → --t-card-bg
+//   colors:  camelCase key → --t-{kebab-case-key}   e.g. onPrimary → --t-on-primary
 //   radius:  key → --t-radius-{key}                  e.g. card → --t-radius-card
 //   fonts:   --font-body, --font-heading, --template-heading-font
 //   effects: --t-fx-* motion/interaction tokens from EffectTokens
+//
+// 9-token color system (as of color system simplification):
+//   primary, secondary, background, foreground, card, border, muted, accent, onPrimary
 //
 // Grid and layout values are NOT CSS vars — they're consumed as props by
 // components (e.g. grid-cols-{n} classes built from config.grid.products.mobile).
@@ -343,12 +346,10 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars["--t-space-gap"]     = spacing.gap;
 
   // ── Effect tokens → --t-fx-* ──────────────────────────────────────────────
-  // Motion/interaction personality tokens. Reads animationLevel from layout
-  // (set by applyPreset) and the extended effect fields from config.effects when
-  // present, falling back to DEFAULT_PRESET_VALUES.effects for all undefined fields.
+  // Motion/interaction personality tokens. Read from config.effects (assembled
+  // by resolveTemplateConfig from preset-applied layout fields) and falling back
+  // to DEFAULT_PRESET_VALUES.effects for all undefined fields.
   const effectInput: EffectTokens = {
-    animationLevel: config.layout?.animationLevel,
-    shadowStyle: config.layout?.shadowStyle,
     ...config.effects,
   };
   Object.assign(vars, buildEffectVars(effectInput));
@@ -357,8 +358,6 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   // Read from config.layout (the merged TemplateLayoutConfig) where applyPreset
   // writes card/chrome fields, then resolve through buildCardVars.
   const cardInput: CardTokens = {
-    cardStyle: config.layout?.cardStyle,
-    cardHover: config.layout?.cardHoverEffect,
     cardBorderTreatment: config.layout?.cardBorderTreatment,
     imageFit: config.layout?.imageFit,
     imageBorderRadius: config.layout?.imageBorderRadius,
@@ -374,8 +373,6 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
     containerMaxWidth: config.layout?.containerMaxWidth,
     cardImageRatio: config.layout?.cardImageRatio,
     cardPadding: config.layout?.cardPadding,
-    headerStyle: config.layout?.headerStyle,
-    bannerHeight: config.layout?.bannerHeight,
   };
   Object.assign(vars, buildLayoutVars(layoutInput));
 

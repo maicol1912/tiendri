@@ -34,7 +34,7 @@ export function StoreInfoPage({
   onNavLinkClick,
 }: StoreInfoPageProps) {
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <Header
         store={store}
         navLinks={navLinks}
@@ -47,26 +47,26 @@ export function StoreInfoPage({
       <main className="flex-1 px-4 py-8 lg:px-[160px] lg:py-16 flex flex-col gap-8 max-w-4xl mx-auto w-full">
         {/* Store name heading */}
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[var(--t-text-primary)]">
+          <h1 className="text-3xl lg:text-4xl font-bold text-[var(--t-foreground)]">
             {store.name}
           </h1>
           {store.description && (
-            <p className="text-base text-[var(--t-text-secondary)] leading-relaxed max-w-2xl">
+            <p className="text-base text-[var(--t-muted)] leading-relaxed max-w-2xl">
               {store.description}
             </p>
           )}
         </div>
 
         {/* Contact card */}
-        <div className="bg-[var(--t-card-bg)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
-          <h2 className="text-lg font-semibold text-[var(--t-text-primary)]">Contacto</h2>
+        <div className="bg-[var(--t-card)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
+          <h2 className="text-lg font-semibold text-[var(--t-foreground)]">Contacto</h2>
 
           {store.whatsapp && (
             <a
               href={`https://wa.me/${store.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-[var(--t-text-secondary)] hover:text-[var(--t-primary)] transition-colors"
+              className="flex items-center gap-3 text-[var(--t-muted)] hover:text-[var(--t-primary)] transition-colors"
             >
               <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
                 <Phone className="w-4 h-4 text-[var(--t-primary)]" />
@@ -75,14 +75,14 @@ export function StoreInfoPage({
             </a>
           )}
 
-          <div className="flex items-center gap-3 text-[var(--t-text-secondary)]">
+          <div className="flex items-center gap-3 text-[var(--t-muted)]">
             <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
               <Mail className="w-4 h-4 text-[var(--t-primary)]" />
             </div>
             <span className="text-sm font-medium">info@{store.slug}.com</span>
           </div>
 
-          <div className="flex items-start gap-3 text-[var(--t-text-secondary)]">
+          <div className="flex items-start gap-3 text-[var(--t-muted)]">
             <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
               <MapPin className="w-4 h-4 text-[var(--t-primary)]" />
             </div>
@@ -91,20 +91,20 @@ export function StoreInfoPage({
         </div>
 
         {/* Business hours */}
-        <div className="bg-[var(--t-card-bg)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
-          <h2 className="text-lg font-semibold text-[var(--t-text-primary)]">Horario de atención</h2>
+        <div className="bg-[var(--t-card)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
+          <h2 className="text-lg font-semibold text-[var(--t-foreground)]">Horario de atención</h2>
           <div className="flex flex-col gap-3">
             {[
               { days: "Lunes — Viernes", hours: "9:00 am – 6:00 pm" },
               { days: "Sábado", hours: "10:00 am – 4:00 pm" },
               { days: "Domingo", hours: "Cerrado" },
             ].map(({ days, hours }) => (
-              <div key={days} className="flex items-center justify-between py-2 border-b border-[var(--t-border-mid)]/40 last:border-0">
+              <div key={days} className="flex items-center justify-between py-2 border-b border-[var(--t-border)]/40 last:border-0">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[var(--t-text-muted)]" />
-                  <span className="text-sm text-[var(--t-text-primary)]">{days}</span>
+                  <Clock className="w-4 h-4 text-[var(--t-muted)]" />
+                  <span className="text-sm text-[var(--t-foreground)]">{days}</span>
                 </div>
-                <span className="text-sm font-medium text-[var(--t-text-muted)]">{hours}</span>
+                <span className="text-sm font-medium text-[var(--t-muted)]">{hours}</span>
               </div>
             ))}
           </div>
@@ -112,15 +112,15 @@ export function StoreInfoPage({
 
         {/* Social media */}
         {store.social_links && Object.keys(store.social_links).length > 0 && (
-          <div className="bg-[var(--t-card-bg)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
-            <h2 className="text-lg font-semibold text-[var(--t-text-primary)]">Redes sociales</h2>
+          <div className="bg-[var(--t-card)] rounded-[var(--t-radius-card)] p-6 flex flex-col gap-5">
+            <h2 className="text-lg font-semibold text-[var(--t-foreground)]">Redes sociales</h2>
             <div className="flex flex-col gap-3">
               {store.social_links.instagram && (
                 <a
                   href={store.social_links.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-[var(--t-text-secondary)] hover:text-[var(--t-primary)] transition-colors"
+                  className="flex items-center gap-3 text-[var(--t-muted)] hover:text-[var(--t-primary)] transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
                     <Share2 className="w-4 h-4 text-[var(--t-primary)]" />
@@ -133,7 +133,7 @@ export function StoreInfoPage({
                   href={store.social_links.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-[var(--t-text-secondary)] hover:text-[var(--t-primary)] transition-colors"
+                  className="flex items-center gap-3 text-[var(--t-muted)] hover:text-[var(--t-primary)] transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
                     <Share2 className="w-4 h-4 text-[var(--t-primary)]" />
@@ -146,7 +146,7 @@ export function StoreInfoPage({
                   href={store.social_links.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-[var(--t-text-secondary)] hover:text-[var(--t-primary)] transition-colors"
+                  className="flex items-center gap-3 text-[var(--t-muted)] hover:text-[var(--t-primary)] transition-colors"
                 >
                   <div className="w-9 h-9 rounded-lg bg-[var(--t-spec-badge-bg)] flex items-center justify-center shrink-0">
                     <Share2 className="w-4 h-4 text-[var(--t-primary)]" />
@@ -164,7 +164,7 @@ export function StoreInfoPage({
             href={`https://wa.me/${store.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-4 rounded-[var(--t-radius-button)] bg-[var(--t-button-bg)] text-[var(--t-button-text)] text-base font-semibold text-center hover:opacity-90 transition-opacity"
+            className="w-full py-4 rounded-[var(--t-radius-button)] bg-[var(--t-primary)] text-[var(--t-on-primary)] text-base font-semibold text-center hover:opacity-90 transition-opacity"
           >
             Contactar por WhatsApp
           </a>

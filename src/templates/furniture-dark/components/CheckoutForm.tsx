@@ -30,7 +30,7 @@ function InputField({
     <div className="flex flex-col gap-2">
       <label
         htmlFor={name}
-        className="text-[var(--t-text-secondary)]"
+        className="text-[var(--t-muted)]"
         style={{
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "12px",
@@ -48,13 +48,13 @@ function InputField({
         onChange={(e) => onChange(name, e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="outline-none bg-transparent placeholder:text-[var(--t-text-muted)] text-[var(--t-text-primary)]"
+        className="outline-none bg-transparent placeholder:text-[var(--t-muted)] text-[var(--t-foreground)]"
         style={{
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "14px",
           backgroundColor: "var(--t-surface)",
           borderRadius: "var(--t-radius-button)",
-          border: "1px solid var(--t-border-input)",
+          border: "1px solid var(--t-border)",
           padding: "12px 16px",
         }}
       />
@@ -176,7 +176,7 @@ export function CheckoutForm({ formData, onChange }: CheckoutFormProps) {
         <div className="flex flex-col gap-2">
           <label
             htmlFor="notes"
-            className="text-[var(--t-text-secondary)]"
+            className="text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "12px",
@@ -192,13 +192,13 @@ export function CheckoutForm({ formData, onChange }: CheckoutFormProps) {
             onChange={(e) => onChange("notes", e.target.value)}
             rows={3}
             placeholder="Ej: dejar en portería, color específico, etc."
-            className="outline-none bg-transparent resize-none placeholder:text-[var(--t-text-muted)] text-[var(--t-text-primary)]"
+            className="outline-none bg-transparent resize-none placeholder:text-[var(--t-muted)] text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",
               backgroundColor: "var(--t-surface)",
               borderRadius: "var(--t-radius-card)",
-              border: "1px solid var(--t-border-input)",
+              border: "1px solid var(--t-border)",
               padding: "12px 16px",
             }}
           />

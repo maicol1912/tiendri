@@ -26,7 +26,7 @@ export function Header({
   return (
     <header
       className="sticky top-0 z-40 w-full"
-      style={{ backgroundColor: "var(--t-header-bg)" }}
+      style={{ backgroundColor: "var(--t-background)" }}
     >
       <div className="flex items-center px-4 md:px-6 lg:px-8 h-16 w-full max-w-7xl mx-auto">
 

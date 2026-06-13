@@ -93,7 +93,7 @@ export function SearchPage({
             <button
               onClick={onBack}
               className="shrink-0 flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] transition-colors"
-              style={{ backgroundColor: "var(--t-section-bg)", color: "var(--t-text-primary)" }}
+              style={{ backgroundColor: "var(--t-background)", color: "var(--t-foreground)" }}
               aria-label="Volver"
             >
               <ArrowLeft size={18} />
@@ -104,18 +104,18 @@ export function SearchPage({
               className="flex items-center gap-2 flex-1 px-3 py-2.5"
               style={{
                 borderRadius: "var(--t-radius-button)",
-                backgroundColor: "var(--t-search-bg)",
+                backgroundColor: "var(--t-card)",
                 border: "1px solid var(--t-border)",
               }}
             >
-              <Search size={16} style={{ color: "var(--t-text-muted)" }} />
+              <Search size={16} style={{ color: "var(--t-muted)" }} />
               <input
                 ref={inputRef}
                 type="search"
                 value={searchQuery}
                 onChange={(e) => onSearchChange?.(e.target.value)}
                 placeholder="Buscar muebles..."
-                className="flex-1 bg-transparent text-sm text-[var(--t-text-primary)] placeholder-[var(--t-text-muted)] outline-none"
+                className="flex-1 bg-transparent text-sm text-[var(--t-foreground)] placeholder-[var(--t-muted)] outline-none"
                 autoComplete="off"
                 aria-label="Buscar productos"
               />
@@ -123,7 +123,7 @@ export function SearchPage({
                 <button
                   onClick={onSearchClear}
                   aria-label="Limpiar búsqueda"
-                  className="text-[var(--t-text-muted)] hover:text-[var(--t-text-primary)] transition-colors"
+                  className="text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors"
                 >
                   <X size={14} />
                 </button>
@@ -136,7 +136,7 @@ export function SearchPage({
               style={{ backgroundColor: "var(--t-primary)" }}
               aria-label="Filtros"
             >
-              <SlidersHorizontal size={16} style={{ color: "var(--t-button-text)" }} />
+              <SlidersHorizontal size={16} style={{ color: "var(--t-on-primary)" }} />
             </button>
           </div>
         </div>
@@ -156,7 +156,7 @@ export function SearchPage({
           {/* Suggestions */}
           {!hasQuery && suggestions.length > 0 && (
             <div className="mb-6">
-              <p className="text-xs font-bold text-[var(--t-text-muted)] uppercase tracking-wider mb-3">
+              <p className="text-xs font-bold text-[var(--t-muted)] uppercase tracking-wider mb-3">
                 Búsquedas populares
               </p>
               <div className="flex flex-wrap gap-2">
@@ -168,8 +168,8 @@ export function SearchPage({
                     style={{
                       borderRadius: "var(--t-radius-category)",
                       border: "1px solid var(--t-border)",
-                      backgroundColor: "var(--t-section-bg)",
-                      color: "var(--t-text-primary)",
+                      backgroundColor: "var(--t-background)",
+                      color: "var(--t-foreground)",
                     }}
                   >
                     {s}
@@ -181,7 +181,7 @@ export function SearchPage({
 
           {/* Results count */}
           {hasQuery && (
-            <p className="text-xs text-[var(--t-text-muted)] mb-3">
+            <p className="text-xs text-[var(--t-muted)] mb-3">
               {results.length === 0
                 ? `Sin resultados para "${searchQuery}"`
                 : `${results.length} resultado${results.length !== 1 ? "s" : ""} para "${searchQuery}"`}

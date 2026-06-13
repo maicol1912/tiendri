@@ -111,7 +111,7 @@ export function ProductListingPage({
   };
 
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -128,11 +128,11 @@ export function ProductListingPage({
 
       {/* Breadcrumbs — desktop only */}
       <nav aria-label="Ruta de navegación" className="hidden lg:flex items-center gap-4 px-[160px] py-10">
-        <span className="text-[var(--t-text-breadcrumb)] text-base font-medium cursor-pointer">Inicio</span>
-        <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-[var(--t-text-breadcrumb)] text-base font-medium">Catálogo</span>
-        <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-[var(--t-text-primary)] text-base font-medium">Smartphones</span>
+        <span className="text-[var(--t-muted)] text-base font-medium cursor-pointer">Inicio</span>
+        <ChevronRight className="w-4 h-4 text-[var(--t-muted)]" aria-hidden="true" />
+        <span className="text-[var(--t-muted)] text-base font-medium">Catálogo</span>
+        <ChevronRight className="w-4 h-4 text-[var(--t-muted)]" aria-hidden="true" />
+        <span className="text-[var(--t-foreground)] text-base font-medium">Smartphones</span>
       </nav>
 
       <main>
@@ -142,23 +142,23 @@ export function ProductListingPage({
       <div className="lg:hidden flex items-center gap-3 px-4 pt-4">
         <button
           type="button"
-          className="flex items-center gap-2 px-4 py-2.5 bg-[var(--t-button-bg)] text-[var(--t-button-text)] rounded-[var(--t-radius-button)] text-sm font-medium border-none cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] rounded-[var(--t-radius-button)] text-sm font-medium border-none cursor-pointer"
           onClick={onFilterDrawerToggle}
           aria-expanded={isFilterDrawerOpen}
         >
           <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />
           Filtrar
         </button>
-        <div className="flex items-center gap-1 px-4 py-2.5 border border-[var(--t-border-mid)]/50 rounded-lg flex-1">
-          <span className="text-[15px] text-[var(--t-text-primary)]">{sortLabel}</span>
-          <ChevronDown className="w-5 h-5 text-[var(--t-text-primary)] ml-auto" aria-hidden="true" />
+        <div className="flex items-center gap-1 px-4 py-2.5 border border-[var(--t-border)]/50 rounded-lg flex-1">
+          <span className="text-[15px] text-[var(--t-foreground)]">{sortLabel}</span>
+          <ChevronDown className="w-5 h-5 text-[var(--t-foreground)] ml-auto" aria-hidden="true" />
         </div>
       </div>
 
       {/* ── Mobile: Product count ── */}
       <div className="lg:hidden flex items-center gap-1.5 px-4 pt-4">
-        <span className="text-base text-[var(--t-text-secondary)] tracking-[0.48px]">Resultados:</span>
-        <span className="text-xl font-medium text-[var(--t-text-primary)] tracking-[0.6px]">{totalProducts}</span>
+        <span className="text-base text-[var(--t-muted)] tracking-[0.48px]">Resultados:</span>
+        <span className="text-xl font-medium text-[var(--t-foreground)] tracking-[0.6px]">{totalProducts}</span>
       </div>
 
       {/* ── Main content area ── */}
@@ -178,12 +178,12 @@ export function ProductListingPage({
             {/* Desktop: top bar */}
             <div className="hidden lg:flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-end gap-1.5 min-w-[200px]">
-                <span className="text-base text-[var(--t-text-secondary)] tracking-[0.48px]">Productos seleccionados:</span>
-                <span className="text-xl font-medium text-[var(--t-text-primary)] tracking-[0.6px]">{totalProducts}</span>
+                <span className="text-base text-[var(--t-muted)] tracking-[0.48px]">Productos seleccionados:</span>
+                <span className="text-xl font-medium text-[var(--t-foreground)] tracking-[0.6px]">{totalProducts}</span>
               </div>
-              <div className="flex items-center justify-between px-4 py-2 border border-[var(--t-border-mid)]/50 rounded-lg min-w-[140px] max-w-[256px] flex-1">
-                <span className="text-[15px] text-[var(--t-text-primary)]">{sortLabel}</span>
-                <ChevronDown className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
+              <div className="flex items-center justify-between px-4 py-2 border border-[var(--t-border)]/50 rounded-lg min-w-[140px] max-w-[256px] flex-1">
+                <span className="text-[15px] text-[var(--t-foreground)]">{sortLabel}</span>
+                <ChevronDown className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
               </div>
             </div>
 
@@ -213,21 +213,21 @@ export function ProductListingPage({
                   disabled={currentPage === 1}
                   aria-label="Página anterior"
                 >
-                  <ChevronLeft className="w-5 h-5 text-[var(--t-text-primary)]" />
+                  <ChevronLeft className="w-5 h-5 text-[var(--t-foreground)]" />
                 </button>
 
                 <div className="flex items-end gap-2">
                   {pageNumbers.map((page, idx) =>
                     page === "..." ? (
-                      <span key={`dots-${idx}`} className="px-1 text-base text-[var(--t-text-primary)]/40">...</span>
+                      <span key={`dots-${idx}`} className="px-1 text-base text-[var(--t-foreground)]/40">...</span>
                     ) : (
                       <button
                         key={page}
                         type="button"
                         className={`px-3 py-1 rounded-[5px] text-base font-medium tracking-[0.48px] border-none cursor-pointer ${
                           page === currentPage
-                            ? "bg-[var(--t-primary)] text-[var(--t-button-text)]"
-                            : "bg-[var(--t-pagination-bg)] text-[var(--t-primary)] hover:bg-[var(--t-surface)]"
+                            ? "bg-[var(--t-primary)] text-[var(--t-on-primary)]"
+                            : "bg-[var(--t-card)] text-[var(--t-primary)] hover:bg-[var(--t-card)]"
                         }`}
                         onClick={() => onPageChange?.(page as number)}
                         aria-current={page === currentPage ? "page" : undefined}
@@ -245,7 +245,7 @@ export function ProductListingPage({
                   disabled={currentPage === totalPages}
                   aria-label="Página siguiente"
                 >
-                  <ChevronRight className="w-5 h-5 text-[var(--t-text-primary)]" />
+                  <ChevronRight className="w-5 h-5 text-[var(--t-foreground)]" />
                 </button>
               </nav>
             )}

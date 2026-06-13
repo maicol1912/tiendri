@@ -31,7 +31,7 @@ export function BottomNav({
 }: BottomNavProps) {
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--t-header-bg)] border-t border-[var(--t-nav-border)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--t-background)] border-t border-[var(--t-border)]"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Navegación principal"
     >
@@ -45,8 +45,8 @@ export function BottomNav({
               className="flex-1 flex flex-col items-center justify-center gap-1 transition-opacity bg-transparent border-none cursor-pointer"
               style={{
                 color: isActive
-                  ? "var(--t-text-primary)"
-                  : "var(--t-text-muted)",
+                  ? "var(--t-foreground)"
+                  : "var(--t-muted)",
               }}
               onClick={() => onTabChange?.(id)}
               aria-current={isActive ? "page" : undefined}
@@ -56,7 +56,7 @@ export function BottomNav({
                 <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />
                 {id === "cart" && cartItemCount > 0 && (
                   <span
-                    className="absolute -top-1 -right-1.5 w-4 h-4 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-button-text)] text-[9px] font-medium rounded-full"
+                    className="absolute -top-1 -right-1.5 w-4 h-4 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[9px] font-medium rounded-full"
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {cartItemCount > 9 ? "9+" : cartItemCount}

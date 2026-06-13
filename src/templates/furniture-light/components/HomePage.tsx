@@ -59,7 +59,7 @@ interface HomePageProps {
 
 export function HomePage({
   store,
-  navLinks = furnitureLightConfig.navLinks,
+  navLinks = furnitureLightConfig.content.navLinks,
   categories,
   products,
   featuredCard,
@@ -130,7 +130,7 @@ export function HomePage({
           <div className="flex items-center gap-2">
             <h2
               id="flash-sale-heading"
-              className="text-[var(--t-text-primary)]"
+              className="text-[var(--t-foreground)]"
               style={{
                 fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
                 fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
@@ -142,12 +142,12 @@ export function HomePage({
               Flash Sale
             </h2>
             {/* Timer badge */}
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--t-badge-bg)]">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t-badge-text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--t-primary)]">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--t-on-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span className="text-[10px] font-bold text-[var(--t-badge-text)]">02:45:30</span>
+              <span className="text-[10px] font-bold text-[var(--t-on-primary)]">02:45:30</span>
             </div>
           </div>
           <button
@@ -200,7 +200,7 @@ export function HomePage({
         <div className="flex items-center justify-between mb-3">
           <h2
             id="products-heading"
-            className="text-[var(--t-text-primary)]"
+            className="text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
               fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
@@ -211,7 +211,7 @@ export function HomePage({
           >
             Todos los productos
           </h2>
-          <span className="text-xs text-[var(--t-text-muted)]">{visibleProducts.length} artículos</span>
+          <span className="text-xs text-[var(--t-muted)]">{visibleProducts.length} artículos</span>
         </div>
 
         <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>

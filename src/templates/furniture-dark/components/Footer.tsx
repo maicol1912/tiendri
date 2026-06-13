@@ -39,13 +39,13 @@ export function Footer({ store }: FooterProps) {
   return (
     <footer
       className="px-5 py-8 pb-28 lg:pb-12"
-      style={{ backgroundColor: "var(--t-footer-bg)", borderTop: "1px solid var(--t-border)" }}
+      style={{ backgroundColor: "var(--t-background)", borderTop: "1px solid var(--t-border)" }}
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-center lg:flex-row lg:justify-between lg:text-left">
         {/* Store name */}
         <div>
           <p
-            className="font-semibold text-[var(--t-text-primary)]"
+            className="font-semibold text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "18px",
@@ -57,11 +57,12 @@ export function Footer({ store }: FooterProps) {
           </p>
           {store.description && (
             <p
-              className="mt-1 text-[var(--t-text-footer)] max-w-xs"
+              className="mt-1 max-w-xs"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "13px",
                 lineHeight: "1.6",
+                color: "var(--t-text-secondary)",
               }}
             >
               {store.description}
@@ -83,7 +84,7 @@ export function Footer({ store }: FooterProps) {
               className="flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:opacity-80"
               style={{ backgroundColor: "var(--t-secondary)" }}
             >
-              <span className="text-[var(--t-text-primary)]">
+              <span className="text-[var(--t-foreground)]">
                 <Icon size={16} />
               </span>
             </button>
@@ -95,7 +96,7 @@ export function Footer({ store }: FooterProps) {
           className="text-xs"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-            color: "var(--t-text-footer)",
+            color: "var(--t-muted)",
           }}
         >
           Creado con{" "}

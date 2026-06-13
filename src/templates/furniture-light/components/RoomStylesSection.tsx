@@ -30,7 +30,7 @@ export function RoomStylesSection({
       {/* Section header */}
       <div className="flex items-center justify-between mb-4">
         <h2
-          className="text-base font-bold text-[var(--t-text-primary)]"
+          className="text-base font-bold text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
         >
           {title}
@@ -94,7 +94,7 @@ export function RoomStylesSection({
               className="relative w-full overflow-hidden"
               style={{
                 borderRadius: "var(--t-radius-card)",
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 aspectRatio: "4 / 3",
               }}
             >
@@ -115,14 +115,14 @@ export function RoomStylesSection({
                   onStyleClick?.(card.id ?? card.name);
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t-button-text)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t-on-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </button>
             </div>
 
             {/* Style name below card */}
-            <p className="mt-2 text-xs font-semibold text-[var(--t-text-primary)]">
+            <p className="mt-2 text-xs font-semibold text-[var(--t-foreground)]">
               {card.name}
             </p>
           </div>

@@ -43,8 +43,8 @@ function FormField({
 }: FormFieldProps) {
   const inputStyle = {
     width: "100%",
-    backgroundColor: "var(--t-surface)",
-    border: error ? "1px solid var(--t-primary)" : "1px solid var(--t-border-input)",
+    backgroundColor: "var(--t-card)",
+    border: error ? "1px solid var(--t-primary)" : "1px solid var(--t-border)",
     borderRadius: "var(--t-radius-category)",
     padding: "10px 14px",
     color: "var(--t-dark-mode)",
@@ -59,7 +59,7 @@ function FormField({
       <label
         htmlFor={name}
         style={{
-          color: "var(--t-text-secondary)",
+          color: "var(--t-muted)",
           fontFamily: "'Poppins', sans-serif",
           fontSize: "13px",
           fontWeight: 500,

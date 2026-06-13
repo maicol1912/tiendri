@@ -68,11 +68,11 @@ export function CheckoutPage({
             <ArrowLeft
               size={18}
               strokeWidth={1.5}
-              className="text-[var(--t-text-primary)]"
+              className="text-[var(--t-foreground)]"
             />
           </button>
           <h1
-            className="text-2xl md:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-[var(--t-foreground)]"
             style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
           >
             CHECKOUT
@@ -89,9 +89,9 @@ export function CheckoutPage({
 
           {/* Order summary (right) — desktop */}
           <div className="hidden lg:block lg:sticky lg:top-20">
-            <div className="border border-[var(--t-border)] p-6 bg-[var(--t-card-bg)]">
+            <div className="border border-[var(--t-border)] p-6 bg-[var(--t-surface)]">
               <h2
-                className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+                className="mb-5 text-sm font-bold uppercase tracking-wider text-[var(--t-foreground)]"
                 style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
               >
                 TU PEDIDO
@@ -114,7 +114,7 @@ export function CheckoutPage({
                         />
                       )}
                       <span
-                        className="absolute -top-1.5 -right-1.5 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-button-text)]"
+                        className="absolute -top-1.5 -right-1.5 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-on-primary)]"
                         style={{
                           width: "18px",
                           height: "18px",
@@ -128,14 +128,14 @@ export function CheckoutPage({
 
                     <div className="flex-1 min-w-0">
                       <p
-                        className="leading-tight line-clamp-2 text-xs text-[var(--t-text-primary)]"
+                        className="leading-tight line-clamp-2 text-xs text-[var(--t-foreground)]"
                         style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
                       >
                         {item.name}
                       </p>
                       {item.variantName && (
                         <p
-                          className="text-[10px] text-[var(--t-text-secondary)] mt-0.5"
+                          className="text-[10px] text-[var(--t-muted)] mt-0.5"
                           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                         >
                           {item.variantName}
@@ -144,7 +144,7 @@ export function CheckoutPage({
                     </div>
 
                     <span
-                      className="text-sm font-medium text-[var(--t-text-primary)] flex-shrink-0"
+                      className="text-sm font-medium text-[var(--t-foreground)] flex-shrink-0"
                       style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                     >
                       {currencySymbol}{fmt.format(item.price * item.quantity)}
@@ -155,13 +155,13 @@ export function CheckoutPage({
 
               <div className="flex justify-between pt-4 border-t border-[var(--t-border)]">
                 <span
-                  className="text-sm font-medium text-[var(--t-text-primary)]"
+                  className="text-sm font-medium text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   Total
                 </span>
                 <span
-                  className="text-base font-bold text-[var(--t-text-primary)]"
+                  className="text-base font-bold text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
                   {currencySymbol}{fmt.format(totalPrice)}
@@ -184,7 +184,7 @@ export function CheckoutPage({
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "1px",
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
           }}
           onClick={onSubmit}
         >

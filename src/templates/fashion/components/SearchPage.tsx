@@ -72,7 +72,7 @@ export function SearchPage({
         {hasQuery && (
           <div className="mb-6">
             <p
-              className="text-[11px] uppercase tracking-wider text-[var(--t-text-muted)]"
+              className="text-[11px] uppercase tracking-wider text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
             >
               {results.length > 0
@@ -86,13 +86,13 @@ export function SearchPage({
         {!hasQuery ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <h2
-              className="mb-2 text-xl font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+              className="mb-2 text-xl font-bold uppercase tracking-wider text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               BUSCAR
             </h2>
             <p
-              className="text-sm text-[var(--t-text-secondary)]"
+              className="text-sm text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
             >
               Escribe el nombre de un producto o colección.
@@ -101,13 +101,13 @@ export function SearchPage({
         ) : results.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p
-              className="mb-1 text-lg font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+              className="mb-1 text-lg font-bold uppercase tracking-wider text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
             >
               SIN RESULTADOS
             </p>
             <p
-              className="text-sm text-[var(--t-text-secondary)]"
+              className="text-sm text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
             >
               Intenta con otros términos de búsqueda.

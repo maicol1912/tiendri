@@ -10,19 +10,14 @@ import type { FurnitureProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP, BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
+import type { TemplateLayoutConfig } from "@/types/templates";
+
 interface ProductCardProps {
   product: FurnitureProduct;
   currencySymbol?: string;
   onProductClick?: (id: string) => void;
   onAddToCart?: (id: string) => void;
-  layout?: {
-    cardStyle?: string;
-    cardHoverEffect?: string;
-    cardImageRatio?: string;
-    badgeStyle?: string;
-    priceDisplay?: string;
-    buttonStyle?: string;
-  };
+  layout?: Partial<TemplateLayoutConfig>;
 }
 
 export function ProductCard({
@@ -33,7 +28,7 @@ export function ProductCard({
   layout,
 }: ProductCardProps) {
   // cardBgColor is content data (per-product lifestyle color), not a theme token
-  const bgColor = product.cardBgColor ?? "var(--t-card-bg)";
+  const bgColor = product.cardBgColor ?? "var(--t-card)";
   const primaryImage = product.images[0]?.url ?? null;
   const rating = product.rating ?? 0;
   const discountPercent = product.discountPercent ?? (
@@ -44,11 +39,11 @@ export function ProductCard({
 
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
 
-  const hoverClass = hoverEffectClass(layout?.cardHoverEffect ?? "none");
+  const hoverClass = hoverEffectClass("none");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
-  const badgeClass = BADGE_STYLE_MAP[(layout?.badgeStyle as keyof typeof BADGE_STYLE_MAP) ?? "pill"];
-  const priceConfig = PRICE_DISPLAY_MAP[(layout?.priceDisplay as keyof typeof PRICE_DISPLAY_MAP) ?? "standard"];
-  const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
+  const badgeClass = BADGE_STYLE_MAP["pill"];
+  const priceConfig = PRICE_DISPLAY_MAP["standard"];
+  const btnClass = BUTTON_STYLE_MAP["filled"];
 
   return (
     <article
@@ -58,7 +53,7 @@ export function ProductCard({
     >
       {/* Image area */}
       <div
-        className={`relative w-full overflow-hidden ${ratioClass} ${cardStyleClass(layout?.cardStyle ?? "flat")}`}
+        className={`relative w-full overflow-hidden ${ratioClass} ${cardStyleClass("flat")}`}
         style={{
           borderRadius: "var(--t-radius-card)",
           backgroundColor: bgColor,
@@ -67,9 +62,9 @@ export function ProductCard({
         {/* Discount badge */}
         {discountPercent > 0 && (
           <div
-            className={`absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-1 ${badgeClass} bg-[var(--t-badge-bg)]`}
+            className={`absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-1 ${badgeClass} bg-[var(--t-primary)]`}
           >
-            <span className="text-[var(--t-badge-text)] text-[10px] font-bold">
+            <span className="text-[var(--t-on-primary)] text-[10px] font-bold">
               {discountPercent}%
             </span>
           </div>
@@ -81,8 +76,8 @@ export function ProductCard({
             className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm"
             style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}
           >
-            <Star size={10} strokeWidth={0} fill="var(--t-rating-star)" color="var(--t-rating-star)" />
-            <span className="text-[10px] font-bold text-[var(--t-text-primary)]">
+            <Star size={10} strokeWidth={0} fill="var(--t-accent)" color="var(--t-accent)" />
+            <span className="text-[10px] font-bold text-[var(--t-foreground)]">
               {rating.toFixed(1)}
             </span>
           </div>
@@ -110,7 +105,7 @@ export function ProductCard({
         {/* Unavailable overlay */}
         {!product.available && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-            <span className="px-3 py-1.5 rounded-[var(--t-radius-button)] bg-white text-xs font-semibold text-[var(--t-text-muted)]">
+            <span className="px-3 py-1.5 rounded-[var(--t-radius-button)] bg-white text-xs font-semibold text-[var(--t-muted)]">
               Agotado
             </span>
           </div>
@@ -119,7 +114,7 @@ export function ProductCard({
 
       {/* Name + price */}
       <div className="mt-2.5 px-0.5">
-        <p className="text-[13px] font-semibold text-[var(--t-text-primary)] leading-tight line-clamp-1">
+        <p className="text-[13px] font-semibold text-[var(--t-foreground)] leading-tight line-clamp-1">
           {product.name}
         </p>
         <div className="flex items-center justify-between mt-1.5">
@@ -128,7 +123,7 @@ export function ProductCard({
               {formattedPrice}
             </span>
             {product.compare_at_price && (
-              <span className="text-[11px] text-[var(--t-text-muted)] line-through">
+              <span className="text-[11px] text-[var(--t-muted)] line-through">
                 {currencySymbol}{new Intl.NumberFormat("en-US").format(product.compare_at_price)}
               </span>
             )}
@@ -143,7 +138,7 @@ export function ProductCard({
             aria-label={`Agregar ${product.name} al carrito`}
             className={`flex items-center justify-center w-7 h-7 rounded-[var(--t-radius-button)] transition-all hover:scale-110 active:scale-95 border ${btnClass}`}
           >
-            <Plus size={14} strokeWidth={2.5} style={{ color: layout?.buttonStyle === "filled" || !layout?.buttonStyle ? "var(--t-button-text)" : "currentColor" }} />
+            <Plus size={14} strokeWidth={2.5} style={{ color: "var(--t-on-primary)" }} />
           </button>
         </div>
       </div>

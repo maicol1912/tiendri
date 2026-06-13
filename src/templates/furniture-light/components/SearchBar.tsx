@@ -35,7 +35,7 @@ export function SearchBar({
         style={{
           height: 44,
           borderRadius: "var(--t-radius-button)",
-          backgroundColor: "var(--t-search-bg)",
+          backgroundColor: "var(--t-card)",
           border: "none",
           cursor: "pointer",
           textAlign: "left",
@@ -45,13 +45,13 @@ export function SearchBar({
         <Search
           size={16}
           strokeWidth={2}
-          style={{ color: "var(--t-text-muted)", flexShrink: 0 }}
+          style={{ color: "var(--t-muted)", flexShrink: 0 }}
         />
         <span
           style={{
             fontSize: "14px",
             fontWeight: 400,
-            color: "var(--t-text-muted)",
+            color: "var(--t-muted)",
             flex: 1,
             fontFamily: "var(--font-sans, 'Inter', sans-serif)",
           }}
@@ -68,14 +68,14 @@ export function SearchBar({
       style={{
         height: 44,
         borderRadius: "var(--t-radius-button)",
-        backgroundColor: "var(--t-search-bg)",
+        backgroundColor: "var(--t-card)",
         border: "1px solid var(--t-border)",
       }}
     >
       <Search
         size={16}
         strokeWidth={2}
-        style={{ color: "var(--t-text-muted)", flexShrink: 0 }}
+        style={{ color: "var(--t-muted)", flexShrink: 0 }}
       />
       <input
         ref={inputRef}
@@ -87,7 +87,7 @@ export function SearchBar({
         style={{
           fontSize: "14px",
           fontWeight: 400,
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
           border: "none",
           fontFamily: "var(--font-sans, 'Inter', sans-serif)",
         }}
@@ -99,13 +99,13 @@ export function SearchBar({
           onClick={onClear}
           className="flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0"
           style={{
-            backgroundColor: "var(--t-surface)",
+            backgroundColor: "var(--t-card)",
             border: "none",
             cursor: "pointer",
           }}
           aria-label="Limpiar búsqueda"
         >
-          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-text-muted)" }} />
+          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-muted)" }} />
         </button>
       )}
     </div>

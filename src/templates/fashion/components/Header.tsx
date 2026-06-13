@@ -17,8 +17,8 @@ interface HeaderProps {
   store: StoreInfo;
   navLinks?: readonly NavLink[];
   cartItemCount?: number;
-  /** Layout options from ThemeCustomizer. headerStyle controls the nav layout. */
-  layout?: { headerStyle?: string };
+  /** Layout options from ThemeCustomizer. */
+  layout?: Record<string, unknown>;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
@@ -35,20 +35,17 @@ export function Header({
   onMenuClick,
   onNavLinkClick,
 }: HeaderProps) {
-  // headerStyle controls nav layout variant:
-  // "centered" (default) — logo+name left, nav center, icons right
-  // "standard" — logo+name left, nav left, icons right
-  // "minimal"  — logo center only, icons right
-  const headerStyle = layout?.headerStyle ?? "centered";
+  // headerStyle: "centered" (default) — logo+name left, nav center, icons right
+  const headerStyle: string = "centered";
   return (
-    <header className="sticky top-0 z-40 bg-[var(--t-header-bg)]/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 bg-[var(--t-background)]/95 backdrop-blur-sm">
       {/* Mobile header */}
       <div className="md:hidden px-5 py-4">
         <div className="flex items-center justify-between">
           {/* Left: hamburger menu */}
           <button
             type="button"
-            className="p-1 -ml-1 text-[var(--t-text-primary)]"
+            className="p-1 -ml-1 text-[var(--t-foreground)]"
             onClick={onMenuClick}
             aria-label="Abrir menú"
           >
@@ -81,14 +78,14 @@ export function Header({
           <div className="flex items-center gap-2.5">
             <button
               type="button"
-              className="relative w-9 h-9 rounded-full bg-[var(--t-primary)] flex items-center justify-center"
+              className="relative w-9 h-9 rounded-full bg-[var(--t-button-bg)] flex items-center justify-center"
               onClick={onCartClick}
               aria-label={`Carrito — ${cartItemCount} artículos`}
             >
-              <ShoppingBag size={16} strokeWidth={1.5} className="text-[var(--t-card-bg)]" />
+              <ShoppingBag size={16} strokeWidth={1.5} className="text-[var(--t-card)]" />
               {cartItemCount > 0 && (
                 <span
-                  className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-medium rounded-full"
+                  className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[9px] font-medium rounded-full"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   {cartItemCount > 9 ? "9+" : cartItemCount}
@@ -123,7 +120,7 @@ export function Header({
               />
             </svg>
             <span
-              className="text-sm uppercase tracking-[0.2em] font-bold text-[var(--t-text-primary)]"
+              className="text-sm uppercase tracking-[0.2em] font-bold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {store.name}
@@ -153,7 +150,7 @@ export function Header({
               />
             </svg>
             <span
-              className="text-sm uppercase tracking-[0.2em] font-bold text-[var(--t-text-primary)]"
+              className="text-sm uppercase tracking-[0.2em] font-bold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {store.name}
@@ -171,7 +168,7 @@ export function Header({
               <button
                 key={link.href}
                 type="button"
-                className="cursor-pointer text-[11px] uppercase tracking-[0.15em] font-medium text-[var(--t-text-primary)]/70 hover:text-[var(--t-text-primary)] transition-colors bg-transparent border-none p-0"
+                className="cursor-pointer text-[11px] uppercase tracking-[0.15em] font-medium text-[var(--t-foreground)]/70 hover:text-[var(--t-foreground)] transition-colors bg-transparent border-none p-0"
                 style={{ fontFamily: "var(--font-sans)" }}
                 onClick={() => onNavLinkClick?.(link.href)}
               >
@@ -185,7 +182,7 @@ export function Header({
         <div className="flex items-center gap-4">
           <button
             type="button"
-            className="p-1.5 text-[var(--t-text-primary)]/70 hover:text-[var(--t-text-primary)] transition-colors bg-transparent border-none cursor-pointer"
+            className="p-1.5 text-[var(--t-foreground)]/70 hover:text-[var(--t-foreground)] transition-colors bg-transparent border-none cursor-pointer"
             onClick={onSearchClick}
             aria-label="Buscar"
           >
@@ -193,14 +190,14 @@ export function Header({
           </button>
           <button
             type="button"
-            className="relative w-9 h-9 rounded-full bg-[var(--t-primary)] flex items-center justify-center hover:opacity-80 transition-opacity border-none cursor-pointer"
+            className="relative w-9 h-9 rounded-full bg-[var(--t-button-bg)] flex items-center justify-center hover:opacity-80 transition-opacity border-none cursor-pointer"
             onClick={onCartClick}
             aria-label={`Carrito — ${cartItemCount} artículos`}
           >
-            <ShoppingBag size={16} strokeWidth={1.5} className="text-[var(--t-card-bg)]" />
+            <ShoppingBag size={16} strokeWidth={1.5} className="text-[var(--t-card)]" />
             {cartItemCount > 0 && (
               <span
-                className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-medium rounded-full"
+                className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[9px] font-medium rounded-full"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {cartItemCount > 9 ? "9+" : cartItemCount}

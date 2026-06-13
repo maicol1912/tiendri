@@ -12,6 +12,8 @@ import type {
   BrandingConfig,
   ContentConfig,
   BusinessConfig,
+  AnimationLevel,
+  ShadowStyle,
 } from "@/types/templates";
 import type { ColorPalette, TemplateConfigSchema } from "@/types/templates/config-schema";
 
@@ -108,7 +110,16 @@ export function resolveTemplateConfig(
   schema?: TemplateConfigSchema,
   urlMap?: Map<string, string>,
 ): ResolvedStoreConfig {
-  if (!customization) return template;
+  if (!customization) {
+    return {
+      ...template,
+      navLinks: template.content?.navLinks ?? [],
+      footerServices: template.content?.footerServices ?? [],
+      footerAssistance: template.content?.footerAssistance ?? [],
+      productTabs: template.content?.productTabs ?? [],
+      popularSearches: template.content?.popularSearches ?? [],
+    };
+  }
 
   // ── Branding merge ────────────────────────────────────────────────────────
   const resolvedBranding: BrandingConfig | undefined =
@@ -198,6 +209,14 @@ export function resolveTemplateConfig(
     branding: finalBranding,
     content: finalContent,
     business: resolvedBusiness,
+    // Lift content arrays to top-level so components can access them directly
+    // without needing to reach into content. The resolver is the single source
+    // of truth — templates no longer duplicate these at the root of config.ts.
+    navLinks: finalContent?.navLinks ?? template.content?.navLinks ?? [],
+    footerServices: finalContent?.footerServices ?? template.content?.footerServices ?? [],
+    footerAssistance: finalContent?.footerAssistance ?? template.content?.footerAssistance ?? [],
+    productTabs: finalContent?.productTabs ?? template.content?.productTabs ?? [],
+    popularSearches: finalContent?.popularSearches ?? template.content?.popularSearches ?? [],
     // Forwarded from merchant customization — used by buildCssVars for
     // typography tokens (--t-type-*) and spacing/density tokens (--t-space-*).
     // These are additive and backward-compatible: consumers that don't read
@@ -207,12 +226,18 @@ export function resolveTemplateConfig(
     structuralVariants: customization.layout?.structuralVariants ?? template.structuralVariants,
     // Effect tokens — assembled from the merged layout so buildCssVars can read
     // a single canonical object instead of reaching into layout sub-fields.
-    effects: {
-      animationLevel: customization.layout?.layout?.animationLevel ?? template.layout?.animationLevel,
-      shadowStyle: customization.layout?.layout?.shadowStyle ?? template.layout?.shadowStyle,
-      shadowElevation: customization.layout?.layout?.shadowElevation,
-      transitionSpeed: customization.layout?.layout?.transitionSpeed,
-      transitionEasing: customization.layout?.layout?.transitionEasing,
-    },
+    // animationLevel and shadowStyle are preset-managed fields written to
+    // customization.layout.layout by applyPreset; they are not part of
+    // TemplateLayoutConfig so we read them through a runtime cast.
+    effects: (() => {
+      const ll = customization.layout?.layout as Record<string, unknown> | undefined;
+      return {
+        animationLevel: (ll?.["animationLevel"] as AnimationLevel | undefined),
+        shadowStyle: (ll?.["shadowStyle"] as ShadowStyle | undefined),
+        shadowElevation: customization.layout?.layout?.shadowElevation,
+        transitionSpeed: customization.layout?.layout?.transitionSpeed,
+        transitionEasing: customization.layout?.layout?.transitionEasing,
+      };
+    })(),
   };
 }

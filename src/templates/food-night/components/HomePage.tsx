@@ -127,7 +127,7 @@ export function HomePage({
           key="products-empty"
         >
           <span style={{ fontSize: "40px" }} aria-hidden="true">🍕</span>
-          <p className="text-[14px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+          <p className="text-[14px] font-normal" style={{ color: "var(--t-muted)" }}>
             No hay platos en esta categoría
           </p>
         </div>

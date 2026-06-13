@@ -12,7 +12,7 @@ interface CheckoutPageProps {
   store: FurnitureStoreInfo;
   items: FurnitureCartItem[];
   navLinks?: readonly { label: string; href: string }[];
-  layout?: { footerStyle?: string };
+  layout?: Record<string, unknown>;
   currencySymbol?: string;
   activeTab?: FurnitureNavTab;
   cartItemCount?: number;
@@ -53,7 +53,7 @@ export function CheckoutPage({
 
       <main className="pt-[60px] lg:pt-[72px] pb-10 px-5 md:px-6 lg:px-8 max-w-3xl mx-auto">
         <h1
-          className="text-xl font-bold text-[var(--t-text-primary)] py-5"
+          className="text-xl font-bold text-[var(--t-foreground)] py-5"
           style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
         >
           Finalizar pedido

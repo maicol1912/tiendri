@@ -66,8 +66,8 @@ export function SearchPage({
       <div
         className="sticky top-0 z-10 px-4 md:px-6 py-3"
         style={{
-          backgroundColor: "var(--t-header-bg)",
-          borderBottom: "1px solid var(--t-nav-border)",
+          backgroundColor: "var(--t-background)",
+          borderBottom: "1px solid var(--t-border)",
         }}
       >
         <div className="flex items-center gap-3 max-w-3xl mx-auto">
@@ -80,7 +80,7 @@ export function SearchPage({
                 width: 38,
                 height: 38,
                 borderRadius: "50%",
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 border: "none",
                 cursor: "pointer",
               }}
@@ -95,12 +95,12 @@ export function SearchPage({
             className="flex items-center flex-1 gap-2 px-4"
             style={{
               height: 42,
-              backgroundColor: "var(--t-surface)",
+              backgroundColor: "var(--t-card)",
               borderRadius: 15,
-              border: "1px solid var(--t-border-input)",
+              border: "1px solid var(--t-border)",
             }}
           >
-            <Search size={16} style={{ color: "var(--t-text-muted)", flexShrink: 0 }} />
+            <Search size={16} style={{ color: "var(--t-muted)", flexShrink: 0 }} />
             <input
               type="search"
               placeholder="Buscar productos..."
@@ -129,7 +129,7 @@ export function SearchPage({
                 }}
                 aria-label="Limpiar búsqueda"
               >
-                <X size={14} style={{ color: "var(--t-text-muted)" }} />
+                <X size={14} style={{ color: "var(--t-muted)" }} />
               </button>
             )}
           </div>
@@ -162,8 +162,8 @@ export function SearchPage({
                   type="button"
                   onClick={() => onSuggestionClick?.(s)}
                   style={{
-                    backgroundColor: "var(--t-surface)",
-                    color: "var(--t-text-secondary)",
+                    backgroundColor: "var(--t-card)",
+                    color: "var(--t-muted)",
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: "12px",
                     fontWeight: 400,
@@ -214,7 +214,7 @@ export function SearchPage({
           <div className="flex justify-center py-8">
             <span
               style={{
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
               }}
@@ -229,7 +229,7 @@ export function SearchPage({
           <section className="flex flex-col gap-3">
             <p
               style={{
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "13px",
                 margin: 0,
@@ -257,7 +257,7 @@ export function SearchPage({
           <div className="flex flex-col items-center justify-center py-16 gap-4">
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "var(--t-surface)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
             >
               <Search size={28} style={{ color: "var(--t-icon-inactive)" }} />
             </div>
@@ -274,7 +274,7 @@ export function SearchPage({
             </p>
             <p
               style={{
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'League Spartan', sans-serif",
                 fontSize: "13px",
                 margin: 0,

@@ -8,13 +8,11 @@ import { bannerHeightClass } from "../utils/layout-classes";
 interface HeroBannerProps {
   banner: HeroBannerData;
   onShopNow?: () => void;
-  layout?: {
-    bannerHeight?: string;
-  };
+  layout?: Record<string, unknown>;
 }
 
-export function HeroBanner({ banner, onShopNow, layout }: HeroBannerProps) {
-  const heightClass = bannerHeightClass(layout?.bannerHeight ?? "short");
+export function HeroBanner({ banner, onShopNow }: HeroBannerProps) {
+  const heightClass = bannerHeightClass("short");
 
   return (
     <div
@@ -29,7 +27,7 @@ export function HeroBanner({ banner, onShopNow, layout }: HeroBannerProps) {
       <div className="flex flex-col justify-center gap-1.5 w-[35%] shrink-0 px-5 md:px-8 py-3 h-full">
         {banner.title && (
           <p
-            className="m-0 text-sm font-medium text-[var(--t-text-primary)] leading-tight"
+            className="m-0 text-sm font-medium text-[var(--t-foreground)] leading-tight"
             style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}
           >
             {banner.title}
@@ -55,8 +53,8 @@ export function HeroBanner({ banner, onShopNow, layout }: HeroBannerProps) {
             fontFamily: "var(--font-heading, var(--font-sans))",
             fontSize: "11px",
             fontWeight: 500,
-            color: "var(--t-button-text)",
-            backgroundColor: "var(--t-button-bg)",
+            color: "var(--t-on-primary)",
+            backgroundColor: "var(--t-primary)",
             borderRadius: "var(--t-radius-button)",
             padding: "4px 14px",
             height: "28px",
@@ -91,7 +89,7 @@ export function HeroBanner({ banner, onShopNow, layout }: HeroBannerProps) {
               width: "20px",
               height: "7px",
               borderRadius: "30px",
-              backgroundColor: "var(--t-text-secondary)",
+              backgroundColor: "var(--t-muted)",
             }}
           />
           {[0, 1, 2].map((i) => (
@@ -102,7 +100,7 @@ export function HeroBanner({ banner, onShopNow, layout }: HeroBannerProps) {
                 width: "7px",
                 height: "7px",
                 borderRadius: "30px",
-                backgroundColor: "var(--t-section-bg)",
+                backgroundColor: "var(--t-background)",
               }}
             />
           ))}

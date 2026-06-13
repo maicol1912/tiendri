@@ -61,7 +61,7 @@ export function ProductListingPage({
       <header
         className="sticky top-0 z-40"
         style={{
-          backgroundColor: "var(--t-header-bg)",
+          backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
@@ -74,9 +74,9 @@ export function ProductListingPage({
             style={{ background: "none", border: "none", cursor: "pointer" }}
             aria-label="Volver"
           >
-            <ChevronLeft size={20} strokeWidth={2} color="var(--t-text-primary)" />
+            <ChevronLeft size={20} strokeWidth={2} color="var(--t-foreground)" />
           </button>
-          <h1 className="text-lg font-bold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+          <h1 className="text-lg font-bold" style={{ color: "var(--t-foreground)", margin: 0 }}>
             Catálogo
           </h1>
         </div>
@@ -86,7 +86,7 @@ export function ProductListingPage({
       <div
         className="sticky top-14 z-30 px-5 md:px-6 lg:px-8 py-3"
         style={{
-          backgroundColor: "var(--t-header-bg)",
+          backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
@@ -102,7 +102,7 @@ export function ProductListingPage({
       <main className="flex-1 max-w-7xl mx-auto w-full px-5 md:px-6 lg:px-8 pt-6 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-8">
         {visibleProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <p className="text-base font-semibold" style={{ color: "var(--t-text-primary)" }}>
+            <p className="text-base font-semibold" style={{ color: "var(--t-foreground)" }}>
               Sin productos en esta categoría
             </p>
           </div>

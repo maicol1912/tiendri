@@ -49,7 +49,7 @@ export function CategorySection({
       type="button"
       className={`flex flex-col items-center justify-center gap-2 rounded-[var(--t-radius-category)] cursor-pointer border-none transition-colors shrink-0
         w-[100px] h-[100px] lg:w-[160px] lg:h-[128px]
-        ${isActive ? "bg-[var(--t-category-active-bg)] text-[var(--t-category-active-text)]" : "bg-[var(--t-surface)] text-[var(--t-primary)] hover:bg-[var(--t-nav-border)]"}`}
+        ${isActive ? "bg-[var(--t-primary)] text-[var(--t-on-primary)]" : "bg-[var(--t-card)] text-[var(--t-primary)] hover:bg-[var(--t-border)]"}`}
       onClick={onClick}
       aria-label={category.name}
       aria-pressed={isActive}

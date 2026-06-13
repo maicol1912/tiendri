@@ -53,16 +53,16 @@ export function CartPage({
               width: "47px",
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
             }}
             aria-label="Volver"
             onClick={onBack}
           >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
 
           <p
-            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Mi carrito
@@ -82,20 +82,20 @@ export function CartPage({
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "var(--t-section-bg)" }}
+              style={{ backgroundColor: "var(--t-background)" }}
             >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
-                  stroke="var(--t-text-muted)"
+                  stroke="var(--t-muted)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-text-muted)" strokeWidth="1.75" />
+                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-muted)" strokeWidth="1.75" />
                 <path
                   d="M16 10a4 4 0 0 1-8 0"
-                  stroke="var(--t-text-muted)"
+                  stroke="var(--t-muted)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -103,13 +103,13 @@ export function CartPage({
               </svg>
             </div>
             <p
-              className="m-0 text-base font-semibold text-[var(--t-text-primary)]"
+              className="m-0 text-base font-semibold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Tu carrito está vacío
             </p>
             <p
-              className="m-0 text-sm font-normal text-[var(--t-text-muted)]"
+              className="m-0 text-sm font-normal text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Agrega productos para continuar

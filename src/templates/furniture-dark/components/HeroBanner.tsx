@@ -67,19 +67,20 @@ export function HeroBanner({ cards, onCardClick }: HeroBannerProps) {
           <div className="absolute inset-0 flex flex-col justify-end p-4">
             {card.tag && (
               <p
-                className="text-[var(--t-text-summer-sale)] uppercase tracking-wider mb-1"
+                className="uppercase tracking-wider mb-1"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "10px",
                   fontWeight: 600,
                   letterSpacing: "0.08em",
+                  color: "var(--t-text-secondary)",
                 }}
               >
                 {card.tag}
               </p>
             )}
             <p
-              className="text-[var(--t-text-primary)] leading-tight mb-3"
+              className="text-[var(--t-foreground)] leading-tight mb-3"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "18px",
@@ -100,13 +101,13 @@ export function HeroBanner({ cards, onCardClick }: HeroBannerProps) {
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "12px",
                   fontWeight: 700,
-                  color: "var(--t-button-text)",
+                  color: "var(--t-on-primary)",
                   letterSpacing: "-0.24px",
                 }}
               >
                 {card.ctaLabel ?? "Ver colección"}
               </span>
-              <ChevronRight size={14} strokeWidth={2.5} style={{ color: "var(--t-button-text)" }} />
+              <ChevronRight size={14} strokeWidth={2.5} style={{ color: "var(--t-on-primary)" }} />
             </div>
           </div>
         </button>

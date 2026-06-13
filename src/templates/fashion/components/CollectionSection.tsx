@@ -56,7 +56,7 @@ export function CollectionSection({
           <div>
             <h2
               id={`collection-${title}`}
-              className="leading-none text-[var(--t-text-primary)]"
+              className="leading-none text-[var(--t-foreground)]"
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
@@ -69,7 +69,7 @@ export function CollectionSection({
             </h2>
             {subtitle && (
               <p
-                className="mt-1 text-xs md:text-sm text-[var(--t-text-muted)]"
+                className="mt-1 text-xs md:text-sm text-[var(--t-muted)]"
                 style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
               >
                 {subtitle}
@@ -80,7 +80,7 @@ export function CollectionSection({
           {onSeeAllClick && (
             <button
               type="button"
-              className="transition-opacity hover:opacity-60 flex-shrink-0 ml-4 text-[11px] font-medium uppercase tracking-wider text-[var(--t-text-primary)] underline underline-offset-2 bg-transparent border-none cursor-pointer"
+              className="transition-opacity hover:opacity-60 flex-shrink-0 ml-4 text-[11px] font-medium uppercase tracking-wider text-[var(--t-foreground)] underline underline-offset-2 bg-transparent border-none cursor-pointer"
               onClick={onSeeAllClick}
               style={{ fontFamily: "var(--font-sans)" }}
             >

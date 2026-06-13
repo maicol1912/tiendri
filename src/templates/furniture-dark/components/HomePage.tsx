@@ -70,8 +70,8 @@ export function HomePage({
 }: HomePageProps) {
   const gridMobile = config.grid.products.mobile;
   const gridDesktop = config.grid.products.desktop;
-  const cardStyle = config.layout.cardStyle;
-  const hoverEffect = config.layout.cardHoverEffect;
+  const cardStyle = "flat";
+  const hoverEffect = "none";
   const imageRatio = config.layout.cardImageRatio;
 
   // Section renderers map
@@ -160,11 +160,11 @@ export function HomePage({
           onClick={onSearchClick}
           aria-label="Buscar productos"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t-text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
           <span
-            className="text-[var(--t-text-secondary)]"
+            className="text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "14px",

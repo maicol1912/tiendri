@@ -39,7 +39,7 @@ export function BottomNav({
       <div
         className="max-w-md mx-auto flex items-center justify-around"
         style={{
-          backgroundColor: "var(--t-card-bg)",
+          backgroundColor: "var(--t-surface)",
           borderRadius: "36px",
           height: "63px",
           padding: "8px 10px",
@@ -59,7 +59,7 @@ export function BottomNav({
                 fontFamily: "var(--font-heading, var(--font-sans))",
                 fontSize: "17px",
                 fontWeight: 400,
-                color: isActive ? "var(--t-button-text)" : "var(--t-text-muted)",
+                color: isActive ? "var(--t-on-primary)" : "var(--t-muted)",
                 backgroundColor: isActive ? "var(--t-primary)" : "transparent",
                 borderRadius: "31px",
                 height: "47px",
@@ -74,7 +74,7 @@ export function BottomNav({
               <Icon
                 size={isActive ? 21 : 24}
                 strokeWidth={1.75}
-                className={isActive ? "text-[var(--t-button-text)]" : "text-[var(--t-text-muted)]"}
+                className={isActive ? "text-[var(--t-on-primary)]" : "text-[var(--t-muted)]"}
               />
               {isActive && <span>{label}</span>}
 
@@ -82,8 +82,8 @@ export function BottomNav({
                 <span
                   className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold leading-none"
                   style={{
-                    backgroundColor: "var(--t-badge-bg)",
-                    color: "var(--t-badge-text)",
+                    backgroundColor: "var(--t-primary)",
+                    color: "var(--t-on-primary)",
                     fontFamily: "var(--font-sans)",
                   }}
                   aria-hidden="true"

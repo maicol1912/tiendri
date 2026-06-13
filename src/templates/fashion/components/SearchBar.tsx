@@ -24,7 +24,7 @@ export function SearchBar({
       <Search
         size={16}
         strokeWidth={1.5}
-        className="text-[var(--t-text-primary)]/50 flex-shrink-0"
+        className="text-[var(--t-foreground)]/50 flex-shrink-0"
         aria-hidden="true"
       />
       <input
@@ -33,7 +33,7 @@ export function SearchBar({
         onChange={(e) => onChange?.(e.target.value)}
         onFocus={onFocus}
         placeholder={placeholder}
-        className="flex-1 bg-transparent outline-none min-w-0 text-[var(--t-text-primary)] placeholder:text-[var(--t-text-primary)]/40"
+        className="flex-1 bg-transparent outline-none min-w-0 text-[var(--t-foreground)] placeholder:text-[var(--t-foreground)]/40"
         style={{
           fontFamily: "var(--font-sans)",
           fontSize: "13px",

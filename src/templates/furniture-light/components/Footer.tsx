@@ -6,15 +6,15 @@ import type { FurnitureStoreInfo } from "../types";
 
 interface FooterProps {
   store: FurnitureStoreInfo;
-  layout?: { footerStyle?: string };
+  layout?: Record<string, unknown>;
 }
 
-export function Footer({ store, layout }: FooterProps) {
-  const style = layout?.footerStyle ?? "minimal";
+export function Footer({ store }: FooterProps) {
+  const style: string = "minimal";
 
   return (
     <footer
-      className="bg-[var(--t-footer-bg)] border-t border-[var(--t-border)] pb-24 lg:pb-8 mt-8"
+      className="bg-[var(--t-background)] border-t border-[var(--t-border)] pb-24 lg:pb-8 mt-8"
       style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
     >
       <div className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pt-8 pb-4">
@@ -28,23 +28,23 @@ export function Footer({ store, layout }: FooterProps) {
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                 </div>
-                <p className="text-base font-bold text-[var(--t-text-primary)]">{store.name}</p>
+                <p className="text-base font-bold text-[var(--t-foreground)]">{store.name}</p>
               </div>
-              <p className="text-xs text-[var(--t-text-footer)]">Muebles modernos para tu hogar</p>
+              <p className="text-xs text-[var(--t-muted)]">Muebles modernos para tu hogar</p>
             </div>
             <div>
-              <p className="text-xs font-bold text-[var(--t-text-primary)] uppercase tracking-wider mb-3">Servicios</p>
+              <p className="text-xs font-bold text-[var(--t-foreground)] uppercase tracking-wider mb-3">Servicios</p>
               <ul className="space-y-2">
                 {["Política de privacidad", "Términos y condiciones"].map((item) => (
-                  <li key={item}><a href="#" className="text-xs text-[var(--t-text-footer)] hover:text-[var(--t-text-primary)] transition-colors">{item}</a></li>
+                  <li key={item}><a href="#" className="text-xs text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors">{item}</a></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-xs font-bold text-[var(--t-text-primary)] uppercase tracking-wider mb-3">Ayuda</p>
+              <p className="text-xs font-bold text-[var(--t-foreground)] uppercase tracking-wider mb-3">Ayuda</p>
               <ul className="space-y-2">
                 {["Preguntas frecuentes", "Contacto"].map((item) => (
-                  <li key={item}><a href="#" className="text-xs text-[var(--t-text-footer)] hover:text-[var(--t-text-primary)] transition-colors">{item}</a></li>
+                  <li key={item}><a href="#" className="text-xs text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors">{item}</a></li>
                 ))}
               </ul>
             </div>
@@ -59,21 +59,21 @@ export function Footer({ store, layout }: FooterProps) {
                     <polyline points="9 22 9 12 15 12 15 22" />
                   </svg>
                 </div>
-                <p className="text-lg font-bold text-[var(--t-text-primary)]">{store.name}</p>
+                <p className="text-lg font-bold text-[var(--t-foreground)]">{store.name}</p>
               </div>
-              <p className="text-xs text-[var(--t-text-footer)] mt-1">Muebles modernos para tu hogar</p>
+              <p className="text-xs text-[var(--t-muted)] mt-1">Muebles modernos para tu hogar</p>
             </div>
 
-            <div className="flex items-center gap-6 text-sm text-[var(--t-text-footer)]">
-              <a href="#" className="hover:text-[var(--t-text-primary)] transition-colors">Política de privacidad</a>
-              <a href="#" className="hover:text-[var(--t-text-primary)] transition-colors">Términos</a>
+            <div className="flex items-center gap-6 text-sm text-[var(--t-muted)]">
+              <a href="#" className="hover:text-[var(--t-foreground)] transition-colors">Política de privacidad</a>
+              <a href="#" className="hover:text-[var(--t-foreground)] transition-colors">Términos</a>
             </div>
           </div>
         )}
 
         {/* Attribution */}
-        <div className="mt-6 pt-4 border-t border-[var(--t-border-light)] text-center">
-          <p className="text-xs text-[var(--t-text-footer)]">
+        <div className="mt-6 pt-4 border-t border-[var(--t-border)] text-center">
+          <p className="text-xs text-[var(--t-muted)]">
             Tienda impulsada por{" "}
             <a href="https://tiendri.com" target="_blank" rel="noopener noreferrer" className="text-[var(--t-primary)] hover:underline font-medium">
               Tiendri

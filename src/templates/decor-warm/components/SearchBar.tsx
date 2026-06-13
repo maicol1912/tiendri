@@ -35,7 +35,7 @@ export function SearchBar({
         style={{
           height: 48,
           borderRadius: "var(--t-radius-button)",
-          backgroundColor: "var(--t-surface)",
+          backgroundColor: "var(--t-card)",
           border: "1px solid var(--t-border)",
           cursor: "pointer",
           textAlign: "left",
@@ -52,7 +52,7 @@ export function SearchBar({
             fontFamily: "'Poppins', sans-serif",
             fontSize: "14px",
             fontWeight: 400,
-            color: "var(--t-text-muted)",
+            color: "var(--t-muted)",
             flex: 1,
           }}
         >
@@ -68,7 +68,7 @@ export function SearchBar({
       style={{
         height: 48,
         borderRadius: "var(--t-radius-button)",
-        backgroundColor: "var(--t-surface)",
+        backgroundColor: "var(--t-card)",
         border: "1px solid var(--t-border)",
       }}
     >
@@ -105,7 +105,7 @@ export function SearchBar({
           }}
           aria-label="Limpiar búsqueda"
         >
-          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-text-muted)" }} />
+          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-muted)" }} />
         </button>
       )}
     </div>

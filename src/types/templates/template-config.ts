@@ -3,19 +3,8 @@
 // Every template must export an object that satisfies this interface.
 
 import type {
-  CardStyle,
-  HoverEffect,
   ImageRatio,
-  NavStyle,
-  TabStyle,
-  BannerHeight,
-  HeaderStyle,
-  FooterStyle,
   GridBreakpoint,
-  AnimationLevel,
-  ButtonStyle,
-  BadgeStyle,
-  PriceDisplay,
   ShadowElevation,
   TransitionSpeed,
   TransitionEasing,
@@ -40,14 +29,13 @@ export interface TemplateColorTokens {
   primary: string;
   secondary: string;
   background: string;
-  cardBg: string;
+  foreground: string;     // Main text color (was textPrimary)
+  card: string;           // Card/surface background (was cardBg)
   border: string;
-  surface: string;
-  textMuted: string;
-  buttonBg: string;
-  buttonText: string;
-  footerBg: string;
-  [key: string]: string; // template-specific extra tokens (e.g. badgeBg, ratingStar)
+  muted: string;          // Secondary/muted text (was textMuted)
+  accent: string;         // Special accent color like rating stars (was ratingStar)
+  onPrimary: string;      // Contrast text for primary backgrounds (was buttonText)
+  [key: string]: string;  // Keep index signature for template-specific extras
 }
 
 // Border-radius tokens a template defines.
@@ -69,33 +57,29 @@ export interface TemplateGridConfig {
 
 // Visual style options for key UI regions.
 export interface TemplateLayoutConfig {
-  cardStyle: CardStyle;
-  cardHoverEffect: HoverEffect;
+  // Active — used for aspect ratios across card components
   cardImageRatio: ImageRatio;
-  navStyle: NavStyle;
-  tabStyle: TabStyle;
-  bannerHeight: BannerHeight;
-  headerStyle: HeaderStyle;
-  footerStyle: FooterStyle;
-  shadowStyle?: "neutral" | "hue-tinted";
-  animationLevel?: AnimationLevel;
-  // Phase 1 — preset-managed style primitives
-  buttonStyle?: ButtonStyle;
-  badgeStyle?: BadgeStyle;
-  priceDisplay?: PriceDisplay;
-  // Phase 1 extended — effect tokens forwarded from presets
+
+  // Variant fields — drive visual differentiation between templates
+  heroVariant: 'full-width' | 'split' | 'contained' | 'carousel' | 'minimal';
+  cardVariant: 'minimal' | 'detailed' | 'overlay' | 'horizontal';
+  categoryVariant: 'grid-icons' | 'horizontal-scroll' | 'cards-with-image' | 'text-list';
+  gridDensity: 'compact' | 'standard' | 'spacious';
+  spacingDensity: 'tight' | 'normal' | 'airy';
+
+  // Effect tokens forwarded from presets
   shadowElevation?: ShadowElevation;
   transitionSpeed?: TransitionSpeed;
   transitionEasing?: TransitionEasing;
-  // Phase 1 extended — chrome tokens
+  // Chrome tokens
   borderRadiusScale?: BorderRadiusScale;
   dividerStyle?: DividerStyle;
-  // Phase 1 extended — card tokens
+  // Card tokens
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;
   imageHoverEffect?: ImageHoverEffect;
-  // Phase 1 extended — layout tokens
+  // Layout tokens
   gridColumnsMobile?: GridColumnsMobile;
   gridColumnsDesktop?: GridColumnsDesktop;
   containerMaxWidth?: ContainerMaxWidth;

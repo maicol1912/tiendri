@@ -30,11 +30,11 @@ export function SizeSelector({
             onClick={() => onSizeSelect?.(size)}
             style={{
               backgroundColor: isSelected
-                ? "var(--t-primary)"
-                : "var(--t-card-bg)",
+                ? "var(--t-button-bg)"
+                : "var(--t-surface)",
               color: isSelected
                 ? "var(--t-button-text)"
-                : "var(--t-text-primary)",
+                : "var(--t-foreground)",
               border: isSelected
                 ? "1px solid var(--t-primary)"
                 : "1px solid var(--t-border)",

@@ -86,7 +86,7 @@ export function HomePage({
       >
         <div className="flex items-center justify-between">
           <h2
-            className="m-0 text-[var(--t-text-primary)] leading-[22px]"
+            className="m-0 text-[var(--t-foreground)] leading-[22px]"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
@@ -99,7 +99,7 @@ export function HomePage({
           </h2>
           <button
             type="button"
-            className="text-sm text-[var(--t-text-muted)] bg-transparent border-none cursor-pointer p-0 leading-[22px] tracking-[-0.408px]"
+            className="text-sm text-[var(--t-muted)] bg-transparent border-none cursor-pointer p-0 leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
             onClick={onSeeAll}
           >
@@ -111,20 +111,20 @@ export function HomePage({
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "var(--t-card-bg)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
             >
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
-                  stroke="var(--t-text-muted)"
+                  stroke="var(--t-muted)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-text-muted)" strokeWidth="1.75" />
+                <line x1="3" y1="6" x2="21" y2="6" stroke="var(--t-muted)" strokeWidth="1.75" />
                 <path
                   d="M16 10a4 4 0 0 1-8 0"
-                  stroke="var(--t-text-muted)"
+                  stroke="var(--t-muted)"
                   strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -133,7 +133,7 @@ export function HomePage({
             </div>
             <p
               className="text-sm text-center m-0"
-              style={{ color: "var(--t-text-secondary)", fontFamily: "var(--font-sans)" }}
+              style={{ color: "var(--t-muted)", fontFamily: "var(--font-sans)" }}
             >
               No hay productos disponibles
             </p>

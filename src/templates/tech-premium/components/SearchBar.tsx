@@ -18,15 +18,15 @@ export function SearchBar({
   onFocus,
 }: SearchBarProps) {
   return (
-    <div className="flex items-center gap-2 bg-[var(--t-search-bg)] rounded-lg h-14 px-4 w-full">
-      <Search className="w-5 h-5 text-[var(--t-text-muted)] shrink-0" />
+    <div className="flex items-center gap-2 bg-[var(--t-card)] rounded-lg h-14 px-4 w-full">
+      <Search className="w-5 h-5 text-[var(--t-muted)] shrink-0" />
       <input
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         onFocus={onFocus}
-        className="bg-transparent text-sm font-medium text-[var(--t-text-muted)] placeholder:text-[var(--t-text-muted)]/50 outline-none w-full"
+        className="bg-transparent text-sm font-medium text-[var(--t-muted)] placeholder:text-[var(--t-muted)]/50 outline-none w-full"
         aria-label={placeholder}
       />
     </div>

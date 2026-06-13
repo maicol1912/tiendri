@@ -38,7 +38,7 @@ export function HeroBanner({ data, heroVariant = "contained", onCtaClick }: Hero
                 {titleBold}
               </span>
             </h1>
-            <p className="text-[var(--t-text-muted)] text-base lg:text-lg font-medium leading-6 whitespace-nowrap">
+            <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6 whitespace-nowrap">
               {description}
             </p>
             <button
@@ -96,7 +96,7 @@ export function HeroBanner({ data, heroVariant = "contained", onCtaClick }: Hero
                 {titleBold}
               </span>
             </h1>
-            <p className="text-[var(--t-text-muted)] text-base lg:text-lg font-medium leading-6">
+            <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6">
               {description}
             </p>
             <button
@@ -133,7 +133,7 @@ export function HeroBanner({ data, heroVariant = "contained", onCtaClick }: Hero
             <span className="font-thin">{titleLight}</span>
             <span className="font-semibold">{titleBold}</span>
           </h1>
-          <p className="text-[var(--t-text-muted)] text-base lg:text-lg font-medium leading-6 max-w-xl">
+          <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6 max-w-xl">
             {description}
           </p>
           <button
@@ -169,7 +169,7 @@ export function HeroBanner({ data, heroVariant = "contained", onCtaClick }: Hero
               {titleBold}
             </span>
           </h1>
-          <p className="text-[var(--t-text-muted)] text-base lg:text-lg font-medium leading-6 whitespace-nowrap">
+          <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6 whitespace-nowrap">
             {description}
           </p>
           <button

@@ -83,8 +83,8 @@ export function Footer({ store }: FooterProps) {
     <footer
       className="w-full pb-24 md:pb-8"
       style={{
-        backgroundColor: "var(--t-footer-bg)",
-        borderTop: "1px solid var(--t-nav-border)",
+        backgroundColor: "var(--t-background)",
+        borderTop: "1px solid var(--t-border-light)",
       }}
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-4 px-4 md:px-6 lg:px-8 py-6">
@@ -116,7 +116,7 @@ export function Footer({ store }: FooterProps) {
           className="flex items-center gap-1.5"
           aria-label="Tienda creada con Tiendri"
         >
-          <span className="text-xs" style={{ color: "var(--t-text-footer)" }}>
+          <span className="text-xs" style={{ color: "var(--t-muted)" }}>
             Creado con
           </span>
           <span className="text-xs font-semibold" style={{ color: "var(--t-primary)" }}>

@@ -65,7 +65,7 @@ export function ProductDetailPage({
         {/* ── Top bar ── */}
         <div
           className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 lg:px-8 py-3"
-          style={{ backgroundColor: "var(--t-header-bg)", borderBottom: "1px solid var(--t-nav-border)" }}
+          style={{ backgroundColor: "var(--t-background)", borderBottom: "1px solid var(--t-border)" }}
         >
           <button
             type="button"
@@ -74,7 +74,7 @@ export function ProductDetailPage({
               width: 38,
               height: 38,
               borderRadius: "50%",
-              backgroundColor: "var(--t-surface)",
+              backgroundColor: "var(--t-card)",
               border: "none",
               cursor: "pointer",
             }}
@@ -102,7 +102,7 @@ export function ProductDetailPage({
               width: 38,
               height: 38,
               borderRadius: "50%",
-              backgroundColor: "var(--t-surface)",
+              backgroundColor: "var(--t-card)",
               border: "none",
               cursor: "pointer",
             }}
@@ -132,7 +132,7 @@ export function ProductDetailPage({
               className="relative w-full overflow-hidden"
               style={{
                 aspectRatio: "4 / 3",
-                backgroundColor: "var(--t-surface)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: "var(--t-radius-card)",
               }}
             >
@@ -174,7 +174,7 @@ export function ProductDetailPage({
                       width: 60,
                       height: 60,
                       borderRadius: "var(--t-radius-category)",
-                      backgroundColor: "var(--t-surface)",
+                      backgroundColor: "var(--t-card)",
                       border: i === activeImageIndex
                         ? "2px solid var(--t-primary)"
                         : "2px solid transparent",
@@ -231,7 +231,7 @@ export function ProductDetailPage({
                 <span
                   className="line-through"
                   style={{
-                    color: "var(--t-text-muted)",
+                    color: "var(--t-muted)",
                     fontFamily: "'League Spartan', sans-serif",
                     fontSize: "14px",
                   }}
@@ -257,7 +257,7 @@ export function ProductDetailPage({
                 </h3>
                 <p
                   style={{
-                    color: "var(--t-text-secondary)",
+                    color: "var(--t-muted)",
                     fontFamily: "'League Spartan', sans-serif",
                     fontSize: "14px",
                     fontWeight: 300,

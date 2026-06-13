@@ -10,20 +10,17 @@ interface FooterProps {
   store: StoreInfo;
   services?: readonly string[];
   assistance?: readonly string[];
-  /** Layout options from ThemeCustomizer. footerStyle controls the footer layout variant. */
-  layout?: { footerStyle?: string };
+  /** Layout options from ThemeCustomizer. */
+  layout?: Record<string, unknown>;
 }
 
 export function Footer({ store, services = [], assistance = [], layout }: FooterProps) {
-  // footerStyle variants:
-  // "minimal"  (default) — brand + copyright, optional columns when links provided
-  // "columns"  — multi-column with services + assistance links always visible
-  // "centered" — everything centered, stacked
-  const footerStyle = layout?.footerStyle ?? "minimal";
+  // footerStyle: "minimal" (default) — brand + copyright, optional columns when links provided
+  const footerStyle: string = "minimal";
   const isCentered = footerStyle === "centered";
   const showColumns = footerStyle === "columns" || (services.length > 0 || assistance.length > 0);
   return (
-    <footer className="bg-[var(--t-footer-bg)] pb-20 md:pb-8 pt-10 md:pt-14 border-t border-[var(--t-border)]">
+    <footer className="bg-[var(--t-background)] pb-20 md:pb-8 pt-10 md:pt-14 border-t border-[var(--t-border)]">
       <div className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8">
         {/* Top row */}
         <div
@@ -56,7 +53,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
                 />
               </svg>
               <span
-                className="text-lg uppercase tracking-widest font-bold text-[var(--t-text-primary)]"
+                className="text-lg uppercase tracking-widest font-bold text-[var(--t-foreground)]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {store.name}
@@ -64,7 +61,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
             </div>
             {store.description && (
               <p
-                className={`text-[var(--t-text-muted)] leading-[1.7] ${isCentered ? "text-center max-w-sm" : ""}`}
+                className={`text-[var(--t-muted)] leading-[1.7] ${isCentered ? "text-center max-w-sm" : ""}`}
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontSize: "12px",
@@ -86,7 +83,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
               {services.length > 0 && (
                 <nav aria-label="Servicios">
                   <p
-                    className={`mb-3 text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--t-text-primary)] ${isCentered ? "text-center" : ""}`}
+                    className={`mb-3 text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--t-foreground)] ${isCentered ? "text-center" : ""}`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     Servicios
@@ -94,7 +91,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
                   {services.map((item) => (
                     <p
                       key={item}
-                      className={`mb-1.5 cursor-pointer transition-opacity hover:opacity-60 text-xs text-[var(--t-text-secondary)] ${isCentered ? "text-center" : ""}`}
+                      className={`mb-1.5 cursor-pointer transition-opacity hover:opacity-60 text-xs text-[var(--t-muted)] ${isCentered ? "text-center" : ""}`}
                       style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
                     >
                       {item}
@@ -106,7 +103,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
               {assistance.length > 0 && (
                 <nav aria-label="Asistencia al comprador">
                   <p
-                    className={`mb-3 text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--t-text-primary)] ${isCentered ? "text-center" : ""}`}
+                    className={`mb-3 text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--t-foreground)] ${isCentered ? "text-center" : ""}`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     Asistencia
@@ -114,7 +111,7 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
                   {assistance.map((item) => (
                     <p
                       key={item}
-                      className={`mb-1.5 cursor-pointer transition-opacity hover:opacity-60 text-xs text-[var(--t-text-secondary)] ${isCentered ? "text-center" : ""}`}
+                      className={`mb-1.5 cursor-pointer transition-opacity hover:opacity-60 text-xs text-[var(--t-muted)] ${isCentered ? "text-center" : ""}`}
                       style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
                     >
                       {item}
@@ -135,17 +132,17 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
           }`}
         >
           <p
-            className="text-[11px] text-[var(--t-text-muted)]"
+            className="text-[11px] text-[var(--t-muted)]"
             style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
           >
             &copy; {new Date().getFullYear()} {store.name}. Todos los derechos reservados.
           </p>
           <p
-            className="text-[11px] text-[var(--t-text-muted)]"
+            className="text-[11px] text-[var(--t-muted)]"
             style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
           >
             Creado con{" "}
-            <span className="font-medium text-[var(--t-text-primary)] underline underline-offset-2">
+            <span className="font-medium text-[var(--t-foreground)] underline underline-offset-2">
               Tiendri
             </span>
           </p>

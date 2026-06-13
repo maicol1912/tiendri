@@ -13,7 +13,6 @@ import { SizeSelector } from "./SizeSelector";
 import { StickyBottomBar } from "./StickyBottomBar";
 import type { StoreInfo, StorefrontProduct, SizeOption, NavTab } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
-import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -25,7 +24,7 @@ interface ProductDetailPageProps {
   isDescriptionExpanded?: boolean;
   activeTab?: NavTab;
   cartItemCount?: number;
-  layout?: { headerStyle?: string; footerStyle?: string; buttonStyle?: ButtonStyle };
+  layout?: Record<string, unknown>;
   onBack?: () => void;
   onSizeSelect?: (id: string) => void;
   onDecrement?: () => void;
@@ -72,12 +71,12 @@ export function ProductDetailPage({
     width: 36,
     height: 36,
     borderRadius: "50%",
-    backgroundColor: "var(--t-button-bg)",
+    backgroundColor: "var(--t-primary)",
     boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
     border: "none",
     cursor: "pointer",
   };
-  const ctaClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const ctaClass = BUTTON_STYLE_MAP["filled"];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
@@ -96,7 +95,7 @@ export function ProductDetailPage({
           onClick={onBack}
           className="flex items-center gap-1 text-[13px] font-normal transition-opacity hover:opacity-70"
           style={{
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             background: "none",
             border: "none",
             cursor: "pointer",
@@ -118,7 +117,7 @@ export function ProductDetailPage({
               className="lg:hidden relative w-full overflow-hidden mx-4"
               style={{
                 borderRadius: "var(--t-radius-card)",
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
                 maxWidth: "calc(100% - 32px)",
               }}
               aria-label={`Imagen de ${product.name}`}
@@ -136,7 +135,7 @@ export function ProductDetailPage({
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-                      <rect width="64" height="64" fill="var(--t-surface)" />
+                      <rect width="64" height="64" fill="var(--t-card)" />
                     </svg>
                   </div>
                 )}
@@ -148,7 +147,7 @@ export function ProductDetailPage({
                   style={floatingButtonStyle}
                   aria-label="Volver"
                 >
-                  <ArrowLeft size={18} strokeWidth={2} style={{ color: "var(--t-button-text)" }} />
+                  <ArrowLeft size={18} strokeWidth={2} style={{ color: "var(--t-on-primary)" }} />
                 </button>
               </div>
             </div>
@@ -158,7 +157,7 @@ export function ProductDetailPage({
               className="hidden lg:block relative w-full overflow-hidden"
               style={{
                 aspectRatio: "4 / 3",
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
                 borderRadius: "var(--t-radius-card)",
               }}
               aria-label={`Imagen de ${product.name}`}
@@ -181,7 +180,7 @@ export function ProductDetailPage({
             {/* Name */}
             <h1
               className="text-[clamp(16px,4vw,20px)] font-semibold leading-tight"
-              style={{ color: "var(--t-text-primary)" }}
+              style={{ color: "var(--t-foreground)" }}
             >
               {product.name}
             </h1>
@@ -191,7 +190,7 @@ export function ProductDetailPage({
               <div className="flex flex-col gap-1">
                 <p
                   className={`text-[12px] font-normal leading-relaxed ${isDescriptionExpanded ? "" : "line-clamp-3"}`}
-                  style={{ color: "var(--t-text-secondary)" }}
+                  style={{ color: "var(--t-muted)" }}
                 >
                   {product.description}
                 </p>
@@ -200,7 +199,7 @@ export function ProductDetailPage({
                   onClick={onToggleDescription}
                   className="text-[12px] font-medium self-start transition-opacity hover:opacity-70"
                   style={{
-                    color: "var(--t-rating-star)",
+                    color: "var(--t-accent)",
                     background: "none",
                     border: "none",
                     padding: 0,
@@ -215,7 +214,7 @@ export function ProductDetailPage({
 
             {/* Quantity row */}
             <div className="flex items-center justify-between">
-              <span className="text-[14px] font-semibold" style={{ color: "var(--t-text-primary)" }}>
+              <span className="text-[14px] font-semibold" style={{ color: "var(--t-foreground)" }}>
                 Cantidad
               </span>
               <QuantityStepper
@@ -230,13 +229,13 @@ export function ProductDetailPage({
 
             {/* Price */}
             <div className="flex items-baseline gap-2">
-              <span className="text-[20px] font-bold" style={{ color: "var(--t-text-primary)" }}>
+              <span className="text-[20px] font-bold" style={{ color: "var(--t-foreground)" }}>
                 {formatPrice(product.price, currencySymbol)}
               </span>
               {product.compare_at_price && product.compare_at_price > product.price && (
                 <span
                   className="line-through text-[14px] font-normal"
-                  style={{ color: "var(--t-text-muted)" }}
+                  style={{ color: "var(--t-muted)" }}
                 >
                   {formatPrice(product.compare_at_price, currencySymbol)}
                 </span>
@@ -267,7 +266,7 @@ export function ProductDetailPage({
                 style={{
                   borderRadius: "var(--t-radius-button)",
                   height: 52,
-                  ...(!product.available ? { backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" } : {}),
+                  ...(!product.available ? { backgroundColor: "var(--t-card)", color: "var(--t-muted)" } : {}),
                   cursor: product.available ? "pointer" : "not-allowed",
                   maxWidth: 320,
                   fontSize: "14px",

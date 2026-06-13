@@ -35,7 +35,7 @@ export function SearchBar({
         style={{
           height: 48,
           borderRadius: "var(--t-radius-button)",
-          backgroundColor: "var(--t-surface)",
+          backgroundColor: "var(--t-search-bg)",
           border: "none",
           cursor: "pointer",
           textAlign: "left",
@@ -45,7 +45,7 @@ export function SearchBar({
         <Search
           size={16}
           strokeWidth={2}
-          style={{ color: "var(--t-text-secondary)", flexShrink: 0 }}
+          style={{ color: "var(--t-muted)", flexShrink: 0 }}
         />
         <span
           style={{
@@ -53,7 +53,7 @@ export function SearchBar({
             fontSize: "14px",
             fontWeight: 400,
             letterSpacing: "-0.42px",
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             flex: 1,
           }}
         >
@@ -69,14 +69,14 @@ export function SearchBar({
       style={{
         height: 48,
         borderRadius: "var(--t-radius-button)",
-        backgroundColor: "var(--t-surface)",
+        backgroundColor: "var(--t-search-bg)",
         border: "1px solid var(--t-border)",
       }}
     >
       <Search
         size={16}
         strokeWidth={2}
-        style={{ color: "var(--t-text-secondary)", flexShrink: 0 }}
+        style={{ color: "var(--t-muted)", flexShrink: 0 }}
       />
       <input
         ref={inputRef}
@@ -90,7 +90,7 @@ export function SearchBar({
           fontSize: "14px",
           fontWeight: 400,
           letterSpacing: "-0.42px",
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
           border: "none",
         }}
         aria-label="Buscar productos"
@@ -107,7 +107,7 @@ export function SearchBar({
           }}
           aria-label="Limpiar búsqueda"
         >
-          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-text-muted)" }} />
+          <X size={12} strokeWidth={2.5} style={{ color: "var(--t-muted)" }} />
         </button>
       )}
     </div>

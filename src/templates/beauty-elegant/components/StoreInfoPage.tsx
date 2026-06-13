@@ -42,12 +42,12 @@ export function StoreInfoPage({
         <div className="flex flex-col gap-2">
           <h1
             className="text-3xl font-extrabold"
-            style={{ color: "var(--t-text-primary)" }}
+            style={{ color: "var(--t-foreground)" }}
           >
             {store.name}
           </h1>
           {store.description && (
-            <p className="text-sm leading-relaxed" style={{ color: "var(--t-text-secondary)" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--t-muted)" }}>
               {store.description}
             </p>
           )}
@@ -57,15 +57,15 @@ export function StoreInfoPage({
         <div
           className="rounded-[var(--t-radius-card)] p-5 flex flex-col gap-4"
           style={{
-            backgroundColor: "var(--t-card-bg)",
-            border: "1px solid var(--t-nav-border)",
+            backgroundColor: "var(--t-card)",
+            border: "1px solid var(--t-border-light)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <h2
             className="text-sm font-bold uppercase tracking-widest"
-            style={{ color: "var(--t-text-secondary)" }}
+            style={{ color: "var(--t-muted)" }}
           >
             Contacto
           </h2>
@@ -94,9 +94,9 @@ export function StoreInfoPage({
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: "var(--t-icon-pill-bg, rgba(255,255,255,0.1))" }}
             >
-              <Mail size={16} color="var(--t-text-secondary)" />
+              <Mail size={16} color="var(--t-muted)" />
             </div>
-            <span className="text-sm" style={{ color: "var(--t-text-secondary)" }}>
+            <span className="text-sm" style={{ color: "var(--t-muted)" }}>
               info@{store.slug}.com
             </span>
           </div>
@@ -106,9 +106,9 @@ export function StoreInfoPage({
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: "var(--t-icon-pill-bg, rgba(255,255,255,0.1))" }}
             >
-              <MapPin size={16} color="var(--t-text-secondary)" />
+              <MapPin size={16} color="var(--t-muted)" />
             </div>
-            <span className="text-sm" style={{ color: "var(--t-text-secondary)" }}>
+            <span className="text-sm" style={{ color: "var(--t-muted)" }}>
               Colombia
             </span>
           </div>
@@ -118,15 +118,15 @@ export function StoreInfoPage({
         <div
           className="rounded-[var(--t-radius-card)] p-5 flex flex-col gap-4"
           style={{
-            backgroundColor: "var(--t-card-bg)",
-            border: "1px solid var(--t-nav-border)",
+            backgroundColor: "var(--t-card)",
+            border: "1px solid var(--t-border-light)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <h2
             className="text-sm font-bold uppercase tracking-widest"
-            style={{ color: "var(--t-text-secondary)" }}
+            style={{ color: "var(--t-muted)" }}
           >
             Horario de atención
           </h2>
@@ -138,15 +138,15 @@ export function StoreInfoPage({
             ].map(({ days, hours }) => (
               <div
                 key={days}
-                className="flex items-center justify-between py-2 border-b border-[var(--t-nav-border)] last:border-0"
+                className="flex items-center justify-between py-2 border-b border-[var(--t-border-light)] last:border-0"
               >
                 <div className="flex items-center gap-2">
-                  <Clock size={13} color="var(--t-text-secondary)" />
-                  <span className="text-sm" style={{ color: "var(--t-text-primary)" }}>
+                  <Clock size={13} color="var(--t-muted)" />
+                  <span className="text-sm" style={{ color: "var(--t-foreground)" }}>
                     {days}
                   </span>
                 </div>
-                <span className="text-sm font-semibold" style={{ color: "var(--t-text-secondary)" }}>
+                <span className="text-sm font-semibold" style={{ color: "var(--t-muted)" }}>
                   {hours}
                 </span>
               </div>
@@ -159,15 +159,15 @@ export function StoreInfoPage({
           <div
             className="rounded-[var(--t-radius-card)] p-5 flex flex-col gap-4"
             style={{
-              backgroundColor: "var(--t-card-bg)",
-              border: "1px solid var(--t-nav-border)",
+              backgroundColor: "var(--t-card)",
+              border: "1px solid var(--t-border)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
             }}
           >
             <h2
               className="text-sm font-bold uppercase tracking-widest"
-              style={{ color: "var(--t-text-secondary)" }}
+              style={{ color: "var(--t-muted)" }}
             >
               Redes sociales
             </h2>

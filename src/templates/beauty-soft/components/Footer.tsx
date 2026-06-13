@@ -6,9 +6,7 @@ import type { StoreInfo } from "@/types/store";
 
 interface FooterProps {
   store: StoreInfo;
-  layout?: {
-    footerStyle?: string;
-  };
+  layout?: Record<string, unknown>;
 }
 
 function InstagramIcon() {
@@ -49,9 +47,9 @@ function TikTokIcon() {
   );
 }
 
-export function Footer({ store, layout }: FooterProps) {
+export function Footer({ store }: FooterProps) {
   const { social_links } = store;
-  const footerStyle = layout?.footerStyle ?? "minimal";
+  const footerStyle: string = "minimal";
 
   interface SocialLink { label: string; href: string; icon: React.ReactNode; }
   const socialItems: SocialLink[] = [];
@@ -82,19 +80,19 @@ export function Footer({ store, layout }: FooterProps) {
     return (
       <footer
         className="w-full pb-24 lg:pb-8"
-        style={{ backgroundColor: "var(--t-footer-bg)", borderTop: "1px solid var(--t-border)" }}
+        style={{ backgroundColor: "var(--t-background)", borderTop: "1px solid var(--t-border)" }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
           <div className="flex flex-col lg:flex-row gap-6 justify-between">
             <div className="flex flex-col gap-3">
               <span
-                className="text-base font-semibold text-[var(--t-text-primary)]"
+                className="text-base font-semibold text-[var(--t-foreground)]"
                 style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}
               >
                 {store.name}
               </span>
               {store.description && (
-                <p className="text-sm text-[var(--t-text-footer)] max-w-xs">{store.description}</p>
+                <p className="text-sm text-[var(--t-muted)] max-w-xs">{store.description}</p>
               )}
             </div>
             {socialItems.length > 0 && (
@@ -106,8 +104,8 @@ export function Footer({ store, layout }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.label}
-                    className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-text-muted)]"
-                    style={{ backgroundColor: "var(--t-card-bg)" }}
+                    className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-muted)]"
+                    style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
                   >
                     {item.icon}
                   </a>
@@ -123,7 +121,7 @@ export function Footer({ store, layout }: FooterProps) {
             className="flex items-center justify-center gap-1.5"
             aria-label="Tienda creada con Tiendri"
           >
-            <span className="text-xs text-[var(--t-text-footer)]">Creado con</span>
+            <span className="text-xs text-[var(--t-muted)]">Creado con</span>
             <span className="text-xs font-semibold text-[var(--t-primary)]">Tiendri</span>
           </a>
         </div>
@@ -135,11 +133,11 @@ export function Footer({ store, layout }: FooterProps) {
     return (
       <footer
         className="w-full pb-24 lg:pb-8"
-        style={{ backgroundColor: "var(--t-footer-bg)", borderTop: "1px solid var(--t-border)" }}
+        style={{ backgroundColor: "var(--t-background)", borderTop: "1px solid var(--t-border)" }}
       >
         <div className="max-w-7xl mx-auto flex flex-col items-center gap-4 px-4 py-6">
           <span
-            className="text-base font-semibold text-[var(--t-text-primary)] text-center"
+            className="text-base font-semibold text-[var(--t-foreground)] text-center"
             style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}
           >
             {store.name}
@@ -153,8 +151,8 @@ export function Footer({ store, layout }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-text-muted)]"
-                  style={{ backgroundColor: "var(--t-card-bg)" }}
+                  className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-muted)]"
+                  style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
                 >
                   {item.icon}
                 </a>
@@ -168,7 +166,7 @@ export function Footer({ store, layout }: FooterProps) {
             className="flex items-center gap-1.5"
             aria-label="Tienda creada con Tiendri"
           >
-            <span className="text-xs text-[var(--t-text-footer)]">Creado con</span>
+            <span className="text-xs text-[var(--t-muted)]">Creado con</span>
             <span className="text-xs font-semibold text-[var(--t-primary)]">Tiendri</span>
           </a>
         </div>
@@ -180,7 +178,7 @@ export function Footer({ store, layout }: FooterProps) {
   return (
     <footer
       className="w-full pb-24 lg:pb-8"
-      style={{ backgroundColor: "var(--t-footer-bg)", borderTop: "1px solid var(--t-border)" }}
+      style={{ backgroundColor: "var(--t-background)", borderTop: "1px solid var(--t-border)" }}
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-4 px-4 md:px-6 lg:px-8 py-6">
         {socialItems.length > 0 && (
@@ -192,8 +190,8 @@ export function Footer({ store, layout }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={item.label}
-                className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-text-muted)]"
-                style={{ backgroundColor: "var(--t-card-bg)" }}
+                className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] text-[var(--t-muted)]"
+                style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
               >
                 {item.icon}
               </a>
@@ -207,7 +205,7 @@ export function Footer({ store, layout }: FooterProps) {
           className="flex items-center gap-1.5"
           aria-label="Tienda creada con Tiendri"
         >
-          <span className="text-xs text-[var(--t-text-footer)]">Creado con</span>
+          <span className="text-xs text-[var(--t-muted)]">Creado con</span>
           <span className="text-xs font-semibold text-[var(--t-primary)]">Tiendri</span>
         </a>
       </div>

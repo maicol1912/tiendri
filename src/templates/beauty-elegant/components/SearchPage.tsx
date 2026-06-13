@@ -88,7 +88,7 @@ export function SearchPage({
       <header
         className="sticky top-0 z-40"
         style={{
-          backgroundColor: "var(--t-header-bg)",
+          backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
@@ -105,14 +105,14 @@ export function SearchPage({
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M19 12H5M12 19l-7-7 7-7"
-                  stroke="var(--t-text-primary)"
+                  stroke="var(--t-foreground)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
             </button>
-            <span className="text-xs font-medium" style={{ color: "var(--t-text-muted)" }}>
+            <span className="text-xs font-medium" style={{ color: "var(--t-muted)" }}>
               {store.name}
             </span>
           </div>
@@ -133,7 +133,7 @@ export function SearchPage({
               <h2
                 id="popular-heading"
                 className="text-[15px] font-bold mb-3"
-                style={{ color: "var(--t-text-primary)", margin: "0 0 12px 0" }}
+                style={{ color: "var(--t-foreground)", margin: "0 0 12px 0" }}
               >
                 Búsquedas populares
               </h2>
@@ -147,7 +147,7 @@ export function SearchPage({
                     style={{
                       color: "var(--t-primary)",
                       backgroundColor: "var(--t-icon-pill-bg)",
-                      border: "1px solid var(--t-border-input)",
+                      border: "1px solid var(--t-border-light)",
                       borderRadius: "20px",
                       cursor: "pointer",
                     }}
@@ -163,7 +163,7 @@ export function SearchPage({
                 <h2
                   id="discover-heading"
                   className="text-[15px] font-bold"
-                  style={{ color: "var(--t-text-primary)", margin: "0 0 12px 0" }}
+                  style={{ color: "var(--t-foreground)", margin: "0 0 12px 0" }}
                 >
                   Descubrir
                 </h2>
@@ -196,12 +196,12 @@ export function SearchPage({
                 <path d="M8 8l6 6M14 8l-6 6" stroke="var(--t-primary)" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             </div>
-            <p className="text-[15px] font-semibold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+            <p className="text-[15px] font-semibold" style={{ color: "var(--t-foreground)", margin: 0 }}>
               Sin resultados
             </p>
-            <p className="text-[13px] text-center" style={{ color: "var(--t-text-muted)", margin: 0 }}>
+            <p className="text-[13px] text-center" style={{ color: "var(--t-muted)", margin: 0 }}>
               No encontramos productos para{" "}
-              <strong style={{ color: "var(--t-text-primary)" }}>&quot;{query}&quot;</strong>
+              <strong style={{ color: "var(--t-foreground)" }}>&quot;{query}&quot;</strong>
             </p>
           </div>
         )}
@@ -209,7 +209,7 @@ export function SearchPage({
         {/* Results */}
         {hasQuery && hasResults && (
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-medium" style={{ color: "var(--t-text-muted)", margin: 0 }}>
+            <p className="text-xs font-medium" style={{ color: "var(--t-muted)", margin: 0 }}>
               {results.length} {results.length === 1 ? "resultado" : "resultados"}
             </p>
             <div className={`grid gap-4 md:gap-5 ${gridClass}`}>

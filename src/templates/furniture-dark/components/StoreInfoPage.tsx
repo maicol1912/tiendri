@@ -71,7 +71,7 @@ export function StoreInfoPage({
         >
           <div
             className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"
-            style={{ backgroundColor: "var(--t-card-bg)" }}
+            style={{ backgroundColor: "var(--t-surface)" }}
           >
             {store.logo ? (
               <img
@@ -84,7 +84,7 @@ export function StoreInfoPage({
                 className="text-3xl font-bold"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-                  color: "var(--t-text-primary)",
+                  color: "var(--t-foreground)",
                 }}
               >
                 {store.name.charAt(0).toUpperCase()}
@@ -97,7 +97,7 @@ export function StoreInfoPage({
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "24px",
               fontWeight: 700,
-              color: "var(--t-text-primary)",
+              color: "var(--t-foreground)",
               letterSpacing: "-0.72px",
               textAlign: "center",
             }}
@@ -129,7 +129,7 @@ export function StoreInfoPage({
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "11px",
                 fontWeight: 600,
-                color: "var(--t-text-secondary)",
+                color: "var(--t-muted)",
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
               }}
@@ -156,7 +156,7 @@ export function StoreInfoPage({
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: "var(--t-primary)" }}
                   >
-                    <MessageCircle size={18} strokeWidth={1.75} style={{ color: "var(--t-button-text)" }} />
+                    <MessageCircle size={18} strokeWidth={1.75} style={{ color: "var(--t-on-primary)" }} />
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span
@@ -173,7 +173,7 @@ export function StoreInfoPage({
                         fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: "var(--t-text-primary)",
+                        color: "var(--t-foreground)",
                       }}
                     >
                       +{store.whatsapp}
@@ -188,9 +188,9 @@ export function StoreInfoPage({
               >
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "var(--t-card-bg)" }}
+                  style={{ backgroundColor: "var(--t-surface)" }}
                 >
-                  <Phone size={18} strokeWidth={1.75} style={{ color: "var(--t-text-primary)" }} />
+                  <Phone size={18} strokeWidth={1.75} style={{ color: "var(--t-foreground)" }} />
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span
@@ -207,7 +207,7 @@ export function StoreInfoPage({
                       fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                       fontSize: "14px",
                       fontWeight: 600,
-                      color: "var(--t-text-primary)",
+                      color: "var(--t-foreground)",
                     }}
                   >
                     +{store.whatsapp}
@@ -226,7 +226,7 @@ export function StoreInfoPage({
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "11px",
                 fontWeight: 600,
-                color: "var(--t-text-secondary)",
+                color: "var(--t-muted)",
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
               }}
@@ -251,7 +251,7 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" }}
+                    style={{ backgroundColor: "var(--t-surface)", color: "var(--t-muted)" }}
                   >
                     <InstagramIcon />
                   </div>
@@ -271,7 +271,7 @@ export function StoreInfoPage({
                         fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: "var(--t-text-primary)",
+                        color: "var(--t-foreground)",
                       }}
                     >
                       @{store.social_links.instagram.replace("@", "")}
@@ -289,7 +289,7 @@ export function StoreInfoPage({
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card-bg)", color: "var(--t-text-muted)" }}
+                    style={{ backgroundColor: "var(--t-surface)", color: "var(--t-muted)" }}
                   >
                     <FacebookIcon />
                   </div>
@@ -309,7 +309,7 @@ export function StoreInfoPage({
                         fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                         fontSize: "14px",
                         fontWeight: 600,
-                        color: "var(--t-text-primary)",
+                        color: "var(--t-foreground)",
                       }}
                     >
                       {store.social_links.facebook}

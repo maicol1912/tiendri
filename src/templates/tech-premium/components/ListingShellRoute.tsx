@@ -144,9 +144,9 @@ export function ListingShellRoute({
     <ProductListingPage
       store={store}
       products={filteredProducts}
-      navLinks={config.navLinks}
-      footerServices={config.footerServices}
-      footerAssistance={config.footerAssistance}
+      navLinks={config.content?.navLinks ?? []}
+      footerServices={config.content?.footerServices ?? []}
+      footerAssistance={config.content?.footerAssistance ?? []}
       grid={config.grid}
       filters={filters}
       totalProducts={filteredProducts.length}

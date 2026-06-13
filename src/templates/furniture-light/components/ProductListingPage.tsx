@@ -67,7 +67,7 @@ export function ProductListingPage({
         {/* Page title */}
         <div className="px-5 md:px-6 lg:px-8 py-4 border-b border-[var(--t-border)]">
           <h1
-            className="text-[var(--t-text-primary)]"
+            className="text-[var(--t-foreground)]"
             style={{
               fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))",
               fontWeight: "var(--t-type-heading-weight, 700)" as React.CSSProperties["fontWeight"],
@@ -94,12 +94,12 @@ export function ProductListingPage({
         {/* Products */}
         <div className="px-5 md:px-6 lg:px-8 mt-4">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs text-[var(--t-text-muted)]">{products.length} productos</p>
+            <p className="text-xs text-[var(--t-muted)]">{products.length} productos</p>
           </div>
 
           {products.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-3 py-20">
-              <p className="text-sm font-semibold text-[var(--t-text-primary)]">Sin productos en esta categoría</p>
+              <p className="text-sm font-semibold text-[var(--t-foreground)]">Sin productos en esta categoría</p>
             </div>
           ) : (
             <div className={`grid ${gridColsClass(gridCols.mobile, gridCols.desktop)}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>

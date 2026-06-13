@@ -41,7 +41,7 @@ export function CartItemRow({
           width: 66,
           height: 66,
           borderRadius: "var(--t-radius-category)",
-          backgroundColor: "var(--t-surface)",
+          backgroundColor: "var(--t-card)",
         }}
       >
         {item.imageUrl ? (
@@ -66,7 +66,7 @@ export function CartItemRow({
         <p
           className="line-clamp-2 m-0"
           style={{
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "14px",
             fontWeight: 500,
@@ -107,7 +107,7 @@ export function CartItemRow({
               background: "none",
               border: "none",
               cursor: "pointer",
-              color: "var(--t-text-muted)",
+              color: "var(--t-muted)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "11px",
               padding: 0,

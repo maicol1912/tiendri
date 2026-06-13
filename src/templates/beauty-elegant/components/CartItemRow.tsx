@@ -53,10 +53,10 @@ export function CartItemRow({
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "var(--t-surface)" }}
+            style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
           >
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-              <rect width="28" height="28" rx="6" fill="var(--t-border)" />
+              <rect width="28" height="28" rx="6" fill="var(--t-border-light)" />
             </svg>
           </div>
         )}
@@ -66,7 +66,7 @@ export function CartItemRow({
       <div className="flex flex-col flex-1 min-w-0 py-0.5">
         <p
           className="line-clamp-1 text-sm font-semibold"
-          style={{ color: "var(--t-text-primary)", lineHeight: "20px", margin: 0 }}
+          style={{ color: "var(--t-foreground)", lineHeight: "20px", margin: 0 }}
         >
           {item.productName}
         </p>
@@ -74,7 +74,7 @@ export function CartItemRow({
         {item.description && (
           <p
             className="line-clamp-1 text-xs font-normal"
-            style={{ color: "var(--t-text-muted)", lineHeight: "16px", margin: "2px 0 0 0" }}
+            style={{ color: "var(--t-muted)", lineHeight: "16px", margin: "2px 0 0 0" }}
           >
             {item.description}
           </p>

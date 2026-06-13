@@ -35,15 +35,15 @@ function FilterGroup({ title, children, defaultOpen = true }: FilterGroupProps) 
         aria-expanded={open}
       >
         <span
-          className="text-[11px] font-medium uppercase tracking-wider text-[var(--t-text-primary)]"
+          className="text-[11px] font-medium uppercase tracking-wider text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           {title}
         </span>
         {open ? (
-          <ChevronUp size={14} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+          <ChevronUp size={14} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
         ) : (
-          <ChevronDown size={14} strokeWidth={1.5} className="text-[var(--t-text-primary)]" />
+          <ChevronDown size={14} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
         )}
       </button>
       {open && <div className="pb-4">{children}</div>}
@@ -62,7 +62,7 @@ export function FilterSidebar({
     <aside className="hidden lg:block w-56 flex-shrink-0">
       <div className="pb-3 mb-2 border-b border-[var(--t-primary)]">
         <h3
-          className="text-base font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+          className="text-base font-bold uppercase tracking-wider text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           FILTROS
@@ -84,8 +84,8 @@ export function FilterSidebar({
                   fontSize: "13px",
                   fontWeight: isActive ? 500 : 400,
                   color: isActive
-                    ? "var(--t-text-primary)"
-                    : "var(--t-text-secondary)",
+                    ? "var(--t-foreground)"
+                    : "var(--t-muted)",
                   textDecoration: isActive ? "underline" : "none",
                   textUnderlineOffset: "3px",
                 }}
@@ -110,11 +110,11 @@ export function FilterSidebar({
                 onClick={() => onSizeToggle?.(size)}
                 style={{
                   backgroundColor: isSelected
-                    ? "var(--t-primary)"
+                    ? "var(--t-button-bg)"
                     : "transparent",
                   color: isSelected
                     ? "var(--t-button-text)"
-                    : "var(--t-text-primary)",
+                    : "var(--t-foreground)",
                   border: isSelected
                     ? "1px solid var(--t-primary)"
                     : "1px solid var(--t-border)",

@@ -57,7 +57,7 @@ export function CategoryTabBar({
                   paddingRight: 12,
                   paddingTop: 4,
                   paddingBottom: 4,
-                  color: isActive ? "var(--t-primary)" : "var(--t-text-subtle)",
+                  color: isActive ? "var(--t-primary)" : "var(--t-muted)",
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "16px",
                   fontWeight: isActive ? 500 : 400,
@@ -75,7 +75,7 @@ export function CategoryTabBar({
                 <span
                   aria-hidden="true"
                   style={{
-                    color: "var(--t-text-subtle)",
+                    color: "var(--t-muted)",
                     fontFamily: "'League Spartan', sans-serif",
                     fontSize: "16px",
                     fontWeight: 300,

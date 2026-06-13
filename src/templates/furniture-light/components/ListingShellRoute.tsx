@@ -78,7 +78,7 @@ export function ListingShellRoute({
   return (
     <ProductListingPage
       store={store}
-      navLinks={config.navLinks}
+      navLinks={config.content?.navLinks ?? []}
       products={enrichedProducts}
       categories={categories}
       layout={config.layout}

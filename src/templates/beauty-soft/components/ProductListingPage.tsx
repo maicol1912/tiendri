@@ -69,16 +69,16 @@ export function ProductListingPage({
               width: "47px",
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
             }}
             aria-label="Volver"
             onClick={onBack}
           >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
 
           <p
-            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Catálogo
@@ -91,12 +91,12 @@ export function ProductListingPage({
               width: "47px",
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
             }}
             aria-label="Buscar"
             onClick={onSearchOpen}
           >
-            <Search size={20} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <Search size={20} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
         </div>
 
@@ -112,12 +112,12 @@ export function ProductListingPage({
                   borderRadius: "20px",
                   backgroundColor:
                     activeCategoryId === null
-                      ? "var(--t-category-active-bg)"
-                      : "var(--t-section-bg)",
+                      ? "var(--t-primary)"
+                      : "var(--t-background)",
                   color:
                     activeCategoryId === null
-                      ? "var(--t-category-active-text)"
-                      : "var(--t-text-primary)",
+                      ? "var(--t-on-primary)"
+                      : "var(--t-foreground)",
                 }}
                 onClick={() => onCategoryChange?.(null)}
               >
@@ -133,12 +133,12 @@ export function ProductListingPage({
                     borderRadius: "20px",
                     backgroundColor:
                       activeCategoryId === cat.id
-                        ? "var(--t-category-active-bg)"
-                        : "var(--t-section-bg)",
+                        ? "var(--t-primary)"
+                        : "var(--t-background)",
                     color:
                       activeCategoryId === cat.id
-                        ? "var(--t-category-active-text)"
-                        : "var(--t-text-primary)",
+                        ? "var(--t-on-primary)"
+                        : "var(--t-foreground)",
                   }}
                   onClick={() => onCategoryChange?.(cat.id)}
                 >
@@ -157,7 +157,7 @@ export function ProductListingPage({
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <p
-              className="m-0 text-base font-semibold text-[var(--t-text-primary)]"
+              className="m-0 text-base font-semibold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Sin productos en esta categoría

@@ -42,7 +42,7 @@ export function CartItemRow({
           width: "72px",
           height: "72px",
           borderRadius: "var(--t-radius-card)",
-          backgroundColor: "var(--t-card-bg)",
+          backgroundColor: "var(--t-card)",
         }}
       >
         {item.imageUrl ? (
@@ -54,15 +54,15 @@ export function CartItemRow({
             sizes="72px"
           />
         ) : (
-          <div className="absolute inset-0 bg-[var(--t-card-bg)]" />
+          <div className="absolute inset-0 bg-[var(--t-card)]" />
         )}
       </div>
 
       {/* Info */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-[var(--t-text-primary)] line-clamp-2 leading-tight">{item.name}</p>
+        <p className="text-sm font-semibold text-[var(--t-foreground)] line-clamp-2 leading-tight">{item.name}</p>
         {item.variant && (
-          <p className="text-xs text-[var(--t-text-muted)] mt-0.5">{item.variant}</p>
+          <p className="text-xs text-[var(--t-muted)] mt-0.5">{item.variant}</p>
         )}
         <p className="text-sm font-bold text-[var(--t-primary)] mt-1">
           {fmt(item.price * item.quantity, currencySymbol)}
@@ -74,7 +74,7 @@ export function CartItemRow({
         <button
           onClick={onRemove}
           aria-label={`Eliminar ${item.name}`}
-          className="text-[var(--t-text-muted)] hover:text-[var(--t-primary)] transition-colors"
+          className="text-[var(--t-muted)] hover:text-[var(--t-primary)] transition-colors"
         >
           <Trash2 size={14} />
         </button>

@@ -60,7 +60,7 @@ export function CartPage({
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-6">
         {/* Page title */}
         <h1
-          className="text-[var(--t-text-primary)] mb-6"
+          className="text-[var(--t-foreground)] mb-6"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "26px",
@@ -78,11 +78,11 @@ export function CartPage({
               className="w-20 h-20 rounded-full flex items-center justify-center"
               style={{ backgroundColor: "var(--t-surface)" }}
             >
-              <ShoppingBag size={32} strokeWidth={1.5} className="text-[var(--t-text-muted)]" />
+              <ShoppingBag size={32} strokeWidth={1.5} className="text-[var(--t-muted)]" />
             </div>
             <div className="text-center">
               <p
-                className="text-[var(--t-text-primary)] font-semibold"
+                className="text-[var(--t-foreground)] font-semibold"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "18px",
@@ -92,7 +92,7 @@ export function CartPage({
                 Tu carrito está vacío
               </p>
               <p
-                className="mt-2 text-[var(--t-text-muted)]"
+                className="mt-2 text-[var(--t-muted)]"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "14px",

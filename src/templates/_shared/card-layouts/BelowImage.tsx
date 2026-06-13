@@ -40,7 +40,7 @@ export default function CardBelowImage({
     >
       {discountPercent !== null && (
         <span
-          className={`absolute top-2 right-2 px-2 py-0.5 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[11px] font-bold ${badgeClass}`}
+          className={`absolute top-2 right-2 px-2 py-0.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[11px] font-bold ${badgeClass}`}
         >
           -{discountPercent}%
         </span>
@@ -72,7 +72,7 @@ export default function CardBelowImage({
             className="bg-transparent border-none cursor-pointer p-0 w-full"
             onClick={onClick}
           >
-            <p className="text-sm lg:text-base font-medium text-[var(--t-text-primary)] leading-6 line-clamp-2">
+            <p className="text-sm lg:text-base font-medium text-[var(--t-foreground)] leading-6 line-clamp-2">
               {product.name}
             </p>
           </button>

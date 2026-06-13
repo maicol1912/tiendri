@@ -69,9 +69,9 @@ export function ProductDetailPage({
           onClick={onBack}
           aria-label="Volver"
         >
-          <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-text-breadcrumb)]" />
+          <ChevronLeft size={18} strokeWidth={2} className="text-[var(--t-muted)]" />
           <span
-            className="text-[var(--t-text-breadcrumb)]"
+            className="text-[var(--t-muted)]"
             style={{
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "13px",

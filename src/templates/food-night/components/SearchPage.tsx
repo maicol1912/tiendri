@@ -107,13 +107,13 @@ export function SearchPage({
               width: 36,
               height: 36,
               borderRadius: "50%",
-              backgroundColor: "var(--t-card-bg)",
+              backgroundColor: "var(--t-card)",
               border: "none",
               cursor: "pointer",
             }}
             aria-label="Volver"
           >
-            <ArrowLeft size={18} strokeWidth={2} style={{ color: "var(--t-text-primary)" }} />
+            <ArrowLeft size={18} strokeWidth={2} style={{ color: "var(--t-foreground)" }} />
           </button>
 
           <div
@@ -121,11 +121,11 @@ export function SearchPage({
             style={{
               height: 44,
               borderRadius: "var(--t-radius-button)",
-              backgroundColor: "var(--t-card-bg)",
+              backgroundColor: "var(--t-search-bg)",
               border: "1px solid var(--t-border-light)",
             }}
           >
-            <Search size={16} strokeWidth={2} style={{ color: "var(--t-text-muted)", flexShrink: 0 }} />
+            <Search size={16} strokeWidth={2} style={{ color: "var(--t-muted)", flexShrink: 0 }} />
             <input
               ref={inputRef}
               type="search"
@@ -134,7 +134,7 @@ export function SearchPage({
               placeholder="Buscar platos, combos..."
               aria-label="Buscar productos"
               className="flex-1 bg-transparent outline-none text-[13px] font-normal"
-              style={{ color: "var(--t-text-primary)" }}
+              style={{ color: "var(--t-foreground)" }}
               spellCheck={false}
               autoComplete="off"
               autoCorrect="off"
@@ -146,7 +146,7 @@ export function SearchPage({
                 onClick={handleClear}
                 className="flex-shrink-0 text-[11px] font-normal transition-opacity hover:opacity-70"
                 style={{
-                  color: "var(--t-text-muted)",
+                  color: "var(--t-muted)",
                   background: "none",
                   border: "none",
                   cursor: "pointer",
@@ -167,10 +167,10 @@ export function SearchPage({
             aria-label="Sin resultados"
           >
             <span style={{ fontSize: "40px" }} aria-hidden="true">🔍</span>
-            <p className="text-[14px] font-semibold" style={{ color: "var(--t-text-primary)" }}>
+            <p className="text-[14px] font-semibold" style={{ color: "var(--t-foreground)" }}>
               Sin resultados para &ldquo;{debouncedQuery}&rdquo;
             </p>
-            <p className="text-[12px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+            <p className="text-[12px] font-normal" style={{ color: "var(--t-muted)" }}>
               Intentá con otro término de búsqueda
             </p>
           </div>
@@ -179,7 +179,7 @@ export function SearchPage({
         {/* Search results */}
         {hasQuery && !noResults && (
           <section aria-label="Resultados de búsqueda">
-            <p className="text-[12px] font-normal mb-4" style={{ color: "var(--t-text-muted)" }}>
+            <p className="text-[12px] font-normal mb-4" style={{ color: "var(--t-muted)" }}>
               {searchResults.length} resultado{searchResults.length !== 1 ? "s" : ""} para &ldquo;{debouncedQuery}&rdquo;
             </p>
             <div className={`grid ${gridColsClass(searchMobile, searchDesktop)} gap-3 md:gap-4 items-start`}>
@@ -202,7 +202,7 @@ export function SearchPage({
           <section aria-label="Populares">
             <h2
               className="text-[14px] font-semibold mb-4"
-              style={{ color: "var(--t-text-primary)" }}
+              style={{ color: "var(--t-foreground)" }}
             >
               Más pedidos
             </h2>

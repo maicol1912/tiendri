@@ -26,7 +26,7 @@ export function HeroBanner({
       className="w-full overflow-hidden relative"
       style={{
         borderRadius: "var(--t-radius-card)",
-        background: "linear-gradient(135deg, var(--t-surface) 0%, var(--t-card-bg) 100%)",
+        background: "linear-gradient(135deg, var(--t-card) 0%, var(--t-card) 100%)",
         minHeight: "clamp(140px, 18vw, 200px)",
         display: "flex",
         alignItems: "stretch",
@@ -67,7 +67,7 @@ export function HeroBanner({
         <h2
           className="m-0 font-extrabold leading-tight"
           style={{
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
             fontSize: "clamp(14px, 2.2vw, 22px)",
             fontFamily: "var(--font-heading, var(--font-sans))",
             letterSpacing: "-0.02em",
@@ -80,7 +80,7 @@ export function HeroBanner({
           <p
             className="m-0 text-sm leading-snug"
             style={{
-              color: "var(--t-text-muted)",
+              color: "var(--t-muted)",
               fontSize: "clamp(11px, 1.4vw, 13px)",
             }}
           >
@@ -95,8 +95,8 @@ export function HeroBanner({
             fontFamily: "var(--font-heading, var(--font-sans))",
             fontSize: "12px",
             fontWeight: 600,
-            color: "var(--t-button-text)",
-            backgroundColor: "var(--t-button-bg)",
+            color: "var(--t-on-primary)",
+            backgroundColor: "var(--t-primary)",
             borderRadius: "var(--t-radius-button)",
             padding: "6px 18px",
             height: "32px",

@@ -34,7 +34,7 @@ export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRoutePr
     <CartPage
       store={store}
       items={items}
-      navLinks={config.navLinks}
+      navLinks={config.content?.navLinks ?? []}
       layout={config.layout}
       currencySymbol={currencySymbol}
       activeTab="cart"

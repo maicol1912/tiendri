@@ -35,8 +35,8 @@ export function QuantityStepper({
           height: btnSize,
           borderRadius: "50%",
           backgroundColor: "transparent",
-          border: quantity <= min ? "1px solid var(--t-text-muted)" : "1px solid var(--t-border)",
-          color: quantity <= min ? "var(--t-text-muted)" : "var(--t-text-primary)",
+          border: quantity <= min ? "1px solid var(--t-muted)" : "1px solid var(--t-border-light)",
+          color: quantity <= min ? "var(--t-muted)" : "var(--t-foreground)",
           cursor: quantity <= min ? "not-allowed" : "pointer",
         }}
         aria-label="Disminuir cantidad"
@@ -46,7 +46,7 @@ export function QuantityStepper({
 
       <span
         className={`w-6 text-center ${textSize} font-semibold select-none`}
-        style={{ color: "var(--t-text-primary)" }}
+        style={{ color: "var(--t-foreground)" }}
         aria-live="polite"
         aria-label={`Cantidad: ${quantity}`}
       >
@@ -62,8 +62,8 @@ export function QuantityStepper({
           height: btnSize,
           borderRadius: "50%",
           backgroundColor: "transparent",
-          border: "1px solid var(--t-border)",
-          color: "var(--t-text-primary)",
+          border: "1px solid var(--t-border-light)",
+          color: "var(--t-foreground)",
           cursor: "pointer",
         }}
         aria-label="Aumentar cantidad"

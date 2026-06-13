@@ -10,7 +10,6 @@ import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
 import type { StoreInfo, CartItem, NavTab } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
-import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
   store: StoreInfo;
@@ -20,7 +19,7 @@ interface CartPageProps {
   deliveryFee?: number;
   currencySymbol?: string;
   activeTab?: NavTab;
-  layout?: { headerStyle?: string; footerStyle?: string; buttonStyle?: ButtonStyle };
+  layout?: Record<string, unknown>;
   onBack?: () => void;
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
@@ -52,7 +51,7 @@ export function CartPage({
 }: CartPageProps) {
   const total = subtotal - discount + deliveryFee;
   const isEmpty = items.length === 0;
-  const ctaClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const ctaClass = BUTTON_STYLE_MAP["filled"];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
@@ -64,7 +63,7 @@ export function CartPage({
       />
 
       <main className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 pt-6 pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-12">
-        <h1 className="text-[18px] font-bold mb-6" style={{ color: "var(--t-text-primary)" }}>
+        <h1 className="text-[18px] font-bold mb-6" style={{ color: "var(--t-foreground)" }}>
           Mi carrito
         </h1>
 
@@ -80,15 +79,15 @@ export function CartPage({
                 width: 80,
                 height: 80,
                 borderRadius: "50%",
-                backgroundColor: "var(--t-card-bg)",
+                backgroundColor: "var(--t-card)",
               }}
             >
-              <ShoppingCart size={36} strokeWidth={1.5} style={{ color: "var(--t-text-muted)" }} />
+              <ShoppingCart size={36} strokeWidth={1.5} style={{ color: "var(--t-muted)" }} />
             </div>
-            <p className="text-[16px] font-semibold" style={{ color: "var(--t-text-primary)" }}>
+            <p className="text-[16px] font-semibold" style={{ color: "var(--t-foreground)" }}>
               Tu carrito está vacío
             </p>
-            <p className="text-[13px] font-normal text-center" style={{ color: "var(--t-text-muted)" }}>
+            <p className="text-[13px] font-normal text-center" style={{ color: "var(--t-muted)" }}>
               Agrega productos deliciosos para hacer tu pedido por WhatsApp
             </p>
           </div>

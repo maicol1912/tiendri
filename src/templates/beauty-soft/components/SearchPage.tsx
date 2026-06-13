@@ -64,12 +64,12 @@ export function SearchPage({
               width: "47px",
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
             }}
             aria-label="Volver"
             onClick={onBack}
           >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
 
           {/* Search input */}
@@ -78,18 +78,18 @@ export function SearchPage({
             style={{
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-search-bg)",
-              border: "1.5px solid var(--t-border-input)",
+              backgroundColor: "var(--t-surface)",
+              border: "1.5px solid var(--t-border)",
             }}
           >
-            <Search size={16} strokeWidth={2} className="flex-shrink-0 text-[var(--t-text-muted)]" />
+            <Search size={16} strokeWidth={2} className="flex-shrink-0 text-[var(--t-muted)]" />
             <input
               type="search"
               value={query}
               placeholder="Buscar productos..."
               autoFocus
               onChange={(e) => onQueryChange?.(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]"
+              className="flex-1 bg-transparent outline-none text-sm text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans)", fontSize: "14px", lineHeight: "22px" }}
             />
             {hasQuery && (
@@ -100,7 +100,7 @@ export function SearchPage({
                 style={{ background: "none", padding: 0 }}
                 onClick={onClear}
               >
-                <X size={16} strokeWidth={2} className="text-[var(--t-text-muted)]" />
+                <X size={16} strokeWidth={2} className="text-[var(--t-muted)]" />
               </button>
             )}
           </div>
@@ -117,7 +117,7 @@ export function SearchPage({
             {recommendations.length > 0 && (
               <>
                 <p
-                  className="m-0 text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+                  className="m-0 text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Recomendados
@@ -151,13 +151,13 @@ export function SearchPage({
           /* Empty state */
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <p
-              className="m-0 text-base font-semibold text-[var(--t-text-primary)]"
+              className="m-0 text-base font-semibold text-[var(--t-foreground)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Sin resultados para &ldquo;{query}&rdquo;
             </p>
             <p
-              className="m-0 text-sm text-[var(--t-text-muted)]"
+              className="m-0 text-sm text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Intenta con otro término de búsqueda
@@ -167,7 +167,7 @@ export function SearchPage({
           /* Results */
           <div className="flex flex-col gap-4">
             <p
-              className="m-0 text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+              className="m-0 text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {results.length} resultado{results.length !== 1 ? "s" : ""} para &ldquo;{query}&rdquo;

@@ -14,7 +14,7 @@ interface FooterProps {
 
 export function Footer({ store, services, assistance }: FooterProps) {
   return (
-    <footer className="bg-[var(--t-footer-bg)] text-[var(--t-button-text)] px-6 py-12 lg:px-[160px] lg:py-[104px]">
+    <footer className="bg-[var(--t-footer-bg)] text-[var(--t-on-primary)] px-6 py-12 lg:px-[160px] lg:py-[104px]">
       <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-6">
         {/* Top section: Logo + nav columns */}
         <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between w-full gap-10 lg:gap-0">
@@ -27,7 +27,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
               {store.name.toLowerCase()}
             </span>
             {store.description && (
-              <p className="text-[var(--t-text-footer)] text-sm font-medium leading-relaxed max-w-[384px] text-center lg:text-left">
+              <p className="text-[var(--t-muted)] text-sm font-medium leading-relaxed max-w-[384px] text-center lg:text-left">
                 {store.description}
               </p>
             )}
@@ -43,7 +43,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
               <ul className="flex flex-col gap-2 list-none m-0 p-0">
                 {services.map((item) => (
                   <li key={item}>
-                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-button-text)] transition-colors">
+                    <span className="text-[var(--t-muted)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-on-primary)] transition-colors">
                       {item}
                     </span>
                   </li>
@@ -59,7 +59,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
               <ul className="flex flex-col gap-2 list-none m-0 p-0">
                 {assistance.map((item) => (
                   <li key={item}>
-                    <span className="text-[var(--t-text-footer)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-button-text)] transition-colors">
+                    <span className="text-[var(--t-muted)] text-sm font-normal leading-8 cursor-pointer hover:text-[var(--t-on-primary)] transition-colors">
                       {item}
                     </span>
                   </li>
@@ -74,7 +74,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Twitter / X */}
           <a
             href={store.social_links?.twitter ?? "#"}
-            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
+            className="text-[var(--t-on-primary)] hover:text-[var(--t-on-primary)]/70 transition-colors"
             aria-label="Seguinos en Twitter"
             rel="noopener noreferrer"
             target="_blank"
@@ -86,7 +86,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Facebook */}
           <a
             href={store.social_links?.facebook ?? "#"}
-            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
+            className="text-[var(--t-on-primary)] hover:text-[var(--t-on-primary)]/70 transition-colors"
             aria-label="Seguinos en Facebook"
             rel="noopener noreferrer"
             target="_blank"
@@ -98,7 +98,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* TikTok */}
           <a
             href={store.social_links?.tiktok ?? "#"}
-            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
+            className="text-[var(--t-on-primary)] hover:text-[var(--t-on-primary)]/70 transition-colors"
             aria-label="Seguinos en TikTok"
             rel="noopener noreferrer"
             target="_blank"
@@ -110,7 +110,7 @@ export function Footer({ store, services, assistance }: FooterProps) {
           {/* Instagram */}
           <a
             href={store.social_links?.instagram ?? "#"}
-            className="text-[var(--t-button-text)] hover:text-[var(--t-button-text)]/70 transition-colors"
+            className="text-[var(--t-on-primary)] hover:text-[var(--t-on-primary)]/70 transition-colors"
             aria-label="Seguinos en Instagram"
             rel="noopener noreferrer"
             target="_blank"

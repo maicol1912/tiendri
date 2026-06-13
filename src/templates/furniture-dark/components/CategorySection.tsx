@@ -40,7 +40,7 @@ export function CategorySection({ category, isActive = false, onClick }: Categor
             style={{ backgroundColor: "var(--t-border)" }}
           >
             <span
-              className="text-[var(--t-text-muted)]"
+              className="text-[var(--t-muted)]"
               style={{ fontFamily: "var(--font-body, 'Urbanist', sans-serif)", fontSize: "11px" }}
             >
               {category.name.charAt(0).toUpperCase()}
@@ -56,7 +56,7 @@ export function CategorySection({ category, isActive = false, onClick }: Categor
           fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
           fontSize: "13px",
           fontWeight: 500,
-          color: isActive ? "var(--t-category-active-text)" : "var(--t-text-primary)",
+          color: isActive ? "var(--t-category-active-text)" : "var(--t-foreground)",
           letterSpacing: "-0.26px",
         }}
       >

@@ -16,7 +16,7 @@ export function SearchBar({ onClick, onFilterClick }: SearchBarProps) {
         className="flex items-center gap-2.5 px-4 flex-1 cursor-text"
         style={{
           backgroundColor: "transparent",
-          border: "1px solid var(--t-border)",
+          border: "1px solid var(--t-border-light)",
           borderRadius: "var(--t-radius-category)",
           height: 44,
         }}
@@ -31,9 +31,9 @@ export function SearchBar({ onClick, onFilterClick }: SearchBarProps) {
         <Search
           size={16}
           strokeWidth={2}
-          style={{ color: "var(--t-text-muted)", flexShrink: 0 }}
+          style={{ color: "var(--t-muted)", flexShrink: 0 }}
         />
-        <span className="text-[13px] font-normal flex-1" style={{ color: "var(--t-text-muted)" }}>
+        <span className="text-[13px] font-normal flex-1" style={{ color: "var(--t-muted)" }}>
           Buscar platos...
         </span>
       </div>
@@ -48,9 +48,9 @@ export function SearchBar({ onClick, onFilterClick }: SearchBarProps) {
             height: 44,
             borderRadius: "var(--t-radius-category)",
             backgroundColor: "transparent",
-            border: "1px solid var(--t-border)",
+            border: "1px solid var(--t-border-light)",
             cursor: "pointer",
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
           }}
           aria-label="Filtros"
         >

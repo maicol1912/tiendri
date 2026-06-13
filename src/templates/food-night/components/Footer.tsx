@@ -19,8 +19,8 @@ export function Footer({ store }: FooterProps) {
     <footer
       className="w-full pb-24 md:pb-8 pt-10"
       style={{
-        backgroundColor: "var(--t-footer-bg)",
-        borderTop: "1px solid var(--t-border-light)",
+        backgroundColor: "var(--t-background)",
+        borderTop: "1px solid var(--t-border-mid)",
       }}
       aria-label="Pie de página de la tienda"
     >
@@ -28,7 +28,7 @@ export function Footer({ store }: FooterProps) {
 
         <span
           className="text-[16px] font-bold"
-          style={{ color: "var(--t-text-primary)" }}
+          style={{ color: "var(--t-foreground)" }}
         >
           {store.name}
         </span>
@@ -45,10 +45,10 @@ export function Footer({ store }: FooterProps) {
                 style={{
                   height: 32,
                   borderRadius: "var(--t-radius-category)",
-                  backgroundColor: "var(--t-card-bg)",
+                  backgroundColor: "var(--t-card)",
                   paddingLeft: 12,
                   paddingRight: 12,
-                  color: "var(--t-text-secondary)",
+                  color: "var(--t-muted)",
                 }}
               >
                 <ExternalLink size={12} strokeWidth={1.75} />
@@ -65,10 +65,10 @@ export function Footer({ store }: FooterProps) {
                 style={{
                   height: 32,
                   borderRadius: "var(--t-radius-category)",
-                  backgroundColor: "var(--t-card-bg)",
+                  backgroundColor: "var(--t-card)",
                   paddingLeft: 12,
                   paddingRight: 12,
-                  color: "var(--t-text-secondary)",
+                  color: "var(--t-muted)",
                 }}
               >
                 <ExternalLink size={12} strokeWidth={1.75} />
@@ -79,12 +79,12 @@ export function Footer({ store }: FooterProps) {
         )}
 
         <div className="flex flex-col items-center gap-1">
-          <span className="text-[12px] font-normal" style={{ color: "var(--t-text-muted)" }}>
+          <span className="text-[12px] font-normal" style={{ color: "var(--t-muted)" }}>
             Creado con
           </span>
           <span
             className="text-[13px] font-semibold"
-            style={{ color: "var(--t-rating-star)" }}
+            style={{ color: "var(--t-accent)" }}
           >
             Tiendri
           </span>
@@ -93,7 +93,7 @@ export function Footer({ store }: FooterProps) {
         {store.whatsapp && (
           <p
             className="text-[11px] font-normal text-center"
-            style={{ color: "var(--t-text-muted)" }}
+            style={{ color: "var(--t-muted)" }}
           >
             Pedidos por WhatsApp · {store.whatsapp}
           </p>

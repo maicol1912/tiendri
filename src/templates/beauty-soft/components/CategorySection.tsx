@@ -41,14 +41,14 @@ export function CategorySection({
       {/* Header row */}
       <div className="flex items-center justify-between">
         <h2
-          className="text-base font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px] m-0"
+          className="text-base font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px] m-0"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Categorías
         </h2>
         <button
           type="button"
-          className="text-sm font-normal text-[var(--t-text-muted)] bg-transparent border-none cursor-pointer p-0 leading-[22px] tracking-[-0.408px]"
+          className="text-sm font-normal text-[var(--t-muted)] bg-transparent border-none cursor-pointer p-0 leading-[22px] tracking-[-0.408px]"
           style={{ fontFamily: "var(--font-sans)" }}
           onClick={onSeeAll}
         >
@@ -87,9 +87,9 @@ export function CategorySection({
                   width: "80.75px",
                   height: "80px",
                   borderRadius: "var(--t-radius-category)",
-                  backgroundColor: "var(--t-surface)",
+                  backgroundColor: "var(--t-card)",
                   border: isActive
-                    ? "2px solid var(--t-category-active-bg)"
+                    ? "2px solid var(--t-primary)"
                     : "2px solid transparent",
                 }}
               >
@@ -119,7 +119,7 @@ export function CategorySection({
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: isActive ? 600 : 400,
-                  color: isActive ? "var(--t-category-active-bg)" : "var(--t-text-primary)",
+                  color: isActive ? "var(--t-primary)" : "var(--t-foreground)",
                 }}
               >
                 {cat.name}

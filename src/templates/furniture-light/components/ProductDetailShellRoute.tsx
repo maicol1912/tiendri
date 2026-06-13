@@ -89,7 +89,7 @@ export function ProductDetailShellRoute({
     <ProductDetailPage
       store={store}
       product={product}
-      navLinks={config.navLinks}
+      navLinks={config.content?.navLinks ?? []}
       relatedProducts={enrichedRelated}
       grid={config.grid}
       layout={config.layout}

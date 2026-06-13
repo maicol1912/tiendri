@@ -43,17 +43,14 @@ export function ProductCard({
   const cardContentLayout = structuralVariants?.cardContentLayout ?? "below-image";
   const LayoutComponent = CARD_LAYOUT_REGISTRY[cardContentLayout];
 
-  const cardBgClass = cardStyleClass(layout?.cardStyle ?? "flat");
-  const hoverFxClass = HOVER_EFFECT_MAP[layout?.cardHoverEffect ?? "none"] ?? "";
+  const cardBgClass = cardStyleClass("flat");
+  const hoverFxClass = HOVER_EFFECT_MAP["none"] ?? "";
 
-  const buttonStyle = layout?.buttonStyle ?? "filled";
-  const buttonClass = BUTTON_STYLE_MAP[buttonStyle];
+  const buttonClass = BUTTON_STYLE_MAP["filled"];
 
-  const badgeStyle = layout?.badgeStyle ?? "pill";
-  const badgeClass = BADGE_STYLE_MAP[badgeStyle];
+  const badgeClass = BADGE_STYLE_MAP["pill"];
 
-  const priceDisplay = layout?.priceDisplay ?? "standard";
-  const priceConfig = PRICE_DISPLAY_MAP[priceDisplay];
+  const priceConfig = PRICE_DISPLAY_MAP["standard"];
 
   const cardBorderClass = CARD_BORDER_MAP[cardTokens?.cardBorderTreatment ?? "none"];
   const imageFitClass = IMAGE_FIT_MAP[cardTokens?.imageFit ?? "contain"];

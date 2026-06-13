@@ -21,23 +21,23 @@ export function OrderSummary({
   const fmtPrice = (v: number) => `${currencySymbol}${fmt.format(v)}`;
 
   return (
-    <div className="border border-[var(--t-border)] p-6 bg-[var(--t-card-bg)]">
+    <div className="border border-[var(--t-border)] p-6 bg-[var(--t-surface)]">
       <h3
-        className="mb-4 text-sm font-bold uppercase tracking-wider text-[var(--t-text-primary)]"
+        className="mb-4 text-sm font-bold uppercase tracking-wider text-[var(--t-foreground)]"
         style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
       >
         RESUMEN DEL PEDIDO
       </h3>
       <div className="flex justify-between py-3 border-b border-[var(--t-border)]">
         <span
-          className="text-sm text-[var(--t-text-secondary)]"
+          className="text-sm text-[var(--t-muted)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           Total ({cartItemCount}{" "}
           {cartItemCount === 1 ? "artículo" : "artículos"})
         </span>
         <span
-          className="text-base font-bold text-[var(--t-text-primary)]"
+          className="text-base font-bold text-[var(--t-foreground)]"
           style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
         >
           {fmtPrice(totalPrice)}
@@ -53,7 +53,7 @@ export function OrderSummary({
           fontWeight: 600,
           textTransform: "uppercase",
           letterSpacing: "1px",
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
         }}
         onClick={onCheckout}
       >

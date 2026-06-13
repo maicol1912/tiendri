@@ -34,7 +34,7 @@ export function StickyBottomBar({
         style={{
           borderRadius: "var(--t-radius-button)",
           height: 52,
-          backgroundColor: available ? "var(--t-button-bg)" : "var(--t-card-bg)",
+          backgroundColor: available ? "var(--t-button-bg)" : "var(--t-card)",
           border: "none",
           cursor: available ? "pointer" : "not-allowed",
         }}
@@ -42,7 +42,7 @@ export function StickyBottomBar({
       >
         <span
           className="flex items-center gap-2 text-[14px] font-semibold"
-          style={{ color: available ? "var(--t-button-text)" : "var(--t-text-muted)" }}
+          style={{ color: available ? "var(--t-button-text)" : "var(--t-muted)" }}
         >
           <ShoppingCart size={16} strokeWidth={2} />
           {available ? "Agregar al carrito" : "Agotado"}

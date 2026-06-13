@@ -40,7 +40,7 @@ export function OrderSummary({
         <div className="flex justify-between">
           <span
             style={{
-              color: "var(--t-text-secondary)",
+              color: "var(--t-muted)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "13px",
               fontWeight: 300,
@@ -62,7 +62,7 @@ export function OrderSummary({
         <div className="flex justify-between">
           <span
             style={{
-              color: "var(--t-text-secondary)",
+              color: "var(--t-muted)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "13px",
               fontWeight: 300,
@@ -129,7 +129,7 @@ export function OrderSummary({
           type="button"
           style={{
             backgroundColor: "transparent",
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "13px",
             fontWeight: 500,

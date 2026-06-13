@@ -33,7 +33,7 @@ export function Header({
 }: HeaderProps) {
   return (
     <header
-      className="sticky top-0 z-40 bg-[var(--t-header-bg)] border-b border-[var(--t-nav-border)]"
+      className="sticky top-0 z-40 bg-[var(--t-background)] border-b border-[var(--t-border)]"
       style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
     >
       {/* ── Mobile ─────────────────────────────────────────────────────── */}
@@ -42,10 +42,10 @@ export function Header({
         <button
           onClick={onMenuClick}
           aria-label="Notificaciones"
-          className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-text-primary)]"
+          className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-foreground)]"
         >
           <Bell size={22} strokeWidth={1.8} />
-          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[var(--t-primary)] text-[var(--t-button-text)] text-[8px] font-bold flex items-center justify-center">
+          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[8px] font-bold flex items-center justify-center">
             6
           </span>
         </button>
@@ -60,7 +60,7 @@ export function Header({
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
           </div>
-          <span className="text-lg font-bold text-[var(--t-text-primary)] tracking-tight">
+          <span className="text-lg font-bold text-[var(--t-foreground)] tracking-tight">
             {store.name}
           </span>
         </div>
@@ -69,11 +69,11 @@ export function Header({
         <button
           onClick={onCartClick}
           aria-label={`Carrito — ${cartItemCount} artículos`}
-          className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-text-primary)]"
+          className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-foreground)]"
         >
           <ShoppingCart size={22} strokeWidth={1.8} />
           {cartItemCount > 0 && (
-            <span className="absolute top-0.5 right-0 w-5 h-5 rounded-full bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-bold flex items-center justify-center">
+            <span className="absolute top-0.5 right-0 w-5 h-5 rounded-full bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[9px] font-bold flex items-center justify-center">
               {cartItemCount > 9 ? "9+" : cartItemCount}
             </span>
           )}
@@ -90,20 +90,20 @@ export function Header({
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
           </div>
-          <span className="text-xl font-bold text-[var(--t-text-primary)] tracking-tight">
+          <span className="text-xl font-bold text-[var(--t-foreground)] tracking-tight">
             {store.name}
           </span>
         </div>
 
         {/* Nav */}
-        <nav className="flex items-center gap-8 text-sm font-medium text-[var(--t-text-muted)]">
-          <button className="text-[var(--t-text-primary)] font-semibold transition-colors">
+        <nav className="flex items-center gap-8 text-sm font-medium text-[var(--t-muted)]">
+          <button className="text-[var(--t-foreground)] font-semibold transition-colors">
             Inicio
           </button>
-          <button className="hover:text-[var(--t-text-primary)] transition-colors">
+          <button className="hover:text-[var(--t-foreground)] transition-colors">
             Descubrir
           </button>
-          <button className="hover:text-[var(--t-text-primary)] transition-colors">
+          <button className="hover:text-[var(--t-foreground)] transition-colors">
             Categorías
           </button>
         </nav>
@@ -113,7 +113,7 @@ export function Header({
           <button
             onClick={onSearchClick}
             aria-label="Buscar productos"
-            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[var(--t-search-bg)] text-[var(--t-text-muted)] text-sm hover:opacity-90 transition-opacity min-w-[240px]"
+            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[var(--t-card)] text-[var(--t-muted)] text-sm hover:opacity-90 transition-opacity min-w-[240px]"
           >
             <Search size={16} strokeWidth={2} />
             <span className="font-normal">Buscar productos...</span>
@@ -122,11 +122,11 @@ export function Header({
           <button
             onClick={onCartClick}
             aria-label={`Carrito — ${cartItemCount} artículos`}
-            className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-text-primary)] hover:bg-[var(--t-surface)] transition-colors"
+            className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-foreground)] hover:bg-[var(--t-card)] transition-colors"
           >
             <ShoppingCart size={20} strokeWidth={1.8} />
             {cartItemCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[9px] font-bold flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[9px] font-bold flex items-center justify-center">
                 {cartItemCount > 9 ? "9+" : cartItemCount}
               </span>
             )}

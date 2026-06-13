@@ -9,7 +9,7 @@ import type {
 } from "./preset-types";
 
 export const DEFAULT_PRESET_VALUES: Required<
-  Omit<StylePreset, "id" | "name" | "description" | "targetStores" | "genes">
+  Omit<StylePreset, "id" | "name" | "description" | "targetStores">
 > = {
   typography: {
     fontPair: "modern",

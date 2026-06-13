@@ -26,7 +26,7 @@ export function HeroBanner({
       style={{
         borderRadius: "var(--t-radius-card)",
         minHeight: "clamp(160px, 22vw, 240px)",
-        backgroundColor: "var(--t-surface)",
+        backgroundColor: "var(--t-card)",
         display: "flex",
         alignItems: "flex-end",
       }}
@@ -93,7 +93,7 @@ export function HeroBanner({
         <h2
           className="m-0 font-extrabold leading-tight"
           style={{
-            color: "var(--t-text-primary)",
+            color: "var(--t-foreground)",
             fontSize: "clamp(18px, 3.5vw, 30px)",
             fontFamily: "var(--font-heading, var(--font-sans))",
             letterSpacing: "-0.02em",
@@ -106,7 +106,7 @@ export function HeroBanner({
           <p
             className="m-0 leading-relaxed"
             style={{
-              color: "var(--t-text-secondary)",
+              color: "var(--t-muted)",
               fontSize: "clamp(12px, 1.6vw, 14px)",
             }}
           >
@@ -122,7 +122,7 @@ export function HeroBanner({
             fontSize: "13px",
             fontWeight: 700,
             color: "var(--t-button-text)",
-            backgroundColor: "var(--t-primary)",
+            backgroundColor: "var(--t-button-bg)",
             borderRadius: "var(--t-radius-button)",
             padding: "8px 22px",
             height: "38px",

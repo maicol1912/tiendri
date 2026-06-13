@@ -78,8 +78,7 @@ export function ProductDetailPage({
   onTabChange,
   onNavLinkClick,
 }: ProductDetailPageProps) {
-  const buttonStyle = layout?.buttonStyle ?? "filled";
-  const addToCartBtnClass = BUTTON_STYLE_MAP[buttonStyle];
+  const addToCartBtnClass = BUTTON_STYLE_MAP["filled"];
   const images = product.images;
   const mainImage = images[selectedImageIndex]?.url ?? "/placeholder.png";
 
@@ -121,7 +120,7 @@ export function ProductDetailPage({
   };
 
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -138,15 +137,15 @@ export function ProductDetailPage({
 
       {/* Breadcrumbs — desktop only */}
       <nav aria-label="Ruta de navegación" className="hidden lg:flex items-center gap-4 px-[160px] py-10">
-        <button type="button" onClick={onBack} className="text-[var(--t-text-breadcrumb)] text-base font-medium bg-transparent border-none cursor-pointer p-0">
+        <button type="button" onClick={onBack} className="text-[var(--t-muted)] text-base font-medium bg-transparent border-none cursor-pointer p-0">
           Inicio
         </button>
-        <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-[var(--t-text-breadcrumb)] text-base font-medium">Catálogo</span>
-        <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-[var(--t-text-breadcrumb)] text-base font-medium">Smartphones</span>
-        <ChevronRight className="w-4 h-4 text-[var(--t-text-breadcrumb)]" aria-hidden="true" />
-        <span className="text-[var(--t-text-primary)] text-base font-medium truncate max-w-[200px]">
+        <ChevronRight className="w-4 h-4 text-[var(--t-muted)]" aria-hidden="true" />
+        <span className="text-[var(--t-muted)] text-base font-medium">Catálogo</span>
+        <ChevronRight className="w-4 h-4 text-[var(--t-muted)]" aria-hidden="true" />
+        <span className="text-[var(--t-muted)] text-base font-medium">Smartphones</span>
+        <ChevronRight className="w-4 h-4 text-[var(--t-muted)]" aria-hidden="true" />
+        <span className="text-[var(--t-foreground)] text-base font-medium truncate max-w-[200px]">
           {product.name}
         </span>
       </nav>
@@ -214,15 +213,15 @@ export function ProductDetailPage({
           {/* Title + Price */}
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-6">
-              <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-text-primary)] m-0">
+              <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-foreground)] m-0">
                 {product.name}
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-[32px] font-medium text-[var(--t-text-primary)] tracking-[0.96px]">
+                <span className="text-[32px] font-medium text-[var(--t-foreground)] tracking-[0.96px]">
                   {formattedPrice}
                 </span>
                 {formattedOriginalPrice && (
-                  <span className="text-2xl text-[var(--t-text-breadcrumb)] tracking-[0.72px] line-through">
+                  <span className="text-2xl text-[var(--t-muted)] tracking-[0.72px] line-through">
                     {formattedOriginalPrice}
                   </span>
                 )}
@@ -239,7 +238,7 @@ export function ProductDetailPage({
                       key={color}
                       type="button"
                       className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
-                        idx === selectedColor ? "ring-2 ring-[var(--t-text-primary)] ring-offset-2" : ""
+                        idx === selectedColor ? "ring-2 ring-[var(--t-foreground)] ring-offset-2" : ""
                       }`}
                       style={{ backgroundColor: color }}
                       onClick={() => onColorSelect?.(idx)}
@@ -258,8 +257,8 @@ export function ProductDetailPage({
                     type="button"
                     className={`flex-1 px-6 py-4 rounded-lg text-sm font-medium text-center cursor-pointer transition-colors ${
                       activeStorage === opt
-                        ? "border border-[var(--t-text-primary)] text-[var(--t-text-primary)] bg-[var(--t-section-bg)]"
-                        : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-[var(--t-section-bg)] hover:border-[var(--t-border)]"
+                        ? "border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-[var(--t-background)]"
+                        : "border border-[var(--t-border)] text-[var(--t-muted)] bg-[var(--t-background)] hover:border-[var(--t-border)]"
                     }`}
                     onClick={() => onStorageSelect?.(opt)}
                     aria-pressed={activeStorage === opt}
@@ -275,8 +274,8 @@ export function ProductDetailPage({
                   {specBadges.map((spec) => (
                     <div key={spec.label} className="flex-1 min-w-[168px] bg-[var(--t-spec-badge-bg)] rounded-[7px] px-2 py-4 flex items-center gap-2">
                       <div className="flex flex-col min-w-0">
-                        <span className="text-[14px] text-[var(--t-text-muted)] leading-4">{spec.label}</span>
-                        <span className="text-[14px] font-medium text-[var(--t-text-subtle)] leading-4">{spec.value}</span>
+                        <span className="text-[14px] text-[var(--t-muted)] leading-4">{spec.label}</span>
+                        <span className="text-[14px] font-medium text-[var(--t-muted)] leading-4">{spec.value}</span>
                       </div>
                     </div>
                   ))}
@@ -285,7 +284,7 @@ export function ProductDetailPage({
 
               {/* Description */}
               {product.description && (
-                <p className="text-sm text-[var(--t-text-secondary)] leading-6 tracking-[0.42px]">
+                <p className="text-sm text-[var(--t-muted)] leading-6 tracking-[0.42px]">
                   {product.description}{" "}
                   <span className="text-[var(--t-primary)] underline cursor-pointer">ver más...</span>
                 </p>
@@ -308,30 +307,30 @@ export function ProductDetailPage({
           {/* Feature icons */}
           <div className="flex gap-8">
             <div className="flex flex-1 items-center gap-4 rounded-lg">
-              <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <Truck className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
+              <div className="bg-[var(--t-card)] rounded-[11px] p-4 shrink-0">
+                <Truck className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--t-text-muted)]">Envío gratis</span>
-                <span className="text-sm font-medium text-[var(--t-text-primary)]">1-2 días</span>
+                <span className="text-sm font-medium text-[var(--t-muted)]">Envío gratis</span>
+                <span className="text-sm font-medium text-[var(--t-foreground)]">1-2 días</span>
               </div>
             </div>
             <div className="flex flex-1 items-center gap-4 rounded-lg">
-              <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <Store className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
+              <div className="bg-[var(--t-card)] rounded-[11px] p-4 shrink-0">
+                <Store className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--t-text-muted)]">Disponible</span>
-                <span className="text-sm font-medium text-[var(--t-text-primary)]">Hoy</span>
+                <span className="text-sm font-medium text-[var(--t-muted)]">Disponible</span>
+                <span className="text-sm font-medium text-[var(--t-foreground)]">Hoy</span>
               </div>
             </div>
             <div className="flex flex-1 items-center gap-4 rounded-lg">
-              <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4 shrink-0">
-                <ShieldCheck className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
+              <div className="bg-[var(--t-card)] rounded-[11px] p-4 shrink-0">
+                <ShieldCheck className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--t-text-muted)]">Garantía</span>
-                <span className="text-sm font-medium text-[var(--t-text-primary)]">1 año</span>
+                <span className="text-sm font-medium text-[var(--t-muted)]">Garantía</span>
+                <span className="text-sm font-medium text-[var(--t-foreground)]">1 año</span>
               </div>
             </div>
           </div>
@@ -342,13 +341,13 @@ export function ProductDetailPage({
       <div className="lg:hidden flex flex-col gap-8 px-4 pt-8 pb-4">
         {/* Title + Price */}
         <div className="flex flex-col gap-6">
-          <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-text-primary)] m-0">{product.name}</h1>
+          <h1 className="text-[40px] font-bold leading-[40px] text-[var(--t-foreground)] m-0">{product.name}</h1>
           <div className="flex items-center gap-4">
-            <span className="text-[32px] font-medium text-[var(--t-text-primary)] tracking-[0.96px]">
+            <span className="text-[32px] font-medium text-[var(--t-foreground)] tracking-[0.96px]">
               {formattedPrice}
             </span>
             {formattedOriginalPrice && (
-              <span className="text-2xl text-[var(--t-text-breadcrumb)] tracking-[0.72px] line-through">
+              <span className="text-2xl text-[var(--t-muted)] tracking-[0.72px] line-through">
                 {formattedOriginalPrice}
               </span>
             )}
@@ -364,7 +363,7 @@ export function ProductDetailPage({
                 key={color}
                 type="button"
                 className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
-                  idx === selectedColor ? "ring-2 ring-[var(--t-text-primary)] ring-offset-2" : ""
+                  idx === selectedColor ? "ring-2 ring-[var(--t-foreground)] ring-offset-2" : ""
                 }`}
                 style={{ backgroundColor: color }}
                 onClick={() => onColorSelect?.(idx)}
@@ -383,8 +382,8 @@ export function ProductDetailPage({
               type="button"
               className={`flex-1 px-6 py-4 rounded-lg text-sm font-medium text-center cursor-pointer transition-colors ${
                 activeStorage === opt
-                  ? "border border-[var(--t-text-primary)] text-[var(--t-text-primary)] bg-[var(--t-section-bg)]"
-                  : "border border-[var(--t-border-mid)] text-[var(--t-text-muted)] bg-[var(--t-section-bg)]"
+                  ? "border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-[var(--t-background)]"
+                  : "border border-[var(--t-border)] text-[var(--t-muted)] bg-[var(--t-background)]"
               }`}
               onClick={() => onStorageSelect?.(opt)}
               aria-pressed={activeStorage === opt}
@@ -400,8 +399,8 @@ export function ProductDetailPage({
             {specBadges.map((spec) => (
               <div key={spec.label} className="flex-1 min-w-[160px] bg-[var(--t-spec-badge-bg)] rounded-[7px] px-2 py-4 flex items-center gap-2">
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[14px] text-[var(--t-text-muted)] leading-4">{spec.label}</span>
-                  <span className="text-[14px] font-medium text-[var(--t-text-subtle)] leading-4">{spec.value}</span>
+                  <span className="text-[14px] text-[var(--t-muted)] leading-4">{spec.label}</span>
+                  <span className="text-[14px] font-medium text-[var(--t-muted)] leading-4">{spec.value}</span>
                 </div>
               </div>
             ))}
@@ -410,7 +409,7 @@ export function ProductDetailPage({
 
         {/* Description */}
         {product.description && (
-          <p className="text-sm text-[var(--t-text-secondary)] leading-6 tracking-[0.42px]">
+          <p className="text-sm text-[var(--t-muted)] leading-6 tracking-[0.42px]">
             {product.description}{" "}
             <span className="text-[var(--t-primary)] underline cursor-pointer">ver más...</span>
           </p>
@@ -436,12 +435,12 @@ export function ProductDetailPage({
             { Icon: ShieldCheck, label: "Garantía", value: "1 año" },
           ].map(({ Icon, label, value }) => (
             <div key={label} className="flex flex-1 flex-col items-center gap-4 rounded-lg">
-              <div className="bg-[var(--t-card-bg)] rounded-[11px] p-4">
-                <Icon className="w-6 h-6 text-[var(--t-text-primary)]" aria-hidden="true" />
+              <div className="bg-[var(--t-card)] rounded-[11px] p-4">
+                <Icon className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
               </div>
               <div className="flex flex-col items-center text-center">
-                <span className="text-sm font-medium text-[var(--t-text-muted)]">{label}</span>
-                <span className="text-sm font-medium text-[var(--t-text-primary)]">{value}</span>
+                <span className="text-sm font-medium text-[var(--t-muted)]">{label}</span>
+                <span className="text-sm font-medium text-[var(--t-foreground)]">{value}</span>
               </div>
             </div>
           ))}
@@ -450,16 +449,16 @@ export function ProductDetailPage({
 
       {/* ── Details Section ── */}
       <section aria-label="Detalles del producto" className="bg-[var(--t-background)] px-4 py-10 lg:px-[160px] lg:py-20">
-        <div className="bg-[var(--t-section-bg)] rounded-lg px-6 py-12 lg:px-10 lg:py-12 flex flex-col gap-8 items-center">
-          <h2 className="text-2xl font-medium text-[var(--t-text-primary)] w-full">Detalles</h2>
-          <p className="text-sm font-medium text-[var(--t-text-muted)] leading-6 w-full">
+        <div className="bg-[var(--t-background)] rounded-lg px-6 py-12 lg:px-10 lg:py-12 flex flex-col gap-8 items-center">
+          <h2 className="text-2xl font-medium text-[var(--t-foreground)] w-full">Detalles</h2>
+          <p className="text-sm font-medium text-[var(--t-muted)] leading-6 w-full">
             Así como un libro se juzga por su portada, lo primero que notás al tomar un smartphone moderno es la pantalla. Nada sorprendente, porque las tecnologías avanzadas permiten prácticamente eliminar los marcos y los recortes para la cámara frontal y el altavoz.
           </p>
 
           {/* Specs table */}
           <div className="w-full flex flex-col gap-10">
             <div className="flex flex-col gap-4">
-              <h3 className="text-xl font-medium text-[var(--t-text-primary)]">Pantalla</h3>
+              <h3 className="text-xl font-medium text-[var(--t-foreground)]">Pantalla</h3>
               <div className="flex flex-col gap-6">
                 {[
                   ["Diagonal de pantalla", '6.7"'],
@@ -468,24 +467,24 @@ export function ProductDetailPage({
                   ["Densidad de píxeles", "460 ppi"],
                   ["Tipo de pantalla", "OLED"],
                 ].map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border-mid)]/50">
-                    <span className="text-base text-[var(--t-text-primary)]">{label}</span>
-                    <span className="text-[15px] text-[var(--t-text-primary)]">{value}</span>
+                  <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border)]/50">
+                    <span className="text-base text-[var(--t-foreground)]">{label}</span>
+                    <span className="text-[15px] text-[var(--t-foreground)]">{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
-              <h3 className="text-xl font-medium text-[var(--t-text-primary)]">CPU</h3>
+              <h3 className="text-xl font-medium text-[var(--t-foreground)]">CPU</h3>
               <div className="flex flex-col gap-6">
                 {[
                   ["CPU", "A16 Bionic"],
                   ["Número de núcleos", "6"],
                 ].map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border-mid)]/50">
-                    <span className="text-base text-[var(--t-text-primary)]">{label}</span>
-                    <span className="text-[15px] text-[var(--t-text-primary)]">{value}</span>
+                  <div key={label} className="flex items-center justify-between pb-2 border-b border-[var(--t-border)]/50">
+                    <span className="text-base text-[var(--t-foreground)]">{label}</span>
+                    <span className="text-[15px] text-[var(--t-foreground)]">{value}</span>
                   </div>
                 ))}
               </div>
@@ -494,7 +493,7 @@ export function ProductDetailPage({
 
           <button
             type="button"
-            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-text-subtle)] bg-[var(--t-section-bg)] text-sm font-medium text-[var(--t-text-primary)] cursor-pointer hover:opacity-80 transition-colors"
+            className="flex items-center gap-2 px-14 py-3 rounded-lg border border-[var(--t-muted)] bg-[var(--t-background)] text-sm font-medium text-[var(--t-foreground)] cursor-pointer hover:opacity-80 transition-colors"
           >
             Ver más
             <ChevronDown className="w-6 h-6" aria-hidden="true" />
@@ -505,7 +504,7 @@ export function ProductDetailPage({
       {/* ── Related Products ── */}
       {relatedProducts.length > 0 && (
         <section aria-label="Productos relacionados" className="px-4 py-10 lg:px-[160px] lg:py-20 flex flex-col gap-8">
-          <h2 className="text-2xl font-medium text-[var(--t-text-primary)]">Productos relacionados</h2>
+          <h2 className="text-2xl font-medium text-[var(--t-foreground)]">Productos relacionados</h2>
           <div className={`grid ${gridColsClass(grid.products.mobile, grid.products.desktop)} gap-4`}>
             {relatedProducts.map((p) => (
               <ProductCard

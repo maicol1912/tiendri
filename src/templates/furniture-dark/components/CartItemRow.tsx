@@ -27,12 +27,12 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
   return (
     <div
       className="flex gap-3 py-4"
-      style={{ borderBottom: "1px solid var(--t-border-mid)" }}
+      style={{ borderBottom: "1px solid var(--t-border)" }}
     >
       {/* Thumbnail */}
       <div
         className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0"
-        style={{ backgroundColor: "var(--t-card-bg)" }}
+        style={{ backgroundColor: "var(--t-card)" }}
       >
         {item.image ? (
           <Image
@@ -45,9 +45,9 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
         ) : (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "var(--t-surface)" }}
+            style={{ backgroundColor: "var(--t-card)" }}
           >
-            <span className="text-[var(--t-text-muted)] text-xs">Sin img</span>
+            <span className="text-[var(--t-muted)] text-xs">Sin img</span>
           </div>
         )}
       </div>
@@ -57,9 +57,9 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
         {/* Rating */}
         {item.rating !== undefined && (
           <div className="flex items-center gap-1">
-            <Star size={10} fill="var(--t-rating-star)" style={{ color: "var(--t-rating-star)" }} />
+            <Star size={10} fill="var(--t-accent)" style={{ color: "var(--t-accent)" }} />
             <span
-              className="text-[var(--t-text-muted)]"
+              className="text-[var(--t-muted)]"
               style={{
                 fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                 fontSize: "11px",
@@ -73,7 +73,7 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
 
         {/* Name */}
         <p
-          className="text-[var(--t-text-primary)] line-clamp-2 leading-tight"
+          className="text-[var(--t-foreground)] line-clamp-2 leading-tight"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "14px",
@@ -86,7 +86,7 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
 
         {/* Price */}
         <p
-          className="text-[var(--t-text-primary)] font-bold"
+          className="text-[var(--t-foreground)] font-bold"
           style={{
             fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
             fontSize: "15px",
@@ -113,7 +113,7 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
             onClick={() => onRemove(item.productId)}
             aria-label={`Eliminar ${item.name}`}
           >
-            <X size={13} strokeWidth={2} className="text-[var(--t-text-secondary)]" />
+            <X size={13} strokeWidth={2} className="text-[var(--t-muted)]" />
           </button>
         </div>
       </div>

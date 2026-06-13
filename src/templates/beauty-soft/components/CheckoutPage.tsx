@@ -60,16 +60,16 @@ export function CheckoutPage({
               width: "47px",
               height: "47px",
               borderRadius: "37px",
-              backgroundColor: "var(--t-section-bg)",
+              backgroundColor: "var(--t-background)",
             }}
             aria-label="Volver"
             onClick={onBack}
           >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-text-primary)]" />
+            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
           </button>
 
           <p
-            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Finalizar pedido

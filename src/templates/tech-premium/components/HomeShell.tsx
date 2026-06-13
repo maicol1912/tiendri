@@ -107,10 +107,10 @@ export function HomeShell({
   return (
     <HomePage
       store={store}
-      navLinks={config.navLinks}
-      productTabs={config.productTabs}
-      footerServices={config.footerServices}
-      footerAssistance={config.footerAssistance}
+      navLinks={config.content?.navLinks ?? []}
+      productTabs={(config.content?.productTabs ?? []) as Array<{ id: ProductTab; label: string }>}
+      footerServices={config.content?.footerServices ?? []}
+      footerAssistance={config.content?.footerAssistance ?? []}
       categories={categories}
       products={products}
       discountProducts={discountProducts}

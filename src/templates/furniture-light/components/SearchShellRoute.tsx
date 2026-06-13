@@ -105,7 +105,7 @@ export function SearchShellRoute({
   return (
     <SearchPage
       store={store}
-      navLinks={config.navLinks}
+      navLinks={config.content?.navLinks ?? []}
       layout={config.layout}
       grid={config.grid}
       searchQuery={query}
@@ -114,7 +114,7 @@ export function SearchShellRoute({
       activeTab="search"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
-      suggestions={config.popularSearches}
+      suggestions={config.content?.popularSearches ?? []}
       inputRef={inputRef}
       onSearchChange={setQuery}
       onSearchClear={handleClear}

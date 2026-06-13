@@ -52,8 +52,8 @@ export function CartPage({
       <div
         className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 py-3"
         style={{
-          backgroundColor: "var(--t-header-bg)",
-          borderBottom: "1px solid var(--t-nav-border)",
+          backgroundColor: "var(--t-background)",
+          borderBottom: "1px solid var(--t-border)",
         }}
       >
         <button
@@ -63,7 +63,7 @@ export function CartPage({
             width: 38,
             height: 38,
             borderRadius: "50%",
-            backgroundColor: "var(--t-surface)",
+            backgroundColor: "var(--t-card)",
             border: "none",
             cursor: "pointer",
           }}
@@ -100,7 +100,7 @@ export function CartPage({
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: "var(--t-surface)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
             >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
@@ -133,7 +133,7 @@ export function CartPage({
             </p>
             <p
               style={{
-                color: "var(--t-text-muted)",
+                color: "var(--t-muted)",
                 fontFamily: "'League Spartan', sans-serif",
                 fontSize: "14px",
                 margin: 0,

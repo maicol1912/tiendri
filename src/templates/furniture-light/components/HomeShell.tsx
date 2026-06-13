@@ -65,7 +65,7 @@ export function HomeShell({
   return (
     <HomePage
       store={store}
-      navLinks={config.navLinks}
+      navLinks={config.content?.navLinks ?? []}
       categories={categories}
       products={products}
       featuredCard={featuredCard}

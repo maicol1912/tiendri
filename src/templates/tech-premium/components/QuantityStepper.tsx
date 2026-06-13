@@ -27,10 +27,10 @@ export function QuantityStepper({
         disabled={value <= min}
         aria-label="Disminuir cantidad"
       >
-        <Minus className="w-4 h-4 text-[var(--t-text-primary)]" />
+        <Minus className="w-4 h-4 text-[var(--t-foreground)]" />
       </button>
-      <div className="border border-[var(--t-border-mid)]/50 rounded px-4 py-2 min-w-[32px] text-center">
-        <span className="text-base font-medium text-[var(--t-text-primary)]">{value}</span>
+      <div className="border border-[var(--t-border)]/50 rounded px-4 py-2 min-w-[32px] text-center">
+        <span className="text-base font-medium text-[var(--t-foreground)]">{value}</span>
       </div>
       <button
         type="button"
@@ -38,7 +38,7 @@ export function QuantityStepper({
         onClick={onIncrement}
         aria-label="Aumentar cantidad"
       >
-        <Plus className="w-4 h-4 text-[var(--t-text-primary)]" />
+        <Plus className="w-4 h-4 text-[var(--t-foreground)]" />
       </button>
     </div>
   );

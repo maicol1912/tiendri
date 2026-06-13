@@ -53,8 +53,8 @@ export function CategorySection({
             style={{
               borderRadius: "var(--t-radius-category)",
               backgroundColor: isActive ? "var(--t-category-active-bg)" : "transparent",
-              color: isActive ? "var(--t-category-active-text)" : "var(--t-text-primary)",
-              border: isActive ? "1px solid var(--t-category-active-bg)" : "1px solid var(--t-border)",
+              color: isActive ? "var(--t-category-active-text)" : "var(--t-foreground)",
+              border: isActive ? "1px solid var(--t-category-active-bg)" : "1px solid var(--t-border-light)",
               fontWeight: isActive ? 600 : 400,
               cursor: "pointer",
             }}

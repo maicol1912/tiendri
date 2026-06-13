@@ -26,7 +26,7 @@ export function Header({
   return (
     <header
       className="sticky top-0 z-40 w-full"
-      style={{ backgroundColor: "var(--t-header-bg)" }}
+      style={{ backgroundColor: "var(--t-background)" }}
     >
       {/* ── Mobile header */}
       <div className="lg:hidden">
@@ -37,14 +37,14 @@ export function Header({
             className="flex items-center gap-1.5 rounded-[var(--t-radius-category)] px-3 py-2.5"
             style={{ backgroundColor: "var(--t-surface)" }}
           >
-            <MapPin size={14} strokeWidth={2.5} className="text-[var(--t-text-primary)]" />
+            <MapPin size={14} strokeWidth={2.5} className="text-[var(--t-foreground)]" />
             <span
-              className="text-[var(--t-text-primary)] text-xs"
+              className="text-[var(--t-foreground)] text-xs"
               style={{ fontFamily: "var(--font-body, 'Urbanist', sans-serif)", letterSpacing: "-0.36px" }}
             >
               {store.name}
             </span>
-            <ChevronDown size={14} strokeWidth={2} className="text-[var(--t-text-secondary)]" />
+            <ChevronDown size={14} strokeWidth={2} className="text-[var(--t-muted)]" />
           </div>
 
           {/* Right: notification + avatar */}
@@ -55,7 +55,7 @@ export function Header({
               style={{ backgroundColor: "var(--t-surface)" }}
               aria-label="Notificaciones"
             >
-              <Bell size={16} strokeWidth={1.75} className="text-[var(--t-text-primary)]" />
+              <Bell size={16} strokeWidth={1.75} className="text-[var(--t-foreground)]" />
             </button>
 
             <div className="relative w-[38px] h-[38px] rounded-full overflow-hidden">
@@ -67,7 +67,7 @@ export function Header({
                   style={{ backgroundColor: "var(--t-surface)" }}
                 >
                   <span
-                    className="text-[var(--t-text-primary)] text-sm font-semibold"
+                    className="text-[var(--t-foreground)] text-sm font-semibold"
                     style={{ fontFamily: "var(--font-body, 'Urbanist', sans-serif)" }}
                   >
                     {store.name.charAt(0).toUpperCase()}
@@ -86,7 +86,7 @@ export function Header({
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "30px",
               fontWeight: 400,
-              color: "var(--t-text-primary)",
+              color: "var(--t-foreground)",
               letterSpacing: "-0.9px",
             }}
           >
@@ -94,7 +94,7 @@ export function Header({
             <span
               style={{
                 fontWeight: 600,
-                background: "linear-gradient(to right, var(--t-primary), var(--t-text-secondary))",
+                background: "linear-gradient(to right, var(--t-primary), var(--t-muted))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -108,7 +108,7 @@ export function Header({
               fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
               fontSize: "30px",
               fontWeight: 400,
-              color: "var(--t-text-primary)",
+              color: "var(--t-foreground)",
               letterSpacing: "-0.9px",
               lineHeight: "1.2",
             }}
@@ -139,7 +139,7 @@ export function Header({
               </div>
             ) : (
               <span
-                className="font-semibold tracking-tight truncate text-[var(--t-text-primary)]"
+                className="font-semibold tracking-tight truncate text-[var(--t-foreground)]"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "20px",
@@ -156,16 +156,16 @@ export function Header({
           <div className="flex flex-1 items-center justify-center px-8">
             <div
               className="flex items-center gap-2 w-full max-w-sm px-5 py-3 cursor-text rounded-[var(--t-radius-button)]"
-              style={{ backgroundColor: "var(--t-surface)" }}
+              style={{ backgroundColor: "var(--t-search-bg)" }}
               onClick={onSearchClick}
               role="button"
               tabIndex={0}
               aria-label="Buscar productos"
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSearchClick?.(); }}
             >
-              <Search size={16} strokeWidth={2} className="text-[var(--t-text-secondary)] flex-shrink-0" />
+              <Search size={16} strokeWidth={2} className="text-[var(--t-muted)] flex-shrink-0" />
               <span
-                className="text-[var(--t-text-secondary)]"
+                className="text-[var(--t-muted)]"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   fontSize: "14px",
@@ -185,7 +185,7 @@ export function Header({
                 <button
                   key={label}
                   type="button"
-                  className="px-3 py-1.5 rounded-full text-[var(--t-text-secondary)] hover:text-[var(--t-text-primary)] transition-colors"
+                  className="px-3 py-1.5 rounded-full text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors"
                   style={{
                     fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                     fontSize: "14px",
@@ -204,13 +204,13 @@ export function Header({
               aria-label={`Carrito${cartItemCount > 0 ? `, ${cartItemCount} productos` : ""}`}
               onClick={onCartClick}
             >
-              <ShoppingBag size={22} strokeWidth={1.75} className="text-[var(--t-text-primary)]" />
+              <ShoppingBag size={22} strokeWidth={1.75} className="text-[var(--t-foreground)]" />
               {cartItemCount > 0 && (
                 <span
                   className="absolute top-1 right-1 flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold leading-none"
                   style={{
-                    backgroundColor: "var(--t-badge-bg)",
-                    color: "var(--t-badge-text)",
+                    backgroundColor: "var(--t-primary)",
+                    color: "var(--t-on-primary)",
                     fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                   }}
                   aria-hidden="true"

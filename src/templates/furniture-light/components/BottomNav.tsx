@@ -46,7 +46,7 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTabChange }: BottomN
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--t-header-bg)]"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--t-background)]"
       style={{ boxShadow: "0 -4px 20px rgba(0,0,0,0.04)" }}
       aria-label="Navegación principal"
     >
@@ -59,7 +59,7 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTabChange }: BottomN
               key={tab.key}
               onClick={() => onTabChange?.(tab.key)}
               className="relative flex flex-col items-center justify-center py-3 px-4 transition-colors"
-              style={{ color: isActive ? "var(--t-primary)" : "var(--t-text-muted)" }}
+              style={{ color: isActive ? "var(--t-primary)" : "var(--t-muted)" }}
               aria-current={isActive ? "page" : undefined}
               aria-label={tab.label}
             >
@@ -75,8 +75,8 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTabChange }: BottomN
                   <span
                     className="absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-bold leading-none"
                     style={{
-                      backgroundColor: "var(--t-badge-bg)",
-                      color: "var(--t-badge-text)",
+                      backgroundColor: "var(--t-primary)",
+                      color: "var(--t-on-primary)",
                     }}
                     aria-hidden="true"
                   >

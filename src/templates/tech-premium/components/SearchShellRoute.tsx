@@ -106,16 +106,16 @@ export function SearchShellRoute({
   return (
     <SearchPage
       store={store}
-      navLinks={config.navLinks}
-      footerServices={config.footerServices}
-      footerAssistance={config.footerAssistance}
+      navLinks={config.content?.navLinks ?? []}
+      footerServices={config.content?.footerServices ?? []}
+      footerAssistance={config.content?.footerAssistance ?? []}
       grid={config.grid}
       searchQuery={query}
       results={searchResults}
       activeTab="search"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
-      suggestions={config.popularSearches}
+      suggestions={config.content?.popularSearches ?? []}
       onSearchChange={setQuery}
       onSearchClear={handleClear}
       onSuggestionClick={(s) => setQuery(s)}

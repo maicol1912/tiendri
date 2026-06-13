@@ -63,7 +63,7 @@ export function SearchPage({
   const noResults = !isEmpty && results.length === 0;
 
   return (
-    <div className="bg-[var(--t-section-bg)] min-h-screen font-['Inter',sans-serif] flex flex-col">
+    <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       {/* Header */}
       <Header
         store={store}
@@ -75,15 +75,15 @@ export function SearchPage({
 
       {/* Search bar */}
       <div className="px-4 pt-6 pb-4 lg:px-[160px] lg:pt-10 lg:pb-6">
-        <div className="bg-[var(--t-search-bg)] rounded-lg flex items-center gap-3 px-4 py-3 lg:py-4 lg:max-w-2xl">
-          <Search className="w-5 h-5 text-[var(--t-text-muted)] shrink-0" aria-hidden="true" />
+        <div className="bg-[var(--t-card)] rounded-lg flex items-center gap-3 px-4 py-3 lg:py-4 lg:max-w-2xl">
+          <Search className="w-5 h-5 text-[var(--t-muted)] shrink-0" aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
             placeholder="Buscar productos..."
-            className="flex-1 bg-transparent border-none outline-none text-base text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)]/50 font-medium"
+            className="flex-1 bg-transparent border-none outline-none text-base text-[var(--t-foreground)] placeholder:text-[var(--t-muted)]/50 font-medium"
             aria-label="Buscar productos"
             role="searchbox"
           />
@@ -94,7 +94,7 @@ export function SearchPage({
               onClick={onSearchClear}
               aria-label="Limpiar búsqueda"
             >
-              <X className="w-5 h-5 text-[var(--t-text-muted)]" />
+              <X className="w-5 h-5 text-[var(--t-muted)]" />
             </button>
           )}
         </div>
@@ -105,13 +105,13 @@ export function SearchPage({
         {isEmpty ? (
           /* Empty state: popular searches */
           <div className="flex flex-col gap-6 pt-8">
-            <h2 className="text-lg font-medium text-[var(--t-text-primary)]">Búsquedas populares</h2>
+            <h2 className="text-lg font-medium text-[var(--t-foreground)]">Búsquedas populares</h2>
             <div className="flex flex-wrap gap-3">
               {suggestions.map((s) => (
                 <button
                   key={s}
                   type="button"
-                  className="px-5 py-2.5 bg-[var(--t-card-bg)] rounded-lg text-sm font-medium text-[var(--t-text-primary)] border-none cursor-pointer hover:bg-[var(--t-surface)] transition-colors"
+                  className="px-5 py-2.5 bg-[var(--t-card)] rounded-lg text-sm font-medium text-[var(--t-foreground)] border-none cursor-pointer hover:bg-[var(--t-card)] transition-colors"
                   onClick={() => onSuggestionClick?.(s)}
                 >
                   {s}
@@ -122,16 +122,16 @@ export function SearchPage({
         ) : noResults ? (
           /* No results */
           <div className="flex flex-col items-center justify-center gap-4 py-20">
-            <Search className="w-12 h-12 text-[var(--t-border-mid)]" aria-hidden="true" />
-            <p className="text-lg font-medium text-[var(--t-text-primary)]">No se encontraron resultados</p>
-            <p className="text-sm text-[var(--t-text-secondary)]">
+            <Search className="w-12 h-12 text-[var(--t-border)]" aria-hidden="true" />
+            <p className="text-lg font-medium text-[var(--t-foreground)]">No se encontraron resultados</p>
+            <p className="text-sm text-[var(--t-muted)]">
               Intentá con otro término o explorá nuestras categorías
             </p>
           </div>
         ) : (
           /* Results grid */
           <div className="flex flex-col gap-4">
-            <p className="text-sm text-[var(--t-text-secondary)]">
+            <p className="text-sm text-[var(--t-muted)]">
               {results.length} resultado{results.length !== 1 ? "s" : ""} para &ldquo;{searchQuery}&rdquo;
             </p>
             <div className={`grid ${gridColsClass(grid.search.mobile, grid.search.desktop)} gap-4`}>

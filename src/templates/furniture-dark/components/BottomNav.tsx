@@ -32,7 +32,7 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTab }: BottomNavProp
         backgroundColor: "rgba(24,24,24,0.95)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        borderTop: "1px solid var(--t-nav-border)",
+        borderTop: "1px solid var(--t-border)",
       }}
     >
       <div className="flex items-center justify-around px-4 py-3 pb-safe">
@@ -52,14 +52,14 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTab }: BottomNavProp
                 <Icon
                   size={22}
                   strokeWidth={isActive ? 2 : 1.75}
-                  style={{ color: isActive ? "var(--t-text-primary)" : "var(--t-text-footer)" }}
+                  style={{ color: isActive ? "var(--t-foreground)" : "var(--t-muted)" }}
                 />
                 {showBadge && (
                   <span
                     className="absolute -top-1 -right-1.5 flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold leading-none"
                     style={{
-                      backgroundColor: "var(--t-badge-bg)",
-                      color: "var(--t-badge-text)",
+                      backgroundColor: "var(--t-primary)",
+                      color: "var(--t-on-primary)",
                       fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
                     }}
                     aria-hidden="true"
@@ -72,7 +72,7 @@ export function BottomNav({ activeTab, cartItemCount = 0, onTab }: BottomNavProp
                 className="text-[10px] leading-none font-medium"
                 style={{
                   fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-                  color: isActive ? "var(--t-text-primary)" : "var(--t-text-footer)",
+                  color: isActive ? "var(--t-foreground)" : "var(--t-muted)",
                 }}
               >
                 {label}

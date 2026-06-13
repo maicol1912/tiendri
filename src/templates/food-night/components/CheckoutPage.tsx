@@ -29,7 +29,7 @@ interface CheckoutPageProps {
   formData: CheckoutFormData;
   formErrors?: FieldErrors;
   isSubmitting?: boolean;
-  layout?: { headerStyle?: string; footerStyle?: string };
+  layout?: Record<string, unknown>;
   onFormChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
   onSearchClick?: () => void;
@@ -72,7 +72,7 @@ export function CheckoutPage({
       />
 
       <main className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 pt-6 pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-12">
-        <h1 className="text-[18px] font-bold mb-6" style={{ color: "var(--t-text-primary)" }}>
+        <h1 className="text-[18px] font-bold mb-6" style={{ color: "var(--t-foreground)" }}>
           Tu pedido
         </h1>
 
@@ -81,11 +81,11 @@ export function CheckoutPage({
           <section aria-label="Datos del pedido">
             <div
               className="p-5 rounded-[16px]"
-              style={{ backgroundColor: "var(--t-card-bg)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
             >
               <h2
                 className="text-[14px] font-semibold mb-5"
-                style={{ color: "var(--t-text-primary)" }}
+                style={{ color: "var(--t-foreground)" }}
               >
                 Datos de contacto y entrega
               </h2>
@@ -103,12 +103,12 @@ export function CheckoutPage({
             {/* Items recap */}
             <div
               className="p-4 rounded-[16px]"
-              style={{ backgroundColor: "var(--t-card-bg)" }}
+              style={{ backgroundColor: "var(--t-card)" }}
               aria-label="Productos del pedido"
             >
               <h2
                 className="text-[13px] font-semibold mb-3"
-                style={{ color: "var(--t-text-secondary)" }}
+                style={{ color: "var(--t-muted)" }}
               >
                 Resumen ({items.length} {items.length === 1 ? "producto" : "productos"})
               </h2>
@@ -117,12 +117,12 @@ export function CheckoutPage({
                   <div key={item.productId} className="flex items-center justify-between">
                     <span
                       className="text-[12px] font-normal truncate flex-1 pr-2"
-                      style={{ color: "var(--t-text-secondary)" }}
+                      style={{ color: "var(--t-muted)" }}
                     >
                       {item.quantity}× {item.name}
                       {item.sizeLabel ? ` (${item.sizeLabel})` : ""}
                     </span>
-                    <span className="text-[12px] font-medium flex-shrink-0" style={{ color: "var(--t-text-primary)" }}>
+                    <span className="text-[12px] font-medium flex-shrink-0" style={{ color: "var(--t-foreground)" }}>
                       {formatPrice(item.price * item.quantity, currencySymbol)}
                     </span>
                   </div>

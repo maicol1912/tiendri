@@ -134,7 +134,7 @@ export function CheckoutShellRoute({
       {formError && (
         <div
           className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg text-sm font-semibold shadow-lg max-w-[90vw]"
-          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-button-text)" }}
+          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
           role="alert"
           aria-live="assertive"
         >
@@ -144,7 +144,7 @@ export function CheckoutShellRoute({
       <CheckoutPage
         store={store}
         items={items}
-        navLinks={config.navLinks}
+        navLinks={config.content?.navLinks ?? []}
         layout={config.layout}
         currencySymbol={currencySymbol}
         activeTab="cart"

@@ -30,7 +30,7 @@ export function SearchBar({
       <Search
         size={18}
         strokeWidth={1.75}
-        color="var(--t-border-mid)"
+        color="var(--t-border-light)"
         style={{ flexShrink: 0 }}
         aria-hidden="true"
       />
@@ -44,7 +44,7 @@ export function SearchBar({
         onFocus={onFocus}
         className="flex-1 min-w-0 bg-transparent border-0 outline-none text-sm"
         style={{
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
           lineHeight: "20px",
         }}
       />
@@ -52,7 +52,7 @@ export function SearchBar({
       <ScanLine
         size={18}
         strokeWidth={1.75}
-        color="var(--t-border-mid)"
+        color="var(--t-border-light)"
         style={{ flexShrink: 0, cursor: "pointer" }}
         aria-hidden="true"
       />

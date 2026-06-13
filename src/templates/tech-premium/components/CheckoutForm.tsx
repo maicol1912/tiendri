@@ -27,7 +27,7 @@ export interface CheckoutFormProps {
 export function CheckoutForm({ formData = {}, onFieldChange, onSubmit }: CheckoutFormProps) {
   return (
     <div className="flex flex-col gap-6 flex-1">
-      <h1 className="text-2xl font-semibold text-[var(--t-text-primary)]">Finalizar compra</h1>
+      <h1 className="text-2xl font-semibold text-[var(--t-foreground)]">Finalizar compra</h1>
 
       <form
         className="flex flex-col gap-5"
@@ -39,7 +39,7 @@ export function CheckoutForm({ formData = {}, onFieldChange, onSubmit }: Checkou
       >
         {FORM_FIELDS.map(({ key, label, placeholder, required, type }) => (
           <div key={key} className="flex flex-col gap-1.5">
-            <label htmlFor={`checkout-${key}`} className="text-sm font-medium text-[var(--t-text-subtle)]">
+            <label htmlFor={`checkout-${key}`} className="text-sm font-medium text-[var(--t-muted)]">
               {label}{" "}
               {required && (
                 <span className="text-[var(--t-primary)]" aria-hidden="true">
@@ -54,7 +54,7 @@ export function CheckoutForm({ formData = {}, onFieldChange, onSubmit }: Checkou
                 onChange={(e) => onFieldChange?.(key, e.target.value)}
                 placeholder={placeholder}
                 rows={3}
-                className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)] outline-none focus:border-[var(--t-text-primary)] transition-colors resize-none bg-[var(--t-card-bg)]"
+                className="border border-[var(--t-border)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-foreground)] placeholder:text-[var(--t-muted)] outline-none focus:border-[var(--t-foreground)] transition-colors resize-none bg-[var(--t-card)]"
               />
             ) : (
               <input
@@ -64,7 +64,7 @@ export function CheckoutForm({ formData = {}, onFieldChange, onSubmit }: Checkou
                 onChange={(e) => onFieldChange?.(key, e.target.value)}
                 placeholder={placeholder}
                 required={required}
-                className="border border-[var(--t-border-input)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-text-primary)] placeholder:text-[var(--t-text-muted)] outline-none focus:border-[var(--t-text-primary)] transition-colors bg-[var(--t-card-bg)]"
+                className="border border-[var(--t-border)]/50 rounded-[7px] px-4 py-3 text-sm text-[var(--t-foreground)] placeholder:text-[var(--t-muted)] outline-none focus:border-[var(--t-foreground)] transition-colors bg-[var(--t-card)]"
               />
             )}
           </div>

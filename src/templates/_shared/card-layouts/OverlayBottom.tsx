@@ -31,7 +31,7 @@ export default function CardOverlayBottom({
     >
       {discountPercent !== null && (
         <span
-          className={`absolute top-2 right-2 z-20 px-2 py-0.5 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[11px] font-bold ${badgeClass}`}
+          className={`absolute top-2 right-2 z-20 px-2 py-0.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[11px] font-bold ${badgeClass}`}
         >
           -{discountPercent}%
         </span>

@@ -30,7 +30,7 @@ function InfoRow({ icon, label, value }: InfoRowProps) {
     <div className="flex items-start gap-4 py-5 border-b border-[var(--t-border)] last:border-b-0">
       <div
         className="flex-shrink-0 mt-0.5"
-        style={{ color: "var(--t-text-muted)" }}
+        style={{ color: "var(--t-muted)" }}
         aria-hidden="true"
       >
         {icon}
@@ -38,13 +38,13 @@ function InfoRow({ icon, label, value }: InfoRowProps) {
       <div>
         <p
           className="text-[10px] uppercase tracking-[0.15em] mb-1"
-          style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-muted)", fontWeight: 400 }}
+          style={{ fontFamily: "var(--font-sans)", color: "var(--t-muted)", fontWeight: 400 }}
         >
           {label}
         </p>
         <div
           className="text-sm"
-          style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-primary)", fontWeight: 500 }}
+          style={{ fontFamily: "var(--font-sans)", color: "var(--t-foreground)", fontWeight: 500 }}
         >
           {value}
         </div>
@@ -80,20 +80,20 @@ export function StoreInfoPage({
         <div className="mb-8 border-b border-[var(--t-border)] pb-6">
           <p
             className="text-[10px] uppercase tracking-[0.2em] mb-1"
-            style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-muted)", fontWeight: 400 }}
+            style={{ fontFamily: "var(--font-sans)", color: "var(--t-muted)", fontWeight: 400 }}
           >
             Tienda
           </p>
           <h1
             className="text-xl font-bold uppercase tracking-[0.05em]"
-            style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-primary)" }}
+            style={{ fontFamily: "var(--font-sans)", color: "var(--t-foreground)" }}
           >
             {store.name}
           </h1>
           {store.description && (
             <p
               className="mt-2 text-sm leading-relaxed"
-              style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-muted)", fontWeight: 400 }}
+              style={{ fontFamily: "var(--font-sans)", color: "var(--t-muted)", fontWeight: 400 }}
             >
               {store.description}
             </p>
@@ -105,7 +105,7 @@ export function StoreInfoPage({
           <h2
             id="contact-heading"
             className="text-[10px] uppercase tracking-[0.2em] mb-2"
-            style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-muted)", fontWeight: 400 }}
+            style={{ fontFamily: "var(--font-sans)", color: "var(--t-muted)", fontWeight: 400 }}
           >
             Contacto
           </h2>
@@ -147,7 +147,7 @@ export function StoreInfoPage({
             <h2
               id="social-heading"
               className="text-[10px] uppercase tracking-[0.2em] mb-2"
-              style={{ fontFamily: "var(--font-sans)", color: "var(--t-text-muted)", fontWeight: 400 }}
+              style={{ fontFamily: "var(--font-sans)", color: "var(--t-muted)", fontWeight: 400 }}
             >
               Redes sociales
             </h2>

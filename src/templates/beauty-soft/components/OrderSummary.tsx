@@ -27,7 +27,7 @@ export function OrderSummary({
     <div
       className="fixed bottom-0 left-0 right-0 z-50 lg:relative"
       style={{
-        backgroundColor: "var(--t-section-bg)",
+        backgroundColor: "var(--t-background)",
         paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))",
         borderTop: "1px solid var(--t-border)",
       }}
@@ -37,7 +37,7 @@ export function OrderSummary({
         <div
           className="flex items-center justify-between"
           style={{
-            backgroundColor: "var(--t-card-bg)",
+            backgroundColor: "var(--t-card)",
             borderRadius: "var(--t-radius-button)",
             height: "55px",
             paddingLeft: "21px",
@@ -45,16 +45,16 @@ export function OrderSummary({
           }}
         >
           <span
-            className="text-sm font-normal text-[var(--t-text-muted)] leading-[22px] tracking-[-0.408px]"
+            className="text-sm font-normal text-[var(--t-muted)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}
           >
             Ingresar código de descuento
           </span>
           <button
             type="button"
-            className="flex items-center justify-center border-0 cursor-pointer text-[var(--t-button-text)]"
+            className="flex items-center justify-center border-0 cursor-pointer text-[var(--t-on-primary)]"
             style={{
-              backgroundColor: "var(--t-discount-bg, var(--t-card-bg))",
+              backgroundColor: "var(--t-discount-bg, var(--t-card))",
               borderRadius: "27px",
               width: "83px",
               height: "39px",
@@ -72,13 +72,13 @@ export function OrderSummary({
         {/* Total */}
         <div className="flex items-center justify-between" style={{ padding: "20px 12px" }}>
           <span
-            className="text-sm font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Total
           </span>
           <span
-            className="text-base font-semibold text-[var(--t-text-primary)] leading-[22px] tracking-[-0.408px]"
+            className="text-base font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {formattedTotal}
@@ -111,7 +111,7 @@ export function OrderSummary({
             fontFamily: "var(--font-sans)",
             fontSize: "14px",
             fontWeight: 500,
-            color: "var(--t-text-secondary)",
+            color: "var(--t-muted)",
             backgroundColor: "transparent",
             height: "36px",
             lineHeight: "22px",

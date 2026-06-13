@@ -44,7 +44,7 @@ export default function CardSideBySide({
         />
         {discountPercent !== null && (
           <span
-            className={`absolute top-2 left-2 px-2 py-0.5 bg-[var(--t-badge-bg)] text-[var(--t-badge-text)] text-[11px] font-bold ${badgeClass}`}
+            className={`absolute top-2 left-2 px-2 py-0.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[11px] font-bold ${badgeClass}`}
           >
             -{discountPercent}%
           </span>
@@ -60,13 +60,13 @@ export default function CardSideBySide({
           className="bg-transparent border-none cursor-pointer p-0 text-left"
           onClick={onClick}
         >
-          <p className="text-sm font-medium text-[var(--t-text-primary)] leading-5 line-clamp-2">
+          <p className="text-sm font-medium text-[var(--t-foreground)] leading-5 line-clamp-2">
             {product.name}
           </p>
         </button>
 
         {product.description && (
-          <p className="text-xs text-[var(--t-text-secondary)] leading-4 line-clamp-2">
+          <p className="text-xs text-[var(--t-muted)] leading-4 line-clamp-2">
             {product.description}
           </p>
         )}

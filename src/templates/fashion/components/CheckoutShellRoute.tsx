@@ -139,7 +139,7 @@ function CheckoutShellInner({
       {/* Validation error toast */}
       {formError && (
         <div
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 text-sm font-medium bg-[var(--t-primary)] text-[var(--t-button-text)]"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 text-sm font-medium bg-[var(--t-primary)] text-[var(--t-on-primary)]"
           style={{
             fontFamily: "var(--font-sans, 'Inter', sans-serif)",
             maxWidth: "90vw",

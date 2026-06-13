@@ -153,7 +153,7 @@ export function CheckoutShellRoute({
     <>
       {formError && (
         <div
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg text-sm font-semibold shadow-lg bg-[var(--t-primary)] text-[var(--t-button-text)] max-w-[90vw]"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg text-sm font-semibold shadow-lg bg-[var(--t-primary)] text-[var(--t-on-primary)] max-w-[90vw]"
           role="alert"
           aria-live="assertive"
         >
@@ -163,9 +163,9 @@ export function CheckoutShellRoute({
       <CheckoutPage
         store={store}
         items={items}
-        navLinks={config.navLinks}
-        footerServices={config.footerServices}
-        footerAssistance={config.footerAssistance}
+        navLinks={config.content?.navLinks ?? []}
+        footerServices={config.content?.footerServices ?? []}
+        footerAssistance={config.content?.footerAssistance ?? []}
         currencySymbol={currencySymbol}
         activeTab="cart"
         cartItemCount={totalCartItems}

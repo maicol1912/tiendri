@@ -35,8 +35,8 @@ export function QuantityStepper({
           width: "24px",
           height: "24px",
           borderRadius: "50%",
-          backgroundColor: "var(--t-section-bg)",
-          border: "1px solid var(--t-border-input)",
+          backgroundColor: "var(--t-background)",
+          border: "1px solid var(--t-border)",
           cursor: "pointer",
         }}
         onClick={onDecrement}
@@ -47,7 +47,7 @@ export function QuantityStepper({
       <span
         className="text-xs font-semibold text-center"
         style={{
-          color: "var(--t-text-primary)",
+          color: "var(--t-foreground)",
           lineHeight: "20px",
           minWidth: "16px",
         }}

@@ -100,21 +100,11 @@ export interface ChromeTokens {
   dividerStyle?: DividerStyle;
 }
 
-export interface GeneClusterValues {
-  spatialArchitecture: string;
-  typographyPersonality: string;
-  imagePhilosophy: string;
-  navigationArchitecture: string;
-  decorationStrategy: string;
-  motionPersonality: string;
-}
-
 export interface StylePreset {
   id: string;
   name: string;
   description: string;
   targetStores: string[];
-  genes?: GeneClusterValues;
   typography: TypographyTokens;
   layout: LayoutTokens;
   cards: CardTokens;

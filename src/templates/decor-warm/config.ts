@@ -11,51 +11,19 @@ export const decorWarmConfig = {
   description: "Ideal para tiendas de muebles, decoración y hogar con estética cálida y acogedora",
 
   colors: {
-    primary: "#CC7861",
-    secondary: "#FAF0E6",
-    background: "#FFFFFF",
-    textPrimary: "#363130",
-    headerBg: "#FFFFFF",
-    sectionBg: "#FFFFFF",
-    cardBg: "#FFFFFF",
-    border: "#F0E8E4",
-    surface: "#FAF0E6",
-    searchBg: "#FFFFFF",
-    textMuted: "#A0A0A0",
-    textFooter: "#A0A0A0",
-    buttonBg: "#F4B5A4",
-    buttonText: "#CC7861",
-    footerBg: "#FFFFFF",
-    badgeBg: "#F4B5A4",
-    badgeText: "#CC7861",
-    navBorder: "#F0E8E4",
-    textSecondary: "#4B4544",
-    textSubtle: "#DCBEB6",
-    borderLight: "#F0E8E4",
-    borderInput: "#E8D8D4",
-    borderMid: "#E8D8D4",
-    ratingStar: "#CC7861",
-    ratingBarBg: "#F0E8E4",
-    paginationBg: "#FAF0E6",
-    textBreadcrumb: "#A0A0A0",
-    tabActive: "#CC7861",
-    categoryActiveBg: "#F4B5A4",
-    categoryActiveText: "#FFFFFF",
-    // Decor-warm specific tokens
-    peach: "#F4B5A4",
-    linen: "#FAF0E6",
-    darkBrown: "#391713",
-    darkMode: "#363130",
-    iconInactive: "#DCBEB6",
-    // Popular product card backgrounds
-    popularBg0: "#F6F6F6",
-    popularBg1: "#EAEAEA",
-    popularBg2: "#CDCDCD",
-    popularBg3: "#9A9A9A",
-    popularText0: "#000000",
-    popularText1: "#000000",
-    popularText2: "#000000",
-    popularText3: "#FFFFFF",
+    primary: '#CC7861',
+    secondary: '#FAF0E6',
+    background: '#FFFFFF',
+    foreground: '#363130',
+    card: '#FFFFFF',
+    border: '#F0E8E4',
+    muted: '#A0A0A0',
+    accent: '#CC7861',
+    onPrimary: '#FFFFFF',
+    // Template-specific extras — generate via buildCssVars
+    peach: '#F4B5A4',        // Best-seller card bg, header greeting, search icon bg, hero slides
+    darkMode: '#363130',     // Dark text for nav icons, labels, back buttons (alias for foreground)
+    iconInactive: '#A0A0A0', // Inactive nav icon color (alias for muted)
   },
 
   font: "Inter",
@@ -87,51 +55,13 @@ export const decorWarmConfig = {
   },
 
   layout: {
-    cardStyle: "flat" as const,
-    cardHoverEffect: "none" as const,
     cardImageRatio: "square" as const,
-    tabStyle: "underline" as const,
-    navStyle: "scroll" as const,
-    bannerHeight: "normal" as const,
-    headerStyle: "standard" as const,
-    footerStyle: "minimal" as const,
+    heroVariant: "carousel" as const,
+    cardVariant: "detailed" as const,
+    categoryVariant: "grid-icons" as const,
+    gridDensity: "standard" as const,
+    spacingDensity: "tight" as const,
   },
-
-  navLinks: [
-    { label: "Inicio", href: "/" },
-    { label: "Catálogo", href: "/catalogo" },
-    { label: "Buscar", href: "/buscar" },
-    { label: "Carrito", href: "/carrito" },
-  ],
-
-  footerServices: [
-    "Envíos a domicilio",
-    "Devoluciones gratis",
-    "Pago seguro",
-    "Atención al cliente",
-  ],
-
-  footerAssistance: [
-    "Preguntas frecuentes",
-    "Cómo comprar",
-    "Términos y condiciones",
-    "Política de privacidad",
-  ],
-
-  productTabs: [
-    { id: "new-arrival" as const, label: "Nuevos" },
-    { id: "bestseller" as const, label: "Más vendidos" },
-    { id: "featured" as const, label: "Destacados" },
-  ],
-
-  popularSearches: [
-    "Sillas",
-    "Mesas",
-    "Lámparas",
-    "Camas",
-    "Sofás",
-    "Decoración",
-  ],
 
   sections: [
     { id: "hero" as const, visible: true },

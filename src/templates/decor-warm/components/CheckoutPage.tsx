@@ -65,8 +65,8 @@ export function CheckoutPage({
       <div
         className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 py-3"
         style={{
-          backgroundColor: "var(--t-header-bg)",
-          borderBottom: "1px solid var(--t-nav-border)",
+          backgroundColor: "var(--t-background)",
+          borderBottom: "1px solid var(--t-border)",
         }}
       >
         <button
@@ -77,7 +77,7 @@ export function CheckoutPage({
             width: 38,
             height: 38,
             borderRadius: "50%",
-            backgroundColor: "var(--t-surface)",
+            backgroundColor: "var(--t-card)",
             border: "none",
             cursor: "pointer",
           }}
@@ -113,7 +113,7 @@ export function CheckoutPage({
         <div
           className="mt-6 lg:mt-0 lg:w-80 flex-shrink-0"
           style={{
-            backgroundColor: "var(--t-surface)",
+            backgroundColor: "var(--t-card)",
             borderRadius: "var(--t-radius-card)",
             padding: "16px",
           }}
@@ -158,7 +158,7 @@ export function CheckoutPage({
                   <p
                     className="line-clamp-1 m-0"
                     style={{
-                      color: "var(--t-text-secondary)",
+                      color: "var(--t-muted)",
                       fontFamily: "'Poppins', sans-serif",
                       fontSize: "12px",
                       fontWeight: 500,
@@ -169,7 +169,7 @@ export function CheckoutPage({
                   <p
                     className="m-0"
                     style={{
-                      color: "var(--t-text-muted)",
+                      color: "var(--t-muted)",
                       fontFamily: "'League Spartan', sans-serif",
                       fontSize: "11px",
                     }}

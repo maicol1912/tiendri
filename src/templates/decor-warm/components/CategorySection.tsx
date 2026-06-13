@@ -72,7 +72,7 @@ export function CategorySection({
           width: 66,
           height: 66,
           borderRadius: "var(--t-radius-category)",
-          backgroundColor: isActive ? "var(--t-peach)" : "var(--t-surface)",
+          backgroundColor: isActive ? "var(--t-peach)" : "var(--t-secondary)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -92,7 +92,7 @@ export function CategorySection({
       {/* Category name */}
       <span
         style={{
-          color: isActive ? "var(--t-primary)" : "var(--t-text-secondary)",
+          color: isActive ? "var(--t-primary)" : "var(--t-muted)",
           fontFamily: "'League Spartan', sans-serif",
           fontSize: "11px",
           fontWeight: isActive ? 500 : 400,

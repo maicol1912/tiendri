@@ -36,11 +36,11 @@ function FormField({
   const baseStyle: React.CSSProperties = {
     fontSize: "15px",
     fontWeight: 400,
-    color: "var(--t-text-primary)",
+    color: "var(--t-foreground)",
     backgroundColor: "var(--t-icon-pill-bg)",
     border: error
       ? "1.5px solid var(--t-primary)"
-      : "1.5px solid var(--t-border-input)",
+      : "1.5px solid var(--t-border)",
     borderRadius: "16px",
     padding: "12px 16px",
     width: "100%",
@@ -54,7 +54,7 @@ function FormField({
       <label
         htmlFor={id}
         className="text-[13px] font-semibold"
-        style={{ color: "var(--t-text-primary)", lineHeight: "18px" }}
+        style={{ color: "var(--t-foreground)", lineHeight: "18px" }}
       >
         {label}
         {required && (
@@ -102,19 +102,19 @@ export function CheckoutForm({ values, errors = {}, onChange }: CheckoutFormProp
     <div
       className="flex flex-col gap-0"
       style={{
-        backgroundColor: "var(--t-section-bg)",
+        backgroundColor: "var(--t-background)",
         borderRadius: "20px",
-        border: "1px solid var(--t-nav-border)",
+        border: "1px solid var(--t-border)",
       }}
     >
       <div
         className="px-5 pt-5 pb-3"
-        style={{ borderBottom: "1px solid var(--t-border-light)" }}
+        style={{ borderBottom: "1px solid var(--t-border)" }}
       >
-        <h2 className="text-base font-bold" style={{ color: "var(--t-text-primary)", margin: 0 }}>
+        <h2 className="text-base font-bold" style={{ color: "var(--t-foreground)", margin: 0 }}>
           Información de contacto
         </h2>
-        <p className="text-xs mt-1" style={{ color: "var(--t-text-muted)", margin: "4px 0 0 0" }}>
+        <p className="text-xs mt-1" style={{ color: "var(--t-muted)", margin: "4px 0 0 0" }}>
           Te contactaremos por WhatsApp para coordinar tu pedido
         </p>
       </div>
@@ -148,9 +148,9 @@ export function CheckoutForm({ values, errors = {}, onChange }: CheckoutFormProp
           error={errors.email}
           onChange={handleFieldChange}
         />
-        <div style={{ height: "1px", backgroundColor: "var(--t-border-light)", margin: "4px 0" }} />
+        <div style={{ height: "1px", backgroundColor: "var(--t-border)", margin: "4px 0" }} />
         <div>
-          <p className="text-[13px] font-bold" style={{ color: "var(--t-text-primary)", margin: "0 0 12px 0" }}>
+          <p className="text-[13px] font-bold" style={{ color: "var(--t-foreground)", margin: "0 0 12px 0" }}>
             Dirección de entrega
           </p>
           <FormField

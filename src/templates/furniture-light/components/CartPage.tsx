@@ -15,7 +15,7 @@ interface CartPageProps {
   store: FurnitureStoreInfo;
   items: FurnitureCartItem[];
   navLinks?: readonly { label: string; href: string }[];
-  layout?: { footerStyle?: string; buttonStyle?: string };
+  layout?: Record<string, unknown>;
   currencySymbol?: string;
   activeTab?: FurnitureNavTab;
   cartItemCount?: number;
@@ -63,7 +63,7 @@ export function CartPage({
 
       <main className="pt-[60px] lg:pt-[72px] pb-32 lg:pb-8 px-5 md:px-6 lg:px-8 lg:max-w-3xl lg:mx-auto">
         <h1
-          className="text-xl font-bold text-[var(--t-text-primary)] py-5"
+          className="text-xl font-bold text-[var(--t-foreground)] py-5"
           style={{ fontFamily: "var(--font-display, var(--font-sans, 'Inter', sans-serif))" }}
         >
           Mi carrito{cartItemCount > 0 && ` (${cartItemCount})`}
@@ -72,17 +72,17 @@ export function CartPage({
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center gap-4 py-20">
             <div
-              className="w-20 h-20 flex items-center justify-center bg-[var(--t-section-bg)]"
+              className="w-20 h-20 flex items-center justify-center bg-[var(--t-background)]"
               style={{ borderRadius: "var(--t-radius-card)" }}
             >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--t-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--t-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
             </div>
-            <p className="text-base font-semibold text-[var(--t-text-primary)]">Tu carrito está vacío</p>
-            <p className="text-sm text-[var(--t-text-muted)] text-center">Explorá los productos y agregá artículos a tu carrito</p>
+            <p className="text-base font-semibold text-[var(--t-foreground)]">Tu carrito está vacío</p>
+            <p className="text-sm text-[var(--t-muted)] text-center">Explorá los productos y agregá artículos a tu carrito</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3 mb-5">
@@ -106,7 +106,7 @@ export function CartPage({
             shipping={shipping}
             total={total}
             currencySymbol={currencySymbol}
-            buttonStyle={layout?.buttonStyle}
+            buttonStyle="filled"
             onCheckout={onCheckout}
             onContinueShopping={onContinueShopping}
           />
