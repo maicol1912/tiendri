@@ -1429,6 +1429,75 @@ export function ThemeCustomizer({
                   {/* ── GRID Y ESTRUCTURA ─────────────────────────────── */}
                   {id === "estructura" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <div>
+                        <label style={labelStyle}>Hero del inicio</label>
+                        <select
+                          value={config.layout?.heroVariant ?? "minimal"}
+                          onChange={(e) => updateLayout("heroVariant", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="full-width">Ancho completo</option>
+                          <option value="split">Dividido</option>
+                          <option value="contained">Contenido centrado</option>
+                          <option value="carousel">Carrusel</option>
+                          <option value="minimal">Minimalista</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={labelStyle}>Tarjeta de producto</label>
+                        <select
+                          value={config.layout?.cardVariant ?? "detailed"}
+                          onChange={(e) => updateLayout("cardVariant", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="minimal">Minimalista</option>
+                          <option value="detailed">Detallado</option>
+                          <option value="overlay">Superpuesto</option>
+                          <option value="horizontal">Horizontal</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={labelStyle}>Categorías</label>
+                        <select
+                          value={config.layout?.categoryVariant ?? "horizontal-scroll"}
+                          onChange={(e) => updateLayout("categoryVariant", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="grid-icons">Grilla de íconos</option>
+                          <option value="horizontal-scroll">Scroll horizontal</option>
+                          <option value="cards-with-image">Tarjetas con imagen</option>
+                          <option value="text-list">Lista de texto</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={labelStyle}>Densidad del catálogo</label>
+                        <select
+                          value={config.layout?.gridDensity ?? "standard"}
+                          onChange={(e) => updateLayout("gridDensity", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="compact">Compacto</option>
+                          <option value="standard">Estándar</option>
+                          <option value="spacious">Espacioso</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={labelStyle}>Espaciado entre secciones</label>
+                        <select
+                          value={config.layout?.spacingDensity ?? "normal"}
+                          onChange={(e) => updateLayout("spacingDensity", e.target.value)}
+                          style={selectStyle}
+                        >
+                          <option value="tight">Compacto</option>
+                          <option value="normal">Normal</option>
+                          <option value="airy">Espacioso</option>
+                        </select>
+                      </div>
+
                       {/* Density */}
                       <ControlField
                         label="Espaciado general"

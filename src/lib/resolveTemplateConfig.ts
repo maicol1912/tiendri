@@ -192,6 +192,31 @@ export function resolveTemplateConfig(
     schema?.theme.palettes,
   );
 
+  // ── gridDensity → grid override ──────────────────────────────────────────
+  // Applies AFTER the shallow merge so the density setting overrides both the
+  // template default and any explicit merchant grid overrides. Components that
+  // call gridColsClass(config.grid.products.mobile, …) pick this up for free.
+  const mergedGrid = {
+    ...template.grid,
+    ...customization.layout?.grid,
+  } as TemplateGridConfig;
+  const gridDensity = customization.layout?.layout?.gridDensity ?? 'standard';
+  const GRID_DENSITY_MAP: Record<string, { mobile: number; desktop: number }> = {
+    compact:  { mobile: 3, desktop: 5 },
+    standard: { mobile: 2, desktop: 4 },
+    spacious: { mobile: 1, desktop: 3 },
+  };
+  const gridOverride = GRID_DENSITY_MAP[gridDensity];
+  let resolvedGrid: TemplateGridConfig = mergedGrid;
+  if (gridOverride) {
+    resolvedGrid = {
+      ...mergedGrid,
+      products:   { ...mergedGrid.products,   mobile: gridOverride.mobile, desktop: gridOverride.desktop },
+      categories: { ...mergedGrid.categories, mobile: Math.min(gridOverride.mobile + 1, 4), desktop: Math.min(gridOverride.desktop + 2, 8) },
+      listing:    { ...mergedGrid.listing,    mobile: gridOverride.mobile, desktop: gridOverride.desktop },
+    } as TemplateGridConfig;
+  }
+
   return {
     ...template,
     // Appearance / theme tokens — 3-layer merge: defaults → palette → overrides
@@ -202,7 +227,7 @@ export function resolveTemplateConfig(
     } as TemplateColorTokens,
     radius: { ...template.radius, ...customization.theme?.radius } as TemplateRadiusTokens,
     // Layout / grid tokens
-    grid: { ...template.grid, ...customization.layout?.grid } as TemplateGridConfig,
+    grid: resolvedGrid,
     layout: { ...template.layout, ...customization.layout?.layout } as TemplateLayoutConfig,
     sections: customization.layout?.sections ?? template.sections,
     // Merchant identity / content / business

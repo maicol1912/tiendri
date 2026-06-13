@@ -345,6 +345,26 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars["--t-space-item"]    = spacing.item;
   vars["--t-space-gap"]     = spacing.gap;
 
+  // spacingDensity — overrides the layoutDensity values above so the merchant
+  // fine-tune control wins over the coarser preset-level density setting.
+  // Writes to the SAME --t-space-* vars that components already consume.
+  const spacingDensity = config.layout?.spacingDensity ?? 'normal';
+  const spacingDensityMap: Record<string, Record<string, string>> = {
+    tight:  { section: '1.5rem', card: '0.5rem',  item: '0.375rem', gap: '0.5rem'  },
+    normal: { section: '2.5rem', card: '1rem',    item: '0.75rem',  gap: '1rem'    },
+    airy:   { section: '4rem',   card: '1.5rem',  item: '1rem',     gap: '1.5rem'  },
+  };
+  const sd = spacingDensityMap[spacingDensity] ?? spacingDensityMap['normal'];
+  vars['--t-space-section'] = sd.section;
+  vars['--t-space-card']    = sd.card;
+  vars['--t-space-item']    = sd.item;
+  vars['--t-space-gap']     = sd.gap;
+
+  // structural variants (passed as CSS vars for components to read)
+  vars['--t-hero-variant'] = config.layout?.heroVariant ?? 'minimal';
+  vars['--t-card-variant'] = config.layout?.cardVariant ?? 'detailed';
+  vars['--t-category-variant'] = config.layout?.categoryVariant ?? 'horizontal-scroll';
+
   // ── Effect tokens → --t-fx-* ──────────────────────────────────────────────
   // Motion/interaction personality tokens. Read from config.effects (assembled
   // by resolveTemplateConfig from preset-applied layout fields) and falling back
