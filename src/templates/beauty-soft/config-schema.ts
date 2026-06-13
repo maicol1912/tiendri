@@ -227,43 +227,6 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "heroVariant",
-                type: "select" as const,
-                label: "Estilo del banner principal",
-                description: "Cambia la estructura visual del banner hero",
-                options: [
-                  { value: "full-width", label: "Ancho completo" },
-                  { value: "split", label: "Dividido (texto + imagen)" },
-                  { value: "contained", label: "Contenido centrado" },
-                  { value: "carousel", label: "Carrusel de slides" },
-                  { value: "minimal", label: "Minimalista" },
-                ],
-              },
-              {
-                key: "cardVariant",
-                type: "select" as const,
-                label: "Estilo de tarjeta de producto",
-                description: "Cambia cómo se muestran los productos en el catálogo",
-                options: [
-                  { value: "minimal", label: "Minimalista (imagen + nombre + precio)" },
-                  { value: "detailed", label: "Detallado (con rating, badges, botón)" },
-                  { value: "overlay", label: "Superpuesto (info sobre la imagen)" },
-                  { value: "horizontal", label: "Horizontal (imagen + info lado a lado)" },
-                ],
-              },
-              {
-                key: "categoryVariant",
-                type: "select" as const,
-                label: "Estilo de categorías",
-                description: "Cambia cómo se muestran las categorías en el inicio",
-                options: [
-                  { value: "grid-icons", label: "Grilla de íconos" },
-                  { value: "horizontal-scroll", label: "Scroll horizontal" },
-                  { value: "cards-with-image", label: "Tarjetas con imagen" },
-                  { value: "text-list", label: "Lista de texto" },
-                ],
-              },
-              {
                 key: "gridDensity",
                 type: "select" as const,
                 label: "Densidad del catálogo",

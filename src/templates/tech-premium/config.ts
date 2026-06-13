@@ -59,11 +59,15 @@ export const techPremiumConfig = {
   // Default values reproduce the original Figma design exactly.
   layout: {
     cardImageRatio: "square" as const, // "square" | "portrait" | "wide"
-    heroVariant: "contained" as const,
-    cardVariant: "detailed" as const,
-    categoryVariant: "grid-icons" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'contained' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   // Home page sections — order determines render order, visible toggles show/hide.

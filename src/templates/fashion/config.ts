@@ -62,11 +62,15 @@ export const fashionConfig = {
   // Layout options — fashion-forward visual style
   layout: {
     cardImageRatio: "portrait" as const,   // 3:4 — standard fashion product shot
-    heroVariant: "split" as const,
-    cardVariant: "minimal" as const,
-    categoryVariant: "horizontal-scroll" as const,
     gridDensity: "compact" as const,
     spacingDensity: "airy" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'split' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   // Home page sections — fashion layout

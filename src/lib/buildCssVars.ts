@@ -108,7 +108,8 @@ const ANIMATION_ENTER_DURATION: Record<AnimationLevel, string> = {
 
 function buildEffectVars(effects: EffectTokens): Record<string, string> {
   const defaults = DEFAULT_PRESET_VALUES.effects;
-  const level: AnimationLevel = effects.animationLevel ?? (defaults.animationLevel as AnimationLevel);
+  // animationLevel removed from preset system — use "subtle" as fixed default
+  const level: AnimationLevel = "subtle";
   const speed: TransitionSpeed = effects.transitionSpeed ?? (defaults.transitionSpeed as TransitionSpeed);
   const easing: TransitionEasing = effects.transitionEasing ?? (defaults.transitionEasing as TransitionEasing);
   const elevation: ShadowElevation = effects.shadowElevation ?? (defaults.shadowElevation as ShadowElevation);
@@ -359,11 +360,6 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars['--t-space-card']    = sd.card;
   vars['--t-space-item']    = sd.item;
   vars['--t-space-gap']     = sd.gap;
-
-  // structural variants (passed as CSS vars for components to read)
-  vars['--t-hero-variant'] = config.layout?.heroVariant ?? 'minimal';
-  vars['--t-card-variant'] = config.layout?.cardVariant ?? 'detailed';
-  vars['--t-category-variant'] = config.layout?.categoryVariant ?? 'horizontal-scroll';
 
   // ── Effect tokens → --t-fx-* ──────────────────────────────────────────────
   // Motion/interaction personality tokens. Read from config.effects (assembled

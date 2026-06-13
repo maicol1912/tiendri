@@ -50,11 +50,15 @@ export const foodNightConfig = {
 
   layout: {
     cardImageRatio: "portrait" as const,
-    heroVariant: "minimal" as const,
-    cardVariant: "detailed" as const,
-    categoryVariant: "horizontal-scroll" as const,
     gridDensity: "compact" as const,
     spacingDensity: "tight" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'text-only' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   sections: [

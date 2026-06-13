@@ -56,11 +56,15 @@ export const decorWarmConfig = {
 
   layout: {
     cardImageRatio: "square" as const,
-    heroVariant: "carousel" as const,
-    cardVariant: "detailed" as const,
-    categoryVariant: "grid-icons" as const,
     gridDensity: "standard" as const,
     spacingDensity: "tight" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'full-bleed' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   sections: [

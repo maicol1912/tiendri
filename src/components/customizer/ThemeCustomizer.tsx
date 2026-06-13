@@ -111,6 +111,8 @@ export interface MutableGrid {
 export interface MutableLayout {
   // Fields in TemplateLayoutConfig
   cardImageRatio: string;
+  gridDensity: string;
+  spacingDensity: string;
   shadowElevation: string;
   transitionSpeed: string;
   transitionEasing: string;
@@ -121,20 +123,6 @@ export interface MutableLayout {
   imageHoverEffect: string;
   cardBorderTreatment: string;
   cardPadding: string;
-  // Preset-managed fields (not in TemplateLayoutConfig, stored at runtime)
-  cardStyle: string;
-  cardHoverEffect: string;
-  animationLevel: string;
-  shadowStyle: string;
-  headerStyle: string;
-  bannerHeight: string;
-  buttonStyle: string;
-  badgeStyle: string;
-  priceDisplay: string;
-  // Legacy template-specific fields (still used by per-template layout options)
-  tabStyle: string;
-  navStyle: string;
-  footerStyle: string;
   [key: string]: string;
 }
 
@@ -210,19 +198,13 @@ function buildPresetSnapshot(config: MutableConfig, activePresetId?: string): Pa
     layout: {
       density: config.layoutDensity as StylePreset["layout"]["density"],
       cardImageRatio: config.layout.cardImageRatio as StylePreset["layout"]["cardImageRatio"],
-      headerStyle: config.layout.headerStyle as StylePreset["layout"]["headerStyle"],
-      bannerHeight: config.layout.bannerHeight as StylePreset["layout"]["bannerHeight"],
       gridColumnsMobile: (config.gridColumnsMobile ?? 2) as StylePreset["layout"]["gridColumnsMobile"],
     },
     cards: {
-      cardStyle: config.layout.cardStyle as StylePreset["cards"]["cardStyle"],
-      cardHover: config.layout.cardHoverEffect as StylePreset["cards"]["cardHover"],
       imageFit: config.layout.imageFit as StylePreset["cards"]["imageFit"],
       imageBorderRadius: config.layout.imageBorderRadius as StylePreset["cards"]["imageBorderRadius"],
     },
     effects: {
-      animationLevel: config.layout.animationLevel as StylePreset["effects"]["animationLevel"],
-      shadowStyle: config.layout.shadowStyle as StylePreset["effects"]["shadowStyle"],
       shadowElevation: config.layout.shadowElevation as StylePreset["effects"]["shadowElevation"],
       transitionSpeed: config.layout.transitionSpeed as StylePreset["effects"]["transitionSpeed"],
       transitionEasing: config.layout.transitionEasing as StylePreset["effects"]["transitionEasing"],
@@ -234,9 +216,6 @@ function buildPresetSnapshot(config: MutableConfig, activePresetId?: string): Pa
       accentDistribution: config.theme?.color?.accentDistribution as StylePreset["color"]["accentDistribution"],
     },
     chrome: {
-      buttonStyle: config.layout.buttonStyle as StylePreset["chrome"]["buttonStyle"],
-      badgeStyle: config.layout.badgeStyle as StylePreset["chrome"]["badgeStyle"],
-      priceDisplay: config.layout.priceDisplay as StylePreset["chrome"]["priceDisplay"],
       borderRadiusScale: config.layout.borderRadiusScale as StylePreset["chrome"]["borderRadiusScale"],
     },
   };
@@ -649,21 +628,29 @@ export function ThemeCustomizer({
       setActivePresetId(presetId);
       onConfigChange({
         ...config,
-        layout: {
-          ...config.layout,
-          cardStyle: preset.cards.cardStyle ?? "elevated",
-          cardHoverEffect: preset.cards.cardHover ?? "lift",
-          cardImageRatio: preset.layout.cardImageRatio ?? "square",
-          animationLevel: preset.effects.animationLevel ?? "subtle",
-          shadowStyle: preset.effects.shadowStyle ?? "neutral",
-          headerStyle: preset.layout.headerStyle ?? "standard",
-          bannerHeight: preset.layout.bannerHeight ?? "normal",
-          buttonStyle: preset.chrome.buttonStyle ?? "filled",
-          badgeStyle: preset.chrome.badgeStyle ?? "pill",
-          priceDisplay: preset.chrome.priceDisplay ?? "standard",
-        },
         layoutDensity: preset.layout.density,
         fontPair: preset.typography.fontPair,
+        gridColumnsMobile: preset.layout.gridColumnsMobile ?? config.gridColumnsMobile,
+        gridColumnsDesktop: preset.layout.gridColumnsDesktop ?? config.gridColumnsDesktop,
+        containerMaxWidth: preset.layout.containerMaxWidth ?? config.containerMaxWidth,
+        layout: {
+          ...config.layout,
+          // Layout fields
+          cardImageRatio: preset.layout.cardImageRatio ?? config.layout.cardImageRatio,
+          cardPadding: preset.layout.cardPadding ?? config.layout.cardPadding,
+          // Effect fields
+          shadowElevation: preset.effects.shadowElevation ?? config.layout.shadowElevation,
+          transitionSpeed: preset.effects.transitionSpeed ?? config.layout.transitionSpeed,
+          transitionEasing: preset.effects.transitionEasing ?? config.layout.transitionEasing,
+          // Card fields
+          imageFit: preset.cards.imageFit ?? config.layout.imageFit,
+          imageBorderRadius: preset.cards.imageBorderRadius ?? config.layout.imageBorderRadius,
+          imageHoverEffect: preset.cards.imageHoverEffect ?? config.layout.imageHoverEffect,
+          cardBorderTreatment: preset.cards.cardBorderTreatment ?? config.layout.cardBorderTreatment,
+          // Chrome fields
+          borderRadiusScale: preset.chrome.borderRadiusScale ?? config.layout.borderRadiusScale,
+          dividerStyle: preset.chrome.dividerStyle ?? config.layout.dividerStyle,
+        },
         theme: {
           ...config.theme,
           typography: {
@@ -677,6 +664,14 @@ export function ThemeCustomizer({
             bodyLineHeight: preset.typography.bodyLineHeight ?? "normal",
             displaySize: preset.typography.displaySize ?? "lg",
             cardTextAlign: preset.typography.cardTextAlign ?? "left",
+          },
+          // Color strategy
+          color: {
+            colorStrategy: preset.color.colorStrategy ?? config.theme?.color?.colorStrategy ?? "accent-pop",
+            backgroundTreatment: preset.color.backgroundTreatment ?? config.theme?.color?.backgroundTreatment ?? "solid",
+            cardBackground: preset.color.cardBackground ?? config.theme?.color?.cardBackground ?? "white",
+            imageOverlayHover: preset.color.imageOverlayHover ?? config.theme?.color?.imageOverlayHover ?? "none",
+            accentDistribution: preset.color.accentDistribution ?? config.theme?.color?.accentDistribution ?? "badges-and-buttons",
           },
         },
       });
@@ -1352,21 +1347,6 @@ export function ThemeCustomizer({
                       </div>
 
                       <ControlField
-                        label="Estilo de tarjeta"
-                        field="cards.cardStyle"
-                        value={config.layout.cardStyle ?? "elevated"}
-                        options={[
-                          { value: "flat", label: "Plana" },
-                          { value: "shadow", label: "Con sombra" },
-                          { value: "bordered", label: "Con borde" },
-                          { value: "elevated", label: "Elevada" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("cardStyle", v)}
-                      />
-
-                      <ControlField
                         label="Tratamiento del borde"
                         field="cards.cardBorderTreatment"
                         value={config.layout.cardBorderTreatment ?? "none"}
@@ -1411,67 +1391,12 @@ export function ThemeCustomizer({
                         </select>
                       </div>
 
-                      <ControlField
-                        label="Forma de etiquetas"
-                        field="chrome.badgeStyle"
-                        value={config.layout.badgeStyle ?? "pill"}
-                        options={[
-                          { value: "pill", label: "Redondeada" },
-                          { value: "square", label: "Cuadrada" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("badgeStyle", v)}
-                      />
                     </div>
                   )}
 
                   {/* ── GRID Y ESTRUCTURA ─────────────────────────────── */}
                   {id === "estructura" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <div>
-                        <label style={labelStyle}>Hero del inicio</label>
-                        <select
-                          value={config.layout?.heroVariant ?? "minimal"}
-                          onChange={(e) => updateLayout("heroVariant", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="full-width">Ancho completo</option>
-                          <option value="split">Dividido</option>
-                          <option value="contained">Contenido centrado</option>
-                          <option value="carousel">Carrusel</option>
-                          <option value="minimal">Minimalista</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label style={labelStyle}>Tarjeta de producto</label>
-                        <select
-                          value={config.layout?.cardVariant ?? "detailed"}
-                          onChange={(e) => updateLayout("cardVariant", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="minimal">Minimalista</option>
-                          <option value="detailed">Detallado</option>
-                          <option value="overlay">Superpuesto</option>
-                          <option value="horizontal">Horizontal</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label style={labelStyle}>Categorías</label>
-                        <select
-                          value={config.layout?.categoryVariant ?? "horizontal-scroll"}
-                          onChange={(e) => updateLayout("categoryVariant", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="grid-icons">Grilla de íconos</option>
-                          <option value="horizontal-scroll">Scroll horizontal</option>
-                          <option value="cards-with-image">Tarjetas con imagen</option>
-                          <option value="text-list">Lista de texto</option>
-                        </select>
-                      </div>
-
                       <div>
                         <label style={labelStyle}>Densidad del catálogo</label>
                         <select
@@ -1600,36 +1525,6 @@ export function ThemeCustomizer({
                         onChange={(v) => updateLayout("imageFit", v)}
                       />
 
-                      {/* Header style */}
-                      <div>
-                        <label style={labelStyle}>Estilo del encabezado</label>
-                        <select
-                          value={config.layout.headerStyle ?? "standard"}
-                          onChange={(e) => updateLayout("headerStyle", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="standard">Estándar</option>
-                          <option value="centered">Centrado</option>
-                          <option value="minimal">Mínimal</option>
-                        </select>
-                      </div>
-
-                      {/* Banner height — hidden when heroVariant is text-only */}
-                      {!isFieldHidden("layout.bannerHeight", hardRules) && (
-                        <div>
-                          <label style={labelStyle}>Altura del banner</label>
-                          <select
-                            value={config.layout.bannerHeight ?? "normal"}
-                            onChange={(e) => updateLayout("bannerHeight", e.target.value)}
-                            style={selectStyle}
-                          >
-                            <option value="short">Corto</option>
-                            <option value="normal">Normal</option>
-                            <option value="tall">Alto</option>
-                          </select>
-                        </div>
-                      )}
-
                       {/* Grid fields (legacy template-provided) */}
                       {gridFields.length > 0 && (
                         <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px" }}>
@@ -1667,32 +1562,6 @@ export function ThemeCustomizer({
                   {/* ── EFECTOS ───────────────────────────────────────── */}
                   {id === "efectos" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <ControlField
-                        label="Nivel de animaciones"
-                        field="effects.animationLevel"
-                        value={config.layout.animationLevel ?? "subtle"}
-                        options={[
-                          { value: "none", label: "Sin animaciones" },
-                          { value: "subtle", label: "Sutiles" },
-                          { value: "full", label: "Completas" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("animationLevel", v)}
-                      />
-
-                      <div>
-                        <label style={labelStyle}>Estilo de sombras</label>
-                        <select
-                          value={config.layout.shadowStyle ?? "neutral"}
-                          onChange={(e) => updateLayout("shadowStyle", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="neutral">Neutral</option>
-                          <option value="hue-tinted">Tintada con color</option>
-                        </select>
-                      </div>
-
                       <ControlField
                         label="Elevación de sombra"
                         field="effects.shadowElevation"
@@ -1742,21 +1611,6 @@ export function ThemeCustomizer({
                         </div>
                       )}
 
-                      <ControlField
-                        label="Efecto hover de tarjeta"
-                        field="cards.cardHover"
-                        value={config.layout.cardHoverEffect ?? "lift"}
-                        options={[
-                          { value: "none", label: "Sin efecto" },
-                          { value: "lift", label: "Elevar" },
-                          { value: "scale", label: "Escalar" },
-                          { value: "glow", label: "Brillo" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("cardHoverEffect", v)}
-                      />
-
                       <div>
                         <label style={labelStyle}>Efecto hover de imagen</label>
                         <select
@@ -1794,7 +1648,7 @@ export function ThemeCustomizer({
 
                       <ControlField
                         label="Estilo del héroe"
-                        field="layout.heroVariant"
+                        field="structural.heroVariant"
                         value={config.structural?.heroVariant ?? "full-bleed"}
                         options={[
                           { value: "full-bleed", label: "Pantalla completa" },
@@ -1834,34 +1688,6 @@ export function ThemeCustomizer({
                         hardRules={hardRules}
                         softWarnings={softWarnings}
                         onChange={(v) => updateStructural("addToCartStyle", v)}
-                      />
-
-                      <ControlField
-                        label="Estilo de botones"
-                        field="chrome.buttonStyle"
-                        value={config.layout.buttonStyle ?? "filled"}
-                        options={[
-                          { value: "filled", label: "Relleno" },
-                          { value: "outlined", label: "Con borde" },
-                          { value: "ghost", label: "Fantasma" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("buttonStyle", v)}
-                      />
-
-                      <ControlField
-                        label="Prominencia del precio"
-                        field="chrome.priceDisplay"
-                        value={config.layout.priceDisplay ?? "standard"}
-                        options={[
-                          { value: "prominent", label: "Destacado" },
-                          { value: "standard", label: "Estándar" },
-                          { value: "subtle", label: "Sutil" },
-                        ]}
-                        hardRules={hardRules}
-                        softWarnings={softWarnings}
-                        onChange={(v) => updateLayout("priceDisplay", v)}
                       />
 
                       {/* Template-specific layout options */}

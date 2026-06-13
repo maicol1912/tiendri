@@ -108,16 +108,16 @@ function cloneConfig(cfg: AnyTemplateConfig): MutableConfig {
 // ── Tech Premium field metadata ───────────────────────────────────────────────
 
 const TECH_PREMIUM_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (botones, enlaces)" },
-  { key: "secondary", label: "Color secundario (fondos oscuros)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas de producto" },
-  { key: "surface", label: "Fondo de categorías" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-  { key: "textMuted", label: "Texto secundario" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "footerBg", label: "Fondo del footer" },
 ];
 
 const TECH_PREMIUM_GRID_FIELDS: CustomizerGridField[] = [
@@ -145,68 +145,12 @@ const TECH_PREMIUM_GRID_FIELDS: CustomizerGridField[] = [
 
 const TECH_PREMIUM_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "square", label: "Cuadrada" },
       { value: "portrait", label: "Vertical" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "tabStyle",
-    label: "Estilo de pestañas",
-    options: [
-      { value: "underline", label: "Subrayado" },
-      { value: "pills", label: "Botones redondeados" },
-      { value: "bordered", label: "Con borde" },
-    ],
-  },
-  {
-    key: "bannerHeight",
-    label: "Altura del banner promocional",
-    options: [
-      { value: "short", label: "Bajo" },
-      { value: "normal", label: "Normal" },
-      { value: "tall", label: "Alto" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "columns", label: "En columnas" },
-      { value: "minimal", label: "Mínimo" },
-      { value: "centered", label: "Centrado" },
     ],
   },
 ];
@@ -224,16 +168,16 @@ const TECH_PREMIUM_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Fashion field metadata ────────────────────────────────────────────────────
 
 const FASHION_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal" },
+  { key: "primary", label: "Color primario" },
   { key: "secondary", label: "Color secundario" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "buttonBg", label: "Fondo del botón" },
 ];
 
 const FASHION_GRID_FIELDS: CustomizerGridField[] = [
@@ -261,58 +205,12 @@ const FASHION_GRID_FIELDS: CustomizerGridField[] = [
 
 const FASHION_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "square", label: "Cuadrada" },
       { value: "portrait", label: "Vertical" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "tabStyle",
-    label: "Estilo de pestañas",
-    options: [
-      { value: "underline", label: "Subrayado" },
-      { value: "pills", label: "Botones redondeados" },
-      { value: "bordered", label: "Con borde" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "columns", label: "En columnas" },
-      { value: "minimal", label: "Mínimo" },
-      { value: "centered", label: "Centrado" },
     ],
   },
 ];
@@ -326,16 +224,17 @@ const FASHION_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Furniture Dark field metadata ─────────────────────────────────────────────
 
 const FURNITURE_DARK_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (amarillo)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas de producto" },
-  { key: "surface", label: "Fondo de superficies oscuras" },
+  { key: "primary", label: "Color primario" },
   { key: "secondary", label: "Color secundario" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "categoryActiveBg", label: "Categoría activa (fondo)" },
+  { key: "categoryActiveText", label: "Categoría activa (texto)" },
 ];
 
 const FURNITURE_DARK_GRID_FIELDS: CustomizerGridField[] = [
@@ -348,41 +247,12 @@ const FURNITURE_DARK_GRID_FIELDS: CustomizerGridField[] = [
 
 const FURNITURE_DARK_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "square", label: "Cuadrada" },
       { value: "portrait", label: "Vertical" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "bannerHeight",
-    label: "Altura del banner de categoría",
-    options: [
-      { value: "short", label: "Bajo" },
-      { value: "normal", label: "Normal" },
-      { value: "tall", label: "Alto" },
     ],
   },
 ];
@@ -398,16 +268,18 @@ const FURNITURE_DARK_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Beauty Soft field metadata ────────────────────────────────────────────────
 
 const BEAUTY_SOFT_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (coral)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "sectionBg", label: "Fondo de secciones" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "iconPillBg", label: "Fondo íconos" },
+  { key: "discountBg", label: "Fondo descuento" },
+  { key: "discountText", label: "Texto descuento" },
 ];
 
 const BEAUTY_SOFT_GRID_FIELDS: CustomizerGridField[] = [
@@ -425,47 +297,11 @@ const BEAUTY_SOFT_GRID_FIELDS: CustomizerGridField[] = [
 
 const BEAUTY_SOFT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "square", label: "Cuadrada" },
       { value: "portrait", label: "Vertical" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "minimal", label: "Mínimo" },
-      { value: "columns", label: "En columnas" },
-      { value: "centered", label: "Centrado" },
     ],
   },
 ];
@@ -479,16 +315,19 @@ const BEAUTY_SOFT_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Beauty Elegant field metadata ────────────────────────────────────────────
 
 const BEAUTY_ELEGANT_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (púrpura)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "sectionBg", label: "Fondo de secciones" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "bottomNavBg", label: "Fondo nav inferior" },
+  { key: "discountBg", label: "Fondo descuento" },
+  { key: "discountText", label: "Texto descuento" },
+  { key: "reviewBg", label: "Fondo reseñas" },
 ];
 
 const BEAUTY_ELEGANT_GRID_FIELDS: CustomizerGridField[] = [
@@ -516,50 +355,12 @@ const BEAUTY_ELEGANT_GRID_FIELDS: CustomizerGridField[] = [
 
 const BEAUTY_ELEGANT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "portrait", label: "Vertical" },
       { value: "square", label: "Cuadrada" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "minimal", label: "Mínimo" },
-      { value: "columns", label: "En columnas" },
-      { value: "centered", label: "Centrado" },
     ],
   },
 ];
@@ -573,15 +374,17 @@ const BEAUTY_ELEGANT_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Decor Warm field metadata ─────────────────────────────────────────────────
 
 const DECOR_WARM_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (terracota)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "surface", label: "Fondo linen (imágenes)" },
-  { key: "peach", label: "Color melocotón (acentos)" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "textSecondary", label: "Texto secundario" },
-  { key: "textMuted", label: "Texto suave" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "peach", label: "Color melocotón" },
+  { key: "iconInactive", label: "Íconos inactivos" },
 ];
 
 const DECOR_WARM_GRID_FIELDS: CustomizerGridField[] = [
@@ -604,25 +407,6 @@ const DECOR_WARM_GRID_FIELDS: CustomizerGridField[] = [
 
 const DECOR_WARM_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
@@ -643,16 +427,19 @@ const DECOR_WARM_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Food Night field metadata ─────────────────────────────────────────────────
 
 const FOOD_NIGHT_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (CTA, activos)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
-  { key: "ratingStar", label: "Color de estrellas" },
-  { key: "badgeBg", label: "Color del badge de carrito" },
-  { key: "footerBg", label: "Fondo del pie de página" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
+  { key: "border", label: "Color de bordes" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "buttonBg", label: "Fondo del botón" },
+  { key: "categoryActiveBg", label: "Categoría activa (fondo)" },
+  { key: "borderLight", label: "Borde claro" },
+  { key: "navBorder", label: "Borde de navegación" },
 ];
 
 const FOOD_NIGHT_GRID_FIELDS: CustomizerGridField[] = [
@@ -675,50 +462,12 @@ const FOOD_NIGHT_GRID_FIELDS: CustomizerGridField[] = [
 
 const FOOD_NIGHT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "portrait", label: "Vertical" },
       { value: "square", label: "Cuadrada" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "minimal", label: "Mínimo" },
-      { value: "columns", label: "En columnas" },
-      { value: "centered", label: "Centrado" },
     ],
   },
 ];
@@ -731,18 +480,17 @@ const FOOD_NIGHT_SECTION_LABELS: CustomizerSectionLabel[] = [
 // ── Furniture Light field metadata ────────────────────────────────────────────
 
 const FURNITURE_LIGHT_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (naranja)" },
-  { key: "secondary", label: "Color secundario (navy)" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
+  { key: "primary", label: "Color primario" },
+  { key: "secondary", label: "Color secundario" },
+  { key: "background", label: "Fondo de página" },
+  { key: "foreground", label: "Color del texto" },
+  { key: "card", label: "Fondo de tarjetas" },
   { key: "border", label: "Color de bordes" },
-  { key: "bookmarkBg", label: "Color del marcador (teal)" },
+  { key: "muted", label: "Texto secundario" },
+  { key: "accent", label: "Color de acento" },
+  { key: "onPrimary", label: "Texto sobre primario" },
+  { key: "bookmarkBg", label: "Fondo guardado" },
+  { key: "walletBg", label: "Fondo monedero" },
 ];
 
 const FURNITURE_LIGHT_GRID_FIELDS: CustomizerGridField[] = [
@@ -754,48 +502,12 @@ const FURNITURE_LIGHT_GRID_FIELDS: CustomizerGridField[] = [
 
 const FURNITURE_LIGHT_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
   {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-    ],
-  },
-  {
     key: "cardImageRatio",
     label: "Forma de las imágenes",
     options: [
       { value: "square", label: "Cuadrada" },
       { value: "portrait", label: "Vertical" },
       { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "minimal", label: "Mínimo" },
-      { value: "columns", label: "En columnas" },
     ],
   },
 ];

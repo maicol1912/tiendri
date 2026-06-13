@@ -6,16 +6,7 @@
 import type {
   FontPairKey,
   DensityPreset,
-  CardStyle,
-  CardHover,
   CardImageRatio,
-  AnimationLevel,
-  ShadowStyle,
-  HeaderStyle,
-  BannerHeight,
-  ButtonStyle,
-  BadgeStyle,
-  PriceDisplay,
   ShadowElevation,
   TransitionSpeed,
   TransitionEasing,
@@ -63,13 +54,9 @@ export interface LayoutTokens {
   containerMaxWidth?: ContainerMaxWidth;
   cardImageRatio?: CardImageRatio;
   cardPadding?: CardPadding;
-  headerStyle?: HeaderStyle;
-  bannerHeight?: BannerHeight;
 }
 
 export interface CardTokens {
-  cardStyle?: CardStyle;
-  cardHover?: CardHover;
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;
@@ -77,8 +64,6 @@ export interface CardTokens {
 }
 
 export interface EffectTokens {
-  animationLevel?: AnimationLevel;
-  shadowStyle?: ShadowStyle;
   shadowElevation?: ShadowElevation;
   transitionSpeed?: TransitionSpeed;
   transitionEasing?: TransitionEasing;
@@ -93,9 +78,6 @@ export interface ColorTokens {
 }
 
 export interface ChromeTokens {
-  buttonStyle?: ButtonStyle;
-  badgeStyle?: BadgeStyle;
-  priceDisplay?: PriceDisplay;
   borderRadiusScale?: BorderRadiusScale;
   dividerStyle?: DividerStyle;
 }

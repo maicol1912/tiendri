@@ -64,11 +64,15 @@ export const beautyElegantConfig = {
 
   layout: {
     cardImageRatio: "portrait" as const,
-    heroVariant: "minimal" as const,
-    cardVariant: "detailed" as const,
-    categoryVariant: "text-list" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'text-only' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   sections: [

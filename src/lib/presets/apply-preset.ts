@@ -73,47 +73,27 @@ export function applyPreset(
       structuralVariants: {
         ...current.layout?.structuralVariants,
       },
-      // layout.layout is typed as Partial<TemplateLayoutConfig>.
-      // Some preset-managed fields (cardStyle, cardHoverEffect, animationLevel,
-      // shadowStyle, headerStyle, bannerHeight, buttonStyle, badgeStyle,
-      // priceDisplay) have been removed from TemplateLayoutConfig — they now
-      // live exclusively in the preset system and flow through resolveTemplateConfig
-      // via runtime casting. We cast the spread here to keep them in the JSONB
-      // blob so resolveTemplateConfig can still pick them up at runtime.
       layout: {
         ...current.layout?.layout,
-        // Card style (preset-managed, runtime only)
-        ...(cards.cardStyle !== undefined && { cardStyle: cards.cardStyle }),
-        ...(cards.cardHover !== undefined && { cardHoverEffect: cards.cardHover }),
+        // Card tokens
         ...(layout.cardImageRatio !== undefined && { cardImageRatio: layout.cardImageRatio }),
-        // Extended card tokens (still in TemplateLayoutConfig)
         ...(cards.cardBorderTreatment !== undefined && { cardBorderTreatment: cards.cardBorderTreatment }),
         ...(cards.imageFit !== undefined && { imageFit: cards.imageFit }),
         ...(cards.imageBorderRadius !== undefined && { imageBorderRadius: cards.imageBorderRadius }),
         ...(cards.imageHoverEffect !== undefined && { imageHoverEffect: cards.imageHoverEffect }),
-        // Effect tokens (preset-managed, runtime only)
-        ...(effects.animationLevel !== undefined && { animationLevel: effects.animationLevel }),
-        ...(effects.shadowStyle !== undefined && { shadowStyle: effects.shadowStyle }),
-        // Extended effect tokens (still in TemplateLayoutConfig)
+        // Effect tokens
         ...(effects.shadowElevation !== undefined && { shadowElevation: effects.shadowElevation }),
         ...(effects.transitionSpeed !== undefined && { transitionSpeed: effects.transitionSpeed }),
         ...(effects.transitionEasing !== undefined && { transitionEasing: effects.transitionEasing }),
-        // Layout tokens (preset-managed, runtime only)
-        ...(layout.headerStyle !== undefined && { headerStyle: layout.headerStyle }),
-        ...(layout.bannerHeight !== undefined && { bannerHeight: layout.bannerHeight }),
-        // Layout tokens (still in TemplateLayoutConfig)
+        // Layout tokens
         ...(layout.gridColumnsMobile !== undefined && { gridColumnsMobile: layout.gridColumnsMobile }),
         ...(layout.gridColumnsDesktop !== undefined && { gridColumnsDesktop: layout.gridColumnsDesktop }),
         ...(layout.containerMaxWidth !== undefined && { containerMaxWidth: layout.containerMaxWidth }),
         ...(layout.cardPadding !== undefined && { cardPadding: layout.cardPadding }),
-        // Chrome tokens (preset-managed, runtime only)
-        ...(chrome.buttonStyle !== undefined && { buttonStyle: chrome.buttonStyle }),
-        ...(chrome.badgeStyle !== undefined && { badgeStyle: chrome.badgeStyle }),
-        ...(chrome.priceDisplay !== undefined && { priceDisplay: chrome.priceDisplay }),
-        // Chrome tokens (still in TemplateLayoutConfig)
+        // Chrome tokens
         ...(chrome.borderRadiusScale !== undefined && { borderRadiusScale: chrome.borderRadiusScale }),
         ...(chrome.dividerStyle !== undefined && { dividerStyle: chrome.dividerStyle }),
-      } as unknown as Partial<TemplateLayoutConfig>,
+      } as Partial<TemplateLayoutConfig>,
     },
   };
 }

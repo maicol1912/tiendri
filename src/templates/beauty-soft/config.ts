@@ -56,11 +56,15 @@ export const beautySoftConfig = {
 
   layout: {
     cardImageRatio: "square" as const,
-    heroVariant: "minimal" as const,
-    cardVariant: "minimal" as const,
-    categoryVariant: "horizontal-scroll" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+  },
+
+  structuralVariants: {
+    heroVariant: 'text-only' as const,
+    cardContentLayout: 'below-image' as const,
+    categoryNavStyle: 'horizontal-scroll' as const,
+    addToCartStyle: 'full-width' as const,
   },
 
   sections: [

@@ -60,10 +60,6 @@ export interface TemplateLayoutConfig {
   // Active — used for aspect ratios across card components
   cardImageRatio: ImageRatio;
 
-  // Variant fields — drive visual differentiation between templates
-  heroVariant: 'full-width' | 'split' | 'contained' | 'carousel' | 'minimal';
-  cardVariant: 'minimal' | 'detailed' | 'overlay' | 'horizontal';
-  categoryVariant: 'grid-icons' | 'horizontal-scroll' | 'cards-with-image' | 'text-list';
   gridDensity: 'compact' | 'standard' | 'spacious';
   spacingDensity: 'tight' | 'normal' | 'airy';
 

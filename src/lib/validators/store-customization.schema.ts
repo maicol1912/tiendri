@@ -235,6 +235,11 @@ export type ThemeInput = z.infer<typeof themeSchema>;
 const layoutOptionsSchema = z.object({
   // Fields still in TemplateLayoutConfig
   cardImageRatio: z.enum(["square", "portrait", "wide"]).optional(),
+  heroVariant: z.enum(["full-width", "split", "contained", "carousel", "minimal"]).optional(),
+  cardVariant: z.enum(["minimal", "detailed", "overlay", "horizontal"]).optional(),
+  categoryVariant: z.enum(["grid-icons", "horizontal-scroll", "cards-with-image", "text-list"]).optional(),
+  gridDensity: z.enum(["compact", "standard", "spacious"]).optional(),
+  spacingDensity: z.enum(["tight", "normal", "airy"]).optional(),
   shadowElevation: z.enum(["none", "xs", "sm", "md", "lg", "xl"]).optional(),
   transitionSpeed: z.enum(["instant", "fast", "normal", "slow", "very-slow"]).optional(),
   transitionEasing: z.enum(["linear", "ease", "ease-in-out", "spring"]).optional(),
@@ -245,16 +250,6 @@ const layoutOptionsSchema = z.object({
   imageHoverEffect: z.enum(["none", "zoom", "slide-up", "grayscale-to-color", "brightness"]).optional(),
   cardBorderTreatment: z.enum(["none", "subtle", "prominent", "left-accent", "top-accent"]).optional(),
   cardPadding: z.enum(["none", "tight", "normal", "spacious"]).optional(),
-  // Preset-managed fields (runtime only — not in TemplateLayoutConfig)
-  cardStyle: z.enum(["flat", "shadow", "bordered", "elevated"]).optional(),
-  cardHoverEffect: z.enum(["none", "lift", "scale", "glow"]).optional(),
-  animationLevel: z.enum(["none", "subtle", "full"]).optional(),
-  shadowStyle: z.enum(["neutral", "hue-tinted"]).optional(),
-  headerStyle: z.enum(["standard", "centered", "minimal"]).optional(),
-  bannerHeight: z.enum(["short", "normal", "tall"]).optional(),
-  buttonStyle: z.enum(["filled", "outlined", "ghost"]).optional(),
-  badgeStyle: z.enum(["pill", "square"]).optional(),
-  priceDisplay: z.enum(["prominent", "standard", "subtle"]).optional(),
 }).optional();
 
 const structuralVariantsSchema = z.object({
@@ -327,7 +322,6 @@ function toPresetShape(data: BaseInput): Partial<StylePreset> {
       cardImageRatio: data.layout?.layout?.cardImageRatio,
     },
     cards: {
-      cardStyle: data.layout?.layout?.cardStyle,
       imageFit: data.layout?.layout?.imageFit,
       imageBorderRadius: data.layout?.layout?.imageBorderRadius,
       // cardContentLayout lives in structuralVariants — cast through unknown for the check
@@ -338,7 +332,6 @@ function toPresetShape(data: BaseInput): Partial<StylePreset> {
     effects: {
       shadowElevation: data.layout?.layout?.shadowElevation,
       transitionSpeed: data.layout?.layout?.transitionSpeed,
-      animationLevel: data.layout?.layout?.animationLevel,
     },
     color: {
       backgroundTreatment: data.theme?.backgroundTreatment,
@@ -346,10 +339,7 @@ function toPresetShape(data: BaseInput): Partial<StylePreset> {
       colorStrategy: data.theme?.colorStrategy,
     },
     chrome: {
-      buttonStyle: data.layout?.layout?.buttonStyle,
-      priceDisplay: data.layout?.layout?.priceDisplay,
       borderRadiusScale: data.layout?.layout?.borderRadiusScale,
-      badgeStyle: data.layout?.layout?.badgeStyle,
       ...(data.layout?.structuralVariants?.addToCartStyle !== undefined && {
         addToCartStyle: data.layout.structuralVariants.addToCartStyle,
       }),

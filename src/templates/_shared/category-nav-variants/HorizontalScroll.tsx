@@ -1,0 +1,64 @@
+'use client';
+
+import type React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { CategorySection } from '@/templates/tech-premium/components/CategorySection';
+import { gridColsClass } from '@/templates/tech-premium/utils/grid-classes';
+import type { CategoryNavProps } from './types';
+
+export default function HorizontalScroll({
+  categories,
+  activeCategoryId,
+  onCategoryClick,
+  gridMobile = 3,
+  gridDesktop = 6,
+}: CategoryNavProps) {
+  return (
+    <>
+      <div className="flex items-center justify-between mb-8">
+        <h2
+          id="categories-heading"
+          className="text-[var(--t-foreground)] tracking-[0.24px]"
+          style={{
+            fontWeight: 'var(--t-type-heading-weight, 500)' as React.CSSProperties['fontWeight'],
+            fontSize: 'var(--t-type-heading-size, 1.5rem)',
+            letterSpacing: 'var(--t-type-heading-tracking, 0.24px)',
+            textTransform: 'var(--t-type-heading-transform, none)' as React.CSSProperties['textTransform'],
+          }}
+        >
+          Explorar por categoría
+        </h2>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
+            aria-label="Categorías anteriores"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
+            aria-label="Siguientes categorías"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`grid ${gridColsClass(gridMobile, gridDesktop)}`}
+        style={{ gap: 'var(--t-space-gap, 1rem)' }}
+      >
+        {categories.map((cat) => (
+          <CategorySection
+            key={cat.id}
+            category={cat}
+            isActive={activeCategoryId === cat.id}
+            onClick={() => onCategoryClick?.(cat.id)}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
