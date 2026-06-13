@@ -384,7 +384,7 @@ recipe: {
 },
 ```
 
-File: `src/templates/pets-modern/config.ts`, and all other templates.
+File: `src/templates/{template-name}/config.ts` — repeat for each template.
 
 ---
 

@@ -38,16 +38,6 @@ import { fashionConfig } from "@/templates/fashion/config";
 import { fashionPalettes } from "@/templates/fashion/palettes";
 import type { FashionConfig } from "@/templates/fashion/config";
 
-import { CartProvider as PetsModernCartProvider } from "@/templates/pets-modern/context/CartContext";
-import { petsModernConfig } from "@/templates/pets-modern/config";
-import { petsModernPalettes } from "@/templates/pets-modern/palettes";
-import type { PetsModernConfig } from "@/templates/pets-modern/config";
-
-import { CartProvider as ElectronicsClassicCartProvider } from "@/templates/electronics-classic/context/CartContext";
-import { electronicsClassicConfig } from "@/templates/electronics-classic/config";
-import { electronicsClassicPalettes } from "@/templates/electronics-classic/palettes";
-import type { ElectronicsClassicConfig } from "@/templates/electronics-classic/config";
-
 import { CartProvider as FurnitureDarkCartProvider } from "@/templates/furniture-dark/context/CartContext";
 import { furnitureDarkConfig } from "@/templates/furniture-dark/config";
 import { furnitureDarkPalettes } from "@/templates/furniture-dark/palettes";
@@ -78,16 +68,11 @@ import { furnitureLightConfig } from "@/templates/furniture-light/config";
 import { furnitureLightPalettes } from "@/templates/furniture-light/palettes";
 import type { FurnitureLightConfig } from "@/templates/furniture-light/config";
 
-import { CartProvider as PetsClassicCartProvider } from "@/templates/pets-classic/context/CartContext";
-import { petsClassicConfig } from "@/templates/pets-classic/config";
-import { petsClassicPalettes } from "@/templates/pets-classic/palettes";
-import type { PetsClassicConfig } from "@/templates/pets-classic/config";
-
 import type { ResolvedStoreConfig } from "@/types/templates";
 
 // ── Generic config type ───────────────────────────────────────────────────────
 
-type AnyTemplateConfig = TechPremiumConfig | FashionConfig | PetsModernConfig | PetsClassicConfig | ElectronicsClassicConfig | FurnitureDarkConfig | FurnitureLightConfig | BeautySoftConfig | BeautyElegantConfig | DecorWarmConfig | FoodNightConfig;
+type AnyTemplateConfig = TechPremiumConfig | FashionConfig | FurnitureDarkConfig | FurnitureLightConfig | BeautySoftConfig | BeautyElegantConfig | DecorWarmConfig | FoodNightConfig;
 
 // ── Context — exposes configOverride to all page children ─────────────────────
 // The context stores the config as `unknown` so the provider is template-agnostic.
@@ -336,197 +321,6 @@ const FASHION_SECTION_LABELS: CustomizerSectionLabel[] = [
   { id: "hero", label: "Banner principal" },
   { id: "collections", label: "Colecciones" },
   { id: "editorial", label: "Editorial" },
-];
-
-// ── Pets Modern field metadata ────────────────────────────────────────────────────
-
-const PETS_MODERN_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (acentos)" },
-  { key: "background", label: "Fondo de la pagina" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "surface", label: "Fondo de imagenes" },
-  { key: "border", label: "Color de bordes" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-];
-
-const PETS_MODERN_GRID_FIELDS: CustomizerGridField[] = [
-  {
-    key: "products",
-    mobileLabel: "Productos por fila (celular)",
-    desktopLabel: "Productos por fila (computador)",
-  },
-  {
-    key: "categories",
-    mobileLabel: "Categorias por fila (celular)",
-    desktopLabel: "Categorias por fila (computador)",
-  },
-  {
-    key: "search",
-    mobileLabel: "Busqueda por fila (celular)",
-    desktopLabel: "Busqueda por fila (computador)",
-  },
-];
-
-const PETS_MODERN_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
-  {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
-    key: "cardImageRatio",
-    label: "Forma de las imagenes",
-    options: [
-      { value: "square", label: "Cuadrada" },
-      { value: "portrait", label: "Vertical" },
-      { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "tabStyle",
-    label: "Estilo de filtros",
-    options: [
-      { value: "pills", label: "Botones redondeados" },
-      { value: "underline", label: "Subrayado" },
-      { value: "bordered", label: "Con borde" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estandar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Minimo" },
-    ],
-  },
-];
-
-const PETS_MODERN_SECTION_LABELS: CustomizerSectionLabel[] = [
-  { id: "promo-banner", label: "Banner promocional" },
-  { id: "trending", label: "Tendencias" },
-  { id: "pet-types", label: "Tipos de mascota" },
-  { id: "products", label: "Productos destacados" },
-];
-
-// ── Electronics Classic field metadata ────────────────────────────────────────
-
-const ELECTRONICS_CLASSIC_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (botones, enlaces)" },
-  { key: "secondary", label: "Color secundario" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "surface", label: "Fondo de imágenes y superficies" },
-  { key: "topBarBg", label: "Barra superior de info" },
-  { key: "buttonBg", label: "Color de botones de acción" },
-  { key: "buttonText", label: "Texto en botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "textMuted", label: "Texto secundario" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-];
-
-const ELECTRONICS_CLASSIC_GRID_FIELDS: CustomizerGridField[] = [
-  { key: "products", mobileLabel: "Productos por fila (celular)", desktopLabel: "Productos por fila (computador)" },
-  { key: "categories", mobileLabel: "Categorías por fila (celular)", desktopLabel: "Categorías por fila (computador)" },
-  { key: "listing", mobileLabel: "Catálogo por fila (celular)", desktopLabel: "Catálogo por fila (computador)" },
-  { key: "search", mobileLabel: "Búsqueda por fila (celular)", desktopLabel: "Búsqueda por fila (computador)" },
-];
-
-const ELECTRONICS_CLASSIC_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
-  {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-      { value: "glow", label: "Brillar" },
-    ],
-  },
-  {
-    key: "cardImageRatio",
-    label: "Forma de las imágenes",
-    options: [
-      { value: "square", label: "Cuadrada" },
-      { value: "portrait", label: "Vertical" },
-      { value: "wide", label: "Horizontal" },
-    ],
-  },
-  {
-    key: "tabStyle",
-    label: "Estilo de pestañas",
-    options: [
-      { value: "underline", label: "Subrayado" },
-      { value: "pills", label: "Botones redondeados" },
-      { value: "bordered", label: "Con borde" },
-    ],
-  },
-  {
-    key: "bannerHeight",
-    label: "Altura del banner principal",
-    options: [
-      { value: "short", label: "Bajo" },
-      { value: "normal", label: "Normal" },
-      { value: "tall", label: "Alto" },
-    ],
-  },
-  {
-    key: "headerStyle",
-    label: "Estilo del encabezado",
-    options: [
-      { value: "standard", label: "Estándar" },
-      { value: "centered", label: "Centrado" },
-      { value: "minimal", label: "Mínimo" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "columns", label: "En columnas" },
-      { value: "minimal", label: "Mínimo" },
-      { value: "centered", label: "Centrado" },
-    ],
-  },
-];
-
-const ELECTRONICS_CLASSIC_SECTION_LABELS: CustomizerSectionLabel[] = [
-  { id: "hero", label: "Banner principal" },
-  { id: "categories", label: "Categorías" },
-  { id: "feature-cards", label: "Tarjetas destacadas" },
-  { id: "products", label: "Secciones de productos" },
-  { id: "promo-banner", label: "Banner promocional" },
-  { id: "testimonials", label: "Testimonios" },
 ];
 
 // ── Furniture Dark field metadata ─────────────────────────────────────────────
@@ -1014,73 +808,6 @@ const FURNITURE_LIGHT_SECTION_LABELS: CustomizerSectionLabel[] = [
   { id: "products", label: "Todos los productos" },
 ];
 
-// ── Pets Classic field metadata ───────────────────────────────────────────────
-
-const PETS_CLASSIC_COLOR_FIELDS: CustomizerColorField[] = [
-  { key: "primary", label: "Color principal (naranja)" },
-  { key: "secondary", label: "Color secundario" },
-  { key: "background", label: "Fondo de la página" },
-  { key: "cardBg", label: "Fondo de tarjetas" },
-  { key: "headerBg", label: "Fondo del encabezado" },
-  { key: "footerBg", label: "Fondo del pie de página" },
-  { key: "buttonBg", label: "Color de botones" },
-  { key: "buttonText", label: "Texto de botones" },
-  { key: "textPrimary", label: "Texto principal" },
-  { key: "border", label: "Color de bordes" },
-];
-
-const PETS_CLASSIC_GRID_FIELDS: CustomizerGridField[] = [
-  { key: "products", mobileLabel: "Productos por fila (celular)", desktopLabel: "Productos por fila (computador)" },
-  { key: "categories", mobileLabel: "Categorías por fila (celular)", desktopLabel: "Categorías por fila (computador)" },
-  { key: "listing", mobileLabel: "Catálogo por fila (celular)", desktopLabel: "Catálogo por fila (computador)" },
-  { key: "search", mobileLabel: "Búsqueda por fila (celular)", desktopLabel: "Búsqueda por fila (computador)" },
-];
-
-const PETS_CLASSIC_LAYOUT_OPTIONS: CustomizerLayoutOption[] = [
-  {
-    key: "cardStyle",
-    label: "Estilo de tarjetas",
-    options: [
-      { value: "flat", label: "Plano" },
-      { value: "shadow", label: "Con sombra" },
-      { value: "bordered", label: "Con borde" },
-      { value: "elevated", label: "Elevado" },
-    ],
-  },
-  {
-    key: "cardHoverEffect",
-    label: "Efecto al pasar el mouse",
-    options: [
-      { value: "none", label: "Ninguno" },
-      { value: "lift", label: "Elevar" },
-      { value: "scale", label: "Agrandar" },
-    ],
-  },
-  {
-    key: "cardImageRatio",
-    label: "Forma de las imágenes",
-    options: [
-      { value: "portrait", label: "Vertical" },
-      { value: "square", label: "Cuadrada" },
-    ],
-  },
-  {
-    key: "footerStyle",
-    label: "Estilo del pie de página",
-    options: [
-      { value: "minimal", label: "Mínimo" },
-      { value: "columns", label: "En columnas" },
-    ],
-  },
-];
-
-const PETS_CLASSIC_SECTION_LABELS: CustomizerSectionLabel[] = [
-  { id: "promo-banner", label: "Banner promocional" },
-  { id: "categories", label: "Categorías" },
-  { id: "featured", label: "Productos destacados" },
-  { id: "popular", label: "Más populares" },
-];
-
 // ── Per-template static config registry ───────────────────────────────────────
 
 interface TemplateUIConfig {
@@ -1111,24 +838,6 @@ const TEMPLATE_UI_CONFIGS: Record<string, TemplateUIConfig> = {
     layoutOptions: FASHION_LAYOUT_OPTIONS,
     sectionLabels: FASHION_SECTION_LABELS,
     palettes: fashionPalettes as CustomizerPalette[],
-  },
-  "pets-modern": {
-    defaultConfig: petsModernConfig,
-    label: "Pet Shop",
-    colorFields: PETS_MODERN_COLOR_FIELDS,
-    gridFields: PETS_MODERN_GRID_FIELDS,
-    layoutOptions: PETS_MODERN_LAYOUT_OPTIONS,
-    sectionLabels: PETS_MODERN_SECTION_LABELS,
-    palettes: petsModernPalettes as CustomizerPalette[],
-  },
-  "electronics-classic": {
-    defaultConfig: electronicsClassicConfig,
-    label: "Electronics Classic",
-    colorFields: ELECTRONICS_CLASSIC_COLOR_FIELDS,
-    gridFields: ELECTRONICS_CLASSIC_GRID_FIELDS,
-    layoutOptions: ELECTRONICS_CLASSIC_LAYOUT_OPTIONS,
-    sectionLabels: ELECTRONICS_CLASSIC_SECTION_LABELS,
-    palettes: electronicsClassicPalettes as CustomizerPalette[],
   },
   "furniture-dark": {
     defaultConfig: furnitureDarkConfig,
@@ -1184,15 +893,6 @@ const TEMPLATE_UI_CONFIGS: Record<string, TemplateUIConfig> = {
     sectionLabels: FURNITURE_LIGHT_SECTION_LABELS,
     palettes: furnitureLightPalettes as CustomizerPalette[],
   },
-  "pets-classic": {
-    defaultConfig: petsClassicConfig,
-    label: "Pets Classic",
-    colorFields: PETS_CLASSIC_COLOR_FIELDS,
-    gridFields: PETS_CLASSIC_GRID_FIELDS,
-    layoutOptions: PETS_CLASSIC_LAYOUT_OPTIONS,
-    sectionLabels: PETS_CLASSIC_SECTION_LABELS,
-    palettes: petsClassicPalettes as CustomizerPalette[],
-  },
 };
 
 // ── Sliders icon (inline SVG) ─────────────────────────────────────────────────
@@ -1235,12 +935,6 @@ function CartWrapper({ templateName, storeSlug, children }: CartWrapperProps) {
   if (templateName === "fashion") {
     return <FashionCartProvider slug={storeSlug}>{children}</FashionCartProvider>;
   }
-  if (templateName === "pets-modern") {
-    return <PetsModernCartProvider slug={storeSlug}>{children}</PetsModernCartProvider>;
-  }
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicCartProvider slug={storeSlug}>{children}</ElectronicsClassicCartProvider>;
-  }
   if (templateName === "furniture-dark") {
     return <FurnitureDarkCartProvider slug={storeSlug}>{children}</FurnitureDarkCartProvider>;
   }
@@ -1258,9 +952,6 @@ function CartWrapper({ templateName, storeSlug, children }: CartWrapperProps) {
   }
   if (templateName === "furniture-light") {
     return <FurnitureLightCartProvider slug={storeSlug}>{children}</FurnitureLightCartProvider>;
-  }
-  if (templateName === "pets-classic") {
-    return <PetsClassicCartProvider slug={storeSlug}>{children}</PetsClassicCartProvider>;
   }
   // Default: tech-premium (and any future template that hasn't migrated yet)
   return <TechPremiumCartProvider slug={storeSlug}>{children}</TechPremiumCartProvider>;

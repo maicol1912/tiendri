@@ -11,13 +11,6 @@ import { StoreInfoShellRoute as TechPremiumInfoShellRoute } from "@/templates/te
 import { mockStore as fashionMockStore } from "@/templates/fashion/mock/data";
 import { StoreInfoShellRoute as FashionInfoShellRoute } from "@/templates/fashion/components/StoreInfoShellRoute";
 
-// ── Pets Modern ───────────────────────────────────────────────────────────────
-import { mockStore as petsModernMockStore } from "@/templates/pets-modern/mock/data";
-import { StoreInfoShellRoute as PetsModernInfoShellRoute } from "@/templates/pets-modern/components/StoreInfoShellRoute";
-
-// ── Electronics Classic ───────────────────────────────────────────────────────
-import { StoreInfoShellRoute as ElectronicsClassicInfoShellRoute } from "@/templates/electronics-classic/components/StoreInfoShellRoute";
-
 // ── Furniture Dark ────────────────────────────────────────────────────────────
 import { StoreInfoShellRoute as FurnitureDarkInfoShellRoute } from "@/templates/furniture-dark/components/StoreInfoShellRoute";
 
@@ -41,10 +34,6 @@ import { StoreInfoShellRoute as FoodNightInfoShellRoute } from "@/templates/food
 import { mockStore as furnitureLightMockStore } from "@/templates/furniture-light/mock/data";
 import { StoreInfoShellRoute as FurnitureLightInfoShellRoute } from "@/templates/furniture-light/components/StoreInfoShellRoute";
 
-// ── Pets Classic ──────────────────────────────────────────────────────────────
-import { mockStore as petsClassicMockStore } from "@/templates/pets-classic/mock/data";
-import { StoreInfoShellRoute as PetsClassicInfoShellRoute } from "@/templates/pets-classic/components/StoreInfoShellRoute";
-
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
@@ -58,14 +47,6 @@ export default async function InfoPage({ params }: InfoPageProps) {
 
   if (templateName === "fashion") {
     return <FashionInfoShellRoute store={fashionMockStore} />;
-  }
-
-  if (templateName === "pets-modern") {
-    return <PetsModernInfoShellRoute store={petsModernMockStore} />;
-  }
-
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicInfoShellRoute />;
   }
 
   if (templateName === "furniture-dark") {
@@ -90,10 +71,6 @@ export default async function InfoPage({ params }: InfoPageProps) {
 
   if (templateName === "furniture-light") {
     return <FurnitureLightInfoShellRoute store={furnitureLightMockStore} />;
-  }
-
-  if (templateName === "pets-classic") {
-    return <PetsClassicInfoShellRoute store={petsClassicMockStore} />;
   }
 
   // Default: tech-premium

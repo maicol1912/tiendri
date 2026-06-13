@@ -14,12 +14,6 @@ import {
   mockDiscountProducts as fashionMockDiscountProducts,
 } from "@/templates/fashion/mock/data";
 import { SearchShellRoute as FashionSearchShellRoute } from "@/templates/fashion/components/SearchShellRoute";
-import {
-  mockStore as petsModernMockStore,
-  mockProducts as petsModernMockProducts,
-} from "@/templates/pets-modern/mock/data";
-import { SearchShellRoute as PetsModernSearchShellRoute } from "@/templates/pets-modern/components/SearchShellRoute";
-import { SearchShellRoute as ElectronicsClassicSearchShellRoute } from "@/templates/electronics-classic/components/SearchShellRoute";
 import { SearchShellRoute as FurnitureDarkSearchShellRoute } from "@/templates/furniture-dark/components/SearchShellRoute";
 import {
   mockStore as beautySoftMockStore,
@@ -46,12 +40,6 @@ import {
   mockProducts as furnitureLightMockProducts,
 } from "@/templates/furniture-light/mock/data";
 import { SearchShellRoute as FurnitureLightSearchShellRoute } from "@/templates/furniture-light/components/SearchShellRoute";
-import {
-  mockStore as petsClassicMockStore,
-  mockProducts as petsClassicMockProducts,
-} from "@/templates/pets-classic/mock/data";
-import { SearchShellRoute as PetsClassicSearchShellRoute } from "@/templates/pets-classic/components/SearchShellRoute";
-
 export const metadata: Metadata = {
   title: "Buscar",
   robots: { index: false, follow: true },
@@ -71,19 +59,6 @@ export default async function BuscarPage({ params }: BuscarPageProps) {
         products={[...fashionMockProducts, ...fashionMockDiscountProducts]}
       />
     );
-  }
-
-  if (templateName === "pets-modern") {
-    return (
-      <PetsModernSearchShellRoute
-        store={petsModernMockStore}
-        products={petsModernMockProducts}
-      />
-    );
-  }
-
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicSearchShellRoute />;
   }
 
   if (templateName === "furniture-dark") {
@@ -131,15 +106,6 @@ export default async function BuscarPage({ params }: BuscarPageProps) {
       <FurnitureLightSearchShellRoute
         store={furnitureLightMockStore}
         allProducts={furnitureLightMockProducts}
-      />
-    );
-  }
-
-  if (templateName === "pets-classic") {
-    return (
-      <PetsClassicSearchShellRoute
-        store={petsClassicMockStore}
-        allProducts={petsClassicMockProducts}
       />
     );
   }

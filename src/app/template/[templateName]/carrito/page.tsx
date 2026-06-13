@@ -6,9 +6,6 @@ import { mockStore as tpMockStore } from "@/templates/tech-premium/mock/data";
 import { CartShellRoute as TechPremiumCartShellRoute } from "@/templates/tech-premium/components/CartShellRoute";
 import { mockStore as fashionMockStore } from "@/templates/fashion/mock/data";
 import { CartShellRoute as FashionCartShellRoute } from "@/templates/fashion/components/CartShellRoute";
-import { mockStore as petsModernMockStore } from "@/templates/pets-modern/mock/data";
-import { CartShellRoute as PetsModernCartShellRoute } from "@/templates/pets-modern/components/CartShellRoute";
-import { CartShellRoute as ElectronicsClassicCartShellRoute } from "@/templates/electronics-classic/components/CartShellRoute";
 import { CartShellRoute as FurnitureDarkCartShellRoute } from "@/templates/furniture-dark/components/CartShellRoute";
 import { mockStore as beautySoftMockStore } from "@/templates/beauty-soft/mock/data";
 import { CartShellRoute as BeautySoftCartShellRoute } from "@/templates/beauty-soft/components/CartShellRoute";
@@ -20,9 +17,6 @@ import { mockStore as foodNightMockStore } from "@/templates/food-night/mock/dat
 import { CartShellRoute as FoodNightCartShellRoute } from "@/templates/food-night/components/CartShellRoute";
 import { mockStore as furnitureLightMockStore } from "@/templates/furniture-light/mock/data";
 import { CartShellRoute as FurnitureLightCartShellRoute } from "@/templates/furniture-light/components/CartShellRoute";
-import { mockStore as petsClassicMockStore } from "@/templates/pets-classic/mock/data";
-import { CartShellRoute as PetsClassicCartShellRoute } from "@/templates/pets-classic/components/CartShellRoute";
-
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
@@ -36,14 +30,6 @@ export default async function CarritoPage({ params }: CarritoPageProps) {
 
   if (templateName === "fashion") {
     return <FashionCartShellRoute store={fashionMockStore} />;
-  }
-
-  if (templateName === "pets-modern") {
-    return <PetsModernCartShellRoute store={petsModernMockStore} />;
-  }
-
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicCartShellRoute />;
   }
 
   if (templateName === "furniture-dark") {
@@ -68,10 +54,6 @@ export default async function CarritoPage({ params }: CarritoPageProps) {
 
   if (templateName === "furniture-light") {
     return <FurnitureLightCartShellRoute store={furnitureLightMockStore} />;
-  }
-
-  if (templateName === "pets-classic") {
-    return <PetsClassicCartShellRoute store={petsClassicMockStore} />;
   }
 
   return <TechPremiumCartShellRoute store={tpMockStore} />;

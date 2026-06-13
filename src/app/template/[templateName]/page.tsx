@@ -19,15 +19,6 @@ import {
   mockDiscountProducts as fashionMockDiscountProducts,
 } from "@/templates/fashion/mock/data";
 import { HomeShell as FashionHomeShell } from "@/templates/fashion/components/HomeShell";
-import {
-  mockStore as petsModernMockStore,
-  mockPromoBanner as petsModernMockPromoBanner,
-  mockTrendingItems as petsModernMockTrendingItems,
-  mockPetTypes as petsModernMockPetTypes,
-  mockProducts as petsModernMockProducts,
-} from "@/templates/pets-modern/mock/data";
-import { HomeShell as PetsModernHomeShell } from "@/templates/pets-modern/components/HomeShell";
-import { HomeShell as ElectronicsClassicHomeShell } from "@/templates/electronics-classic/components/HomeShell";
 import { HomeShell as FurnitureDarkHomeShell } from "@/templates/furniture-dark/components/HomeShell";
 import {
   mockStore as beautySoftMockStore,
@@ -66,14 +57,6 @@ import {
   mockRoomBannerImage as furnitureLightMockRoomBannerImage,
 } from "@/templates/furniture-light/mock/data";
 import { HomeShell as FurnitureLightHomeShell } from "@/templates/furniture-light/components/HomeShell";
-import {
-  mockStore as petsClassicMockStore,
-  mockCategories as petsClassicMockCategories,
-  mockProducts as petsClassicMockProducts,
-  mockPromoSlides as petsClassicMockPromoSlides,
-} from "@/templates/pets-classic/mock/data";
-import { HomeShell as PetsClassicHomeShell } from "@/templates/pets-classic/components/HomeShell";
-
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface TemplatePreviewPageProps {
@@ -97,16 +80,6 @@ export async function generateMetadata({
       title: "Fashion — Vista previa | Tiendri",
       description:
         "Fashion: la plantilla ideal para tiendas de ropa, moda y accesorios. Diseño minimalista y elegante.",
-    },
-    "pets-modern": {
-      title: "Pet Shop — Vista previa | Tiendri",
-      description:
-        "Pet Shop: la plantilla ideal para tiendas de mascotas, veterinarias y accesorios para animales.",
-    },
-    "electronics-classic": {
-      title: "Electronics Classic — Vista previa | Tiendri",
-      description:
-        "Electronics Classic: la plantilla ideal para tiendas de tecnología, electrodomésticos y gadgets.",
     },
     "furniture-dark": {
       title: "Furniture Dark — Vista previa | Tiendri",
@@ -137,11 +110,6 @@ export async function generateMetadata({
       title: "Furniture Light — Vista previa | Tiendri",
       description:
         "Furniture Light: la plantilla ideal para tiendas de muebles y decoración del hogar. Diseño claro, moderno y acogedor.",
-    },
-    "pets-classic": {
-      title: "Pets Classic — Vista previa | Tiendri",
-      description:
-        "Pets Classic: la plantilla clásica para tiendas de mascotas, accesorios y productos veterinarios. Diseño cálido con acentos naranja.",
     },
   };
 
@@ -200,24 +168,6 @@ export default async function TemplatePreviewPage({
         products={allFashionProducts}
       />
     );
-  }
-
-  // pets-modern: render pet shop home shell
-  if (templateName === "pets-modern") {
-    return (
-      <PetsModernHomeShell
-        store={petsModernMockStore}
-        promoBanner={petsModernMockPromoBanner}
-        trendingItems={petsModernMockTrendingItems}
-        petTypes={petsModernMockPetTypes}
-        products={petsModernMockProducts}
-      />
-    );
-  }
-
-  // electronics-classic: render electronics home shell
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicHomeShell />;
   }
 
   // furniture-dark: render furniture dark home shell
@@ -284,18 +234,6 @@ export default async function TemplatePreviewPage({
         heroBannerTitle={furnitureLightMockHeroBanner.title}
         heroBannerSubtitle={furnitureLightMockHeroBanner.subtitle}
         styleCards={furnitureLightMockStyleCards}
-      />
-    );
-  }
-
-  // pets-classic: render pets classic home shell
-  if (templateName === "pets-classic") {
-    return (
-      <PetsClassicHomeShell
-        store={petsClassicMockStore}
-        categories={petsClassicMockCategories}
-        products={petsClassicMockProducts}
-        promoSlides={petsClassicMockPromoSlides}
       />
     );
   }

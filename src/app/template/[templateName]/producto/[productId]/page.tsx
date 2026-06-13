@@ -19,12 +19,6 @@ import {
   mockDetailProduct as fashionMockDetailProduct,
 } from "@/templates/fashion/mock/data";
 import { ProductDetailShellRoute as FashionProductDetailShellRoute } from "@/templates/fashion/components/ProductDetailShellRoute";
-import {
-  mockStore as petsModernMockStore,
-  mockProducts as petsModernMockProducts,
-} from "@/templates/pets-modern/mock/data";
-import { ProductDetailShellRoute as PetsModernProductDetailShellRoute } from "@/templates/pets-modern/components/ProductDetailShellRoute";
-import { ProductDetailShellRoute as ElectronicsClassicProductDetailShellRoute } from "@/templates/electronics-classic/components/ProductDetailShellRoute";
 import { ProductDetailShellRoute as FurnitureDarkProductDetailShellRoute } from "@/templates/furniture-dark/components/ProductDetailShellRoute";
 import {
   mockStore as beautySoftMockStore,
@@ -58,13 +52,6 @@ import {
   mockDetailProduct as furnitureLightMockDetailProduct,
 } from "@/templates/furniture-light/mock/data";
 import { ProductDetailShellRoute as FurnitureLightProductDetailShellRoute } from "@/templates/furniture-light/components/ProductDetailShellRoute";
-import {
-  mockStore as petsClassicMockStore,
-  mockProducts as petsClassicMockProducts,
-  mockDetailProduct as petsClassicMockDetailProduct,
-} from "@/templates/pets-classic/mock/data";
-import { ProductDetailShellRoute as PetsClassicProductDetailShellRoute } from "@/templates/pets-classic/components/ProductDetailShellRoute";
-
 interface ProductDetailPageProps {
   params: Promise<{ templateName: string; productId: string }>;
 }
@@ -150,27 +137,6 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
         product={product}
       />
     );
-  }
-
-  // ── Pets Modern ──────────────────────────────────────────────────────────────────
-  if (templateName === "pets-modern") {
-    const product = petsModernMockProducts.find(
-      (p) => p.id === productId || p.slug === productId
-    );
-
-    if (!product) notFound();
-
-    return (
-      <PetsModernProductDetailShellRoute
-        store={petsModernMockStore}
-        product={product}
-      />
-    );
-  }
-
-  // ── Electronics Classic ───────────────────────────────────────────────────────
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicProductDetailShellRoute productId={productId} />;
   }
 
   // ── Furniture Dark ────────────────────────────────────────────────────────────
@@ -276,25 +242,6 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
         store={furnitureLightMockStore}
         product={product}
         relatedProducts={relatedProducts}
-      />
-    );
-  }
-
-  // ── Pets Classic ──────────────────────────────────────────────────────────────
-  if (templateName === "pets-classic") {
-    const product =
-      petsClassicMockProducts.find((p) => p.id === productId || p.slug === productId) ??
-      (productId === petsClassicMockDetailProduct.id || productId === petsClassicMockDetailProduct.slug
-        ? petsClassicMockDetailProduct
-        : null);
-
-    if (!product) notFound();
-
-    return (
-      <PetsClassicProductDetailShellRoute
-        store={petsClassicMockStore}
-        product={product}
-        allProducts={petsClassicMockProducts}
       />
     );
   }

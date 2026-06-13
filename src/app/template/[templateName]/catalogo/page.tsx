@@ -16,13 +16,6 @@ import {
   mockCategories as fashionMockCategories,
 } from "@/templates/fashion/mock/data";
 import { ListingShellRoute as FashionListingShellRoute } from "@/templates/fashion/components/ListingShellRoute";
-import {
-  mockStore as petsModernMockStore,
-  mockCategories as petsModernMockCategories,
-  mockProducts as petsModernMockProducts,
-} from "@/templates/pets-modern/mock/data";
-import { ListingShellRoute as PetsModernListingShellRoute } from "@/templates/pets-modern/components/ListingShellRoute";
-import { ListingShellRoute as ElectronicsClassicListingShellRoute } from "@/templates/electronics-classic/components/ListingShellRoute";
 import { ListingShellRoute as FurnitureDarkListingShellRoute } from "@/templates/furniture-dark/components/ListingShellRoute";
 import {
   mockStore as beautySoftMockStore,
@@ -54,13 +47,6 @@ import {
   mockProducts as furnitureLightMockProducts,
 } from "@/templates/furniture-light/mock/data";
 import { ListingShellRoute as FurnitureLightListingShellRoute } from "@/templates/furniture-light/components/ListingShellRoute";
-import {
-  mockStore as petsClassicMockStore,
-  mockCategories as petsClassicMockCategories,
-  mockProducts as petsClassicMockProducts,
-} from "@/templates/pets-classic/mock/data";
-import { ListingShellRoute as PetsClassicListingShellRoute } from "@/templates/pets-classic/components/ListingShellRoute";
-
 interface CatalogoPageProps {
   params: Promise<{ templateName: string }>;
 }
@@ -74,22 +60,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CatalogoPage({ params }: CatalogoPageProps) {
   const { templateName } = await params;
-
-  // ── Pets Modern ──────────────────────────────────────────────────────────────────
-  if (templateName === "pets-modern") {
-    return (
-      <PetsModernListingShellRoute
-        store={petsModernMockStore}
-        categories={petsModernMockCategories}
-        products={petsModernMockProducts}
-      />
-    );
-  }
-
-  // ── Electronics Classic ───────────────────────────────────────────────────────
-  if (templateName === "electronics-classic") {
-    return <ElectronicsClassicListingShellRoute />;
-  }
 
   // ── Furniture Dark ────────────────────────────────────────────────────────────
   if (templateName === "furniture-dark") {
@@ -147,17 +117,6 @@ export default async function CatalogoPage({ params }: CatalogoPageProps) {
         store={furnitureLightMockStore}
         products={furnitureLightMockProducts}
         categories={furnitureLightMockCategories}
-      />
-    );
-  }
-
-  // ── Pets Classic ──────────────────────────────────────────────────────────────
-  if (templateName === "pets-classic") {
-    return (
-      <PetsClassicListingShellRoute
-        store={petsClassicMockStore}
-        categories={petsClassicMockCategories}
-        products={petsClassicMockProducts}
       />
     );
   }
