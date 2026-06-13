@@ -46,7 +46,7 @@ export default function CardOverlayFull({
         loading="lazy"
       />
 
-      <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-black/55 transition-colors duration-[var(--t-fx-duration)]" />
+      <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-black/55 transition-colors duration-200" />
 
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 px-4 text-center">
         <p className="text-base font-semibold text-white leading-5 line-clamp-2">{product.name}</p>
@@ -59,7 +59,7 @@ export default function CardOverlayFull({
         </p>
         <button
           type="button"
-          className={`${buttonClass} text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-6 py-2 cursor-pointer border hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-[var(--t-fx-duration)]`}
+          className={`${buttonClass} text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-6 py-2 cursor-pointer border hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap opacity-0 group-hover:opacity-100 duration-200`}
           onClick={(e) => {
             e.stopPropagation();
             onAddToCart?.();

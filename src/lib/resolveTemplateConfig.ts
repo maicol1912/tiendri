@@ -12,8 +12,6 @@ import type {
   BrandingConfig,
   ContentConfig,
   BusinessConfig,
-  AnimationLevel,
-  ShadowStyle,
 } from "@/types/templates";
 import type { ColorPalette, TemplateConfigSchema } from "@/types/templates/config-schema";
 
@@ -249,20 +247,5 @@ export function resolveTemplateConfig(
     theme: customization.theme,
     layoutDensity: customization.layout?.density,
     structuralVariants: customization.layout?.structuralVariants ?? template.structuralVariants,
-    // Effect tokens — assembled from the merged layout so buildCssVars can read
-    // a single canonical object instead of reaching into layout sub-fields.
-    // animationLevel and shadowStyle are preset-managed fields written to
-    // customization.layout.layout by applyPreset; they are not part of
-    // TemplateLayoutConfig so we read them through a runtime cast.
-    effects: (() => {
-      const ll = customization.layout?.layout as Record<string, unknown> | undefined;
-      return {
-        animationLevel: (ll?.["animationLevel"] as AnimationLevel | undefined),
-        shadowStyle: (ll?.["shadowStyle"] as ShadowStyle | undefined),
-        shadowElevation: customization.layout?.layout?.shadowElevation,
-        transitionSpeed: customization.layout?.layout?.transitionSpeed,
-        transitionEasing: customization.layout?.layout?.transitionEasing,
-      };
-    })(),
   };
 }

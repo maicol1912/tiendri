@@ -94,7 +94,7 @@ export default function CardBelowImage({
             ].join(' ')}
             style={
               addToCartStyle === 'on-hover-only'
-                ? ({ transitionDuration: 'var(--t-fx-duration, 200ms)' } as React.CSSProperties)
+                ? ({ transitionDuration: '200ms' } as React.CSSProperties)
                 : undefined
             }
             onClick={(e) => {

@@ -6,15 +6,8 @@
 import type { TemplateConfig } from "./template-config";
 import type { ThemeCustomization, StoreCustomization } from "./store-customization";
 import type { TemplateConfigSchema } from "./config-schema";
-import type { DensityLevel, ShadowElevation, TransitionSpeed, TransitionEasing } from "./primitives";
+import type { DensityLevel } from "./primitives";
 import type { StructuralVariants } from "./structural-variants";
-
-/** Effect/motion tokens forwarded from the merged config */
-interface EffectTokens {
-  shadowElevation?: ShadowElevation;
-  transitionSpeed?: TransitionSpeed;
-  transitionEasing?: TransitionEasing;
-}
 
 // ResolvedStoreConfig extends TemplateConfig with runtime-resolved fields
 // forwarded from the merchant's StoreCustomization. The optional fields
@@ -27,9 +20,6 @@ export interface ResolvedStoreConfig extends TemplateConfig {
   layoutDensity?: DensityLevel;
   /** Resolved structural variant overrides — forwarded from StoreCustomization.layout.structuralVariants. */
   structuralVariants?: StructuralVariants;
-  /** Resolved effect tokens — forwarded from the active preset's effects sub-object.
-   * When present, overrides the animationLevel/shadowStyle already in layout. */
-  effects?: EffectTokens;
 }
 
 // MockStoreConfig = same type, just populated with static mock data instead of

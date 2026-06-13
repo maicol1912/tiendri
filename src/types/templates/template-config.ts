@@ -5,15 +5,11 @@
 import type {
   ImageRatio,
   GridBreakpoint,
-  ShadowElevation,
-  TransitionSpeed,
-  TransitionEasing,
   BorderRadiusScale,
   DividerStyle,
   CardBorderTreatment,
   ImageFit,
   ImageBorderRadius,
-  ImageHoverEffect,
   GridColumnsMobile,
   GridColumnsDesktop,
   ContainerMaxWidth,
@@ -63,10 +59,6 @@ export interface TemplateLayoutConfig {
   gridDensity: 'compact' | 'standard' | 'spacious';
   spacingDensity: 'tight' | 'normal' | 'airy';
 
-  // Effect tokens forwarded from presets
-  shadowElevation?: ShadowElevation;
-  transitionSpeed?: TransitionSpeed;
-  transitionEasing?: TransitionEasing;
   // Chrome tokens
   borderRadiusScale?: BorderRadiusScale;
   dividerStyle?: DividerStyle;
@@ -74,7 +66,6 @@ export interface TemplateLayoutConfig {
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;
-  imageHoverEffect?: ImageHoverEffect;
   // Layout tokens
   gridColumnsMobile?: GridColumnsMobile;
   gridColumnsDesktop?: GridColumnsDesktop;

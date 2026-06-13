@@ -109,14 +109,10 @@ export interface MutableLayout {
   cardImageRatio: string;
   gridDensity: string;
   spacingDensity: string;
-  shadowElevation: string;
-  transitionSpeed: string;
-  transitionEasing: string;
   borderRadiusScale: string;
   dividerStyle: string;
   imageFit: string;
   imageBorderRadius: string;
-  imageHoverEffect: string;
   cardBorderTreatment: string;
   cardPadding: string;
   [key: string]: string;
@@ -235,7 +231,6 @@ type PanelSection =
   | "colores"
   | "formas"
   | "estructura"
-  | "efectos"
   | "cards-paginas"
   | "sections";
 
@@ -244,7 +239,6 @@ const PANEL_SECTIONS: { id: PanelSection; label: string; description: string }[]
   { id: "colores", label: "🎨 Colores", description: "Paleta, estrategia de color y fondo" },
   { id: "formas", label: "📐 Formas y bordes", description: "Radio de bordes, estilo de tarjetas y badges" },
   { id: "estructura", label: "▦ Grid y estructura", description: "Columnas, espaciado y proporciones" },
-  { id: "efectos", label: "✨ Efectos", description: "Animaciones, sombras y transiciones" },
   { id: "cards-paginas", label: "🃏 Cards y páginas", description: "Diseño de contenido, héroe y botones" },
   { id: "sections", label: "📋 Secciones", description: "Arrastrá para reordenar, desmarcá para ocultar" },
 ];
@@ -1282,69 +1276,6 @@ export function ThemeCustomizer({
                           ))}
                         </div>
                       )}
-                    </div>
-                  )}
-
-                  {/* ── EFECTOS ───────────────────────────────────────── */}
-                  {id === "efectos" && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <ControlField
-                        label="Elevación de sombra"
-                        field="effects.shadowElevation"
-                        value={config.layout.shadowElevation ?? "sm"}
-                        options={[
-                          { value: "none", label: "Sin sombra" },
-                          { value: "xs", label: "Mínima" },
-                          { value: "sm", label: "Pequeña" },
-                          { value: "md", label: "Mediana" },
-                          { value: "lg", label: "Grande" },
-                          { value: "xl", label: "Muy grande" },
-                        ]}
-                        onChange={(v) => updateLayout("shadowElevation", v)}
-                      />
-
-                      <ControlField
-                        label="Velocidad de transición"
-                        field="effects.transitionSpeed"
-                        value={config.layout.transitionSpeed ?? "normal"}
-                        options={[
-                          { value: "instant", label: "Instantánea" },
-                          { value: "fast", label: "Rápida" },
-                          { value: "normal", label: "Normal" },
-                          { value: "slow", label: "Lenta" },
-                          { value: "very-slow", label: "Muy lenta" },
-                        ]}
-                        onChange={(v) => updateLayout("transitionSpeed", v)}
-                      />
-
-                      <div>
-                        <label style={labelStyle}>Tipo de transición</label>
-                        <select
-                          value={config.layout.transitionEasing ?? "ease"}
-                          onChange={(e) => updateLayout("transitionEasing", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="linear">Lineal</option>
-                          <option value="ease">Suave</option>
-                          <option value="ease-in-out">Entrada y salida suave</option>
-                          <option value="spring">Resorte</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label style={labelStyle}>Efecto hover de imagen</label>
-                        <select
-                          value={config.layout.imageHoverEffect ?? "zoom"}
-                          onChange={(e) => updateLayout("imageHoverEffect", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="none">Sin efecto</option>
-                          <option value="zoom">Zoom</option>
-                          <option value="slide-up">Deslizar arriba</option>
-                          <option value="grayscale-to-color">Escala de grises a color</option>
-                          <option value="brightness">Brillo</option>
-                        </select>
-                      </div>
                     </div>
                   )}
 

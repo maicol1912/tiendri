@@ -53,13 +53,12 @@ export const CARD_STYLE_MAP: Record<CardStyle, string> = {
 };
 
 // ── Hover effect ──────────────────────────────────────────────────────────────
-// Shared hover effect map. Duration and magnitude come from --t-fx-* CSS vars
-// so presets control motion personality without touching className strings.
+// Shared hover effect map. Duration and easing are hardcoded defaults.
 export const HOVER_EFFECT_MAP: Record<HoverEffect, string> = {
   none: "",
-  lift: "transition-transform hover:-translate-y-[var(--t-fx-hover-lift)] [transition-duration:var(--t-fx-duration)] [transition-timing-function:var(--t-fx-easing)]",
-  scale: "transition-transform hover:scale-[var(--t-fx-hover-scale)] [transition-duration:var(--t-fx-duration)] [transition-timing-function:var(--t-fx-easing)]",
-  glow: "transition-shadow hover:shadow-[0_0_var(--t-fx-hover-glow-spread)_rgba(var(--t-primary-rgb),var(--t-fx-hover-glow-opacity))] [transition-duration:var(--t-fx-duration)] [transition-timing-function:var(--t-fx-easing)]",
+  lift: "transition-transform hover:-translate-y-0.5 duration-200 ease-in-out",
+  scale: "transition-transform hover:scale-[1.02] duration-200 ease-in-out",
+  glow: "transition-shadow hover:shadow-md duration-200 ease-in-out",
 };
 
 // ── Background treatment ──────────────────────────────────────────────────────
@@ -105,8 +104,8 @@ export const IMAGE_FIT_MAP: Record<ImageFit, string> = {
 // ── Image hover behavior ──────────────────────────────────────────────────────
 export const IMAGE_HOVER_BEHAVIOR_MAP: Record<ImageHoverEffect, string> = {
   none: "",
-  zoom: "transition-transform duration-[var(--t-fx-duration)] ease-[var(--t-fx-easing)] group-hover:scale-110",
-  "slide-up": "transition-transform duration-[var(--t-fx-duration)] ease-[var(--t-fx-easing)] group-hover:-translate-y-2",
-  "grayscale-to-color": "grayscale transition-[filter] duration-[var(--t-fx-duration)] ease-[var(--t-fx-easing)] group-hover:grayscale-0",
-  brightness: "transition-[filter] duration-[var(--t-fx-duration)] ease-[var(--t-fx-easing)] group-hover:brightness-110",
+  zoom: "transition-transform duration-200 ease-in-out group-hover:scale-110",
+  "slide-up": "transition-transform duration-200 ease-in-out group-hover:-translate-y-2",
+  "grayscale-to-color": "grayscale transition-[filter] duration-200 ease-in-out group-hover:grayscale-0",
+  brightness: "transition-[filter] duration-200 ease-in-out group-hover:brightness-110",
 };

@@ -4,14 +4,13 @@
 
 import type { StorefrontProduct } from "../types";
 import type { TemplateLayoutConfig } from "@/types/templates";
-import type { AddToCartStyle, CardBorderTreatment, ImageFit, ImageBorderRadius, ImageHoverEffect } from "@/types/templates/primitives";
+import type { AddToCartStyle, CardBorderTreatment, ImageFit, ImageBorderRadius } from "@/types/templates/primitives";
 import type { StructuralVariants } from "@/types/templates/structural-variants";
 
 interface CardTokens {
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;
-  imageHoverEffect?: ImageHoverEffect;
 }
 import { cardStyleClass } from "../utils/layout-classes";
 import {
@@ -60,7 +59,7 @@ export function ProductCard({
 
   const cardBorderClass = CARD_BORDER_MAP[cardTokens?.cardBorderTreatment ?? "none"];
   const imageFitClass = IMAGE_FIT_MAP[cardTokens?.imageFit ?? "contain"];
-  const imageHoverClass = IMAGE_HOVER_BEHAVIOR_MAP[cardTokens?.imageHoverEffect ?? "none"];
+  const imageHoverClass = IMAGE_HOVER_BEHAVIOR_MAP["none"];
 
   return (
     <LayoutComponent

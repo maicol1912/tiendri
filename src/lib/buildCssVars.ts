@@ -6,7 +6,6 @@
 //   colors:  camelCase key → --t-{kebab-case-key}   e.g. onPrimary → --t-on-primary
 //   radius:  key → --t-radius-{key}                  e.g. card → --t-radius-card
 //   fonts:   --font-body, --font-heading, --template-heading-font
-//   effects: --t-fx-* motion/interaction tokens from EffectTokens
 //
 // 9-token color system (as of color system simplification):
 //   primary, secondary, background, foreground, card, border, muted, accent, onPrimary
@@ -15,21 +14,14 @@
 // components (e.g. grid-cols-{n} classes built from config.grid.products.mobile).
 
 import type { ResolvedStoreConfig } from "@/types/templates";
-import type { AnimationLevel, TransitionSpeed, TransitionEasing, ShadowElevation, BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, BodyLineHeight, DisplaySize, DensityPreset, CardImageRatio, CardBorderTreatment, ImageHoverEffect, DividerStyle } from "@/types/templates/primitives";
+import type { BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, BodyLineHeight, DisplaySize, DensityPreset, CardImageRatio, CardBorderTreatment, DividerStyle } from "@/types/templates/primitives";
 import type { HeadingScale } from "@/types/templates/typography";
 
 // Token interfaces (inlined from removed preset-types)
-interface EffectTokens {
-  shadowElevation?: ShadowElevation;
-  transitionSpeed?: TransitionSpeed;
-  transitionEasing?: TransitionEasing;
-}
-
 interface CardTokens {
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;
-  imageHoverEffect?: ImageHoverEffect;
 }
 
 interface LayoutTokens {
@@ -64,12 +56,6 @@ interface TypographyTokens {
 }
 
 // Hardcoded defaults (previously in preset-defaults.ts)
-const DEFAULT_EFFECT_VALUES = {
-  shadowElevation: "sm" as ShadowElevation,
-  transitionSpeed: "normal" as TransitionSpeed,
-  transitionEasing: "ease" as TransitionEasing,
-};
-
 const DEFAULT_TYPOGRAPHY_VALUES = {
   fontPair: "modern",
   headingWeight: 600,
@@ -97,7 +83,6 @@ const DEFAULT_CARD_VALUES = {
   cardBorderTreatment: "none" as CardBorderTreatment,
   imageFit: "cover" as ImageFit,
   imageBorderRadius: "same-as-card" as ImageBorderRadius,
-  imageHoverEffect: "zoom" as ImageHoverEffect,
 };
 
 const DEFAULT_CHROME_VALUES = {
@@ -138,86 +123,6 @@ function hexToRgb(hex: string): string {
   const b = parseInt(full.slice(4, 6), 16);
   if (isNaN(r) || isNaN(g) || isNaN(b)) return "";
   return `${r}, ${g}, ${b}`;
-}
-
-const TRANSITION_SPEED_MAP: Record<TransitionSpeed, string> = {
-  instant: "0ms",
-  fast: "150ms",
-  normal: "250ms",
-  slow: "400ms",
-  "very-slow": "600ms",
-};
-
-const TRANSITION_EASING_MAP: Record<TransitionEasing, string> = {
-  linear: "linear",
-  ease: "ease",
-  "ease-in-out": "ease-in-out",
-  spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
-};
-
-const SHADOW_ELEVATION_MAP: Record<ShadowElevation, string> = {
-  none: "0",
-  xs: "0.5",
-  sm: "1",
-  md: "1.5",
-  lg: "2",
-  xl: "3",
-};
-
-const ANIMATION_HOVER_SCALE: Record<AnimationLevel, string> = {
-  none: "1",
-  subtle: "1.02",
-  full: "1.05",
-};
-
-const ANIMATION_HOVER_LIFT: Record<AnimationLevel, string> = {
-  none: "0px",
-  subtle: "-2px",
-  full: "-4px",
-};
-
-const ANIMATION_HOVER_GLOW_SPREAD: Record<AnimationLevel, string> = {
-  none: "0px",
-  subtle: "4px",
-  full: "12px",
-};
-
-const ANIMATION_HOVER_GLOW_OPACITY: Record<AnimationLevel, string> = {
-  none: "0",
-  subtle: "0.15",
-  full: "0.3",
-};
-
-const ANIMATION_ENTER_DISTANCE: Record<AnimationLevel, string> = {
-  none: "0px",
-  subtle: "8px",
-  full: "20px",
-};
-
-const ANIMATION_ENTER_DURATION: Record<AnimationLevel, string> = {
-  none: "0ms",
-  subtle: "300ms",
-  full: "500ms",
-};
-
-function buildEffectVars(effects: EffectTokens): Record<string, string> {
-  // animationLevel removed from preset system — use "subtle" as fixed default
-  const level: AnimationLevel = "subtle";
-  const speed: TransitionSpeed = effects.transitionSpeed ?? DEFAULT_EFFECT_VALUES.transitionSpeed;
-  const easing: TransitionEasing = effects.transitionEasing ?? DEFAULT_EFFECT_VALUES.transitionEasing;
-  const elevation: ShadowElevation = effects.shadowElevation ?? DEFAULT_EFFECT_VALUES.shadowElevation;
-
-  return {
-    "--t-fx-duration": TRANSITION_SPEED_MAP[speed],
-    "--t-fx-easing": TRANSITION_EASING_MAP[easing],
-    "--t-fx-hover-scale": ANIMATION_HOVER_SCALE[level],
-    "--t-fx-hover-lift": ANIMATION_HOVER_LIFT[level],
-    "--t-fx-hover-glow-spread": ANIMATION_HOVER_GLOW_SPREAD[level],
-    "--t-fx-hover-glow-opacity": ANIMATION_HOVER_GLOW_OPACITY[level],
-    "--t-fx-enter-distance": ANIMATION_ENTER_DISTANCE[level],
-    "--t-fx-enter-duration": ANIMATION_ENTER_DURATION[level],
-    "--t-shadow-scale": SHADOW_ELEVATION_MAP[elevation],
-  };
 }
 
 const BODY_FONT_SIZE_MAP: Record<BodyFontSize, string> = {
@@ -448,21 +353,12 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars['--t-space-item']    = sd.item;
   vars['--t-space-gap']     = sd.gap;
 
-  // ── Effect tokens → --t-fx-* ──────────────────────────────────────────────
-  // Motion/interaction personality tokens. Read from config.effects and falling back
-  // to hardcoded defaults for all undefined fields.
-  const effectInput: EffectTokens = {
-    ...config.effects,
-  };
-  Object.assign(vars, buildEffectVars(effectInput));
-
   // ── Card tokens → --t-radius-*, --t-card-padding ──────────────────────────
   // Read from config.layout (the merged TemplateLayoutConfig) for card/chrome fields.
   const cardInput: CardTokens = {
     cardBorderTreatment: config.layout?.cardBorderTreatment,
     imageFit: config.layout?.imageFit,
     imageBorderRadius: config.layout?.imageBorderRadius,
-    imageHoverEffect: config.layout?.imageHoverEffect,
   };
   const chromeRadiusScale = config.layout?.borderRadiusScale;
   Object.assign(vars, buildCardVars(cardInput, chromeRadiusScale));
