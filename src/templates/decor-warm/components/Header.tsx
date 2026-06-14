@@ -63,7 +63,7 @@ export function Header({
           </span>
           <span
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "14px",
               fontWeight: 400,
@@ -157,7 +157,7 @@ export function Header({
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "14px",
                   fontWeight: 500,
-                  color: isActive ? "var(--t-primary)" : "var(--t-dark-mode)",
+                  color: isActive ? "var(--t-primary)" : "var(--t-foreground)",
                   opacity: isActive ? 1 : 0.45,
                 }}
                 onMouseEnter={(e) => {
@@ -166,7 +166,7 @@ export function Header({
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.opacity = isActive ? "1" : "0.45";
-                  (e.currentTarget as HTMLButtonElement).style.color = isActive ? "var(--t-primary)" : "var(--t-dark-mode)";
+                  (e.currentTarget as HTMLButtonElement).style.color = isActive ? "var(--t-primary)" : "var(--t-foreground)";
                 }}
                 onClick={() => onNavLinkClick?.(link.href)}
                 aria-current={isActive ? "page" : undefined}

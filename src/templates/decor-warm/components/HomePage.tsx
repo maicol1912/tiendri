@@ -164,7 +164,7 @@ export function HomePage({
           <div className="flex items-center justify-between">
             <h2
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
                 fontSize: "var(--t-type-heading-size, 16px)",
@@ -199,7 +199,7 @@ export function HomePage({
         <div className="flex items-center justify-between">
           <h2
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
               fontSize: "var(--t-type-heading-size, 16px)",

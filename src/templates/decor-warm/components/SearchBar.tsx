@@ -88,7 +88,7 @@ export function SearchBar({
           fontFamily: "'Poppins', sans-serif",
           fontSize: "14px",
           fontWeight: 400,
-          color: "var(--t-dark-mode)",
+          color: "var(--t-foreground)",
           border: "none",
         }}
         aria-label="Buscar productos"

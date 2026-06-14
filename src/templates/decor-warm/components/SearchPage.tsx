@@ -101,7 +101,7 @@ export function SearchPage({
               autoFocus
               className="flex-1 bg-transparent border-none outline-none"
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 fontWeight: 400,
@@ -138,7 +138,7 @@ export function SearchPage({
           <section className="flex flex-col gap-3">
             <h3
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 fontWeight: 600,
@@ -177,7 +177,7 @@ export function SearchPage({
           <section className="flex flex-col gap-3">
             <h3
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 fontWeight: 600,
@@ -255,7 +255,7 @@ export function SearchPage({
             </div>
             <p
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "15px",
                 fontWeight: 600,

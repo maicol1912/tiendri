@@ -60,7 +60,7 @@ function InfoCard({ icon, label, value }: InfoCardProps) {
         </p>
         <div
           style={{
-            color: "var(--t-dark-mode)",
+            color: "var(--t-foreground)",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "14px",
             fontWeight: 500,
@@ -116,12 +116,12 @@ export function StoreInfoPage({
               onClick={onBack}
               aria-label="Volver"
             >
-              <ArrowLeft size={16} style={{ color: "var(--t-dark-mode)" }} />
+              <ArrowLeft size={16} style={{ color: "var(--t-foreground)" }} />
             </button>
           )}
           <h1
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "20px",
               fontWeight: 600,
@@ -169,7 +169,7 @@ export function StoreInfoPage({
           <h2
             id="contact-heading"
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "14px",
               fontWeight: 600,
@@ -215,7 +215,7 @@ export function StoreInfoPage({
             <h2
               id="social-heading"
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "14px",
                 fontWeight: 600,

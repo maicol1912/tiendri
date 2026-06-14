@@ -30,7 +30,7 @@ export function Footer({ store }: FooterProps) {
         {/* Store name */}
         <span
           style={{
-            color: "var(--t-dark-mode)",
+            color: "var(--t-foreground)",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "16px",
             fontWeight: 600,

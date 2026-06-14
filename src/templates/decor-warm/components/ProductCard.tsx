@@ -123,7 +123,7 @@ export function ProductCard({
         <p
           className="leading-snug line-clamp-2 capitalize"
           style={{
-            color: "var(--t-muted)",
+            color: "var(--t-foreground)",
             fontFamily: "var(--font-heading)",
             fontSize: "15px",
             fontWeight: 500,

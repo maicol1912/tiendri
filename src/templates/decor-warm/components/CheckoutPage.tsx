@@ -89,7 +89,7 @@ export function CheckoutPage({
         >
           <h3
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "14px",
               fontWeight: 600,
@@ -165,7 +165,7 @@ export function CheckoutPage({
             <div className="flex justify-between">
               <span
                 style={{
-                  color: "var(--t-dark-mode)",
+                  color: "var(--t-foreground)",
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "14px",
                   fontWeight: 600,

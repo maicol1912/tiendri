@@ -206,12 +206,12 @@ export function ProductDetailPage({
           )}
         </div>
 
-        {/* Purple gradient overlay */}
+        {/* Primary-tinted gradient overlay — adapts to any palette */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--t-primary) 30%, transparent) 40%, color-mix(in srgb, var(--t-primary) 90%, black) 100%)",
+              "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--t-primary) 20%, transparent) 40%, color-mix(in srgb, var(--t-primary) 70%, transparent) 100%)",
           }}
         />
 
@@ -264,7 +264,7 @@ export function ProductDetailPage({
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to right, color-mix(in srgb, var(--t-primary) 60%, black) 0%, transparent 40%, transparent 60%, color-mix(in srgb, var(--t-primary) 80%, black) 100%)",
+                  "linear-gradient(to right, color-mix(in srgb, var(--t-primary) 50%, transparent) 0%, transparent 40%, transparent 60%, color-mix(in srgb, var(--t-primary) 60%, transparent) 100%)",
               }}
             />
             <button
@@ -285,12 +285,12 @@ export function ProductDetailPage({
             </button>
           </div>
 
-          {/* Right: deep purple + info card */}
+          {/* Right: soft card surface + subtle secondary accent — adapts to any palette */}
           <div
             className="relative w-1/2 flex flex-col justify-center"
             style={{
               background:
-                "linear-gradient(to bottom, color-mix(in srgb, var(--t-primary) 95%, black) 0%, color-mix(in srgb, var(--t-primary) 98%, black) 100%)",
+                "linear-gradient(to bottom, var(--t-secondary) 0%, var(--t-card) 100%)",
               padding: "64px 48px",
             }}
           >
@@ -302,7 +302,7 @@ export function ProductDetailPage({
         {relatedProducts.length > 0 && (
           <section
             className="px-12 pt-12 pb-16"
-            style={{ backgroundColor: "var(--t-review-bg)" }}
+            style={{ backgroundColor: "var(--t-background)" }}
             aria-labelledby="related-heading"
           >
             <div className="max-w-7xl mx-auto">
@@ -331,7 +331,7 @@ export function ProductDetailPage({
       {relatedProducts.length > 0 && (
         <section
           className="md:hidden px-5 pt-8 pb-12"
-          style={{ backgroundColor: "var(--t-review-bg)" }}
+          style={{ backgroundColor: "var(--t-background)" }}
           aria-labelledby="related-heading-mobile"
         >
           <h2

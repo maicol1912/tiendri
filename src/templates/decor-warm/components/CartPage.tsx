@@ -97,7 +97,7 @@ export function CartPage({
             </div>
             <p
               style={{
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "16px",
                 fontWeight: 600,

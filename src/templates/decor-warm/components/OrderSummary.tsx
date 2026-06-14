@@ -47,7 +47,7 @@ export function OrderSummary({
           </span>
           <span
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "13px",
               fontWeight: 500,
@@ -81,7 +81,7 @@ export function OrderSummary({
         <div className="flex justify-between pt-1" style={{ borderTop: "1px solid var(--t-border)" }}>
           <span
             style={{
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "15px",
               fontWeight: 600,

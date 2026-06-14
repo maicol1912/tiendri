@@ -61,9 +61,9 @@ export function BottomNav({
                   size={22}
                   strokeWidth={isActive ? 2.25 : 1.75}
                   style={{
-                    color: isActive ? "var(--t-dark-mode)" : "var(--t-icon-inactive)",
+                    color: isActive ? "var(--t-foreground)" : "var(--t-icon-inactive)",
                     transition: "color 0.15s ease",
-                    fill: isActive ? `var(--t-dark-mode)` : "transparent",
+                    fill: isActive ? `var(--t-foreground)` : "transparent",
                     fillOpacity: isActive ? 0.08 : 0,
                   }}
                 />

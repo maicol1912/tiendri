@@ -47,7 +47,7 @@ function FormField({
     border: error ? "1px solid var(--t-primary)" : "1px solid var(--t-border)",
     borderRadius: "var(--t-radius-category)",
     padding: "10px 14px",
-    color: "var(--t-dark-mode)",
+    color: "var(--t-foreground)",
     fontFamily: "'Poppins', sans-serif",
     fontSize: "14px",
     fontWeight: 400,
@@ -118,7 +118,7 @@ export function CheckoutForm({
     <div className="flex-1 flex flex-col gap-4">
       <h2
         style={{
-          color: "var(--t-dark-mode)",
+          color: "var(--t-foreground)",
           fontFamily: "'Poppins', sans-serif",
           fontSize: "15px",
           fontWeight: 600,

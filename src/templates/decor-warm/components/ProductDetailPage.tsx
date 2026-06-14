@@ -145,8 +145,8 @@ export function ProductDetailPage({
 
   const cartBtnStyle: React.CSSProperties = {
     flex: 1,
-    backgroundColor: isAdded ? "#22C55E" : "var(--t-primary)",
-    color: isAdded ? "#FFFFFF" : "var(--t-background)",
+    backgroundColor: isAdded ? "var(--t-primary)" : "var(--t-primary)",
+    color: isAdded ? "var(--t-background)" : "var(--t-background)",
     fontFamily: "'Poppins', sans-serif",
     fontSize: "15px",
     fontWeight: 600,
@@ -293,7 +293,7 @@ export function ProductDetailPage({
       {/* Name */}
       <h1
         style={{
-          color: "var(--t-dark-mode)",
+          color: "var(--t-foreground)",
           fontFamily: "'Poppins', sans-serif",
           fontSize: isDesktop ? "28px" : "22px",
           fontWeight: 700,
@@ -415,7 +415,7 @@ export function ProductDetailPage({
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: "12px",
                     fontWeight: 600,
-                    color: "var(--t-dark-mode)",
+                    color: "var(--t-foreground)",
                     margin: 0,
                   }}
                 >
@@ -451,7 +451,7 @@ export function ProductDetailPage({
           fontFamily: "'Poppins', sans-serif",
           fontSize: "22px",
           fontWeight: 600,
-          color: "var(--t-dark-mode)",
+          color: "var(--t-foreground)",
           margin: "0 0 16px 0",
         }}
       >
@@ -485,7 +485,7 @@ export function ProductDetailPage({
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: "15px",
                   fontWeight: 600,
-                  color: "var(--t-dark-mode)",
+                  color: "var(--t-foreground)",
                   textAlign: "left",
                 }}
               >
@@ -575,7 +575,7 @@ export function ProductDetailPage({
           style={{
             fontFamily: "'Poppins', sans-serif",
             fontSize: "14px",
-            color: "var(--t-dark-mode)",
+            color: "var(--t-foreground)",
           }}
         >
           {product.name}
@@ -591,12 +591,12 @@ export function ProductDetailPage({
           style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
           aria-label="Volver"
         >
-          <ArrowLeft size={18} style={{ color: "var(--t-dark-mode)" }} />
+          <ArrowLeft size={18} style={{ color: "var(--t-foreground)" }} />
           <span
             style={{
               fontFamily: "'Poppins', sans-serif",
               fontSize: "14px",
-              color: "var(--t-dark-mode)",
+              color: "var(--t-foreground)",
             }}
           >
             Volver
@@ -647,7 +647,7 @@ export function ProductDetailPage({
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "22px",
                 fontWeight: 600,
-                color: "var(--t-dark-mode)",
+                color: "var(--t-foreground)",
                 margin: "0 0 16px 0",
               }}
             >
