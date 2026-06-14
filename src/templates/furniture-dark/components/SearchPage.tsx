@@ -1,3 +1,5 @@
+"use client";
+
 // Furniture Dark — SearchPage
 // Real <input> with autofocus; empty state / results / no-results
 // ALL colors via var(--t-*)

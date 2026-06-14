@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { HomePage } from "./HomePage";
 import type { FurnitureDarkConfig } from "../config";

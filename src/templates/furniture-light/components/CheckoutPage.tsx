@@ -6,11 +6,12 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
-import type { FurnitureStoreInfo, FurnitureCheckoutFormData, FurnitureNavTab, FurnitureCartItem } from "../types";
+import type { FurnitureStoreInfo, FurnitureCheckoutFormData, FurnitureNavTab } from "../types";
+import type { CartItem } from "@/lib/cart";
 
 interface CheckoutPageProps {
   store: FurnitureStoreInfo;
-  items: FurnitureCartItem[];
+  items: CartItem[];
   navLinks?: readonly { label: string; href: string }[];
   layout?: Record<string, unknown>;
   currencySymbol?: string;

@@ -122,15 +122,15 @@ export function CheckoutForm({
         <div className="flex flex-col gap-[10px]">
           {orderItems.map((item, i) => (
             <div
-              key={`${item.productId}-${item.variantLabel ?? i}`}
+              key={`${item.productId}-${item.variantName ?? i}`}
               className="flex items-center justify-between"
             >
               <span
                 className="text-sm font-normal text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                {item.quantity}× {item.productName}
-                {item.variantLabel ? ` (${item.variantLabel})` : ""}
+                {item.quantity}× {item.name}
+                {item.variantName ? ` (${item.variantName})` : ""}
               </span>
               <span
                 className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"

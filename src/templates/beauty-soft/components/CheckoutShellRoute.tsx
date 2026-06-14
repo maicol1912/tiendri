@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import type { StoreInfo } from "@/types/store";
 
@@ -58,7 +58,7 @@ function validateForm(data: FormData): FieldError {
 function buildWhatsAppMessage(
   storeName: string,
   formData: FormData,
-  items: Array<{ productName: string; variantLabel?: string | null; quantity: number; price: number }>,
+  items: Array<{ name: string; variantName?: string | null; quantity: number; price: number }>,
   totalPrice: number,
   currencySymbol: string
 ): string {
@@ -75,7 +75,7 @@ function buildWhatsAppMessage(
     "*Productos:*",
     ...items.map(
       (item) =>
-        `• ${item.quantity}× ${item.productName}${item.variantLabel ? ` (${item.variantLabel})` : ""} — ${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price * item.quantity)}`
+        `• ${item.quantity}× ${item.name}${item.variantName ? ` (${item.variantName})` : ""} — ${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price * item.quantity)}`
     ),
     "",
     `*Total: ${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}*`,
@@ -141,9 +141,9 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
 
   const orderItems = items.map((item) => ({
     productId: item.productId,
-    productName: item.productName,
+    name: item.name,
     imageUrl: item.imageUrl,
-    variantLabel: item.variantLabel ?? undefined,
+    variantName: item.variantName ?? undefined,
     quantity: item.quantity,
     price: item.price,
   }));

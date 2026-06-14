@@ -7,10 +7,11 @@
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { CheckoutForm } from "./CheckoutForm";
+import { formatPrice } from "@/lib/format";
 
 export interface CheckoutOrderItem {
   productId: string;
-  productName: string;
+  name: string;
   imageUrl?: string | null;
   quantity: number;
   price: number;
@@ -42,11 +43,6 @@ interface CheckoutPageProps {
   onFieldChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
 }
-
-function formatPrice(price: number, symbol = "$") {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
-
 
 export function CheckoutPage({
   orderItems,
@@ -147,7 +143,7 @@ export function CheckoutPage({
                   {item.imageUrl ? (
                     <Image
                       src={item.imageUrl}
-                      alt={item.productName}
+                      alt={item.name}
                       fill
                       sizes="46px"
                       className="object-contain p-1"
@@ -164,7 +160,7 @@ export function CheckoutPage({
                       fontWeight: 500,
                     }}
                   >
-                    {item.productName}
+                    {item.name}
                   </p>
                   <p
                     className="m-0"

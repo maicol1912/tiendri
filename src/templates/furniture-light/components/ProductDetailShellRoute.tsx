@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
@@ -37,7 +37,7 @@ export function ProductDetailShellRoute({
     if (product.available === false) return;
     addItem({
       productId: product.id,
-      variant: product.colorOptions?.[selectedColorIndex] ?? product.colorVariant ?? undefined,
+      variantName: product.colorOptions?.[selectedColorIndex] ?? product.colorVariant ?? null,
       name: product.name,
       price: product.price,
       quantity: 1,
@@ -61,7 +61,7 @@ export function ProductDetailShellRoute({
       if (!p || p.available === false) return;
       addItem({
         productId: p.id,
-        variant: p.colorVariant ?? undefined,
+        variantName: p.colorVariant ?? null,
         name: p.name,
         price: p.price,
         quantity: 1,

@@ -9,4 +9,4 @@ export { CartShellRoute } from "./components/CartShellRoute";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { ListingShellRoute } from "./components/ListingShellRoute";
 export { SearchShellRoute } from "./components/SearchShellRoute";
-export { CartProvider } from "./context/CartContext";
+export { CartProvider } from "@/lib/cart";

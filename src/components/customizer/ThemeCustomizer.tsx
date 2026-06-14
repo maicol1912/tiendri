@@ -23,6 +23,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { fontPairs, fontGroups } from "@/lib/fonts";
 
 // ── Palette type (mirrors ColorPalette from config-schema) ────────────────────
 
@@ -121,14 +122,11 @@ export interface MutableLayout {
 export interface MutableTypography {
   headingWeight: number;
   headingScale: string;
-  headingTracking: string;
   headingTransform: string;
-  headingFontStyle: string;
-  headingDecoration: string;
   bodyFontSize: string;
-  bodyLineHeight: string;
-  displaySize: string;
-  cardTextAlign: string;
+  headingSpacing: string;
+  bodyFontWeight: number;
+  fontSizeContrast: string;
 }
 
 export interface MutableColor {
@@ -452,14 +450,11 @@ export function ThemeCustomizer({
           typography: {
             headingWeight: config.theme?.typography?.headingWeight ?? 700,
             headingScale: config.theme?.typography?.headingScale ?? "xl",
-            headingTracking: config.theme?.typography?.headingTracking ?? "-0.02em",
             headingTransform: config.theme?.typography?.headingTransform ?? "none",
-            headingFontStyle: config.theme?.typography?.headingFontStyle ?? "normal",
-            headingDecoration: config.theme?.typography?.headingDecoration ?? "none",
             bodyFontSize: config.theme?.typography?.bodyFontSize ?? "base",
-            bodyLineHeight: config.theme?.typography?.bodyLineHeight ?? "normal",
-            displaySize: config.theme?.typography?.displaySize ?? "lg",
-            cardTextAlign: config.theme?.typography?.cardTextAlign ?? "left",
+            headingSpacing: config.theme?.typography?.headingSpacing ?? "normal",
+            bodyFontWeight: config.theme?.typography?.bodyFontWeight ?? 400,
+            fontSizeContrast: config.theme?.typography?.fontSizeContrast ?? "medium",
             [key]: value,
           },
         },
@@ -666,165 +661,151 @@ export function ThemeCustomizer({
 
                   {/* ── TIPOGRAFÍA ───────────────────────────────────── */}
                   {id === "tipografia" && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      {/* Font pair */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                       <div>
-                        <label style={labelStyle}>Par tipográfico</label>
-                        <select
-                          value={config.theme?.typography?.headingScale ?? "modern"}
-                          onChange={(e) => updateTypography("headingScale", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="modern">Moderno</option>
-                          <option value="warm">Cálido</option>
-                          <option value="elegant">Elegante</option>
-                          <option value="functional">Funcional</option>
-                          <option value="mono-geometric">Mono geométrico</option>
-                          <option value="display-impact">Impacto display</option>
-                          <option value="whisper-light">Suave ligero</option>
-                          <option value="handcraft-mix">Artesanal mixto</option>
-                        </select>
+                        <label style={labelStyle}>Estilo de fuente</label>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                          {fontGroups.map((group) => (
+                            <div key={group.id}>
+                              <div style={{ fontSize: "10px", color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
+                                {group.name}
+                              </div>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                                {group.pairs.map((pairId) => {
+                                  const pair = fontPairs[pairId];
+                                  if (!pair) return null;
+                                  const isSelected = (config.fontPair ?? "minimalista") === pairId;
+                                  return (
+                                    <button
+                                      key={pairId}
+                                      type="button"
+                                      onClick={() => onConfigChange({ ...config, fontPair: pairId })}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "flex-start",
+                                        gap: "2px",
+                                        padding: "8px 10px",
+                                        background: isSelected ? "#1a2a1a" : "#222",
+                                        border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                                        borderRadius: "8px",
+                                        cursor: "pointer",
+                                        textAlign: "left",
+                                        width: "100%",
+                                        transition: "border-color 0.15s, background 0.15s",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                                      }}
+                                    >
+                                      <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "#e5e5e5", lineHeight: 1.2 }}>
+                                        {pair.name}
+                                      </span>
+                                      <span style={{ fontFamily: pair.body.style.fontFamily, fontSize: "11px", color: "#666", lineHeight: 1.3 }}>
+                                        {pair.description}
+                                      </span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
-                      {/* Heading weight */}
-                      <div>
-                        <label style={labelStyle}>Peso del título</label>
-                        <select
-                          value={config.theme?.typography?.headingWeight ?? 700}
-                          onChange={(e) => updateTypography("headingWeight", Number(e.target.value))}
-                          style={selectStyle}
-                        >
-                          <option value={400}>Fino (400)</option>
-                          <option value={500}>Regular (500)</option>
-                          <option value={600}>Semibold (600)</option>
-                          <option value={700}>Bold (700)</option>
-                          <option value={800}>Extrabold (800)</option>
-                        </select>
-                      </div>
+                      <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                        <div>
+                          <label style={labelStyle}>Peso del título</label>
+                          <select
+                            value={config.theme?.typography?.headingWeight ?? 700}
+                            onChange={(e) => updateTypography("headingWeight", Number(e.target.value))}
+                            style={selectStyle}
+                          >
+                            <option value={400}>Fino (400)</option>
+                            <option value={500}>Regular (500)</option>
+                            <option value={600}>Semibold (600)</option>
+                            <option value={700}>Bold (700)</option>
+                            <option value={800}>Extrabold (800)</option>
+                          </select>
+                        </div>
 
-                      {/* Heading scale */}
-                      <div>
-                        <label style={labelStyle}>Tamaño del título</label>
-                        <select
-                          value={config.theme?.typography?.headingScale ?? "xl"}
-                          onChange={(e) => updateTypography("headingScale", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="md">Compacto</option>
-                          <option value="lg">Normal</option>
-                          <option value="xl">Grande</option>
-                          <option value="2xl">Muy grande</option>
-                        </select>
-                      </div>
+                        <div>
+                          <label style={labelStyle}>Tamaño del título</label>
+                          <select
+                            value={config.theme?.typography?.headingScale ?? "xl"}
+                            onChange={(e) => updateTypography("headingScale", e.target.value)}
+                            style={selectStyle}
+                          >
+                            <option value="md">Compacto</option>
+                            <option value="lg">Normal</option>
+                            <option value="xl">Grande</option>
+                            <option value="2xl">Muy grande</option>
+                          </select>
+                        </div>
 
-                      {/* Heading tracking */}
-                      <div>
-                        <label style={labelStyle}>Espaciado entre letras</label>
-                        <select
-                          value={config.theme?.typography?.headingTracking ?? "-0.02em"}
-                          onChange={(e) => updateTypography("headingTracking", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="-0.03em">Comprimido</option>
-                          <option value="-0.02em">Apretado</option>
-                          <option value="-0.01em">Normal</option>
-                          <option value="0em">Espaciado</option>
-                          <option value="0.05em">Amplio</option>
-                        </select>
-                      </div>
+                        <ControlField
+                          label="Mayúsculas"
+                          field="typography.headingTransform"
+                          value={config.theme?.typography?.headingTransform ?? "none"}
+                          options={[
+                            { value: "none", label: "Normal" },
+                            { value: "uppercase", label: "MAYÚSCULAS" },
+                          ]}
+                          onChange={(v) => updateTypography("headingTransform", v)}
+                        />
 
-                      {/* Heading transform */}
-                      <ControlField
-                        label="Transformación del título"
-                        field="typography.headingTransform"
-                        value={config.theme?.typography?.headingTransform ?? "none"}
-                        options={[
-                          { value: "none", label: "Normal" },
-                          { value: "uppercase", label: "MAYÚSCULAS" },
-                        ]}
-                        onChange={(v) => updateTypography("headingTransform", v)}
-                      />
+                        <ControlField
+                          label="Espaciado del título"
+                          field="typography.headingSpacing"
+                          value={config.theme?.typography?.headingSpacing ?? "normal"}
+                          options={[
+                            { value: "tight", label: "Compacto" },
+                            { value: "normal", label: "Normal" },
+                            { value: "wide", label: "Amplio" },
+                          ]}
+                          onChange={(v) => updateTypography("headingSpacing", v)}
+                        />
 
-                      {/* Heading font style */}
-                      <ControlField
-                        label="Estilo del título"
-                        field="typography.headingFontStyle"
-                        value={config.theme?.typography?.headingFontStyle ?? "normal"}
-                        options={[
-                          { value: "normal", label: "Normal" },
-                          { value: "italic", label: "Cursiva" },
-                        ]}
-                        onChange={(v) => updateTypography("headingFontStyle", v)}
-                      />
+                        <div>
+                          <label style={labelStyle}>Tamaño del texto</label>
+                          <select
+                            value={config.theme?.typography?.bodyFontSize ?? "base"}
+                            onChange={(e) => updateTypography("bodyFontSize", e.target.value)}
+                            style={selectStyle}
+                          >
+                            <option value="sm">Pequeño</option>
+                            <option value="base">Normal</option>
+                            <option value="lg">Grande</option>
+                          </select>
+                        </div>
 
-                      {/* Heading decoration */}
-                      <ControlField
-                        label="Decoración del título"
-                        field="typography.headingDecoration"
-                        value={config.theme?.typography?.headingDecoration ?? "none"}
-                        options={[
-                          { value: "none", label: "Sin decoración" },
-                          { value: "underline", label: "Subrayado" },
-                          { value: "overline", label: "Línea superior" },
-                          { value: "highlight", label: "Resaltado" },
-                        ]}
-                        onChange={(v) => updateTypography("headingDecoration", v)}
-                      />
+                        <ControlField
+                          label="Peso del texto"
+                          field="typography.bodyFontWeight"
+                          value={String(config.theme?.typography?.bodyFontWeight ?? 400)}
+                          options={[
+                            { value: "300", label: "Ligero" },
+                            { value: "400", label: "Normal" },
+                            { value: "500", label: "Medio" },
+                          ]}
+                          onChange={(v) => updateTypography("bodyFontWeight", Number(v))}
+                        />
 
-                      {/* Body font size */}
-                      <div>
-                        <label style={labelStyle}>Tamaño del texto</label>
-                        <select
-                          value={config.theme?.typography?.bodyFontSize ?? "base"}
-                          onChange={(e) => updateTypography("bodyFontSize", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="sm">Pequeño</option>
-                          <option value="base">Normal</option>
-                          <option value="lg">Grande</option>
-                        </select>
-                      </div>
-
-                      {/* Body line height */}
-                      <ControlField
-                        label="Interlineado"
-                        field="typography.bodyLineHeight"
-                        value={config.theme?.typography?.bodyLineHeight ?? "normal"}
-                        options={[
-                          { value: "tight", label: "Apretado" },
-                          { value: "normal", label: "Normal" },
-                          { value: "relaxed", label: "Relajado" },
-                          { value: "loose", label: "Suelto" },
-                        ]}
-                        onChange={(v) => updateTypography("bodyLineHeight", v)}
-                      />
-
-                      {/* Display size */}
-                      <div>
-                        <label style={labelStyle}>Tamaño de títulos display</label>
-                        <select
-                          value={config.theme?.typography?.displaySize ?? "lg"}
-                          onChange={(e) => updateTypography("displaySize", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="md">Mediano</option>
-                          <option value="lg">Grande</option>
-                          <option value="xl">Extra grande</option>
-                          <option value="2xl">Muy grande</option>
-                        </select>
-                      </div>
-
-                      {/* Card text align */}
-                      <div>
-                        <label style={labelStyle}>Alineación del texto en tarjetas</label>
-                        <select
-                          value={config.theme?.typography?.cardTextAlign ?? "left"}
-                          onChange={(e) => updateTypography("cardTextAlign", e.target.value)}
-                          style={selectStyle}
-                        >
-                          <option value="left">Izquierda</option>
-                          <option value="center">Centrado</option>
-                        </select>
+                        <ControlField
+                          label="Contraste de tamaño"
+                          field="typography.fontSizeContrast"
+                          value={config.theme?.typography?.fontSizeContrast ?? "medium"}
+                          options={[
+                            { value: "low", label: "Sutil" },
+                            { value: "medium", label: "Medio" },
+                            { value: "high", label: "Alto" },
+                            { value: "extreme", label: "Extremo" },
+                          ]}
+                          onChange={(v) => updateTypography("fontSizeContrast", v)}
+                        />
                       </div>
                     </div>
                   )}

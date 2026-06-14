@@ -6,11 +6,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { CheckoutPage } from "./CheckoutPage";
 import { mockStore } from "../mock/data";
 import type { CheckoutFormData } from "../types";
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 const EMPTY_FORM: CheckoutFormData = {
   firstName: "",
@@ -22,15 +23,6 @@ const EMPTY_FORM: CheckoutFormData = {
   state: "",
   notes: "",
 };
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
 
 function buildWhatsAppMessage(
   formData: CheckoutFormData,

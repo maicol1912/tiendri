@@ -3,16 +3,14 @@
 // Food Night — Order Summary Card
 // Subtotal, discounts, delivery, total — compact card
 
+import { formatPrice } from "@/lib/format";
+
 interface OrderSummaryProps {
   subtotal: number;
   discount?: number;
   deliveryFee?: number;
   currencySymbol?: string;
   itemCount?: number;
-}
-
-function formatPrice(amount: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(amount)}`;
 }
 
 export function OrderSummary({

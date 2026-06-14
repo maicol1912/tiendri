@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { mockStore, mockProducts } from "../mock/data";
@@ -35,8 +35,9 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       productId: product.id,
       name: product.name,
       price: product.price,
-      image: images[0]?.url ?? product.image ?? "",
+      imageUrl: images[0]?.url ?? product.image ?? null,
       quantity,
+      variantName: null,
       colorId: selectedColorId,
       rating: product.rating,
     });

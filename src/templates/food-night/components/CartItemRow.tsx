@@ -5,8 +5,9 @@
 
 import Image from "next/image";
 import { Trash2, Star } from "lucide-react";
-import { QuantityStepper } from "./QuantityStepper";
-import type { CartItem } from "../types";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import type { CartItem } from "@/lib/cart";
+import { formatPrice } from "@/lib/format";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -14,10 +15,6 @@ interface CartItemRowProps {
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
   onRemove?: (productId: string) => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function CartItemRow({
@@ -69,9 +66,9 @@ export function CartItemRow({
           {item.name}
         </p>
 
-        {item.sizeLabel && (
+        {item.variantName && (
           <p className="text-[11px] font-normal" style={{ color: "var(--t-muted)" }}>
-            Tamaño: {item.sizeLabel}
+            Tamaño: {item.variantName}
           </p>
         )}
 

@@ -3,7 +3,7 @@
 // ZERO hardcoded colors — all via var(--t-*).
 
 import Image from "next/image";
-import type { CartItem } from "../context/CartContext";
+import type { CartItem } from "@/lib/cart";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -51,7 +51,7 @@ export function CartItemRow({
         {item.imageUrl ? (
           <Image
             src={item.imageUrl}
-            alt={item.productName}
+            alt={item.name}
             fill
             sizes="85px"
             className="object-cover"
@@ -83,7 +83,7 @@ export function CartItemRow({
           className="line-clamp-1 m-0 text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          {item.productName}
+          {item.name}
         </p>
 
         {item.description && (

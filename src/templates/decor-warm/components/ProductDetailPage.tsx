@@ -6,7 +6,7 @@
 import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { CategoryTabBar } from "./CategoryTabBar";
-import { QuantityStepper } from "./QuantityStepper";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import type { DecorWarmProduct, DecorWarmCategory } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 

@@ -3,7 +3,7 @@
 // Food Night — Search Shell Route
 
 import { SearchPage } from "./SearchPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";

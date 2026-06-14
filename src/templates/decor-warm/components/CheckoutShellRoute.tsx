@@ -6,7 +6,7 @@
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
 import type { CheckoutOrderItem } from "./CheckoutPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import type { StoreInfo } from "@/types/store";
 
@@ -62,7 +62,7 @@ function buildWhatsAppMessage(
     "*Productos:*",
     ...items.map(
       (item) =>
-        `• ${item.quantity}× ${item.productName} — ${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price * item.quantity)}`
+        `• ${item.quantity}× ${item.name} — ${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price * item.quantity)}`
     ),
     "",
     `*Total: ${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}*`,
@@ -132,7 +132,7 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
 
   const orderItems: CheckoutOrderItem[] = items.map((item) => ({
     productId: item.productId,
-    productName: item.name,
+    name: item.name,
     imageUrl: item.imageUrl,
     quantity: item.quantity,
     price: item.price,

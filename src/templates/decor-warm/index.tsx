@@ -40,7 +40,7 @@ export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { StoreInfoPage } from "./components/StoreInfoPage";
 export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
-export { CartProvider, useCart } from "./context/CartContext";
+export { CartProvider, useCart } from "@/lib/cart";
 export type {
   DecorWarmProduct,
   DecorWarmCategory,

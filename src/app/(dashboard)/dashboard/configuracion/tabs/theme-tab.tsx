@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
 import type { TemplateConfigSchema, ColorPalette } from "@/types/templates/config-schema";
 import { updateTheme } from "../actions";
+import { CUSTOMIZATION_STORAGE_KEY } from "../client-utils";
+import type { StoreCustomization } from "@/types/templates/store-customization";
 
 // ── Fallback hardcoded arrays (used when no schema is provided) ─────────────
 
@@ -132,9 +134,28 @@ interface ThemeTabProps {
   initialTheme?: ThemeCustomization;
   /** When provided, colors/radius/fontPairs are read from the schema instead of hardcoded arrays. */
   schema?: TemplateConfigSchema;
+  isAuthenticated: boolean;
 }
 
-export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
+// ── localStorage fallback ─────────────────────────────────────────────────────
+
+function saveThemeToLocalStorage(theme: ThemeCustomization): void {
+  try {
+    const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
+    const current: StoreCustomization = raw
+      ? (JSON.parse(raw) as StoreCustomization)
+      : { templateId: "tech-premium" };
+    const updated: StoreCustomization = {
+      ...current,
+      theme: { ...(current.theme ?? {}), ...theme },
+    };
+    localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // Non-critical in demo mode
+  }
+}
+
+export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProps) {
   const palettes = schema?.theme.palettes;
   const hasPalettes = palettes && palettes.length > 0;
 
@@ -199,7 +220,7 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
   );
 
   const [fontPair, setFontPair] = useState<string>(
-    initialTheme?.fontPair ?? "modern"
+    initialTheme?.fontPair ?? "minimalista"
   );
 
   const [selectedTemplate] = useState("tech-premium");
@@ -254,7 +275,7 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
     return colors[key] !== paletteDefault;
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSaving(true);
 
@@ -271,14 +292,25 @@ export function ThemeTab({ initialTheme, schema }: ThemeTabProps) {
       fontPair,
     };
 
-    const result = updateTheme(theme);
-
-    setIsSaving(false);
-
-    if (result.success) {
-      toast.success("Cambios de apariencia guardados");
-    } else {
-      toast.error(result.error.message);
+    try {
+      if (isAuthenticated) {
+        const result = await updateTheme(theme);
+        if (result.success) {
+          toast.success("Cambios de apariencia guardados");
+        } else if (result.error.code === "UNAUTHORIZED") {
+          saveThemeToLocalStorage(theme);
+          toast.success("Cambios guardados localmente");
+        } else {
+          toast.error(result.error.message);
+        }
+      } else {
+        saveThemeToLocalStorage(theme);
+        toast.success("Cambios de apariencia guardados");
+      }
+    } catch {
+      toast.error("Error al guardar los cambios. Intentá de nuevo.");
+    } finally {
+      setIsSaving(false);
     }
   }
 

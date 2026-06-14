@@ -3,16 +3,8 @@
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
-import type { CartItem } from "../types";
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import type { CartItem } from "@/lib/cart";
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface OrderSummaryProps {
   items: CartItem[];
@@ -46,9 +38,9 @@ export function OrderSummary({ items, totalPrice }: OrderSummaryProps) {
               className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0"
               style={{ backgroundColor: "var(--t-card)" }}
             >
-              {item.image ? (
+              {item.imageUrl ? (
                 <Image
-                  src={item.image}
+                  src={item.imageUrl}
                   alt={item.name}
                   fill
                   sizes="56px"

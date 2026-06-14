@@ -28,11 +28,10 @@ export { SearchPage } from "./components/SearchPage";
 export { SearchShellRoute } from "./components/SearchShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
-export { CartProvider, useCart } from "./context/CartContext";
+export { CartProvider, useCart } from "@/lib/cart";
 export type {
   StoreInfo,
   StorefrontProduct,
-  CartItem,
   Category,
   NavTab,
   SizeOption,

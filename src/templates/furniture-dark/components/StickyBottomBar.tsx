@@ -3,7 +3,7 @@
 // Background: var(--t-border) = #242424
 // ALL colors via var(--t-*)
 
-import { QuantityStepper } from "./QuantityStepper";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
 
 interface StickyBottomBarProps {
   quantity: number;

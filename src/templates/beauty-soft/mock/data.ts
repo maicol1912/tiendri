@@ -133,16 +133,18 @@ export const mockDetailProduct: BeautySoftProduct = mockProducts[1]!;
 export const mockCartItems = [
   {
     productId: "prod-cleanser",
-    productName: "Limpiador Facial Suave",
+    name: "Limpiador Facial Suave",
     price: 55000,
     imageUrl: ASSETS.cart.cleanser,
+    variantName: null,
     quantity: 1,
   },
   {
     productId: "prod-sunscreen",
-    productName: "Protector Solar SPF 50+",
+    name: "Protector Solar SPF 50+",
     price: 58000,
     imageUrl: ASSETS.cart.sunscreen,
+    variantName: null,
     quantity: 2,
   },
 ];

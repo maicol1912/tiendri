@@ -43,7 +43,7 @@ export { SearchShellRoute } from "./components/SearchShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { FilterSidebar } from "./components/FilterSidebar";
-export { CartProvider, useCart } from "./context/CartContext";
+export { CartProvider, useCart } from "@/lib/cart";
 export type {
   StoreInfo,
   Category,

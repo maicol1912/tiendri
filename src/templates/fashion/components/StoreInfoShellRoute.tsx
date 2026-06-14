@@ -3,7 +3,7 @@
 // Fashion Template — Store Info Shell Route
 // Client boundary. Wires navigation into StoreInfoPage.
 
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { StoreInfoPage } from "./StoreInfoPage";
 import type { StoreInfo, NavTab } from "../types";
@@ -40,9 +40,5 @@ interface StoreInfoShellRouteProps {
 }
 
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <StoreInfoShellRouteInner store={store} />
-    </CartProvider>
-  );
+  return <StoreInfoShellRouteInner store={store} />;
 }

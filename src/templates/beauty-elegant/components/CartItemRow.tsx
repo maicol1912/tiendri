@@ -4,8 +4,9 @@
 // Glassmorphic purple tint card. Thumbnail + name + price + quantity counter.
 
 import Image from "next/image";
-import { QuantityStepper } from "./QuantityStepper";
-import type { CartItem } from "../types";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import type { CartItem } from "@/lib/cart";
+import { formatPrice } from "@/lib/format";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -13,10 +14,6 @@ interface CartItemRowProps {
   onIncrement?: () => void;
   onDecrement?: () => void;
   onRemove?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function CartItemRow({
@@ -45,7 +42,7 @@ export function CartItemRow({
         {item.imageUrl ? (
           <Image
             src={item.imageUrl}
-            alt={item.productName}
+            alt={item.name}
             fill
             sizes="80px"
             className="object-cover"
@@ -68,7 +65,7 @@ export function CartItemRow({
           className="line-clamp-1 text-sm font-semibold"
           style={{ color: "var(--t-foreground)", lineHeight: "20px", margin: 0 }}
         >
-          {item.productName}
+          {item.name}
         </p>
 
         {item.description && (

@@ -16,7 +16,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { HomePage } from "./HomePage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useStorefrontConfig } from "@/app/[slug]/storefront-config-provider";
 import {
   mockCategories,

@@ -4,7 +4,7 @@
 // Responsibilities:
 //   1. Fetch the published store from Supabase via getStoreBySlug (anon client,
 //      RLS ensures only onboarding_completed=true stores are returned)
-//   2. Look up the template config from the registry (only tech-premium for now)
+//   2. Look up the template config from the registry using store.template_id
 //   3. Merge template defaults with merchant customization via resolveTemplateConfig
 //   4. Produce CSS custom properties with buildCssVars
 //   5. Apply the merchant's chosen font pair via getFontPair
@@ -20,9 +20,8 @@ import { getStoreBySlug } from "@/lib/getStoreBySlug";
 import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
 import { buildCssVars } from "@/lib/buildCssVars";
 import { getFontPair } from "@/lib/fonts";
-import { techPremiumConfig } from "@/templates/tech-premium/config";
-import { techPremiumConfigSchema } from "@/templates/tech-premium/config-schema";
-import { CartProvider } from "@/templates/tech-premium/context/CartContext";
+import { getTemplateConfig, getTemplateSchema } from "@/templates";
+import { CartProvider, createCartStorageKey } from "@/lib/cart";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
 import type { StoreInfo } from "@/types/store";
 
@@ -42,13 +41,17 @@ export default async function StorefrontLayout({
   if (!store) notFound();
 
   // ── 2. Resolve template config ────────────────────────────────────────────
-  // For now only tech-premium exists. When more templates are added, use
-  // a registry lookup: templateRegistry[store.template_id]?.config ?? techPremiumConfig
-  const templateDefaults = techPremiumConfig;
+  // Use the registry to load the correct template defaults for store.template_id.
+  // Falls back to tech-premium for null/undefined/unknown template IDs.
+  const effectiveTemplateId = store.template_id ?? "tech-premium";
+  const [templateDefaults, templateSchema] = await Promise.all([
+    getTemplateConfig(effectiveTemplateId),
+    getTemplateSchema(effectiveTemplateId),
+  ]);
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
     store.customization ?? undefined,
-    techPremiumConfigSchema,
+    templateSchema ?? undefined,
   );
 
   // ── 3. Build CSS vars ─────────────────────────────────────────────────────
@@ -56,9 +59,9 @@ export default async function StorefrontLayout({
 
   // ── 4. Resolve font pair ──────────────────────────────────────────────────
   // fontPair key is stored under customization.theme.fontPair (persisted by
-  // updateTheme action). Falls back to "modern" when not set.
+  // updateTheme action). Falls back to "minimalista" when not set.
   const customization = store.customization as { theme?: { fontPair?: string } } | null;
-  const fontPairKey = customization?.theme?.fontPair ?? "modern";
+  const fontPairKey = customization?.theme?.fontPair ?? "minimalista";
   const fontPair = getFontPair(fontPairKey);
 
   // ── 5. Build StoreInfo from resolved config + store row ───────────────────
@@ -83,7 +86,7 @@ export default async function StorefrontLayout({
 
   // ── 6. Render ─────────────────────────────────────────────────────────────
   return (
-    <CartProvider slug={store.slug}>
+    <CartProvider slug={slug} storageKey={createCartStorageKey(effectiveTemplateId)}>
       <StorefrontConfigProvider config={resolvedConfig} store={storeInfo}>
         {/* template-scope: injects CSS vars + font classes, same div pattern as
             TemplateLayoutClient but server-rendered — no client JS for theming. */}

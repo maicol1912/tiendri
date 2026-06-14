@@ -49,9 +49,9 @@ export type NavTab = "home" | "cart" | "search" | "info";
 
 export interface CheckoutOrderItem {
   productId: string;
-  productName: string;
+  name: string;
   price: number;
   imageUrl: string | null;
-  variantLabel?: string;
+  variantName?: string;
   quantity: number;
 }

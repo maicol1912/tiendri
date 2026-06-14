@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { HomePage } from "./HomePage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { furnitureLightConfig } from "../config";
@@ -52,7 +52,7 @@ export function HomeShell({
       if (!product || product.available === false) return;
       addItem({
         productId: product.id,
-        variant: product.colorVariant ?? undefined,
+        variantName: product.colorVariant ?? null,
         name: product.name,
         price: product.price,
         quantity: 1,

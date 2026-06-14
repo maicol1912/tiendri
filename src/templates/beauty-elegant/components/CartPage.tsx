@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { CartItemRow } from "./CartItemRow";
 import { BottomNav } from "./BottomNav";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
+import { formatPrice } from "@/lib/format";
 
 interface CartPageProps {
   currencySymbol?: string;
@@ -17,10 +18,6 @@ interface CartPageProps {
   onBack?: () => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function CartPage({
@@ -126,7 +123,7 @@ export function CartPage({
               <AnimatePresence initial={false}>
                 {items.map((item) => (
                   <motion.div
-                    key={`${item.productId}-${item.variantLabel ?? ""}`}
+                    key={`${item.productId}-${item.variantName ?? ""}`}
                     layout
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
@@ -136,9 +133,9 @@ export function CartPage({
                     <CartItemRow
                       item={item}
                       currencySymbol={currencySymbol}
-                      onIncrement={() => incrementItem(item.productId, item.variantLabel)}
-                      onDecrement={() => decrementItem(item.productId, item.variantLabel)}
-                      onRemove={() => removeItem(item.productId, item.variantLabel)}
+                      onIncrement={() => incrementItem(item.productId, item.variantName)}
+                      onDecrement={() => decrementItem(item.productId, item.variantName)}
+                      onRemove={() => removeItem(item.productId, item.variantName)}
                     />
                   </motion.div>
                 ))}

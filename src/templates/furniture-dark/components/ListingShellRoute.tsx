@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { ProductListingPage } from "./ProductListingPage";
 import { mockStore, mockCategories, mockProducts, mockCategoryBanner } from "../mock/data";

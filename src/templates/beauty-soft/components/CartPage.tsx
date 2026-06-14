@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
-import type { CartItem } from "../context/CartContext";
+import type { CartItem } from "@/lib/cart";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
 
@@ -132,11 +132,11 @@ export function CartPage({
           <div className="flex flex-col gap-5">
             {items.map((item) => (
               <CartItemRow
-                key={`${item.productId}-${item.variantLabel ?? ""}`}
+                key={`${item.productId}-${item.variantName ?? ""}`}
                 item={item}
                 currencySymbol={currencySymbol}
-                onIncrement={() => onIncrement?.(item.productId, item.variantLabel)}
-                onDecrement={() => onDecrement?.(item.productId, item.variantLabel)}
+                onIncrement={() => onIncrement?.(item.productId, item.variantName)}
+                onDecrement={() => onDecrement?.(item.productId, item.variantName)}
               />
             ))}
           </div>

@@ -1,77 +1,80 @@
-// Furniture Dark — QuantityStepper
-// SIGNATURE: yellow circular ±buttons (#EFF422 via --t-primary)
-// Pill container with dark bg, quantity number in center
-// ALL colors via var(--t-*)
+"use client";
 
 import { Minus, Plus } from "lucide-react";
 
-interface QuantityStepperProps {
+export interface QuantityStepperProps {
   quantity: number;
-  onIncrement: () => void;
-  onDecrement: () => void;
+  onIncrement?: () => void;
+  onDecrement?: () => void;
+  onChange?: (value: number) => void;
   min?: number;
   max?: number;
   size?: "sm" | "md";
+  className?: string;
 }
 
 export function QuantityStepper({
   quantity,
   onIncrement,
   onDecrement,
+  onChange,
   min = 1,
   max = 99,
   size = "md",
+  className,
 }: QuantityStepperProps) {
-  const isMin = quantity <= min;
-  const isMax = quantity >= max;
+  const canDecrement = quantity > min;
+  const canIncrement = quantity < max;
 
-  const containerHeight = size === "sm" ? "h-9" : "h-11";
+  function handleDecrement() {
+    if (!canDecrement) return;
+    if (onDecrement) onDecrement();
+    else if (onChange) onChange(quantity - 1);
+  }
+
+  function handleIncrement() {
+    if (!canIncrement) return;
+    if (onIncrement) onIncrement();
+    else if (onChange) onChange(quantity + 1);
+  }
+
   const btnSize = size === "sm" ? "w-7 h-7" : "w-9 h-9";
   const iconSize = size === "sm" ? 12 : 14;
-  const quantityFontSize = size === "sm" ? "14px" : "16px";
+  const textSize = size === "sm" ? "text-sm" : "text-base";
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-2 ${containerHeight} rounded-[var(--t-radius-button)]`}
+      className={`inline-flex items-center gap-2 px-2 rounded-[var(--t-radius-button)] ${size === "sm" ? "h-9" : "h-11"} ${className ?? ""}`}
       style={{ backgroundColor: "var(--t-secondary)" }}
       role="group"
       aria-label="Cantidad"
     >
-      {/* Decrement */}
       <button
         type="button"
         className={`${btnSize} flex items-center justify-center rounded-full transition-opacity active:scale-95 disabled:opacity-40`}
         style={{ backgroundColor: "var(--t-primary)" }}
-        onClick={onDecrement}
-        disabled={isMin}
+        onClick={handleDecrement}
+        disabled={!canDecrement}
         aria-label="Disminuir cantidad"
       >
         <Minus size={iconSize} strokeWidth={3} style={{ color: "var(--t-on-primary)" }} />
       </button>
 
-      {/* Quantity display */}
       <span
-        className="min-w-[24px] text-center select-none"
-        style={{
-          fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-          fontSize: quantityFontSize,
-          fontWeight: 600,
-          color: "var(--t-foreground)",
-          letterSpacing: "-0.32px",
-        }}
+        className={`min-w-[24px] text-center select-none font-semibold ${textSize}`}
+        style={{ color: "var(--t-foreground)" }}
         aria-live="polite"
         aria-atomic="true"
       >
         {quantity}
       </span>
 
-      {/* Increment */}
       <button
         type="button"
         className={`${btnSize} flex items-center justify-center rounded-full transition-opacity active:scale-95 disabled:opacity-40`}
         style={{ backgroundColor: "var(--t-primary)" }}
-        onClick={onIncrement}
-        disabled={isMax}
+        onClick={handleIncrement}
+        disabled={!canIncrement}
         aria-label="Aumentar cantidad"
       >
         <Plus size={iconSize} strokeWidth={3} style={{ color: "var(--t-on-primary)" }} />

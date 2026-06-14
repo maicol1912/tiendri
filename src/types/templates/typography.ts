@@ -2,7 +2,7 @@
 // Typography personality config controlled by presets, fine-tunable by merchant.
 // All values produce CSS custom properties via buildCssVars.
 
-import type { BodyFontSize, BodyLineHeight, DisplaySize, CardTextAlign, HeadingDecoration } from "./primitives";
+import type { BodyFontSize, BodyFontWeight, FontSizeContrast, HeadingSpacing } from "./primitives";
 
 // Heading size scale bucket — resolves to a rem font-size in buildCssVars.
 // md=1.5rem, lg=2rem, xl=2.5rem, 2xl=3.5rem
@@ -15,19 +15,16 @@ export interface TypographyConfig {
   headingWeight: number;
   /** Scale multiplier bucket for heading font-size relative to base */
   headingScale: HeadingScale;
-  /** Letter-spacing for headings: e.g. "-0.03em" | "-0.02em" | "-0.01em" | "0em" */
-  headingTracking: string;
+  /** Letter-spacing bucket for headings */
+  headingSpacing: HeadingSpacing;
   /** Text transform for headings */
   headingTransform: "none" | "uppercase" | "capitalize";
 }
 
-// Extended typography display config — body and display-level fields added in preset-redesign-v2.
+// Extended typography display config — body and display-level fields.
 // Fields are optional so existing TypographyConfig usage is unaffected.
 export interface DisplayTypographyConfig {
   bodyFontSize?: BodyFontSize;
-  bodyLineHeight?: BodyLineHeight;
-  displaySize?: DisplaySize;
-  cardTextAlign?: CardTextAlign;
-  headingFontStyle?: "normal" | "italic";
-  headingDecoration?: HeadingDecoration;
+  bodyFontWeight?: BodyFontWeight;
+  fontSizeContrast?: FontSizeContrast;
 }

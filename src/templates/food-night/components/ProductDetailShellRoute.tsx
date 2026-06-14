@@ -5,7 +5,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ProductDetailPage } from "./ProductDetailPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";
@@ -46,7 +46,7 @@ export function ProductDetailShellRoute({
       price: product.price,
       quantity,
       imageUrl: primaryImage,
-      sizeLabel: selectedSize?.label ?? null,
+      variantName: selectedSize?.label ?? null,
       rating: product.rating,
       reviewCount: product.reviewCount,
     });

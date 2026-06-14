@@ -34,7 +34,7 @@ export { SizeSelector } from "./components/SizeSelector";
 export { FilterSidebar } from "./components/FilterSidebar";
 
 // ── Context + hooks ───────────────────────────────────────────────────────────
-export { CartProvider, useCart } from "./context/CartContext";
+export { CartProvider, useCart } from "@/lib/cart";
 export { useTemplateNav } from "./hooks/useTemplateNav";
 
 // ── Types ─────────────────────────────────────────────────────────────────────

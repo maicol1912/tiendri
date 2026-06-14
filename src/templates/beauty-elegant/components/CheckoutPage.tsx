@@ -7,17 +7,14 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { OrderSummary } from "./OrderSummary";
 import { CheckoutForm } from "./CheckoutForm";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import type { StoreInfo, CheckoutFormValues, CheckoutOrderItem } from "../types";
+import { formatPrice } from "@/lib/format";
 
 interface CheckoutPageProps {
   store: StoreInfo;
   currencySymbol?: string;
   onBack?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 function validateForm(
@@ -46,8 +43,8 @@ function buildWhatsAppMessage(
   lines.push("*Productos:*");
   for (const item of items) {
     const price = formatPrice(item.price * item.quantity, currencySymbol);
-    const variant = item.variantLabel ? ` (${item.variantLabel})` : "";
-    lines.push(`• ${item.productName}${variant} × ${item.quantity} — ${price}`);
+    const variant = item.variantName ? ` (${item.variantName})` : "";
+    lines.push(`• ${item.name}${variant} × ${item.quantity} — ${price}`);
   }
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   lines.push("");
@@ -99,10 +96,10 @@ export function CheckoutPage({
 
   const orderItems: CheckoutOrderItem[] = items.map((item) => ({
     productId: item.productId,
-    productName: item.productName,
+    name: item.name,
     price: item.price,
     imageUrl: item.imageUrl,
-    variantLabel: item.variantLabel ?? undefined,
+    variantName: item.variantName ?? undefined,
     quantity: item.quantity,
   }));
 

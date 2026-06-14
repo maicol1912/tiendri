@@ -6,7 +6,7 @@
 // Navigation via useTemplateNav.
 
 import { useState, useCallback } from "react";
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { ProductDetailPage } from "./ProductDetailPage";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
@@ -95,9 +95,5 @@ export function ProductDetailShellRoute({
   store,
   ...rest
 }: ProductDetailShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <ProductDetailShellInner store={store} {...rest} />
-    </CartProvider>
-  );
+  return <ProductDetailShellInner store={store} {...rest} />;
 }

@@ -9,7 +9,7 @@ import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
-import type { CartItem } from "../context/CartContext";
+import type { CartItem } from "@/lib/cart";
 import type { DecorWarmNavTab } from "../types";
 
 interface CartPageProps {

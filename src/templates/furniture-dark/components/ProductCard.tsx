@@ -8,15 +8,7 @@
 import Image from "next/image";
 import type { StorefrontProduct } from "../types";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface ProductCardProps {
   product: StorefrontProduct;

@@ -6,7 +6,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ProductDetailPage } from "./ProductDetailPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import type { BeautySoftProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
@@ -36,12 +36,12 @@ export function ProductDetailShellRoute({
 
     addItem({
       productId: product.id,
-      productName: product.name,
+      name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,
       imageUrl: primaryImage,
       description: product.description,
-      variantLabel: null,
+      variantName: null,
       quantity,
     });
 

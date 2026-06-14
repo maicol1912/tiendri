@@ -16,7 +16,7 @@ export { ListingShellRoute } from "./components/ListingShellRoute";
 export { SearchShellRoute } from "./components/SearchShellRoute";
 
 // Context
-export { CartProvider, useCart } from "./context/CartContext";
+export { CartProvider, useCart } from "@/lib/cart";
 
 // Mock
 export * from "./mock/data";

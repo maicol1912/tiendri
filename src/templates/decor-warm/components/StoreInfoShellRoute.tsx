@@ -4,7 +4,7 @@
 // Client boundary. Wires navigation into StoreInfoPage.
 
 import { useCallback } from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { StoreInfoPage } from "./StoreInfoPage";
 import type { StoreInfo } from "@/types/store";

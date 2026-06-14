@@ -13,5 +13,5 @@ export const templateRegistry = {
 
 export type TemplateId = keyof typeof templateRegistry;
 
-// Schema registry — getTemplateSchema (async) and getTemplateSchemaSync (sync)
-export { getTemplateSchema, getTemplateSchemaSync } from "./registry";
+// Schema registry — async loader, code-splits each schema per template
+export { getTemplateSchema, getTemplateConfig } from "./registry";

@@ -3,11 +3,10 @@
 // BrandingTab — Store identity configuration
 // Fields: store name, description, WhatsApp, logo, social links
 // Logo now stored as media ID (media_xxx) via MediaPickerField.
-// Save: persists to localStorage key `tiendri_demo-store_customization`
+// Save: Supabase via Server Action (isAuthenticated=true) or localStorage fallback.
 
 import { useState } from "react";
 import { toast } from "sonner";
-import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,10 +15,13 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { MediaPickerField } from "@/components/dashboard/media";
 import { updateBranding } from "../actions";
+import { CUSTOMIZATION_STORAGE_KEY } from "../client-utils";
 import type { BrandingConfig } from "@/types/templates/customization-sections";
+import type { StoreCustomization } from "@/types/templates/store-customization";
 
 interface BrandingTabProps {
   initialBranding?: BrandingConfig;
+  isAuthenticated: boolean;
 }
 
 const SOCIAL_FIELDS = [
@@ -30,7 +32,25 @@ const SOCIAL_FIELDS = [
   { key: "youtube" as const, label: "YouTube", placeholder: "https://youtube.com/@mitienda" },
 ] as const;
 
-export function BrandingTab({ initialBranding }: BrandingTabProps) {
+// ── localStorage fallback ─────────────────────────────────────────────────────
+
+function saveToLocalStorage(branding: BrandingConfig): void {
+  try {
+    const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
+    const current: StoreCustomization = raw
+      ? (JSON.parse(raw) as StoreCustomization)
+      : { templateId: "tech-premium" };
+    const updated: StoreCustomization = {
+      ...current,
+      branding: { ...(current.branding ?? {}), ...branding },
+    };
+    localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // Non-critical in demo mode
+  }
+}
+
+export function BrandingTab({ initialBranding, isAuthenticated }: BrandingTabProps) {
   const [storeName, setStoreName] = useState(initialBranding?.storeName ?? "");
   const [description, setDescription] = useState(initialBranding?.description ?? "");
   const [whatsapp, setWhatsapp] = useState(initialBranding?.whatsapp ?? "");
@@ -42,7 +62,7 @@ export function BrandingTab({ initialBranding }: BrandingTabProps) {
 
   // ── Form submit ──────────────────────────────────────────────────────────────
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSaving(true);
 
@@ -54,14 +74,26 @@ export function BrandingTab({ initialBranding }: BrandingTabProps) {
       socialLinks,
     };
 
-    const result = updateBranding(branding);
-
-    setIsSaving(false);
-
-    if (result.success) {
-      toast.success("Cambios guardados");
-    } else {
-      toast.error(result.error.message);
+    try {
+      if (isAuthenticated) {
+        const result = await updateBranding(branding);
+        if (result.success) {
+          toast.success("Cambios guardados");
+        } else if (result.error.code === "UNAUTHORIZED") {
+          // Auth expired — fall back to localStorage silently
+          saveToLocalStorage(branding);
+          toast.success("Cambios guardados localmente");
+        } else {
+          toast.error(result.error.message);
+        }
+      } else {
+        saveToLocalStorage(branding);
+        toast.success("Cambios guardados");
+      }
+    } catch {
+      toast.error("Error al guardar los cambios. Intentá de nuevo.");
+    } finally {
+      setIsSaving(false);
     }
   }
 

@@ -7,7 +7,7 @@
 // Reads configOverride from LayoutConfigContext for grid + layout props.
 
 import { useState, useCallback, useMemo } from "react";
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { ProductListingPage } from "./ProductListingPage";
@@ -124,9 +124,5 @@ interface ListingShellRouteProps {
 }
 
 export function ListingShellRoute({ store, ...rest }: ListingShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <ListingShellInner store={store} {...rest} />
-    </CartProvider>
-  );
+  return <ListingShellInner store={store} {...rest} />;
 }

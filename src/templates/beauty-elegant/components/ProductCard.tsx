@@ -9,6 +9,7 @@ import type { BeautyElegantProduct } from "../types";
 import { imageRatioClass, hoverEffectClass, cardStyleClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 import type { BadgeStyle, PriceDisplay } from "@/types/templates";
+import { formatPrice } from "@/lib/format";
 
 interface ProductCardProps {
   product: BeautyElegantProduct;
@@ -21,10 +22,6 @@ interface ProductCardProps {
     priceDisplay?: PriceDisplay;
   };
   onClick?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function ProductCard({

@@ -5,15 +5,7 @@
 // ALL colors via var(--t-*)
 
 import { useState } from "react";
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface CartSummaryProps {
   subtotal: number;

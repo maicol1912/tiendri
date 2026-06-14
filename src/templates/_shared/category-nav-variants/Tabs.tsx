@@ -2,8 +2,44 @@
 
 import { useState } from 'react';
 import type React from 'react';
-import { CategorySection } from '@/templates/tech-premium/components/CategorySection';
+import { Smartphone, type LucideIcon } from 'lucide-react';
 import type { CategoryNavProps } from './types';
+import type { Category } from '@/types/store';
+
+// Minimal icon map for category display — tech-premium specific icons are NOT imported.
+// Add more Lucide icons here as needed when new templates register categories.
+const ICON_MAP: Record<string, LucideIcon> = {
+  Smartphone,
+  Phone: Smartphone,
+};
+
+function CategoryCard({
+  category,
+  isActive,
+  onClick,
+}: {
+  category: Category;
+  isActive?: boolean;
+  onClick?: () => void;
+}) {
+  const Icon = ICON_MAP[category.icon] ?? ICON_MAP[category.name] ?? Smartphone;
+  return (
+    <button
+      type="button"
+      className={`flex flex-col items-center justify-center gap-2 rounded-[var(--t-radius-category)] cursor-pointer border-none transition-colors shrink-0
+        w-[100px] h-[100px] lg:w-[160px] lg:h-[128px]
+        ${isActive ? 'bg-[var(--t-primary)] text-[var(--t-on-primary)]' : 'bg-[var(--t-card)] text-[var(--t-primary)] hover:bg-[var(--t-border)]'}`}
+      onClick={onClick}
+      aria-label={category.name}
+      aria-pressed={isActive}
+    >
+      <Icon className="w-8 h-8 lg:w-12 lg:h-12" strokeWidth={1.5} />
+      <span className="text-xs lg:text-base font-medium leading-6 text-center whitespace-nowrap">
+        {category.name}
+      </span>
+    </button>
+  );
+}
 
 export default function Tabs({
   categories,
@@ -69,7 +105,7 @@ export default function Tabs({
           {categories
             .filter((cat) => cat.id === resolvedActiveId)
             .map((cat) => (
-              <CategorySection
+              <CategoryCard
                 key={cat.id}
                 category={cat}
                 isActive

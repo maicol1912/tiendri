@@ -3,10 +3,11 @@
 // ZERO hardcoded colors — all via var(--t-*).
 
 import Image from "next/image";
-import type { FurnitureCheckoutFormData, FurnitureCartItem } from "../types";
+import type { FurnitureCheckoutFormData } from "../types";
+import type { CartItem } from "@/lib/cart";
 
 interface CheckoutFormProps {
-  items: FurnitureCartItem[];
+  items: CartItem[];
   currencySymbol?: string;
   formData: FurnitureCheckoutFormData;
   mode?: "preview" | "live";
@@ -133,7 +134,7 @@ export function CheckoutForm({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-[var(--t-foreground)] line-clamp-1">{item.name}</p>
-                  {item.variant && <p className="text-[10px] text-[var(--t-muted)]">{item.variant}</p>}
+                  {item.variantName && <p className="text-[10px] text-[var(--t-muted)]">{item.variantName}</p>}
                   <p className="text-xs text-[var(--t-muted)]">x{item.quantity}</p>
                 </div>
                 <p className="text-sm font-bold text-[var(--t-foreground)] shrink-0">{fmt(item.price * item.quantity, currencySymbol)}</p>

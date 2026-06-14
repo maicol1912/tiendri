@@ -8,8 +8,10 @@ import { Header } from "./Header";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
-import type { StoreInfo, CartItem, NavTab } from "../types";
+import type { CartItem } from "@/lib/cart";
+import type { StoreInfo, NavTab } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { formatPrice } from "@/lib/format";
 
 interface CartPageProps {
   store: StoreInfo;
@@ -27,10 +29,6 @@ interface CartPageProps {
   onCheckout?: () => void;
   onSearchClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
-}
-
-function formatPrice(amount: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(amount)}`;
 }
 
 export function CartPage({

@@ -9,6 +9,7 @@ import { Plus } from "lucide-react";
 import type { DecorWarmProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
+import { formatPrice } from "@/lib/format";
 
 interface ProductCardProps {
   product: DecorWarmProduct;
@@ -22,10 +23,6 @@ interface ProductCardProps {
     badgeStyle?: string;
     priceDisplay?: string;
   };
-}
-
-function formatPrice(price: number, symbol = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function ProductCard({
@@ -109,7 +106,7 @@ export function ProductCard({
                 backgroundColor: "var(--t-card)",
                 borderRadius: 9999,
                 color: "var(--t-muted)",
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "var(--font-body)",
                 fontSize: "11px",
                 fontWeight: 500,
               }}
@@ -127,7 +124,7 @@ export function ProductCard({
           className="leading-snug line-clamp-2 capitalize"
           style={{
             color: "var(--t-muted)",
-            fontFamily: "'Poppins', sans-serif",
+            fontFamily: "var(--font-heading)",
             fontSize: "15px",
             fontWeight: 500,
           }}
@@ -141,7 +138,7 @@ export function ProductCard({
             className="line-clamp-2 leading-snug"
             style={{
               color: "var(--t-muted)",
-              fontFamily: "'League Spartan', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "13px",
               fontWeight: 300,
             }}
@@ -164,7 +161,7 @@ export function ProductCard({
           <div className="flex items-baseline gap-1.5 flex-wrap">
             <span
               className={priceConfig.className}
-              style={{ fontFamily: "'Poppins', sans-serif", ...priceConfig.style }}
+              style={{ fontFamily: "var(--font-body)", ...priceConfig.style }}
             >
               {formatPrice(product.price, currencySymbol)}
             </span>
@@ -174,7 +171,7 @@ export function ProductCard({
                   className="line-through"
                   style={{
                     color: "var(--t-muted)",
-                    fontFamily: "'League Spartan', sans-serif",
+                    fontFamily: "var(--font-body)",
                     fontSize: "11px",
                     fontWeight: 300,
                   }}

@@ -2,7 +2,7 @@
 
 // BusinessTab — Business information configuration
 // Fields: city, address, hours, payment methods, shipping info, currency
-// Save: persists to localStorage key `tiendri_demo-store_customization`
+// Save: Supabase via Server Action (isAuthenticated=true) or localStorage fallback.
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -20,10 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateBusiness } from "../actions";
+import { CUSTOMIZATION_STORAGE_KEY } from "../client-utils";
 import type { BusinessConfig } from "@/types/templates/customization-sections";
+import type { StoreCustomization } from "@/types/templates/store-customization";
 
 interface BusinessTabProps {
   initialBusiness?: BusinessConfig;
+  isAuthenticated: boolean;
 }
 
 const PAYMENT_METHODS = [
@@ -48,7 +51,25 @@ const CURRENCIES = [
 type PaymentMethod = "nequi" | "daviplata" | "efectivo" | "transferencia" | "tarjeta";
 type CurrencyCode = "COP" | "USD" | "EUR" | "MXN" | "ARS" | "BRL" | "CLP" | "PEN";
 
-export function BusinessTab({ initialBusiness }: BusinessTabProps) {
+// ── localStorage fallback ─────────────────────────────────────────────────────
+
+function saveToLocalStorage(business: BusinessConfig): void {
+  try {
+    const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
+    const current: StoreCustomization = raw
+      ? (JSON.parse(raw) as StoreCustomization)
+      : { templateId: "tech-premium" };
+    const updated: StoreCustomization = {
+      ...current,
+      business: { ...(current.business ?? {}), ...business },
+    };
+    localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // Non-critical in demo mode
+  }
+}
+
+export function BusinessTab({ initialBusiness, isAuthenticated }: BusinessTabProps) {
   const [city, setCity] = useState(initialBusiness?.city ?? "");
   const [address, setAddress] = useState(initialBusiness?.address ?? "");
   const [hours, setHours] = useState(initialBusiness?.hours ?? "");
@@ -78,7 +99,7 @@ export function BusinessTab({ initialBusiness }: BusinessTabProps) {
     );
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSaving(true);
 
@@ -95,14 +116,25 @@ export function BusinessTab({ initialBusiness }: BusinessTabProps) {
       currency,
     };
 
-    const result = updateBusiness(business);
-
-    setIsSaving(false);
-
-    if (result.success) {
-      toast.success("Cambios guardados");
-    } else {
-      toast.error(result.error.message);
+    try {
+      if (isAuthenticated) {
+        const result = await updateBusiness(business);
+        if (result.success) {
+          toast.success("Cambios guardados");
+        } else if (result.error.code === "UNAUTHORIZED") {
+          saveToLocalStorage(business);
+          toast.success("Cambios guardados localmente");
+        } else {
+          toast.error(result.error.message);
+        }
+      } else {
+        saveToLocalStorage(business);
+        toast.success("Cambios guardados");
+      }
+    } catch {
+      toast.error("Error al guardar los cambios. Intentá de nuevo.");
+    } finally {
+      setIsSaving(false);
     }
   }
 

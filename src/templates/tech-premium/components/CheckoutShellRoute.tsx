@@ -7,7 +7,7 @@
 
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { TechPremiumConfig } from "../config";

@@ -3,12 +3,9 @@
 // ZERO hardcoded colors — all via var(--t-*).
 
 import Image from "next/image";
-import { QuantityStepper } from "./QuantityStepper";
-import type { CartItem } from "../context/CartContext";
-
-function formatPrice(price: number, symbol = "$") {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import type { CartItem } from "@/lib/cart";
+import { formatPrice } from "@/lib/format";
 
 interface CartItemRowProps {
   item: CartItem;

@@ -201,14 +201,6 @@ html {
 }
 
 @layer utilities {
-  .template-scope h1,
-  .template-scope h2,
-  .template-scope h3,
-  .template-scope h4,
-  .template-scope h5,
-  .template-scope h6 {
-    font-family: var(--template-heading-font);
-  }
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -229,11 +221,15 @@ html {
     @apply border-border outline-ring/50;
   }
   html {
+    --font-body: var(--font-sans);
     font-family: var(--font-sans);
     @apply font-sans;
   }
   body {
     font-family: var(--font-sans);
     @apply bg-background text-foreground;
+  }
+  .template-scope :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-heading);
   }
 }

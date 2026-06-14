@@ -50,24 +50,13 @@ export interface SizeOption {
 
 export type NavTab = "home" | "search" | "cart" | "info";
 
-export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl: string | null;
-  sizeLabel?: string | null;
-  rating?: number;
-  reviewCount?: number;
-}
-
 export interface CheckoutItem {
   productId: string;
   name: string;
   price: number;
   quantity: number;
   imageUrl: string | null;
-  sizeLabel?: string | null;
+  variantName?: string | null;
 }
 
 export interface CheckoutFormData {

@@ -33,27 +33,14 @@ export interface BeautyElegantCategory {
 
 export type NavTab = "home" | "search" | "cart" | "info";
 
-// ── Cart item ─────────────────────────────────────────────────────────────────
-
-export interface CartItem {
-  productId: string;
-  productName: string;
-  price: number;
-  originalPrice?: number | null;
-  imageUrl: string | null;
-  description?: string;
-  variantLabel?: string | null;
-  quantity: number;
-}
-
 // ── Checkout order item ───────────────────────────────────────────────────────
 
 export interface CheckoutOrderItem {
   productId: string;
-  productName: string;
+  name: string;
   price: number;
   imageUrl: string | null;
-  variantLabel?: string;
+  variantName?: string;
   quantity: number;
 }
 

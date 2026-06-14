@@ -3,8 +3,8 @@
 // ALL text Spanish Colombian; ALL colors via var(--t-*)
 
 import { ChevronLeft } from "lucide-react";
-import type { CartItem, CheckoutFormData } from "../types";
-import type { StorefrontStore } from "../types";
+import type { CartItem } from "@/lib/cart";
+import type { CheckoutFormData, StorefrontStore } from "../types";
 import { Header } from "./Header";
 import { CheckoutForm } from "./CheckoutForm";
 import { OrderSummary } from "./OrderSummary";

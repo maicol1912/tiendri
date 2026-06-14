@@ -10,6 +10,7 @@
 // cast on line 44 breaks this deadlock without sacrificing type safety — the cast
 // target IS the correct type, and the Supabase select("*") returns a StoreRow.
 
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { StoreRow } from "@/types/database.types";
 import type { StoreCustomization } from "@/types/templates";
@@ -26,7 +27,7 @@ export interface StoreWithCustomization extends Omit<StoreRow, "customization"> 
  * Only stores where `onboarding_completed = true` are returned — draft stores
  * resolve to null and the caller should render a 404.
  */
-export async function getStoreBySlug(
+export const getStoreBySlug = cache(async function getStoreBySlug(
   slug: string
 ): Promise<StoreWithCustomization | null> {
   const supabase = await createClient();
@@ -66,4 +67,4 @@ export async function getStoreBySlug(
     ...row,
     customization,
   };
-}
+});

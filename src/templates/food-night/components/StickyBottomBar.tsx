@@ -3,16 +3,13 @@
 // Food Night — Sticky Add-to-Cart Bottom Bar (mobile only)
 
 import { ShoppingCart } from "lucide-react";
+import { formatPrice } from "@/lib/format";
 
 interface StickyBottomBarProps {
   price: number;
   available?: boolean;
   currencySymbol?: string;
   onAddToCart?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function StickyBottomBar({

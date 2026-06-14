@@ -5,7 +5,7 @@
 
 import { useCallback } from "react";
 import { CartPage } from "./CartPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import type { StoreInfo } from "@/types/store";
 
@@ -28,7 +28,7 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
   const handleDecrement = useCallback(
     (productId: string, variantLabel?: string | null) => {
       const item = items.find(
-        (i) => i.productId === productId && (i.variantLabel ?? null) === (variantLabel ?? null)
+        (i) => i.productId === productId && (i.variantName ?? null) === (variantLabel ?? null)
       );
       if (!item) return;
       if (item.quantity <= 1) {

@@ -7,7 +7,7 @@
 // Reads configOverride from LayoutConfigContext for grid + layout props.
 
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { SearchPage } from "./SearchPage";
@@ -104,9 +104,5 @@ interface SearchShellRouteProps {
 }
 
 export function SearchShellRoute({ store, ...rest }: SearchShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <SearchShellInner store={store} {...rest} />
-    </CartProvider>
-  );
+  return <SearchShellInner store={store} {...rest} />;
 }

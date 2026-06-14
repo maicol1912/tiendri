@@ -2,7 +2,7 @@
 // Visual layout: bg card + image carousel + info + bottom CTA.
 // ZERO hardcoded colors — all via var(--t-*).
 import { ImageCarousel } from "./ImageCarousel";
-import { QuantityStepper } from "./QuantityStepper";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import type { BeautySoftProduct } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";

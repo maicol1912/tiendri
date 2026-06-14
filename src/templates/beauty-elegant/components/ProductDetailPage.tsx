@@ -7,12 +7,14 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
+import type { CartItem } from "@/lib/cart";
 import { ProductCard } from "./ProductCard";
-import type { BeautyElegantProduct, CartItem } from "../types";
+import type { BeautyElegantProduct } from "../types";
 import type { StoreInfo } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
+import { formatPrice } from "@/lib/format";
 
 interface ProductDetailPageProps {
   product: BeautyElegantProduct;
@@ -21,10 +23,6 @@ interface ProductDetailPageProps {
   relatedProducts?: BeautyElegantProduct[];
   layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol} ${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function ProductDetailPage({
@@ -46,11 +44,12 @@ export function ProductDetailPage({
 
     const cartItem: CartItem = {
       productId: product.id,
-      productName: product.name,
+      name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,
       imageUrl: primaryImage,
       description: product.description,
+      variantName: null,
       quantity: 1,
     };
 

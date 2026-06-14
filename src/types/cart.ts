@@ -2,12 +2,17 @@
 
 export interface CartItem {
   productId: string;
-  /** Variant name selected by the visitor, or null if the product has no variants */
-  variantName: string | null;
   name: string;
   price: number;
   quantity: number;
   imageUrl: string | null;
+  variantName: string | null;
+  originalPrice?: number | null;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+  colorId?: string;
+  cardBgColor?: string;
 }
 
 export interface Cart {

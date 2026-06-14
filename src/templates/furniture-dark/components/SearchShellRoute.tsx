@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { SearchPage } from "./SearchPage";
 import { mockStore, mockProducts } from "../mock/data";

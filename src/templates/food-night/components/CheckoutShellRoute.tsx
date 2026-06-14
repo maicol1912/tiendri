@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";
@@ -46,7 +46,7 @@ function validateForm(data: CheckoutFormData): FieldErrors {
 function buildWhatsAppMessage(
   store: StoreInfo,
   form: CheckoutFormData,
-  items: { name: string; quantity: number; price: number; sizeLabel?: string | null }[],
+  items: { name: string; quantity: number; price: number; variantName?: string | null }[],
   total: number,
   currencySymbol: string
 ): string {
@@ -56,7 +56,7 @@ function buildWhatsAppMessage(
   lines.push("");
   lines.push("*Productos:*");
   items.forEach((item) => {
-    const size = item.sizeLabel ? ` (${item.sizeLabel})` : "";
+    const size = item.variantName ? ` (${item.variantName})` : "";
     lines.push(`• ${item.quantity}× ${item.name}${size} — ${fmt(item.price * item.quantity)}`);
   });
   lines.push("");

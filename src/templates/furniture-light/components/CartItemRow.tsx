@@ -4,11 +4,11 @@
 
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
-import { QuantityStepper } from "./QuantityStepper";
-import type { FurnitureCartItem } from "../types";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import type { CartItem } from "@/lib/cart";
 
 interface CartItemRowProps {
-  item: FurnitureCartItem;
+  item: CartItem;
   currencySymbol?: string;
   onIncrement?: () => void;
   onDecrement?: () => void;
@@ -61,8 +61,8 @@ export function CartItemRow({
       {/* Info */}
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-[var(--t-foreground)] line-clamp-2 leading-tight">{item.name}</p>
-        {item.variant && (
-          <p className="text-xs text-[var(--t-muted)] mt-0.5">{item.variant}</p>
+        {item.variantName && (
+          <p className="text-xs text-[var(--t-muted)] mt-0.5">{item.variantName}</p>
         )}
         <p className="text-sm font-bold text-[var(--t-primary)] mt-1">
           {fmt(item.price * item.quantity, currencySymbol)}

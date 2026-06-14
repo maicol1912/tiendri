@@ -13,10 +13,9 @@ import type {
   Appearance,
   DensityLevel,
   BodyFontSize,
-  BodyLineHeight,
-  DisplaySize,
-  CardTextAlign,
-  HeadingDecoration,
+  BodyFontWeight,
+  FontSizeContrast,
+  HeadingSpacing,
   ColorStrategy,
   BackgroundTreatment,
   CardBackground,
@@ -37,16 +36,14 @@ export interface ThemeCustomization {
   paletteId?: string;
   colors?: Partial<TemplateColorTokens>;
   radius?: Partial<TemplateRadiusTokens>;
-  /** Font pair key — e.g. "modern" | "warm" | "elegant" | "functional" */
+  /** Font pair key — e.g. "elegante" | "minimalista" | "audaz" */
   fontPair?: string;
   /** Typography personality — fine-tunable by merchant */
   typography?: TypographyConfig;
   bodyFontSize?: BodyFontSize;
-  bodyLineHeight?: BodyLineHeight;
-  displaySize?: DisplaySize;
-  cardTextAlign?: CardTextAlign;
-  headingFontStyle?: "normal" | "italic";
-  headingDecoration?: HeadingDecoration;
+  bodyFontWeight?: BodyFontWeight;
+  fontSizeContrast?: FontSizeContrast;
+  headingSpacing?: HeadingSpacing;
   /** Color personality tokens — set by presets, fine-tunable by merchant */
   colorStrategy?: ColorStrategy;
   backgroundTreatment?: BackgroundTreatment;

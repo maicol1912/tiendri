@@ -36,16 +36,35 @@ export type PriceDisplay = "prominent" | "standard" | "subtle";
 // Layout density level — controls spacing multipliers throughout the template
 export type DensityLevel = "compact" | "balanced" | "spacious";
 
-// Font pair key — identifies a typographic personality bundle
+// Font pair key — identifies a typographic personality bundle (15 pairs)
 export type FontPairKey =
-  | "modern"
-  | "warm"
-  | "elegant"
-  | "functional"
-  | "mono-geometric"
-  | "display-impact"
-  | "whisper-light"
-  | "handcraft-mix";
+  | "elegante"
+  | "editorial"
+  | "atemporal"
+  | "minimalista"
+  | "preciso"
+  | "contemporaneo"
+  | "audaz"
+  | "urbano"
+  | "dramatico"
+  | "llamativo"
+  | "amigable"
+  | "artesanal"
+  | "jugueton"
+  | "clasico"
+  | "profesional";
+
+// Font group — thematic family that groups related font pairs
+export type FontGroupKey = "sofisticados" | "modernos" | "expresivos" | "calidos" | "clasicos";
+
+// Heading letter-spacing bucket — resolves to a tracking value in buildCssVars
+export type HeadingSpacing = "tight" | "normal" | "wide";
+
+// Font size contrast — ratio between heading and body font sizes
+export type FontSizeContrast = "low" | "medium" | "high" | "extreme";
+
+// Body font weight — controls paragraph text weight
+export type BodyFontWeight = 300 | 400 | 500;
 
 // Grid breakpoint — number of columns per viewport
 export interface GridBreakpoint {
@@ -66,9 +85,9 @@ export type TransitionSpeed = "instant" | "fast" | "normal" | "slow" | "very-slo
 export type TransitionEasing = "linear" | "ease" | "ease-in-out" | "spring";
 export type ShadowElevation = "none" | "xs" | "sm" | "md" | "lg" | "xl";
 export type BodyFontSize = "sm" | "base" | "lg";
-export type BodyLineHeight = "tight" | "normal" | "relaxed" | "loose";
-export type DisplaySize = "md" | "lg" | "xl" | "2xl";
+/** @deprecated Referenced by buildCssVars.ts and ThemeCustomizer.tsx — remove after those files are updated. */
 export type CardTextAlign = "left" | "center";
+/** @deprecated Referenced by buildCssVars.ts and ThemeCustomizer.tsx — remove after those files are updated. */
 export type HeadingDecoration = "none" | "underline" | "overline" | "highlight";
 export type ColorStrategy = "monotone" | "duotone" | "accent-pop" | "gradient";
 export type BackgroundTreatment = "solid" | "subtle-gradient" | "pattern";

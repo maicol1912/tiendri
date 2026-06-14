@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { ProductListingPage } from "./ProductListingPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { decorWarmConfig } from "../config";
@@ -46,6 +46,7 @@ export function ListingShellRoute({
         name: product.name,
         price: product.price,
         imageUrl: product.images[0]?.url ?? null,
+        variantName: null,
         quantity: 1,
       });
     },

@@ -49,16 +49,6 @@ export interface FurnitureStoreInfo {
   };
 }
 
-export interface FurnitureCartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl: string | null;
-  cardBgColor?: string;
-  variant?: string;
-}
-
 export interface FurnitureCheckoutFormData {
   nombre: string;
   whatsapp: string;

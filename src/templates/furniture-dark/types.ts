@@ -81,18 +81,6 @@ export interface VideoData {
   title?: string;
 }
 
-export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  /** Thumbnail image URL */
-  image: string;
-  rating?: number;
-  reviewCount?: number;
-  colorId?: string;
-}
-
 export interface CheckoutItem {
   productId: string;
   name: string;

@@ -202,7 +202,7 @@ export const themeSchema = z.object({
     })
     .optional(),
   fontPair: z
-    .enum(["modern", "warm", "elegant", "functional", "mono-geometric", "display-impact", "whisper-light", "handcraft-mix"], {
+    .enum(["elegante", "editorial", "atemporal", "minimalista", "preciso", "contemporaneo", "audaz", "urbano", "dramatico", "llamativo", "amigable", "artesanal", "jugueton", "clasico", "profesional"], {
       error: "Par de fuentes inválido",
     })
     .optional(),
@@ -210,16 +210,13 @@ export const themeSchema = z.object({
     .object({
       headingWeight: z.number().int().min(100).max(900).optional(),
       headingScale: z.enum(["sm", "md", "lg", "xl", "2xl"]).optional(),
-      headingTracking: z.string().optional(),
       headingTransform: z.enum(["none", "uppercase"]).optional(),
     })
     .optional(),
   bodyFontSize: z.enum(["sm", "base", "lg"]).optional(),
-  bodyLineHeight: z.enum(["tight", "normal", "relaxed", "loose"]).optional(),
-  displaySize: z.enum(["md", "lg", "xl", "2xl"]).optional(),
-  cardTextAlign: z.enum(["left", "center"]).optional(),
-  headingFontStyle: z.enum(["normal", "italic"]).optional(),
-  headingDecoration: z.enum(["none", "underline", "overline", "highlight"]).optional(),
+  headingSpacing: z.enum(["tight", "normal", "wide"]).optional(),
+  bodyFontWeight: z.union([z.literal(300), z.literal(400), z.literal(500)]).optional(),
+  fontSizeContrast: z.enum(["low", "medium", "high", "extreme"]).optional(),
   colorStrategy: z.enum(["monotone", "duotone", "accent-pop", "gradient"]).optional(),
   backgroundTreatment: z.enum(["solid", "subtle-gradient", "pattern"]).optional(),
   cardBackground: z.enum(["white", "surface", "transparent", "primary-tint"]).optional(),

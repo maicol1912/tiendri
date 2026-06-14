@@ -7,16 +7,8 @@
 
 import { useState } from "react";
 import type { StorefrontProduct, ColorOption } from "../types";
-import { QuantityStepper } from "./QuantityStepper";
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface ProductInfoProps {
   product: StorefrontProduct;

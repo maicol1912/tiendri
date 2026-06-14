@@ -14,7 +14,7 @@
 // components (e.g. grid-cols-{n} classes built from config.grid.products.mobile).
 
 import type { ResolvedStoreConfig } from "@/types/templates";
-import type { BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, BodyLineHeight, DisplaySize, DensityPreset, CardImageRatio, CardBorderTreatment, DividerStyle } from "@/types/templates/primitives";
+import type { BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, DensityPreset, CardImageRatio, CardBorderTreatment, DividerStyle } from "@/types/templates/primitives";
 import type { HeadingScale } from "@/types/templates/typography";
 
 // Token interfaces (inlined from removed preset-types)
@@ -45,29 +45,19 @@ interface TypographyTokens {
   fontPair?: string;
   headingWeight?: number;
   headingScale?: HeadingScale;
-  headingTracking?: string;
   headingTransform?: "none" | "uppercase";
-  headingFontStyle?: "normal" | "italic";
-  headingDecoration?: string;
   bodyFontSize?: BodyFontSize;
-  bodyLineHeight?: BodyLineHeight;
-  displaySize?: DisplaySize;
-  cardTextAlign?: string;
+  bodyFontWeight?: 300 | 400 | 500;
 }
 
 // Hardcoded defaults (previously in preset-defaults.ts)
 const DEFAULT_TYPOGRAPHY_VALUES = {
-  fontPair: "modern",
+  fontPair: "minimalista",
   headingWeight: 600,
   headingScale: "lg" as HeadingScale,
-  headingTracking: "-0.01em",
   headingTransform: "none" as const,
-  headingFontStyle: "normal" as const,
-  headingDecoration: "none",
   bodyFontSize: "base" as BodyFontSize,
-  bodyLineHeight: "normal" as BodyLineHeight,
-  displaySize: "lg" as DisplaySize,
-  cardTextAlign: "left",
+  bodyFontWeight: 400 as 300 | 400 | 500,
 };
 
 const DEFAULT_LAYOUT_VALUES = {
@@ -131,38 +121,14 @@ const BODY_FONT_SIZE_MAP: Record<BodyFontSize, string> = {
   lg: "1.125rem",
 };
 
-const BODY_LINE_HEIGHT_MAP: Record<BodyLineHeight, string> = {
-  tight: "1.35",
-  normal: "1.5",
-  relaxed: "1.65",
-  loose: "1.8",
-};
-
-const DISPLAY_SIZE_MAP: Record<DisplaySize, string> = {
-  md: "2.5rem",
-  lg: "3.5rem",
-  xl: "5rem",
-  "2xl": "7rem",
-};
-
 function buildTypographyExtendedVars(typography: TypographyTokens): Record<string, string> {
   const bodyFontSize: BodyFontSize = typography.bodyFontSize ?? DEFAULT_TYPOGRAPHY_VALUES.bodyFontSize;
-  const bodyLineHeight: BodyLineHeight = typography.bodyLineHeight ?? DEFAULT_TYPOGRAPHY_VALUES.bodyLineHeight;
-  const displaySize: DisplaySize = typography.displaySize ?? DEFAULT_TYPOGRAPHY_VALUES.displaySize;
-  const headingWeight = typography.headingWeight ?? DEFAULT_TYPOGRAPHY_VALUES.headingWeight;
-  const headingTracking = typography.headingTracking ?? DEFAULT_TYPOGRAPHY_VALUES.headingTracking;
-  const headingFontStyle = typography.headingFontStyle ?? DEFAULT_TYPOGRAPHY_VALUES.headingFontStyle;
+  const bodyFontWeight = typography.bodyFontWeight ?? DEFAULT_TYPOGRAPHY_VALUES.bodyFontWeight;
 
   return {
     "--t-type-body-size": BODY_FONT_SIZE_MAP[bodyFontSize],
-    "--t-type-body-line-height": BODY_LINE_HEIGHT_MAP[bodyLineHeight],
-    "--t-type-body-weight": "400",
-    "--t-type-display-size": DISPLAY_SIZE_MAP[displaySize],
-    "--t-type-display-weight": String(headingWeight),
-    "--t-type-display-tracking": headingTracking,
-    "--t-type-heading-style": headingFontStyle,
+    "--t-type-body-weight": String(bodyFontWeight),
     "--t-type-paragraph-max-width": "65ch",
-    "--t-type-card-align": typography.cardTextAlign ?? DEFAULT_TYPOGRAPHY_VALUES.cardTextAlign,
   };
 }
 
@@ -283,16 +249,23 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   // --font-sans is the alias used by the fashion template components (style={{ fontFamily: "var(--font-sans)" }}).
   // --template-heading-font is the raw font-family string used by components
   // that set font-family directly (e.g. headings with a display font).
-  if (config.font) {
-    vars["--font-body"] = config.font;
-    // --font-sans mirrors --font-body so fashion components that reference
-    // var(--font-sans) pick up font-pair changes from the ThemeCustomizer.
-    vars["--font-sans"] = config.font;
-  }
+  const fontPairId =
+    config.theme?.fontPair ??
+    (config as unknown as { fontPair?: string }).fontPair;
 
-  if (config.headingFont) {
-    vars["--font-heading"] = config.headingFont;
-    vars["--template-heading-font"] = config.headingFont;
+  if (fontPairId) {
+    vars["--font-heading"] = `var(--font-heading-${fontPairId})`;
+    vars["--font-body"] = `var(--font-body-${fontPairId})`;
+    vars["--font-sans"] = `var(--font-body-${fontPairId})`;
+  } else {
+    if (config.font) {
+      vars["--font-body"] = config.font;
+      vars["--font-sans"] = config.font;
+    }
+    if (config.headingFont) {
+      vars["--font-heading"] = config.headingFont;
+      vars["--template-heading-font"] = config.headingFont;
+    }
   }
 
   // ── Typography tokens → --t-type-* ────────────────────────────────────────
@@ -305,20 +278,19 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
       xl: "2.5rem",
       "2xl": "3.5rem",
     };
+    const headingSpacingMap: Record<string, string> = { tight: '-0.03em', normal: '0em', wide: '0.1em' };
+    const contrastMap: Record<string, string> = { low: '1.2', medium: '1.5', high: '2', extreme: '2.8' };
     vars["--t-type-heading-weight"] = String(typography.headingWeight);
     vars["--t-type-heading-size"] = scaleMap[typography.headingScale] ?? "2rem";
-    vars["--t-type-heading-tracking"] = typography.headingTracking;
+    vars["--t-type-heading-tracking"] = headingSpacingMap[typography.headingSpacing] ?? '0em';
     vars["--t-type-heading-transform"] = typography.headingTransform;
+    vars["--t-type-body-weight"] = String(config.theme?.bodyFontWeight ?? 400);
+    vars["--t-type-contrast"] = contrastMap[config.theme?.fontSizeContrast ?? 'medium'] ?? '1.5';
 
-    // Extended body/display fields live directly on ThemeCustomization, not inside typography.
     const extendedTokens: TypographyTokens = {
       headingWeight: typography.headingWeight,
-      headingTracking: typography.headingTracking,
       bodyFontSize: config.theme?.bodyFontSize,
-      bodyLineHeight: config.theme?.bodyLineHeight,
-      displaySize: config.theme?.displaySize,
-      cardTextAlign: config.theme?.cardTextAlign,
-      headingFontStyle: config.theme?.headingFontStyle,
+      bodyFontWeight: config.theme?.bodyFontWeight,
     };
     Object.assign(vars, buildTypographyExtendedVars(extendedTokens));
   }
@@ -338,20 +310,22 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   vars["--t-space-item"]    = spacing.item;
   vars["--t-space-gap"]     = spacing.gap;
 
-  // spacingDensity — overrides the layoutDensity values above so the merchant
-  // fine-tune control wins over the coarser preset-level density setting.
-  // Writes to the SAME --t-space-* vars that components already consume.
-  const spacingDensity = config.layout?.spacingDensity ?? 'normal';
-  const spacingDensityMap: Record<string, Record<string, string>> = {
-    tight:  { section: '1.5rem', card: '0.5rem',  item: '0.375rem', gap: '0.5rem'  },
-    normal: { section: '2.5rem', card: '1rem',    item: '0.75rem',  gap: '1rem'    },
-    airy:   { section: '4rem',   card: '1.5rem',  item: '1rem',     gap: '1.5rem'  },
-  };
-  const sd = spacingDensityMap[spacingDensity] ?? spacingDensityMap['normal'];
-  vars['--t-space-section'] = sd.section;
-  vars['--t-space-card']    = sd.card;
-  vars['--t-space-item']    = sd.item;
-  vars['--t-space-gap']     = sd.gap;
+  // spacingDensity — merchant fine-tune control that overrides the coarser
+  // layoutDensity values written above. Only applied when the merchant has
+  // explicitly set config.layout.spacingDensity; otherwise layoutDensity wins.
+  // Both write to the same --t-space-* vars that components consume.
+  if (config.layout?.spacingDensity != null) {
+    const spacingDensityMap: Record<string, Record<string, string>> = {
+      tight:  { section: '1.5rem', card: '0.5rem',  item: '0.375rem', gap: '0.5rem'  },
+      normal: { section: '2.5rem', card: '1rem',    item: '0.75rem',  gap: '1rem'    },
+      airy:   { section: '4rem',   card: '1.5rem',  item: '1rem',     gap: '1.5rem'  },
+    };
+    const sd = spacingDensityMap[config.layout.spacingDensity] ?? spacingDensityMap['normal'];
+    vars['--t-space-section'] = sd.section;
+    vars['--t-space-card']    = sd.card;
+    vars['--t-space-item']    = sd.item;
+    vars['--t-space-gap']     = sd.gap;
+  }
 
   // ── Card tokens → --t-radius-*, --t-card-padding ──────────────────────────
   // Read from config.layout (the merged TemplateLayoutConfig) for card/chrome fields.
@@ -383,6 +357,14 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
     accentDistribution: config.theme?.accentDistribution,
   };
   Object.assign(vars, buildColorVars(colorInput));
+
+  // NOTE: "fontFamily" (camelCase, no -- prefix) is intentional.
+  // buildCssVars output is spread into style={} as React.CSSProperties, so
+  // React maps camelCase keys to their CSS property equivalents on the DOM element.
+  // This sets font-family: var(--font-body) on the .template-scope div itself,
+  // ensuring the body font resolves even when a parent has a different font-family.
+  // It is NOT a CSS custom property and must NOT use the --t- prefix.
+  vars["fontFamily"] = "var(--font-body)";
 
   return vars;
 }

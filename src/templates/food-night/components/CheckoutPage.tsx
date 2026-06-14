@@ -8,7 +8,9 @@ import { Header } from "./Header";
 import { CheckoutForm } from "./CheckoutForm";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
-import type { StoreInfo, CartItem, NavTab, CheckoutFormData } from "../types";
+import type { CartItem } from "@/lib/cart";
+import type { StoreInfo, NavTab, CheckoutFormData } from "../types";
+import { formatPrice } from "@/lib/format";
 
 interface FieldErrors {
   nombre?: string;
@@ -35,10 +37,6 @@ interface CheckoutPageProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
-}
-
-function formatPrice(amount: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(amount)}`;
 }
 
 export function CheckoutPage({
@@ -120,7 +118,7 @@ export function CheckoutPage({
                       style={{ color: "var(--t-muted)" }}
                     >
                       {item.quantity}× {item.name}
-                      {item.sizeLabel ? ` (${item.sizeLabel})` : ""}
+                      {item.variantName ? ` (${item.variantName})` : ""}
                     </span>
                     <span className="text-[12px] font-medium flex-shrink-0" style={{ color: "var(--t-foreground)" }}>
                       {formatPrice(item.price * item.quantity, currencySymbol)}

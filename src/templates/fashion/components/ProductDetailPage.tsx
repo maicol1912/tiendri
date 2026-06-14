@@ -11,6 +11,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
+import { formatPrice } from "@/lib/format";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -30,10 +31,6 @@ interface ProductDetailPageProps {
   onColorSelect?: (colorHex: string) => void;
   onSizeSelect?: (size: string) => void;
   onTabChange?: (tab: NavTab) => void;
-}
-
-function formatPrice(price: number, symbol = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 /** Map common hex values to human-readable color names in Spanish */

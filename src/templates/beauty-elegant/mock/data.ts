@@ -148,16 +148,18 @@ export const mockDetailProduct: BeautyElegantProduct = mockProducts[0]!;
 export const mockCartItems = [
   {
     productId: "p-serum-vitc",
-    productName: "Purple Glow Vitamin C Serum",
+    name: "Purple Glow Vitamin C Serum",
     price: 112000,
     imageUrl: ASSETS.cart.serum,
+    variantName: null,
     quantity: 1,
   },
   {
     productId: "p-lotion-daily",
-    productName: "Peptide Rich Moisturizer",
+    name: "Peptide Rich Moisturizer",
     price: 89000,
     imageUrl: ASSETS.cart.lotion,
+    variantName: null,
     quantity: 2,
   },
 ];

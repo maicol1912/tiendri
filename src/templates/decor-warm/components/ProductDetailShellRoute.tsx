@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import type { DecorWarmProduct, DecorWarmCategory } from "../types";
 import type { StoreInfo } from "@/types/store";
@@ -41,6 +41,7 @@ export function ProductDetailShellRoute({
       name: product.name,
       price: product.price,
       imageUrl: product.images[0]?.url ?? null,
+      variantName: null,
       quantity: quantity,
     });
 

@@ -6,16 +6,13 @@
 // Navigation via useTemplateNav.
 
 import { useState, useCallback } from "react";
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { CheckoutPage } from "./CheckoutPage";
 import type { StoreInfo, CheckoutFormData, NavTab } from "../types";
+import { formatPrice } from "@/lib/format";
 
 // ── WhatsApp message builder ─────────────────────────────────────────────────
-
-function formatPrice(price: number, symbol = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
 
 function buildWhatsAppMessage(
   store: StoreInfo,
@@ -184,9 +181,5 @@ export function CheckoutShellRoute({
   store,
   currencySymbol,
 }: CheckoutShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <CheckoutShellInner store={store} currencySymbol={currencySymbol} />
-    </CartProvider>
-  );
+  return <CheckoutShellInner store={store} currencySymbol={currencySymbol} />;
 }

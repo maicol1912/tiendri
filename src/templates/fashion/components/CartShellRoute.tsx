@@ -5,7 +5,7 @@
 // Navigation via useTemplateNav.
 
 import { useCallback } from "react";
-import { CartProvider, useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { CartPage } from "./CartPage";
 import type { StoreInfo, NavTab } from "../types";
@@ -67,9 +67,5 @@ interface CartShellRouteProps {
 }
 
 export function CartShellRoute({ store, currencySymbol }: CartShellRouteProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <CartShellInner store={store} currencySymbol={currencySymbol} />
-    </CartProvider>
-  );
+  return <CartShellInner store={store} currencySymbol={currencySymbol} />;
 }

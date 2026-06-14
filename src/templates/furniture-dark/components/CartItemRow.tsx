@@ -4,17 +4,9 @@
 
 import Image from "next/image";
 import { X, Star } from "lucide-react";
-import type { CartItem } from "../types";
-import { QuantityStepper } from "./QuantityStepper";
-
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import type { CartItem } from "@/lib/cart";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -34,9 +26,9 @@ export function CartItemRow({ item, onIncrement, onDecrement, onRemove }: CartIt
         className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0"
         style={{ backgroundColor: "var(--t-card)" }}
       >
-        {item.image ? (
+        {item.imageUrl ? (
           <Image
-            src={item.image}
+            src={item.imageUrl}
             alt={item.name}
             fill
             sizes="80px"

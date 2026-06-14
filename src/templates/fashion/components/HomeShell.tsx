@@ -7,8 +7,7 @@
 // Passes sections, layout, and grid from the active config down to HomePage.
 
 import { useCallback } from "react";
-import { CartProvider } from "../context/CartContext";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { HomePage } from "./HomePage";
@@ -88,9 +87,5 @@ interface HomeShellProps {
 }
 
 export function HomeShell({ store, ...rest }: HomeShellProps) {
-  return (
-    <CartProvider slug={store.slug}>
-      <HomeShellInner store={store} {...rest} />
-    </CartProvider>
-  );
+  return <HomeShellInner store={store} {...rest} />;
 }

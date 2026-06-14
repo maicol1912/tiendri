@@ -3,14 +3,11 @@
 
 import Image from "next/image";
 import type { CheckoutOrderItem } from "../types";
+import { formatPrice } from "@/lib/format";
 
 interface OrderSummaryProps {
   items: CheckoutOrderItem[];
   currencySymbol?: string;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps) {
@@ -41,7 +38,7 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
       <div className="flex flex-col px-5 pt-3 pb-2 gap-3">
         {items.map((item, index) => (
           <div
-            key={`${item.productId}-${item.variantLabel ?? index}`}
+            key={`${item.productId}-${item.variantName ?? index}`}
             className="flex items-center gap-3"
           >
             <div
@@ -56,7 +53,7 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
               {item.imageUrl ? (
                 <Image
                   src={item.imageUrl}
-                  alt={item.productName}
+                  alt={item.name}
                   fill
                   sizes="48px"
                   className="object-cover"
@@ -71,7 +68,7 @@ export function OrderSummary({ items, currencySymbol = "$" }: OrderSummaryProps)
             </div>
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
               <p className="line-clamp-1 text-[13px] font-semibold" style={{ color: "var(--t-foreground)", margin: 0 }}>
-                {item.productName}
+                {item.name}
               </p>
               <p className="text-[11px]" style={{ color: "var(--t-muted)", margin: 0 }}>
                 Cant. {item.quantity}

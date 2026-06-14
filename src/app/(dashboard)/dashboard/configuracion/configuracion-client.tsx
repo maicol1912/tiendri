@@ -3,6 +3,10 @@
 // ConfiguracionClient — Client Component wrapper for the configuracion page.
 // Owns the tab state. Universal tabs + dynamic tabs driven by TemplateConfigSchema.
 // Also handles one-time banner data migration from the old localStorage key.
+//
+// Persistence strategy:
+//   - isAuthenticated=true  → Server Actions write to Supabase
+//   - isAuthenticated=false → localStorage fallback (demo / unauthenticated mode)
 
 import { useEffect, useCallback, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -10,14 +14,12 @@ import { BrandingTab } from "./tabs/branding-tab";
 import { ThemeTab } from "./tabs/theme-tab";
 import { BusinessTab } from "./tabs/business-tab";
 import { DynamicTabContent } from "@/components/dashboard/schema-form";
-import { getTemplateSchemaSync } from "@/templates/registry";
+import { getTemplateSchema } from "@/templates/registry";
 import { setByPath } from "@/lib/config-path-utils";
-import {
-  readCustomization,
-  CUSTOMIZATION_STORAGE_KEY,
-} from "./actions";
+import { updateCustomizationSection } from "./actions";
+import { CUSTOMIZATION_STORAGE_KEY } from "./client-utils";
 import type { StoreCustomization } from "@/types/templates/store-customization";
-import type { ConfigTabGroup } from "@/types/templates/config-schema";
+import type { ConfigTabGroup, TemplateConfigSchema } from "@/types/templates/config-schema";
 
 // ── Banner data migration ───────────────────────────────────────────────────
 
@@ -33,19 +35,19 @@ interface LegacyBannersData {
  * One-time migration: reads old `tiendri_demo-store_banners` localStorage key
  * and merges banner data into the main customization blob under `content.*`.
  * Deletes the old key after a successful merge.
+ * Only runs in localStorage (demo) mode — Supabase stores are already clean.
  */
-function migrateLegacyBanners(): void {
+function migrateLegacyBanners(currentCustomization: StoreCustomization): void {
   try {
     const raw = localStorage.getItem(LEGACY_BANNERS_KEY);
     if (!raw) return;
 
     const banners = JSON.parse(raw) as LegacyBannersData;
-    const current = readCustomization();
 
     // Skip if main blob already has heroBanner data (already migrated or configured via new UI)
-    if (current.content?.heroBanner) return;
+    if (currentCustomization.content?.heroBanner) return;
 
-    let updated: Record<string, unknown> = current as unknown as Record<
+    let updated: Record<string, unknown> = currentCustomization as unknown as Record<
       string,
       unknown
     >;
@@ -71,30 +73,69 @@ function migrateLegacyBanners(): void {
   }
 }
 
+// ── localStorage fallback helpers (demo / unauthenticated mode) ────────────
+
+function readLocalCustomization(): StoreCustomization {
+  try {
+    const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
+    if (raw) return JSON.parse(raw) as StoreCustomization;
+  } catch {
+    // Corrupted — start fresh
+  }
+  return { templateId: "tech-premium" };
+}
+
+function writeLocalCustomization(data: StoreCustomization): void {
+  try {
+    localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // Non-critical in fallback mode
+  }
+}
+
 // ── Component ────────────────────────────────────────────────────────────────
 
 interface ConfiguracionClientProps {
-  storeName: string;
+  storeName?: string;
   initialCustomization: StoreCustomization;
+  /**
+   * When true, the user is authenticated and Server Actions write to Supabase.
+   * When false, all saves fall back to localStorage (demo mode).
+   */
+  isAuthenticated: boolean;
 }
 
 export function ConfiguracionClient({
-  storeName,
   initialCustomization,
+  isAuthenticated,
 }: ConfiguracionClientProps) {
   const [customization, setCustomization] =
     useState<StoreCustomization>(initialCustomization);
 
-  // Run one-time banner data migration on mount
+  const [schema, setSchema] = useState<TemplateConfigSchema | null>(null);
+
+  // In demo mode, hydrate from localStorage after mount (client-only).
+  // In authenticated mode, use the server-provided initialCustomization directly.
   useEffect(() => {
-    migrateLegacyBanners();
-    // Re-read customization in case the migration modified it
-    setCustomization(readCustomization());
+    if (isAuthenticated) {
+      // Already hydrated from Supabase via Server Component — just run migration check
+      migrateLegacyBanners(initialCustomization);
+    } else {
+      // Demo mode: load from localStorage (may have more recent changes than server-provided fallback)
+      migrateLegacyBanners(initialCustomization);
+      const local = readLocalCustomization();
+      setCustomization(local);
+    }
+
+    const templateId = initialCustomization.templateId ?? "tech-premium";
+    getTemplateSchema(templateId).then((loaded) => {
+      setSchema(loaded);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Load schema for the active template
-  const templateId = customization.templateId ?? "tech-premium";
-  const schema = getTemplateSchemaSync(templateId);
+  const storeName = customization.branding?.storeName ?? "Mi tienda";
+
   const dynamicTabGroups: ConfigTabGroup[] =
     schema?.content.tabGroups ?? [];
 
@@ -106,18 +147,40 @@ export function ConfiguracionClient({
     { value: "negocio", label: "Negocio" },
   ];
 
-  // Save handler for DynamicTabContent — merges updated data into the full blob
+  // Save handler for DynamicTabContent — merges updated data into the full blob.
+  // Tries Supabase first; falls back to localStorage on UNAUTHORIZED.
   const handleDynamicTabSave = useCallback(
-    (data: Record<string, unknown>) => {
-      try {
-        const merged = { ...readCustomization(), ...data } as StoreCustomization;
-        localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(merged));
+    async (data: Record<string, unknown>) => {
+      if (isAuthenticated) {
+        // For dynamic tabs the data arrives as a flat merge over the full blob.
+        // We call updateCustomizationSection for each top-level key in the patch.
+        for (const [sectionKey, sectionData] of Object.entries(data)) {
+          const key = sectionKey as keyof StoreCustomization;
+          const value = sectionData as Record<string, unknown>;
+          const result = await updateCustomizationSection(key, value);
+
+          if (!result.success) {
+            if (result.error.code === "UNAUTHORIZED") {
+              // Auth expired mid-session — silently fall back to localStorage
+              const merged = { ...readLocalCustomization(), ...data } as StoreCustomization;
+              writeLocalCustomization(merged);
+              setCustomization(merged);
+              return;
+            }
+            // Other errors are surfaced via toast inside DynamicTabContent
+            throw new Error(result.error.message);
+          }
+        }
+        // Update local state to reflect saved data
+        setCustomization((prev) => ({ ...prev, ...data } as StoreCustomization));
+      } else {
+        // Demo mode: localStorage only
+        const merged = { ...readLocalCustomization(), ...data } as StoreCustomization;
+        writeLocalCustomization(merged);
         setCustomization(merged);
-      } catch {
-        // Error is surfaced via toast inside DynamicTabContent
       }
     },
-    []
+    [isAuthenticated]
   );
 
   return (
@@ -156,7 +219,10 @@ export function ConfiguracionClient({
 
           {/* Universal tab: Identidad */}
           <TabsContent value="identidad">
-            <BrandingTab initialBranding={customization.branding} />
+            <BrandingTab
+              initialBranding={customization.branding}
+              isAuthenticated={isAuthenticated}
+            />
           </TabsContent>
 
           {/* Dynamic tabs from schema */}
@@ -177,12 +243,16 @@ export function ConfiguracionClient({
             <ThemeTab
               initialTheme={customization.theme}
               schema={schema ?? undefined}
+              isAuthenticated={isAuthenticated}
             />
           </TabsContent>
 
           {/* Universal tab: Negocio */}
           <TabsContent value="negocio">
-            <BusinessTab initialBusiness={customization.business} />
+            <BusinessTab
+              initialBusiness={customization.business}
+              isAuthenticated={isAuthenticated}
+            />
           </TabsContent>
         </Tabs>
       </div>

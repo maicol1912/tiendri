@@ -3,10 +3,7 @@
 // ZERO hardcoded colors — all via var(--t-*).
 
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
-
-function formatPrice(price: number, symbol = "$") {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
+import { formatPrice } from "@/lib/format";
 
 interface OrderSummaryProps {
   subtotal: number;

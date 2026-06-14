@@ -1,10 +1,12 @@
-// Template schema registry — async and sync loaders for TemplateConfigSchema.
+// Template schema registry — async loader for TemplateConfigSchema.
+// Uses dynamic imports so each schema is code-split into its own chunk.
 // Add new templates here as they are implemented.
 
-import type { TemplateConfigSchema } from "@/types/templates";
+import type { TemplateConfig, TemplateConfigSchema } from "@/types/templates";
 
 // ---------------------------------------------------------------------------
-// Async loader — preferred for dashboard pages (code-splits schema per template)
+// Async loader — code-splits each schema into its own chunk.
+// Importing this file does NOT pull any schema into the bundle.
 // ---------------------------------------------------------------------------
 
 /**
@@ -59,39 +61,54 @@ export async function getTemplateSchema(
 }
 
 // ---------------------------------------------------------------------------
-// Sync loader — for contexts where await is not available (e.g. RSC initial load)
-// Only available for templates whose schema has already been statically imported.
+// Async loader — code-splits each template config (defaults) into its chunk.
+// Falls back to tech-premium for unknown template IDs.
 // ---------------------------------------------------------------------------
 
-// Static references — imported once so they are always available synchronously.
-import { techPremiumConfigSchema } from "./tech-premium/config-schema";
-import { fashionConfigSchema } from "./fashion/config-schema";
-import { furnitureDarkConfigSchema } from "./furniture-dark/config-schema";
-import { beautySoftConfigSchema } from "./beauty-soft/config-schema";
-import { beautyElegantConfigSchema } from "./beauty-elegant/config-schema";
-import { decorWarmConfigSchema } from "./decor-warm/config-schema";
-import { foodNightConfigSchema } from "./food-night/config-schema";
-import { furnitureLightConfigSchema } from "./furniture-light/config-schema";
-
-const syncRegistry: Record<string, TemplateConfigSchema> = {
-  "tech-premium": techPremiumConfigSchema,
-  fashion: fashionConfigSchema,
-  "furniture-dark": furnitureDarkConfigSchema,
-  "furniture-light": furnitureLightConfigSchema,
-  "beauty-soft": beautySoftConfigSchema,
-  "beauty-elegant": beautyElegantConfigSchema,
-  "decor-warm": decorWarmConfigSchema,
-  "food-night": foodNightConfigSchema,
-};
-
 /**
- * Synchronously return the TemplateConfigSchema for the given template ID.
- * Returns null for unknown template IDs.
- * Prefer `getTemplateSchema` (async) when possible — this one statically
- * imports all schemas and includes them in the initial bundle.
+ * Load the default TemplateConfig for the given template ID.
+ * Falls back to tech-premium for unknown IDs so the storefront always renders.
+ *
+ * @example
+ * const config = await getTemplateConfig("fashion");
  */
-export function getTemplateSchemaSync(
+export async function getTemplateConfig(
   templateId: string
-): TemplateConfigSchema | null {
-  return syncRegistry[templateId] ?? null;
+): Promise<TemplateConfig> {
+  switch (templateId) {
+    case "fashion": {
+      const { fashionConfig } = await import("./fashion/config");
+      return fashionConfig as TemplateConfig;
+    }
+    case "furniture-dark": {
+      const { furnitureDarkConfig } = await import("./furniture-dark/config");
+      return furnitureDarkConfig as TemplateConfig;
+    }
+    case "furniture-light": {
+      const { furnitureLightConfig } = await import("./furniture-light/config");
+      return furnitureLightConfig as TemplateConfig;
+    }
+    case "beauty-soft": {
+      const { beautySoftConfig } = await import("./beauty-soft/config");
+      return beautySoftConfig as TemplateConfig;
+    }
+    case "beauty-elegant": {
+      const { beautyElegantConfig } = await import("./beauty-elegant/config");
+      return beautyElegantConfig as TemplateConfig;
+    }
+    case "decor-warm": {
+      const { decorWarmConfig } = await import("./decor-warm/config");
+      return decorWarmConfig as TemplateConfig;
+    }
+    case "food-night": {
+      const { foodNightConfig } = await import("./food-night/config");
+      return foodNightConfig as TemplateConfig;
+    }
+    // "tech-premium" is the default — also catches unknown IDs
+    case "tech-premium":
+    default: {
+      const { techPremiumConfig } = await import("./tech-premium/config");
+      return techPremiumConfig as TemplateConfig;
+    }
+  }
 }

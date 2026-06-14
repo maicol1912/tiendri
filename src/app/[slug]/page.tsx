@@ -16,8 +16,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getStoreBySlug } from "@/lib/getStoreBySlug";
 import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
-import { techPremiumConfig } from "@/templates/tech-premium/config";
-import { techPremiumConfigSchema } from "@/templates/tech-premium/config-schema";
+import { getTemplateConfig, getTemplateSchema } from "@/templates";
+// StorefrontHomeShell is tech-premium's shell. Until other templates implement
+// their own Storefront*Shell, this remains the single storefront renderer.
+// When a new template ships its shell, add a dynamic switch here based on
+// store.template_id — identical pattern to the registry loaders in registry.ts.
 import { StorefrontHomeShell } from "@/templates/tech-premium/components/StorefrontHomeShell";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -40,11 +43,16 @@ export async function generateMetadata({
     };
   }
 
-  // Resolve branding for SEO
+  // Resolve branding for SEO — use the store's actual template_id
+  const effectiveTemplateId = store.template_id ?? "tech-premium";
+  const [templateDefaults, templateSchema] = await Promise.all([
+    getTemplateConfig(effectiveTemplateId),
+    getTemplateSchema(effectiveTemplateId),
+  ]);
   const resolvedConfig = resolveTemplateConfig(
-    techPremiumConfig,
+    templateDefaults,
     store.customization ?? undefined,
-    techPremiumConfigSchema,
+    templateSchema ?? undefined,
   );
   const storeName = resolvedConfig.branding?.storeName ?? store.name;
   const description =
@@ -112,11 +120,18 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
   const store = await getStoreBySlug(slug);
   if (!store) notFound();
 
-  // Resolve branding and business data for JSON-LD
+  // Resolve branding and business data for JSON-LD — use the store's actual template_id.
+  // Note: React cache() in getStoreBySlug deduplicates the Supabase fetch, and
+  // Next.js deduplicates the dynamic imports in getTemplateConfig/getTemplateSchema.
+  const effectiveTemplateId = store.template_id ?? "tech-premium";
+  const [templateDefaults, templateSchema] = await Promise.all([
+    getTemplateConfig(effectiveTemplateId),
+    getTemplateSchema(effectiveTemplateId),
+  ]);
   const resolvedConfig = resolveTemplateConfig(
-    techPremiumConfig,
+    templateDefaults,
     store.customization ?? undefined,
-    techPremiumConfigSchema,
+    templateSchema ?? undefined,
   );
 
   const storeName = resolvedConfig.branding?.storeName ?? store.name ?? slug;

@@ -8,11 +8,12 @@ import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
-import { QuantityStepper } from "./QuantityStepper";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import { SizeSelector } from "./SizeSelector";
 import { StickyBottomBar } from "./StickyBottomBar";
 import type { StoreInfo, StorefrontProduct, SizeOption, NavTab } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { formatPrice } from "@/lib/format";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -34,10 +35,6 @@ interface ProductDetailPageProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
-}
-
-function formatPrice(price: number, symbol: string = "$"): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
 }
 
 function formatReviewCount(count: number): string {

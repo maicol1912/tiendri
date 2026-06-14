@@ -4,7 +4,7 @@
 // Reads items from CartContext, handles all cart mutations + navigation
 
 import { useRouter } from "next/navigation";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { CartPage } from "./CartPage";
 import { mockStore } from "../mock/data";
