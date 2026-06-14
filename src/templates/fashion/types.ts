@@ -34,7 +34,7 @@ export type CurrentPage =
   | "checkout"
   | "search";
 
-export type SortOption = "newest" | "price-asc" | "price-desc";
+export type SortOption = "recent" | "price-asc" | "price-desc" | "rating";
 
 export type TemplateMode = "live" | "preview";
 
@@ -60,4 +60,5 @@ export interface FilterGroup {
   label: string;
   options: FilterOption[];
   expanded?: boolean;
+  isCollapsed?: boolean;
 }

@@ -1,135 +1,402 @@
 "use client";
 
 // Fashion Template — Filter Sidebar
-// Desktop-only filter panel (hidden lg:block).
-// Has local state for expand/collapse, so requires "use client".
+// Desktop: static left sidebar. Mobile: bottom drawer overlay.
+// Editorial fashion aesthetic — ZERO border radius, sharp edges.
+// ZERO hardcoded colors — all via var(--t-*).
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import type { Category } from "../types";
+import { ChevronDown, ChevronUp, X, SlidersHorizontal } from "lucide-react";
+import type { FilterGroup } from "../types";
 
 interface FilterSidebarProps {
-  categories: Category[];
-  selectedCategoryId?: string | null;
-  selectedSizes?: string[];
-  onCategoryChange?: (id: string | null) => void;
-  onSizeToggle?: (size: string) => void;
+  filters: FilterGroup[];
+  activeFilters: Record<string, string[]>;
+  onFilterChange: (groupId: string, optionId: string, checked: boolean) => void;
+  onClearAll: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const AVAILABLE_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
+function FilterContent({
+  filters,
+  activeFilters,
+  onFilterChange,
+  onClearAll,
+}: Omit<FilterSidebarProps, "isOpen" | "onClose">) {
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
+    () => Object.fromEntries(filters.map((g) => [g.id, g.expanded !== false]))
+  );
 
-interface FilterGroupProps {
-  title: string;
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}
+  const toggleGroup = (groupId: string) => {
+    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
 
-function FilterGroup({ title, children, defaultOpen = true }: FilterGroupProps) {
-  const [open, setOpen] = useState(defaultOpen);
+  const totalActive = Object.values(activeFilters).reduce(
+    (sum, arr) => sum + arr.length,
+    0
+  );
+
   return (
-    <div className="border-b border-[var(--t-border)]">
-      <button
-        type="button"
-        className="w-full flex items-center justify-between py-4 transition-opacity hover:opacity-60 bg-transparent border-none cursor-pointer"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-      >
-        <span
-          className="text-[11px] font-medium uppercase tracking-wider text-[var(--t-foreground)]"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          {title}
-        </span>
-        {open ? (
-          <ChevronUp size={14} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
-        ) : (
-          <ChevronDown size={14} strokeWidth={1.5} className="text-[var(--t-foreground)]" />
-        )}
-      </button>
-      {open && <div className="pb-4">{children}</div>}
-    </div>
+    <>
+      {/* Clear all button — shown when there are active filters */}
+      {totalActive > 0 && (
+        <div style={{ marginBottom: "16px" }}>
+          <button
+            type="button"
+            onClick={onClearAll}
+            style={{
+              width: "100%",
+              padding: "8px 12px",
+              border: "1px solid var(--t-border)",
+              borderRadius: 0,
+              background: "transparent",
+              color: "var(--t-foreground)",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              cursor: "pointer",
+            }}
+          >
+            Limpiar filtros ({totalActive})
+          </button>
+        </div>
+      )}
+
+      {/* Filter groups */}
+      {filters.map((group) => {
+        const isExpanded = expandedGroups[group.id] ?? true;
+        const groupActive = (activeFilters[group.id] ?? []).length;
+
+        return (
+          <div
+            key={group.id}
+            style={{ borderBottom: "1px solid var(--t-border)" }}
+          >
+            {/* Group header / toggle */}
+            <button
+              type="button"
+              onClick={() => toggleGroup(group.id)}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "12px 0",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  color: "var(--t-foreground)",
+                }}
+              >
+                {group.label}
+                {groupActive > 0 && (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "16px",
+                      height: "16px",
+                      borderRadius: "0",
+                      background: "var(--t-foreground)",
+                      color: "var(--t-background)",
+                      fontSize: "9px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {groupActive}
+                  </span>
+                )}
+              </span>
+              {isExpanded ? (
+                <ChevronUp
+                  style={{
+                    width: "14px",
+                    height: "14px",
+                    color: "var(--t-foreground)",
+                    flexShrink: 0,
+                  }}
+                />
+              ) : (
+                <ChevronDown
+                  style={{
+                    width: "14px",
+                    height: "14px",
+                    color: "var(--t-foreground)",
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+            </button>
+
+            {/* Group options */}
+            {isExpanded && (
+              <div style={{ paddingBottom: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                {group.options.map((option) => {
+                  const isChecked = (activeFilters[group.id] ?? []).includes(option.id);
+                  return (
+                    <label
+                      key={option.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {/* Hidden native checkbox */}
+                      <input
+                        type="checkbox"
+                        className="sr-only"
+                        checked={isChecked}
+                        onChange={(e) =>
+                          onFilterChange(group.id, option.id, e.target.checked)
+                        }
+                      />
+                      {/* Visual checkbox */}
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "14px",
+                          height: "14px",
+                          borderRadius: 0,
+                          flexShrink: 0,
+                          background: isChecked
+                            ? "var(--t-foreground)"
+                            : "transparent",
+                          border: isChecked
+                            ? "1.5px solid var(--t-foreground)"
+                            : "1.5px solid var(--t-border)",
+                        }}
+                      >
+                        {isChecked && (
+                          <svg
+                            width="8"
+                            height="6"
+                            viewBox="0 0 8 6"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 3L3 5L7 1"
+                              stroke="var(--t-background)"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        )}
+                      </span>
+                      {/* Label */}
+                      <span
+                        style={{
+                          fontFamily: "Inter, sans-serif",
+                          fontSize: "13px",
+                          color: "var(--t-foreground)",
+                          flex: 1,
+                        }}
+                      >
+                        {option.label}
+                      </span>
+                      {/* Count */}
+                      {option.count !== undefined && (
+                        <span
+                          style={{
+                            fontFamily: "Inter, sans-serif",
+                            fontSize: "11px",
+                            color: "var(--t-muted)",
+                          }}
+                        >
+                          {option.count}
+                        </span>
+                      )}
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
   );
 }
 
 export function FilterSidebar({
-  categories,
-  selectedCategoryId = null,
-  selectedSizes = [],
-  onCategoryChange,
-  onSizeToggle,
+  filters,
+  activeFilters,
+  onFilterChange,
+  onClearAll,
+  isOpen,
+  onClose,
 }: FilterSidebarProps) {
   return (
-    <aside className="hidden lg:block w-56 flex-shrink-0">
-      <div className="pb-3 mb-2 border-b border-[var(--t-primary)]">
-        <h3
-          className="text-base font-bold uppercase tracking-wider text-[var(--t-foreground)]"
-          style={{ fontFamily: "var(--font-sans)" }}
+    <>
+      {/* ── Desktop sidebar ─────────────────────────────────────────────────── */}
+      <aside
+        className="hidden lg:flex flex-col"
+        style={{
+          width: "240px",
+          minWidth: "200px",
+          flexShrink: 0,
+          background: "var(--t-card)",
+          border: "1px solid var(--t-border)",
+          borderRadius: 0,
+          padding: "20px 16px",
+          alignSelf: "flex-start",
+          position: "sticky",
+          top: "72px",
+        }}
+      >
+        {/* Sidebar header */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "20px",
+          }}
         >
-          FILTROS
-        </h3>
-      </div>
+          <SlidersHorizontal
+            style={{ width: "16px", height: "16px", color: "var(--t-foreground)" }}
+          />
+          <span
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "13px",
+              fontWeight: 700,
+              color: "var(--t-foreground)",
+              textTransform: "uppercase",
+              letterSpacing: "1.5px",
+            }}
+          >
+            Filtros
+          </span>
+        </div>
 
-      <FilterGroup title="Categoría">
-        <div className="flex flex-col gap-1">
-          {[{ id: null, name: "Todos", slug: "", icon: "" }, ...categories].map((cat) => {
-            const isActive = selectedCategoryId === cat.id;
-            return (
-              <button
-                key={cat.id ?? "all"}
-                type="button"
-                className="text-left py-1 transition-opacity hover:opacity-60 bg-transparent border-none cursor-pointer"
-                onClick={() => onCategoryChange?.(cat.id)}
+        <FilterContent
+          filters={filters}
+          activeFilters={activeFilters}
+          onFilterChange={onFilterChange}
+          onClearAll={onClearAll}
+        />
+      </aside>
+
+      {/* ── Mobile bottom drawer ──────────────────────────────────────────────── */}
+      {isOpen && (
+        <div className="lg:hidden" style={{ position: "fixed", inset: 0, zIndex: 50 }}>
+          {/* Backdrop */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "rgba(0,0,0,0.5)",
+            }}
+            onClick={onClose}
+            aria-hidden="true"
+          />
+
+          {/* Drawer panel */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              borderRadius: 0,
+              background: "var(--t-card)",
+              padding: "0 20px 40px",
+              maxHeight: "85vh",
+              overflowY: "auto",
+              animation: "slideUp 200ms ease",
+            }}
+          >
+            {/* Drag handle */}
+            <div
+              style={{
+                width: "32px",
+                height: "3px",
+                borderRadius: 0,
+                background: "var(--t-border)",
+                margin: "12px auto 16px",
+              }}
+            />
+
+            {/* Drawer header */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "20px",
+              }}
+            >
+              <span
                 style={{
-                  fontFamily: "var(--font-sans)",
+                  fontFamily: "Inter, sans-serif",
                   fontSize: "13px",
-                  fontWeight: isActive ? 500 : 400,
-                  color: isActive
-                    ? "var(--t-foreground)"
-                    : "var(--t-muted)",
-                  textDecoration: isActive ? "underline" : "none",
-                  textUnderlineOffset: "3px",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "1.5px",
+                  color: "var(--t-foreground)",
                 }}
               >
-                {cat.name}
-              </button>
-            );
-          })}
-        </div>
-      </FilterGroup>
-
-      <FilterGroup title="Talla">
-        <div className="flex flex-wrap gap-2">
-          {AVAILABLE_SIZES.map((size) => {
-            const isSelected = selectedSizes.includes(size);
-            return (
+                FILTROS
+              </span>
               <button
-                key={size}
                 type="button"
-                aria-pressed={isSelected}
-                className="px-3 py-1.5 transition-colors cursor-pointer"
-                onClick={() => onSizeToggle?.(size)}
+                onClick={onClose}
                 style={{
-                  backgroundColor: isSelected
-                    ? "var(--t-button-bg)"
-                    : "transparent",
-                  color: isSelected
-                    ? "var(--t-button-text)"
-                    : "var(--t-foreground)",
-                  border: isSelected
-                    ? "1px solid var(--t-primary)"
-                    : "1px solid var(--t-border)",
-                  borderRadius: "var(--t-radius-button)",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "11px",
-                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "32px",
+                  height: "32px",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--t-foreground)",
                 }}
+                aria-label="Cerrar filtros"
               >
-                {size}
+                <X style={{ width: "18px", height: "18px" }} />
               </button>
-            );
-          })}
+            </div>
+
+            <FilterContent
+              filters={filters}
+              activeFilters={activeFilters}
+              onFilterChange={onFilterChange}
+              onClearAll={onClearAll}
+            />
+          </div>
         </div>
-      </FilterGroup>
-    </aside>
+      )}
+
+      {/* Slide-up keyframe animation */}
+      <style>{`
+        @keyframes slideUp {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+      `}</style>
+    </>
   );
 }

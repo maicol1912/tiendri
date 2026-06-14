@@ -1,27 +1,31 @@
 // Fashion Template — Product Listing Page
-// Breadcrumb → Category pills → Product grid → FilterSidebar (desktop)
+// Header → (sidebar + grid) layout on desktop, drawer on mobile
 // Monochromatic B&W. Background: var(--t-background).
+// ZERO border-radius everywhere. Sharp editorial edges.
 
-import { ChevronRight } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { Header } from "./Header";
-import { SearchBar } from "./SearchBar";
+import { FilterSidebar } from "./FilterSidebar";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
-import type { StoreInfo, Category, StorefrontProduct, NavTab, SortOption } from "../types";
+import type { StoreInfo, Category, StorefrontProduct, NavTab } from "../types";
+import type { FilterGroup, SortOption } from "../types";
 
 interface ProductListingPageProps {
   store: StoreInfo;
-  products: StorefrontProduct[];
+  products: StorefrontProduct[];          // already filtered
+  allProductsCount: number;               // total before filters
   categories: Category[];
-  activeCategoryId: string | null;
-  selectedSizes?: string[];
-  sortOption?: SortOption;
+  filterGroups: FilterGroup[];
+  activeFilters: Record<string, string[]>;
+  searchQuery: string;
+  sortOption: SortOption;
+  isFilterDrawerOpen: boolean;
   activeTab: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
-  showFilterPanel?: boolean;
   grid?: { mobile: number; desktop: number };
   layout?: {
     cardStyle?: string;
@@ -29,54 +33,67 @@ interface ProductListingPageProps {
     cardImageRatio?: string;
   };
   activeHref?: string;
+  onSearchChange?: (q: string) => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
   onNavLinkClick?: (href: string) => void;
   onProductClick?: (id: string) => void;
-  onCategoryChange?: (id: string | null) => void;
-  onSizeToggle?: (size: string) => void;
+  onFilterChange?: (groupId: string, optionId: string, checked: boolean) => void;
+  onClearAllFilters?: () => void;
   onSortChange?: (sort: SortOption) => void;
-  onFilterToggle?: () => void;
+  onFilterDrawerOpen?: () => void;
+  onFilterDrawerClose?: () => void;
   onTabChange?: (tab: NavTab) => void;
 }
 
-interface PillCategory {
-  id: string;
-  name: string;
-}
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: "recent", label: "Más recientes" },
+  { value: "price-asc", label: "Menor precio" },
+  { value: "price-desc", label: "Mayor precio" },
+  { value: "rating", label: "Mejor valorados" },
+];
 
 export function ProductListingPage({
   store,
   products,
-  categories,
-  activeCategoryId,
+  allProductsCount,
+  categories: _categories,
+  filterGroups,
+  activeFilters,
+  searchQuery,
+  sortOption,
+  isFilterDrawerOpen,
   activeTab,
   cartItemCount = 0,
   currencySymbol = "$",
   grid,
   layout,
   activeHref,
+  onSearchChange,
   onSearchClick,
   onCartClick,
   onMenuClick,
   onNavLinkClick,
   onProductClick,
-  onCategoryChange,
-  onFilterToggle,
+  onFilterChange,
+  onClearAllFilters,
+  onSortChange,
+  onFilterDrawerOpen,
+  onFilterDrawerClose,
   onTabChange,
 }: ProductListingPageProps) {
-  const allCategories: PillCategory[] = [
-    { id: "__new__", name: "NUEVO" },
-    ...categories.map((c) => ({ id: c.id, name: c.name })),
-  ];
+  const gridClass = gridColsClass(grid?.mobile ?? 2, grid?.desktop ?? 3);
 
-  const gridClass = gridColsClass(grid?.mobile ?? 2, grid?.desktop ?? 4);
+  const activeFilterCount = Object.values(activeFilters).reduce(
+    (sum, arr) => sum + arr.length,
+    0
+  );
 
   return (
     <div
-      className="min-h-screen bg-[var(--t-background)]"
-      style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
+      className="min-h-screen"
+      style={{ background: "var(--t-background)", fontFamily: "Inter, sans-serif" }}
     >
       <Header
         store={store}
@@ -88,108 +105,275 @@ export function ProductListingPage({
         onNavLinkClick={onNavLinkClick}
       />
 
-      <main className="px-5 md:px-6 lg:px-8 pt-4 md:pt-6 pb-28 md:pb-12 max-w-7xl mx-auto">
+      <main className="px-4 md:px-6 lg:px-8 pt-4 pb-28 md:pb-12 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <p
-          className="text-center md:text-left mb-3 text-[11px] font-normal tracking-[1px] text-[var(--t-muted)] uppercase"
-          style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
+          style={{
+            fontSize: "11px",
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            color: "var(--t-muted)",
+            marginBottom: "12px",
+            fontFamily: "Inter, sans-serif",
+          }}
         >
           Inicio / Productos
         </p>
 
         {/* Page heading */}
         <h1
-          className="text-center md:text-left mb-5 md:mb-6 text-[28px] md:text-3xl lg:text-4xl font-bold uppercase tracking-[2px] text-[var(--t-foreground)]"
-          style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
+          style={{
+            fontSize: "clamp(24px, 4vw, 36px)",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            color: "var(--t-foreground)",
+            marginBottom: "24px",
+            fontFamily: "Inter, sans-serif",
+          }}
         >
           PRODUCTOS
         </h1>
 
-        {/* Search bar — mobile only */}
-        <div className="mb-4 md:hidden">
-          <SearchBar />
+        {/* Search + Sort bar */}
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            marginBottom: "16px",
+            alignItems: "center",
+          }}
+        >
+          {/* Search input */}
+          <div style={{ position: "relative", flex: 1 }}>
+            <Search
+              style={{
+                position: "absolute",
+                left: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "14px",
+                height: "14px",
+                color: "var(--t-muted)",
+                pointerEvents: "none",
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange?.(e.target.value)}
+              onFocus={onSearchClick}
+              style={{
+                width: "100%",
+                paddingLeft: "36px",
+                paddingRight: "12px",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+                border: "1px solid var(--t-border)",
+                borderRadius: 0,
+                background: "var(--t-card)",
+                color: "var(--t-foreground)",
+                fontSize: "13px",
+                fontFamily: "Inter, sans-serif",
+                outline: "none",
+              }}
+            />
+          </div>
+
+          {/* Sort dropdown */}
+          <select
+            value={sortOption}
+            onChange={(e) => onSortChange?.(e.target.value as SortOption)}
+            style={{
+              padding: "10px 28px 10px 12px",
+              border: "1px solid var(--t-border)",
+              borderRadius: 0,
+              background: "var(--t-card)",
+              color: "var(--t-foreground)",
+              fontSize: "12px",
+              fontFamily: "Inter, sans-serif",
+              cursor: "pointer",
+              outline: "none",
+              appearance: "none",
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8A8A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right 10px center",
+              minWidth: "140px",
+            }}
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Filters button — mobile only */}
-        <button
-          type="button"
-          className="flex items-center gap-1 mb-4 md:hidden transition-opacity hover:opacity-60 bg-transparent border-0 p-0 cursor-pointer"
-          onClick={onFilterToggle}
+        {/* Result count + mobile filter button */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: "16px",
+          }}
         >
+          {/* Result count */}
           <span
-            className="text-[13px] font-medium text-[var(--t-foreground)]"
-            style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
+            style={{
+              fontSize: "12px",
+              color: "var(--t-muted)",
+              letterSpacing: "0.5px",
+              fontFamily: "Inter, sans-serif",
+            }}
           >
-            Filtros
+            {products.length}{" "}
+            {products.length === 1 ? "producto" : "productos"}
+            {activeFilterCount > 0 && ` (de ${allProductsCount})`}
           </span>
-          <ChevronRight size={14} strokeWidth={2} className="text-[var(--t-foreground)]" />
-        </button>
 
-        {/* Category pills */}
-        <div className="flex flex-wrap gap-2 md:gap-3 mb-6 md:mb-8">
-          {allCategories.map((cat) => {
-            const isActive =
-              activeCategoryId === null
-                ? cat.id === "__new__"
-                : activeCategoryId === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() =>
-                  onCategoryChange?.(cat.id === "__new__" ? null : cat.id)
-                }
-                className="px-3.5 py-1.5 transition-colors hover:border-[var(--t-primary)] bg-transparent cursor-pointer rounded-[var(--t-radius-category)]"
+          {/* Filter button — mobile only */}
+          <button
+            type="button"
+            onClick={onFilterDrawerOpen}
+            className="lg:hidden"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "8px 14px",
+              border: "1px solid var(--t-border)",
+              borderRadius: 0,
+              background:
+                activeFilterCount > 0
+                  ? "var(--t-foreground)"
+                  : "transparent",
+              color:
+                activeFilterCount > 0
+                  ? "var(--t-background)"
+                  : "var(--t-foreground)",
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              cursor: "pointer",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            <SlidersHorizontal style={{ width: "13px", height: "13px" }} />
+            Filtros
+            {activeFilterCount > 0 && (
+              <span
                 style={{
-                  border: isActive
-                    ? `1.5px solid var(--t-primary)`
-                    : `1px solid var(--t-border)`,
-                  fontFamily: "var(--font-sans, 'Inter', sans-serif)",
-                  fontSize: "10px",
-                  fontWeight: isActive ? 600 : 400,
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                  color: isActive
-                    ? "var(--t-foreground)"
-                    : "var(--t-muted)",
-                  whiteSpace: "nowrap",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: 0,
+                  background: "var(--t-background)",
+                  color: "var(--t-foreground)",
+                  fontSize: "9px",
+                  fontWeight: 700,
                 }}
               >
-                {cat.name}
-              </button>
-            );
-          })}
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
         </div>
 
-        {/* Product grid */}
-        {products.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <p
-              className="text-lg md:text-xl font-bold uppercase tracking-wider text-[var(--t-foreground)] mb-2"
-              style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
-            >
-              SIN RESULTADOS
-            </p>
-            <p
-              className="text-sm md:text-base text-[var(--t-muted)]"
-              style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)", fontWeight: 400 }}
-            >
-              No hay productos en esta categoría.
-            </p>
+        {/* Main content: sidebar (desktop) + product grid */}
+        <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
+          {/* FilterSidebar — handles desktop sidebar AND mobile drawer internally */}
+          <FilterSidebar
+            filters={filterGroups}
+            activeFilters={activeFilters}
+            onFilterChange={(groupId, optionId, checked) =>
+              onFilterChange?.(groupId, optionId, checked)
+            }
+            onClearAll={() => onClearAllFilters?.()}
+            isOpen={isFilterDrawerOpen}
+            onClose={() => onFilterDrawerClose?.()}
+          />
+
+          {/* Product grid */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {products.length === 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "80px 0",
+                  textAlign: "center",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "2px",
+                    color: "var(--t-foreground)",
+                    marginBottom: "8px",
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
+                  SIN RESULTADOS
+                </p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--t-muted)",
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
+                  Probá con otros filtros o términos de búsqueda.
+                </p>
+                {activeFilterCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={onClearAllFilters}
+                    style={{
+                      marginTop: "16px",
+                      padding: "10px 20px",
+                      border: "1px solid var(--t-foreground)",
+                      borderRadius: 0,
+                      background: "transparent",
+                      color: "var(--t-foreground)",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                      cursor: "pointer",
+                      fontFamily: "Inter, sans-serif",
+                    }}
+                  >
+                    Limpiar filtros
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div
+                className={`grid ${gridClass}`}
+                style={{ gap: "var(--t-space-gap, 0.75rem)" }}
+              >
+                {products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    currencySymbol={currencySymbol}
+                    onProductClick={onProductClick}
+                    layout={layout}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        ) : (
-          <div className={`grid ${gridClass}`} style={{ gap: "var(--t-space-gap, 0.75rem)" }}>
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                currencySymbol={currencySymbol}
-                onProductClick={onProductClick}
-                layout={layout}
-              />
-            ))}
-          </div>
-        )}
+        </div>
       </main>
 
       <Footer store={store} />

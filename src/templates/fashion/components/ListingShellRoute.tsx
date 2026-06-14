@@ -1,10 +1,9 @@
 "use client";
 
 // Fashion Template — Product Listing Shell Route
-// State: activeCategoryId, selectedSizes[], sortOption.
-// Applies filter + sort logic before passing to ProductListingPage.
-// Navigation via useTemplateNav.
-// Reads configOverride from LayoutConfigContext for grid + layout props.
+// State: activeFilters, searchQuery, sortOption, isFilterDrawerOpen.
+// Builds filter groups from categories with counts.
+// useMemo filtering + sorting before passing to ProductListingPage.
 
 import { useState, useCallback, useMemo } from "react";
 import { useCart } from "@/lib/cart";
@@ -13,7 +12,8 @@ import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutCli
 import { ProductListingPage } from "./ProductListingPage";
 import { fashionConfig } from "../config";
 import type { FashionConfig } from "../config";
-import type { StoreInfo, Category, StorefrontProduct, NavTab, SortOption } from "../types";
+import type { StoreInfo, Category, StorefrontProduct, NavTab } from "../types";
+import type { FilterGroup, SortOption } from "../types";
 
 interface ListingShellInnerProps {
   store: StoreInfo;
@@ -35,26 +35,138 @@ function ListingShellInner({
   const resolvedGrid = config?.grid?.listing ?? fashionConfig.grid.listing;
   const resolvedLayout = config?.layout ?? fashionConfig.layout;
 
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [sortOption, setSortOption] = useState<SortOption>("newest");
-  const [showFilterPanel, setShowFilterPanel] = useState(false);
+  // ── Filter state ────────────────────────────────────────────────────────────
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
+  // ── Build filter groups ─────────────────────────────────────────────────────
+  const filterGroups = useMemo((): FilterGroup[] => {
+    // Category counts from actual products
+    const categoryCounts = categories.reduce<Record<string, number>>((acc, cat) => {
+      acc[cat.id] = products.filter((p) => p.categoryId === cat.id).length;
+      return acc;
+    }, {});
+
+    return [
+      {
+        id: "category",
+        label: "Categoría",
+        options: categories.map((cat) => ({
+          id: cat.id,
+          label: cat.name,
+          count: categoryCounts[cat.id] ?? 0,
+        })),
+      },
+      {
+        id: "price",
+        label: "Precio",
+        options: [
+          { id: "under-80k", label: "Menos de $80.000" },
+          { id: "80k-130k", label: "$80.000 – $130.000" },
+          { id: "130k-200k", label: "$130.000 – $200.000" },
+          { id: "over-200k", label: "Más de $200.000" },
+        ],
+      },
+      {
+        id: "size",
+        label: "Talla",
+        options: ["XS", "S", "M", "L", "XL", "XXL"].map((s) => ({
+          id: s.toLowerCase(),
+          label: s,
+        })),
+      },
+      {
+        id: "rating",
+        label: "Valoración",
+        options: [
+          { id: "4-plus", label: "4 estrellas o más" },
+          { id: "3-plus", label: "3 estrellas o más" },
+        ],
+      },
+      {
+        id: "availability",
+        label: "Disponibilidad",
+        options: [
+          { id: "in-stock", label: "Disponible" },
+          { id: "out-of-stock", label: "Agotado" },
+        ],
+      },
+    ];
+  }, [categories, products]);
+
+  // ── Filter + sort logic ─────────────────────────────────────────────────────
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    if (activeCategoryId !== null) {
-      result = result.filter((p) => p.categoryId === activeCategoryId);
-    }
-
-    if (selectedSizes.length > 0) {
-      result = result.filter((p) =>
-        p.storageOptions
-          ? p.storageOptions.some((s) => selectedSizes.includes(s))
-          : true
+    // Search
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.subtitle ?? "").toLowerCase().includes(q) ||
+          (p.description ?? "").toLowerCase().includes(q)
       );
     }
 
+    // Category
+    const categoryFilters = activeFilters["category"] ?? [];
+    if (categoryFilters.length > 0) {
+      result = result.filter((p) => categoryFilters.includes(p.categoryId ?? ""));
+    }
+
+    // Price
+    const priceFilters = activeFilters["price"] ?? [];
+    if (priceFilters.length > 0) {
+      result = result.filter((p) => {
+        return priceFilters.some((pf) => {
+          if (pf === "under-80k") return p.price < 80000;
+          if (pf === "80k-130k") return p.price >= 80000 && p.price <= 130000;
+          if (pf === "130k-200k") return p.price > 130000 && p.price <= 200000;
+          if (pf === "over-200k") return p.price > 200000;
+          return false;
+        });
+      });
+    }
+
+    // Size
+    const sizeFilters = activeFilters["size"] ?? [];
+    if (sizeFilters.length > 0) {
+      result = result.filter((p) =>
+        p.storageOptions
+          ? p.storageOptions.some((s) => sizeFilters.includes(s.toLowerCase()))
+          : false
+      );
+    }
+
+    // Rating
+    const ratingFilters = activeFilters["rating"] ?? [];
+    if (ratingFilters.length > 0) {
+      result = result.filter((p) => {
+        const r = p.rating ?? 0;
+        return ratingFilters.some((rf) => {
+          if (rf === "4-plus") return r >= 4;
+          if (rf === "3-plus") return r >= 3;
+          return false;
+        });
+      });
+    }
+
+    // Availability
+    const availFilters = activeFilters["availability"] ?? [];
+    if (availFilters.length > 0) {
+      result = result.filter((p) => {
+        return availFilters.some((af) => {
+          if (af === "in-stock") return p.inStock === true;
+          if (af === "out-of-stock") return p.inStock === false;
+          return false;
+        });
+      });
+    }
+
+    // Sort
     switch (sortOption) {
       case "price-asc":
         result.sort((a, b) => a.price - b.price);
@@ -62,18 +174,36 @@ function ListingShellInner({
       case "price-desc":
         result.sort((a, b) => b.price - a.price);
         break;
-      case "newest":
+      case "rating":
+        result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+        break;
+      case "recent":
       default:
         break;
     }
 
     return result;
-  }, [products, activeCategoryId, selectedSizes, sortOption]);
+  }, [products, activeFilters, searchQuery, sortOption]);
 
-  const handleSizeToggle = useCallback((size: string) => {
-    setSelectedSizes((prev) =>
-      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-    );
+  // ── Handlers ────────────────────────────────────────────────────────────────
+  const handleFilterChange = useCallback(
+    (groupId: string, optionId: string, checked: boolean) => {
+      setActiveFilters((prev) => {
+        const current = prev[groupId] ?? [];
+        return {
+          ...prev,
+          [groupId]: checked
+            ? [...current, optionId]
+            : current.filter((id) => id !== optionId),
+        };
+      });
+    },
+    []
+  );
+
+  const handleClearAll = useCallback(() => {
+    setActiveFilters({});
+    setSearchQuery("");
   }, []);
 
   const handleProductClick = useCallback(
@@ -103,25 +233,29 @@ function ListingShellInner({
     <ProductListingPage
       store={store}
       products={filteredProducts}
+      allProductsCount={products.length}
       categories={categories}
-      activeCategoryId={activeCategoryId}
-      selectedSizes={selectedSizes}
+      filterGroups={filterGroups}
+      activeFilters={activeFilters}
+      searchQuery={searchQuery}
       sortOption={sortOption}
+      isFilterDrawerOpen={isFilterDrawerOpen}
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
-      showFilterPanel={showFilterPanel}
       grid={resolvedGrid}
       layout={resolvedLayout}
       activeHref="/catalogo"
+      onSearchChange={setSearchQuery}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={handleProductClick}
       onNavLinkClick={handleNavLinkClick}
-      onCategoryChange={(id) => setActiveCategoryId(id)}
-      onSizeToggle={handleSizeToggle}
-      onSortChange={(sort) => setSortOption(sort)}
-      onFilterToggle={() => setShowFilterPanel((prev) => !prev)}
+      onFilterChange={handleFilterChange}
+      onClearAllFilters={handleClearAll}
+      onSortChange={setSortOption}
+      onFilterDrawerOpen={() => setIsFilterDrawerOpen(true)}
+      onFilterDrawerClose={() => setIsFilterDrawerOpen(false)}
       onTabChange={handleTabChange}
     />
   );
