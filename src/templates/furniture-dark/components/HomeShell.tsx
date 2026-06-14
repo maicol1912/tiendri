@@ -51,6 +51,7 @@ export function HomeShell() {
       sections={sections}
       activeCategoryId={activeCategoryId}
       cartItemCount={cartItemCount}
+      activeHref="/"
       onCategoryClick={(categoryId) => {
         setActiveCategoryId(categoryId === activeCategoryId ? undefined : categoryId);
         router.push(`${TEMPLATE_BASE}/catalogo?category=${categoryId}`);
@@ -61,6 +62,11 @@ export function HomeShell() {
       onViewAllClick={() => router.push(`${TEMPLATE_BASE}/catalogo`)}
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onNavLinkClick={(href) => {
+        if (href === "/") router.push(TEMPLATE_BASE);
+        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+      }}
       onBottomNavTab={(tab) => {
         if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
         else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);

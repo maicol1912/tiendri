@@ -119,3 +119,18 @@ export interface CategoryBannerData {
 }
 
 export type ViewMode = "grid" | "list";
+
+export interface FilterOption {
+  id: string;
+  label: string;
+  count?: number;
+}
+
+export interface FilterGroup {
+  id: string;
+  label: string;
+  options: FilterOption[];
+  isCollapsed?: boolean;
+}
+
+export type SortOption = "featured" | "price-asc" | "price-desc" | "rating" | "newest";

@@ -81,6 +81,11 @@ export function CheckoutShellRoute() {
       onBack={() => router.push(`${TEMPLATE_BASE}/carrito`)}
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onNavLinkClick={(href) => {
+        if (href === "/") router.push(TEMPLATE_BASE);
+        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+      }}
     />
   );
 }

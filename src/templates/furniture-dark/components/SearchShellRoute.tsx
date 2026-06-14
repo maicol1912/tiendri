@@ -53,6 +53,11 @@ export function SearchShellRoute() {
       }
       onBack={() => router.back()}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onNavLinkClick={(href) => {
+        if (href === "/") router.push(TEMPLATE_BASE);
+        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+      }}
       onBottomNavTab={(tab) => {
         if (tab === "home") router.push(TEMPLATE_BASE);
         else if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);

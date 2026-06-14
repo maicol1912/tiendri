@@ -12,9 +12,11 @@ type TabId = "home" | "cart" | "search" | "info";
 
 interface StoreInfoPageProps {
   store: StorefrontStore;
+  activeHref?: string;
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: TabId) => void;
 }
 
@@ -44,8 +46,10 @@ function FacebookIcon() {
 
 export function StoreInfoPage({
   store,
+  activeHref,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onTabChange,
 }: StoreInfoPageProps) {
   const whatsappHref = store.whatsapp
@@ -59,8 +63,10 @@ export function StoreInfoPage({
     >
       <Header
         store={store}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-2xl mx-auto px-5 py-6 flex flex-col gap-6">

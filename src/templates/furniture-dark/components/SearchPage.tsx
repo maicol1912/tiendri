@@ -17,12 +17,14 @@ interface SearchPageProps {
   query: string;
   results: StorefrontProduct[];
   cartItemCount?: number;
+  activeHref?: string;
   gridMobile?: number;
   gridDesktop?: number;
   onQueryChange: (q: string) => void;
   onProductClick: (productId: string) => void;
   onBack: () => void;
   onCartClick: () => void;
+  onNavLinkClick?: (href: string) => void;
   onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
 }
 
@@ -31,12 +33,14 @@ export function SearchPage({
   query,
   results,
   cartItemCount = 0,
+  activeHref,
   gridMobile = 2,
   gridDesktop = 4,
   onQueryChange,
   onProductClick,
   onBack,
   onCartClick,
+  onNavLinkClick,
   onBottomNavTab,
 }: SearchPageProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,8 +61,10 @@ export function SearchPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={() => inputRef.current?.focus()}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-4">

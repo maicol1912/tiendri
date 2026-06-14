@@ -16,6 +16,7 @@ interface CartPageProps {
   items: CartItem[];
   totalPrice: number;
   cartItemCount?: number;
+  activeHref?: string;
   buttonStyle?: string;
   onIncrement: (productId: string) => void;
   onDecrement: (productId: string) => void;
@@ -24,6 +25,7 @@ interface CartPageProps {
   onContinueShopping: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  onNavLinkClick?: (href: string) => void;
   onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
 }
 
@@ -32,6 +34,7 @@ export function CartPage({
   items,
   totalPrice,
   cartItemCount = 0,
+  activeHref,
   buttonStyle,
   onIncrement,
   onDecrement,
@@ -40,6 +43,7 @@ export function CartPage({
   onContinueShopping,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onBottomNavTab,
 }: CartPageProps) {
   const isEmpty = items.length === 0;
@@ -53,8 +57,10 @@ export function CartPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-6">

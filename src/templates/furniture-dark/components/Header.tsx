@@ -9,19 +9,34 @@ import Image from "next/image";
 import { Search, ShoppingBag, Bell, MapPin, ChevronDown } from "lucide-react";
 import type { StorefrontStore } from "../types";
 
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const NAV_LINKS: NavLink[] = [
+  { label: "Inicio", href: "/" },
+  { label: "Catálogo", href: "/catalogo" },
+  { label: "Info", href: "/info" },
+];
+
 interface HeaderProps {
   store: StorefrontStore;
   cartItemCount?: number;
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   layout?: { headerStyle?: string };
 }
 
 export function Header({
   store,
   cartItemCount = 0,
+  activeHref,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
 }: HeaderProps) {
   return (
     <header
@@ -180,21 +195,34 @@ export function Header({
 
           {/* Right: nav links + cart */}
           <div className="flex items-center gap-1 ml-auto">
-            <nav className="flex items-center gap-1 mr-2">
-              {["Inicio", "Categorías", "Ofertas"].map((label) => (
-                <button
-                  key={label}
-                  type="button"
-                  className="px-3 py-1.5 rounded-full text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors"
-                  style={{
-                    fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
+            <nav className="flex items-center gap-1 mr-2" aria-label="Navegación principal">
+              {NAV_LINKS.map((link) => {
+                const isActive = link.href === activeHref;
+                return (
+                  <button
+                    key={link.href}
+                    type="button"
+                    className="px-3 py-1.5 rounded-full transition-colors relative"
+                    style={{
+                      fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
+                      fontSize: "14px",
+                      fontWeight: isActive ? 600 : 500,
+                      color: isActive ? "var(--t-primary)" : "var(--t-muted)",
+                    }}
+                    onClick={() => onNavLinkClick?.(link.href)}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span
+                        className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full"
+                        style={{ backgroundColor: "var(--t-primary)" }}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                );
+              })}
             </nav>
 
             {/* Cart icon with badge */}

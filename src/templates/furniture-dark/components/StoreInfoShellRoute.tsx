@@ -26,8 +26,14 @@ export function StoreInfoShellRoute() {
   return (
     <StoreInfoPage
       store={mockStore}
+      activeHref="/info"
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={(href) => {
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
+      }}
       onTabChange={handleTabChange}
     />
   );

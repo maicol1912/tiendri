@@ -38,11 +38,13 @@ interface HomePageProps {
   sections: HomePageSection[];
   activeCategoryId?: string;
   cartItemCount?: number;
+  activeHref?: string;
   onCategoryClick: (categoryId: string) => void;
   onProductClick: (productId: string) => void;
   onViewAllClick: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  onNavLinkClick?: (href: string) => void;
   onBottomNavTab: (tab: "home" | "cart" | "search" | "info") => void;
   onPromoCardClick?: (card: PromoCard) => void;
 }
@@ -60,11 +62,13 @@ export function HomePage({
   sections,
   activeCategoryId,
   cartItemCount = 0,
+  activeHref,
   onCategoryClick,
   onProductClick,
   onViewAllClick,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onBottomNavTab,
   onPromoCardClick,
 }: HomePageProps) {
@@ -147,8 +151,10 @@ export function HomePage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       {/* Mobile search bar (below greeting) */}

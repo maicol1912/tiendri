@@ -16,11 +16,13 @@ interface CheckoutPageProps {
   formData: CheckoutFormData;
   isSubmitting?: boolean;
   cartItemCount?: number;
+  activeHref?: string;
   onChange: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit: () => void;
   onBack: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function CheckoutPage({
@@ -30,11 +32,13 @@ export function CheckoutPage({
   formData,
   isSubmitting = false,
   cartItemCount = 0,
+  activeHref,
   onChange,
   onSubmit,
   onBack,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
 }: CheckoutPageProps) {
   return (
     <div
@@ -44,8 +48,10 @@ export function CheckoutPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-6">

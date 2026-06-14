@@ -18,6 +18,7 @@ interface ProductDetailPageProps {
   quantity: number;
   activeImageIndex: number;
   selectedColorId?: string;
+  activeHref?: string;
   onColorSelect: (colorId: string) => void;
   onImageSelect: (index: number) => void;
   onIncrement: () => void;
@@ -26,6 +27,7 @@ interface ProductDetailPageProps {
   onBack: () => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  onNavLinkClick?: (href: string) => void;
   onInfoClick?: () => void;
   cartItemCount?: number;
 }
@@ -36,6 +38,7 @@ export function ProductDetailPage({
   quantity,
   activeImageIndex,
   selectedColorId,
+  activeHref,
   onColorSelect,
   onImageSelect,
   onIncrement,
@@ -44,6 +47,7 @@ export function ProductDetailPage({
   onBack,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onInfoClick,
   cartItemCount = 0,
 }: ProductDetailPageProps) {
@@ -57,8 +61,10 @@ export function ProductDetailPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       {/* Back button */}

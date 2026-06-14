@@ -59,6 +59,7 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       quantity={quantity}
       activeImageIndex={activeImageIndex}
       selectedColorId={selectedColorId}
+      activeHref="/catalogo"
       onColorSelect={setSelectedColorId}
       onImageSelect={setActiveImageIndex}
       onIncrement={increment}
@@ -67,6 +68,11 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       onBack={() => router.back()}
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onNavLinkClick={(href) => {
+        if (href === "/") router.push(TEMPLATE_BASE);
+        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
+        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+      }}
       onInfoClick={() => router.push(`${TEMPLATE_BASE}/info`)}
       cartItemCount={totalItems}
     />
