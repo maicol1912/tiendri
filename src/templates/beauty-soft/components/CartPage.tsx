@@ -2,17 +2,20 @@
 // Soft background, white card items, discount code input, total, checkout button.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { ChevronLeft } from "lucide-react";
+import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import type { CartItem } from "@/lib/cart";
+import type { StoreInfo } from "@/types/store";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
 
 interface CartPageProps {
+  store: StoreInfo;
   items: CartItem[];
   totalPrice: number;
+  cartItemCount?: number;
   currencySymbol?: string;
   layout?: { buttonStyle?: ButtonStyle };
   onBack?: () => void;
@@ -22,19 +25,23 @@ interface CartPageProps {
   onDecrement?: (productId: string, variantLabel?: string | null) => void;
   onRemove?: (productId: string, variantLabel?: string | null) => void;
   onTabChange?: (tab: "home" | "cart" | "search" | "info") => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function CartPage({
+  store,
   items,
   totalPrice,
+  cartItemCount = 0,
   currencySymbol = "$",
   layout,
-  onBack,
+  onBack: _onBack,
   onGoHome,
   onCheckout,
   onIncrement,
   onDecrement,
   onTabChange,
+  onNavLinkClick,
 }: CartPageProps) {
   const isEmpty = items.length === 0;
 
@@ -43,32 +50,11 @@ export function CartPage({
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      {/* Header */}
-      <header className="px-5 pt-[12px] pb-0">
-        <div className="max-w-5xl mx-auto flex items-center gap-[10px] h-[47px] relative">
-          <button
-            type="button"
-            className="flex items-center justify-center flex-shrink-0 border-0 cursor-pointer"
-            style={{
-              width: "47px",
-              height: "47px",
-              borderRadius: "37px",
-              backgroundColor: "var(--t-background)",
-            }}
-            aria-label="Volver"
-            onClick={onBack}
-          >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
-          </button>
-
-          <p
-            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Mi carrito
-          </p>
-        </div>
-      </header>
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onNavLinkClick={onNavLinkClick}
+      />
 
       <main
         className="flex-1 max-w-5xl mx-auto w-full px-5 pt-5"

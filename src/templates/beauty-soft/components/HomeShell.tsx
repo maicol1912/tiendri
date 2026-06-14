@@ -59,6 +59,15 @@ export function HomeShell({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   // Filter products by active category
   const visibleProducts =
     activeCategoryId === null
@@ -89,6 +98,8 @@ export function HomeShell({
         onCartOpen={nav.goCart}
         onTabChange={handleTabChange}
         onSeeAll={nav.goListing}
+        onNavLinkClick={handleNavLinkClick}
+        activeHref="/"
       />
     </motion.div>
   );

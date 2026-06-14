@@ -34,6 +34,8 @@ interface HomePageProps {
   onCartOpen?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onSeeAll?: () => void;
+  onNavLinkClick?: (href: string) => void;
+  activeHref?: string;
 }
 
 export function HomePage({
@@ -54,6 +56,8 @@ export function HomePage({
   onCartOpen,
   onTabChange,
   onSeeAll,
+  onNavLinkClick,
+  activeHref = "/",
 }: HomePageProps) {
   const productGridClass = gridColsClass(
     grid?.products?.mobile ?? 2,
@@ -171,7 +175,14 @@ export function HomePage({
       className="min-h-screen"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      <Header store={store} layout={layout} />
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        activeHref={activeHref}
+        onSearchClick={onSearchOpen}
+        onCartClick={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
 
       <main
         className="max-w-7xl mx-auto px-5 md:px-6 lg:px-8 pt-4 pb-[calc(80px+env(safe-area-inset-bottom,0px))] lg:pb-8 flex flex-col gap-5"

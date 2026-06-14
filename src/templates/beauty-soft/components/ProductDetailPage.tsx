@@ -1,40 +1,50 @@
 // Beauty Soft Template — Product Detail Page (Presentational)
-// Visual layout: bg card + image carousel + info + bottom CTA.
+// Visual layout: shared Header + bg card + image carousel + info + bottom CTA.
 // ZERO hardcoded colors — all via var(--t-*).
+import { Header } from "./Header";
 import { ImageCarousel } from "./ImageCarousel";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import type { BeautySoftProduct } from "../types";
+import type { StoreInfo } from "@/types/store";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
 
 interface ProductDetailPageProps {
+  store: StoreInfo;
   product: BeautySoftProduct;
   activeImageIndex?: number;
   quantity?: number;
   isAdded?: boolean;
   currencySymbol?: string;
+  cartItemCount?: number;
   layout?: { buttonStyle?: ButtonStyle };
+  activeHref?: string;
   onBack?: () => void;
   onCartClick?: () => void;
   onImageIndexChange?: (index: number) => void;
   onQuantityIncrement?: () => void;
   onQuantityDecrement?: () => void;
   onAddToCart?: () => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function ProductDetailPage({
+  store,
   product,
   activeImageIndex = 0,
   quantity = 1,
   isAdded = false,
   currencySymbol = "$",
+  cartItemCount = 0,
   layout,
+  activeHref,
   onBack,
   onCartClick,
   onImageIndexChange,
   onQuantityIncrement,
   onQuantityDecrement,
   onAddToCart,
+  onNavLinkClick,
 }: ProductDetailPageProps) {
   const buttonStyleClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
   const hasDiscount =
@@ -53,6 +63,15 @@ export function ProductDetailPage({
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--t-background)" }}
     >
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        activeHref={activeHref}
+        onSearchClick={undefined}
+        onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
+      />
+
       <main className="flex-1 flex flex-col pb-[calc(126px+env(safe-area-inset-bottom,0px))] lg:pb-8">
         <div className="max-w-5xl mx-auto w-full px-5 lg:px-8 lg:py-8 lg:flex lg:gap-6 lg:items-start">
           {/* Mobile top bar */}

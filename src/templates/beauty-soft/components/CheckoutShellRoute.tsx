@@ -86,7 +86,7 @@ function buildWhatsAppMessage(
 
 export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShellRouteProps) {
   const nav = useTemplateNav();
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, totalPrice, totalItems, clearCart } = useCart();
 
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
@@ -103,6 +103,15 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
     // Clear error on change
     setErrors((prev) => ({ ...prev, [field]: undefined }));
   }, []);
+
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
 
   const handleSubmit = useCallback(() => {
     const validationErrors = validateForm(formData);
@@ -150,15 +159,18 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
 
   return (
     <CheckoutPage
+      store={store}
       orderItems={orderItems}
       totalPrice={totalPrice}
       formData={formData}
       errors={errors}
       isSubmitting={isSubmitting}
       currencySymbol={currencySymbol}
+      cartItemCount={totalItems}
       onBack={nav.goCart}
       onFieldChange={handleFieldChange}
       onSubmit={handleSubmit}
+      onNavLinkClick={handleNavLinkClick}
     />
   );
 }

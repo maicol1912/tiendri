@@ -6,6 +6,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ProductListingPage } from "./ProductListingPage";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { beautySoftConfig } from "../config";
@@ -21,12 +22,13 @@ interface ListingShellRouteProps {
 }
 
 export function ListingShellRoute({
-  store: _store,
+  store,
   categories,
   products,
   currencySymbol = "$",
 }: ListingShellRouteProps) {
   const nav = useTemplateNav();
+  const { totalItems } = useCart();
   const { config } = useLayoutConfig<BeautySoftConfig>();
 
   const layout = config?.layout ?? beautySoftConfig.layout;
@@ -61,6 +63,15 @@ export function ListingShellRoute({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const visibleProducts =
     activeCategoryId === null
       ? products
@@ -73,6 +84,7 @@ export function ListingShellRoute({
       transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <ProductListingPage
+        store={store}
         categories={categories}
         products={visibleProducts}
         activeCategoryId={activeCategoryId}
@@ -81,12 +93,15 @@ export function ListingShellRoute({
         favorites={favorites}
         layout={layout}
         grid={grid}
+        cartItemCount={totalItems}
+        activeHref="/catalogo"
         onBack={nav.goHome}
         onSearchOpen={nav.goSearch}
         onCategoryChange={handleCategoryChange}
         onProductClick={handleProductClick}
         onFavoriteToggle={handleFavoriteToggle}
         onTabChange={handleTabChange}
+        onNavLinkClick={handleNavLinkClick}
       />
     </motion.div>
   );

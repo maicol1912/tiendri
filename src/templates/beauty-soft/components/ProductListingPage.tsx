@@ -1,48 +1,59 @@
 // Beauty Soft Template — Product Listing Page (Presentational)
-// Full catalog grid with category filter pills + header with back/search.
+// Full catalog grid with category filter pills + shared Header.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { ChevronLeft, Search } from "lucide-react";
+import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import type { BeautySoftProduct, BeautySoftCategory, NavTab } from "../types";
 import type { BeautySoftConfig } from "../config";
+import type { StoreInfo } from "@/types/store";
 
 type LayoutConfig = BeautySoftConfig["layout"];
 type GridConfig = BeautySoftConfig["grid"];
 
 interface ProductListingPageProps {
+  store: StoreInfo;
   categories: BeautySoftCategory[];
   products: BeautySoftProduct[];
   activeCategoryId: string | null;
   activeTab?: NavTab;
+  cartItemCount?: number;
   currencySymbol?: string;
   /** @deprecated — removed from product cards, kept for API compat */
   favorites?: Set<string>;
   layout?: LayoutConfig;
   grid?: GridConfig;
+  activeHref?: string;
   onBack?: () => void;
   onSearchOpen?: () => void;
+  onCartClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   /** @deprecated — removed from product cards, kept for API compat */
   onFavoriteToggle?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function ProductListingPage({
+  store,
   categories,
   products,
   activeCategoryId,
   activeTab = "home",
+  cartItemCount = 0,
   currencySymbol = "$",
   layout,
   grid,
-  onBack,
+  activeHref,
+  onBack: _onBack,
   onSearchOpen,
+  onCartClick,
   onCategoryChange,
   onProductClick,
   onTabChange,
+  onNavLinkClick,
 }: ProductListingPageProps) {
   // favorites and onFavoriteToggle intentionally not used — removed from product cards
   const mobileGrid = grid?.products?.mobile ?? 2;
@@ -59,50 +70,19 @@ export function ProductListingPage({
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      {/* Header */}
-      <header className="px-5 pt-[12px] pb-0 sticky top-0 z-40" style={{ backgroundColor: "var(--t-background)" }}>
-        <div className="max-w-5xl mx-auto flex items-center gap-[10px] h-[47px] relative">
-          <button
-            type="button"
-            className="flex items-center justify-center flex-shrink-0 border-0 cursor-pointer"
-            style={{
-              width: "47px",
-              height: "47px",
-              borderRadius: "37px",
-              backgroundColor: "var(--t-background)",
-            }}
-            aria-label="Volver"
-            onClick={onBack}
-          >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
-          </button>
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        activeHref={activeHref}
+        onSearchClick={onSearchOpen}
+        onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
+      />
 
-          <p
-            className="absolute left-1/2 -translate-x-1/2 m-0 text-[20px] font-medium text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Catálogo
-          </p>
-
-          <button
-            type="button"
-            className="ml-auto flex items-center justify-center border-0 cursor-pointer"
-            style={{
-              width: "47px",
-              height: "47px",
-              borderRadius: "37px",
-              backgroundColor: "var(--t-background)",
-            }}
-            aria-label="Buscar"
-            onClick={onSearchOpen}
-          >
-            <Search size={20} strokeWidth={2} className="text-[var(--t-foreground)]" />
-          </button>
-        </div>
-
-        {/* Category filter pills */}
+      {/* Category filter pills */}
+      <div className="sticky top-[60px] z-30 px-5 pt-3 pb-2" style={{ backgroundColor: "var(--t-background)" }}>
         {categories.length > 0 && (
-          <div className="mt-3 pb-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+          <div className="pb-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
             <div className="flex items-center gap-2 max-w-5xl mx-auto" style={{ width: "max-content", minWidth: "100%" }}>
               <button
                 type="button"
@@ -148,7 +128,7 @@ export function ProductListingPage({
             </div>
           </div>
         )}
-      </header>
+      </div>
 
       <main
         className="flex-1 max-w-5xl mx-auto w-full px-5 pt-4"

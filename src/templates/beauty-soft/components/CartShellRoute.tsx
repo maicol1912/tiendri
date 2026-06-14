@@ -14,9 +14,9 @@ interface CartShellRouteProps {
   currencySymbol?: string;
 }
 
-export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShellRouteProps) {
+export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRouteProps) {
   const nav = useTemplateNav();
-  const { items, totalPrice, addItem: _addItem, removeItem, incrementItem, decrementItem } = useCart();
+  const { items, totalPrice, totalItems, addItem: _addItem, removeItem, incrementItem, decrementItem } = useCart();
 
   const handleIncrement = useCallback(
     (productId: string, variantLabel?: string | null) => {
@@ -50,11 +50,22 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <CartPage
+      store={store}
       items={items}
       totalPrice={totalPrice}
       currencySymbol={currencySymbol}
+      cartItemCount={totalItems}
       onBack={nav.goHome}
       onGoHome={nav.goHome}
       onCheckout={nav.goCheckout}
@@ -62,6 +73,7 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
       onDecrement={handleDecrement}
       onRemove={(productId, variantLabel) => removeItem(productId, variantLabel ?? null)}
       onTabChange={handleTabChange}
+      onNavLinkClick={handleNavLinkClick}
     />
   );
 }

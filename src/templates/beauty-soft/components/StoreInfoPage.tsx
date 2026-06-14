@@ -13,6 +13,10 @@ interface StoreInfoPageProps {
   store: StoreInfo;
   onBack?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
+  onCartClick?: () => void;
+  onSearchClick?: () => void;
+  cartItemCount?: number;
 }
 
 function InstagramIcon() {
@@ -39,41 +43,28 @@ function FacebookIcon() {
   );
 }
 
-export function StoreInfoPage({ store, onBack, onTabChange }: StoreInfoPageProps) {
+export function StoreInfoPage({ store, onBack, onTabChange, onNavLinkClick, onCartClick, onSearchClick, cartItemCount = 0 }: StoreInfoPageProps) {
   const whatsappHref = store.whatsapp
     ? `https://wa.me/${store.whatsapp.replace(/\D/g, "")}`
     : null;
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
-      <Header store={store} />
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        activeHref="/info"
+        onNavLinkClick={onNavLinkClick}
+        onCartClick={onCartClick}
+        onSearchClick={onSearchClick}
+      />
 
       <main className="max-w-2xl mx-auto px-5 py-6 pb-[calc(80px+env(safe-area-inset-bottom,0px))] lg:pb-8 flex flex-col gap-6">
         {/* Encabezado tienda */}
         <div
-          className="flex flex-col items-center gap-3 py-8 rounded-[var(--t-radius-card)]"
+          className="flex flex-col items-center gap-2 py-6 rounded-[var(--t-radius-card)]"
           style={{ backgroundColor: "var(--t-background)" }}
         >
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"
-            style={{ backgroundColor: "var(--t-icon-pill-bg)" }}
-          >
-            {store.logo ? (
-              <img
-                src={store.logo}
-                alt={store.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span
-                className="text-3xl font-bold text-[var(--t-foreground)]"
-                style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}
-              >
-                {store.name.charAt(0).toUpperCase()}
-              </span>
-            )}
-          </div>
-
           <h1
             className="text-[22px] font-semibold text-[var(--t-foreground)] text-center leading-tight tracking-[-0.408px]"
             style={{ fontFamily: "var(--font-heading, var(--font-sans))" }}

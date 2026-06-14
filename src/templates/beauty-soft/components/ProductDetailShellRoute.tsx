@@ -18,12 +18,12 @@ interface ProductDetailShellRouteProps {
 }
 
 export function ProductDetailShellRoute({
-  store: _store,
+  store,
   product,
   currencySymbol = "$",
 }: ProductDetailShellRouteProps) {
   const nav = useTemplateNav();
-  const { addItem } = useCart();
+  const { addItem, totalItems } = useCart();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -50,6 +50,15 @@ export function ProductDetailShellRoute({
     setQuantity(1);
   }, [product, quantity, addItem]);
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,17 +66,21 @@ export function ProductDetailShellRoute({
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <ProductDetailPage
+        store={store}
         product={product}
         activeImageIndex={activeImageIndex}
         quantity={quantity}
         isAdded={isAdded}
         currencySymbol={currencySymbol}
+        cartItemCount={totalItems}
+        activeHref="/catalogo"
         onBack={nav.goHome}
         onCartClick={nav.goCart}
         onImageIndexChange={setActiveImageIndex}
         onQuantityIncrement={() => setQuantity((prev) => prev + 1)}
         onQuantityDecrement={() => setQuantity((prev) => Math.max(1, prev - 1))}
         onAddToCart={handleAddToCart}
+        onNavLinkClick={handleNavLinkClick}
       />
     </motion.div>
   );

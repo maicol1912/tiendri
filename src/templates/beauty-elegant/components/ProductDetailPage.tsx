@@ -104,7 +104,7 @@ export function ProductDetailPage({
         </span>
 
         {product.inStock && (
-          <span className="text-sm font-normal" style={{ color: "var(--t-primary)" }}>
+          <span className="text-sm font-normal text-white">
             En stock
           </span>
         )}
@@ -144,7 +144,7 @@ export function ProductDetailPage({
       {/* Price + Add to cart */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[11px] font-normal" style={{ color: "var(--t-muted)", margin: 0 }}>
+          <p className="text-[11px] font-normal text-white" style={{ margin: 0 }}>
             Precio
           </p>
           <p className="text-lg font-bold text-white" style={{ margin: "2px 0 0 0" }}>

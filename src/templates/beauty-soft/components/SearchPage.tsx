@@ -2,20 +2,24 @@
 // Debounced search input, recommendations, results grid.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { ChevronLeft, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import type { BeautySoftProduct, NavTab } from "../types";
 import type { BeautySoftConfig } from "../config";
+import type { StoreInfo } from "@/types/store";
 
 type LayoutConfig = BeautySoftConfig["layout"];
 type GridConfig = BeautySoftConfig["grid"];
 
 interface SearchPageProps {
+  store: StoreInfo;
   query: string;
   results: BeautySoftProduct[];
   recommendations: BeautySoftProduct[];
   isSearching: boolean;
+  cartItemCount?: number;
   currencySymbol?: string;
   favorites?: Set<string>;
   onFavoriteToggle?: (productId: string) => void;
@@ -26,21 +30,25 @@ interface SearchPageProps {
   onClear?: () => void;
   onProductClick?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function SearchPage({
+  store,
   query,
   results,
   recommendations,
   isSearching,
+  cartItemCount = 0,
   currencySymbol = "$",
   layout,
   grid,
-  onBack,
+  onBack: _onBack,
   onQueryChange,
   onClear,
   onProductClick,
   onTabChange,
+  onNavLinkClick,
 }: SearchPageProps) {
   const hasQuery = query.trim().length > 0;
   const hasResults = results.length > 0;
@@ -54,27 +62,17 @@ export function SearchPage({
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      {/* Header */}
-      <header className="px-5 pt-[12px] pb-3 sticky top-0 z-40" style={{ backgroundColor: "var(--t-background)" }}>
-        <div className="max-w-5xl mx-auto flex items-center gap-3">
-          <button
-            type="button"
-            className="flex items-center justify-center flex-shrink-0 border-0 cursor-pointer"
-            style={{
-              width: "47px",
-              height: "47px",
-              borderRadius: "37px",
-              backgroundColor: "var(--t-background)",
-            }}
-            aria-label="Volver"
-            onClick={onBack}
-          >
-            <ChevronLeft size={24} strokeWidth={2} className="text-[var(--t-foreground)]" />
-          </button>
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onNavLinkClick={onNavLinkClick}
+      />
 
-          {/* Search input */}
+      {/* Search input bar */}
+      <div className="sticky top-[60px] z-30 px-5 pt-3 pb-3" style={{ backgroundColor: "var(--t-background)" }}>
+        <div className="max-w-5xl mx-auto">
           <div
-            className="flex-1 flex items-center gap-2 px-4"
+            className="flex items-center gap-2 px-4"
             style={{
               height: "47px",
               borderRadius: "37px",
@@ -105,7 +103,7 @@ export function SearchPage({
             )}
           </div>
         </div>
-      </header>
+      </div>
 
       <main
         className="flex-1 max-w-5xl mx-auto w-full px-5 pt-2"

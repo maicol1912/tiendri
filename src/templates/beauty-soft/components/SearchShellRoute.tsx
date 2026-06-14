@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { SearchPage } from "./SearchPage";
+import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { beautySoftConfig } from "../config";
@@ -19,8 +20,9 @@ interface SearchShellRouteProps {
   currencySymbol?: string;
 }
 
-export function SearchShellRoute({ store: _store, products, currencySymbol = "$" }: SearchShellRouteProps) {
+export function SearchShellRoute({ store, products, currencySymbol = "$" }: SearchShellRouteProps) {
   const nav = useTemplateNav();
+  const { totalItems } = useCart();
   const { config } = useLayoutConfig<BeautySoftConfig>();
 
   const layout = config?.layout ?? beautySoftConfig.layout;
@@ -95,6 +97,15 @@ export function SearchShellRoute({ store: _store, products, currencySymbol = "$"
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -102,6 +113,7 @@ export function SearchShellRoute({ store: _store, products, currencySymbol = "$"
       transition={{ duration: 0.2, ease: "easeOut" }}
     >
       <SearchPage
+        store={store}
         query={query}
         results={results}
         recommendations={recommendations}
@@ -110,12 +122,14 @@ export function SearchShellRoute({ store: _store, products, currencySymbol = "$"
         favorites={favorites}
         layout={layout}
         grid={grid}
+        cartItemCount={totalItems}
         onBack={nav.goHome}
         onQueryChange={handleQueryChange}
         onClear={handleClear}
         onProductClick={handleProductClick}
         onFavoriteToggle={handleFavoriteToggle}
         onTabChange={handleTabChange}
+        onNavLinkClick={handleNavLinkClick}
       />
     </motion.div>
   );
