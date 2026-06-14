@@ -23,13 +23,21 @@ function StoreInfoShellRouteInner({ store }: StoreInfoShellRouteInnerProps) {
     else if (tab === "info") nav.goInfo();
   };
 
+  const handleNavLinkClick = (href: string) => {
+    if (href === "/") nav.goHome();
+    else if (href === "/catalogo") nav.goListing();
+    else if (href === "/info") nav.goInfo();
+  };
+
   return (
     <StoreInfoPage
       store={store}
       activeTab="info"
       cartItemCount={totalItems}
+      activeHref="/info"
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={handleTabChange}
     />
   );

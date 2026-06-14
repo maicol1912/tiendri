@@ -63,6 +63,15 @@ function ProductDetailShellInner({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <ProductDetailPage
       store={store}
@@ -73,9 +82,11 @@ function ProductDetailShellInner({
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
+      activeHref="/catalogo"
       onBack={handleBack}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onAddToCart={handleAddToCart}
       onImageSelect={setSelectedImageIndex}
       onColorSelect={setSelectedColor}

@@ -23,9 +23,11 @@ interface ProductDetailPageProps {
   cartItemCount?: number;
   currencySymbol?: string;
   layout?: { buttonStyle?: string };
+  activeHref?: string;
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onAddToCart?: () => void;
   onImageSelect?: (index: number) => void;
   onColorSelect?: (colorHex: string) => void;
@@ -62,9 +64,11 @@ export function ProductDetailPage({
   cartItemCount = 0,
   currencySymbol = "$",
   layout,
+  activeHref,
   onBack,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onAddToCart,
   onImageSelect,
   onColorSelect,
@@ -82,8 +86,10 @@ export function ProductDetailPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8">

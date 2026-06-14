@@ -90,6 +90,15 @@ function ListingShellInner({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <ProductListingPage
       store={store}
@@ -104,9 +113,11 @@ function ListingShellInner({
       showFilterPanel={showFilterPanel}
       grid={resolvedGrid}
       layout={resolvedLayout}
+      activeHref="/catalogo"
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={handleProductClick}
+      onNavLinkClick={handleNavLinkClick}
       onCategoryChange={(id) => setActiveCategoryId(id)}
       onSizeToggle={handleSizeToggle}
       onSortChange={(sort) => setSortOption(sort)}

@@ -30,9 +30,11 @@ interface HomePageProps {
   sections?: readonly HomeSectionConfig[];
   layout?: FashionConfig["layout"];
   grid?: FashionConfig["grid"];
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onProductClick?: (id: string) => void;
   onShopClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
@@ -48,9 +50,11 @@ export function HomePage({
   sections = fashionConfig.sections,
   layout = fashionConfig.layout,
   grid = fashionConfig.grid,
+  activeHref,
   onSearchClick,
   onCartClick,
   onMenuClick,
+  onNavLinkClick,
   onProductClick,
   onShopClick,
   onTabChange,
@@ -122,10 +126,12 @@ export function HomePage({
         store={store}
         navLinks={fashionConfig.content.navLinks}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         layout={layout}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       {/* ── Main scrollable content — dynamic section order + visibility ── */}

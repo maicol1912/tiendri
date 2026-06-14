@@ -14,8 +14,10 @@ interface StoreInfoPageProps {
   cartItemCount?: number;
   address?: string;
   hours?: string;
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: NavTab) => void;
 }
 
@@ -59,8 +61,10 @@ export function StoreInfoPage({
   cartItemCount = 0,
   address = "Cra. 15 #93-47, Bogotá, Colombia",
   hours = "Lun – Sáb: 9:00 am – 7:00 pm",
+  activeHref,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onTabChange,
 }: StoreInfoPageProps) {
   return (
@@ -71,8 +75,10 @@ export function StoreInfoPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-2xl mx-auto px-5 md:px-6 lg:px-8 pb-28 md:pb-12 pt-8">

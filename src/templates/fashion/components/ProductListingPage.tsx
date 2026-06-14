@@ -28,9 +28,11 @@ interface ProductListingPageProps {
     cardHoverEffect?: string;
     cardImageRatio?: string;
   };
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onMenuClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onProductClick?: (id: string) => void;
   onCategoryChange?: (id: string | null) => void;
   onSizeToggle?: (size: string) => void;
@@ -54,9 +56,11 @@ export function ProductListingPage({
   currencySymbol = "$",
   grid,
   layout,
+  activeHref,
   onSearchClick,
   onCartClick,
   onMenuClick,
+  onNavLinkClick,
   onProductClick,
   onCategoryChange,
   onFilterToggle,
@@ -77,9 +81,11 @@ export function ProductListingPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
         onMenuClick={onMenuClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="px-5 md:px-6 lg:px-8 pt-4 md:pt-6 pb-28 md:pb-12 max-w-7xl mx-auto">
