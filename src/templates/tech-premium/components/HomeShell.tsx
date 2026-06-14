@@ -108,6 +108,7 @@ export function HomeShell({
     <HomePage
       store={store}
       navLinks={config.content?.navLinks ?? []}
+      activeHref="/"
       productTabs={(config.content?.productTabs ?? []) as Array<{ id: ProductTab; label: string }>}
       footerServices={config.content?.footerServices ?? []}
       footerAssistance={config.content?.footerAssistance ?? []}

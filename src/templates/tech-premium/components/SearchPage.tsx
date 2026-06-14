@@ -15,6 +15,7 @@ import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 interface SearchPageProps {
   store: StoreInfo;
   navLinks: readonly { label: string; href: string }[];
+  activeHref?: string;
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   searchQuery: string;
@@ -39,6 +40,7 @@ interface SearchPageProps {
 export function SearchPage({
   store,
   navLinks,
+  activeHref,
   footerServices,
   footerAssistance,
   searchQuery,
@@ -68,6 +70,7 @@ export function SearchPage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onCartClick={onCartClick}
         onNavLinkClick={onNavLinkClick}

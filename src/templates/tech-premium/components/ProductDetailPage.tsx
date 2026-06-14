@@ -25,6 +25,7 @@ interface ProductDetailPageProps {
   store: StoreInfo;
   product: StorefrontProduct;
   navLinks: readonly { label: string; href: string }[];
+  activeHref?: string;
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   grid: TechPremiumConfig["grid"];
@@ -54,6 +55,7 @@ export function ProductDetailPage({
   store,
   product,
   navLinks,
+  activeHref,
   footerServices,
   footerAssistance,
   grid,
@@ -129,6 +131,7 @@ export function ProductDetailPage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}

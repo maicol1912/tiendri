@@ -31,6 +31,7 @@ interface CheckoutPageProps {
   store: StoreInfo;
   items: CartItem[];
   navLinks: readonly { label: string; href: string }[];
+  activeHref?: string;
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   layout?: Partial<TemplateLayoutConfig>;
@@ -52,6 +53,7 @@ export function CheckoutPage({
   store,
   items,
   navLinks,
+  activeHref,
   footerServices,
   footerAssistance,
   layout,
@@ -79,6 +81,7 @@ export function CheckoutPage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}

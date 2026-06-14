@@ -56,6 +56,7 @@ interface ProductTabItem {
 interface HomePageProps {
   store: StoreInfo;
   navLinks: readonly NavLink[];
+  activeHref?: string;
   productTabs: readonly ProductTabItem[];
   footerServices: readonly string[];
   footerAssistance: readonly string[];
@@ -96,6 +97,7 @@ interface HomePageProps {
 export function HomePage({
   store,
   navLinks,
+  activeHref,
   productTabs,
   footerServices,
   footerAssistance,
@@ -398,6 +400,7 @@ export function HomePage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}

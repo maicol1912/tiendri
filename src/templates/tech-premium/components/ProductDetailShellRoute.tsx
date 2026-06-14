@@ -98,6 +98,7 @@ export function ProductDetailShellRoute({
       store={store}
       product={product}
       navLinks={config.content?.navLinks ?? []}
+      activeHref="/listing"
       footerServices={config.content?.footerServices ?? []}
       footerAssistance={config.content?.footerAssistance ?? []}
       grid={config.grid}

@@ -11,6 +11,7 @@ import type { StoreInfo, NavTab } from "../types";
 interface StoreInfoPageProps {
   store: StoreInfo;
   navLinks: readonly { label: string; href: string }[];
+  activeHref?: string;
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   cartItemCount?: number;
@@ -24,6 +25,7 @@ interface StoreInfoPageProps {
 export function StoreInfoPage({
   store,
   navLinks,
+  activeHref,
   footerServices,
   footerAssistance,
   cartItemCount = 0,
@@ -38,6 +40,7 @@ export function StoreInfoPage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}

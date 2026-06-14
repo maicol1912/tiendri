@@ -17,6 +17,7 @@ interface NavLink {
 interface HeaderProps {
   store: StoreInfo;
   navLinks: readonly NavLink[];
+  activeHref?: string;
   cartItemCount?: number;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -27,6 +28,7 @@ interface HeaderProps {
 export function Header({
   store,
   navLinks,
+  activeHref,
   cartItemCount = 0,
   onSearchClick,
   onCartClick,
@@ -52,20 +54,24 @@ export function Header({
 
         {/* Navigation */}
         <nav className="flex items-center gap-[52px] ml-8" aria-label="Navegación principal">
-          {navLinks.map((link, i) => (
-            <button
-              key={link.href}
-              type="button"
-              className={`bg-transparent border-none p-0 text-base font-medium cursor-pointer transition-colors ${
-                i === 0
-                  ? "text-[var(--t-foreground)]"
-                  : "text-[var(--t-foreground)]/30 hover:text-[var(--t-foreground)]/60"
-              }`}
-              onClick={() => onNavLinkClick?.(link.href)}
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeHref === link.href;
+            return (
+              <button
+                key={link.href}
+                type="button"
+                aria-current={isActive ? "page" : undefined}
+                className={`bg-transparent border-none p-0 text-base font-medium cursor-pointer transition-colors pb-0.5 ${
+                  isActive
+                    ? "text-[var(--t-foreground)] border-b border-[var(--t-foreground)]"
+                    : "text-[var(--t-foreground)]/30 hover:text-[var(--t-foreground)]/60"
+                }`}
+                onClick={() => onNavLinkClick?.(link.href)}
+              >
+                {link.label}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Icons */}

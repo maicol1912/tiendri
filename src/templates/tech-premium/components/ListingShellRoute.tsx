@@ -145,6 +145,7 @@ export function ListingShellRoute({
       store={store}
       products={filteredProducts}
       navLinks={config.content?.navLinks ?? []}
+      activeHref="/listing"
       footerServices={config.content?.footerServices ?? []}
       footerAssistance={config.content?.footerAssistance ?? []}
       grid={config.grid}

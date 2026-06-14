@@ -16,6 +16,7 @@ interface CartPageProps {
   store: StoreInfo;
   items: CartItem[];
   navLinks: readonly { label: string; href: string }[];
+  activeHref?: string;
   footerServices: readonly string[];
   footerAssistance: readonly string[];
   layout?: Partial<TemplateLayoutConfig>;
@@ -38,6 +39,7 @@ export function CartPage({
   store,
   items,
   navLinks,
+  activeHref,
   footerServices,
   footerAssistance,
   layout,
@@ -66,6 +68,7 @@ export function CartPage({
       <Header
         store={store}
         navLinks={navLinks}
+        activeHref={activeHref}
         cartItemCount={cartItemCount}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
