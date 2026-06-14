@@ -353,8 +353,99 @@ npx eslint --rule 'import/no-cycle: error' src/
 npx supabase gen types typescript --project-id $PROJECT_ID > src/types/database.ts
 ```
 
+## Patrones de Componentes — Tiendri
+
+Patrones específicos del proyecto que todo componente del storefront y dashboard debe seguir.
+
+### CSS Variables para temas de tienda
+
+Los componentes del storefront SIEMPRE usan estas variables. NUNCA hardcodear colores de tienda:
+
+```css
+--store-primary
+--store-primary-hover
+--store-secondary
+--store-surface
+--store-surface-alt
+--store-text
+--store-text-muted
+--store-border
+--store-radius-card
+--store-font-display
+--store-font-body
+```
+
+Estas variables las define cada template. Ver template completo en [assets/component-template.tsx](assets/component-template.tsx).
+
+### StoreContext — patrón de abstracción Supabase / localStorage
+
+```typescript
+// Hook que abstrae Supabase vs localStorage
+const isBackend = !!user && !!storeId
+
+// Si autenticado → Server Action → Supabase
+// Si demo → localStorage
+```
+
+Regla: el componente NUNCA sabe si los datos vienen de Supabase o localStorage. `useStoreActions` lo abstrae.
+
+Estado del catálogo (dashboard) → `StoreContext` con `useReducer` (25+ acciones).
+Datos del visitante (carrito) → `localStorage` via hook custom.
+
+### Optimistic Updates con Rollback
+
+```typescript
+// 1. Guardar snapshot del estado actual
+dispatch({ type: 'SAVE_ROLLBACK_SNAPSHOT' })
+
+// 2. Aplicar cambio optimista
+dispatch({ type: 'TOGGLE_AVAILABILITY', productId })
+
+// 3. Ejecutar Server Action
+const result = await toggleProductAvailability(productId)
+
+// 4. Si falla, revertir
+if (!result.success) {
+  dispatch({ type: 'ROLLBACK_SNAPSHOT' })
+}
+```
+
+### Toasts — Sonner obligatorio
+
+Usar **Sonner** para todos los toasts. NUNCA usar el toast deprecated de shadcn.
+
+```typescript
+import { toast } from 'sonner'
+
+toast.success('Producto guardado')
+toast.error('Error al guardar')
+```
+
+### Estados obligatorios por componente
+
+Todo componente que muestra datos DEBE manejar los cuatro estados:
+
+| Estado | Implementación |
+|--------|----------------|
+| **Loading** | Skeleton que refleja el layout final — NUNCA spinner genérico |
+| **Empty** | Mensaje + CTA contextual ("Agregá tu primer producto") |
+| **Error** | Mensaje claro + acción de retry |
+| **Success** | El contenido normal, bien renderizado |
+
+Ver skeletons de referencia en [assets/skeleton-pattern.tsx](assets/skeleton-pattern.tsx).
+
+### shadcn/ui — customización
+
+| Nivel | Qué hacer | Cuándo |
+|-------|-----------|--------|
+| **Usar directo** | Import y usar tal cual | El componente base sirve |
+| **Extender** | Wrappear con props extra y estilos | Necesitás variantes del proyecto |
+| **Componer** | Combinar múltiples primitivos | Componente complejo nuevo |
+
+- NUNCA modificar archivos dentro de `components/ui/` directamente
+- Crear wrappers en `components/` que extiendan los de `ui/`
+
 ## Resources
 
-- **Next.js official docs**: See `ai/skills/nextjs/SKILL.md`
-- **Component patterns**: See `ai/skills/component-patterns/SKILL.md`
+- **Next.js official docs**: Skill global `vercel-react-best-practices`
 - **Design system**: See `ai/skills/design-system/SKILL.md`

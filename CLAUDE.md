@@ -66,6 +66,53 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - Texto UI en español colombiano
 - Conventional commits
 
+## Skill Router
+
+Tabla rápida para el orchestrator. Consultar ANTES de lanzar cualquier agente.
+
+### Skills Locales (proyecto)
+
+| Necesito... | Skill | Path |
+|-------------|-------|------|
+| Crear componente React, estructura de archivos | frontend-architecture | `ai/skills/frontend-architecture/` |
+| Responsive, breakpoints, mobile-first | responsive-design | `ai/skills/responsive-design/` |
+| Tokens, paleta Ember Core, anti-patterns AI | design-system | `ai/skills/design-system/` |
+| Diseñar paleta por industria, migrar colores | palette-expert | `ai/skills/palette-expert/` |
+| Audit y polish de UI, jerarquía, tipografía | impeccable | `ai/skills/impeccable/` |
+| Filosofía de animación, polish fino | emil-design-eng | `ai/skills/emil-design-eng/` |
+| Prompts GPT Image 2 (hero, 3D clay, editorial) | gpt-image-motionsite | `ai/skills/gpt-image-motionsite/` |
+| Workflow completo IA: imagen + video | ai-asset-pipeline | `ai/skills/ai-asset-pipeline/` |
+| Integrar video en dark UI con CSS mask | video-integration | `ai/skills/video-integration/` |
+| Generación de imágenes en 7 estilos | graphic-design | `ai/skills/graphic-design/` |
+| DESIGN.md para Google Stitch | stitch-design-taste | `ai/skills/stitch-design-taste/` |
+| SEO: scoring, metadata, structured data | seo | `ai/skills/seo/` |
+| Auditoría de seguridad pre-deploy | security-audit | `ai/skills/security-audit/` |
+| QA post-implementación de template | template-qa | `ai/skills/template-qa/` |
+| Browser automation, screenshots CLI | agent-browser | `ai/skills/agent-browser/` |
+| Workflow browser testing Tiendri | browser-testing | `ai/skills/browser-testing/` |
+| Detectar y eliminar tells de escritura AI | humanizalo | `ai/skills/humanizalo/` |
+
+### taste-skill/ — Dirección Creativa (sub-skills)
+
+| Necesito... | Skill | Path |
+|-------------|-------|------|
+| Anti-slop, landings, redesigns | design-taste-frontend | `ai/skills/taste-skill/design-taste-frontend/` |
+| Diseño nivel agencia $150k+, Apple-esque | high-end-visual-design | `ai/skills/taste-skill/high-end-visual-design/` |
+| Auditar y mejorar diseño existente | redesign-existing-projects | `ai/skills/taste-skill/redesign-existing-projects/` |
+
+### Skills Globales
+
+| Necesito... | Skill global |
+|-------------|-------------|
+| Next.js App Router, Server/Client, ISR | `vercel-react-best-practices` |
+| Supabase, Server Actions, RLS, Storage | `supabase` |
+| PostgreSQL best practices | `supabase-postgres-best-practices` |
+| Extraer diseños de Figma via MCP | `figma-use` |
+| Implementar diseño Figma en código | `implement-design` |
+| Accesibilidad WCAG 2.2 | `accessibility` |
+| Performance web, Core Web Vitals | `performance` |
+| Testing con Playwright | `webapp-testing` |
+
 ## Templates
 8 templates implementados: tech-premium, fashion, furniture-dark, furniture-light, beauty-soft, beauty-elegant, decor-warm, food-night.
 

@@ -227,4 +227,3 @@ browser_take_screenshot(fullPage=true)
 
 - **Video integration**: See `ai/skills/video-integration/SKILL.md`
 - **Design system**: See `ai/skills/design-system/SKILL.md`
-- **Immersive UI**: See `ai/skills/immersive-ui/SKILL.md`

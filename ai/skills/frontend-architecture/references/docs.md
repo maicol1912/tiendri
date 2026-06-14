@@ -1,8 +1,8 @@
 # Referencias
 
-- **Next.js App Router docs**: `ai/skills/nextjs/SKILL.md`
+- **Next.js App Router docs**: Skill global `vercel-react-best-practices`
 - **Component patterns**: `ai/skills/component-patterns/SKILL.md`
-- **Supabase integration**: `ai/skills/supabase/SKILL.md`
+- **Supabase integration**: Skills globales `supabase` + `supabase-postgres-best-practices`
 - **Design system**: `ai/skills/design-system/SKILL.md`
 - **Project technical docs**: `docs/technical.md`
 - **MVP scope**: `docs/mvp.md`

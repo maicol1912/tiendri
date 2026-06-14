@@ -239,6 +239,6 @@ npm run dev
 
 ## Resources
 
-- **Figma replication workflow**: See [figma-replication](../figma-replication/SKILL.md) for implementation workflow
+- **Figma extraction workflow**: See [figma-mcp](../figma-mcp/SKILL.md) for Figma asset extraction
 - **Browser testing**: See [agent-browser](../agent-browser/SKILL.md) for automated screenshots
 - **Responsive patterns**: See [responsive-design](../responsive-design/SKILL.md) for viewport rules

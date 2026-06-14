@@ -22,7 +22,7 @@ Lectura obligatoria para CUALQUIER agente, sin excepción:
 | Doc | Para qué |
 |-----|----------|
 | `docs/technical.md` | Sistema de templates, CSS variables, arquitectura frontend |
-| `docs/mvp.md` | Scope del MVP, flujos UX |
+| `docs/product.md` | Scope del MVP, flujos UX |
 | `ai/rules/anti-ai-patterns.md` | Checklist anti-AI visual obligatoria |
 
 ### Valentina (UI/UX Designer)
@@ -30,7 +30,7 @@ Lectura obligatoria para CUALQUIER agente, sin excepción:
 | Doc | Para qué |
 |-----|----------|
 | `docs/technical.md` | Sistema de templates, CSS variables |
-| `docs/mvp.md` | Scope del MVP, flujos UX |
+| `docs/product.md` | Scope del MVP, flujos UX |
 | `ai/rules/anti-ai-patterns.md` | Checklist anti-AI visual obligatoria |
 
 ### Santiago (Backend Expert)
@@ -38,21 +38,20 @@ Lectura obligatoria para CUALQUIER agente, sin excepción:
 | Doc | Para qué |
 |-----|----------|
 | `docs/technical.md` | Modelo de datos, schema DB, decisiones de arquitectura |
-| `docs/mvp.md` | Scope del MVP, reglas de negocio, validaciones |
+| `docs/product.md` | Scope del MVP, reglas de negocio, validaciones |
 
 ### Steve (AI Content Specialist)
 
 | Doc | Para qué |
 |-----|----------|
 | `ai/skills/design-system/SKILL.md` | Paleta Ember Core (única activa), tipografía, mood |
-| `docs/vision.md` | Qué es Tiendri, target user, diferenciador |
+| `docs/product.md` | Qué es Tiendri, target user, diferenciador |
 
 ### Sofía (Web Copywriter)
 
 | Doc | Para qué |
 |-----|----------|
-| `docs/vision.md` | Qué es Tiendri, diferenciador, target user |
-| `docs/mvp.md` | Flujos UX, features, pricing |
+| `docs/product.md` | Qué es Tiendri, diferenciador, target user, flujos UX, features, pricing |
 | `ai/rules/anti-ai-patterns.md` | Checklist anti-AI de copy obligatoria |
 
 ### Martín (SEO Specialist)
@@ -60,13 +59,13 @@ Lectura obligatoria para CUALQUIER agente, sin excepción:
 | Doc | Para qué |
 |-----|----------|
 | `docs/technical.md` | Arquitectura frontend, sistema de templates |
-| `docs/mvp.md` | Flujos UX, páginas públicas |
+| `docs/product.md` | Flujos UX, páginas públicas |
 
 ### Andrea (QA Tester)
 
 | Doc | Para qué |
 |-----|----------|
-| `docs/mvp.md` | Flujos UX, features, reglas de negocio |
+| `docs/product.md` | Flujos UX, features, reglas de negocio |
 
 ### Diego (Security Analyst)
 
@@ -80,10 +79,8 @@ Lectura obligatoria para CUALQUIER agente, sin excepción:
 
 | Doc | Qué contiene |
 |-----|--------------|
-| `docs/vision.md` | Qué es Tiendri, problema, solución, target, diferenciador, marca |
-| `docs/mvp.md` | Scope del MVP, features, reglas de negocio, flujos UX, pricing |
+| `docs/product.md` | Qué es Tiendri, problema, solución, target, diferenciador, marca, scope del MVP, features, reglas de negocio, flujos UX, pricing |
 | `docs/technical.md` | Stack, modelo de datos, schema DB, templates, arquitectura |
-| `docs/competitors.md` | Análisis de 5 competidores + oportunidades |
 | `ai/rules/tiendri-rules.md` | Reglas de negocio, código, errores, seguridad — OBLIGATORIO |
 | `ai/rules/shared-agent-rules.md` | Reglas compartidas entre todos los agentes |
 | `ai/rules/anti-ai-patterns.md` | Checklist anti-AI consolidada (visual + copy) |

@@ -5,7 +5,6 @@
 - **Keyframes originales**: `tmp/resources/KF1-KF4`
 - **Prompts de video**: `tmp/auth-video-kling-prompts.md`, `tmp/auth-video-seedance-prompt.md`, `tmp/auth-video-domoai-prompts.md`
 - **Design system**: `ai/skills/design-system/SKILL.md`
-- **Immersive UI**: `ai/skills/immersive-ui/SKILL.md`
 
 ## Herramientas de generación de video
 
