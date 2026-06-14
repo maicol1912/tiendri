@@ -8,18 +8,15 @@ SaaS para comerciantes colombianos — catálogo online + pedidos via WhatsApp.
 Leer ANTES de cualquier tarea:
 
 | Doc | Qué contiene |
-|-----|--------------|
-| `docs/product.md` | Visión, MVP scope, flujos UX, competidores, marca |
-| `docs/technical.md` | Stack, modelo de datos, schema DB, arquitectura |
-| `docs/template-system.md` | Sistema de templates, config-schema, guía de desarrollo |
-| `docs/preset-system.md` | 13 presets, 46 propiedades, gene clusters, guardrails |
-| `docs/composable-sections.md` | 8 slots intercambiables, 38 variantes, registries, routers |
-| `docs/onboarding.md` | Wizard 5 pasos, vibes, tour guiado, checklist |
-| `docs/css-variables.md` | Catálogo completo ~77 CSS vars, uso en templates |
-| `docs/variant-guide.md` | Cómo agregar variantes de secciones y presets |
-| `docs/merchant-customization.md` | Roadmap de customización por merchant |
-| `docs/dashboard.md` | Estructura del dashboard, tabs, persistence |
-| `docs/decisions.md` | ADRs — decisiones arquitectónicas |
+|-----|-------------|
+| `docs/product.md` | Visión, público objetivo, scope MVP, competidores, marca |
+| `docs/technical.md` | Stack, arquitectura, modelo de datos, utilidades compartidas |
+| `docs/template-system.md` | Anatomía de un template, registry, flujo de resolución |
+| `docs/preset-system.md` | Paletas por template, sistema de color |
+| `docs/composable-sections.md` | 3 slots composables, 12 variantes, registries, routers |
+| `docs/onboarding.md` | Wizard 5 pasos, vibes, tour guiado |
+| `docs/css-variables.md` | Grupos de CSS vars --t-*, generación, consumo |
+| `docs/dashboard.md` | Rutas, shell, sistema de configuración schema-driven |
 | `ai/rules/tiendri-rules.md` | Reglas de negocio, código, errores, seguridad — OBLIGATORIO |
 
 ## Stack
@@ -38,13 +35,15 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 
 ## Estructura clave
 - `src/app/` — rutas (marketing, auth, onboarding, dashboard, template/[name], [slug])
-- `src/templates/` — sistema de templates (tech-premium implementado)
+- `src/templates/` — sistema de templates (8 implementados)
 - `src/templates/_shared/` — shared section variant registries
-- `src/templates/registry.ts` — template schema registry (async + sync loaders)
+- `src/templates/registry.ts` — template registry (async loaders)
 - `src/types/templates/` — contratos globales (TemplateConfig, 5 capas)
 - `src/types/domain/` — domain types del dashboard (Category, Subcategory, Product, ActionResult)
 - `src/types/store.ts` — tipos compartidos (Product, Category, StoreInfo)
 - `src/lib/` — utilidades (resolveTemplateConfig, supabase clients)
+- `src/lib/cart/` — CartProvider unificado, useCart, CartItem canónico
+- `src/lib/format.ts` — formatPrice, formatPriceCurrency
 - `src/lib/onboarding/` — onboarding provider, vibes, first-time utils
 - `src/lib/repositories/` — repository pattern: interfaces + localStorage implementations + factory
 - `src/lib/validators/` — Zod schemas (category, product, store-customization)
@@ -53,8 +52,8 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - `src/components/dashboard/` — dashboard shell: sidebar, header, breadcrumbs
 - `src/components/dashboard/schema-form/` — dynamic form renderer (DynamicField, DynamicSection, RepeatableSection, DynamicTabContent)
 - `src/components/onboarding/` — wizard step components
-- `src/components/shared/` — reusable components: ConfirmDialog, DataTable, EmptyState, SortableList, PriceInput, VariantEditor, StorageIndicator
-- `ai/skills/` — skills del proyecto (template-migrator, etc.)
+- `src/components/shared/` — reusable components: ConfirmDialog, DataTable, EmptyState, SortableList, PriceInput, VariantEditor, StorageIndicator, QuantityStepper
+- `ai/skills/` — skills del proyecto (ver `ai/skills/README.md`)
 - `ai/rules/` — reglas arquitectónicas
 - `docs/` — documentación del producto
 
@@ -62,20 +61,18 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - Leer `ai/rules/tiendri-rules.md` antes de cualquier trabajo
 - Leer `ai/rules/template-architecture-rules.md` para trabajo con templates
 - Templates: `satisfies TemplateConfig`, CSS vars `--t-*`, zero hardcoded colors
-- Secciones composables: 8 slots intercambiables, cada sección registrada en `_shared/` con variantes
-- Presets: 13 presets definidos en `preset-system.md`; respetar gene clusters y guardrails
+- Secciones composables: 3 slots composables (hero, card layout, category nav), cada sección registrada en `_shared/` con variantes
+- Paletas de color por template definidas en palettes.ts
 - Texto UI en español colombiano
 - Conventional commits
 
 ## Templates
-Solo `tech-premium` implementado. 7+ pendientes de migración.
-Usar skill `template-migrator` para nuevas migraciones.
+8 templates implementados: tech-premium, fashion, furniture-dark, furniture-light, beauty-soft, beauty-elegant, decor-warm, food-night.
 
 ## Template System
-Cada template exporta `config.ts` (defaults) + `config-schema.ts` (schema configurable).
+Cada template exporta `config.ts` (defaults) + `config-schema.ts` (schema configurable) + `palettes.ts` (paletas de color) + `ui-config.ts` (configuración de UI por template).
 El dashboard lee el schema y renderiza forms dinámicamente (modelo Shopify).
 Ver `docs/template-system.md` para la guía completa.
-Para crear un nuevo template: ver sección "Creating a New Template" en ese doc.
 
 ## Equipo
 
@@ -96,6 +93,9 @@ Equipo de agentes definido en `ai/AGENTS.md`. Consultar para: tabla de agentes, 
 | Testing, QA | Andrea | `ai/agents/qa-tester.md` |
 
 ## Reglas de workflow
+
+### Protocolo de lanzamiento de agentes (OBLIGATORIO)
+Antes de cada `Agent()` call, seguir el checklist de `ai/rules/agent-launch-protocol.md`. Un sub-agente arranca con CERO contexto — si el prompt es incompleto, el resultado es deficiente.
 
 ### Rol de Lucas — Director Creativo (OBLIGATORIO)
 - **Lucas** = DIRECCIÓN: briefs creativos, anti-slop validation, review visual, scoring final.
