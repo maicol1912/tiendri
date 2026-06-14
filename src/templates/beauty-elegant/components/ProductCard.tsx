@@ -114,7 +114,7 @@ export function ProductCard({
         {!product.inStock && (
           <div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ backgroundColor: "rgba(255,255,255,0.7)", borderRadius: "var(--t-radius-card)" }}
+            style={{ backgroundColor: "color-mix(in srgb, var(--t-background) 70%, transparent)", borderRadius: "var(--t-radius-card)" }}
           >
             <span
               className="text-xs font-medium px-3 py-1 rounded-[var(--t-radius-button)]"

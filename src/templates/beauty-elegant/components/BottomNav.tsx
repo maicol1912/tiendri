@@ -70,7 +70,7 @@ export function BottomNav({
               <Icon
                 size={isActive ? 20 : 22}
                 strokeWidth={1.75}
-                color="#FFFFFF"
+                color="var(--t-on-primary)"
               />
               {tab === "cart" && cartItemCount > 0 && (
                 <span

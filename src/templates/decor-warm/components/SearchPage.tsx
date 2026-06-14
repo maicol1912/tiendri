@@ -1,9 +1,10 @@
 // Decor Warm Template — Search Page (Presentational)
-// Search bar (rounded, linen bg), popular suggestions pills, results grid.
+// Shared Header + search bar + popular suggestions pills + results grid.
 // No-results state with empty illustration.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { Search, X, ArrowLeft } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../utils/grid-classes";
@@ -12,19 +13,21 @@ import type { StoreInfo } from "@/types/store";
 import type { DecorWarmConfig } from "../config";
 
 interface SearchPageProps {
-  store?: StoreInfo;
+  store: StoreInfo;
   query: string;
   results: DecorWarmProduct[];
   recommendations?: DecorWarmProduct[];
   popularSearches?: string[];
   isSearching?: boolean;
   currencySymbol?: string;
+  cartItemCount?: number;
   wishlistedIds?: Set<string>;
   layout?: DecorWarmConfig["layout"];
   grid?: DecorWarmConfig["grid"];
-  onBack?: () => void;
   onQueryChange?: (q: string) => void;
   onClear?: () => void;
+  onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onProductClick?: (productId: string) => void;
   onWishlistToggle?: (productId: string) => void;
   onAddToCart?: (product: DecorWarmProduct) => void;
@@ -33,20 +36,21 @@ interface SearchPageProps {
 }
 
 export function SearchPage({
+  store,
   query,
   results,
   recommendations = [],
   popularSearches = [],
   isSearching = false,
   currencySymbol = "$",
-  wishlistedIds,
+  cartItemCount = 0,
   layout,
   grid,
-  onBack,
   onQueryChange,
   onClear,
+  onCartOpen,
+  onNavLinkClick,
   onProductClick,
-  onWishlistToggle,
   onAddToCart,
   onSuggestionClick,
   onTabChange,
@@ -62,34 +66,22 @@ export function SearchPage({
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--t-background)" }}>
-      {/* ── Header / Search bar ── */}
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onCartClick={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
+
+      {/* ── Search bar ── */}
       <div
-        className="sticky top-0 z-10 px-4 md:px-6 py-3"
+        className="sticky top-16 z-10 px-4 md:px-6 py-3"
         style={{
           backgroundColor: "var(--t-background)",
           borderBottom: "1px solid var(--t-border)",
         }}
       >
         <div className="flex items-center gap-3 max-w-3xl mx-auto">
-          {onBack && (
-            <button
-              type="button"
-              onClick={onBack}
-              className="flex items-center justify-center flex-shrink-0"
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: "50%",
-                backgroundColor: "var(--t-card)",
-                border: "none",
-                cursor: "pointer",
-              }}
-              aria-label="Volver"
-            >
-              <ArrowLeft size={18} style={{ color: "var(--t-dark-mode)" }} />
-            </button>
-          )}
-
           {/* Search input */}
           <div
             className="flex items-center flex-1 gap-2 px-4"

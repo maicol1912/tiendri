@@ -1,7 +1,7 @@
 "use client";
 
 // Decor Warm Template — CheckoutShellRoute
-// Client boundary. Validates form, builds WhatsApp message, clears cart.
+// Client boundary. Validates form, builds WhatsApp message, clears cart, shared Header.
 
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
@@ -77,7 +77,7 @@ interface CheckoutShellRouteProps {
 
 export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShellRouteProps) {
   const nav = useTemplateNav();
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, totalPrice, totalItems, clearCart } = useCart();
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     nombre: "",
@@ -130,6 +130,15 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData, items, totalPrice, store, currencySymbol, clearCart, nav]);
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const orderItems: CheckoutOrderItem[] = items.map((item) => ({
     productId: item.productId,
     name: item.name,
@@ -140,13 +149,16 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
 
   return (
     <CheckoutPage
+      store={store}
       orderItems={orderItems}
       totalPrice={totalPrice}
       formData={formData}
       errors={errors}
       isSubmitting={isSubmitting}
       currencySymbol={currencySymbol}
-      onBack={nav.goCart}
+      cartItemCount={totalItems}
+      onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onFieldChange={handleFieldChange}
       onSubmit={handleSubmit}
     />

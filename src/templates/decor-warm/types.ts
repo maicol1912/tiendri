@@ -3,6 +3,23 @@
 
 export type { StoreInfo } from "@/types/store";
 
+// ── Filter system ─────────────────────────────────────────────────────────────
+
+export interface FilterOption {
+  id: string;
+  label: string;
+  count?: number;
+}
+
+export interface FilterGroup {
+  id: string;
+  label: string;
+  options: FilterOption[];
+  isCollapsed?: boolean;
+}
+
+export type SortOption = 'recent' | 'price-asc' | 'price-desc' | 'rating';
+
 // ── Template-specific product type ────────────────────────────────────────────
 
 export interface DecorWarmProductImage {

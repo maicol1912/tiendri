@@ -42,7 +42,7 @@ export function HeroBanner({
           width: "55%",
           height: "100%",
           background:
-            "radial-gradient(ellipse at 80% 30%, rgba(119,0,207,0.18) 0%, transparent 70%)",
+            "radial-gradient(ellipse at 80% 30%, color-mix(in srgb, var(--t-primary) 18%, transparent) 0%, transparent 70%)",
           zIndex: 0,
         }}
       />
@@ -128,7 +128,7 @@ export function HeroBanner({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(160deg, rgba(191,104,255,0.25) 0%, rgba(119,0,207,0.08) 50%, transparent 100%)",
+                "linear-gradient(160deg, color-mix(in srgb, var(--t-accent) 25%, transparent) 0%, color-mix(in srgb, var(--t-primary) 8%, transparent) 50%, transparent 100%)",
             }}
           >
             {/* Decorative blurred circles */}
@@ -140,7 +140,7 @@ export function HeroBanner({
                 width: "clamp(60px, 8vw, 90px)",
                 height: "clamp(60px, 8vw, 90px)",
                 borderRadius: "50%",
-                backgroundColor: "rgba(119,0,207,0.15)",
+                backgroundColor: "color-mix(in srgb, var(--t-primary) 15%, transparent)",
                 filter: "blur(16px)",
               }}
             />
@@ -152,7 +152,7 @@ export function HeroBanner({
                 width: "clamp(40px, 5vw, 60px)",
                 height: "clamp(40px, 5vw, 60px)",
                 borderRadius: "50%",
-                backgroundColor: "rgba(191,104,255,0.20)",
+                backgroundColor: "color-mix(in srgb, var(--t-accent) 20%, transparent)",
                 filter: "blur(10px)",
               }}
             />
@@ -189,7 +189,7 @@ export function HeroBanner({
         aria-hidden="true"
         style={{
           borderRadius: "var(--t-radius-card)",
-          border: "1px solid var(--t-border-light, rgba(176,129,211,0.2))",
+          border: "1px solid var(--t-border-light, var(--t-border))",
         }}
       />
     </div>

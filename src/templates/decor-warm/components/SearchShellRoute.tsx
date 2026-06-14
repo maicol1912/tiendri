@@ -1,9 +1,9 @@
 "use client";
 
 // Decor Warm Template — SearchShellRoute
-// Client boundary. Debounced search (300ms) + navigation wiring.
+// Client boundary. Debounced search (300ms) + navigation wiring + shared Header.
 
-import { useState, useEffect, useCallback, useRef, } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { SearchPage } from "./SearchPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
@@ -27,7 +27,7 @@ export function SearchShellRoute({
   currencySymbol = "$",
 }: SearchShellRouteProps) {
   const nav = useTemplateNav();
-  const { addItem } = useCart();
+  const { totalItems, addItem } = useCart();
   const { config } = useLayoutConfig<DecorWarmConfig>();
 
   const layout = config?.layout ?? decorWarmConfig.layout;
@@ -89,6 +89,15 @@ export function SearchShellRoute({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <SearchPage
       store={store}
@@ -98,15 +107,17 @@ export function SearchShellRoute({
       popularSearches={popularSearches}
       isSearching={isSearching}
       currencySymbol={currencySymbol}
+      cartItemCount={totalItems}
       layout={layout}
       grid={grid}
-      onBack={nav.goHome}
       onQueryChange={setQuery}
       onClear={() => {
         setQuery("");
         setDebouncedQuery("");
         setIsSearching(false);
       }}
+      onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onProductClick={(id) => nav.goProduct(id)}
       onAddToCart={handleAddToCart}
       onSuggestionClick={(q) => setQuery(q)}

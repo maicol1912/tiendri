@@ -75,7 +75,7 @@ export function BottomNav({
                       width: 16,
                       height: 16,
                       borderRadius: "50%",
-                      backgroundColor: "var(--t-peach)",
+                      backgroundColor: "var(--t-primary)",
                       color: "#FFFFFF",
                       fontFamily: "'Poppins', sans-serif",
                       fontSize: "9px",
@@ -96,7 +96,7 @@ export function BottomNav({
                     width: 4,
                     height: 4,
                     borderRadius: "50%",
-                    backgroundColor: "var(--t-peach)",
+                    backgroundColor: "var(--t-primary)",
                     marginTop: 2,
                   }}
                   aria-hidden="true"

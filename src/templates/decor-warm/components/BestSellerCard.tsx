@@ -40,7 +40,7 @@ export function BestSellerCard({
     <div
       className="w-full cursor-pointer"
       style={{
-        backgroundColor: "var(--t-peach)",
+        backgroundColor: "var(--t-primary)",
         borderRadius: "var(--t-radius-card)",
         overflow: "hidden",
       }}
@@ -76,7 +76,7 @@ export function BestSellerCard({
               color: "rgba(255,255,255,0.8)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "12px",
-              fontWeight: 300,
+              fontWeight: 400,
               lineHeight: 1.4,
             }}
           >

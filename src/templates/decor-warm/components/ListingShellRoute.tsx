@@ -1,28 +1,27 @@
 "use client";
 
 // Decor Warm Template — ListingShellRoute
-// Client boundary. Wires category filtering, navigation, and cart.
+// Client boundary. Wires navigation, cart, filter state, search, and sort.
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { decorWarmConfig } from "../config";
+import { mockCategories } from "../mock/data";
 import type { DecorWarmConfig } from "../config";
-import type { DecorWarmProduct, DecorWarmCategory, DecorWarmNavTab } from "../types";
+import type { DecorWarmProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
 import type { StoreInfo } from "@/types/store";
 
 interface ListingShellRouteProps {
   store: StoreInfo;
-  categories: DecorWarmCategory[];
   products: DecorWarmProduct[];
   currencySymbol?: string;
 }
 
 export function ListingShellRoute({
-  store: _store,
-  categories,
+  store,
   products,
   currencySymbol = "$",
 }: ListingShellRouteProps) {
@@ -33,10 +32,158 @@ export function ListingShellRoute({
   const layout = config?.layout ?? decorWarmConfig.layout;
   const grid = config?.grid ?? decorWarmConfig.grid;
 
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
+  // ── Filter state ──────────────────────────────────────────────────────────────
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-  const handleCategoryChange = useCallback((id: string | null) => {
-    setActiveCategoryId(id);
+  // ── Build filter groups from categories + static options ──────────────────────
+  const filters: FilterGroup[] = useMemo(
+    () => [
+      {
+        id: "category",
+        label: "Categoría",
+        options: mockCategories.map((cat) => ({
+          id: cat.id,
+          label: cat.name,
+          count: products.filter((p) => p.categoryId === cat.id).length,
+        })),
+      },
+      {
+        id: "price",
+        label: "Precio",
+        options: [
+          { id: "under-500k", label: "Menos de $500.000" },
+          { id: "500k-1m", label: "$500.000 - $1.000.000" },
+          { id: "1m-2m", label: "$1.000.000 - $2.000.000" },
+          { id: "over-2m", label: "Más de $2.000.000" },
+        ],
+      },
+      {
+        id: "rating",
+        label: "Valoración",
+        options: [
+          { id: "4-plus", label: "4 estrellas o más" },
+          { id: "3-plus", label: "3 estrellas o más" },
+        ],
+      },
+      {
+        id: "availability",
+        label: "Disponibilidad",
+        options: [
+          { id: "available", label: "Disponible" },
+          { id: "out-of-stock", label: "Agotado" },
+        ],
+      },
+    ],
+    [products]
+  );
+
+  // ── Filtered + sorted products ────────────────────────────────────────────────
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    // Filter by category
+    if ((activeFilters.category ?? []).length > 0) {
+      result = result.filter((p) =>
+        activeFilters.category!.includes(p.categoryId ?? "")
+      );
+    }
+
+    // Filter by price range
+    if ((activeFilters.price ?? []).length > 0) {
+      result = result.filter((p) =>
+        activeFilters.price!.some((range) => {
+          if (range === "under-500k") return p.price < 500000;
+          if (range === "500k-1m") return p.price >= 500000 && p.price <= 1000000;
+          if (range === "1m-2m") return p.price > 1000000 && p.price <= 2000000;
+          if (range === "over-2m") return p.price > 2000000;
+          return false;
+        })
+      );
+    }
+
+    // Filter by rating
+    if ((activeFilters.rating ?? []).length > 0) {
+      result = result.filter((p) => {
+        const r = p.rating ?? 0;
+        if (activeFilters.rating!.includes("4-plus") && r >= 4) return true;
+        if (activeFilters.rating!.includes("3-plus") && r >= 3) return true;
+        return false;
+      });
+    }
+
+    // Filter by availability — products use `available` boolean field
+    if ((activeFilters.availability ?? []).length > 0) {
+      result = result.filter((p) => {
+        if (
+          activeFilters.availability!.includes("available") &&
+          p.available === true
+        )
+          return true;
+        if (
+          activeFilters.availability!.includes("out-of-stock") &&
+          p.available === false
+        )
+          return true;
+        return false;
+      });
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          (p.description ?? "").toLowerCase().includes(q)
+      );
+    }
+
+    // Sort
+    if (sortOption === "price-asc") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "price-desc") {
+      result.sort((a, b) => b.price - a.price);
+    } else if (sortOption === "rating") {
+      result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    }
+    // "recent" = keep original order (as-is)
+
+    return result;
+  }, [products, activeFilters, searchQuery, sortOption]);
+
+  // ── Active filter count ───────────────────────────────────────────────────────
+  const activeFilterCount = useMemo(
+    () =>
+      Object.values(activeFilters).reduce((sum, arr) => sum + arr.length, 0),
+    [activeFilters]
+  );
+
+  // ── Handlers ──────────────────────────────────────────────────────────────────
+  const handleFilterChange = useCallback(
+    (groupId: string, optionId: string, checked: boolean) => {
+      setActiveFilters((prev) => {
+        const current = prev[groupId] ?? [];
+        if (checked) {
+          return { ...prev, [groupId]: [...current, optionId] };
+        }
+        const next = current.filter((id) => id !== optionId);
+        if (next.length === 0) {
+          const { [groupId]: _, ...rest } = prev;
+          return rest;
+        }
+        return { ...prev, [groupId]: next };
+      });
+    },
+    []
+  );
+
+  const handleClearAll = useCallback(() => {
+    setActiveFilters({});
+    setSearchQuery("");
+    setSortOption("recent");
   }, []);
 
   const handleAddToCart = useCallback(
@@ -62,26 +209,42 @@ export function ListingShellRoute({
     [nav]
   );
 
-  const visibleProducts =
-    activeCategoryId === null
-      ? products
-      : products.filter((p) => p.categoryId === activeCategoryId);
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
 
   return (
     <ProductListingPage
-      categories={categories}
-      products={visibleProducts}
-      activeCategoryId={activeCategoryId}
+      store={store}
+      products={filteredProducts}
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
       layout={layout}
       grid={grid}
-      onBack={nav.goHome}
+      filters={filters}
+      activeFilters={activeFilters}
+      searchQuery={searchQuery}
+      sortOption={sortOption}
+      filteredCount={filteredProducts.length}
+      activeFilterCount={activeFilterCount}
+      isFilterDrawerOpen={isFilterDrawerOpen}
       onSearchOpen={nav.goSearch}
-      onCategoryChange={handleCategoryChange}
+      onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onProductClick={(id) => nav.goProduct(id)}
       onAddToCart={handleAddToCart}
       onTabChange={handleTabChange}
+      onFilterChange={handleFilterChange}
+      onClearAll={handleClearAll}
+      onFilterDrawerToggle={() => setIsFilterDrawerOpen((prev) => !prev)}
+      onFilterDrawerClose={() => setIsFilterDrawerOpen(false)}
+      onSearchQueryChange={setSearchQuery}
+      onSortChange={setSortOption}
     />
   );
 }

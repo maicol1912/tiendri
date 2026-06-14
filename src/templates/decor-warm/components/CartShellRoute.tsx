@@ -1,7 +1,7 @@
 "use client";
 
 // Decor Warm Template — CartShellRoute
-// Client boundary. Wires cart state + navigation.
+// Client boundary. Wires cart state, navigation, and shared Header.
 
 import { useCallback } from "react";
 import { CartPage } from "./CartPage";
@@ -15,7 +15,7 @@ interface CartShellRouteProps {
   currencySymbol?: string;
 }
 
-export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShellRouteProps) {
+export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRouteProps) {
   const nav = useTemplateNav();
   const { items, totalPrice, removeItem, incrementItem, decrementItem } = useCart();
 
@@ -43,12 +43,24 @@ export function CartShellRoute({ store: _store, currencySymbol = "$" }: CartShel
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <CartPage
+      store={store}
       items={items}
       totalPrice={totalPrice}
       currencySymbol={currencySymbol}
-      onBack={nav.goHome}
+      onSearchOpen={nav.goSearch}
+      onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onGoHome={nav.goHome}
       onCheckout={nav.goCheckout}
       onIncrement={handleIncrement}

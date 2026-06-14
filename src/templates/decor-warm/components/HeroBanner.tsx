@@ -28,7 +28,7 @@ export function HeroBanner({
           <div
             key={`${slide.heading}-${i}`}
             className="overflow-hidden rounded-[var(--t-radius-card)]"
-            style={{ backgroundColor: "var(--t-peach)" }}
+            style={{ backgroundColor: "var(--t-primary)" }}
           >
             {slide.imageUrl && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -49,7 +49,7 @@ export function HeroBanner({
           return (
             <div
               className="relative w-full overflow-hidden rounded-[var(--t-radius-card)]"
-              style={{ aspectRatio: "393/132", backgroundColor: "var(--t-peach)" }}
+              style={{ aspectRatio: "393/132", backgroundColor: "var(--t-primary)" }}
             >
               {slide && slide.imageUrl && (
                 <Image
@@ -80,7 +80,7 @@ export function HeroBanner({
                   width: 20,
                   height: 4,
                   borderRadius: 9999,
-                  backgroundColor: i === activeSlide ? "var(--t-dark-mode)" : "var(--t-peach)",
+                  backgroundColor: i === activeSlide ? "var(--t-dark-mode)" : "var(--t-primary)",
                   border: "none",
                   cursor: "pointer",
                   transition: "background-color 0.2s ease",

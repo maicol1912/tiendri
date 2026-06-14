@@ -1,37 +1,46 @@
 "use client";
 
 // Decor Warm Template — ProductDetailShellRoute
-// Client boundary. Reads product data + wires cart + navigation.
+// Client boundary. Reads product data + wires cart + navigation + shared Header.
 
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
-import type { DecorWarmProduct, DecorWarmCategory } from "../types";
+import { mockProducts } from "../mock/data";
+import type { DecorWarmProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
 
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
   product: DecorWarmProduct;
-  categories?: DecorWarmCategory[];
   currencySymbol?: string;
 }
 
 export function ProductDetailShellRoute({
-  store: _store,
+  store,
   product,
-  categories = [],
   currencySymbol = "$",
 }: ProductDetailShellRouteProps) {
   const nav = useTemplateNav();
-  const { addItem } = useCart();
+  const { totalItems, addItem } = useCart();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
-    product.categoryId ?? null
+  const [openAccordion, setOpenAccordion] = useState<string | null>("descripcion");
+
+  // ── Related products ─────────────────────────────────────────────────────────
+
+  const sameCategory = mockProducts.filter(
+    (p) => p.categoryId === product.categoryId && p.id !== product.id
   );
+  const others = mockProducts.filter(
+    (p) => p.id !== product.id && !sameCategory.find((c) => c.id === p.id)
+  );
+  const relatedProducts = [...sameCategory, ...others].slice(0, 4);
+
+  // ── Handlers ─────────────────────────────────────────────────────────────────
 
   const handleAddToCart = useCallback(() => {
     if (!product.available) return;
@@ -52,24 +61,45 @@ export function ProductDetailShellRoute({
     }, 900);
   }, [product, quantity, addItem, nav]);
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
+  const handleProductClick = useCallback(
+    (productId: string) => {
+      nav.goProduct(productId);
+    },
+    [nav]
+  );
+
+  const handleAccordionToggle = useCallback((id: string) => {
+    setOpenAccordion((prev) => (prev === id ? null : id));
+  }, []);
+
   return (
     <ProductDetailPage
+      store={store}
       product={product}
-      categories={categories}
-      activeCategoryId={activeCategoryId}
+      relatedProducts={relatedProducts}
       activeImageIndex={activeImageIndex}
       quantity={quantity}
       isAdded={isAdded}
       currencySymbol={currencySymbol}
+      cartItemCount={totalItems}
+      openAccordion={openAccordion}
       onBack={nav.goHome}
-      onCartClick={nav.goCart}
-      onCategoryChange={(id) => {
-        setActiveCategoryId(id);
-        nav.goListing();
-      }}
+      onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onImageIndexChange={setActiveImageIndex}
       onQuantityChange={setQuantity}
       onAddToCart={handleAddToCart}
+      onProductClick={handleProductClick}
+      onAccordionToggle={handleAccordionToggle}
     />
   );
 }

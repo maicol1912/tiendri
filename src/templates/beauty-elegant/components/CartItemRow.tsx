@@ -4,6 +4,7 @@
 // Glassmorphic purple tint card. Thumbnail + name + price + quantity counter.
 
 import Image from "next/image";
+import { Trash2 } from "lucide-react";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import type { CartItem } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
@@ -21,6 +22,7 @@ export function CartItemRow({
   currencySymbol = "$",
   onIncrement,
   onDecrement,
+  onRemove,
 }: CartItemRowProps) {
   return (
     <div
@@ -86,11 +88,39 @@ export function CartItemRow({
             {formatPrice(item.price, currencySymbol)}
           </span>
 
-          <QuantityStepper
-            quantity={item.quantity}
-            onIncrement={onIncrement}
-            onDecrement={onDecrement}
-          />
+          <div className="flex items-center gap-2">
+            <QuantityStepper
+              quantity={item.quantity}
+              onIncrement={onIncrement}
+              onDecrement={onDecrement}
+            />
+            <button
+              type="button"
+              className="flex items-center justify-center flex-shrink-0"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "var(--t-radius-card)",
+                backgroundColor: "var(--t-card)",
+                border: "none",
+                cursor: "pointer",
+                color: "var(--t-muted)",
+                transition: "color 0.2s ease, background-color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--t-primary)";
+                e.currentTarget.style.backgroundColor = "var(--t-border)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--t-muted)";
+                e.currentTarget.style.backgroundColor = "var(--t-card)";
+              }}
+              onClick={onRemove}
+              aria-label={`Eliminar ${item.name} del carrito`}
+            >
+              <Trash2 size={18} strokeWidth={2} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

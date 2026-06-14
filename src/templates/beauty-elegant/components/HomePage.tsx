@@ -41,10 +41,12 @@ interface HomePageProps {
     products?: { mobile: number; desktop: number };
   };
   sections?: Array<{ id: string; visible: boolean }>;
+  activeHref?: string;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onSearchOpen?: () => void;
   onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: NavTab) => void;
   onSeeAll?: () => void;
 }
@@ -61,10 +63,12 @@ export function HomePage({
   layout,
   grid,
   sections,
+  activeHref,
   onCategoryChange,
   onProductClick,
   onSearchOpen,
   onCartOpen,
+  onNavLinkClick,
   onTabChange,
   onSeeAll,
 }: HomePageProps) {
@@ -140,7 +144,7 @@ export function HomePage({
         <div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse at 70% 20%, rgba(119,0,207,0.12) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse at 70% 20%, color-mix(in srgb, var(--t-primary) 12%, transparent) 0%, transparent 60%)",
           }}
         />
       </div>
@@ -150,8 +154,10 @@ export function HomePage({
         store={store}
         cartItemCount={cartItemCount}
         layout={layout}
+        activeHref={activeHref}
         onSearchOpen={onSearchOpen}
         onCartOpen={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
       />
 
       {/* Main content */}

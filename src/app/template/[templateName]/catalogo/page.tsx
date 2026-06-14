@@ -31,7 +31,6 @@ import {
 import { ListingShellRoute as BeautyElegantListingShellRoute } from "@/templates/beauty-elegant/components/ListingShellRoute";
 import {
   mockStore as decorWarmMockStore,
-  mockCategories as decorWarmMockCategories,
   mockProducts as decorWarmMockProducts,
 } from "@/templates/decor-warm/mock/data";
 import { ListingShellRoute as DecorWarmListingShellRoute } from "@/templates/decor-warm/components/ListingShellRoute";
@@ -93,7 +92,6 @@ export default async function CatalogoPage({ params }: CatalogoPageProps) {
     return (
       <DecorWarmListingShellRoute
         store={decorWarmMockStore}
-        categories={decorWarmMockCategories}
         products={decorWarmMockProducts}
       />
     );

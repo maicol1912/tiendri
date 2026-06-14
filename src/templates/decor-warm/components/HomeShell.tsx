@@ -104,6 +104,15 @@ export function HomeShell({
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <HomePage
       store={store}
@@ -129,6 +138,7 @@ export function HomeShell({
       onPromoSlideChange={setActivePromoSlide}
       onSearchOpen={nav.goSearch}
       onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={handleTabChange}
       onSeeAll={nav.goListing}
     />

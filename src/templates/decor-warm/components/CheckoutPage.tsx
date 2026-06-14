@@ -1,13 +1,12 @@
 // Decor Warm Template — Checkout Page (Presentational)
-// Form fields: nombre, whatsapp, email, dirección, notas.
-// Order summary sidebar (desktop) / accordion (mobile).
-// "ENVIAR VÍA WHATSAPP" peach pill CTA.
+// Shared Header + form fields + order summary sidebar + WhatsApp CTA.
 // ZERO hardcoded colors — all via var(--t-*).
 
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { Header } from "./Header";
 import { CheckoutForm } from "./CheckoutForm";
 import { formatPrice } from "@/lib/format";
+import type { StoreInfo } from "@/types/store";
 
 export interface CheckoutOrderItem {
   productId: string;
@@ -33,68 +32,42 @@ interface FieldErrors {
 }
 
 interface CheckoutPageProps {
+  store: StoreInfo;
   orderItems: CheckoutOrderItem[];
   totalPrice: number;
   formData: CheckoutFormData;
   errors?: FieldErrors;
   isSubmitting?: boolean;
   currencySymbol?: string;
-  onBack?: () => void;
+  cartItemCount?: number;
+  onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onFieldChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
 }
 
 export function CheckoutPage({
+  store,
   orderItems,
   totalPrice,
   formData,
   errors = {},
   isSubmitting = false,
   currencySymbol = "$",
-  onBack,
+  cartItemCount = 0,
+  onCartOpen,
+  onNavLinkClick,
   onFieldChange,
   onSubmit,
 }: CheckoutPageProps) {
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--t-background)" }}>
-      {/* ── Header ── */}
-      <div
-        className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 py-3"
-        style={{
-          backgroundColor: "var(--t-background)",
-          borderBottom: "1px solid var(--t-border)",
-        }}
-      >
-        <button
-          type="button"
-          onClick={onBack}
-          className="flex items-center justify-center"
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: "50%",
-            backgroundColor: "var(--t-card)",
-            border: "none",
-            cursor: "pointer",
-          }}
-          aria-label="Volver al carrito"
-        >
-          <ArrowLeft size={18} style={{ color: "var(--t-dark-mode)" }} />
-        </button>
-
-        <span
-          style={{
-            color: "var(--t-dark-mode)",
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: "16px",
-            fontWeight: 600,
-          }}
-        >
-          Finalizar pedido
-        </span>
-
-        <div style={{ width: 38 }} aria-hidden="true" />
-      </div>
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onCartClick={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
 
       {/* ── Content ── */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 md:px-6 py-5 lg:flex lg:gap-8 lg:items-start">
@@ -220,7 +193,7 @@ export function CheckoutPage({
             onClick={onSubmit}
             className="w-full flex items-center justify-center gap-2 mt-4"
             style={{
-              backgroundColor: isSubmitting ? "var(--t-border)" : "var(--t-peach)",
+              backgroundColor: isSubmitting ? "var(--t-border)" : "var(--t-primary)",
               color: "#FFFFFF",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "14px",
@@ -257,7 +230,7 @@ export function CheckoutPage({
           onClick={onSubmit}
           className="w-full flex items-center justify-center gap-2"
           style={{
-            backgroundColor: isSubmitting ? "var(--t-border)" : "var(--t-peach)",
+            backgroundColor: isSubmitting ? "var(--t-border)" : "var(--t-primary)",
             color: "#FFFFFF",
             fontFamily: "'Poppins', sans-serif",
             fontSize: "14px",

@@ -45,7 +45,7 @@ export function SearchBar({
         <Search
           size={16}
           strokeWidth={2}
-          style={{ color: "var(--t-peach)", flexShrink: 0 }}
+          style={{ color: "var(--t-primary)", flexShrink: 0 }}
         />
         <span
           style={{
@@ -75,7 +75,7 @@ export function SearchBar({
       <Search
         size={16}
         strokeWidth={2}
-        style={{ color: "var(--t-peach)", flexShrink: 0 }}
+        style={{ color: "var(--t-primary)", flexShrink: 0 }}
       />
       <input
         ref={inputRef}

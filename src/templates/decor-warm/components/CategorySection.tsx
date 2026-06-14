@@ -72,7 +72,7 @@ export function CategorySection({
           width: 66,
           height: 66,
           borderRadius: "var(--t-radius-category)",
-          backgroundColor: isActive ? "var(--t-peach)" : "var(--t-secondary)",
+          backgroundColor: isActive ? "var(--t-primary)" : "var(--t-secondary)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

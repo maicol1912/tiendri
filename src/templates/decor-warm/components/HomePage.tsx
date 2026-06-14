@@ -55,6 +55,7 @@ interface HomePageProps {
   onSearchOpen?: () => void;
   onCartOpen?: () => void;
   onWishlistOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: DecorWarmNavTab) => void;
   onSeeAll?: () => void;
 }
@@ -87,6 +88,7 @@ export function HomePage({
   onSearchOpen,
   onCartOpen,
   onWishlistOpen,
+  onNavLinkClick,
   onTabChange,
   onSeeAll,
 }: HomePageProps) {
@@ -279,7 +281,10 @@ export function HomePage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref="/"
         onSearchClick={onSearchOpen}
+        onCartClick={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main

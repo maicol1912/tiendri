@@ -17,6 +17,8 @@ interface StoreInfoPageProps {
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: DecorWarmNavTab) => void;
 }
 
@@ -38,7 +40,7 @@ function InfoCard({ icon, label, value }: InfoCardProps) {
           width: 36,
           height: 36,
           borderRadius: "var(--t-radius-category)",
-          backgroundColor: "var(--t-peach)",
+          backgroundColor: "var(--t-primary)",
         }}
         aria-hidden="true"
       >
@@ -80,6 +82,9 @@ export function StoreInfoPage({
   hours = "Lun – Sáb: 9:00 am – 7:00 pm",
   onBack,
   onSearchClick,
+  onCartClick,
+  onCartOpen,
+  onNavLinkClick,
   onTabChange,
 }: StoreInfoPageProps) {
   return (
@@ -87,7 +92,10 @@ export function StoreInfoPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref="/info"
         onSearchClick={onSearchClick}
+        onCartClick={onCartClick ?? onCartOpen}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="flex-1 pb-[calc(80px+env(safe-area-inset-bottom,0px))] pt-4 px-4 md:px-6 lg:px-8 max-w-2xl mx-auto w-full">
@@ -127,7 +135,7 @@ export function StoreInfoPage({
         {/* Store name + description */}
         <div
           className="px-4 py-5 mb-5 rounded-[var(--t-radius-card)]"
-          style={{ backgroundColor: "var(--t-peach)", opacity: 0.92 }}
+          style={{ backgroundColor: "var(--t-primary)", opacity: 0.92 }}
         >
           <p
             style={{
@@ -181,7 +189,7 @@ export function StoreInfoPage({
                     href={`https://wa.me/${store.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: "var(--t-peach)" }}
+                    style={{ color: "var(--t-primary)" }}
                   >
                     +{store.whatsapp}
                   </a>
@@ -227,7 +235,7 @@ export function StoreInfoPage({
                       href={`https://instagram.com/${store.social_links.instagram}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ color: "var(--t-peach)" }}
+                      style={{ color: "var(--t-primary)" }}
                     >
                       @{store.social_links.instagram}
                     </a>
@@ -243,7 +251,7 @@ export function StoreInfoPage({
                       href={`https://facebook.com/${store.social_links.facebook}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ color: "var(--t-peach)" }}
+                      style={{ color: "var(--t-primary)" }}
                     >
                       {store.social_links.facebook}
                     </a>

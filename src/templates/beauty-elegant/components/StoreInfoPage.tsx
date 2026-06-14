@@ -12,8 +12,10 @@ interface StoreInfoPageProps {
   store: StoreInfo;
   cartItemCount?: number;
   activeTab?: NavTab;
+  activeHref?: string;
   onSearchOpen?: () => void;
   onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: NavTab) => void;
 }
 
@@ -21,8 +23,10 @@ export function StoreInfoPage({
   store,
   cartItemCount = 0,
   activeTab = "info",
+  activeHref,
   onSearchOpen,
   onCartOpen,
+  onNavLinkClick,
   onTabChange,
 }: StoreInfoPageProps) {
   return (
@@ -33,8 +37,10 @@ export function StoreInfoPage({
       <Header
         store={store}
         cartItemCount={cartItemCount}
+        activeHref={activeHref}
         onSearchOpen={onSearchOpen}
         onCartOpen={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-8 md:py-12 flex flex-col gap-6 pb-28 md:pb-12">
@@ -81,7 +87,7 @@ export function StoreInfoPage({
                 className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
                 style={{ backgroundColor: "var(--t-primary)" }}
               >
-                <Phone size={16} color="#FFFFFF" />
+                <Phone size={16} color="var(--t-on-primary)" />
               </div>
               <span className="text-sm font-semibold" style={{ color: "var(--t-primary)" }}>
                 +{store.whatsapp}
@@ -92,7 +98,7 @@ export function StoreInfoPage({
           <div className="flex items-center gap-3">
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-              style={{ backgroundColor: "var(--t-icon-pill-bg, rgba(255,255,255,0.1))" }}
+              style={{ backgroundColor: "var(--t-icon-pill-bg, color-mix(in srgb, var(--t-foreground) 10%, transparent))" }}
             >
               <Mail size={16} color="var(--t-muted)" />
             </div>
@@ -104,7 +110,7 @@ export function StoreInfoPage({
           <div className="flex items-center gap-3">
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-              style={{ backgroundColor: "var(--t-icon-pill-bg, rgba(255,255,255,0.1))" }}
+              style={{ backgroundColor: "var(--t-icon-pill-bg, color-mix(in srgb, var(--t-foreground) 10%, transparent))" }}
             >
               <MapPin size={16} color="var(--t-muted)" />
             </div>
@@ -181,7 +187,7 @@ export function StoreInfoPage({
                   style={{
                     borderRadius: "9999px",
                     backgroundColor: "var(--t-primary)",
-                    color: "#FFFFFF",
+                    color: "var(--t-on-primary)",
                   }}
                 >
                   <Share2 size={15} />
@@ -218,7 +224,7 @@ export function StoreInfoPage({
             style={{
               borderRadius: "9999px",
               backgroundColor: "var(--t-primary)",
-              color: "#FFFFFF",
+              color: "var(--t-on-primary)",
             }}
           >
             Contactar por WhatsApp

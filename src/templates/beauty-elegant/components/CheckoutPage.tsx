@@ -7,6 +7,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { OrderSummary } from "./OrderSummary";
 import { CheckoutForm } from "./CheckoutForm";
+import { Header } from "./Header";
 import { useCart } from "@/lib/cart";
 import type { StoreInfo, CheckoutFormValues, CheckoutOrderItem } from "../types";
 import { formatPrice } from "@/lib/format";
@@ -14,7 +15,11 @@ import { formatPrice } from "@/lib/format";
 interface CheckoutPageProps {
   store: StoreInfo;
   currencySymbol?: string;
+  cartItemCount?: number;
   onBack?: () => void;
+  onNavLinkClick?: (href: string) => void;
+  onSearchOpen?: () => void;
+  onCartOpen?: () => void;
 }
 
 function validateForm(
@@ -62,7 +67,7 @@ function buildWhatsAppMessage(
 }
 
 // WhatsApp send icon
-function WhatsAppIcon({ size = 18, color = "#FFF" }: { size?: number; color?: string }) {
+function WhatsAppIcon({ size = 18, color = "var(--t-on-primary)" }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <path
@@ -79,7 +84,11 @@ function WhatsAppIcon({ size = 18, color = "#FFF" }: { size?: number; color?: st
 export function CheckoutPage({
   store,
   currencySymbol = "$",
+  cartItemCount = 0,
   onBack,
+  onNavLinkClick,
+  onSearchOpen,
+  onCartOpen,
 }: CheckoutPageProps) {
   const { items, totalItems, clearCart } = useCart();
 
@@ -143,16 +152,25 @@ export function CheckoutPage({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25 }}
     >
-      {/* Header */}
+      {/* Desktop shared header */}
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onSearchOpen={onSearchOpen}
+        onCartOpen={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
+
+      {/* Mobile header — back button + checkout title */}
       <header
-        className="sticky top-0 z-40"
+        className="md:hidden sticky top-0 z-40"
         style={{
           backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
       >
-        <div className="max-w-5xl mx-auto flex items-center gap-3 px-4 md:px-6 h-14">
+        <div className="max-w-5xl mx-auto flex items-center gap-3 px-4 h-14">
           <button
             type="button"
             className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button)] flex-shrink-0"
@@ -243,7 +261,7 @@ export function CheckoutPage({
         style={{
           backgroundColor: "var(--t-background)",
           borderTop: "1px solid var(--t-border-light)",
-          boxShadow: "0 -4px 16px rgba(0,0,0,0.06)",
+          boxShadow: "0 -4px 16px color-mix(in srgb, var(--t-foreground) 6%, transparent)",
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
         }}
         initial={{ y: "100%" }}

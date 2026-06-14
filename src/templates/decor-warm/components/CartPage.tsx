@@ -1,23 +1,25 @@
 // Decor Warm Template — Cart Page (Presentational)
-// Item list with 66px linen thumbnails + QuantityStepper.
-// Price breakdown: Subtotal / Envío / Total.
-// Full-width peach pill CTA at bottom.
+// Shared Header + item list with QuantityStepper + price breakdown + CTA.
 // ZERO hardcoded colors — all via var(--t-*).
 
-import { ArrowLeft } from "lucide-react";
+import { Header } from "./Header";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import { BottomNav } from "./BottomNav";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { CartItem } from "@/lib/cart";
+import type { StoreInfo } from "@/types/store";
 import type { DecorWarmNavTab } from "../types";
 
 interface CartPageProps {
+  store: StoreInfo;
   items: CartItem[];
   totalPrice: number;
   currencySymbol?: string;
   layout?: { buttonStyle?: string };
-  onBack?: () => void;
+  onSearchOpen?: () => void;
+  onCartOpen?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
   onIncrement?: (productId: string) => void;
@@ -27,11 +29,14 @@ interface CartPageProps {
 }
 
 export function CartPage({
+  store,
   items,
   totalPrice,
   currencySymbol = "$",
   layout,
-  onBack,
+  onSearchOpen,
+  onCartOpen,
+  onNavLinkClick,
   onGoHome,
   onCheckout,
   onIncrement,
@@ -45,47 +50,17 @@ export function CartPage({
   const DELIVERY = 0;
   const subtotal = totalPrice;
   const total = subtotal + TAX_RATE + DELIVERY;
+  const cartItemCount = items.reduce((s, i) => s + i.quantity, 0);
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: "var(--t-background)" }}>
-      {/* ── Header ── */}
-      <div
-        className="sticky top-0 z-10 flex items-center justify-between px-4 md:px-6 py-3"
-        style={{
-          backgroundColor: "var(--t-background)",
-          borderBottom: "1px solid var(--t-border)",
-        }}
-      >
-        <button
-          type="button"
-          className="flex items-center justify-center"
-          style={{
-            width: 38,
-            height: 38,
-            borderRadius: "50%",
-            backgroundColor: "var(--t-card)",
-            border: "none",
-            cursor: "pointer",
-          }}
-          aria-label="Volver"
-          onClick={onBack}
-        >
-          <ArrowLeft size={18} style={{ color: "var(--t-dark-mode)" }} />
-        </button>
-
-        <span
-          style={{
-            color: "var(--t-dark-mode)",
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: "16px",
-            fontWeight: 600,
-          }}
-        >
-          Mi carrito
-        </span>
-
-        <div style={{ width: 38 }} aria-hidden="true" />
-      </div>
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onSearchClick={onSearchOpen}
+        onCartClick={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
 
       {/* ── Main ── */}
       <main
@@ -187,7 +162,7 @@ export function CartPage({
 
       <BottomNav
         activeTab="cart"
-        cartItemCount={items.reduce((s, i) => s + i.quantity, 0)}
+        cartItemCount={cartItemCount}
         onTabChange={onTabChange}
       />
     </div>

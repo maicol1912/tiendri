@@ -140,7 +140,7 @@ export function ProductCard({
               color: "var(--t-muted)",
               fontFamily: "var(--font-body)",
               fontSize: "13px",
-              fontWeight: 300,
+              fontWeight: 400,
             }}
           >
             {product.description}
@@ -173,14 +173,14 @@ export function ProductCard({
                     color: "var(--t-muted)",
                     fontFamily: "var(--font-body)",
                     fontSize: "11px",
-                    fontWeight: 300,
+                    fontWeight: 400,
                   }}
                 >
                   {formatPrice(product.compare_at_price, currencySymbol)}
                 </span>
                 <span
                   className={`text-xs font-semibold px-1.5 py-0.5 ${badgeClass}`}
-                  style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
+                  style={{ backgroundColor: "var(--t-primary)", color: "var(--t-background)" }}
                 >
                   -{Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
                 </span>
@@ -198,7 +198,7 @@ export function ProductCard({
                 width: 20,
                 height: 20,
                 borderRadius: "var(--t-radius-category)",
-                backgroundColor: "var(--t-peach)",
+                backgroundColor: "var(--t-primary)",
                 border: "none",
                 cursor: "pointer",
                 flexShrink: 0,

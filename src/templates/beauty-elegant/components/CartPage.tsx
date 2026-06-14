@@ -7,25 +7,37 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { CartItemRow } from "./CartItemRow";
 import { BottomNav } from "./BottomNav";
+import { Header } from "./Header";
 import { useCart } from "@/lib/cart";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
 import { formatPrice } from "@/lib/format";
+import type { StoreInfo } from "../types";
 
 interface CartPageProps {
+  store?: StoreInfo;
   currencySymbol?: string;
   layout?: { buttonStyle?: ButtonStyle };
+  cartItemCount?: number;
   onBack?: () => void;
   onGoHome?: () => void;
   onCheckout?: () => void;
+  onNavLinkClick?: (href: string) => void;
+  onSearchOpen?: () => void;
+  onCartOpen?: () => void;
 }
 
 export function CartPage({
+  store,
   currencySymbol = "$",
   layout,
+  cartItemCount = 0,
   onBack,
   onGoHome,
   onCheckout,
+  onNavLinkClick,
+  onSearchOpen,
+  onCartOpen,
 }: CartPageProps) {
   const { items, totalPrice, incrementItem, decrementItem, removeItem } = useCart();
   const isEmpty = items.length === 0;
@@ -39,9 +51,20 @@ export function CartPage({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25 }}
     >
-      {/* Header */}
+      {/* Desktop shared header */}
+      {store && (
+        <Header
+          store={store}
+          cartItemCount={cartItemCount}
+          onSearchOpen={onSearchOpen}
+          onCartOpen={onCartOpen}
+          onNavLinkClick={onNavLinkClick}
+        />
+      )}
+
+      {/* Mobile header — back button + page title */}
       <header
-        className="sticky top-0 z-40"
+        className="md:hidden sticky top-0 z-40"
         style={{
           backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
@@ -64,7 +87,7 @@ export function CartPage({
             onClick={onBack}
             whileTap={{ scale: 0.92 }}
           >
-            <ChevronLeft size={22} strokeWidth={2} color="#FFFFFF" />
+            <ChevronLeft size={22} strokeWidth={2} color="var(--t-on-primary)" />
           </motion.button>
 
           <p

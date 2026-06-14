@@ -10,6 +10,7 @@ import { ChevronLeft } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import type { CartItem } from "@/lib/cart";
 import { ProductCard } from "./ProductCard";
+import { Header } from "./Header";
 import type { BeautyElegantProduct } from "../types";
 import type { StoreInfo } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
@@ -22,7 +23,11 @@ interface ProductDetailPageProps {
   currencySymbol?: string;
   relatedProducts?: BeautyElegantProduct[];
   layout?: { buttonStyle?: ButtonStyle };
+  cartItemCount?: number;
   onBack?: () => void;
+  onNavLinkClick?: (href: string) => void;
+  onSearchOpen?: () => void;
+  onCartOpen?: () => void;
 }
 
 export function ProductDetailPage({
@@ -31,7 +36,11 @@ export function ProductDetailPage({
   currencySymbol = "$",
   relatedProducts = [],
   layout,
+  cartItemCount = 0,
   onBack,
+  onNavLinkClick,
+  onSearchOpen,
+  onCartOpen,
 }: ProductDetailPageProps) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
@@ -85,7 +94,7 @@ export function ProductDetailPage({
         <span
           className="text-xs font-normal text-white px-4 py-1"
           style={{
-            backgroundColor: "rgba(85, 85, 85, 0.33)",
+            backgroundColor: "color-mix(in srgb, var(--t-foreground) 33%, transparent)",
             backdropFilter: "blur(84px)",
             WebkitBackdropFilter: "blur(84px)",
             borderRadius: "8px",
@@ -95,7 +104,7 @@ export function ProductDetailPage({
         </span>
 
         {product.inStock && (
-          <span className="text-sm font-normal" style={{ color: "#4ADE80" }}>
+          <span className="text-sm font-normal" style={{ color: "var(--t-primary)" }}>
             En stock
           </span>
         )}
@@ -135,7 +144,7 @@ export function ProductDetailPage({
       {/* Price + Add to cart */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[11px] font-normal" style={{ color: "rgba(255,255,255,0.6)", margin: 0 }}>
+          <p className="text-[11px] font-normal" style={{ color: "var(--t-muted)", margin: 0 }}>
             Precio
           </p>
           <p className="text-lg font-bold text-white" style={{ margin: "2px 0 0 0" }}>
@@ -150,7 +159,7 @@ export function ProductDetailPage({
           className={`flex-shrink-0 text-sm font-semibold px-10 py-4 transition-colors duration-200 border ${buttonStyleClasses}`}
           style={{
             backgroundColor: isAdded
-              ? "#22C55E"
+              ? "var(--t-primary)"
               : !product.inStock
                 ? "var(--t-muted)"
                 : undefined,
@@ -169,7 +178,16 @@ export function ProductDetailPage({
   );
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#000" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
+      {/* Desktop shared header */}
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        activeHref="/catalogo"
+        onSearchOpen={onSearchOpen}
+        onCartOpen={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
 
       {/* ── MOBILE LAYOUT ────────────────────────────────────────────────── */}
       <div className="md:hidden relative min-h-screen">
@@ -193,7 +211,7 @@ export function ProductDetailPage({
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(88,28,135,0.3) 40%, rgba(59,7,100,0.9) 100%)",
+              "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--t-primary) 30%, transparent) 40%, color-mix(in srgb, var(--t-primary) 90%, black) 100%)",
           }}
         />
 
@@ -212,7 +230,7 @@ export function ProductDetailPage({
           }}
           aria-label="Volver"
         >
-          <ChevronLeft size={24} strokeWidth={2} color="#FFFFFF" />
+          <ChevronLeft size={24} strokeWidth={2} color="var(--t-on-primary)" />
         </button>
 
         {/* Info card — anchored to bottom */}
@@ -246,7 +264,7 @@ export function ProductDetailPage({
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to right, rgba(59,7,100,0.6) 0%, transparent 40%, transparent 60%, rgba(59,7,100,0.8) 100%)",
+                  "linear-gradient(to right, color-mix(in srgb, var(--t-primary) 60%, black) 0%, transparent 40%, transparent 60%, color-mix(in srgb, var(--t-primary) 80%, black) 100%)",
               }}
             />
             <button
@@ -263,7 +281,7 @@ export function ProductDetailPage({
               }}
               aria-label="Volver"
             >
-              <ChevronLeft size={24} strokeWidth={2} color="#FFFFFF" />
+              <ChevronLeft size={24} strokeWidth={2} color="var(--t-on-primary)" />
             </button>
           </div>
 
@@ -272,7 +290,7 @@ export function ProductDetailPage({
             className="relative w-1/2 flex flex-col justify-center"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(59,7,100,0.95) 0%, rgba(30,0,60,0.98) 100%)",
+                "linear-gradient(to bottom, color-mix(in srgb, var(--t-primary) 95%, black) 0%, color-mix(in srgb, var(--t-primary) 98%, black) 100%)",
               padding: "64px 48px",
             }}
           >

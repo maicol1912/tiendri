@@ -35,7 +35,6 @@ import { ProductDetailShellRoute as BeautyElegantProductDetailShellRoute } from 
 import {
   mockStore as decorWarmMockStore,
   mockProducts as decorWarmMockProducts,
-  mockCategories as decorWarmMockCategories,
   mockDetailProduct as decorWarmMockDetailProduct,
 } from "@/templates/decor-warm/mock/data";
 import { ProductDetailShellRoute as DecorWarmProductDetailShellRoute } from "@/templates/decor-warm/components/ProductDetailShellRoute";
@@ -199,7 +198,6 @@ export default async function ProductoPage({ params }: ProductDetailPageProps) {
       <DecorWarmProductDetailShellRoute
         store={decorWarmMockStore}
         product={product}
-        categories={decorWarmMockCategories}
       />
     );
   }

@@ -27,13 +27,24 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
     [nav]
   );
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   return (
     <StoreInfoPage
       store={store}
       cartItemCount={totalItems}
       activeTab="info"
+      activeHref="/info"
       onSearchOpen={nav.goSearch}
       onCartOpen={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={handleTabChange}
     />
   );

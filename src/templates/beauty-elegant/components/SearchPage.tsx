@@ -7,6 +7,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { SearchBar } from "./SearchBar";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
+import { Header } from "./Header";
 import { gridColsClass } from "../utils/grid-classes";
 import type { BeautyElegantProduct } from "../types";
 import type { StoreInfo } from "../types";
@@ -23,8 +24,12 @@ interface SearchPageProps {
   grid?: {
     search?: { mobile: number; desktop: number };
   };
+  cartItemCount?: number;
   onProductClick?: (productId: string) => void;
   onBack?: () => void;
+  onNavLinkClick?: (href: string) => void;
+  onSearchOpen?: () => void;
+  onCartOpen?: () => void;
 }
 
 export function SearchPage({
@@ -33,8 +38,12 @@ export function SearchPage({
   currencySymbol = "$",
   layout,
   grid,
+  cartItemCount = 0,
   onProductClick,
   onBack,
+  onNavLinkClick,
+  onSearchOpen,
+  onCartOpen,
 }: SearchPageProps) {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
@@ -84,16 +93,25 @@ export function SearchPage({
       className="min-h-screen flex flex-col"
       style={{ backgroundColor: "var(--t-background)" }}
     >
-      {/* Search header */}
+      {/* Desktop shared header */}
+      <Header
+        store={store}
+        cartItemCount={cartItemCount}
+        onSearchOpen={onSearchOpen}
+        onCartOpen={onCartOpen}
+        onNavLinkClick={onNavLinkClick}
+      />
+
+      {/* Mobile search header — back button + inline search bar */}
       <header
-        className="sticky top-0 z-40"
+        className="md:hidden sticky top-0 z-40"
         style={{
           backgroundColor: "var(--t-background)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--t-nav-border)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3 mb-3">
             <button
               type="button"
@@ -123,6 +141,15 @@ export function SearchPage({
           />
         </div>
       </header>
+
+      {/* Desktop search bar — below the shared Header */}
+      <div className="hidden md:block max-w-7xl mx-auto w-full px-6 lg:px-8 pt-5 pb-2">
+        <SearchBar
+          query={query}
+          placeholder="Buscar productos..."
+          onQueryChange={handleQueryChange}
+        />
+      </div>
 
       {/* Content */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8 pt-4 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-8">
