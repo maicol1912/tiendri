@@ -34,9 +34,11 @@ interface CheckoutPageProps {
   layout?: Record<string, unknown>;
   onFormChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function CheckoutPage({
@@ -51,11 +53,13 @@ export function CheckoutPage({
   formErrors = {},
   isSubmitting = false,
   layout,
+  activeHref,
   onFormChange,
   onSubmit,
   onSearchClick,
   onCartClick,
   onTabChange,
+  onNavLinkClick,
 }: CheckoutPageProps) {
   const total = subtotal - discount + deliveryFee;
 
@@ -65,8 +69,10 @@ export function CheckoutPage({
         store={store}
         cartItemCount={items.length}
         layout={layout}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 pt-6 pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-12">

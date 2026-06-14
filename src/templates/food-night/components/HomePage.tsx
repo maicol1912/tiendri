@@ -41,12 +41,14 @@ interface HomePageProps {
     products?: { mobile: number; desktop: number };
     categories?: { mobile: number; desktop: number };
   };
+  activeHref?: string;
   onSearchClick?: () => void;
   onFilterClick?: () => void;
   onCartClick?: () => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function HomePage({
@@ -61,12 +63,14 @@ export function HomePage({
   sections,
   layout,
   grid,
+  activeHref,
   onSearchClick,
   onFilterClick,
   onCartClick,
   onCategoryChange,
   onProductClick,
   onTabChange,
+  onNavLinkClick,
 }: HomePageProps) {
   const productsMobile = grid?.products?.mobile ?? 2;
   const productsDesktop = grid?.products?.desktop ?? 4;
@@ -146,8 +150,10 @@ export function HomePage({
         store={store}
         cartItemCount={cartItemCount}
         layout={layout}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12 pt-4">

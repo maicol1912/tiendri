@@ -2,6 +2,7 @@
 
 // Food Night — Search Shell Route
 
+import { useCallback } from "react";
 import { SearchPage } from "./SearchPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../hooks/useTemplateNav";
@@ -27,6 +28,12 @@ export function SearchShellRoute({
   const layout = config?.layout ?? foodNightConfig.layout;
   const grid = config?.grid ?? foodNightConfig.grid;
 
+  const handleNavLinkClick = useCallback((href: string) => {
+    if (href === "/") nav.goHome();
+    else if (href === "/catalogo") nav.goListing();
+    else if (href === "/info") nav.goInfo();
+  }, [nav]);
+
   // Popular = first 8, sorted by rating desc
   const popularProducts = [...products]
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
@@ -39,12 +46,14 @@ export function SearchShellRoute({
       popularProducts={popularProducts}
       currencySymbol={currencySymbol}
       activeTab="search"
+      activeHref={undefined}
       cartItemCount={totalItems}
       layout={layout}
       grid={grid}
       onBack={nav.goHome}
       onProductClick={nav.goProduct}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();
         else if (tab === "cart") nav.goCart();

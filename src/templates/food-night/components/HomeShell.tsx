@@ -31,6 +31,12 @@ export function HomeShell({
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
 
+  const handleNavLinkClick = useCallback((href: string) => {
+    if (href === "/") nav.goHome();
+    else if (href === "/catalogo") nav.goListing();
+    else if (href === "/info") nav.goInfo();
+  }, [nav]);
+
   const layout = config?.layout ?? foodNightConfig.layout;
   const grid = config?.grid ?? foodNightConfig.grid;
   const sections = config?.sections ?? foodNightConfig.sections;
@@ -48,6 +54,7 @@ export function HomeShell({
       products={filteredProducts}
       activeCategoryId={activeCategoryId}
       activeTab="home"
+      activeHref="/"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
       heroBanner={heroBanner}
@@ -56,6 +63,7 @@ export function HomeShell({
       grid={grid}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onCategoryChange={(id) => setActiveCategoryId((prev) => (prev === id ? null : id))}
       onProductClick={nav.goProduct}
       onTabChange={(tab) => {

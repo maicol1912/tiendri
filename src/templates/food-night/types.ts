@@ -71,3 +71,18 @@ export interface HomeSectionConfig {
   id: string;
   visible: boolean;
 }
+
+export interface FilterOption {
+  id: string;
+  label: string;
+  count?: number;
+}
+
+export interface FilterGroup {
+  id: string;
+  label: string;
+  options: FilterOption[];
+  isCollapsed?: boolean;
+}
+
+export type SortOption = "recent" | "price-asc" | "price-desc" | "rating";

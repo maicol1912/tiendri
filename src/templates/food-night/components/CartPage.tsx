@@ -27,8 +27,10 @@ interface CartPageProps {
   onDecrement?: (productId: string) => void;
   onRemove?: (productId: string) => void;
   onCheckout?: () => void;
+  activeHref?: string;
   onSearchClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function CartPage({
@@ -40,12 +42,14 @@ export function CartPage({
   currencySymbol = "$",
   activeTab = "cart",
   layout,
+  activeHref,
   onIncrement,
   onDecrement,
   onRemove,
   onCheckout,
   onSearchClick,
   onTabChange,
+  onNavLinkClick,
 }: CartPageProps) {
   const total = subtotal - discount + deliveryFee;
   const isEmpty = items.length === 0;
@@ -57,7 +61,9 @@ export function CartPage({
         store={store}
         cartItemCount={items.length}
         layout={layout}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 pt-6 pb-[calc(100px+env(safe-area-inset-bottom,0px))] md:pb-12">

@@ -32,9 +32,11 @@ interface ProductDetailPageProps {
   onIncrement?: () => void;
   onAddToCart?: () => void;
   onToggleDescription?: () => void;
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 function formatReviewCount(count: number): string {
@@ -58,9 +60,11 @@ export function ProductDetailPage({
   onIncrement,
   onAddToCart,
   onToggleDescription,
+  activeHref,
   onSearchClick,
   onCartClick,
   onTabChange,
+  onNavLinkClick,
 }: ProductDetailPageProps) {
   const primaryImage = product.images[0]?.url ?? null;
 
@@ -81,8 +85,10 @@ export function ProductDetailPage({
         store={store}
         cartItemCount={cartItemCount}
         layout={layout}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       {/* Desktop back button */}

@@ -8,19 +8,34 @@ import Image from "next/image";
 import { Search, ShoppingBag } from "lucide-react";
 import type { StoreInfo } from "../types";
 
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const PAGE_NAV_LINKS: NavLink[] = [
+  { label: "Inicio", href: "/" },
+  { label: "Catálogo", href: "/catalogo" },
+  { label: "Info", href: "/info" },
+];
+
 interface HeaderProps {
   store: StoreInfo;
   cartItemCount?: number;
   layout?: Record<string, unknown>;
+  activeHref?: string;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 export function Header({
   store,
   cartItemCount = 0,
+  activeHref,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
 }: HeaderProps) {
   const greeting = store.greeting ?? "Hola, Bienvenido 👋";
   const avatarSrc = store.avatar ?? store.logo;
@@ -119,6 +134,47 @@ export function Header({
             {store.name}
           </span>
         </div>
+
+        {/* Desktop: Nav links */}
+        <nav className="hidden lg:flex items-center gap-8 flex-shrink-0 ml-8" aria-label="Navegación principal">
+          {PAGE_NAV_LINKS.map((link) => {
+            const isActive = activeHref === link.href;
+            return (
+              <button
+                key={link.href}
+                type="button"
+                className="relative bg-transparent border-none p-0 cursor-pointer flex flex-col items-center gap-0.5"
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: isActive ? "var(--t-primary)" : "var(--t-muted)",
+                  transition: "color 0.15s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.color = "var(--t-primary)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.color = isActive ? "var(--t-primary)" : "var(--t-muted)";
+                }}
+                onClick={() => onNavLinkClick?.(link.href)}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.label}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: "block",
+                    width: 4,
+                    height: 4,
+                    borderRadius: "9999px",
+                    backgroundColor: isActive ? "var(--t-primary)" : "transparent",
+                    transition: "background-color 0.2s ease",
+                  }}
+                />
+              </button>
+            );
+          })}
+        </nav>
 
         {/* Desktop: Search bar center */}
         <div className="hidden lg:flex flex-1 items-center justify-center px-8">

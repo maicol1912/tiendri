@@ -36,6 +36,12 @@ export function ProductDetailShellRoute({
   );
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
+  const handleNavLinkClick = useCallback((href: string) => {
+    if (href === "/") nav.goHome();
+    else if (href === "/catalogo") nav.goListing();
+    else if (href === "/info") nav.goInfo();
+  }, [nav]);
+
   const handleAddToCart = useCallback(() => {
     const primaryImage = product.images[0]?.url ?? null;
     const selectedSize = sizeOptions.find((s) => s.id === selectedSizeId);
@@ -69,6 +75,7 @@ export function ProductDetailShellRoute({
         quantity={quantity}
         isDescriptionExpanded={isDescriptionExpanded}
         activeTab="home"
+        activeHref="/catalogo"
         cartItemCount={totalItems}
         layout={layout}
         onBack={nav.goHome}
@@ -79,6 +86,7 @@ export function ProductDetailShellRoute({
         onToggleDescription={() => setIsDescriptionExpanded((prev) => !prev)}
         onSearchClick={nav.goSearch}
         onCartClick={nav.goCart}
+        onNavLinkClick={handleNavLinkClick}
         onTabChange={(tab) => {
           if (tab === "home") nav.goHome();
           else if (tab === "cart") nav.goCart();

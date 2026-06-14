@@ -84,6 +84,12 @@ export function CheckoutShellRoute({
   const [formErrors, setFormErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleNavLinkClick = useCallback((href: string) => {
+    if (href === "/") nav.goHome();
+    else if (href === "/catalogo") nav.goListing();
+    else if (href === "/info") nav.goInfo();
+  }, [nav]);
+
   const handleFieldChange = useCallback(
     (field: keyof CheckoutFormData, value: string) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
@@ -121,6 +127,7 @@ export function CheckoutShellRoute({
       subtotal={subtotal}
       currencySymbol={currencySymbol}
       activeTab="cart"
+      activeHref={undefined}
       formData={formData}
       formErrors={formErrors}
       isSubmitting={isSubmitting}
@@ -129,6 +136,7 @@ export function CheckoutShellRoute({
       onSubmit={handleSubmit}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();
         else if (tab === "search") nav.goSearch();

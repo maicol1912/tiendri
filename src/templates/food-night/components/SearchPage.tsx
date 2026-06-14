@@ -28,10 +28,12 @@ interface SearchPageProps {
   grid?: {
     search?: { mobile: number; desktop: number };
   };
+  activeHref?: string;
   onBack?: () => void;
   onProductClick?: (productId: string) => void;
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 function useDebounce<T>(value: T, delayMs: number): T {
@@ -52,10 +54,12 @@ export function SearchPage({
   cartItemCount = 0,
   layout,
   grid,
+  activeHref,
   onBack,
   onProductClick,
   onCartClick,
   onTabChange,
+  onNavLinkClick,
 }: SearchPageProps) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query.trim().toLowerCase(), 280);
@@ -93,7 +97,9 @@ export function SearchPage({
         store={store}
         cartItemCount={cartItemCount}
         layout={layout}
+        activeHref={activeHref}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-24 md:pb-12 pt-4">

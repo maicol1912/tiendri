@@ -10,10 +10,12 @@ import type { StoreInfo, NavTab } from "../types";
 
 interface StoreInfoPageProps {
   store: StoreInfo;
+  activeHref?: string;
   onBack?: () => void;
   onCartClick?: () => void;
   onSearchClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
+  onNavLinkClick?: (href: string) => void;
 }
 
 function InstagramIcon() {
@@ -42,9 +44,11 @@ function FacebookIcon() {
 
 export function StoreInfoPage({
   store,
+  activeHref,
   onCartClick,
   onSearchClick,
   onTabChange,
+  onNavLinkClick,
 }: StoreInfoPageProps) {
   const whatsappHref = store.whatsapp
     ? `https://wa.me/${store.whatsapp.replace(/\D/g, "")}`
@@ -54,8 +58,10 @@ export function StoreInfoPage({
     <div className="min-h-screen" style={{ backgroundColor: "var(--t-background)" }}>
       <Header
         store={store}
+        activeHref={activeHref}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
+        onNavLinkClick={onNavLinkClick}
       />
 
       <main className="max-w-2xl mx-auto px-4 py-6 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-8 flex flex-col gap-6">
