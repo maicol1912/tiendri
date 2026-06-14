@@ -21,6 +21,7 @@ interface CartPageProps {
   cartItemCount?: number;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onContinueShopping?: () => void;
   onIncrement?: (productId: string) => void;
   onDecrement?: (productId: string) => void;
@@ -39,6 +40,7 @@ export function CartPage({
   cartItemCount = 0,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onContinueShopping,
   onIncrement,
   onDecrement,
@@ -57,6 +59,7 @@ export function CartPage({
         store={store}
         navLinks={navLinks as { label: string; href: string }[]}
         cartItemCount={cartItemCount}
+        onNavLinkClick={onNavLinkClick}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
       />

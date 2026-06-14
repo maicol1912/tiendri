@@ -32,6 +32,7 @@ interface ProductDetailPageProps {
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onAddToCart?: () => void;
   onImageSelect?: (index: number) => void;
   onColorSelect?: (index: number) => void;
@@ -58,6 +59,7 @@ export function ProductDetailPage({
   onBack,
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onAddToCart,
   onImageSelect,
   onColorSelect,
@@ -89,6 +91,8 @@ export function ProductDetailPage({
         store={store}
         navLinks={navLinks as { label: string; href: string }[]}
         cartItemCount={cartItemCount}
+        activeHref="/catalogo"
+        onNavLinkClick={onNavLinkClick}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
       />

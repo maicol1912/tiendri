@@ -37,6 +37,7 @@ interface SearchPageProps {
   onAddToCart?: (productId: string) => void;
   onCartClick?: () => void;
   onSearchClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onBack?: () => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
 }
@@ -65,6 +66,7 @@ export function SearchPage({
   onAddToCart,
   onCartClick,
   onSearchClick,
+  onNavLinkClick,
   onBack,
   onTabChange,
 }: SearchPageProps) {
@@ -81,6 +83,7 @@ export function SearchPage({
         store={store}
         navLinks={navLinks as { label: string; href: string }[]}
         cartItemCount={cartItemCount}
+        onNavLinkClick={onNavLinkClick}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
       />

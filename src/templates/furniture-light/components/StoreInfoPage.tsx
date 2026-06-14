@@ -13,6 +13,7 @@ interface StoreInfoPageProps {
   onBack?: () => void;
   onCartClick?: () => void;
   onSearchClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
 }
 
@@ -44,6 +45,7 @@ export function StoreInfoPage({
   store,
   onCartClick,
   onSearchClick,
+  onNavLinkClick,
   onTabChange,
 }: StoreInfoPageProps) {
   const whatsappHref = store.whatsapp
@@ -54,6 +56,8 @@ export function StoreInfoPage({
     <div className="min-h-screen bg-[var(--t-background)]" style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}>
       <Header
         store={store}
+        activeHref="/info"
+        onNavLinkClick={onNavLinkClick}
         onSearchClick={onSearchClick}
         onCartClick={onCartClick}
       />

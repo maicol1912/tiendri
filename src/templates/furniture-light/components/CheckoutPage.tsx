@@ -21,6 +21,7 @@ interface CheckoutPageProps {
   mode?: "preview" | "live";
   onSearchClick?: () => void;
   onCartClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onFieldChange?: (field: keyof FurnitureCheckoutFormData, value: string) => void;
   onSubmit?: () => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
@@ -38,6 +39,7 @@ export function CheckoutPage({
   mode = "preview",
   onSearchClick,
   onCartClick,
+  onNavLinkClick,
   onFieldChange,
   onSubmit,
   onTabChange,
@@ -48,6 +50,7 @@ export function CheckoutPage({
         store={store}
         navLinks={navLinks as { label: string; href: string }[]}
         cartItemCount={cartItemCount}
+        onNavLinkClick={onNavLinkClick}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
       />

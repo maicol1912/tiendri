@@ -46,6 +46,15 @@ export function HomeShell({
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const handleAddToCart = useCallback(
     (productId: string) => {
       const product = products.find((p) => p.id === productId);
@@ -82,6 +91,7 @@ export function HomeShell({
       currencySymbol={currencySymbol}
       onCartClick={nav.goCart}
       onSearchClick={nav.goSearch}
+      onNavLinkClick={handleNavLinkClick}
       onCategoryChange={(id) => setActiveCategoryId((prev) => (prev === id ? null : id))}
       onProductClick={nav.goProduct}
       onAddToCart={handleAddToCart}

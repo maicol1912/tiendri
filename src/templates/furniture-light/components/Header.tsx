@@ -1,35 +1,37 @@
 "use client";
 
 // Furniture Light — Header
-// Mobile: bell (left) | store name + home icon (center) | cart (right)
+// Mobile: store name + home icon (center) | cart (right)
 // Desktop: logo+name (left) | nav links (center) | search bar + cart (right)
 // ZERO hardcoded colors — all via var(--t-*)
 
-import { Bell, ShoppingCart, Search } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
 import type { FurnitureStoreInfo } from "../types";
 
-interface NavLink {
-  label: string;
-  href: string;
-}
+const PAGE_NAV_LINKS = [
+  { label: "Inicio", href: "/" },
+  { label: "Catálogo", href: "/catalogo" },
+  { label: "Info", href: "/info" },
+] as const;
 
 interface HeaderProps {
   store: FurnitureStoreInfo;
-  navLinks?: NavLink[];
+  navLinks?: readonly { label: string; href: string }[];
   cartItemCount?: number;
+  activeHref?: string;
+  onNavLinkClick?: (href: string) => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
-  onMenuClick?: () => void;
   layout?: { headerStyle?: string };
 }
 
 export function Header({
   store,
-  navLinks = [],
   cartItemCount = 0,
+  activeHref,
+  onNavLinkClick,
   onSearchClick,
   onCartClick,
-  onMenuClick,
 }: HeaderProps) {
   return (
     <header
@@ -38,24 +40,12 @@ export function Header({
     >
       {/* ── Mobile ─────────────────────────────────────────────────────── */}
       <div className="lg:hidden flex items-center justify-between px-5 py-3">
-        {/* Bell */}
-        <button
-          onClick={onMenuClick}
-          aria-label="Notificaciones"
-          className="relative flex items-center justify-center w-10 h-10 rounded-full text-[var(--t-foreground)]"
-        >
-          <Bell size={22} strokeWidth={1.8} />
-          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[8px] font-bold flex items-center justify-center">
-            6
-          </span>
-        </button>
-
         {/* Name + icon */}
         <div className="flex items-center gap-1.5">
           <div
             className="w-7 h-7 rounded-[var(--t-radius-button)] flex items-center justify-center bg-[var(--t-primary)]"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t-on-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
@@ -83,9 +73,13 @@ export function Header({
       {/* ── Desktop ─────────────────────────────────────────────────────── */}
       <div className="hidden lg:flex items-center justify-between max-w-7xl mx-auto px-8 py-4">
         {/* Logo + name */}
-        <div className="flex items-center gap-2">
+        <button
+          onClick={() => onNavLinkClick?.("/")}
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          aria-label="Ir al inicio"
+        >
           <div className="w-9 h-9 rounded-[var(--t-radius-button)] bg-[var(--t-primary)] flex items-center justify-center">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t-on-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
@@ -93,19 +87,33 @@ export function Header({
           <span className="text-xl font-bold text-[var(--t-foreground)] tracking-tight">
             {store.name}
           </span>
-        </div>
+        </button>
 
         {/* Nav */}
-        <nav className="flex items-center gap-8 text-sm font-medium text-[var(--t-muted)]">
-          <button className="text-[var(--t-foreground)] font-semibold transition-colors">
-            Inicio
-          </button>
-          <button className="hover:text-[var(--t-foreground)] transition-colors">
-            Descubrir
-          </button>
-          <button className="hover:text-[var(--t-foreground)] transition-colors">
-            Categorías
-          </button>
+        <nav className="flex items-center gap-8 text-sm font-medium" aria-label="Navegación principal">
+          {PAGE_NAV_LINKS.map((link) => {
+            const isActive = activeHref === link.href;
+            return (
+              <button
+                key={link.href}
+                onClick={() => onNavLinkClick?.(link.href)}
+                aria-current={isActive ? "page" : undefined}
+                className="relative pb-0.5 transition-colors"
+                style={{
+                  color: isActive ? "var(--t-primary)" : "var(--t-muted)",
+                  fontWeight: isActive ? 600 : 400,
+                }}
+              >
+                {link.label}
+                {isActive && (
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full"
+                    style={{ backgroundColor: "var(--t-primary)" }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Search + cart */}

@@ -21,6 +21,15 @@ export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRoutePr
   const { items, totalItems, incrementItem, decrementItem, removeItem } = useCart();
   const { config } = useLayoutConfig<FurnitureLightConfig>();
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const handleTabChange = useCallback(
     (tab: FurnitureNavTab) => {
       if (tab === "home") nav.goHome();
@@ -40,6 +49,7 @@ export function CartShellRoute({ store, currencySymbol = "$" }: CartShellRoutePr
       activeTab="cart"
       cartItemCount={totalItems}
       onSearchClick={nav.goSearch}
+      onNavLinkClick={handleNavLinkClick}
       onCartClick={() => {
         // already on cart
       }}

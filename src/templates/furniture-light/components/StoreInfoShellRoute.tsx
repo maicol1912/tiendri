@@ -15,6 +15,15 @@ interface StoreInfoShellRouteProps {
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   const nav = useTemplateNav();
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const handleTabChange = useCallback(
     (tab: FurnitureNavTab) => {
       if (tab === "home") nav.goHome();
@@ -30,6 +39,7 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
       onBack={nav.goHome}
       onCartClick={nav.goCart}
       onSearchClick={nav.goSearch}
+      onNavLinkClick={handleNavLinkClick}
       onTabChange={handleTabChange}
     />
   );

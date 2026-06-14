@@ -76,6 +76,15 @@ export function ProductDetailShellRoute({
     inWishlist: wishlistedIds.has(p.id),
   }));
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const handleTabChange = useCallback(
     (tab: FurnitureNavTab) => {
       if (tab === "home") nav.goHome();
@@ -102,6 +111,7 @@ export function ProductDetailShellRoute({
       onBack={nav.goHome}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
+      onNavLinkClick={handleNavLinkClick}
       onAddToCart={handleAddToCart}
       onImageSelect={setSelectedImageIndex}
       onColorSelect={setSelectedColorIndex}

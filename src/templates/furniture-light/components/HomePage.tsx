@@ -49,6 +49,7 @@ interface HomePageProps {
   // Handlers
   onCartClick?: () => void;
   onSearchClick?: () => void;
+  onNavLinkClick?: (href: string) => void;
   onCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onAddToCart?: (productId: string) => void;
@@ -76,6 +77,7 @@ export function HomePage({
   currencySymbol = "$",
   onCartClick,
   onSearchClick,
+  onNavLinkClick,
   onCategoryChange,
   onProductClick,
   onAddToCart,
@@ -260,6 +262,8 @@ export function HomePage({
         store={store}
         navLinks={navLinks as NavLink[]}
         cartItemCount={cartItemCount}
+        activeHref="/"
+        onNavLinkClick={onNavLinkClick}
         onCartClick={onCartClick}
         onSearchClick={onSearchClick}
       />

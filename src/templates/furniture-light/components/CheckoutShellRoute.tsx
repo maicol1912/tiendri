@@ -121,6 +121,15 @@ export function CheckoutShellRoute({
     window.open(waUrl, "_blank", "noopener,noreferrer");
   }, [formData, store, items, totalPrice, currencySymbol, clearCart, mode]);
 
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
   const handleTabChange = useCallback(
     (tab: FurnitureNavTab) => {
       if (tab === "home") nav.goHome();
@@ -153,6 +162,7 @@ export function CheckoutShellRoute({
         mode={mode}
         onSearchClick={nav.goSearch}
         onCartClick={nav.goCart}
+        onNavLinkClick={handleNavLinkClick}
         onFieldChange={handleFieldChange}
         onSubmit={handleSubmit}
         onTabChange={handleTabChange}
