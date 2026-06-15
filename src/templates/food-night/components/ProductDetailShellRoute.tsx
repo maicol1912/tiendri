@@ -6,7 +6,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";
 import type { FoodNightConfig } from "../config";

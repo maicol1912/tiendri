@@ -5,11 +5,11 @@
 
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Header } from "./Header";
-import { FilterSidebar } from "./FilterSidebar";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { StoreInfo, Category, StorefrontProduct, NavTab } from "../types";
 import type { FilterGroup, SortOption } from "../types";
 
@@ -288,7 +288,7 @@ export function ProductListingPage({
         <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
           {/* FilterSidebar — handles desktop sidebar AND mobile drawer internally */}
           <FilterSidebar
-            filters={filterGroups}
+            filterGroups={filterGroups}
             activeFilters={activeFilters}
             onFilterChange={(groupId, optionId, checked) =>
               onFilterChange?.(groupId, optionId, checked)

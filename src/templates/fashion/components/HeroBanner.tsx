@@ -6,7 +6,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { SearchBar } from "./SearchBar";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { imageRatioClass } from "../utils/layout-classes";
 import type { StorefrontProduct } from "../types";
 

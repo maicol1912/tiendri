@@ -7,9 +7,9 @@ import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { SlidersHorizontal, Search, ChevronDown } from "lucide-react";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { StoreInfo, Category, StorefrontProduct, NavTab, FilterGroup, SortOption } from "../types";
 
 interface ProductListingPageProps {
@@ -234,7 +234,7 @@ export function ProductListingPage({
         <div className="flex gap-6 items-start">
           {/* Filter Sidebar */}
           <FilterSidebar
-            filters={filterGroups}
+            filterGroups={filterGroups}
             activeFilters={activeFilters}
             onFilterChange={onFilterChange}
             onClearAll={onClearAllFilters}

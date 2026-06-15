@@ -15,7 +15,7 @@ import { CategorySection } from "./CategorySection";
 
 import { BestSellerCard } from "./BestSellerCard";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type {
   DecorWarmProduct,
   DecorWarmCategory,

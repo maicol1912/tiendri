@@ -8,7 +8,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { HomePage } from "./HomePage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { beautySoftConfig } from "../config";
 import type { BeautySoftConfig } from "../config";

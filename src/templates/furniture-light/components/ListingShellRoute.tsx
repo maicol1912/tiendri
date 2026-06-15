@@ -6,7 +6,7 @@
 import { useState, useCallback, useMemo } from "react";
 import { ProductListingPage } from "./ProductListingPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
 import type {
@@ -14,9 +14,9 @@ import type {
   FurnitureCategory,
   FurnitureStoreInfo,
   FurnitureNavTab,
-  FurnitureLightFilterGroup,
   FurnitureLightSortOption,
 } from "../types";
+import type { FilterGroup } from "@/types/templates/filter";
 
 interface ListingShellRouteProps {
   store: FurnitureStoreInfo;
@@ -44,7 +44,7 @@ export function ListingShellRoute({
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState<boolean>(false);
 
   // ── Filter groups ─────────────────────────────────────────────────────────────
-  const filterGroups = useMemo<FurnitureLightFilterGroup[]>(() => {
+  const filterGroups = useMemo<FilterGroup[]>(() => {
     // Category counts from products
     const categoryCounts: Record<string, number> = {};
     for (const p of products) {
@@ -174,13 +174,15 @@ export function ListingShellRoute({
   }));
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
-  const handleFilterChange = useCallback((groupId: string, value: string) => {
+  const handleFilterChange = useCallback((groupId: string, optionId: string, checked: boolean) => {
     setActiveFilters((prev) => {
       const current = prev[groupId] ?? [];
-      const next = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
-      return { ...prev, [groupId]: next };
+      return {
+        ...prev,
+        [groupId]: checked
+          ? [...current, optionId]
+          : current.filter((v) => v !== optionId),
+      };
     });
   }, []);
 

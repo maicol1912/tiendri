@@ -1,0 +1,164 @@
+"use client";
+
+import { fontPairs, fontGroups } from "@/lib/fonts";
+import { ControlField } from "../components/ControlField";
+import { selectStyle, labelStyle } from "../types";
+import type { MutableConfig, MutableTypography } from "../types";
+
+interface TypographyPanelProps {
+  config: MutableConfig;
+  onConfigChange: (config: MutableConfig) => void;
+  updateTypography: (key: keyof MutableTypography, value: string | number) => void;
+}
+
+export function TypographyPanel({ config, onConfigChange, updateTypography }: TypographyPanelProps) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div>
+        <label style={labelStyle}>Estilo de fuente</label>
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {fontGroups.map((group) => (
+            <div key={group.id}>
+              <div style={{ fontSize: "10px", color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
+                {group.name}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                {group.pairs.map((pairId) => {
+                  const pair = fontPairs[pairId];
+                  if (!pair) return null;
+                  const isSelected = (config.fontPair ?? "minimalista") === pairId;
+                  return (
+                    <button
+                      key={pairId}
+                      type="button"
+                      onClick={() => onConfigChange({ ...config, fontPair: pairId })}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: "2px",
+                        padding: "8px 10px",
+                        background: isSelected ? "#1a2a1a" : "#222",
+                        border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        textAlign: "left",
+                        width: "100%",
+                        transition: "border-color 0.15s, background 0.15s",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                      }}
+                    >
+                      <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "#e5e5e5", lineHeight: 1.2 }}>
+                        {pair.name}
+                      </span>
+                      <span style={{ fontFamily: pair.body.style.fontFamily, fontSize: "11px", color: "#666", lineHeight: 1.3 }}>
+                        {pair.description}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div>
+          <label style={labelStyle}>Peso del título</label>
+          <select
+            value={config.theme?.typography?.headingWeight ?? 700}
+            onChange={(e) => updateTypography("headingWeight", Number(e.target.value))}
+            style={selectStyle}
+          >
+            <option value={400}>Fino (400)</option>
+            <option value={500}>Regular (500)</option>
+            <option value={600}>Semibold (600)</option>
+            <option value={700}>Bold (700)</option>
+            <option value={800}>Extrabold (800)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style={labelStyle}>Tamaño del título</label>
+          <select
+            value={config.theme?.typography?.headingScale ?? "xl"}
+            onChange={(e) => updateTypography("headingScale", e.target.value)}
+            style={selectStyle}
+          >
+            <option value="md">Compacto</option>
+            <option value="lg">Normal</option>
+            <option value="xl">Grande</option>
+            <option value="2xl">Muy grande</option>
+          </select>
+        </div>
+
+        <ControlField
+          label="Mayúsculas"
+          field="typography.headingTransform"
+          value={config.theme?.typography?.headingTransform ?? "none"}
+          options={[
+            { value: "none", label: "Normal" },
+            { value: "uppercase", label: "MAYÚSCULAS" },
+          ]}
+          onChange={(v) => updateTypography("headingTransform", v)}
+        />
+
+        <ControlField
+          label="Espaciado del título"
+          field="typography.headingSpacing"
+          value={config.theme?.typography?.headingSpacing ?? "normal"}
+          options={[
+            { value: "tight", label: "Compacto" },
+            { value: "normal", label: "Normal" },
+            { value: "wide", label: "Amplio" },
+          ]}
+          onChange={(v) => updateTypography("headingSpacing", v)}
+        />
+
+        <div>
+          <label style={labelStyle}>Tamaño del texto</label>
+          <select
+            value={config.theme?.typography?.bodyFontSize ?? "base"}
+            onChange={(e) => updateTypography("bodyFontSize", e.target.value)}
+            style={selectStyle}
+          >
+            <option value="sm">Pequeño</option>
+            <option value="base">Normal</option>
+            <option value="lg">Grande</option>
+          </select>
+        </div>
+
+        <ControlField
+          label="Peso del texto"
+          field="typography.bodyFontWeight"
+          value={String(config.theme?.typography?.bodyFontWeight ?? 400)}
+          options={[
+            { value: "300", label: "Ligero" },
+            { value: "400", label: "Normal" },
+            { value: "500", label: "Medio" },
+          ]}
+          onChange={(v) => updateTypography("bodyFontWeight", Number(v))}
+        />
+
+        <ControlField
+          label="Contraste de tamaño"
+          field="typography.fontSizeContrast"
+          value={config.theme?.typography?.fontSizeContrast ?? "medium"}
+          options={[
+            { value: "low", label: "Sutil" },
+            { value: "medium", label: "Medio" },
+            { value: "high", label: "Alto" },
+            { value: "extreme", label: "Extremo" },
+          ]}
+          onChange={(v) => updateTypography("fontSizeContrast", v)}
+        />
+      </div>
+    </div>
+  );
+}

@@ -10,7 +10,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { TemplateLayoutConfig } from "@/types/templates";
 import type { FurnitureLightConfig } from "../config";

@@ -1,13 +1,11 @@
 "use client";
 
-// Decor Warm Template — CheckoutShellRoute
-// Client boundary. Validates form, builds WhatsApp message, clears cart, shared Header.
-
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
 import type { CheckoutOrderItem } from "./CheckoutPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { StoreInfo } from "@/types/store";
 
 interface CheckoutFormData {
@@ -42,33 +40,6 @@ function validateForm(data: CheckoutFormData): FieldErrors {
   return errors;
 }
 
-function buildWhatsAppMessage(
-  storeName: string,
-  formData: CheckoutFormData,
-  items: CheckoutOrderItem[],
-  totalPrice: number,
-  currencySymbol: string
-): string {
-  const lines: string[] = [
-    `*Nuevo pedido — ${storeName}*`,
-    "",
-    "*Datos del cliente:*",
-    `• Nombre: ${formData.nombre}`,
-    `• WhatsApp: ${formData.whatsapp}`,
-    `• Email: ${formData.email}`,
-    `• Dirección: ${formData.direccion}`,
-    ...(formData.notas ? [`• Notas: ${formData.notas}`] : []),
-    "",
-    "*Productos:*",
-    ...items.map(
-      (item) =>
-        `• ${item.quantity}× ${item.name} — ${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price * item.quantity)}`
-    ),
-    "",
-    `*Total: ${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}*`,
-  ];
-  return lines.join("\n");
-}
 
 interface CheckoutShellRouteProps {
   store: StoreInfo;
@@ -110,17 +81,27 @@ export function CheckoutShellRoute({ store, currencySymbol = "$" }: CheckoutShel
 
     setIsSubmitting(true);
 
-    const message = buildWhatsAppMessage(
-      store.name,
-      formData,
-      orderItems,
-      totalPrice,
-      currencySymbol
-    );
+    const message = buildWhatsAppMessage({
+      items: orderItems.map((item) => ({
+        productId: item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        imageUrl: item.imageUrl ?? null,
+        variantName: null,
+      })),
+      customerName: formData.nombre,
+      customerPhone: formData.whatsapp,
+      customerEmail: formData.email,
+      customerAddress: formData.direccion,
+      customerNotes: formData.notas,
+      storePhone: store.whatsapp ?? "",
+      storeName: store.name,
+      storeSlug: store.slug ?? "",
+      currencySymbol,
+    });
 
-    const whatsappNumber = (store.whatsapp ?? "").replace(/\D/g, "");
-    const encodedMessage = encodeURIComponent(message);
-    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    const waUrl = buildWhatsAppUrl(store.whatsapp ?? "", message);
 
     window.open(waUrl, "_blank", "noopener,noreferrer");
 

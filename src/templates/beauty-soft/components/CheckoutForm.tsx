@@ -1,7 +1,4 @@
-// Beauty Soft Template — Checkout Form
-// Customer info: name, whatsapp, email, address, notes.
-// ZERO hardcoded colors — all via var(--t-*).
-
+import { formatPrice } from "@/lib/format";
 import type { CheckoutOrderItem } from "../types";
 
 interface CheckoutFormData {
@@ -100,7 +97,7 @@ export function CheckoutForm({
   onFieldChange,
   onSubmit,
 }: CheckoutFormProps) {
-  const formattedTotal = `${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}`;
+  const formattedTotal = formatPrice(totalPrice, currencySymbol);
 
   return (
     <div className="flex flex-col gap-6">
@@ -136,8 +133,7 @@ export function CheckoutForm({
                 className="text-sm font-semibold text-[var(--t-foreground)] leading-[22px] tracking-[-0.408px]"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                {currencySymbol}
-                {new Intl.NumberFormat("en-US").format(item.price * item.quantity)}
+                {formatPrice(item.price * item.quantity, currencySymbol)}
               </span>
             </div>
           ))}

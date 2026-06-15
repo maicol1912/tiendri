@@ -8,17 +8,12 @@
 import { useState } from "react";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
 import type { StoreInfo } from "../types";
+import { STOREFRONT_NAV_LINKS } from "../../_shared/nav-links";
 
 interface NavLink {
   label: string;
   href: string;
 }
-
-const PAGE_NAV_LINKS: NavLink[] = [
-  { label: "Inicio", href: "/" },
-  { label: "Catálogo", href: "/catalogo" },
-  { label: "Info", href: "/info" },
-];
 
 interface HeaderProps {
   store: StoreInfo;
@@ -193,7 +188,7 @@ export function Header({
 
           {/* Center: page navigation links */}
           <nav className="flex items-center gap-8" aria-label="Navegación principal">
-            {PAGE_NAV_LINKS.map((link) => {
+            {STOREFRONT_NAV_LINKS.map((link) => {
               const isActive = activeHref === link.href;
               return (
                 <button
@@ -290,7 +285,7 @@ export function Header({
             className="flex flex-col pt-20 px-6 gap-1"
             aria-label="Navegación móvil"
           >
-            {PAGE_NAV_LINKS.map((link) => {
+            {STOREFRONT_NAV_LINKS.map((link) => {
               const isActive = activeHref === link.href;
               return (
                 <button

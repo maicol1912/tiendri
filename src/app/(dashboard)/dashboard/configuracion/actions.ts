@@ -19,6 +19,7 @@ import {
 import type { StoreCustomization } from "@/types/templates/store-customization";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "@/types/templates/customization-sections";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
+import type { Json, StoreRow } from "@/types/database.types";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 
@@ -35,7 +36,7 @@ export type ActionResult<T = undefined> =
 // ── Auth helper ───────────────────────────────────────────────────────────────
 
 /** Returns the authenticated user's store row, or null if not authenticated / no store. */
-async function getAuthenticatedStore() {
+async function getAuthenticatedStore(): Promise<Pick<StoreRow, 'id' | 'customization'> | null> {
   const supabase = await createClient();
 
   const {
@@ -44,13 +45,14 @@ async function getAuthenticatedStore() {
 
   if (!user) return null;
 
-  const { data: store } = await supabase
+  const { data } = await supabase
     .from("stores")
     .select("id, customization")
     .eq("owner_id", user.id)
     .single();
 
-  return store ?? null;
+  if (!data) return null;
+  return data as unknown as Pick<StoreRow, 'id' | 'customization'>;
 }
 
 /** Deep-merge `patch` into `base` (one level of nesting — sufficient for StoreCustomization). */
@@ -91,7 +93,7 @@ export async function readCustomization(): Promise<StoreCustomization | null> {
   const raw = store.customization;
   if (!raw || typeof raw !== "object") return null;
 
-  return raw as StoreCustomization;
+  return raw as unknown as StoreCustomization;
 }
 
 // ── Write (full) ──────────────────────────────────────────────────────────────
@@ -122,7 +124,7 @@ export async function writeCustomization(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: parsed.data as Record<string, unknown> })
+    .update({ customization: parsed.data as unknown as Json })
     .eq("id", store.id);
 
   if (error) {
@@ -161,7 +163,7 @@ export async function updateTheme(
     };
   }
 
-  const current = (store.customization ?? { templateId: "tech-premium" }) as StoreCustomization;
+  const current = (store.customization ?? { templateId: "tech-premium" }) as unknown as StoreCustomization;
   const updated: StoreCustomization = {
     ...current,
     theme: deepMerge(
@@ -173,7 +175,7 @@ export async function updateTheme(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: updated as Record<string, unknown> })
+    .update({ customization: updated as unknown as Json })
     .eq("id", store.id);
 
   if (error) {
@@ -210,7 +212,7 @@ export async function updateBranding(
     };
   }
 
-  const current = (store.customization ?? { templateId: "tech-premium" }) as StoreCustomization;
+  const current = (store.customization ?? { templateId: "tech-premium" }) as unknown as StoreCustomization;
   const updated: StoreCustomization = {
     ...current,
     branding: {
@@ -222,7 +224,7 @@ export async function updateBranding(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: updated as Record<string, unknown> })
+    .update({ customization: updated as unknown as Json })
     .eq("id", store.id);
 
   if (error) {
@@ -259,7 +261,7 @@ export async function updateContent(
     };
   }
 
-  const current = (store.customization ?? { templateId: "tech-premium" }) as StoreCustomization;
+  const current = (store.customization ?? { templateId: "tech-premium" }) as unknown as StoreCustomization;
   const updated: StoreCustomization = {
     ...current,
     content: {
@@ -271,7 +273,7 @@ export async function updateContent(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: updated as Record<string, unknown> })
+    .update({ customization: updated as unknown as Json })
     .eq("id", store.id);
 
   if (error) {
@@ -308,7 +310,7 @@ export async function updateBusiness(
     };
   }
 
-  const current = (store.customization ?? { templateId: "tech-premium" }) as StoreCustomization;
+  const current = (store.customization ?? { templateId: "tech-premium" }) as unknown as StoreCustomization;
   const updated: StoreCustomization = {
     ...current,
     business: {
@@ -320,7 +322,7 @@ export async function updateBusiness(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: updated as Record<string, unknown> })
+    .update({ customization: updated as unknown as Json })
     .eq("id", store.id);
 
   if (error) {
@@ -347,7 +349,7 @@ export async function updateCustomizationSection(
     };
   }
 
-  const current = (store.customization ?? { templateId: "tech-premium" }) as StoreCustomization;
+  const current = (store.customization ?? { templateId: "tech-premium" }) as unknown as StoreCustomization;
   const currentSection = (current[section] ?? {}) as Record<string, unknown>;
 
   const updated: StoreCustomization = {
@@ -373,7 +375,7 @@ export async function updateCustomizationSection(
   const supabase = await createClient();
   const { error } = await supabase
     .from("stores")
-    .update({ customization: parsed.data as Record<string, unknown> })
+    .update({ customization: parsed.data as unknown as Json })
     .eq("id", store.id);
 
   if (error) {

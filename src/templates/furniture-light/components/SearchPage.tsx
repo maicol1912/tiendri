@@ -9,7 +9,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
 import type { FurnitureProduct, FurnitureCategory, FurnitureStoreInfo, FurnitureNavTab } from "../types";
 

@@ -12,7 +12,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { Header } from "./Header";
 import { HeroBanner } from "./HeroBanner";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { BeautyElegantProduct, BeautyElegantCategory, NavTab } from "../types";
 import type { StoreInfo } from "../types";
 

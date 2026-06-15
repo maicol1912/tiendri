@@ -9,8 +9,8 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
-import { gridColsClass } from "../utils/grid-classes";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { BeautySoftProduct, BeautySoftCategory, NavTab, FilterGroup, SortOption } from "../types";
 import type { BeautySoftConfig } from "../config";
 import type { StoreInfo } from "@/types/store";
@@ -290,7 +290,6 @@ export function ProductListingPage({
             activeFilters={activeFilters}
             onFilterChange={onFilterChange}
             onClearAll={onClearAll}
-            activeFilterCount={activeFilterCount}
             isOpen={isFilterDrawerOpen}
             onClose={onCloseFilterDrawer}
           />

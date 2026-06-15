@@ -6,7 +6,7 @@
 import { useState, useCallback } from "react";
 import { HomePage } from "./HomePage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { furnitureLightConfig } from "../config";
 import type { FurnitureLightConfig } from "../config";

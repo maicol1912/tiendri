@@ -7,12 +7,7 @@
 
 import { ShoppingCart, Search } from "lucide-react";
 import type { FurnitureStoreInfo } from "../types";
-
-const PAGE_NAV_LINKS = [
-  { label: "Inicio", href: "/" },
-  { label: "Catálogo", href: "/catalogo" },
-  { label: "Info", href: "/info" },
-] as const;
+import { STOREFRONT_NAV_LINKS } from "../../_shared/nav-links";
 
 interface HeaderProps {
   store: FurnitureStoreInfo;
@@ -91,7 +86,7 @@ export function Header({
 
         {/* Nav */}
         <nav className="flex items-center gap-8 text-sm font-medium" aria-label="Navegación principal">
-          {PAGE_NAV_LINKS.map((link) => {
+          {STOREFRONT_NAV_LINKS.map((link) => {
             const isActive = activeHref === link.href;
             return (
               <button

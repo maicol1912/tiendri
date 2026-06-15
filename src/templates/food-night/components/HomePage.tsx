@@ -12,7 +12,7 @@ import { HeroBanner } from "./HeroBanner";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { StoreInfo, Category, StorefrontProduct, NavTab, HomeSectionConfig } from "../types";
 
 interface HomePageProps {

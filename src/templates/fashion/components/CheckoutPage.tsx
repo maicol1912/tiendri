@@ -8,6 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
+import { formatPrice } from "@/lib/format";
 import type { StoreInfo, CartItem, CheckoutFormData, NavTab } from "../types";
 
 interface CheckoutPageProps {
@@ -25,9 +26,6 @@ interface CheckoutPageProps {
   onSubmit?: () => void;
   onTabChange?: (tab: NavTab) => void;
 }
-
-const fmt = new Intl.NumberFormat("en-US");
-
 
 export function CheckoutPage({
   store,
@@ -147,7 +145,7 @@ export function CheckoutPage({
                       className="text-sm font-medium text-[var(--t-foreground)] flex-shrink-0"
                       style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                     >
-                      {currencySymbol}{fmt.format(item.price * item.quantity)}
+                      {formatPrice(item.price * item.quantity, currencySymbol)}
                     </span>
                   </div>
                 ))}
@@ -164,7 +162,7 @@ export function CheckoutPage({
                   className="text-base font-bold text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
-                  {currencySymbol}{fmt.format(totalPrice)}
+                  {formatPrice(totalPrice, currencySymbol)}
                 </span>
               </div>
             </div>

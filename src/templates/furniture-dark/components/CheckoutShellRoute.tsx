@@ -1,17 +1,13 @@
 "use client";
 
-// Furniture Dark — CheckoutShellRoute
-// Form state + buildWhatsAppMessage using Intl.NumberFormat("en-US")
-// NOT toLocaleString — tiendri rule
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { CheckoutPage } from "./CheckoutPage";
 import { mockStore } from "../mock/data";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { CheckoutFormData } from "../types";
-import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 const EMPTY_FORM: CheckoutFormData = {
   firstName: "",
@@ -23,23 +19,6 @@ const EMPTY_FORM: CheckoutFormData = {
   state: "",
   notes: "",
 };
-
-function buildWhatsAppMessage(
-  formData: CheckoutFormData,
-  items: { name: string; quantity: number; price: number }[],
-  total: number,
-  storeName: string
-): string {
-  const itemLines = items
-    .map((i) => `• ${i.name} x${i.quantity} — ${formatPrice(i.price * i.quantity)}`)
-    .join("\n");
-
-  return encodeURIComponent(
-    `¡Hola ${storeName}! 👋\n\nQuiero hacer un pedido:\n\n${itemLines}\n\n*Total: ${formatPrice(total)}*\n\n` +
-      `📦 Datos de entrega:\nNombre: ${formData.firstName} ${formData.lastName}\nDirección: ${formData.address}, ${formData.city}${formData.state ? `, ${formData.state}` : ""}\nTeléfono: ${formData.phone}` +
-      (formData.notes ? `\nNotas: ${formData.notes}` : "")
-  );
-}
 
 export function CheckoutShellRoute() {
   const router = useRouter();
@@ -59,9 +38,18 @@ export function CheckoutShellRoute() {
 
     setIsSubmitting(true);
 
-    const message = buildWhatsAppMessage(formData, items, totalPrice, mockStore.name);
-    const whatsappNumber = mockStore.whatsapp?.replace(/\D/g, "") ?? "";
-    const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+    const message = buildWhatsAppMessage({
+      items,
+      customerName: `${formData.firstName} ${formData.lastName}`,
+      customerPhone: formData.phone,
+      customerEmail: formData.email,
+      customerAddress: `${formData.address}, ${formData.city}${formData.state ? `, ${formData.state}` : ""}`,
+      customerNotes: formData.notes,
+      storePhone: mockStore.whatsapp ?? "",
+      storeName: mockStore.name,
+      storeSlug: mockStore.slug ?? "",
+    });
+    const url = buildWhatsAppUrl(mockStore.whatsapp ?? "", message);
 
     clearCart();
     window.open(url, "_blank");

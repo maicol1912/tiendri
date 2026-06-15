@@ -7,8 +7,8 @@ import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
-import { gridColsClass } from "../utils/grid-classes";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { DecorWarmProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
 import type { DecorWarmConfig } from "../config";
 import type { StoreInfo } from "@/types/store";
@@ -257,11 +257,11 @@ export function ProductListingPage({
         <div className="flex gap-6 items-start">
           {/* Filter sidebar (desktop inside layout, mobile uses drawer) */}
           <FilterSidebar
-            filters={filters}
-            activeFilters={activeFilters}
+            filterGroups={filters ?? []}
+            activeFilters={activeFilters ?? {}}
             onFilterChange={onFilterChange ?? (() => {})}
             onClearAll={onClearAll ?? (() => {})}
-            isOpen={isFilterDrawerOpen}
+            isOpen={isFilterDrawerOpen ?? false}
             onClose={onFilterDrawerClose ?? (() => {})}
           />
 

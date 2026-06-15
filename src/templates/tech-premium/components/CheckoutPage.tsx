@@ -9,6 +9,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
+import { formatPrice } from "@/lib/format";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { TemplateLayoutConfig } from "@/types/templates";
 import type {
@@ -73,9 +74,6 @@ export function CheckoutPage({
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const isEmpty = items.length === 0;
 
-  const fmt = (price: number) =>
-    `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
-
   return (
     <div className="bg-[var(--t-background)] min-h-screen font-['Inter',sans-serif] flex flex-col">
       <Header
@@ -129,7 +127,7 @@ export function CheckoutPage({
                         <p className="text-xs text-[var(--t-muted)]">x{item.quantity}</p>
                       </div>
                       <span className="text-sm font-medium text-[var(--t-foreground)] shrink-0">
-                        {fmt(item.price * item.quantity)}
+                        {formatPrice(item.price * item.quantity, currencySymbol)}
                       </span>
                     </div>
                   ))}
@@ -138,7 +136,7 @@ export function CheckoutPage({
                 {/* Total */}
                 <div className="border-t border-[var(--t-border)] pt-4 flex items-center justify-between">
                   <span className="text-base font-semibold text-[var(--t-foreground)]">Total</span>
-                  <span className="text-base font-semibold text-[var(--t-foreground)]">{fmt(subtotal)}</span>
+                  <span className="text-base font-semibold text-[var(--t-foreground)]">{formatPrice(subtotal, currencySymbol)}</span>
                 </div>
 
                 {/* CTA */}

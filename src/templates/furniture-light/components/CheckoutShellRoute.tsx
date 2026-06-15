@@ -1,51 +1,15 @@
 "use client";
 
-// Furniture Light — CheckoutShellRoute
-// Rendered at /template/furniture-light/checkout
-
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { FurnitureLightConfig } from "../config";
 import type { FurnitureStoreInfo, FurnitureCheckoutFormData, FurnitureNavTab } from "../types";
 
 type TemplateMode = "preview" | "live";
-
-function formatForWhatsApp(price: number, symbol: string): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
-
-function buildWhatsAppMessage(
-  store: FurnitureStoreInfo,
-  items: Array<{ name: string; quantity: number; price: number }>,
-  total: number,
-  formData: FurnitureCheckoutFormData,
-  symbol: string
-): string {
-  const parts: Array<string | null> = [
-    `*Nuevo pedido — ${store.name}*`,
-    "",
-    "*Productos:*",
-    ...items.map(
-      (item) =>
-        `- ${item.name} x ${item.quantity} = ${formatForWhatsApp(item.price * item.quantity, symbol)}`
-    ),
-    "",
-    `*Total: ${formatForWhatsApp(total, symbol)}*`,
-    "",
-    "*Datos del cliente:*",
-    `- Nombre: ${formData.nombre}`,
-    `- WhatsApp: ${formData.whatsapp}`,
-    formData.email ? `- Email: ${formData.email}` : null,
-    `- Dirección: ${formData.direccion}`,
-    formData.notas ? `- Notas: ${formData.notas}` : null,
-    "",
-    `_Pedido desde tiendri.com/${store.slug}_`,
-  ];
-  return parts.filter((line): line is string => line !== null).join("\n");
-}
 
 function validateForm(data: FurnitureCheckoutFormData): string | null {
   if (!data.nombre.trim()) return "El nombre es obligatorio";
@@ -107,16 +71,28 @@ export function CheckoutShellRoute({
     }
 
     const shipping = 15000;
-    const message = buildWhatsAppMessage(
-      store,
-      items.map((item) => ({ name: item.name, quantity: item.quantity, price: item.price })),
-      totalPrice + shipping,
-      formData,
-      currencySymbol
-    );
+    const shippingItem = {
+      productId: "__shipping__",
+      name: "Envío estándar",
+      price: shipping,
+      quantity: 1,
+      imageUrl: null,
+      variantName: null,
+    };
+    const message = buildWhatsAppMessage({
+      items: [...items, shippingItem],
+      customerName: formData.nombre,
+      customerPhone: formData.whatsapp,
+      customerEmail: formData.email,
+      customerAddress: formData.direccion,
+      customerNotes: formData.notas,
+      storePhone: store.whatsapp,
+      storeName: store.name,
+      storeSlug: store.slug ?? "",
+      currencySymbol,
+    });
 
-    const phone = store.whatsapp.replace(/\D/g, "");
-    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    const waUrl = buildWhatsAppUrl(store.whatsapp, message);
     clearCart();
     window.open(waUrl, "_blank", "noopener,noreferrer");
   }, [formData, store, items, totalPrice, currencySymbol, clearCart, mode]);

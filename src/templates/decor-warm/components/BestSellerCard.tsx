@@ -22,7 +22,7 @@ function StarRating({ rating }: { rating: number }) {
           width="11"
           height="11"
           viewBox="0 0 12 12"
-          fill={rating >= star ? "#FFFFFF" : "rgba(255,255,255,0.3)"}
+          fill={rating >= star ? "var(--t-on-primary)" : "color-mix(in srgb, var(--t-on-primary) 30%, transparent)"}
           aria-hidden="true"
         >
           <path d="M6 1l1.24 2.51 2.76.4-2 1.95.47 2.75L6 7.25 3.53 8.61l.47-2.75-2-1.95 2.76-.4L6 1z" />
@@ -60,7 +60,7 @@ export function BestSellerCard({
         <div className="flex flex-col justify-center gap-2 px-5 py-4 flex-[6]">
           <h3
             style={{
-              color: "#FFFFFF",
+              color: "var(--t-on-primary)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "15px",
               fontWeight: 600,
@@ -73,7 +73,7 @@ export function BestSellerCard({
           <p
             className="line-clamp-2"
             style={{
-              color: "rgba(255,255,255,0.8)",
+              color: "color-mix(in srgb, var(--t-on-primary) 80%, transparent)",
               fontFamily: "'League Spartan', sans-serif",
               fontSize: "12px",
               fontWeight: 400,
@@ -87,14 +87,14 @@ export function BestSellerCard({
           <div
             className="flex items-center gap-1.5 self-start px-2 py-1"
             style={{
-              backgroundColor: "rgba(255,255,255,0.2)",
+              backgroundColor: "color-mix(in srgb, var(--t-on-primary) 20%, transparent)",
               borderRadius: 9999,
             }}
           >
             <StarRating rating={Math.round(item.rating)} />
             <span
               style={{
-                color: "#FFFFFF",
+                color: "var(--t-on-primary)",
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "11px",
                 fontWeight: 500,
@@ -109,7 +109,7 @@ export function BestSellerCard({
             type="button"
             style={{
               alignSelf: "flex-start",
-              backgroundColor: "#FFFFFF",
+              backgroundColor: "var(--t-on-primary)",
               color: "var(--t-primary)",
               fontFamily: "'Poppins', sans-serif",
               fontSize: "12px",
@@ -156,7 +156,7 @@ export function BestSellerCard({
                   width: 60,
                   height: 60,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(255,255,255,0.2)",
+                  backgroundColor: "color-mix(in srgb, var(--t-on-primary) 20%, transparent)",
                 }}
               />
             </div>

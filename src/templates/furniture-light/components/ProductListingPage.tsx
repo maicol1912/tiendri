@@ -7,18 +7,18 @@ import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
 import type {
   FurnitureProduct,
   FurnitureCategory,
   FurnitureStoreInfo,
   FurnitureNavTab,
-  FurnitureLightFilterGroup,
   FurnitureLightSortOption,
 } from "../types";
+import type { FilterGroup } from "@/types/templates/filter";
 
 const SORT_LABELS: Record<FurnitureLightSortOption, string> = {
   recent: "Más recientes",
@@ -38,7 +38,7 @@ interface ProductListingPageProps {
   cartItemCount?: number;
   currencySymbol?: string;
   // Filter props
-  filterGroups: FurnitureLightFilterGroup[];
+  filterGroups: FilterGroup[];
   activeFilters: Record<string, string[]>;
   searchQuery: string;
   sortOption: FurnitureLightSortOption;
@@ -51,7 +51,7 @@ interface ProductListingPageProps {
   onWishlistToggle?: (productId: string) => void;
   onAddToCart?: (productId: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
-  onFilterChange: (groupId: string, value: string) => void;
+  onFilterChange: (groupId: string, optionId: string, checked: boolean) => void;
   onClearAll: () => void;
   onSearchChange: (q: string) => void;
   onSortChange: (s: FurnitureLightSortOption) => void;

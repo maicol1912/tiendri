@@ -6,7 +6,7 @@ import React from "react";
 import { ChevronRight } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 
 interface ProductSectionProps {
   title: string;

@@ -7,17 +7,7 @@
 import Image from "next/image";
 import { Search, ShoppingBag } from "lucide-react";
 import type { StoreInfo } from "../types";
-
-interface NavLink {
-  label: string;
-  href: string;
-}
-
-const PAGE_NAV_LINKS: NavLink[] = [
-  { label: "Inicio", href: "/" },
-  { label: "Catálogo", href: "/catalogo" },
-  { label: "Info", href: "/info" },
-];
+import { STOREFRONT_NAV_LINKS } from "../../_shared/nav-links";
 
 interface HeaderProps {
   store: StoreInfo;
@@ -137,7 +127,7 @@ export function Header({
 
         {/* Desktop: Nav links */}
         <nav className="hidden lg:flex items-center gap-8 flex-shrink-0 ml-8" aria-label="Navegación principal">
-          {PAGE_NAV_LINKS.map((link) => {
+          {STOREFRONT_NAV_LINKS.map((link) => {
             const isActive = activeHref === link.href;
             return (
               <button

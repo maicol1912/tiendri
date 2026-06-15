@@ -6,7 +6,7 @@
 
 import { useCallback } from "react";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { CartPage } from "./CartPage";
 import type { StoreInfo, NavTab } from "../types";
 

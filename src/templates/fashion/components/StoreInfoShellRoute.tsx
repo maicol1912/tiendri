@@ -1,52 +1,42 @@
 "use client";
 
-// Fashion Template — Store Info Shell Route
-// Client boundary. Wires navigation into StoreInfoPage.
-
+import { useCallback } from "react";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
-import { StoreInfoPage } from "./StoreInfoPage";
-import type { StoreInfo, NavTab } from "../types";
-
-interface StoreInfoShellRouteInnerProps {
-  store: StoreInfo;
-}
-
-function StoreInfoShellRouteInner({ store }: StoreInfoShellRouteInnerProps) {
-  const nav = useTemplateNav();
-  const { totalItems } = useCart();
-
-  const handleTabChange = (tab: NavTab) => {
-    if (tab === "home") nav.goHome();
-    else if (tab === "search") nav.goSearch();
-    else if (tab === "cart") nav.goCart();
-    else if (tab === "info") nav.goInfo();
-  };
-
-  const handleNavLinkClick = (href: string) => {
-    if (href === "/") nav.goHome();
-    else if (href === "/catalogo") nav.goListing();
-    else if (href === "/info") nav.goInfo();
-  };
-
-  return (
-    <StoreInfoPage
-      store={store}
-      activeTab="info"
-      cartItemCount={totalItems}
-      activeHref="/info"
-      onSearchClick={nav.goSearch}
-      onCartClick={nav.goCart}
-      onNavLinkClick={handleNavLinkClick}
-      onTabChange={handleTabChange}
-    />
-  );
-}
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
+import type { StoreInfo } from "../types";
 
 interface StoreInfoShellRouteProps {
   store: StoreInfo;
 }
 
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
-  return <StoreInfoShellRouteInner store={store} />;
+  const nav = useTemplateNav();
+  const { totalItems } = useCart();
+
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
+    },
+    [nav]
+  );
+
+  return (
+    <StoreInfoPage
+      store={store}
+      header={
+        <Header
+          store={store}
+          cartItemCount={totalItems}
+          activeHref="/info"
+          onSearchClick={nav.goSearch}
+          onCartClick={nav.goCart}
+          onNavLinkClick={handleNavLinkClick}
+        />
+      }
+    />
+  );
 }

@@ -8,7 +8,7 @@
 
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { SearchPage } from "./SearchPage";
 import { fashionConfig } from "../config";

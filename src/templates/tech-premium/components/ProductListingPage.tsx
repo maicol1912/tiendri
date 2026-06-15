@@ -9,7 +9,7 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { FilterSidebar } from "./FilterSidebar";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,

@@ -25,7 +25,7 @@ import { BannerGrid } from "./BannerGrid";
 import { ProductCard } from "./ProductCard";
 import { PopularProductCard } from "./PopularProductCard";
 import { CATEGORY_NAV_REGISTRY } from "@/templates/_shared/category-nav-variants";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { tabStyleClasses, bannerHeightClass } from "../utils/layout-classes";
 import { techPremiumConfig } from "../config";
 import type { TechPremiumConfig } from "../config";

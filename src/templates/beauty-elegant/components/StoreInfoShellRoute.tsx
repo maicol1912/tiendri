@@ -1,14 +1,11 @@
 "use client";
 
-// Beauty Elegant Template — StoreInfoShellRoute
-// Connects StoreInfoPage to navigation and cart.
-// Rendered at /template/beauty-elegant/info
-
 import { useCallback } from "react";
-import { StoreInfoPage } from "./StoreInfoPage";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
-import type { StoreInfo, NavTab } from "../types";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import type { StoreInfo } from "../types";
 
 interface StoreInfoShellRouteProps {
   store: StoreInfo;
@@ -17,15 +14,6 @@ interface StoreInfoShellRouteProps {
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems } = useCart();
-
-  const handleTabChange = useCallback(
-    (tab: NavTab) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "search") nav.goSearch();
-      else if (tab === "cart") nav.goCart();
-    },
-    [nav]
-  );
 
   const handleNavLinkClick = useCallback(
     (href: string) => {
@@ -39,13 +27,16 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   return (
     <StoreInfoPage
       store={store}
-      cartItemCount={totalItems}
-      activeTab="info"
-      activeHref="/info"
-      onSearchOpen={nav.goSearch}
-      onCartOpen={nav.goCart}
-      onNavLinkClick={handleNavLinkClick}
-      onTabChange={handleTabChange}
+      header={
+        <Header
+          store={store}
+          cartItemCount={totalItems}
+          activeHref="/info"
+          onSearchOpen={nav.goSearch}
+          onCartOpen={nav.goCart}
+          onNavLinkClick={handleNavLinkClick}
+        />
+      }
     />
   );
 }

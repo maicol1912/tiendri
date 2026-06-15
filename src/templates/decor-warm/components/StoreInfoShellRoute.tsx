@@ -1,14 +1,11 @@
 "use client";
 
-// Decor Warm Template — Store Info Shell Route
-// Client boundary. Wires navigation into StoreInfoPage.
-
 import { useCallback } from "react";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
-import { StoreInfoPage } from "./StoreInfoPage";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
 import type { StoreInfo } from "@/types/store";
-import type { DecorWarmNavTab } from "../types";
 
 interface StoreInfoShellRouteProps {
   store: StoreInfo;
@@ -17,16 +14,6 @@ interface StoreInfoShellRouteProps {
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems } = useCart();
-
-  const handleTabChange = useCallback(
-    (tab: DecorWarmNavTab) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "categories") nav.goListing();
-      else if (tab === "cart") nav.goCart();
-      else if (tab === "info") nav.goInfo();
-    },
-    [nav]
-  );
 
   const handleNavLinkClick = useCallback(
     (href: string) => {
@@ -40,13 +27,17 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   return (
     <StoreInfoPage
       store={store}
-      activeTab="info"
-      cartItemCount={totalItems}
+      header={
+        <Header
+          store={store}
+          cartItemCount={totalItems}
+          activeHref="/info"
+          onSearchClick={nav.goSearch}
+          onCartClick={nav.goCart}
+          onNavLinkClick={handleNavLinkClick}
+        />
+      }
       onBack={nav.goHome}
-      onSearchClick={nav.goSearch}
-      onCartOpen={nav.goCart}
-      onNavLinkClick={handleNavLinkClick}
-      onTabChange={handleTabChange}
     />
   );
 }

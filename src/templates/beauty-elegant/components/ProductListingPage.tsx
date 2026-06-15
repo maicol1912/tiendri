@@ -9,16 +9,16 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { Header } from "./Header";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type {
   BeautyElegantProduct,
   BeautyElegantCategory,
-  BeautyElegantFilterGroup,
   BeautyElegantSortOption,
   NavTab,
 } from "../types";
+import type { FilterGroup } from "@/types/templates/filter";
 import type { StoreInfo } from "../types";
 
 interface ProductListingPageProps {
@@ -37,7 +37,7 @@ interface ProductListingPageProps {
     listing?: { mobile: number; desktop: number };
   };
   // Filter props
-  filterGroups: BeautyElegantFilterGroup[];
+  filterGroups: FilterGroup[];
   activeFilters: Record<string, string[]>;
   activeFilterCount: number;
   searchQuery: string;
@@ -291,7 +291,6 @@ export function ProductListingPage({
             activeFilters={activeFilters}
             onFilterChange={onFilterChange}
             onClearAll={onClearAll}
-            activeFilterCount={activeFilterCount}
             isOpen={isFilterDrawerOpen}
             onClose={onCloseFilterDrawer}
           />

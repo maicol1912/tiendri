@@ -1,8 +1,5 @@
-// Furniture Light — Checkout Form
-// Contact info + delivery address fields.
-// ZERO hardcoded colors — all via var(--t-*).
-
 import Image from "next/image";
+import { formatPrice } from "@/lib/format";
 import type { FurnitureCheckoutFormData } from "../types";
 import type { CartItem } from "@/lib/cart";
 
@@ -16,10 +13,6 @@ interface CheckoutFormProps {
 }
 
 const SHIPPING = 15000;
-
-function fmt(price: number, symbol: string): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
-}
 
 export function CheckoutForm({
   items,
@@ -137,7 +130,7 @@ export function CheckoutForm({
                   {item.variantName && <p className="text-[10px] text-[var(--t-muted)]">{item.variantName}</p>}
                   <p className="text-xs text-[var(--t-muted)]">x{item.quantity}</p>
                 </div>
-                <p className="text-sm font-bold text-[var(--t-foreground)] shrink-0">{fmt(item.price * item.quantity, currencySymbol)}</p>
+                <p className="text-sm font-bold text-[var(--t-foreground)] shrink-0">{formatPrice(item.price * item.quantity, currencySymbol)}</p>
               </div>
             ))}
           </div>
@@ -159,7 +152,7 @@ export function CheckoutForm({
               <p className="text-xs font-semibold text-[var(--t-foreground)]">Envío estándar</p>
               <p className="text-[10px] text-[var(--t-muted)]">3-5 días hábiles</p>
             </div>
-            <p className="text-sm font-bold text-[var(--t-foreground)]">{fmt(SHIPPING, currencySymbol)}</p>
+            <p className="text-sm font-bold text-[var(--t-foreground)]">{formatPrice(SHIPPING, currencySymbol)}</p>
           </div>
         </div>
       </div>
@@ -172,25 +165,25 @@ export function CheckoutForm({
           backgroundColor: "var(--t-secondary)",
         }}
       >
-        <p className="text-base font-bold text-white mb-4">Resumen</p>
+        <p className="text-base font-bold mb-4" style={{ color: "var(--t-on-secondary)" }}>Resumen</p>
         <div className="space-y-2 mb-5">
           <div className="flex justify-between text-sm">
-            <span className="text-white/70">Subtotal</span>
-            <span className="text-white font-medium">{fmt(subtotal, currencySymbol)}</span>
+            <span style={{ color: "color-mix(in srgb, var(--t-on-secondary) 70%, transparent)" }}>Subtotal</span>
+            <span className="font-medium" style={{ color: "var(--t-on-secondary)" }}>{formatPrice(subtotal, currencySymbol)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-white/70">Envío</span>
-            <span className="text-white font-medium">{fmt(SHIPPING, currencySymbol)}</span>
+            <span style={{ color: "color-mix(in srgb, var(--t-on-secondary) 70%, transparent)" }}>Envío</span>
+            <span className="font-medium" style={{ color: "var(--t-on-secondary)" }}>{formatPrice(SHIPPING, currencySymbol)}</span>
           </div>
-          <div className="h-px bg-white/10 my-2" />
+          <div className="h-px my-2" style={{ backgroundColor: "color-mix(in srgb, var(--t-on-secondary) 10%, transparent)" }} />
           <div className="flex justify-between text-base">
-            <span className="text-white font-bold">Total</span>
-            <span className="text-white font-bold">{fmt(total, currencySymbol)}</span>
+            <span className="font-bold" style={{ color: "var(--t-on-secondary)" }}>Total</span>
+            <span className="font-bold" style={{ color: "var(--t-on-secondary)" }}>{formatPrice(total, currencySymbol)}</span>
           </div>
         </div>
 
         {mode === "preview" && (
-          <p className="text-[10px] text-white/50 text-center mb-3">
+          <p className="text-[10px] text-center mb-3" style={{ color: "color-mix(in srgb, var(--t-on-secondary) 50%, transparent)" }}>
             Vista previa — conectá tu número de WhatsApp para recibir pedidos reales
           </p>
         )}

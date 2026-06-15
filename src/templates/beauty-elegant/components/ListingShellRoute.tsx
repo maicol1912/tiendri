@@ -5,7 +5,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { ProductListingPage } from "./ProductListingPage";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { useCart } from "@/lib/cart";
 import { beautyElegantConfig } from "../config";
@@ -14,10 +14,10 @@ import type { BeautyElegantConfig } from "../config";
 import type {
   BeautyElegantProduct,
   BeautyElegantCategory,
-  BeautyElegantFilterGroup,
   BeautyElegantSortOption,
   NavTab,
 } from "../types";
+import type { FilterGroup } from "@/types/templates/filter";
 import type { StoreInfo } from "../types";
 
 interface ListingShellRouteProps {
@@ -47,7 +47,7 @@ export function ListingShellRoute({
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
   // ── Build filter groups ───────────────────────────────────────────────────────
-  const filterGroups: BeautyElegantFilterGroup[] = useMemo(
+  const filterGroups: FilterGroup[] = useMemo(
     () => [
       {
         id: "category",

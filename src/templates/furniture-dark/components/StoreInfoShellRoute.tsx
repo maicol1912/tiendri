@@ -1,40 +1,38 @@
 "use client";
 
-// Furniture Dark — StoreInfoShellRoute
-// Client boundary. Wires navigation for the Info page.
-
 import { useCallback } from "react";
-import { StoreInfoPage } from "./StoreInfoPage";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
 import { useTemplateNav } from "../hooks/useTemplateNav";
 import { mockStore } from "../mock/data";
-
-type TabId = "home" | "cart" | "search" | "info";
+import type { StoreInfo } from "@/types/store";
 
 export function StoreInfoShellRoute() {
   const nav = useTemplateNav();
 
-  const handleTabChange = useCallback(
-    (tab: TabId) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "cart") nav.goCart();
-      else if (tab === "search") nav.goSearch();
-      else if (tab === "info") nav.goInfo();
+  const handleNavLinkClick = useCallback(
+    (href: string) => {
+      if (href === "/") nav.goHome();
+      else if (href === "/catalogo") nav.goListing();
+      else if (href === "/info") nav.goInfo();
     },
     [nav]
   );
 
+  const sharedStore: StoreInfo = mockStore;
+
   return (
     <StoreInfoPage
-      store={mockStore}
-      activeHref="/info"
-      onSearchClick={nav.goSearch}
-      onCartClick={nav.goCart}
-      onNavLinkClick={(href) => {
-        if (href === "/") nav.goHome();
-        else if (href === "/catalogo") nav.goListing();
-        else if (href === "/info") nav.goInfo();
-      }}
-      onTabChange={handleTabChange}
+      store={sharedStore}
+      header={
+        <Header
+          store={mockStore}
+          activeHref="/info"
+          onSearchClick={nav.goSearch}
+          onCartClick={nav.goCart}
+          onNavLinkClick={handleNavLinkClick}
+        />
+      }
     />
   );
 }

@@ -6,7 +6,7 @@
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { mockProducts } from "../mock/data";
 import type { DecorWarmProduct } from "../types";
 import type { StoreInfo } from "@/types/store";

@@ -5,6 +5,7 @@ import {
   useContext,
   useReducer,
   useEffect,
+  useMemo,
   useRef,
   useCallback,
   type ReactNode,
@@ -183,22 +184,32 @@ export function CartProvider({ children, slug, storageKey }: CartProviderProps) 
     dispatch({ type: "CLEAR" });
   }, []);
 
-  const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const totalItems = useMemo(
+    () => state.items.reduce((sum, i) => sum + i.quantity, 0),
+    [state.items]
+  );
+
+  const totalPrice = useMemo(
+    () => state.items.reduce((sum, i) => sum + i.price * i.quantity, 0),
+    [state.items]
+  );
+
+  const value = useMemo<CartContextValue>(
+    () => ({
+      items: state.items,
+      totalItems,
+      totalPrice,
+      addItem,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      clearCart,
+    }),
+    [state.items, totalItems, totalPrice, addItem, removeItem, incrementItem, decrementItem, clearCart]
+  );
 
   return (
-    <CartContext.Provider
-      value={{
-        items: state.items,
-        totalItems,
-        totalPrice,
-        addItem,
-        removeItem,
-        incrementItem,
-        decrementItem,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );

@@ -1,14 +1,12 @@
 "use client";
 
-// Beauty Elegant Template — Checkout Page
-// Form state, validation, WhatsApp link per tiendri-rules.md §1.4.
-
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { OrderSummary } from "./OrderSummary";
 import { CheckoutForm } from "./CheckoutForm";
 import { Header } from "./Header";
 import { useCart } from "@/lib/cart";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { StoreInfo, CheckoutFormValues, CheckoutOrderItem } from "../types";
 import { formatPrice } from "@/lib/format";
 
@@ -36,35 +34,6 @@ function validateForm(
   return errors;
 }
 
-function buildWhatsAppMessage(
-  items: CheckoutOrderItem[],
-  values: CheckoutFormValues,
-  currencySymbol: string,
-  slug: string
-): string {
-  const lines: string[] = [];
-  lines.push("\u{1F6CD}\u{FE0F} *Nuevo pedido*");
-  lines.push("");
-  lines.push("*Productos:*");
-  for (const item of items) {
-    const price = formatPrice(item.price * item.quantity, currencySymbol);
-    const variant = item.variantName ? ` (${item.variantName})` : "";
-    lines.push(`• ${item.name}${variant} × ${item.quantity} — ${price}`);
-  }
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  lines.push("");
-  lines.push(`*Total: ${formatPrice(total, currencySymbol)}*`);
-  lines.push("");
-  lines.push("*Datos del cliente:*");
-  lines.push(`• Nombre: ${values.fullName}`);
-  lines.push(`• WhatsApp: ${values.whatsapp}`);
-  if (values.email.trim()) lines.push(`• Email: ${values.email}`);
-  lines.push(`• Dirección: ${values.address}`);
-  if (values.notes.trim()) lines.push(`• Notas: ${values.notes}`);
-  lines.push("");
-  lines.push(`Pedido desde tiendri.com/${slug}`);
-  return lines.join("\n");
-}
 
 // WhatsApp send icon
 function WhatsAppIcon({ size = 18, color = "var(--t-on-primary)" }: { size?: number; color?: string }) {
@@ -137,9 +106,26 @@ export function CheckoutPage({
       alert("Esta tienda no tiene WhatsApp configurado.");
       return;
     }
-    const message = buildWhatsAppMessage(orderItems, formValues, currencySymbol, store.slug);
-    const encodedMessage = encodeURIComponent(message);
-    const waUrl = `https://wa.me/${store.whatsapp}?text=${encodedMessage}`;
+    const message = buildWhatsAppMessage({
+      items: orderItems.map((item) => ({
+        productId: item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        imageUrl: item.imageUrl ?? null,
+        variantName: item.variantName ?? null,
+      })),
+      customerName: formValues.fullName,
+      customerPhone: formValues.whatsapp,
+      customerEmail: formValues.email,
+      customerAddress: formValues.address,
+      customerNotes: formValues.notes,
+      storePhone: store.whatsapp ?? "",
+      storeName: store.name,
+      storeSlug: store.slug,
+      currencySymbol,
+    });
+    const waUrl = buildWhatsAppUrl(store.whatsapp ?? "", message);
     clearCart();
     window.open(waUrl, "_blank", "noopener,noreferrer");
   }, [formValues, orderItems, store, currencySymbol, clearCart]);

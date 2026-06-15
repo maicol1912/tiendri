@@ -11,7 +11,7 @@ import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { BeautySoftProduct, BeautySoftCategory, HeroBannerData, NavTab } from "../types";
 import type { StoreInfo } from "@/types/store";
 import type { BeautySoftConfig } from "../config";

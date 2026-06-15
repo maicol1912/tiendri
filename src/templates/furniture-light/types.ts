@@ -65,16 +65,4 @@ export interface StyleCard {
   image: string;
 }
 
-export interface FurnitureLightFilterOption {
-  id: string;
-  label: string;
-  count?: number;
-}
-
-export interface FurnitureLightFilterGroup {
-  id: string;
-  label: string;
-  options: FurnitureLightFilterOption[];
-}
-
 export type FurnitureLightSortOption = 'recent' | 'price-asc' | 'price-desc' | 'rating';

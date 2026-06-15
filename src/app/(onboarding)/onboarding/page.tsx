@@ -9,7 +9,7 @@ import { Step2CatalogMode } from '@/components/onboarding/step2-catalog-mode'
 import { Step3VibeSelection } from '@/components/onboarding/step3-vibe-selection'
 import { Step5Branding } from '@/components/onboarding/step5-branding'
 import { CelebrationScreen } from '@/components/onboarding/celebration-screen'
-import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/actions'
+import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/client-utils'
 import { markOnboardingCompleted } from '@/lib/onboarding/first-time'
 import type { AccentColor } from '@/types/onboarding'
 

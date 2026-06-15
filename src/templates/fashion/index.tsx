@@ -9,7 +9,7 @@ export { ListingShellRoute } from "./components/ListingShellRoute";
 export { CartShellRoute } from "./components/CartShellRoute";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
 export { SearchShellRoute } from "./components/SearchShellRoute";
-export { StoreInfoPage } from "./components/StoreInfoPage";
+export { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 
 // ── Page components (presentational) ─────────────────────────────────────────
@@ -31,11 +31,11 @@ export { EditorialSection } from "./components/EditorialSection";
 export { CollectionSection } from "./components/CollectionSection";
 export { ColorSwatch } from "./components/ColorSwatch";
 export { SizeSelector } from "./components/SizeSelector";
-export { FilterSidebar } from "./components/FilterSidebar";
+export { FilterSidebar } from "../_shared/FilterSidebar";
 
 // ── Context + hooks ───────────────────────────────────────────────────────────
 export { CartProvider, useCart } from "@/lib/cart";
-export { useTemplateNav } from "./hooks/useTemplateNav";
+export { useTemplateNav } from "../_shared/hooks/useTemplateNav";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export type {

@@ -3,7 +3,7 @@
 import type React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CategorySection } from '@/templates/tech-premium/components/CategorySection';
-import { gridColsClass } from '@/templates/tech-premium/utils/grid-classes';
+import { gridColsClass } from '@/templates/_shared/utils/grid-classes';
 import type { CategoryNavProps } from './types';
 
 export default function HorizontalScroll({

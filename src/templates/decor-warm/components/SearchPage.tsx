@@ -7,7 +7,7 @@ import { Search, X } from "lucide-react";
 import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { DecorWarmProduct, DecorWarmNavTab } from "../types";
 import type { StoreInfo } from "@/types/store";
 import type { DecorWarmConfig } from "../config";

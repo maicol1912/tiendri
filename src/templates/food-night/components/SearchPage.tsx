@@ -8,7 +8,7 @@ import { Search, ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface SearchPageProps {

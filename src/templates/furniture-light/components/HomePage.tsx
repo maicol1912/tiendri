@@ -12,7 +12,7 @@ import { WalletBar } from "./WalletBar";
 import { CategorySection } from "./CategorySection";
 import { RoomStylesSection } from "./RoomStylesSection";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { furnitureLightConfig } from "../config";
 import type { FurnitureLightConfig } from "../config";
 import type {

@@ -1,12 +1,10 @@
 "use client";
 
-// Furniture Light — StoreInfoShellRoute
-// Client boundary. Wires navigation for the Info page.
-
 import { useCallback } from "react";
-import { StoreInfoPage } from "./StoreInfoPage";
-import { useTemplateNav } from "../hooks/useTemplateNav";
-import type { FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import type { FurnitureStoreInfo } from "../types";
 
 interface StoreInfoShellRouteProps {
   store: FurnitureStoreInfo;
@@ -24,23 +22,19 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
     [nav]
   );
 
-  const handleTabChange = useCallback(
-    (tab: FurnitureNavTab) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "cart") nav.goCart();
-      else if (tab === "search") nav.goSearch();
-    },
-    [nav]
-  );
-
   return (
     <StoreInfoPage
       store={store}
+      header={
+        <Header
+          store={store}
+          activeHref="/info"
+          onNavLinkClick={handleNavLinkClick}
+          onSearchClick={nav.goSearch}
+          onCartClick={nav.goCart}
+        />
+      }
       onBack={nav.goHome}
-      onCartClick={nav.goCart}
-      onSearchClick={nav.goSearch}
-      onNavLinkClick={handleNavLinkClick}
-      onTabChange={handleTabChange}
     />
   );
 }

@@ -1,54 +1,11 @@
 "use client";
 
-// Fashion Template — Checkout Shell Route
-// Form state, validation, WhatsApp message builder.
-// Clears cart on successful WhatsApp redirect.
-// Navigation via useTemplateNav.
-
 import { useState, useCallback } from "react";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { CheckoutPage } from "./CheckoutPage";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { StoreInfo, CheckoutFormData, NavTab } from "../types";
-import { formatPrice } from "@/lib/format";
-
-// ── WhatsApp message builder ─────────────────────────────────────────────────
-
-function buildWhatsAppMessage(
-  store: StoreInfo,
-  items: Array<{
-    name: string;
-    variantName: string | null;
-    quantity: number;
-    price: number;
-  }>,
-  total: number,
-  formData: CheckoutFormData,
-  symbol: string
-): string {
-  const lines: Array<string | null> = [
-    `*Nuevo pedido — ${store.name}*`,
-    "",
-    "*Productos:*",
-    ...items.map((item) => {
-      const variantStr = item.variantName ? ` (${item.variantName})` : "";
-      return `- ${item.name}${variantStr} × ${item.quantity} = ${formatPrice(item.price * item.quantity, symbol)}`;
-    }),
-    "",
-    `*Total: ${formatPrice(total, symbol)}*`,
-    "",
-    "*Datos del cliente:*",
-    `- Nombre: ${formData.nombre}`,
-    `- WhatsApp: ${formData.whatsapp}`,
-    formData.email ? `- Email: ${formData.email}` : null,
-    `- Dirección: ${formData.direccion}`,
-    formData.notas ? `- Notas: ${formData.notas}` : null,
-    "",
-    `_Pedido vía tiendri.com/${store.slug}_`,
-  ];
-
-  return lines.filter((l): l is string => l !== null).join("\n");
-}
 
 function validateForm(data: CheckoutFormData): string | null {
   if (!data.nombre.trim()) return "El nombre es obligatorio";
@@ -100,21 +57,20 @@ function CheckoutShellInner({
       return;
     }
 
-    const message = buildWhatsAppMessage(
-      store,
-      items.map((item) => ({
-        name: item.name,
-        variantName: item.variantName,
-        quantity: item.quantity,
-        price: item.price,
-      })),
-      totalPrice,
-      formData,
-      currencySymbol
-    );
+    const message = buildWhatsAppMessage({
+      items,
+      customerName: formData.nombre,
+      customerPhone: formData.whatsapp,
+      customerEmail: formData.email,
+      customerAddress: formData.direccion,
+      customerNotes: formData.notas,
+      storePhone: store.whatsapp,
+      storeName: store.name,
+      storeSlug: store.slug ?? "",
+      currencySymbol,
+    });
 
-    const phone = store.whatsapp.replace(/\D/g, "");
-    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    const waUrl = buildWhatsAppUrl(store.whatsapp, message);
 
     clearCart();
     window.open(waUrl, "_blank", "noopener,noreferrer");

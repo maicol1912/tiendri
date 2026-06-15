@@ -1,14 +1,12 @@
 "use client";
 
-// Food Night — Checkout Shell Route
-// WhatsApp message builder + form validation + cart clear on submit
-
 import { useState, useCallback } from "react";
 import { CheckoutPage } from "./CheckoutPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { FoodNightConfig } from "../config";
 import type { StoreInfo, CheckoutFormData } from "../types";
 
@@ -43,33 +41,6 @@ function validateForm(data: CheckoutFormData): FieldErrors {
   return errors;
 }
 
-function buildWhatsAppMessage(
-  store: StoreInfo,
-  form: CheckoutFormData,
-  items: { name: string; quantity: number; price: number; variantName?: string | null }[],
-  total: number,
-  currencySymbol: string
-): string {
-  const fmt = (n: number) => `${currencySymbol}${new Intl.NumberFormat("en-US").format(n)}`;
-  const lines: string[] = [];
-  lines.push(`🍕 *Nuevo pedido desde tiendri.com/${store.slug}*`);
-  lines.push("");
-  lines.push("*Productos:*");
-  items.forEach((item) => {
-    const size = item.variantName ? ` (${item.variantName})` : "";
-    lines.push(`• ${item.quantity}× ${item.name}${size} — ${fmt(item.price * item.quantity)}`);
-  });
-  lines.push("");
-  lines.push(`*Total: ${fmt(total)}*`);
-  lines.push("");
-  lines.push("*Datos del cliente:*");
-  lines.push(`Nombre: ${form.nombre.trim()}`);
-  lines.push(`WhatsApp: ${form.whatsapp.trim()}`);
-  lines.push(`Dirección: ${form.direccion.trim()}`);
-  if (form.email.trim()) lines.push(`Email: ${form.email.trim()}`);
-  if (form.notas.trim()) lines.push(`Notas: ${form.notas.trim()}`);
-  return lines.join("\n");
-}
 
 export function CheckoutShellRoute({
   store,
@@ -109,12 +80,21 @@ export function CheckoutShellRoute({
 
     setIsSubmitting(true);
 
-    const phone = (store.whatsapp ?? "").replace(/\D/g, "");
-    const message = buildWhatsAppMessage(store, formData, items, subtotal, currencySymbol);
-    const encoded = encodeURIComponent(message);
+    const message = buildWhatsAppMessage({
+      items,
+      customerName: formData.nombre,
+      customerPhone: formData.whatsapp,
+      customerEmail: formData.email,
+      customerAddress: formData.direccion,
+      customerNotes: formData.notas,
+      storePhone: store.whatsapp ?? "",
+      storeName: store.name,
+      storeSlug: store.slug ?? "",
+      currencySymbol,
+    });
 
     clearCart();
-    window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank", "noopener,noreferrer");
+    window.open(buildWhatsAppUrl(store.whatsapp ?? "", message), "_blank", "noopener,noreferrer");
 
     setIsSubmitting(false);
     nav.goHome();

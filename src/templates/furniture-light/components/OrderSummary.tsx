@@ -36,17 +36,17 @@ export function OrderSummary({
         backgroundColor: "var(--t-secondary)",
       }}
     >
-      <p className="text-base font-bold text-white mb-4">Resumen del pedido</p>
+      <p className="text-base font-bold mb-4" style={{ color: "var(--t-on-secondary)" }}>Resumen del pedido</p>
 
       {/* Voucher row */}
       <div
         className="flex items-center gap-2 mb-4 px-3 py-2.5"
         style={{
           borderRadius: "var(--t-radius-button)",
-          border: "1px dashed rgba(255,255,255,0.3)",
+          border: "1px dashed color-mix(in srgb, var(--t-on-secondary) 30%, transparent)",
         }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="color-mix(in srgb, var(--t-on-secondary) 70%, transparent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M20 12v10H4V12" />
           <path d="M22 7H2v5h20V7z" />
           <line x1="12" y1="22" x2="12" y2="7" />
@@ -56,24 +56,27 @@ export function OrderSummary({
         <input
           type="text"
           placeholder="Código de cupón"
-          className="flex-1 bg-transparent text-sm text-white/80 placeholder-white/40 outline-none"
+          className="flex-1 bg-transparent text-sm outline-none"
+          style={{
+            color: "color-mix(in srgb, var(--t-on-secondary) 80%, transparent)",
+          }}
         />
         <button className="text-xs font-semibold text-[var(--t-primary)]">Aplicar</button>
       </div>
 
       <div className="space-y-2 mb-4">
         <div className="flex justify-between text-sm">
-          <span className="text-white/70">Subtotal</span>
-          <span className="text-white font-medium">{fmt(subtotal, currencySymbol)}</span>
+          <span style={{ color: "color-mix(in srgb, var(--t-on-secondary) 70%, transparent)" }}>Subtotal</span>
+          <span className="font-medium" style={{ color: "var(--t-on-secondary)" }}>{fmt(subtotal, currencySymbol)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-white/70">Envío</span>
-          <span className="text-white font-medium">{fmt(shipping, currencySymbol)}</span>
+          <span style={{ color: "color-mix(in srgb, var(--t-on-secondary) 70%, transparent)" }}>Envío</span>
+          <span className="font-medium" style={{ color: "var(--t-on-secondary)" }}>{fmt(shipping, currencySymbol)}</span>
         </div>
-        <div className="h-px bg-white/10 my-1" />
+        <div className="h-px my-1" style={{ backgroundColor: "color-mix(in srgb, var(--t-on-secondary) 10%, transparent)" }} />
         <div className="flex justify-between text-base">
-          <span className="text-white font-bold">Total</span>
-          <span className="text-white font-bold">{fmt(total, currencySymbol)}</span>
+          <span className="font-bold" style={{ color: "var(--t-on-secondary)" }}>Total</span>
+          <span className="font-bold" style={{ color: "var(--t-on-secondary)" }}>{fmt(total, currencySymbol)}</span>
         </div>
       </div>
 
@@ -92,8 +95,8 @@ export function OrderSummary({
         style={{
           borderRadius: "var(--t-radius-button)",
           backgroundColor: "transparent",
-          color: "rgba(255,255,255,0.7)",
-          border: "1px solid rgba(255,255,255,0.2)",
+          color: "color-mix(in srgb, var(--t-on-secondary) 70%, transparent)",
+          border: "1px solid color-mix(in srgb, var(--t-on-secondary) 20%, transparent)",
         }}
       >
         Seguir comprando

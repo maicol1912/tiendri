@@ -1,12 +1,11 @@
 "use client";
 
-// Food Night — StoreInfoShellRoute
-// Client boundary. Wires navigation for the Info page.
-
 import { useCallback } from "react";
-import { StoreInfoPage } from "./StoreInfoPage";
-import { useTemplateNav } from "../hooks/useTemplateNav";
-import type { StoreInfo, NavTab } from "../types";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import type { StoreInfo } from "../types";
+import type { StoreInfo as SharedStoreInfo } from "@/types/store";
 
 interface StoreInfoShellRouteProps {
   store: StoreInfo;
@@ -24,24 +23,27 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
     [nav]
   );
 
-  const handleTabChange = useCallback(
-    (tab: NavTab) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "cart") nav.goCart();
-      else if (tab === "search") nav.goSearch();
-    },
-    [nav]
-  );
+  const sharedStore: SharedStoreInfo = {
+    name: store.name,
+    slug: store.slug,
+    logo: store.logo,
+    whatsapp: store.whatsapp,
+    social_links: store.social_links,
+  };
 
   return (
     <StoreInfoPage
-      store={store}
-      activeHref="/info"
+      store={sharedStore}
+      header={
+        <Header
+          store={store}
+          activeHref="/info"
+          onSearchClick={nav.goSearch}
+          onCartClick={nav.goCart}
+          onNavLinkClick={handleNavLinkClick}
+        />
+      }
       onBack={nav.goHome}
-      onCartClick={nav.goCart}
-      onSearchClick={nav.goSearch}
-      onTabChange={handleTabChange}
-      onNavLinkClick={handleNavLinkClick}
     />
   );
 }

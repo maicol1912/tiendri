@@ -7,7 +7,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import type { BeautySoftProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
 

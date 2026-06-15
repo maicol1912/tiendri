@@ -8,7 +8,7 @@ import { SearchBar } from "./SearchBar";
 import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 
 interface SearchPageProps {

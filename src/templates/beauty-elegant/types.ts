@@ -4,18 +4,6 @@ import type { StoreInfo as SharedStoreInfo } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
-export interface BeautyElegantFilterOption {
-  id: string;
-  label: string;
-  count?: number;
-}
-
-export interface BeautyElegantFilterGroup {
-  id: string;
-  label: string;
-  options: BeautyElegantFilterOption[];
-}
-
 export type BeautyElegantSortOption = 'recent' | 'price-asc' | 'price-desc';
 
 // Re-export shared StoreInfo

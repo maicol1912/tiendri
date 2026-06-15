@@ -1,14 +1,11 @@
 "use client";
 
-// Beauty Soft Template — StoreInfoShellRoute
-// Client boundary. Wires navigation for the Info page.
-
 import { useCallback } from "react";
-import { StoreInfoPage } from "./StoreInfoPage";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
+import { Header } from "./Header";
+import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useCart } from "@/lib/cart";
 import type { StoreInfo } from "@/types/store";
-import type { NavTab } from "../types";
 
 interface StoreInfoShellRouteProps {
   store: StoreInfo;
@@ -17,15 +14,6 @@ interface StoreInfoShellRouteProps {
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   const nav = useTemplateNav();
   const { totalItems } = useCart();
-
-  const handleTabChange = useCallback(
-    (tab: NavTab) => {
-      if (tab === "home") nav.goHome();
-      else if (tab === "cart") nav.goCart();
-      else if (tab === "search") nav.goSearch();
-    },
-    [nav]
-  );
 
   const handleNavLinkClick = useCallback(
     (href: string) => {
@@ -39,12 +27,17 @@ export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {
   return (
     <StoreInfoPage
       store={store}
+      header={
+        <Header
+          store={store}
+          cartItemCount={totalItems}
+          activeHref="/info"
+          onNavLinkClick={handleNavLinkClick}
+          onCartClick={nav.goCart}
+          onSearchClick={nav.goSearch}
+        />
+      }
       onBack={nav.goHome}
-      onTabChange={handleTabChange}
-      onNavLinkClick={handleNavLinkClick}
-      onCartClick={nav.goCart}
-      onSearchClick={nav.goSearch}
-      cartItemCount={totalItems}
     />
   );
 }

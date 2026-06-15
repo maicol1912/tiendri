@@ -38,7 +38,7 @@ export { SearchPage } from "./components/SearchPage";
 export { SearchShellRoute } from "./components/SearchShellRoute";
 export { CheckoutPage } from "./components/CheckoutPage";
 export { CheckoutShellRoute } from "./components/CheckoutShellRoute";
-export { StoreInfoPage } from "./components/StoreInfoPage";
+export { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 export { CartProvider, useCart } from "@/lib/cart";
 export type {

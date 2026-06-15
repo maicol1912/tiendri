@@ -10,9 +10,9 @@ import { ChevronLeft, SlidersHorizontal, Search, X } from "lucide-react";
 import type { StorefrontStore, StorefrontProduct, CategoryBannerData, FilterGroup, SortOption } from "../types";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
-import { FilterSidebar } from "./FilterSidebar";
+import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { ProductCard } from "./ProductCard";
-import { gridColsClass } from "../utils/grid-classes";
+import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { bannerHeightClass } from "../utils/layout-classes";
 
 interface ProductListingPageProps {
@@ -381,7 +381,7 @@ export function ProductListingPage({
         <div className="lg:flex lg:gap-6 lg:items-start">
           {/* FilterSidebar — desktop static, mobile drawer */}
           <FilterSidebar
-            filters={filters}
+            filterGroups={filters}
             activeFilters={activeFilters}
             onFilterChange={onFilterChange}
             onClearAll={onClearAll}
