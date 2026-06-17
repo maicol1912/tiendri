@@ -12,7 +12,7 @@ import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
 import type { StoreInfo, CartItem, NavTab } from "../types";
 
-const fmt = new Intl.NumberFormat("en-US");
+const fmt = new Intl.NumberFormat("es-CO");
 
 interface CartPageProps {
   store: StoreInfo;

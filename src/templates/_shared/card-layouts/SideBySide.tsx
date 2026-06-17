@@ -73,7 +73,7 @@ export default function CardSideBySide({
 
         <p className={`tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
           {currencySymbol}
-          {new Intl.NumberFormat('en-US').format(product.price)}
+          {new Intl.NumberFormat('es-CO').format(product.price)}
         </p>
 
         <button

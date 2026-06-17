@@ -21,7 +21,7 @@ export function OrderSummary({
   onContinueShopping,
 }: OrderSummaryProps) {
   const ctaClass = BUTTON_STYLE_MAP[buttonStyle ?? "filled"];
-  const formattedTotal = `${currencySymbol}${new Intl.NumberFormat("en-US").format(totalPrice)}`;
+  const formattedTotal = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(totalPrice)}`;
 
   return (
     <div

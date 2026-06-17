@@ -8,6 +8,7 @@
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { TechPremiumConfig } from "../config";
@@ -41,18 +42,25 @@ export function ProductDetailShellRoute({
   const [selectedStorage, setSelectedStorage] = useState<string | undefined>(undefined);
   const [selectedColor, setSelectedColor] = useState(0);
 
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
+
   const handleAddToCart = useCallback(() => {
     if (!product.inStock) return;
     addItem({
       productId: product.id,
-      variantName: null,
+      variantName: variantPriceName,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
       quantity: 1,
       imageUrl: product.images[0]?.url ?? null,
     });
     nav.goCart();
-  }, [product, addItem, nav]);
+  }, [product, addItem, nav, effectivePrice, variantPriceName]);
 
   const handleProductClick = useCallback(
     (productId: string) => nav.goProduct(productId),
@@ -110,6 +118,9 @@ export function ProductDetailShellRoute({
       selectedImageIndex={selectedImageIndex}
       selectedStorage={selectedStorage}
       selectedColor={selectedColor}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
       onBack={nav.goHome}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
@@ -121,6 +132,7 @@ export function ProductDetailShellRoute({
       onAddToCartProduct={handleAddToCartProduct}
       onTabChange={handleTabChange}
       onNavLinkClick={handleNavLinkClick}
+      productDetailTabs={[...(config.content?.productDetailTabs ?? [])]}
     />
   );
 }

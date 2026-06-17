@@ -23,10 +23,10 @@ export function CartItemRow({
     item.originalPrice !== undefined &&
     item.originalPrice > item.price;
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(item.price)}`;
+  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(item.price)}`;
   const formattedOriginalPrice =
     hasDiscount && item.originalPrice
-      ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(item.originalPrice)}`
+      ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(item.originalPrice)}`
       : null;
 
   return (

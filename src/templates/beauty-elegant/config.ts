@@ -73,6 +73,7 @@ export const beautyElegantConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'text-only' as const,
   },
 
   sections: [
@@ -115,6 +116,12 @@ export const beautyElegantConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Cosmético premium desarrollado con la más avanzada biotecnología de belleza. Resultados visibles desde las primeras aplicaciones en tu rutina diaria." },
+      { id: "ingredientes", label: "Ingredientes", content: "Fórmula enriquecida con péptidos activos, retinol y extracto de rosa mosqueta. Dermatológicamente probado, sin crueldad animal." },
+      { id: "beneficios", label: "Beneficios", content: "Hidrata, ilumina y protege la piel en un solo paso. Reduce la apariencia de líneas finas y mejora la textura del cutis en 4 semanas." },
+      { id: "envio", label: "Envío", content: "Despacho en 24-48 horas hábiles. Envío nacional con seguimiento en tiempo real y empaque premium especial para regalo." },
     ],
     popularSearches: [
       "Sérum Vitamina C",

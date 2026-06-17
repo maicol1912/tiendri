@@ -8,6 +8,9 @@ export interface StorefrontStore {
   slug: string;
   whatsapp?: string;
   description?: string;
+  hours?: string;
+  paymentMethods?: string[];
+  shippingInfo?: string;
   social_links?: {
     instagram?: string;
     facebook?: string;
@@ -37,6 +40,21 @@ export interface ColorOption {
   name: string;
 }
 
+export interface StorefrontVariantOption {
+  id: string;
+  label: string;
+  value?: string;
+  priceModifier?: number;
+  available?: boolean;
+}
+
+export interface StorefrontVariantGroup {
+  id: string;
+  label: string;
+  type: 'color' | 'size' | 'storage' | 'custom';
+  options: StorefrontVariantOption[];
+}
+
 export interface StorefrontProduct {
   id: string;
   name: string;
@@ -56,8 +74,10 @@ export interface StorefrontProduct {
   inWishlist?: boolean;
   /** Category this product belongs to */
   categoryId?: string;
+  subcategoryId?: string;
   /** Available colors */
   colors?: ColorOption[];
+  variants?: StorefrontVariantGroup[];
 }
 
 export type NavTab = "home" | "search" | "cart" | "info";

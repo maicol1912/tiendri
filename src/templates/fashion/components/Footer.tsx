@@ -123,6 +123,48 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
           )}
         </div>
 
+        {/* Social links */}
+        {(store.social_links?.instagram || store.social_links?.facebook || store.social_links?.tiktok) && (
+          <div className="flex items-center gap-4 flex-wrap pb-2">
+            {store.social_links?.instagram && (
+              <a
+                href={store.social_links.instagram.startsWith("http") ? store.social_links.instagram : `https://instagram.com/${store.social_links.instagram.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-[11px] text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                Instagram
+              </a>
+            )}
+            {store.social_links?.facebook && (
+              <a
+                href={store.social_links.facebook.startsWith("http") ? store.social_links.facebook : `https://facebook.com/${store.social_links.facebook}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="text-[11px] text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                Facebook
+              </a>
+            )}
+            {store.social_links?.tiktok && (
+              <a
+                href={store.social_links.tiktok.startsWith("http") ? store.social_links.tiktok : `https://tiktok.com/@${store.social_links.tiktok.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-[11px] text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                TikTok
+              </a>
+            )}
+          </div>
+        )}
+
         {/* Bottom row */}
         <div
           className={`pt-5 flex gap-2 border-t border-[var(--t-border)] ${
@@ -142,9 +184,15 @@ export function Footer({ store, services = [], assistance = [], layout }: Footer
             style={{ fontFamily: "var(--font-sans)", fontWeight: 400 }}
           >
             Creado con{" "}
-            <span className="font-medium text-[var(--t-foreground)] underline underline-offset-2">
+            <a
+              href="https://tiendri.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline underline-offset-2"
+              style={{ color: "var(--t-foreground)" }}
+            >
               Tiendri
-            </span>
+            </a>
           </p>
         </div>
       </div>

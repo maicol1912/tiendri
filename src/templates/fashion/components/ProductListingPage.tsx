@@ -39,6 +39,7 @@ interface ProductListingPageProps {
   onMenuClick?: () => void;
   onNavLinkClick?: (href: string) => void;
   onProductClick?: (id: string) => void;
+  onAddToCart?: (id: string) => void;
   onFilterChange?: (groupId: string, optionId: string, checked: boolean) => void;
   onClearAllFilters?: () => void;
   onSortChange?: (sort: SortOption) => void;
@@ -76,6 +77,7 @@ export function ProductListingPage({
   onMenuClick,
   onNavLinkClick,
   onProductClick,
+  onAddToCart,
   onFilterChange,
   onClearAllFilters,
   onSortChange,
@@ -367,6 +369,7 @@ export function ProductListingPage({
                     product={product}
                     currencySymbol={currencySymbol}
                     onProductClick={onProductClick}
+                    onAddToCart={onAddToCart}
                     layout={layout}
                   />
                 ))}

@@ -24,7 +24,7 @@ export function CartItemRow({
   onRemove,
 }: CartItemRowProps) {
   const fmt = (price: number) =>
-    `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
+    `${currencySymbol}${new Intl.NumberFormat("es-CO").format(price)}`;
 
   return (
     <div

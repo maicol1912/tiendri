@@ -12,17 +12,18 @@ import { formatPriceCurrency as formatPrice } from "@/lib/format";
 
 interface ProductInfoProps {
   product: StorefrontProduct;
+  effectivePrice?: number;
   quantity: number;
   selectedColorId?: string;
   onColorSelect?: (colorId: string) => void;
   onIncrement: () => void;
   onDecrement: () => void;
-  /** Optional: shown on desktop only, calls onAddToCart */
   onAddToCart?: () => void;
 }
 
 export function ProductInfo({
   product,
+  effectivePrice,
   quantity,
   selectedColorId,
   onColorSelect,
@@ -68,7 +69,7 @@ export function ProductInfo({
             letterSpacing: "-0.84px",
           }}
         >
-          {formatPrice(product.price)}
+          {formatPrice(effectivePrice ?? product.price)}
         </span>
         {product.originalPrice && product.originalPrice > product.price && (
           <>

@@ -1,6 +1,7 @@
 // Decor Warm Template — Types
 // Re-exports shared types and declares template-specific types.
 
+import type { StorefrontVariantGroup } from "@/types/store";
 export type { StoreInfo } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
@@ -40,6 +41,7 @@ export interface DecorWarmProduct {
   reviewCount?: number;
   inWishlist?: boolean;
   categoryId?: string;
+  variants?: StorefrontVariantGroup[];
 }
 
 // ── Category types ────────────────────────────────────────────────────────────

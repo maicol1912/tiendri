@@ -4,7 +4,7 @@
 // Card visual styles
 export type CardStyle = "flat" | "shadow" | "bordered" | "elevated";
 export type HoverEffect = "none" | "lift" | "scale" | "glow";
-export type ImageRatio = "square" | "portrait" | "wide";
+export type ImageRatio = "square" | "portrait" | "wide" | "tall";
 
 // Aliases used by the preset system
 export type CardHover = HoverEffect;
@@ -81,6 +81,7 @@ export type CardContentLayout = "below-image" | "overlay-bottom" | "overlay-full
 export type HeroVariant = "full-bleed" | "contained" | "split" | "text-only";
 export type CategoryNavPattern = "horizontal-scroll" | "grid" | "tabs" | "chips";
 export type AddToCartStyle = "full-width" | "icon-button" | "floating-fab" | "on-hover-only";
+export type CategoryDisplayType = "text-only" | "icon-text" | "image-text";
 export type TransitionSpeed = "instant" | "fast" | "normal" | "slow" | "very-slow";
 export type TransitionEasing = "linear" | "ease" | "ease-in-out" | "spring";
 export type ShadowElevation = "none" | "xs" | "sm" | "md" | "lg" | "xl";

@@ -25,7 +25,7 @@ export function ListingShellRoute({
   currencySymbol = "$",
 }: ListingShellRouteProps) {
   const nav = useTemplateNav();
-  const { totalItems } = useCart();
+  const { totalItems, addItem } = useCart();
   const { config } = useLayoutConfig<FoodNightConfig>();
   const layout = config?.layout ?? foodNightConfig.layout;
   const grid = config?.grid ?? foodNightConfig.grid;
@@ -87,6 +87,19 @@ export function ListingShellRoute({
     else if (href === "/catalogo") nav.goListing();
     else if (href === "/info") nav.goInfo();
   }, [nav]);
+
+  const handleAddToCart = useCallback((productId: string) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product || !product.available) return;
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.images[0]?.url ?? null,
+      variantName: null,
+      quantity: 1,
+    });
+  }, [products, addItem]);
 
   const handleFilterChange = useCallback(
     (groupId: string, optionId: string, checked: boolean) => {
@@ -211,6 +224,7 @@ export function ListingShellRoute({
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={nav.goProduct}
+      onAddToCart={handleAddToCart}
       onNavLinkClick={handleNavLinkClick}
       onTabChange={(tab) => {
         if (tab === "home") nav.goHome();

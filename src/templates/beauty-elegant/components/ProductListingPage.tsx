@@ -51,6 +51,7 @@ interface ProductListingPageProps {
   onOpenFilterDrawer: () => void;
   onCloseFilterDrawer: () => void;
   onProductClick?: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
   onBack?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
@@ -86,6 +87,7 @@ export function ProductListingPage({
   onOpenFilterDrawer,
   onCloseFilterDrawer,
   onProductClick,
+  onAddToCart,
   onBack,
   onTabChange,
   onNavLinkClick,
@@ -432,6 +434,7 @@ export function ProductListingPage({
                     currencySymbol={currencySymbol}
                     layout={layout}
                     onClick={() => onProductClick?.(product.id)}
+                    onAddToCart={onAddToCart}
                   />
                 ))}
               </div>

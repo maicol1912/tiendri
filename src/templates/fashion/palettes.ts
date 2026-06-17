@@ -1,5 +1,5 @@
 // Fashion Template — Color Palettes
-// 12 pre-built palettes designed for fashion, apparel, and lifestyle stores.
+// 16 pre-built palettes designed for fashion, apparel, and lifestyle stores.
 // Palette #1 (classic-noir) matches the existing defaults in config.ts exactly.
 
 import type { ColorPalette } from "@/types/templates/config-schema";
@@ -266,6 +266,94 @@ export const fashionPalettes: ColorPalette[] = [
       muted: "#508870",
       accent: "#00A870",
       onPrimary: "#FFFFFF",
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 13. FASHION OBSIDIAN — Deep black with warm off-white, ultra editorial
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "fashion-obsidian",
+    name: "Obsidiana Fashion",
+    description: "Negro profundo con blanco cálido — editorial de alta costura",
+    style: "premium",
+    preview: ["#0A0A0A", "#F0EDE8", "#141414", "#E8E4DF", "#5A5A5A"],
+    colors: {
+      primary: "#0A0A0A",
+      secondary: "#2A2A2A",
+      background: "#F0EDE8",
+      foreground: "#0A0A0A",
+      card: "#FAFAF8",
+      border: "#D8D4CF",
+      muted: "#7A7470",
+      accent: "#C8A050",
+      onPrimary: "#F0EDE8",
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 14. FASHION TERRACOTTA — Rich terracotta jewel tone, editorial warmth
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "fashion-terracotta",
+    name: "Terracota Editorial",
+    description: "Terracota joya con neutros cálidos — editorial mediterráneo de lujo",
+    style: "warm",
+    preview: ["#8B3A2A", "#C8624A", "#FBF5EF", "#F0D8CC", "#A86850"],
+    colors: {
+      primary: "#8B3A2A",
+      secondary: "#C8624A",
+      background: "#FBF5EF",
+      foreground: "#3A1A10",
+      card: "#FFFDF9",
+      border: "#E8CCBC",
+      muted: "#A07060",
+      accent: "#C8624A",
+      onPrimary: "#FBF5EF",
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 15. FASHION SAGE — Dusty sage with linen, sustainable chic
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "fashion-sage",
+    name: "Salvia Sofisticada",
+    description: "Salvia empolvado con lino — moda sostenible y sofisticada",
+    style: "nature",
+    preview: ["#3A4A38", "#7A9870", "#F2F0E8", "#D8E4D0", "#90A888"],
+    colors: {
+      primary: "#3A4A38",
+      secondary: "#7A9870",
+      background: "#F2F0E8",
+      foreground: "#2A3828",
+      card: "#FDFCF8",
+      border: "#C8D8C0",
+      muted: "#788870",
+      accent: "#C8A040",
+      onPrimary: "#F2F0E8",
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 16. FASHION PEARL — Luminous pearl whites with platinum neutrals
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: "fashion-pearl",
+    name: "Perla Luminosa",
+    description: "Blancos nacarados con platino — minimalismo de lujo atemporal",
+    style: "minimal",
+    preview: ["#2A2A2C", "#C8C4BC", "#FAFAFA", "#F0EEEC", "#D8D4D0"],
+    colors: {
+      primary: "#2A2A2C",
+      secondary: "#C8C4BC",
+      background: "#FAFAFA",
+      foreground: "#1A1A1C",
+      card: "#FFFFFF",
+      border: "#E4E0DC",
+      muted: "#909090",
+      accent: "#B8A890",
+      onPrimary: "#FAFAFA",
     },
   },
 ];

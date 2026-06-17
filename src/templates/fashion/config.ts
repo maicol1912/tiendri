@@ -71,6 +71,7 @@ export const fashionConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'text-only' as const,
   },
 
   // Home page sections — fashion layout
@@ -120,6 +121,12 @@ export const fashionConfig = {
       { id: "new-arrival", label: "Nueva Colección" },
       { id: "bestseller", label: "Más Vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Pieza de moda diseñada con materiales de alta calidad para un estilo cómodo y sofisticado. Perfecta para cualquier ocasión." },
+      { id: "detalles", label: "Detalles", content: "Confección de primera línea con acabados cuidados al detalle. Disponible en múltiples tallas y colores de temporada." },
+      { id: "cuidados", label: "Cuidados", content: "Lavar a máquina en agua fría con colores similares. No usar secadora. Planchar a temperatura media por el revés de la prenda." },
+      { id: "envio_devoluciones", label: "Envío y devoluciones", content: "Envío gratis en compras superiores a $150.000. Cambios y devoluciones dentro de los 30 días siguientes a la compra." },
     ],
     popularSearches: [
       "Camiseta negra",

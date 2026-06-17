@@ -12,6 +12,9 @@ export const mockStore: StoreInfo = {
   avatar: ASSETS.avatar,
   greeting: "Hola, Bienvenido 👋",
   whatsapp: "573001234567",
+  hours: "Lun–Dom 12pm–11pm · Domicilios hasta las 10:30pm",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta contra entrega"],
+  shippingInfo: "Domicilio en 30–45 minutos dentro de la ciudad. Sin costo mínimo de pedido.",
   social_links: {
     instagram: "pizzanight",
     facebook: "pizzanight",

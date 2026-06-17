@@ -75,19 +75,42 @@ export function Footer({ store }: FooterProps) {
                 <span>Facebook</span>
               </a>
             )}
+            {store.social_links?.tiktok && (
+              <a
+                href={`https://tiktok.com/@${store.social_links.tiktok.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="flex items-center justify-center gap-1 text-[12px] font-normal no-underline"
+                style={{
+                  height: 32,
+                  borderRadius: "var(--t-radius-category)",
+                  backgroundColor: "var(--t-card)",
+                  paddingLeft: 12,
+                  paddingRight: 12,
+                  color: "var(--t-muted)",
+                }}
+              >
+                <ExternalLink size={12} strokeWidth={1.75} />
+                <span>TikTok</span>
+              </a>
+            )}
           </div>
         )}
 
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center gap-1">
           <span className="text-[12px] font-normal" style={{ color: "var(--t-muted)" }}>
             Creado con
           </span>
-          <span
-            className="text-[13px] font-semibold"
+          <a
+            href="https://tiendri.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[12px] font-semibold no-underline"
             style={{ color: "var(--t-accent)" }}
           >
             Tiendri
-          </span>
+          </a>
         </div>
 
         {store.whatsapp && (

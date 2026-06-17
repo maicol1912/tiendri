@@ -66,6 +66,9 @@ export function HomePage({
       <HeroBanner
         products={products.slice(0, 4)}
         currencySymbol={currencySymbol}
+        title={fashionConfig.content.heroBanner.title}
+        subtitle={fashionConfig.content.heroBanner.subtitle}
+        ctaText={fashionConfig.content.heroBanner.ctaText}
         onShopClick={onShopClick}
         onProductClick={onProductClick}
         onSearchFocus={onSearchClick}

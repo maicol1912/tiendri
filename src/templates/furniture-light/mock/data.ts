@@ -15,6 +15,9 @@ export const mockStore: FurnitureStoreInfo = {
   slug: "kasa-furniture",
   logo: null,
   whatsapp: "573001234567",
+  hours: "Lun–Sáb 9am–6pm · Dom 10am–3pm",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta", "Financiamiento disponible"],
+  shippingInfo: "Envío gratis en pedidos mayores a $200.000. Entrega e instalación incluida en Bogotá.",
   social_links: {
     instagram: "@kasa.furniture",
     facebook: "kasafurniture",

@@ -19,6 +19,9 @@ export const mockStore: StoreInfo = {
   logo: null,
   description: "Tu tienda de muebles y decoración para el hogar perfecto.",
   whatsapp: "573001234567",
+  hours: "Lun–Sáb 9am–7pm · Dom cerrado",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Transferencia bancaria", "Tarjeta"],
+  shippingInfo: "Envío en Bogotá: 1–2 días. Envío nacional: 3–7 días hábiles. Artículos grandes incluyen instalación.",
   social_links: {
     instagram: "casabonita.co",
     facebook: "casabonitacol",

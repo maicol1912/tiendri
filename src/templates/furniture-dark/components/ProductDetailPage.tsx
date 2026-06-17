@@ -9,7 +9,11 @@ import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { ImageGallery } from "./ImageGallery";
 import { ProductInfo } from "./ProductInfo";
+import { ProductCard } from "./ProductCard";
 import { StickyBottomBar } from "./StickyBottomBar";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 import type { StorefrontStore } from "../types";
 
 interface ProductDetailPageProps {
@@ -18,6 +22,9 @@ interface ProductDetailPageProps {
   quantity: number;
   activeImageIndex: number;
   selectedColorId?: string;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   activeHref?: string;
   onColorSelect: (colorId: string) => void;
   onImageSelect: (index: number) => void;
@@ -30,6 +37,9 @@ interface ProductDetailPageProps {
   onNavLinkClick?: (href: string) => void;
   onInfoClick?: () => void;
   cartItemCount?: number;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
+  relatedProducts?: StorefrontProduct[];
+  onProductClick?: (id: string) => void;
 }
 
 export function ProductDetailPage({
@@ -38,6 +48,9 @@ export function ProductDetailPage({
   quantity,
   activeImageIndex,
   selectedColorId,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   activeHref,
   onColorSelect,
   onImageSelect,
@@ -50,6 +63,9 @@ export function ProductDetailPage({
   onNavLinkClick,
   onInfoClick,
   cartItemCount = 0,
+  productDetailTabs = [],
+  relatedProducts,
+  onProductClick,
 }: ProductDetailPageProps) {
   const images = product.images ?? [];
 
@@ -105,6 +121,7 @@ export function ProductDetailPage({
           <div className="flex-1 mt-6 lg:mt-0">
             <ProductInfo
               product={product}
+              effectivePrice={effectivePrice}
               quantity={quantity}
               selectedColorId={selectedColorId}
               onColorSelect={onColorSelect}
@@ -112,9 +129,56 @@ export function ProductDetailPage({
               onDecrement={onDecrement}
               onAddToCart={onAddToCart}
             />
+
+            {/* Variant groups with price modifiers */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mt-5 flex flex-col gap-4">
+                {product.variants.map((group) => (
+                  <VariantPriceSelector
+                    key={group.id}
+                    group={group}
+                    selectedOptionId={selectedVariants?.[group.id]}
+                    onSelect={(optionId) => onSelectVariant?.(group.id, optionId)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Product Detail Tabs */}
+      {productDetailTabs.length > 0 && (
+        <div className="max-w-7xl mx-auto px-5 lg:px-8 mt-6 pb-6">
+          <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+        </div>
+      )}
+
+      {/* También te puede gustar */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-5 lg:px-8 mt-12 mb-8">
+          <h2
+            style={{
+              fontFamily: "var(--font-body, 'Urbanist', sans-serif)",
+              fontSize: "18px",
+              fontWeight: 600,
+              color: "var(--t-foreground)",
+              marginBottom: "16px",
+            }}
+          >
+            También te puede gustar
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {relatedProducts.slice(0, 4).map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                onClick={onProductClick}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Mobile sticky bottom bar */}
       <StickyBottomBar

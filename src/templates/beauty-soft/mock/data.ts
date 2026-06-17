@@ -17,6 +17,9 @@ export const mockStore: StoreInfo = {
   logo: ASSETS.avatar,
   description: "Tu tienda de cuidado de piel con productos premium para una piel radiante.",
   whatsapp: "573001234567",
+  hours: "Lun–Sáb 9am–7pm · Dom 10am–5pm",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta débito/crédito"],
+  shippingInfo: "Envío gratis en compras mayores a $80.000. Entrega 2–4 días hábiles.",
   social_links: {
     instagram: "glowstudio.co",
     facebook: "glowstudiocol",

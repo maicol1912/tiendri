@@ -10,8 +10,11 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 import type { TemplateLayoutConfig } from "@/types/templates";
 import type { TechPremiumConfig } from "../config";
 import type {
@@ -38,6 +41,9 @@ interface ProductDetailPageProps {
   selectedImageIndex?: number;
   selectedStorage?: string;
   selectedColor?: number;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -49,6 +55,7 @@ interface ProductDetailPageProps {
   onAddToCartProduct?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
 }
 
 export function ProductDetailPage({
@@ -68,6 +75,9 @@ export function ProductDetailPage({
   selectedImageIndex = 0,
   selectedStorage,
   selectedColor = 0,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   onBack,
   onSearchClick,
   onCartClick,
@@ -79,6 +89,7 @@ export function ProductDetailPage({
   onAddToCartProduct,
   onTabChange,
   onNavLinkClick,
+  productDetailTabs = [],
 }: ProductDetailPageProps) {
   const addToCartBtnClass = BUTTON_STYLE_MAP["filled"];
   const images = product.images;
@@ -91,9 +102,10 @@ export function ProductDetailPage({
   const storageOptions = product.storageOptions ?? defaultStorageOptions;
   const activeStorage = selectedStorage ?? storageOptions[storageOptions.length - 1];
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
+  const displayPrice = effectivePrice ?? product.price;
+  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(displayPrice)}`;
   const formattedOriginalPrice = product.originalPrice
-    ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.originalPrice)}`
+    ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.originalPrice)}`
     : null;
 
   const breadcrumbJsonLd = {
@@ -271,6 +283,21 @@ export function ProductDetailPage({
                 ))}
               </div>
 
+              {/* Variant groups with price modifiers */}
+              {product.variants && product.variants.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  {product.variants.map((group) => (
+                    <VariantPriceSelector
+                      key={group.id}
+                      group={group}
+                      selectedOptionId={selectedVariants?.[group.id]}
+                      onSelect={(optionId) => onSelectVariant?.(group.id, optionId)}
+                      currencySymbol={currencySymbol}
+                    />
+                  ))}
+                </div>
+              )}
+
               {/* Spec badges */}
               {specBadges.length > 0 && (
                 <div className="flex flex-wrap gap-4">
@@ -396,6 +423,21 @@ export function ProductDetailPage({
           ))}
         </div>
 
+        {/* Variant groups with price modifiers - mobile */}
+        {product.variants && product.variants.length > 0 && (
+          <div className="flex flex-col gap-4">
+            {product.variants.map((group) => (
+              <VariantPriceSelector
+                key={group.id}
+                group={group}
+                selectedOptionId={selectedVariants?.[group.id]}
+                onSelect={(optionId) => onSelectVariant?.(group.id, optionId)}
+                currencySymbol={currencySymbol}
+              />
+            ))}
+          </div>
+        )}
+
         {/* Spec badges - mobile */}
         {specBadges.length > 0 && (
           <div className="flex flex-wrap gap-2">
@@ -503,6 +545,13 @@ export function ProductDetailPage({
           </button>
         </div>
       </section>
+
+      {/* ── Product Detail Tabs ── */}
+      {productDetailTabs.length > 0 && (
+        <section aria-label="Información del producto" className="px-4 py-6 lg:px-[160px] lg:py-10">
+          <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+        </section>
+      )}
 
       {/* ── Related Products ── */}
       {relatedProducts.length > 0 && (

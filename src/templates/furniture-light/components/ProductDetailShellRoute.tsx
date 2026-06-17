@@ -6,6 +6,7 @@
 import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
@@ -33,18 +34,26 @@ export function ProductDetailShellRoute({
   const [dimensionUnit, setDimensionUnit] = useState<"cm" | "inch">("cm");
   const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
 
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
+
   const handleAddToCart = useCallback(() => {
     if (product.available === false) return;
+    const legacyVariantName = product.colorOptions?.[selectedColorIndex] ?? product.colorVariant ?? null;
     addItem({
       productId: product.id,
-      variantName: product.colorOptions?.[selectedColorIndex] ?? product.colorVariant ?? null,
+      variantName: variantPriceName || legacyVariantName,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
       quantity: 1,
       imageUrl: product.images[0]?.url ?? null,
     });
     nav.goCart();
-  }, [product, selectedColorIndex, addItem, nav]);
+  }, [product, selectedColorIndex, addItem, nav, effectivePrice, variantPriceName]);
 
   const handleWishlistToggleProduct = useCallback((productId: string) => {
     setWishlistedIds((prev) => {
@@ -108,6 +117,9 @@ export function ProductDetailShellRoute({
       selectedImageIndex={selectedImageIndex}
       selectedColorIndex={selectedColorIndex}
       dimensionUnit={dimensionUnit}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
       onBack={nav.goHome}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
@@ -119,6 +131,7 @@ export function ProductDetailShellRoute({
       onProductClick={(id) => nav.goProduct(id)}
       onAddToCartProduct={handleAddToCartProduct}
       onTabChange={handleTabChange}
+      productDetailTabs={[...(config.content?.productDetailTabs ?? [])]}
     />
   );
 }

@@ -37,10 +37,10 @@ export function ProductCard({
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "square");
   const priceConfig = PRICE_DISPLAY_MAP["standard"];
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
+  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.price)}`;
   const formattedOriginalPrice =
     hasDiscount && product.originalPrice
-      ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.originalPrice)}`
+      ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.originalPrice)}`
       : null;
 
   return (

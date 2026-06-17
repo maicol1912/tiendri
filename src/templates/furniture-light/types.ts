@@ -1,7 +1,8 @@
 // Furniture Light Template — TypeScript Interfaces
 // KASA-inspired: white bg, orange #F5841F accent, teal #26A69A, dark navy #1B2838.
 
-export type { StoreInfo, Category, ProductImage, StorefrontProduct } from "@/types/store";
+import type { StorefrontVariantGroup } from "@/types/store";
+export type { StoreInfo, Category, ProductImage, StorefrontProduct, StorefrontVariantGroup, StorefrontVariantOption } from "@/types/store";
 export type { CartItem, CheckoutFormData } from "@/types/cart";
 
 // ── Furniture Light-specific types ───────────────────────────────────────────
@@ -24,6 +25,7 @@ export interface FurnitureProduct {
   discountPercent?: number;
   colorVariant?: string;
   colorOptions?: string[];
+  variants?: StorefrontVariantGroup[];
 }
 
 export interface FurnitureCategory {
@@ -40,6 +42,9 @@ export interface FurnitureStoreInfo {
   logo: string | null;
   description?: string;
   whatsapp?: string;
+  hours?: string;
+  paymentMethods?: string[];
+  shippingInfo?: string;
   social_links?: {
     instagram?: string;
     facebook?: string;

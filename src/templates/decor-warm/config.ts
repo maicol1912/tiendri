@@ -65,6 +65,7 @@ export const decorWarmConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'image-text' as const,
   },
 
   sections: [
@@ -108,6 +109,12 @@ export const decorWarmConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Pieza de decoración artesanal que combina estética cálida y funcionalidad para crear ambientes acogedores y únicos en tu hogar." },
+      { id: "materiales", label: "Materiales", content: "Fabricado con maderas naturales, textiles orgánicos y acabados artesanales. Cada pieza es única con pequeñas variaciones propias del proceso manual." },
+      { id: "dimensiones", label: "Dimensiones", content: "Medidas detalladas disponibles en la ficha de cada producto. Recomendamos verificar el espacio antes de realizar el pedido." },
+      { id: "envio_garantia", label: "Envío y garantía", content: "Envío protegido con embalaje especial anti-golpes. Garantía de 6 meses en estructura. Cambios sin costo dentro de los primeros 15 días." },
     ],
     popularSearches: [
       "Sillas",

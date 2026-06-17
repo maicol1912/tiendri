@@ -21,6 +21,9 @@ export interface StoreInfo {
   logo: string | null;
   description?: string;
   whatsapp?: string;
+  hours?: string;
+  paymentMethods?: string[];
+  shippingInfo?: string;
   social_links?: {
     instagram?: string;
     facebook?: string;
@@ -38,12 +41,28 @@ export interface Category {
   slug: string;
   /** Lucide icon name — e.g. "Smartphone", "Watch", "Camera" */
   icon: string;
+  image?: string;
   productCount?: number;
 }
 
 export interface ProductImage {
   url: string;
   sort_order: number;
+}
+
+export interface StorefrontVariantOption {
+  id: string;
+  label: string;
+  value?: string;
+  priceModifier?: number;
+  available?: boolean;
+}
+
+export interface StorefrontVariantGroup {
+  id: string;
+  label: string;
+  type: 'color' | 'size' | 'storage' | 'custom';
+  options: StorefrontVariantOption[];
 }
 
 export interface StorefrontProduct {
@@ -62,7 +81,9 @@ export interface StorefrontProduct {
   reviewCount?: number;
   colors?: string[];
   storageOptions?: string[];
+  variants?: StorefrontVariantGroup[];
   inStock: boolean;
   inWishlist?: boolean;
   categoryId?: string;
+  subcategoryId?: string;
 }

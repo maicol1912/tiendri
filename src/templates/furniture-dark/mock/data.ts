@@ -20,6 +20,9 @@ export const mockStore: StorefrontStore = {
   slug: "demo-furniture-dark",
   whatsapp: "573001234567",
   description: "Muebles y decoración de calidad para tu hogar.",
+  hours: "Lun–Vie 9am–6pm · Sáb 10am–4pm",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta débito/crédito", "Crédito 6 cuotas"],
+  shippingInfo: "Entrega e instalación incluida en Bogotá. Envío nacional 4–7 días hábiles.",
   social_links: {
     instagram: "@akshanhome",
     facebook: "akshanhome",

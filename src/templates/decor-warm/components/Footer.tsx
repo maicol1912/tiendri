@@ -122,7 +122,7 @@ export function Footer({ store }: FooterProps) {
         )}
 
         {/* Tiendri attribution */}
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center gap-1">
           <span
             style={{
               color: "var(--t-muted)",
@@ -131,19 +131,23 @@ export function Footer({ store }: FooterProps) {
               fontWeight: 400,
             }}
           >
-            Hecho con
+            Creado con
           </span>
-          <span
+          <a
+            href="https://tiendri.com"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               color: "var(--t-primary)",
               fontFamily: "'Poppins', sans-serif",
-              fontSize: "13px",
+              fontSize: "12px",
               fontWeight: 600,
               letterSpacing: "0.01em",
+              textDecoration: "none",
             }}
           >
             Tiendri
-          </span>
+          </a>
         </div>
 
         {/* WhatsApp contact hint */}

@@ -12,7 +12,7 @@ export function WalletBar({ walletBalance = 0, loyaltyPoints = 0, voucherCount =
   const items = [
     {
       label: "Billetera",
-      value: `$${new Intl.NumberFormat("en-US").format(walletBalance)}`,
+      value: `$${new Intl.NumberFormat("es-CO").format(walletBalance)}`,
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -22,7 +22,7 @@ export function WalletBar({ walletBalance = 0, loyaltyPoints = 0, voucherCount =
     },
     {
       label: "Puntos",
-      value: new Intl.NumberFormat("en-US").format(loyaltyPoints),
+      value: new Intl.NumberFormat("es-CO").format(loyaltyPoints),
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />

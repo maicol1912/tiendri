@@ -6,6 +6,7 @@
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
+import { Plus } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 import { formatPriceCurrency as formatPrice } from "@/lib/format";
@@ -13,6 +14,7 @@ import { formatPriceCurrency as formatPrice } from "@/lib/format";
 interface ProductCardProps {
   product: StorefrontProduct;
   onClick?: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
   cardStyle?: string;
   hoverEffect?: string;
   imageRatio?: string;
@@ -23,6 +25,7 @@ interface ProductCardProps {
 export function ProductCard({
   product,
   onClick,
+  onAddToCart,
   badgeStyle,
   priceDisplay,
 }: ProductCardProps) {
@@ -79,6 +82,38 @@ export function ProductCard({
             -{discountPct}%
           </div>
         )}
+
+        {/* Unavailable overlay */}
+        {product.available === false && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-[var(--t-radius-card)]">
+            <span
+              className="px-3 py-1.5 text-xs font-semibold tracking-wider"
+              style={{
+                backgroundColor: "var(--t-card)",
+                borderRadius: "var(--t-radius-button)",
+                color: "var(--t-muted)",
+                fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+              }}
+            >
+              Agotado
+            </span>
+          </div>
+        )}
+
+        {/* Add to cart button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart?.(product.id);
+          }}
+          aria-label={`Agregar ${product.name} al carrito`}
+          disabled={product.available === false}
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
+        >
+          <Plus size={14} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* ── Text below card — on dark page background, no card bg */}

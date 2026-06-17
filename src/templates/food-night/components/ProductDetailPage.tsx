@@ -8,12 +8,16 @@ import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
+import { ProductCard } from "./ProductCard";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { SizeSelector } from "./SizeSelector";
 import { StickyBottomBar } from "./StickyBottomBar";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
 import type { StoreInfo, StorefrontProduct, SizeOption, NavTab } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import { formatPrice } from "@/lib/format";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -26,6 +30,9 @@ interface ProductDetailPageProps {
   activeTab?: NavTab;
   cartItemCount?: number;
   layout?: Record<string, unknown>;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   onBack?: () => void;
   onSizeSelect?: (id: string) => void;
   onDecrement?: () => void;
@@ -37,10 +44,13 @@ interface ProductDetailPageProps {
   onCartClick?: () => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
+  relatedProducts?: StorefrontProduct[];
+  onProductClick?: (id: string) => void;
 }
 
 function formatReviewCount(count: number): string {
-  return new Intl.NumberFormat("en-US").format(count);
+  return new Intl.NumberFormat("es-CO").format(count);
 }
 
 export function ProductDetailPage({
@@ -54,6 +64,9 @@ export function ProductDetailPage({
   activeTab = "home",
   cartItemCount = 0,
   layout,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   onBack,
   onSizeSelect,
   onDecrement,
@@ -65,8 +78,12 @@ export function ProductDetailPage({
   onCartClick,
   onTabChange,
   onNavLinkClick,
+  productDetailTabs = [],
+  relatedProducts,
+  onProductClick,
 }: ProductDetailPageProps) {
   const primaryImage = product.images[0]?.url ?? null;
+  const displayPrice = effectivePrice ?? product.price;
 
   const floatingButtonStyle: React.CSSProperties = {
     width: 36,
@@ -230,12 +247,27 @@ export function ProductDetailPage({
             {/* Divider */}
             <div style={{ height: 1, backgroundColor: "var(--t-border-light)" }} aria-hidden="true" />
 
+            {/* Variant selector */}
+            {product.variants && product.variants.length > 0 && onSelectVariant && (
+              <div className="space-y-3">
+                {product.variants.map((group) => (
+                  <VariantPriceSelector
+                    key={group.id}
+                    group={group}
+                    selectedOptionId={selectedVariants?.[group.id]}
+                    onSelect={(optionId) => onSelectVariant(group.id, optionId)}
+                    currencySymbol={currencySymbol}
+                  />
+                ))}
+              </div>
+            )}
+
             {/* Price */}
             <div className="flex items-baseline gap-2">
               <span className="text-[20px] font-bold" style={{ color: "var(--t-foreground)" }}>
-                {formatPrice(product.price, currencySymbol)}
+                {formatPrice(displayPrice, currencySymbol)}
               </span>
-              {product.compare_at_price && product.compare_at_price > product.price && (
+              {product.compare_at_price && product.compare_at_price > displayPrice && (
                 <span
                   className="line-through text-[14px] font-normal"
                   style={{ color: "var(--t-muted)" }}
@@ -277,7 +309,7 @@ export function ProductDetailPage({
                 }}
                 aria-label={
                   product.available
-                    ? `Agregar al carrito — ${formatPrice(product.price, currencySymbol)}`
+                    ? `Agregar al carrito — ${formatPrice(displayPrice, currencySymbol)}`
                     : "Producto agotado"
                 }
               >
@@ -285,7 +317,7 @@ export function ProductDetailPage({
                 <span>{product.available ? "Agregar al carrito" : "Agotado"}</span>
                 {product.available && (
                   <span style={{ marginLeft: 4 }}>
-                    | {formatPrice(product.price, currencySymbol)}
+                    | {formatPrice(displayPrice, currencySymbol)}
                   </span>
                 )}
               </button>
@@ -294,8 +326,37 @@ export function ProductDetailPage({
         </div>
       </main>
 
+      {/* Product Detail Tabs */}
+      {productDetailTabs.length > 0 && (
+        <div className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 pb-6">
+          <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+        </div>
+      )}
+
+      {/* También te puede gustar */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 md:px-6 lg:px-8 mt-8 pb-6">
+          <h2
+            className="text-lg font-semibold mb-4"
+            style={{ color: "var(--t-foreground)" }}
+          >
+            También te puede gustar
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {relatedProducts.slice(0, 4).map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                currencySymbol={currencySymbol}
+                onClick={() => onProductClick?.(p.id)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
       <StickyBottomBar
-        price={product.price}
+        price={displayPrice}
         available={product.available}
         currencySymbol={currencySymbol}
         onAddToCart={onAddToCart}

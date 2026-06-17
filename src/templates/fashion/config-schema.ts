@@ -214,7 +214,18 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Vertical" },
+                  { value: "tall", label: "Vertical (3:4)" },
                   { value: "wide", label: "Horizontal" },
+                ],
+              },
+              {
+                key: "structuralVariants.categoryDisplayType",
+                label: "Vista de categorías",
+                type: "select" as const,
+                options: [
+                  { value: "text-only", label: "Solo texto" },
+                  { value: "icon-text", label: "Ícono + texto" },
+                  { value: "image-text", label: "Imagen + texto" },
                 ],
               },
             ],
@@ -245,6 +256,27 @@ export const fashionConfigSchema: TemplateConfigSchema = {
                   { value: "normal", label: "Normal" },
                   { value: "airy", label: "Espacioso (más aire, más premium)" },
                 ],
+              },
+            ],
+          },
+          {
+            id: "grilla-productos",
+            label: "Columnas de productos",
+            description: "Cuántos productos se muestran por fila en móvil y escritorio.",
+            fields: [
+              {
+                key: "gridProductsMobile",
+                label: "Columnas productos (mobile)",
+                type: "number" as const,
+                min: 1,
+                max: 3,
+              },
+              {
+                key: "gridProductsDesktop",
+                label: "Columnas productos (desktop)",
+                type: "number" as const,
+                min: 2,
+                max: 6,
               },
             ],
           },

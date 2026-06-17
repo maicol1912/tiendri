@@ -71,14 +71,52 @@ export function Footer({ store }: FooterProps) {
           </div>
         )}
 
+        {/* Social links */}
+        {(store.social_links?.instagram || store.social_links?.facebook || store.social_links?.tiktok) && (
+          <div className="mt-6 flex items-center justify-center gap-4 flex-wrap">
+            {store.social_links?.instagram && (
+              <a
+                href={store.social_links.instagram.startsWith("http") ? store.social_links.instagram : `https://instagram.com/${store.social_links.instagram.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-xs text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline"
+              >
+                Instagram
+              </a>
+            )}
+            {store.social_links?.facebook && (
+              <a
+                href={store.social_links.facebook.startsWith("http") ? store.social_links.facebook : `https://facebook.com/${store.social_links.facebook}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="text-xs text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline"
+              >
+                Facebook
+              </a>
+            )}
+            {store.social_links?.tiktok && (
+              <a
+                href={store.social_links.tiktok.startsWith("http") ? store.social_links.tiktok : `https://tiktok.com/@${store.social_links.tiktok.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-xs text-[var(--t-muted)] hover:text-[var(--t-foreground)] transition-colors no-underline"
+              >
+                TikTok
+              </a>
+            )}
+          </div>
+        )}
+
         {/* Attribution */}
         <div className="mt-6 pt-4 border-t border-[var(--t-border)] text-center">
           <p className="text-xs text-[var(--t-muted)]">
-            Tienda impulsada por{" "}
+            Creado con{" "}
             <a href="https://tiendri.com" target="_blank" rel="noopener noreferrer" className="text-[var(--t-primary)] hover:underline font-medium">
               Tiendri
             </a>
-            {" "}· tiendri.com/{store.slug}
           </p>
         </div>
       </div>

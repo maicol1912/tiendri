@@ -1,7 +1,7 @@
 // Beauty Soft Template — Shared TypeScript Types
 // Template-specific types adapted for tiendri_v2 architecture.
 
-import type { StoreInfo as SharedStoreInfo } from "@/types/store";
+import type { StoreInfo as SharedStoreInfo, StorefrontVariantGroup } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
@@ -39,6 +39,7 @@ export interface BeautySoftProduct {
   inStock: boolean;
   inWishlist?: boolean;
   categoryId?: string;
+  variants?: StorefrontVariantGroup[];
 }
 
 // ── Category type ─────────────────────────────────────────────────────────────

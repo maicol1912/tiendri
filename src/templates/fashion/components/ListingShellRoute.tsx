@@ -29,7 +29,7 @@ function ListingShellInner({
   currencySymbol = "$",
 }: ListingShellInnerProps) {
   const nav = useTemplateNav();
-  const { totalItems } = useCart();
+  const { totalItems, addItem } = useCart();
   const { config } = useLayoutConfig<FashionConfig>();
 
   const resolvedGrid = config?.grid?.listing ?? fashionConfig.grid.listing;
@@ -229,6 +229,22 @@ function ListingShellInner({
     [nav]
   );
 
+  const handleAddToCart = useCallback(
+    (productId: string) => {
+      const product = products.find((p) => p.id === productId);
+      if (!product || !product.inStock) return;
+      addItem({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.images[0]?.url ?? null,
+        variantName: null,
+        quantity: 1,
+      });
+    },
+    [products, addItem]
+  );
+
   return (
     <ProductListingPage
       store={store}
@@ -250,6 +266,7 @@ function ListingShellInner({
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={handleProductClick}
+      onAddToCart={handleAddToCart}
       onNavLinkClick={handleNavLinkClick}
       onFilterChange={handleFilterChange}
       onClearAllFilters={handleClearAll}

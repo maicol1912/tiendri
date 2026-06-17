@@ -198,7 +198,18 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
                 options: [
                   { label: "Cuadrada", value: "square" },
                   { label: "Retrato (vertical)", value: "portrait" },
+                  { label: "Vertical (3:4)", value: "tall" },
                   { label: "Panorámica (horizontal)", value: "wide" },
+                ],
+              },
+              {
+                key: "structuralVariants.categoryDisplayType",
+                label: "Vista de categorías",
+                type: "select" as const,
+                options: [
+                  { value: "text-only", label: "Solo texto" },
+                  { value: "icon-text", label: "Ícono + texto" },
+                  { value: "image-text", label: "Imagen + texto" },
                 ],
               },
             ],

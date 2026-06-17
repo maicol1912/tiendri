@@ -5,6 +5,7 @@
 // product name, price in muted. Zero hardcoded colors.
 
 import Image from "next/image";
+import { Plus } from "lucide-react";
 import type { BeautyElegantProduct } from "../types";
 import { imageRatioClass, hoverEffectClass, cardStyleClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
@@ -22,6 +23,7 @@ interface ProductCardProps {
     priceDisplay?: PriceDisplay;
   };
   onClick?: () => void;
+  onAddToCart?: (id: string) => void;
 }
 
 export function ProductCard({
@@ -29,6 +31,7 @@ export function ProductCard({
   currencySymbol = "$",
   layout,
   onClick,
+  onAddToCart,
 }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
   const hasDiscount =
@@ -127,6 +130,21 @@ export function ProductCard({
             </span>
           </div>
         )}
+
+        {/* Add to cart button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart?.(product.id);
+          }}
+          aria-label={`Agregar ${product.name} al carrito`}
+          disabled={!product.inStock}
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
+        >
+          <Plus size={14} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Product info */}

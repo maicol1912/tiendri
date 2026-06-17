@@ -8,6 +8,7 @@ import { useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useCart } from "@/lib/cart";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import type { BeautyElegantProduct } from "../types";
 import type { StoreInfo } from "../types";
 
@@ -27,6 +28,13 @@ export function ProductDetailShellRoute({
   const nav = useTemplateNav();
   const { totalItems } = useCart();
 
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName,
+  } = useVariantPrice(product.price, product.variants);
+
   const handleNavLinkClick = useCallback(
     (href: string) => {
       if (href === "/") nav.goHome();
@@ -43,6 +51,10 @@ export function ProductDetailShellRoute({
       currencySymbol={currencySymbol}
       relatedProducts={relatedProducts}
       cartItemCount={totalItems}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
+      variantName={variantName}
       onBack={nav.goHome}
       onNavLinkClick={handleNavLinkClick}
       onSearchOpen={nav.goSearch}

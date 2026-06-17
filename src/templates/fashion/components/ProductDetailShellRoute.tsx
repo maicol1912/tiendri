@@ -7,6 +7,7 @@
 
 import { useState, useCallback } from "react";
 import { useCart } from "@/lib/cart";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { ProductDetailPage } from "./ProductDetailPage";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
@@ -14,12 +15,14 @@ import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 interface ProductDetailShellInnerProps {
   store: StoreInfo;
   product: StorefrontProduct;
+  products?: StorefrontProduct[];
   currencySymbol?: string;
 }
 
 function ProductDetailShellInner({
   store,
   product,
+  products = [],
   currencySymbol = "$",
 }: ProductDetailShellInnerProps) {
   const nav = useTemplateNav();
@@ -30,24 +33,34 @@ function ProductDetailShellInner({
     product.colors?.[0] ?? undefined
   );
   const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
+  const [quantity, setQuantity] = useState(1);
+
+  const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
+
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
 
   const handleAddToCart = useCallback(() => {
     if (!product.inStock) return;
 
-    // Combine color + size into variantName
-    const parts = [selectedColor, selectedSize].filter(Boolean);
-    const variantName = parts.length > 0 ? parts.join(" / ") : null;
+    const legacyParts = [selectedColor, selectedSize].filter(Boolean);
+    const legacyVariantName = legacyParts.length > 0 ? legacyParts.join(" / ") : null;
 
     addItem({
       productId: product.id,
       name: product.name,
-      variantName,
-      price: product.price,
-      quantity: 1,
+      variantName: variantPriceName || legacyVariantName,
+      price: effectivePrice,
+      quantity,
       imageUrl: product.images[0]?.url ?? null,
     });
+    setQuantity(1);
     nav.goCart();
-  }, [product, addItem, nav, selectedColor, selectedSize]);
+  }, [product, addItem, nav, selectedColor, selectedSize, effectivePrice, variantPriceName, quantity]);
 
   const handleBack = useCallback(() => {
     // Use browser history back
@@ -79,6 +92,9 @@ function ProductDetailShellInner({
       selectedImageIndex={selectedImageIndex}
       selectedColor={selectedColor}
       selectedSize={selectedSize}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
@@ -92,6 +108,11 @@ function ProductDetailShellInner({
       onColorSelect={setSelectedColor}
       onSizeSelect={setSelectedSize}
       onTabChange={handleTabChange}
+      quantity={quantity}
+      onDecrement={() => setQuantity((q) => Math.max(1, q - 1))}
+      onIncrement={() => setQuantity((q) => q + 1)}
+      relatedProducts={relatedProducts}
+      onProductClick={nav.goProduct}
     />
   );
 }
@@ -99,6 +120,7 @@ function ProductDetailShellInner({
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
   product: StorefrontProduct;
+  products?: StorefrontProduct[];
   currencySymbol?: string;
 }
 

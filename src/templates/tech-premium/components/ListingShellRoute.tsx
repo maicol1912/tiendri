@@ -33,12 +33,15 @@ export function ListingShellRoute({
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<FilterGroup[]>(initialFilters);
+  const [sortOption, setSortOption] = useState<"default" | "price-asc" | "price-desc" | "recent">("default");
 
   const activeFilters = filters.reduce<Record<string, string[]>>((acc, group) => {
     const checked = group.options.filter((o) => o.checked).map((o) => o.id);
     if (checked.length > 0) acc[group.id] = checked;
     return acc;
   }, {});
+
+  const activeFilterCount = Object.values(activeFilters).reduce((sum, arr) => sum + arr.length, 0);
 
   const filteredProducts = products.filter((p) => {
     if (activeFilters.brand) {
@@ -69,8 +72,30 @@ export function ListingShellRoute({
       if (activeFilters.rating.includes("4plus") && (p.rating ?? 0) < 4) return false;
       if (activeFilters.rating.includes("3plus") && (p.rating ?? 0) < 3) return false;
     }
+    if (activeFilters.availability) {
+      const wantsInStock = activeFilters.availability.includes("in-stock");
+      const wantsOutOfStock = activeFilters.availability.includes("out-of-stock");
+      if (wantsInStock && !wantsOutOfStock && !p.inStock) return false;
+      if (wantsOutOfStock && !wantsInStock && p.inStock) return false;
+    }
     return true;
   });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortOption) {
+      case "price-asc": return a.price - b.price;
+      case "price-desc": return b.price - a.price;
+      case "recent": return (b.id > a.id ? 1 : -1);
+      default: return 0;
+    }
+  });
+
+  const SORT_LABELS: Record<typeof sortOption, string> = {
+    default: "Por calificación",
+    "price-asc": "Precio: menor a mayor",
+    "price-desc": "Precio: mayor a menor",
+    recent: "Más recientes",
+  };
 
   const handleProductClick = useCallback(
     (productId: string) => nav.goProduct(productId),
@@ -117,6 +142,22 @@ export function ListingShellRoute({
     setCurrentPage(1);
   }, []);
 
+  const handleClearFilters = useCallback(() => {
+    setFilters((prev) =>
+      prev.map((g) => ({
+        ...g,
+        options: g.options.map((o) => ({ ...o, checked: false })),
+      }))
+    );
+    setSortOption("default");
+    setCurrentPage(1);
+  }, []);
+
+  const handleSortChange = useCallback((option: typeof sortOption) => {
+    setSortOption(option);
+    setCurrentPage(1);
+  }, []);
+
   const handleTabChange = useCallback(
     (tab: NavTab) => {
       if (tab === "home") nav.goHome();
@@ -143,20 +184,23 @@ export function ListingShellRoute({
   return (
     <ProductListingPage
       store={store}
-      products={filteredProducts}
+      products={sortedProducts}
       navLinks={config.content?.navLinks ?? []}
       activeHref="/listing"
       footerServices={config.content?.footerServices ?? []}
       footerAssistance={config.content?.footerAssistance ?? []}
       grid={config.grid}
       filters={filters}
-      totalProducts={filteredProducts.length}
+      totalProducts={sortedProducts.length}
       currentPage={currentPage}
-      totalPages={Math.ceil(filteredProducts.length / 9) || 1}
+      totalPages={Math.ceil(sortedProducts.length / 9) || 1}
       activeTab="home"
       cartItemCount={totalItems}
       currencySymbol={currencySymbol}
       isFilterDrawerOpen={isFilterDrawerOpen}
+      sortOption={sortOption}
+      sortLabel={SORT_LABELS[sortOption]}
+      activeFilterCount={activeFilterCount}
       onSearchClick={nav.goSearch}
       onCartClick={nav.goCart}
       onProductClick={handleProductClick}
@@ -168,6 +212,8 @@ export function ListingShellRoute({
       onFilterToggle={handleFilterToggle}
       onFilterCheck={handleFilterCheck}
       onFilterDrawerToggle={() => setIsFilterDrawerOpen((prev) => !prev)}
+      onClearFilters={handleClearFilters}
+      onSortChange={handleSortChange}
       onTabChange={handleTabChange}
       onNavLinkClick={handleNavLinkClick}
     />

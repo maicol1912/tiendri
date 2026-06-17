@@ -4,6 +4,7 @@
 // Visual only — handlers come as props.
 
 import Image from "next/image";
+import { Plus } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import {
   cardStyleClass,
@@ -16,6 +17,7 @@ interface ProductCardProps {
   product: StorefrontProduct;
   currencySymbol?: string;
   onProductClick?: (id: string) => void;
+  onAddToCart?: (id: string) => void;
   layout?: {
     cardStyle?: string;
     cardHoverEffect?: string;
@@ -28,6 +30,7 @@ export function ProductCard({
   product,
   currencySymbol = "$",
   onProductClick,
+  onAddToCart,
   layout,
 }: ProductCardProps) {
   const cardBg = cardStyleClass(layout?.cardStyle ?? "flat");
@@ -75,6 +78,21 @@ export function ProductCard({
             </span>
           </div>
         )}
+
+        {/* Add to cart button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart?.(product.id);
+          }}
+          aria-label={`Agregar ${product.name} al carrito`}
+          disabled={!product.inStock}
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
+        >
+          <Plus size={14} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Product info — 3-line layout: muted category/name, bold subtitle, price */}
@@ -111,7 +129,7 @@ export function ProductCard({
             }}
           >
             {currencySymbol}
-            {new Intl.NumberFormat("en-US").format(product.price)}
+            {new Intl.NumberFormat("es-CO").format(product.price)}
           </span>
           {product.originalPrice && (
             <span
@@ -122,7 +140,7 @@ export function ProductCard({
               }}
             >
               {currencySymbol}
-              {new Intl.NumberFormat("en-US").format(product.originalPrice)}
+              {new Intl.NumberFormat("es-CO").format(product.originalPrice)}
             </span>
           )}
         </div>

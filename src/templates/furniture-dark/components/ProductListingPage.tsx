@@ -44,6 +44,7 @@ interface ProductListingPageProps {
   // Navigation props
   onBack: () => void;
   onProductClick: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
   onSearchClick: () => void;
   onCartClick: () => void;
   onNavLinkClick?: (href: string) => void;
@@ -77,6 +78,7 @@ export function ProductListingPage({
   onFilterClose,
   onBack,
   onProductClick,
+  onAddToCart,
   onSearchClick,
   onCartClick,
   onNavLinkClick,
@@ -434,6 +436,7 @@ export function ProductListingPage({
                     key={product.id}
                     product={product}
                     onClick={onProductClick}
+                    onAddToCart={onAddToCart}
                     cardStyle={cardStyle}
                     hoverEffect={hoverEffect}
                     imageRatio={imageRatio}

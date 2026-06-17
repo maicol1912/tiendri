@@ -5,7 +5,7 @@
 // ZERO hardcoded colors, ZERO hardcoded border radius, ZERO hardcoded hover classes.
 
 import Image from "next/image";
-import { Star } from "lucide-react";
+import { Star, Plus } from "lucide-react";
 import type { StorefrontProduct } from "../types";
 import { hoverEffectClass, imageRatioClass, cardStyleClass } from "../utils/layout-classes";
 import { PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
@@ -23,6 +23,7 @@ interface ProductCardProps {
     priceDisplay?: PriceDisplay;
   };
   onClick?: () => void;
+  onAddToCart?: (id: string) => void;
 }
 
 export function ProductCard({
@@ -31,6 +32,7 @@ export function ProductCard({
   variant = "short",
   layout,
   onClick,
+  onAddToCart,
 }: ProductCardProps) {
   const primaryImage = product.images[0]?.url ?? null;
   const rating = product.rating ?? 5.0;
@@ -108,6 +110,21 @@ export function ProductCard({
             </span>
           </div>
         )}
+
+        {/* Add to cart button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart?.(product.id);
+          }}
+          aria-label={`Agregar ${product.name} al carrito`}
+          disabled={!product.available}
+          className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
+        >
+          <Plus size={14} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Product info */}

@@ -63,6 +63,7 @@ export const furnitureDarkConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'image-text' as const,
   },
 
   sections: [
@@ -106,6 +107,12 @@ export const furnitureDarkConfig = {
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
       { id: "new-arrival", label: "Nuevos" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Mueble de diseño elegante fabricado con materiales de primera calidad. Una pieza que transforma cualquier espacio con estilo y funcionalidad." },
+      { id: "materiales", label: "Materiales", content: "Estructura en madera maciza con acabados en laca de alta resistencia. Tapizados en telas premium resistentes al desgaste cotidiano." },
+      { id: "dimensiones", label: "Dimensiones", content: "Consulta las medidas exactas en la ficha técnica del producto. Disponible en diferentes tamaños según el espacio disponible." },
+      { id: "envio", label: "Envío", content: "Entrega a domicilio en Bogotá en 3-5 días. Envíos al resto del país en 5-10 días hábiles con instalación incluida." },
     ],
     popularSearches: [
       "Sofás",

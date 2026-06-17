@@ -23,10 +23,10 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-function TwitterIcon({ size = 16 }: { size?: number }) {
+function TikTokIcon({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
     </svg>
   );
 }
@@ -72,23 +72,42 @@ export function Footer({ store }: FooterProps) {
 
         {/* Social links */}
         <div className="flex items-center gap-3">
-          {[
-            { Icon: InstagramIcon, label: "Instagram" },
-            { Icon: FacebookIcon, label: "Facebook" },
-            { Icon: TwitterIcon, label: "X (Twitter)" },
-          ].map(({ Icon, label }) => (
-            <button
-              key={label}
-              type="button"
-              aria-label={label}
-              className="flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:opacity-80"
-              style={{ backgroundColor: "var(--t-secondary)" }}
+          {store.social_links?.instagram && (
+            <a
+              href={store.social_links.instagram.startsWith("http") ? store.social_links.instagram : `https://instagram.com/${store.social_links.instagram.replace("@", "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:opacity-80 no-underline"
+              style={{ backgroundColor: "var(--t-secondary)", color: "var(--t-foreground)" }}
             >
-              <span className="text-[var(--t-foreground)]">
-                <Icon size={16} />
-              </span>
-            </button>
-          ))}
+              <InstagramIcon size={16} />
+            </a>
+          )}
+          {store.social_links?.facebook && (
+            <a
+              href={store.social_links.facebook.startsWith("http") ? store.social_links.facebook : `https://facebook.com/${store.social_links.facebook}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:opacity-80 no-underline"
+              style={{ backgroundColor: "var(--t-secondary)", color: "var(--t-foreground)" }}
+            >
+              <FacebookIcon size={16} />
+            </a>
+          )}
+          {store.social_links?.tiktok && (
+            <a
+              href={store.social_links.tiktok.startsWith("http") ? store.social_links.tiktok : `https://tiktok.com/@${store.social_links.tiktok.replace("@", "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:opacity-80 no-underline"
+              style={{ backgroundColor: "var(--t-secondary)", color: "var(--t-foreground)" }}
+            >
+              <TikTokIcon size={16} />
+            </a>
+          )}
         </div>
 
         {/* Branding */}
@@ -100,12 +119,15 @@ export function Footer({ store }: FooterProps) {
           }}
         >
           Creado con{" "}
-          <span
-            className="font-semibold"
+          <a
+            href="https://tiendri.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold no-underline"
             style={{ color: "var(--t-primary)" }}
           >
             Tiendri
-          </span>
+          </a>
         </p>
       </div>
     </footer>

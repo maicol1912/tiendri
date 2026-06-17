@@ -85,7 +85,7 @@ export function CartItemRow({
             </span>
             {(item.reviewCount ?? 0) > 0 && (
               <span className="text-[11px] font-normal" style={{ color: "var(--t-muted)" }}>
-                ({new Intl.NumberFormat("en-US").format(item.reviewCount ?? 0)})
+                ({new Intl.NumberFormat("es-CO").format(item.reviewCount ?? 0)})
               </span>
             )}
           </div>

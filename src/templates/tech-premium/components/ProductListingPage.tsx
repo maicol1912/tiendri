@@ -3,7 +3,7 @@
 // Mobile: "Filters" button + sort dropdown + 2-col grid + pagination.
 // Visual only — handlers come as props.
 
-import { ChevronLeft, ChevronRight, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
@@ -31,6 +31,8 @@ interface ProductListingPageProps {
   currentPage?: number;
   totalPages?: number;
   sortLabel?: string;
+  sortOption?: "default" | "price-asc" | "price-desc" | "recent";
+  activeFilterCount?: number;
   activeTab?: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -44,6 +46,8 @@ interface ProductListingPageProps {
   onFilterToggle?: (groupId: string) => void;
   onFilterCheck?: (groupId: string, optionId: string) => void;
   onFilterDrawerToggle?: () => void;
+  onClearFilters?: () => void;
+  onSortChange?: (option: "default" | "price-asc" | "price-desc" | "recent") => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
 }
@@ -75,6 +79,8 @@ export function ProductListingPage({
   currentPage = 1,
   totalPages = 12,
   sortLabel = "Por calificación",
+  sortOption = "default",
+  activeFilterCount = 0,
   activeTab = "home",
   cartItemCount = 0,
   currencySymbol = "$",
@@ -88,6 +94,8 @@ export function ProductListingPage({
   onFilterToggle,
   onFilterCheck,
   onFilterDrawerToggle,
+  onClearFilters,
+  onSortChange,
   onTabChange,
   onNavLinkClick,
 }: ProductListingPageProps) {
@@ -145,17 +153,42 @@ export function ProductListingPage({
       <div className="lg:hidden flex items-center gap-3 px-4 pt-4">
         <button
           type="button"
-          className="flex items-center gap-2 px-4 py-2.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] rounded-[var(--t-radius-button)] text-sm font-medium border-none cursor-pointer"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] rounded-[var(--t-radius-button)] text-sm font-medium border-none cursor-pointer relative"
           onClick={onFilterDrawerToggle}
           aria-expanded={isFilterDrawerOpen}
         >
           <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />
           Filtrar
+          {activeFilterCount > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[var(--t-on-primary)] text-[var(--t-primary)] text-[10px] font-bold flex items-center justify-center">
+              {activeFilterCount}
+            </span>
+          )}
         </button>
-        <div className="flex items-center gap-1 px-4 py-2.5 border border-[var(--t-border)]/50 rounded-lg flex-1">
-          <span className="text-[15px] text-[var(--t-foreground)]">{sortLabel}</span>
-          <ChevronDown className="w-5 h-5 text-[var(--t-foreground)] ml-auto" aria-hidden="true" />
+        <div className="relative flex-1">
+          <select
+            className="w-full appearance-none px-4 py-2.5 border border-[var(--t-border)]/50 rounded-lg text-[15px] text-[var(--t-foreground)] bg-[var(--t-background)] cursor-pointer pr-10"
+            value={sortOption}
+            onChange={(e) => onSortChange?.(e.target.value as typeof sortOption)}
+            aria-label="Ordenar productos"
+          >
+            <option value="default">Por calificación</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="recent">Más recientes</option>
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--t-foreground)] pointer-events-none" aria-hidden="true" />
         </div>
+        {activeFilterCount > 0 && (
+          <button
+            type="button"
+            className="flex items-center gap-1 px-3 py-2.5 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-xs text-[var(--t-muted)] bg-transparent cursor-pointer whitespace-nowrap"
+            onClick={onClearFilters}
+          >
+            <X className="w-3 h-3" aria-hidden="true" />
+            Limpiar
+          </button>
+        )}
       </div>
 
       {/* ── Mobile: Product count ── */}
@@ -184,9 +217,34 @@ export function ProductListingPage({
                 <span className="text-base text-[var(--t-muted)] tracking-[0.48px]">Productos seleccionados:</span>
                 <span className="text-xl font-medium text-[var(--t-foreground)] tracking-[0.6px]">{totalProducts}</span>
               </div>
-              <div className="flex items-center justify-between px-4 py-2 border border-[var(--t-border)]/50 rounded-lg min-w-[140px] max-w-[256px] flex-1">
-                <span className="text-[15px] text-[var(--t-foreground)]">{sortLabel}</span>
-                <ChevronDown className="w-6 h-6 text-[var(--t-foreground)]" aria-hidden="true" />
+              <div className="flex items-center gap-3">
+                {activeFilterCount > 0 && (
+                  <button
+                    type="button"
+                    className="flex items-center gap-1 px-3 py-2 border border-[var(--t-border)] rounded-[var(--t-radius-button)] text-sm text-[var(--t-muted)] bg-transparent cursor-pointer"
+                    onClick={onClearFilters}
+                  >
+                    <X className="w-4 h-4" aria-hidden="true" />
+                    Limpiar filtros
+                    <span className="ml-1 w-5 h-5 rounded-full bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[10px] font-bold flex items-center justify-center">
+                      {activeFilterCount}
+                    </span>
+                  </button>
+                )}
+                <div className="relative min-w-[180px] max-w-[256px]">
+                  <select
+                    className="w-full appearance-none px-4 py-2 border border-[var(--t-border)]/50 rounded-lg text-[15px] text-[var(--t-foreground)] bg-[var(--t-background)] cursor-pointer pr-10"
+                    value={sortOption}
+                    onChange={(e) => onSortChange?.(e.target.value as typeof sortOption)}
+                    aria-label="Ordenar productos"
+                  >
+                    <option value="default">Por calificación</option>
+                    <option value="price-asc">Precio: menor a mayor</option>
+                    <option value="price-desc">Precio: mayor a menor</option>
+                    <option value="recent">Más recientes</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--t-foreground)] pointer-events-none" aria-hidden="true" />
+                </div>
               </div>
             </div>
 

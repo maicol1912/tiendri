@@ -18,9 +18,11 @@ import {
 import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { formatPrice } from "@/lib/format";
 import type { DecorWarmProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 
 // ── Accordion data ─────────────────────────────────────────────────────────────
 
@@ -87,6 +89,9 @@ interface ProductDetailPageProps {
   cartItemCount?: number;
   layout?: { buttonStyle?: string };
   openAccordion?: string | null;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   onBack?: () => void;
   onCartOpen?: () => void;
   onNavLinkClick?: (href: string) => void;
@@ -95,6 +100,7 @@ interface ProductDetailPageProps {
   onAddToCart?: () => void;
   onProductClick?: (productId: string) => void;
   onAccordionToggle?: (id: string) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
@@ -109,6 +115,9 @@ export function ProductDetailPage({
   currencySymbol = "$",
   cartItemCount = 0,
   openAccordion,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   onBack,
   onCartOpen,
   onNavLinkClick,
@@ -117,12 +126,15 @@ export function ProductDetailPage({
   onAddToCart,
   onProductClick,
   onAccordionToggle,
+  productDetailTabs: _productDetailTabs,
 }: ProductDetailPageProps) {
   const primaryImage =
     product.images[activeImageIndex]?.url ?? product.images[0]?.url ?? null;
 
+  const displayPrice = effectivePrice ?? product.price;
+
   const hasDiscount =
-    product.compare_at_price != null && product.compare_at_price > product.price;
+    product.compare_at_price != null && product.compare_at_price > displayPrice;
 
   const discountPct =
     hasDiscount && product.compare_at_price
@@ -317,7 +329,7 @@ export function ProductDetailPage({
             fontWeight: 700,
           }}
         >
-          {formatPrice(product.price, currencySymbol)}
+          {formatPrice(displayPrice, currencySymbol)}
         </span>
         {hasDiscount && product.compare_at_price != null && (
           <>
@@ -361,6 +373,21 @@ export function ProductDetailPage({
         >
           {product.description}
         </p>
+      )}
+
+      {/* Variant selector */}
+      {product.variants && product.variants.length > 0 && onSelectVariant && (
+        <div className="space-y-3">
+          {product.variants.map((group) => (
+            <VariantPriceSelector
+              key={group.id}
+              group={group}
+              selectedOptionId={selectedVariants?.[group.id]}
+              onSelect={(optionId) => onSelectVariant(group.id, optionId)}
+              currencySymbol={currencySymbol}
+            />
+          ))}
+        </div>
       )}
 
       {/* Qty + Add to cart — desktop only */}

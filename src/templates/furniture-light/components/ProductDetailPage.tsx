@@ -10,8 +10,11 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 import type { TemplateLayoutConfig } from "@/types/templates";
 import type { FurnitureLightConfig } from "../config";
 import type { FurnitureProduct, FurnitureStoreInfo, FurnitureNavTab } from "../types";
@@ -29,6 +32,9 @@ interface ProductDetailPageProps {
   selectedImageIndex?: number;
   selectedColorIndex?: number;
   dimensionUnit?: "cm" | "inch";
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   onBack?: () => void;
   onSearchClick?: () => void;
   onCartClick?: () => void;
@@ -40,6 +46,7 @@ interface ProductDetailPageProps {
   onProductClick?: (productId: string) => void;
   onAddToCartProduct?: (productId: string) => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
 }
 
 
@@ -56,6 +63,9 @@ export function ProductDetailPage({
   selectedImageIndex = 0,
   selectedColorIndex = 0,
   dimensionUnit = "cm",
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   onBack,
   onSearchClick,
   onCartClick,
@@ -67,13 +77,15 @@ export function ProductDetailPage({
   onProductClick,
   onAddToCartProduct,
   onTabChange,
+  productDetailTabs = [],
 }: ProductDetailPageProps) {
   const images = product.images ?? [];
   const activeImage = images[selectedImageIndex]?.url ?? null;
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
+  const displayPrice = effectivePrice ?? product.price;
+  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(displayPrice)}`;
   const comparePrice = product.compare_at_price
-    ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.compare_at_price)}`
+    ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.compare_at_price)}`
     : null;
 
   const discountPct = product.discountPercent ?? (
@@ -254,6 +266,21 @@ export function ProductDetailPage({
                 </div>
               )}
 
+              {/* Variant groups with price modifiers */}
+              {product.variants && product.variants.length > 0 && (
+                <div className="mt-4 flex flex-col gap-4">
+                  {product.variants.map((group) => (
+                    <VariantPriceSelector
+                      key={group.id}
+                      group={group}
+                      selectedOptionId={selectedVariants?.[group.id]}
+                      onSelect={(optionId) => onSelectVariant?.(group.id, optionId)}
+                      currencySymbol={currencySymbol}
+                    />
+                  ))}
+                </div>
+              )}
+
               {/* Key features */}
               <div className="mt-5">
                 <p className="text-sm font-bold text-[var(--t-foreground)] mb-2">Características principales</p>
@@ -321,6 +348,13 @@ export function ProductDetailPage({
               </div>
             </div>
           </div>
+
+          {/* Product Detail Tabs */}
+          {productDetailTabs.length > 0 && (
+            <div className="mt-8">
+              <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+            </div>
+          )}
 
           {/* Related products */}
           {relatedProducts.length > 0 && (

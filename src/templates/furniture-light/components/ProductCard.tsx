@@ -37,7 +37,7 @@ export function ProductCard({
       : 0
   );
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
+  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.price)}`;
 
   const hoverClass = hoverEffectClass("none");
   const ratioClass = imageRatioClass(layout?.cardImageRatio ?? "square");
@@ -124,7 +124,7 @@ export function ProductCard({
             </span>
             {product.compare_at_price && (
               <span className="text-[11px] text-[var(--t-muted)] line-through">
-                {currencySymbol}{new Intl.NumberFormat("en-US").format(product.compare_at_price)}
+                {currencySymbol}{new Intl.NumberFormat("es-CO").format(product.compare_at_price)}
               </span>
             )}
           </div>

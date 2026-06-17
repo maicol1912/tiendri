@@ -25,6 +25,9 @@ export const mockStore: StoreInfo = {
   description:
     "Somos tu tienda de tecnología de confianza. Encontrá los mejores gadgets, smartphones y accesorios al mejor precio.",
   whatsapp: "573001234567",
+  hours: "Lun–Vie 8am–8pm · Sáb 9am–6pm · Dom cerrado",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta débito/crédito", "Transferencia"],
+  shippingInfo: "Envío gratis en compras mayores a $150.000. Entrega 1–3 días hábiles en Bogotá, 2–5 días al resto del país.",
   social_links: {
     twitter: "https://twitter.com/cyberstore",
     facebook: "https://facebook.com/cyberstore",
@@ -445,6 +448,15 @@ export const mockFilterGroups: FilterGroup[] = [
     options: [
       { id: "4plus", label: "4 estrellas o más", checked: false },
       { id: "3plus", label: "3 estrellas o más", checked: false },
+    ],
+  },
+  {
+    id: "availability",
+    label: "Disponibilidad",
+    expanded: false,
+    options: [
+      { id: "in-stock", label: "Disponible", checked: false },
+      { id: "out-of-stock", label: "Agotado", checked: false },
     ],
   },
 ];

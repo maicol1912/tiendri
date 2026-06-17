@@ -1,6 +1,6 @@
 // Beauty Elegant Template — Shared TypeScript Types
 
-import type { StoreInfo as SharedStoreInfo } from "@/types/store";
+import type { StoreInfo as SharedStoreInfo, StorefrontVariantGroup } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
@@ -24,6 +24,7 @@ export interface BeautyElegantProduct {
   subtitle?: string;
   healthFacts?: string;
   discountLabel?: string;
+  variants?: StorefrontVariantGroup[];
 }
 
 // ── Category type ─────────────────────────────────────────────────────────────

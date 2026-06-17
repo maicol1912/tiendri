@@ -3,11 +3,16 @@
 // ZERO hardcoded colors — all via var(--t-*).
 import { Header } from "./Header";
 import { ImageCarousel } from "./ImageCarousel";
+import { ProductCard } from "./ProductCard";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import { formatPrice } from "@/lib/format";
 import type { BeautySoftProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 
 interface ProductDetailPageProps {
   store: StoreInfo;
@@ -19,6 +24,9 @@ interface ProductDetailPageProps {
   cartItemCount?: number;
   layout?: { buttonStyle?: ButtonStyle };
   activeHref?: string;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   onBack?: () => void;
   onCartClick?: () => void;
   onImageIndexChange?: (index: number) => void;
@@ -26,6 +34,9 @@ interface ProductDetailPageProps {
   onQuantityDecrement?: () => void;
   onAddToCart?: () => void;
   onNavLinkClick?: (href: string) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
+  relatedProducts?: BeautySoftProduct[];
+  onProductClick?: (id: string) => void;
 }
 
 export function ProductDetailPage({
@@ -38,6 +49,9 @@ export function ProductDetailPage({
   cartItemCount = 0,
   layout,
   activeHref,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   onBack,
   onCartClick,
   onImageIndexChange,
@@ -45,17 +59,21 @@ export function ProductDetailPage({
   onQuantityDecrement,
   onAddToCart,
   onNavLinkClick,
+  productDetailTabs = [],
+  relatedProducts,
+  onProductClick,
 }: ProductDetailPageProps) {
   const buttonStyleClass = BUTTON_STYLE_MAP[layout?.buttonStyle ?? "filled"];
+  const displayPrice = effectivePrice ?? product.price;
   const hasDiscount =
     product.originalPrice !== null &&
     product.originalPrice !== undefined &&
-    product.originalPrice > product.price;
+    product.originalPrice > displayPrice;
 
-  const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.price)}`;
+  const formattedPrice = formatPrice(displayPrice, currencySymbol);
   const formattedOriginalPrice =
     hasDiscount && product.originalPrice
-      ? `${currencySymbol}${new Intl.NumberFormat("en-US").format(product.originalPrice)}`
+      ? formatPrice(product.originalPrice, currencySymbol)
       : null;
 
   return (
@@ -201,6 +219,21 @@ export function ProductDetailPage({
                 )}
               </div>
 
+              {/* Variant selector */}
+              {product.variants && product.variants.length > 0 && onSelectVariant && (
+                <div className="space-y-3">
+                  {product.variants.map((group) => (
+                    <VariantPriceSelector
+                      key={group.id}
+                      group={group}
+                      selectedOptionId={selectedVariants?.[group.id]}
+                      onSelect={(optionId) => onSelectVariant(group.id, optionId)}
+                      currencySymbol={currencySymbol}
+                    />
+                  ))}
+                </div>
+              )}
+
               {/* Description */}
               {product.description && (
                 <div className="flex flex-col gap-[5px]">
@@ -221,6 +254,34 @@ export function ProductDetailPage({
             </div>
           </div>
         </div>
+        {/* Product Detail Tabs */}
+        {productDetailTabs.length > 0 && (
+          <div className="max-w-5xl mx-auto w-full px-5 lg:px-8 pb-6">
+            <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+          </div>
+        )}
+
+        {/* También te puede gustar */}
+        {relatedProducts && relatedProducts.length > 0 && (
+          <section className="max-w-5xl mx-auto w-full px-5 lg:px-8 mt-8 pb-6">
+            <h2
+              className="text-lg font-semibold mb-4"
+              style={{ color: "var(--t-foreground)", fontFamily: "var(--font-sans)" }}
+            >
+              También te puede gustar
+            </h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedProducts.slice(0, 4).map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  currencySymbol={currencySymbol}
+                  onClick={() => onProductClick?.(p.id)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Bottom bar: Add to Cart + Quantity */}

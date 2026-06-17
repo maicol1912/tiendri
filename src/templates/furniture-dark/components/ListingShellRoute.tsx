@@ -21,7 +21,7 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 export function ListingShellRoute() {
   const router = useRouter();
-  const { totalItems } = useCart();
+  const { totalItems, addItem } = useCart();
 
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
   const [sortOption, setSortOption] = useState<SortOption>("featured");
@@ -158,6 +158,19 @@ export function ListingShellRoute() {
     setActiveFilters({});
   }
 
+  function handleAddToCart(productId: string) {
+    const product = mockProducts.find((p) => p.id === productId);
+    if (!product || product.available === false) return;
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.images?.[0]?.url ?? product.image ?? null,
+      variantName: null,
+      quantity: 1,
+    });
+  }
+
   return (
     <ProductListingPage
       store={mockStore}
@@ -182,6 +195,7 @@ export function ListingShellRoute() {
       onProductClick={(productId) =>
         router.push(`${TEMPLATE_BASE}/producto/${productId}`)
       }
+      onAddToCart={handleAddToCart}
       onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
       onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
       onNavLinkClick={(href) => {

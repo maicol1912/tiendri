@@ -53,7 +53,7 @@ export default function CardOverlayBottom({
           style={{ ...priceConfig.style, color: 'white' }}
         >
           {currencySymbol}
-          {new Intl.NumberFormat('en-US').format(product.price)}
+          {new Intl.NumberFormat('es-CO').format(product.price)}
         </p>
         <button
           type="button"

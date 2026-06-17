@@ -68,6 +68,7 @@ export const techPremiumConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'icon-text' as const,
   },
 
   // Home page sections — order determines render order, visible toggles show/hide.
@@ -128,6 +129,12 @@ export const techPremiumConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Producto de alta tecnología con las últimas innovaciones del mercado. Diseñado para ofrecer el máximo rendimiento en cada uso." },
+      { id: "especificaciones", label: "Especificaciones", content: "Consulta la ficha técnica completa con procesador, memoria, pantalla y conectividad. Compatibilidad con los principales sistemas operativos." },
+      { id: "garantia", label: "Garantía", content: "Garantía oficial de 1 año por defectos de fabricación. Servicio técnico autorizado en toda Colombia." },
+      { id: "envio", label: "Envío", content: "Envío a todo el país en 2-5 días hábiles. Despacho el mismo día para pedidos antes de las 2 p.m." },
     ],
     popularSearches: [
       "iPhone",

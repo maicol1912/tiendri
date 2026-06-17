@@ -16,7 +16,7 @@ interface CartItemRowProps {
 }
 
 function fmt(price: number, symbol: string): string {
-  return `${symbol}${new Intl.NumberFormat("en-US").format(price)}`;
+  return `${symbol}${new Intl.NumberFormat("es-CO").format(price)}`;
 }
 
 export function CartItemRow({

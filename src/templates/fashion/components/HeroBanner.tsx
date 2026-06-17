@@ -14,6 +14,9 @@ interface HeroBannerProps {
   products: StorefrontProduct[];
   navCategories?: string[];
   currencySymbol?: string;
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
   onShopClick?: () => void;
   onProductClick?: (id: string) => void;
   onSearchChange?: (value: string) => void;
@@ -30,6 +33,9 @@ export function HeroBanner({
   products,
   navCategories = ["HOMBRES", "MUJERES", "NIÑOS"],
   currencySymbol = "$",
+  title = "NUEVA COLECCIÓN",
+  subtitle = "Verano 2025",
+  ctaText = "Explorar colección",
   onShopClick,
   onProductClick,
   onSearchChange,
@@ -40,6 +46,11 @@ export function HeroBanner({
   const imgRatio = imageRatioClass(layout?.cardImageRatio ?? "portrait");
   const desktopGrid = gridColsClass(grid?.mobile ?? 2, grid?.desktop ?? 4);
   const enableImageHover = (layout?.cardHoverEffect ?? "scale") !== "none";
+
+  // Split title: first word gets lighter weight, the rest gets bold weight
+  const titleWords = title.toUpperCase().split(" ");
+  const titleFirstWord = titleWords[0] ?? "";
+  const titleRest = titleWords.slice(1).join(" ");
 
   return (
     <section
@@ -86,39 +97,35 @@ export function HeroBanner({
               letterSpacing: "2px",
             }}
           >
-            NUEVA
+            {titleFirstWord}
           </h1>
-          <h1
-            className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-foreground)]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "2px",
-            }}
-          >
-            COLECCIÓN
-          </h1>
+          {titleRest && (
+            <h1
+              className="leading-none text-[48px] md:text-[64px] lg:text-[80px] text-[var(--t-foreground)]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 800,
+                textTransform: "uppercase",
+                letterSpacing: "2px",
+              }}
+            >
+              {titleRest}
+            </h1>
+          )}
         </div>
         <div className="text-right pt-1 md:pt-2">
-          <p
-            className="text-base md:text-lg text-[var(--t-muted)]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontWeight: 400,
-            }}
-          >
-            Verano
-          </p>
-          <p
-            className="text-base md:text-lg text-[var(--t-muted)]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontWeight: 400,
-            }}
-          >
-            {new Date().getFullYear()}
-          </p>
+          {subtitle.split(" ").map((word, i) => (
+            <p
+              key={i}
+              className="text-base md:text-lg text-[var(--t-muted)]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 400,
+              }}
+            >
+              {word}
+            </p>
+          ))}
         </div>
       </div>
 
@@ -193,7 +200,7 @@ export function HeroBanner({
                 }}
               >
                 {currencySymbol}
-                {new Intl.NumberFormat("en-US").format(product.price)}
+                {new Intl.NumberFormat("es-CO").format(product.price)}
               </p>
             </div>
           </div>
@@ -263,19 +270,19 @@ export function HeroBanner({
                 }}
               >
                 {currencySymbol}
-                {new Intl.NumberFormat("en-US").format(product.price)}
+                {new Intl.NumberFormat("es-CO").format(product.price)}
               </p>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Ir a la tienda button */}
+      {/* CTA button */}
       <button
         type="button"
         className="flex items-center gap-2 px-6 md:px-8 py-3 md:py-3.5 bg-[var(--t-secondary)] mt-4 md:mt-6 transition-opacity hover:opacity-80 border-none cursor-pointer rounded-[var(--t-radius-button)]"
         onClick={onShopClick}
-        aria-label="Ir a la tienda"
+        aria-label={ctaText}
       >
         <span
           className="text-[13px] md:text-sm text-[var(--t-foreground)]"
@@ -285,7 +292,7 @@ export function HeroBanner({
             letterSpacing: "1px",
           }}
         >
-          Ir a la tienda
+          {ctaText}
         </span>
         <ArrowRight size={16} strokeWidth={2} className="text-[var(--t-foreground)]" />
       </button>

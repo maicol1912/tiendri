@@ -7,6 +7,7 @@ import { useState, useCallback } from "react";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { mockProducts } from "../mock/data";
 import type { DecorWarmProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
@@ -30,6 +31,13 @@ export function ProductDetailShellRoute({
   const [isAdded, setIsAdded] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>("descripcion");
 
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
+
   // ── Related products ─────────────────────────────────────────────────────────
 
   const sameCategory = mockProducts.filter(
@@ -48,9 +56,9 @@ export function ProductDetailShellRoute({
     addItem({
       productId: product.id,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
       imageUrl: product.images[0]?.url ?? null,
-      variantName: null,
+      variantName: variantPriceName,
       quantity: quantity,
     });
 
@@ -59,7 +67,7 @@ export function ProductDetailShellRoute({
       setIsAdded(false);
       nav.goCart();
     }, 900);
-  }, [product, quantity, addItem, nav]);
+  }, [product, quantity, addItem, nav, effectivePrice, variantPriceName]);
 
   const handleNavLinkClick = useCallback(
     (href: string) => {
@@ -92,6 +100,9 @@ export function ProductDetailShellRoute({
       currencySymbol={currencySymbol}
       cartItemCount={totalItems}
       openAccordion={openAccordion}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
       onBack={nav.goHome}
       onCartOpen={nav.goCart}
       onNavLinkClick={handleNavLinkClick}

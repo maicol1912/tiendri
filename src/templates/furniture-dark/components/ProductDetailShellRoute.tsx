@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { mockStore, mockProducts } from "../mock/data";
@@ -23,6 +24,8 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
   const product = mockProducts.find((p) => p.id === productId) ?? mockProducts[0];
   if (!product) return null;
 
+  const relatedProducts = mockProducts.filter((p) => p.id !== product.id).slice(0, 4);
+
   const images = product.images ?? [];
   const firstColorId = product.colors?.[0]?.id;
 
@@ -30,14 +33,21 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
   const [selectedColorId, setSelectedColorId] = useState<string | undefined>(firstColorId);
   const [quantity, setQuantity] = useState(1);
 
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
+
   function handleAddToCart() {
     addItem({
       productId: product.id,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
       imageUrl: images[0]?.url ?? product.image ?? null,
       quantity,
-      variantName: null,
+      variantName: variantPriceName,
       colorId: selectedColorId,
       rating: product.rating,
     });
@@ -59,6 +69,9 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       quantity={quantity}
       activeImageIndex={activeImageIndex}
       selectedColorId={selectedColorId}
+      effectivePrice={effectivePrice}
+      selectedVariants={selectedVariants}
+      onSelectVariant={selectVariant}
       activeHref="/catalogo"
       onColorSelect={setSelectedColorId}
       onImageSelect={setActiveImageIndex}
@@ -75,6 +88,8 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       }}
       onInfoClick={() => router.push(`${TEMPLATE_BASE}/info`)}
       cartItemCount={totalItems}
+      relatedProducts={relatedProducts}
+      onProductClick={(id) => router.push(`${TEMPLATE_BASE}/producto/${id}`)}
     />
   );
 }

@@ -11,11 +11,14 @@ import { useCart } from "@/lib/cart";
 import type { CartItem } from "@/lib/cart";
 import { ProductCard } from "./ProductCard";
 import { Header } from "./Header";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import type { BeautyElegantProduct } from "../types";
 import type { StoreInfo } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
 import { formatPrice } from "@/lib/format";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 
 interface ProductDetailPageProps {
   product: BeautyElegantProduct;
@@ -24,10 +27,15 @@ interface ProductDetailPageProps {
   relatedProducts?: BeautyElegantProduct[];
   layout?: { buttonStyle?: ButtonStyle };
   cartItemCount?: number;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
+  variantName?: string | null;
   onBack?: () => void;
   onNavLinkClick?: (href: string) => void;
   onSearchOpen?: () => void;
   onCartOpen?: () => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
 }
 
 export function ProductDetailPage({
@@ -37,10 +45,15 @@ export function ProductDetailPage({
   relatedProducts = [],
   layout,
   cartItemCount = 0,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
+  variantName,
   onBack,
   onNavLinkClick,
   onSearchOpen,
   onCartOpen,
+  productDetailTabs = [],
 }: ProductDetailPageProps) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
@@ -48,24 +61,26 @@ export function ProductDetailPage({
 
   const primaryImage = product.images[0]?.url ?? null;
 
+  const displayPrice = effectivePrice ?? product.price;
+
   const handleAddToCart = useCallback(() => {
     if (!product.inStock) return;
 
     const cartItem: CartItem = {
       productId: product.id,
       name: product.name,
-      price: product.price,
+      price: displayPrice,
       originalPrice: product.originalPrice,
       imageUrl: primaryImage,
       description: product.description,
-      variantName: null,
+      variantName: variantName ?? null,
       quantity: 1,
     };
 
     addItem(cartItem);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
-  }, [product, addItem, primaryImage]);
+  }, [product, addItem, primaryImage, displayPrice, variantName]);
 
   const subtitleLabel = product.subtitle ?? "Cuidado Premium";
   const healthFacts = product.healthFacts ?? "Dermatológicamente probado";
@@ -141,6 +156,21 @@ export function ProductDetailPage({
         </div>
       </div>
 
+      {/* Variant selector */}
+      {product.variants && product.variants.length > 0 && onSelectVariant && (
+        <div className="space-y-3 mb-4">
+          {product.variants.map((group) => (
+            <VariantPriceSelector
+              key={group.id}
+              group={group}
+              selectedOptionId={selectedVariants?.[group.id]}
+              onSelect={(optionId) => onSelectVariant(group.id, optionId)}
+              currencySymbol={currencySymbol}
+            />
+          ))}
+        </div>
+      )}
+
       {/* Price + Add to cart */}
       <div className="flex items-center justify-between">
         <div>
@@ -148,7 +178,7 @@ export function ProductDetailPage({
             Precio
           </p>
           <p className="text-lg font-bold text-white" style={{ margin: "2px 0 0 0" }}>
-            {formatPrice(product.price, currencySymbol)}
+            {formatPrice(displayPrice, currencySymbol)}
           </p>
         </div>
 
@@ -349,6 +379,19 @@ export function ProductDetailPage({
                 currencySymbol={currencySymbol}
               />
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* Product Detail Tabs */}
+      {productDetailTabs.length > 0 && (
+        <section
+          className="px-5 md:px-12 pb-12 pt-4"
+          style={{ backgroundColor: "var(--t-background)" }}
+          aria-label="Información del producto"
+        >
+          <div className="max-w-7xl mx-auto">
+            <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
           </div>
         </section>
       )}

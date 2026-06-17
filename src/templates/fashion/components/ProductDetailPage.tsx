@@ -7,9 +7,14 @@ import { ArrowLeft } from "lucide-react";
 import { Header } from "./Header";
 import { ColorSwatch } from "./ColorSwatch";
 import { SizeSelector } from "./SizeSelector";
+import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
+import { QuantityStepper } from "@/components/shared/QuantityStepper";
+import { ProductCard } from "./ProductCard";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
+import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
+import type { VariantSelection } from "@/hooks/useVariantPrice";
 import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
 import { formatPrice } from "@/lib/format";
 
@@ -19,6 +24,9 @@ interface ProductDetailPageProps {
   selectedImageIndex: number;
   selectedColor?: string;
   selectedSize?: string;
+  effectivePrice?: number;
+  selectedVariants?: VariantSelection;
+  onSelectVariant?: (groupId: string, optionId: string) => void;
   activeTab: NavTab;
   cartItemCount?: number;
   currencySymbol?: string;
@@ -33,6 +41,12 @@ interface ProductDetailPageProps {
   onColorSelect?: (colorHex: string) => void;
   onSizeSelect?: (size: string) => void;
   onTabChange?: (tab: NavTab) => void;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
+  quantity?: number;
+  onDecrement?: () => void;
+  onIncrement?: () => void;
+  relatedProducts?: StorefrontProduct[];
+  onProductClick?: (id: string) => void;
 }
 
 /** Map common hex values to human-readable color names in Spanish */
@@ -60,6 +74,9 @@ export function ProductDetailPage({
   selectedImageIndex,
   selectedColor,
   selectedSize,
+  effectivePrice,
+  selectedVariants,
+  onSelectVariant,
   activeTab,
   cartItemCount = 0,
   currencySymbol = "$",
@@ -74,6 +91,12 @@ export function ProductDetailPage({
   onColorSelect,
   onSizeSelect,
   onTabChange,
+  productDetailTabs = [],
+  quantity = 1,
+  onDecrement,
+  onIncrement,
+  relatedProducts,
+  onProductClick,
 }: ProductDetailPageProps) {
   const currentImage = product.images[selectedImageIndex] ?? product.images[0];
   const btnClass = BUTTON_STYLE_MAP[(layout?.buttonStyle as keyof typeof BUTTON_STYLE_MAP) ?? "filled"];
@@ -206,7 +229,7 @@ export function ProductDetailPage({
                   className="text-base md:text-lg font-semibold text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
-                  {formatPrice(product.price, currencySymbol)}
+                  {formatPrice(effectivePrice ?? product.price, currencySymbol)}
                 </span>
                 {product.originalPrice && (
                   <span
@@ -270,26 +293,76 @@ export function ProductDetailPage({
               </div>
             )}
 
-            {/* AGREGAR AL CARRITO button */}
-            <button
-              type="button"
-              className={`w-full py-3.5 transition-opacity hover:opacity-80 active:opacity-60 mt-3 cursor-pointer rounded-[var(--t-radius-button)] border ${btnClass}`}
-              style={{
-                fontFamily: "var(--font-sans, 'Inter', sans-serif)",
-                fontSize: "13px",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                cursor: product.inStock ? "pointer" : "not-allowed",
-                opacity: product.inStock ? 1 : 0.5,
-              }}
-              onClick={product.inStock ? onAddToCart : undefined}
-              disabled={!product.inStock}
-            >
-              {product.inStock ? "AGREGAR AL CARRITO" : "AGOTADO"}
-            </button>
+            {/* Variant groups with price modifiers */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-5 flex flex-col gap-4">
+                {product.variants.map((group) => (
+                  <VariantPriceSelector
+                    key={group.id}
+                    group={group}
+                    selectedOptionId={selectedVariants?.[group.id]}
+                    onSelect={(optionId) => onSelectVariant?.(group.id, optionId)}
+                    currencySymbol={currencySymbol}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Quantity + AGREGAR AL CARRITO */}
+            <div className="flex items-center gap-3 mt-3">
+              <QuantityStepper
+                quantity={quantity}
+                onDecrement={onDecrement}
+                onIncrement={onIncrement}
+              />
+              <button
+                type="button"
+                className={`flex-1 py-3.5 transition-opacity hover:opacity-80 active:opacity-60 cursor-pointer rounded-[var(--t-radius-button)] border ${btnClass}`}
+                style={{
+                  fontFamily: "var(--font-sans, 'Inter', sans-serif)",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  cursor: product.inStock ? "pointer" : "not-allowed",
+                  opacity: product.inStock ? 1 : 0.5,
+                }}
+                onClick={product.inStock ? onAddToCart : undefined}
+                disabled={!product.inStock}
+              >
+                {product.inStock ? "AGREGAR AL CARRITO" : "AGOTADO"}
+              </button>
+            </div>
           </div>
         </div>
+        {/* Product Detail Tabs */}
+        {productDetailTabs.length > 0 && (
+          <div className="px-5 md:px-6 lg:px-8 py-6 border-t border-[var(--t-border)]">
+            <ProductTabs tabs={productDetailTabs.map(({ label, content }) => ({ label, content }))} />
+          </div>
+        )}
+
+        {/* También te puede gustar */}
+        {relatedProducts && relatedProducts.length > 0 && (
+          <section className="px-5 md:px-6 lg:px-8 mt-12 mb-8">
+            <h2
+              className="text-lg font-semibold mb-4"
+              style={{ color: "var(--t-foreground)", fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
+            >
+              También te puede gustar
+            </h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedProducts.slice(0, 4).map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  currencySymbol={currencySymbol}
+                  onProductClick={onProductClick}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer store={store} />

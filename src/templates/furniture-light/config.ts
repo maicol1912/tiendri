@@ -59,6 +59,7 @@ export const furnitureLightConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'icon-text' as const,
   },
 
   sections: [
@@ -98,6 +99,12 @@ export const furnitureLightConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Mueble de estilo escandinavo con líneas limpias y funcionalidad pensada para el hogar moderno. Materiales naturales de alta durabilidad." },
+      { id: "especificaciones", label: "Especificaciones", content: "Incluye ficha técnica con peso, capacidad de carga y materiales utilizados. Compatible con ensamblaje sencillo sin herramientas especiales." },
+      { id: "cuidado", label: "Cuidado", content: "Limpiar con paño húmedo y jabón neutro. Evitar exposición prolongada a la luz solar directa. Revisar tornillos cada 6 meses." },
+      { id: "envio", label: "Envío", content: "Envío gratuito en compras superiores a $300.000. Entrega en 3-7 días hábiles según la ciudad de destino." },
     ],
     popularSearches: [
       "Sillas",

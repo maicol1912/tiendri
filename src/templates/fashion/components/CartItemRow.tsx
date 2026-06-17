@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Minus, Plus, X, RotateCw } from "lucide-react";
 import type { CartItem } from "../types";
 
-const fmt = new Intl.NumberFormat("en-US");
+const fmt = new Intl.NumberFormat("es-CO");
 
 interface CartItemRowProps {
   item: CartItem;

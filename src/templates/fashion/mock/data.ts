@@ -14,6 +14,9 @@ export const mockStore: StoreInfo = {
   description:
     "Tu destino de moda en Colombia. Ropa de calidad premium para toda la familia, con envío a todo el país.",
   whatsapp: "573001234567",
+  hours: "Lun–Sáb 9am–7pm · Dom 10am–4pm",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta débito/crédito"],
+  shippingInfo: "Envío a todo Colombia. Bogotá y Medellín: 1–2 días. Resto del país: 3–5 días hábiles.",
   social_links: {
     instagram: "https://instagram.com/modaelite",
     facebook: "https://facebook.com/modaelite",

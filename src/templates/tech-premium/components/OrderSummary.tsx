@@ -26,7 +26,7 @@ export function OrderSummary({
 }: OrderSummaryProps) {
   const checkoutBtnClass = BUTTON_STYLE_MAP[buttonStyle];
   const fmt = (price: number) =>
-    `${currencySymbol}${new Intl.NumberFormat("en-US").format(price)}`;
+    `${currencySymbol}${new Intl.NumberFormat("es-CO").format(price)}`;
 
   return (
     <aside className="lg:w-[400px] xl:w-[440px] shrink-0">

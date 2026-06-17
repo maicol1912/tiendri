@@ -58,6 +58,7 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - `docs/` — documentación del producto
 
 ## Reglas críticas
+- **NUNCA usar el tool `Workflow`** — prohibido para TODO (lectura y escritura). Consume demasiados tokens y los agentes paralelos sobreescriben cambios entre sí. Usar agentes individuales (`Agent` tool) en su lugar: secuenciales para ediciones, o paralelos SOLO si tocan archivos estrictamente no-solapados. Siempre VERIFICAR que los cambios se aplicaron después de que un agente termine.
 - Leer `ai/rules/tiendri-rules.md` antes de cualquier trabajo
 - Leer `ai/rules/template-architecture-rules.md` para trabajo con templates
 - Templates: `satisfies TemplateConfig`, CSS vars `--t-*`, zero hardcoded colors

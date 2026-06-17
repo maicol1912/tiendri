@@ -32,7 +32,8 @@ export function hoverEffectClass(effect: string): string {
 export function imageRatioClass(ratio: string): string {
   const map: Record<string, string> = {
     square: "aspect-square",
-    portrait: "aspect-[3/4]",
+    portrait: "aspect-[4/5]",
+    tall: "aspect-[3/4]",
     wide: "aspect-[4/3]",
   };
   return map[ratio] ?? map["square"]!;

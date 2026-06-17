@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
+import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { foodNightConfig } from "../config";
 import type { FoodNightConfig } from "../config";
@@ -15,6 +16,7 @@ import type { StoreInfo, StorefrontProduct, SizeOption } from "../types";
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
   product: StorefrontProduct;
+  products?: StorefrontProduct[];
   sizeOptions?: SizeOption[];
   currencySymbol?: string;
 }
@@ -22,11 +24,14 @@ interface ProductDetailShellRouteProps {
 export function ProductDetailShellRoute({
   store,
   product,
+  products = [],
   sizeOptions = [],
   currencySymbol = "$",
 }: ProductDetailShellRouteProps) {
   const nav = useTemplateNav();
   const { addItem, totalItems } = useCart();
+
+  const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 4);
   const { config } = useLayoutConfig<FoodNightConfig>();
   const layout = config?.layout ?? foodNightConfig.layout;
 
@@ -35,6 +40,13 @@ export function ProductDetailShellRoute({
     sizeOptions[0]?.id ?? null
   );
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+  const {
+    selectedVariants,
+    selectVariant,
+    effectivePrice,
+    variantName: variantPriceName,
+  } = useVariantPrice(product.price, product.variants);
 
   const handleNavLinkClick = useCallback((href: string) => {
     if (href === "/") nav.goHome();
@@ -45,20 +57,24 @@ export function ProductDetailShellRoute({
   const handleAddToCart = useCallback(() => {
     const primaryImage = product.images[0]?.url ?? null;
     const selectedSize = sizeOptions.find((s) => s.id === selectedSizeId);
+    const sizeLabel = selectedSize?.label ?? null;
+    const finalVariantName = variantPriceName
+      ? (sizeLabel ? `${sizeLabel} / ${variantPriceName}` : variantPriceName)
+      : sizeLabel;
 
     addItem({
       productId: product.id,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
       quantity,
       imageUrl: primaryImage,
-      variantName: selectedSize?.label ?? null,
+      variantName: finalVariantName,
       rating: product.rating,
       reviewCount: product.reviewCount,
     });
 
     nav.goCart();
-  }, [product, sizeOptions, selectedSizeId, quantity, addItem, nav]);
+  }, [product, sizeOptions, selectedSizeId, quantity, addItem, nav, effectivePrice, variantPriceName]);
 
   return (
     <motion.div
@@ -78,6 +94,9 @@ export function ProductDetailShellRoute({
         activeHref="/catalogo"
         cartItemCount={totalItems}
         layout={layout}
+        effectivePrice={effectivePrice}
+        selectedVariants={selectedVariants}
+        onSelectVariant={selectVariant}
         onBack={nav.goHome}
         onSizeSelect={setSelectedSizeId}
         onDecrement={() => setQuantity((prev) => Math.max(1, prev - 1))}
@@ -92,6 +111,9 @@ export function ProductDetailShellRoute({
           else if (tab === "cart") nav.goCart();
           else if (tab === "info") nav.goInfo();
         }}
+        productDetailTabs={[...(config.content?.productDetailTabs ?? [])]}
+        relatedProducts={relatedProducts}
+        onProductClick={nav.goProduct}
       />
     </motion.div>
   );

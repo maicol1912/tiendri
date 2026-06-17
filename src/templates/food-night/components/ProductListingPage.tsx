@@ -44,6 +44,7 @@ interface ProductListingPageProps {
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onProductClick?: (productId: string) => void;
+  onAddToCart?: (productId: string) => void;
   onWishlistToggle?: (productId: string) => void;
   onTabChange?: (tab: NavTab) => void;
   onNavLinkClick?: (href: string) => void;
@@ -73,6 +74,7 @@ export function ProductListingPage({
   onSearchClick,
   onCartClick,
   onProductClick,
+  onAddToCart,
   onWishlistToggle,
   onTabChange,
   onNavLinkClick,
@@ -258,6 +260,7 @@ export function ProductListingPage({
                       variant={index % 2 === 0 ? "tall" : "short"}
                       layout={layout}
                       onClick={() => onProductClick?.(product.id)}
+                      onAddToCart={onAddToCart}
                     />
                   ))}
                 </div>

@@ -1,4 +1,4 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { MessageCircle, Phone, Clock, CreditCard, Truck } from "lucide-react";
 import type { StoreInfo } from "@/types/store";
 
 interface StoreInfoPageProps {
@@ -232,6 +232,107 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
                   </span>
                 </div>
               </a>
+            </div>
+          </section>
+        )}
+
+        {store.hours && (
+          <section className="flex flex-col gap-3">
+            <h2
+              className="text-xs font-semibold uppercase tracking-wider"
+              style={{ color: "var(--t-muted)" }}
+            >
+              Horarios
+            </h2>
+            <div
+              className="flex items-center gap-3 px-4 py-4 overflow-hidden"
+              style={{
+                backgroundColor: "var(--t-card)",
+                borderRadius: "var(--t-radius-card)",
+              }}
+            >
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: "var(--t-primary)" }}
+              >
+                <Clock size={18} strokeWidth={1.75} style={{ color: "var(--t-on-primary)" }} />
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--t-foreground)" }}>
+                {store.hours}
+              </p>
+            </div>
+          </section>
+        )}
+
+        {store.paymentMethods && store.paymentMethods.length > 0 && (
+          <section className="flex flex-col gap-3">
+            <h2
+              className="text-xs font-semibold uppercase tracking-wider"
+              style={{ color: "var(--t-muted)" }}
+            >
+              Métodos de pago
+            </h2>
+            <div
+              className="px-4 py-4 overflow-hidden"
+              style={{
+                backgroundColor: "var(--t-card)",
+                borderRadius: "var(--t-radius-card)",
+              }}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: "var(--t-primary)" }}
+                >
+                  <CreditCard size={18} strokeWidth={1.75} style={{ color: "var(--t-on-primary)" }} />
+                </div>
+                <span className="text-sm font-medium" style={{ color: "var(--t-foreground)" }}>
+                  Aceptamos
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {store.paymentMethods.map((method) => (
+                  <span
+                    key={method}
+                    className="text-xs font-medium px-3 py-1 rounded-full"
+                    style={{
+                      backgroundColor: "var(--t-background)",
+                      color: "var(--t-foreground)",
+                      border: "1px solid var(--t-border)",
+                    }}
+                  >
+                    {method}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {store.shippingInfo && (
+          <section className="flex flex-col gap-3">
+            <h2
+              className="text-xs font-semibold uppercase tracking-wider"
+              style={{ color: "var(--t-muted)" }}
+            >
+              Envío
+            </h2>
+            <div
+              className="flex items-center gap-3 px-4 py-4 overflow-hidden"
+              style={{
+                backgroundColor: "var(--t-card)",
+                borderRadius: "var(--t-radius-card)",
+              }}
+            >
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: "var(--t-primary)" }}
+              >
+                <Truck size={18} strokeWidth={1.75} style={{ color: "var(--t-on-primary)" }} />
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--t-foreground)" }}>
+                {store.shippingInfo}
+              </p>
             </div>
           </section>
         )}

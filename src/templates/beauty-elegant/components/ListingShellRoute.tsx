@@ -190,7 +190,9 @@ export function ListingShellRoute({
   );
 
   const handleAddToCart = useCallback(
-    (product: BeautyElegantProduct) => {
+    (productId: string) => {
+      const product = products.find((p) => p.id === productId);
+      if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
         name: product.name,
@@ -200,11 +202,8 @@ export function ListingShellRoute({
         quantity: 1,
       });
     },
-    [addItem]
+    [products, addItem]
   );
-
-  // Suppress unused variable warning — handleAddToCart available if ProductCard needs it
-  void handleAddToCart;
 
   return (
     <ProductListingPage
@@ -228,6 +227,7 @@ export function ListingShellRoute({
       onOpenFilterDrawer={() => setIsFilterDrawerOpen(true)}
       onCloseFilterDrawer={() => setIsFilterDrawerOpen(false)}
       onProductClick={nav.goProduct}
+      onAddToCart={handleAddToCart}
       onBack={nav.goHome}
       onTabChange={handleTabChange}
       onNavLinkClick={handleNavLinkClick}

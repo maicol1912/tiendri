@@ -59,6 +59,7 @@ export const foodNightConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'icon-text' as const,
   },
 
   sections: [
@@ -97,6 +98,12 @@ export const foodNightConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más pedidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Plato preparado con ingredientes frescos y seleccionados. Receta tradicional con el sabor auténtico que nos caracteriza, listo para disfrutar." },
+      { id: "ingredientes", label: "Ingredientes", content: "Elaborado con productos frescos de origen local. Consulta la lista completa de ingredientes en la descripción del producto." },
+      { id: "alergenos", label: "Alérgenos", content: "Puede contener gluten, lácteos, huevo y frutos secos. Consulta con nuestro equipo si tenés alguna alergia o restricción alimentaria específica." },
+      { id: "info_nutricional", label: "Información nutricional", content: "Valores nutricionales por porción disponibles en nuestra carta. Contamos con opciones bajas en calorías y adaptadas a diferentes dietas." },
     ],
     popularSearches: [
       "Pizza",

@@ -51,7 +51,18 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Vertical" },
+                  { value: "tall", label: "Vertical (3:4)" },
                   { value: "wide", label: "Horizontal" },
+                ],
+              },
+              {
+                key: "structuralVariants.categoryDisplayType",
+                label: "Vista de categorías",
+                type: "select" as const,
+                options: [
+                  { value: "text-only", label: "Solo texto" },
+                  { value: "icon-text", label: "Ícono + texto" },
+                  { value: "image-text", label: "Imagen + texto" },
                 ],
               },
             ],

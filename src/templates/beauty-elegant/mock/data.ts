@@ -13,6 +13,9 @@ export const mockStore: StoreInfo = {
   logo: null,
   description: "Tu tienda de belleza exclusiva con cosméticos y cuidado personal premium.",
   whatsapp: "573001234567",
+  hours: "Lun–Vie 9am–6pm · Sáb 10am–4pm · Dom cerrado",
+  paymentMethods: ["Efectivo", "Nequi", "Daviplata", "PSE", "Tarjeta débito/crédito"],
+  shippingInfo: "Envío a todo el país. Entrega 2–5 días hábiles con seguimiento en tiempo real.",
   social_links: {
     instagram: "blushora.co",
     facebook: "blushorabeauty",

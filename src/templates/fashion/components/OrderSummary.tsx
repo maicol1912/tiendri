@@ -3,7 +3,7 @@
 // Used as sticky desktop sidebar in CartPage.
 // Monochromatic B&W. All colors via var(--t-*). ZERO hardcoded hex.
 
-const fmt = new Intl.NumberFormat("en-US");
+const fmt = new Intl.NumberFormat("es-CO");
 
 interface OrderSummaryProps {
   totalPrice: number;

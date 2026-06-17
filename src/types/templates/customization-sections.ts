@@ -55,6 +55,7 @@ export interface ContentConfig {
   footerServices?: string[];
   footerAssistance?: string[];
   productTabs?: Array<{ id: string; label: string }>;
+  productDetailTabs?: Array<{ id: string; label: string; content: string }>;
   popularSearches?: string[];
 }
 

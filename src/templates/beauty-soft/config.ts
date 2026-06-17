@@ -65,6 +65,7 @@ export const beautySoftConfig = {
     cardContentLayout: 'below-image' as const,
     categoryNavStyle: 'horizontal-scroll' as const,
     addToCartStyle: 'full-width' as const,
+    categoryDisplayType: 'image-text' as const,
   },
 
   sections: [
@@ -107,6 +108,12 @@ export const beautySoftConfig = {
       { id: "new-arrival", label: "Nuevos" },
       { id: "bestseller", label: "Más vendidos" },
       { id: "featured", label: "Destacados" },
+    ],
+    productDetailTabs: [
+      { id: "descripcion", label: "Descripción", content: "Producto de belleza formulado con ingredientes naturales de alta eficacia. Ideal para todo tipo de piel, apto para uso diario en tu rutina de cuidado." },
+      { id: "ingredientes", label: "Ingredientes", content: "Formulado con activos dermatológicamente probados: ácido hialurónico, vitamina C y extractos botánicos. Sin parabenos, sin sulfatos." },
+      { id: "modo_de_uso", label: "Modo de uso", content: "Aplicar sobre piel limpia con movimientos circulares suaves. Usar mañana y noche para mejores resultados. Evitar el contacto con los ojos." },
+      { id: "envio", label: "Envío", content: "Envío a todo Colombia en 2-5 días hábiles. Empaque discreto y seguro para proteger el producto durante el transporte." },
     ],
     popularSearches: [
       "Sérum vitamina C",

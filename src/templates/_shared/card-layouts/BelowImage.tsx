@@ -60,6 +60,11 @@ export default function CardBelowImage({
           sizes="160px"
           loading="lazy"
         />
+        {!product.inStock && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-[inherit]">
+            <span className="text-white font-semibold text-sm tracking-wider">Agotado</span>
+          </div>
+        )}
       </button>
 
       <div className="flex flex-col items-center gap-4 lg:gap-6 w-full">
@@ -78,7 +83,7 @@ export default function CardBelowImage({
           </button>
           <p className={`tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
             {currencySymbol}
-            {new Intl.NumberFormat('en-US').format(product.price)}
+            {new Intl.NumberFormat('es-CO').format(product.price)}
           </p>
         </div>
 
