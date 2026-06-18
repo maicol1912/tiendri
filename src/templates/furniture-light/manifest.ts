@@ -128,6 +128,7 @@ export const furnitureLightManifest = {
   heroTitleLight: "",
   showSearchBar: false,
   categoriesHeading: "Categorías",
+  categoryIconColor: "var(--t-foreground)",
   showRating: true,
   productsHeading: "Todos los productos",
   showAddToCartInGrid: false,

@@ -33,11 +33,11 @@ export const mockStore: StoreInfo = {
 // ── Categories ─────────────────────────────────────────────────────────────────
 
 export const mockCategories: FurnitureCategory[] = [
-  { id: "cat-table", name: "Mesas", icon: "table", productCount: 12 },
-  { id: "cat-chair", name: "Sillas", icon: "chair", productCount: 18 },
-  { id: "cat-cabinet", name: "Gabinetes", icon: "cabinet", productCount: 9 },
-  { id: "cat-sofa", name: "Sofás", icon: "sofa", productCount: 7 },
-  { id: "cat-bed", name: "Camas", icon: "bed", productCount: 10 },
+  { id: "cat-table", name: "Mesas", icon: "Grid3X3" },
+  { id: "cat-chair", name: "Sillas", icon: "Armchair" },
+  { id: "cat-cabinet", name: "Gabinetes", icon: "Package" },
+  { id: "cat-sofa", name: "Sofás", icon: "Sofa" },
+  { id: "cat-bed", name: "Camas", icon: "Bed" },
 ];
 
 // ── Products ───────────────────────────────────────────────────────────────────

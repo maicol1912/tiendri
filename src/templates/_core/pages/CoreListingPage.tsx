@@ -148,7 +148,7 @@ export const CoreListingPage = memo(function CoreListingPage({
               paddingRight: "16px",
               paddingTop: "11px",
               paddingBottom: "11px",
-              background: "var(--t-secondary)",
+              background: "var(--t-background)",
               border: "1px solid var(--t-border)",
               borderRadius: "var(--t-radius-card, 12px)",
               fontSize: "14px",
@@ -192,7 +192,7 @@ export const CoreListingPage = memo(function CoreListingPage({
               onChange={(e) => setSortOption(e.target.value)}
               className="w-full appearance-none pr-8 py-2 pl-3 text-sm"
               style={{
-                background: "var(--t-secondary)",
+                background: "var(--t-background)",
                 border: "1px solid var(--t-border)",
                 borderRadius: "var(--t-radius-card, 12px)",
                 color: "var(--t-foreground)",
@@ -295,7 +295,7 @@ export const CoreListingPage = memo(function CoreListingPage({
                     onChange={(e) => setSortOption(e.target.value)}
                     className="appearance-none pr-8 py-2 pl-3 text-sm min-w-[160px]"
                     style={{
-                      background: "var(--t-secondary)",
+                      background: "var(--t-background)",
                       border: "1px solid var(--t-border)",
                       borderRadius: "var(--t-radius-card, 12px)",
                       color: "var(--t-foreground)",

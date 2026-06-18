@@ -14,6 +14,8 @@ export interface CategoryNavSlotProps {
   showViewAll?: boolean;
   /** Callback for the "Ver todo" link. */
   onViewAll?: () => void;
+  /** Color for category icons in icon-text display mode. Defaults to var(--t-primary). */
+  iconColor?: string;
 }
 
 export type CategoryNavVariant =

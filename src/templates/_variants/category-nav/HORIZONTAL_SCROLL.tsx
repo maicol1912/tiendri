@@ -19,6 +19,7 @@ const HorizontalScroll = memo(function HorizontalScroll({
   heading,
   showViewAll = false,
   onViewAll,
+  iconColor,
 }: CategoryNavSlotProps) {
   const sectionHeading = heading ?? "Explorar por categoría";
 
@@ -86,6 +87,7 @@ const HorizontalScroll = memo(function HorizontalScroll({
               isActive={activeCategoryId === cat.id}
               onClick={() => onCategoryClick?.(cat.id)}
               displayType={cat.image ? "image-text" : "icon-text"}
+              iconColor={iconColor}
             />
           </div>
         ))}

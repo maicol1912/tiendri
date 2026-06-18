@@ -25,6 +25,8 @@ interface CategoryItemProps {
   onClick: () => void;
   displayType: CategoryDisplayType;
   className?: string;
+  /** Override the icon color for icon-text display mode. Defaults to var(--t-primary). */
+  iconColor?: string;
 }
 
 export function CategoryItem({
@@ -36,6 +38,7 @@ export function CategoryItem({
   onClick,
   displayType,
   className = '',
+  iconColor,
 }: CategoryItemProps) {
   const IconComponent = icon ? (ICON_MAP[icon] ?? Tag) : Tag;
 
@@ -104,7 +107,7 @@ export function CategoryItem({
       >
         <IconComponent
           size={22}
-          style={{ color: isActive ? 'var(--t-on-primary)' : 'var(--t-primary)' }}
+          style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)') }}
         />
         <span style={{ fontSize: '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>
           {name}

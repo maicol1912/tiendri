@@ -55,7 +55,7 @@ export const CoreCartPage = memo(function CoreCartPage({
             type="button"
             onClick={onContinueShopping}
             className="flex items-center justify-center w-9 h-9 rounded-full flex-shrink-0"
-            style={{ background: "var(--t-secondary)", border: "none", cursor: "pointer" }}
+            style={{ background: "var(--t-background)", border: "1px solid var(--t-border)", cursor: "pointer" }}
             aria-label="Volver"
           >
             <ChevronLeft size={20} style={{ color: "var(--t-foreground)" }} aria-hidden="true" />
@@ -82,7 +82,7 @@ export const CoreCartPage = memo(function CoreCartPage({
           <div className="flex flex-col items-center justify-center py-24 gap-5">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center"
-              style={{ background: "var(--t-secondary)" }}
+              style={{ background: "var(--t-background)", border: "1px solid var(--t-border)" }}
             >
               <svg
                 width="32"
@@ -141,7 +141,7 @@ export const CoreCartPage = memo(function CoreCartPage({
                   key={`${item.productId}-${item.variantName ?? ""}`}
                   className="flex items-center gap-3 p-3"
                   style={{
-                    background: "var(--t-secondary)",
+                    background: "var(--t-background)",
                     borderRadius: "var(--t-radius-card, 16px)",
                     border: "1px solid var(--t-border)",
                   }}
@@ -271,7 +271,7 @@ export const CoreCartPage = memo(function CoreCartPage({
               <div
                 className="flex flex-col gap-4 p-6"
                 style={{
-                  background: "var(--t-secondary)",
+                  background: "var(--t-background)",
                   borderRadius: "var(--t-radius-card, 16px)",
                   border: "1px solid var(--t-border)",
                 }}

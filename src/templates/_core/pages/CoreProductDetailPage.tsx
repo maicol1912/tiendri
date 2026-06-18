@@ -339,7 +339,7 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
                 >
                   <div
                     className="w-10 h-10 flex items-center justify-center rounded-full"
-                    style={{ background: "var(--t-secondary)" }}
+                    style={{ background: "var(--t-background)", border: "1px solid var(--t-border)" }}
                   >
                     <Icon size={18} style={{ color: "var(--t-foreground)" }} aria-hidden="true" />
                   </div>
