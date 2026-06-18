@@ -17,7 +17,7 @@ export const SECTION_REGISTRY: Record<string, ComponentType<SectionRendererProps
   editorial: EditorialSection,
   banners: BannersSection,
   popular: PopularSection,
-  video: VideoSection,
+  video: VideoSection as unknown as ComponentType<SectionRendererProps>,
 };
 
 export type { SectionRendererProps } from "./types";

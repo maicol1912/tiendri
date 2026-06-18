@@ -3,101 +3,107 @@
 import React, { memo, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
-import type { SectionRendererProps } from "./types";
+import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
+
+interface VideoSectionProps {
+  config: ResolvedStoreConfig;
+}
 
 export const VideoSection = memo(function VideoSection({
   config,
-}: SectionRendererProps) {
+}: VideoSectionProps) {
   const [playing, setPlaying] = useState(false);
 
-  const content = config as unknown as {
-    content?: {
-      videoPosterImage?: string;
-      videoUrl?: string;
-      videoTitle?: string;
-    };
-  };
+  const posterImage = config.content?.videoPosterImage;
+  const title = config.content?.videoTitle;
 
-  const posterImage = content.content?.videoPosterImage;
-  const videoUrl = content.content?.videoUrl;
-  const title = content.content?.videoTitle;
-
-  if (!videoUrl && !posterImage) return null;
+  if (!posterImage) return null;
 
   return (
     <section className="px-4 md:px-5 py-8 md:py-12" aria-label="Video de la tienda">
+      {/* Heading above the player */}
+      {title && (
+        <h2
+          className="text-center mb-5 md:mb-7 text-xl md:text-2xl lg:text-3xl"
+          style={{
+            color: "var(--t-foreground)",
+            fontWeight: 700,
+            letterSpacing: "-0.4px",
+            fontFamily: "var(--t-font-heading, inherit)",
+          }}
+        >
+          {title}
+        </h2>
+      )}
+
+      {/* Player container — constrained width, centered */}
       <div
-        className="relative w-full overflow-hidden"
+        className="relative mx-auto overflow-hidden"
         style={{
-          borderRadius: "var(--t-radius-card)",
+          maxWidth: "min(92%, 900px)",
+          borderRadius: "var(--t-radius-card, 14px)",
           aspectRatio: "16/9",
           backgroundColor: "var(--t-border)",
         }}
       >
+        {/* Poster image */}
+        <Image
+          src={posterImage}
+          alt={title ?? "Video de la tienda"}
+          fill
+          sizes="(max-width: 768px) 92vw, (max-width: 1280px) 65vw, 900px"
+          className="object-cover"
+        />
+
+        {/* Dark scrim — softens the poster so the play button reads clearly */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%)",
+          }}
+        />
+
+        {/* Play button overlay */}
         {!playing ? (
-          <>
-            {/* Poster image */}
-            {posterImage && (
-              <Image
-                src={posterImage}
-                alt={title ?? "Video de la tienda"}
-                fill
-                sizes="(max-width: 768px) 100vw, 1200px"
-                className="object-cover"
+          <div className="absolute inset-0 flex items-center justify-center">
+            <button
+              type="button"
+              className="flex items-center justify-center w-16 h-16 md:w-[72px] md:h-[72px] rounded-full transition-all duration-200 active:scale-95 hover:scale-110 hover:brightness-125"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.50)",
+                border: "2px solid rgba(255,255,255,0.35)",
+                backdropFilter: "blur(6px)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+              }}
+              onClick={() => setPlaying(true)}
+              aria-label="Reproducir video"
+            >
+              <Play
+                size={28}
+                strokeWidth={0}
+                fill="white"
+                style={{ marginLeft: 4 }}
               />
-            )}
-
-            {/* Dark overlay — opacity-based, zero hardcoded colors */}
-            <div
-              className="absolute inset-0"
-              style={{ backgroundColor: "var(--t-overlay, rgba(0,0,0,0.45))" }}
-            />
-
-            {/* Title + play button */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-              {title && (
-                <p
-                  className="text-center px-4 text-base md:text-xl"
-                  style={{
-                    color: "var(--t-foreground)",
-                    fontWeight: 600,
-                    letterSpacing: "-0.3px",
-                    textShadow: "0 1px 4px var(--t-shadow, rgba(0,0,0,0.5))",
-                  }}
-                >
-                  {title}
-                </p>
-              )}
-
-              {videoUrl && (
-                <button
-                  type="button"
-                  className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full transition-transform active:scale-95 hover:scale-105"
-                  style={{
-                    backgroundColor: "var(--t-play-btn-bg, rgba(255,255,255,0.18))",
-                    backdropFilter: "blur(4px)",
-                  }}
-                  onClick={() => setPlaying(true)}
-                  aria-label="Reproducir video"
-                >
-                  <Play
-                    size={26}
-                    strokeWidth={0}
-                    fill="var(--t-foreground)"
-                    style={{ marginLeft: 3 }}
-                  />
-                </button>
-              )}
-            </div>
-          </>
+            </button>
+          </div>
         ) : (
-          <video
-            className="absolute inset-0 w-full h-full object-cover"
-            src={videoUrl}
-            autoPlay
-            controls
-            playsInline
-          />
+          /* Mock "playing" state — no real video needed */
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ backgroundColor: "rgba(0,0,0,0.55)" }}
+          >
+            <p
+              className="text-sm md:text-base px-4 text-center"
+              style={{
+                color: "var(--t-foreground)",
+                opacity: 0.85,
+                fontFamily: "var(--t-font-body, inherit)",
+              }}
+            >
+              Reproduciendo…
+            </p>
+          </div>
         )}
       </div>
     </section>

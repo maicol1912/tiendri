@@ -60,6 +60,10 @@ export interface ContentConfig {
   productTabs?: Array<{ id: string; label: string }>;
   productDetailTabs?: Array<{ id: string; label: string; content: string }>;
   popularSearches?: string[];
+  /** Video section — shown between categories and products */
+  videoPosterImage?: string;
+  videoUrl?: string;
+  videoTitle?: string;
   /** Editorial section — centered text block shown after the product grid */
   editorialHeading?: string;
   editorialSubheading?: string;

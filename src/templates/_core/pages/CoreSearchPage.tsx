@@ -104,8 +104,8 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                       onClick={() => setSearchQuery(term)}
                       className="text-xs px-3 py-1.5"
                       style={{
-                        color: "var(--t-primary)",
-                        backgroundColor: "var(--t-card)",
+                        color: "var(--t-foreground)",
+                        backgroundColor: "var(--t-secondary)",
                         border: "1px solid var(--t-border)",
                         borderRadius: "9999px",
                         cursor: "pointer",
@@ -162,7 +162,7 @@ export const CoreSearchPage = memo(function CoreSearchPage({
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{ background: "var(--t-card)" }}
+              style={{ background: "var(--t-secondary)" }}
             >
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" stroke="var(--t-primary)" strokeWidth="1.75" />
@@ -194,8 +194,8 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                       onClick={() => setSearchQuery(term)}
                       className="text-xs px-3 py-1.5"
                       style={{
-                        color: "var(--t-primary)",
-                        background: "var(--t-card)",
+                        color: "var(--t-foreground)",
+                        background: "var(--t-secondary)",
                         border: "1px solid var(--t-border)",
                         borderRadius: "9999px",
                         cursor: "pointer",

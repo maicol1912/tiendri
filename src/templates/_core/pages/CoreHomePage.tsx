@@ -11,6 +11,7 @@ import { CATEGORY_NAV_REGISTRY } from "@/templates/_variants/category-nav";
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
 import { SEARCH_BAR_REGISTRY } from "@/templates/_variants/search-bar";
 import { BestSellersSection } from "@/templates/_core/sections/BestSellersSection";
+import { VideoSection } from "@/templates/_core/sections/VideoSection";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import { imageRatioClass } from "@/templates/_shared/utils/image-classes";
@@ -119,6 +120,17 @@ export const CoreHomePage = memo(function CoreHomePage({
   const showCategories = (config as Record<string, unknown>).showCategories !== false;
   // When true, the hero section is constrained to the same 65% width as the other sections
   const heroConstrained = (config as Record<string, unknown>).heroConstrained === true;
+  // Video section — visible when the template has videoPosterImage or videoTitle in content
+  // and the sections array includes { id: "video", visible: true }
+  const videoSectionVisible = (() => {
+    const hasPoster = !!config.content?.videoPosterImage;
+    const hasTitle = !!config.content?.videoTitle;
+    if (!hasPoster && !hasTitle) return false;
+    const sections = config.sections as readonly { id: string; visible: boolean }[] | undefined;
+    if (!sections) return true; // no sections array → show if content is present
+    const videoSection = sections.find((s) => s.id === "video");
+    return videoSection ? videoSection.visible : false;
+  })();
   // When true, PROMO_CARD hero uses compact height (clamp(160px, 22vw, 240px))
   const heroCompact = (config as Record<string, unknown>).heroCompact === true;
   // Optional editorial section — rendered when editorialHeading or editorialBody is defined in content
@@ -273,6 +285,13 @@ export const CoreHomePage = memo(function CoreHomePage({
             chipStyle={chipStyle as "underline" | "pills" | "bordered" | undefined}
           />
         </section>
+      )}
+
+      {/* ── Video (opcional) ─────────────────────────────────────────────── */}
+      {videoSectionVisible && (
+        <div className="max-w-[92%] lg:max-w-[65%] mx-auto">
+          <VideoSection config={config} />
+        </div>
       )}
 
       {/* ── Más Vendidos (opcional) ──────────────────────────────────────── */}

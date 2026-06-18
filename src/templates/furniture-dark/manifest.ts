@@ -125,6 +125,8 @@ export const furnitureDarkManifest = {
       "Estantes",
       "Lámparas",
     ],
+    videoPosterImage: "/mocks/furniture-dark/desc-table-chair.jpg",
+    videoTitle: "Conocé nuestra historia",
   } satisfies ContentConfig,
 
   business: {
