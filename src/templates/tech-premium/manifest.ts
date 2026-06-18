@@ -143,6 +143,7 @@ export const techPremiumManifest = {
   },
 
   heroConstrained: false,
+  heroDesktopOnly: true,
   showSearchBar: false,
   categorySize: "large",
   categoriesWide: true,

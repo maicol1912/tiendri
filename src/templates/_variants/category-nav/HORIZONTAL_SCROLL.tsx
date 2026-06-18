@@ -71,15 +71,23 @@ const HorizontalScroll = memo(function HorizontalScroll({
       </div>
 
       <div
-        className={`flex flex-nowrap overflow-x-auto ${size === "large" ? "justify-between" : "justify-start"}`}
-        style={{
-          gap: size === "large" ? 0 : "var(--t-space-gap, 1rem)",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
+        className={
+          size === "large"
+            ? "grid grid-cols-3 gap-3 md:flex md:flex-row md:justify-between md:gap-0"
+            : "flex flex-nowrap overflow-x-auto justify-start"
+        }
+        style={
+          size === "large"
+            ? undefined
+            : {
+                gap: "var(--t-space-gap, 1rem)",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }
+        }
       >
         {categories.map((cat) => (
-          <div key={cat.id} className="flex-shrink-0">
+          <div key={cat.id} className={size === "large" ? undefined : "flex-shrink-0"}>
             <CategoryItem
               name={cat.name}
               icon={cat.icon}

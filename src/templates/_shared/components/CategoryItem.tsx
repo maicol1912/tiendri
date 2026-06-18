@@ -101,17 +101,21 @@ export function CategoryItem({
         className={className}
         style={{
           ...baseStyle,
-          padding: isLarge ? '1.25rem 1.5rem' : '0.625rem 0.75rem',
+          padding: isLarge ? 'clamp(0.5rem, 2vw, 1.25rem) clamp(0.25rem, 2vw, 1.5rem)' : '0.625rem 0.75rem',
           borderRadius: 'var(--t-radius-category, 0.75rem)',
           backgroundColor: isActive ? 'var(--t-primary)' : (isLarge ? 'rgba(0,0,0,0.04)' : 'var(--t-card)'),
           color: isActive ? 'var(--t-on-primary)' : 'var(--t-foreground)',
           border: isActive ? `1px solid var(--t-primary)` : (isLarge ? 'none' : `1px solid var(--t-border)`),
-          minWidth: isLarge ? '8.5rem' : '5rem',
+          minWidth: isLarge ? 'auto' : '5rem',
+          width: isLarge ? '100%' : undefined,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <IconComponent
-          size={isLarge ? 40 : 22}
-          style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)') }}
+          size={isLarge ? undefined : 22}
+          style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)'), width: isLarge ? 'clamp(24px, 5vw, 40px)' : undefined, height: isLarge ? 'clamp(24px, 5vw, 40px)' : undefined }}
         />
         <span style={{ fontSize: isLarge ? '0.8125rem' : '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>
           {name}

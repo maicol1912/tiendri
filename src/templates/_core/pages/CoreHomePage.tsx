@@ -142,6 +142,8 @@ export const CoreHomePage = memo(function CoreHomePage({
   const showCategories = (config as Record<string, unknown>).showCategories !== false;
   // When true, the hero section is constrained to the same 65% width as the other sections
   const heroConstrained = (config as Record<string, unknown>).heroConstrained === true;
+  // When true, the hero section is hidden on mobile (md:block)
+  const heroDesktopOnly = (config as Record<string, unknown>).heroDesktopOnly === true;
   // Video section — visible when the template has videoPosterImage or videoTitle in content
   // and the sections array includes { id: "video", visible: true }
   const videoSectionVisible = (() => {
@@ -205,7 +207,10 @@ export const CoreHomePage = memo(function CoreHomePage({
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section
         aria-label="Banner principal"
-        className={heroConstrained ? "max-w-[92%] lg:max-w-[65%] mx-auto pt-4" : ""}
+        className={[
+          heroConstrained ? "max-w-[92%] lg:max-w-[65%] mx-auto pt-4" : "",
+          heroDesktopOnly ? "hidden md:block" : "",
+        ].filter(Boolean).join(" ") || undefined}
       >
         <HeroComponent {...hero} />
       </section>
