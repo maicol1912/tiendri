@@ -20,7 +20,7 @@ export const VideoSection = memo(function VideoSection({
   if (!posterImage) return null;
 
   return (
-    <section className="px-4 md:px-5 py-8 md:py-12" aria-label="Video de la tienda">
+    <section className="max-w-[92%] lg:max-w-[65%] mx-auto py-8 md:py-12" aria-label="Video de la tienda">
       {/* Heading above the player */}
       {title && (
         <h2

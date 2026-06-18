@@ -59,12 +59,13 @@ export const furnitureDarkManifest = {
     cardStyle: "transparent" as const,
   },
 
+  // video: videoPosterImage + videoTitle defined in content → video section renders
+  // products: productsLimit=4 splits collection into two grids (Más vendidos / Destacados), both under this slot
   sections: [
     { id: "hero" as const, visible: true },
     { id: "categories" as const, visible: true },
     { id: "video" as const, visible: true },
     { id: "products" as const, visible: true },
-    { id: "collections" as const, visible: true },
   ],
 
   branding: {

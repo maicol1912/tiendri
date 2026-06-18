@@ -68,7 +68,6 @@ export const techPremiumManifest = {
   // Header, Footer, and BottomNav are structural and excluded from this system.
   sections: [
     { id: "hero" as const, visible: true },
-    { id: "banners" as const, visible: true },
     { id: "categories" as const, visible: true },
     { id: "products" as const, visible: true },
     { id: "popular" as const, visible: true },

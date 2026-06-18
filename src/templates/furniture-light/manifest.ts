@@ -58,7 +58,6 @@ export const furnitureLightManifest = {
   sections: [
     { id: "hero" as const, visible: true },
     { id: "categories" as const, visible: true },
-    { id: "collections" as const, visible: true },
     { id: "products" as const, visible: true },
   ],
 

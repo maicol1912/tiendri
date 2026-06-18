@@ -60,10 +60,12 @@ export const decorWarmManifest = {
     spacingDensity: "tight" as const,
   },
 
+  // bestSellers: data-driven — renders BestSellersSection when bestSellers prop has items
+  // popular was incorrect; CoreHomePage renders bestSellers before products, not popular cards
   sections: [
     { id: "hero" as const, visible: true },
     { id: "categories" as const, visible: true },
-    { id: "popular" as const, visible: true },
+    { id: "bestSellers" as const, visible: true },
     { id: "products" as const, visible: true },
   ],
 

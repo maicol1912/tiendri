@@ -1,7 +1,6 @@
 "use client";
 
 // Header variant: MINIMAL
-// TODO: implement minimal variant in Phase 5
 // Placeholder — renders DEFAULT until implemented.
 
 import { memo } from "react";

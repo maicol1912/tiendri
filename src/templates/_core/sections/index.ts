@@ -8,6 +8,10 @@ import { EditorialSection } from "./EditorialSection";
 import { BannersSection } from "./BannersSection";
 import { PopularSection } from "./PopularSection";
 import { VideoSection } from "./VideoSection";
+import { FeaturedSection } from "./FeaturedSection";
+import { SearchBarSection } from "./SearchBarSection";
+import { DiscountsSection } from "./DiscountsSection";
+import { BestSellersSectionAdapter } from "./BestSellersSectionAdapter";
 
 export const SECTION_REGISTRY: Record<string, ComponentType<SectionRendererProps>> = {
   hero: HeroSection,
@@ -18,6 +22,10 @@ export const SECTION_REGISTRY: Record<string, ComponentType<SectionRendererProps
   banners: BannersSection,
   popular: PopularSection,
   video: VideoSection as unknown as ComponentType<SectionRendererProps>,
+  featured: FeaturedSection,
+  searchBar: SearchBarSection,
+  discounts: DiscountsSection,
+  bestSellers: BestSellersSectionAdapter,
 };
 
 export type { SectionRendererProps } from "./types";

@@ -97,6 +97,60 @@ function toKebabCase(str: string): string {
 }
 
 /**
+ * Parse a hex color string into its R, G, B numeric components.
+ * Supports 3-digit (#FFF) and 6-digit (#FFFFFF) hex with optional leading #.
+ * Returns null if the input cannot be parsed.
+ */
+function hexToRgbTuple(hex: string): [number, number, number] | null {
+  const clean = hex.replace("#", "");
+  const full = clean.length === 3
+    ? clean.split("").map((c) => c + c).join("")
+    : clean;
+  if (full.length !== 6) return null;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return null;
+  return [r, g, b];
+}
+
+/**
+ * Relative luminance of a hex color (WCAG formula), 0 = black, 1 = white.
+ * Returns null if the hex cannot be parsed.
+ */
+function getLuminance(hex: string): number | null {
+  const rgb = hexToRgbTuple(hex);
+  if (!rgb) return null;
+  const [r, g, b] = rgb.map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  }) as [number, number, number];
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/**
+ * Derive a foreground color for use on top of the card background.
+ * When the card is significantly lighter than the page background (dark theme),
+ * we use the page background color as the card text color since `foreground`
+ * is designed for the page background, not for the card surface.
+ * In light themes (card ≈ page background in luminance), `foreground` works fine.
+ */
+function deriveCardForeground(
+  cardHex: string,
+  backgroundHex: string,
+  foregroundHex: string,
+): string {
+  const cardLum = getLuminance(cardHex);
+  const bgLum = getLuminance(backgroundHex);
+  if (cardLum === null || bgLum === null) return foregroundHex;
+  // If the card is substantially lighter than the background (dark theme scenario),
+  // the background color is the dark anchor — use it as card text color.
+  // Threshold: card luminance > bg luminance by more than 0.2 (perceptually significant).
+  if (cardLum - bgLum > 0.2) return backgroundHex;
+  return foregroundHex;
+}
+
+/**
  * Convert a hex color string to a comma-separated RGB string.
  * "#FFAF42" → "255, 175, 66"
  * Supports 3-digit (#FFF) and 6-digit (#FFFFFF) hex with optional leading #.
@@ -227,6 +281,22 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   for (const [key, value] of Object.entries(config.colors)) {
     if (typeof value === "string" && value.length > 0) {
       vars[`--t-${toKebabCase(key)}`] = value;
+    }
+  }
+
+  // --t-card-foreground: text color for content inside a --t-card surface.
+  // In dark themes the card is a light surface while --t-foreground is light (for the
+  // dark page background), so we derive the correct contrasting color automatically.
+  {
+    const cardHex = config.colors.card;
+    const bgHex = config.colors.background;
+    const fgHex = config.colors.foreground;
+    if (
+      typeof cardHex === "string" && cardHex.length > 0 &&
+      typeof bgHex === "string" && bgHex.length > 0 &&
+      typeof fgHex === "string" && fgHex.length > 0
+    ) {
+      vars["--t-card-foreground"] = deriveCardForeground(cardHex, bgHex, fgHex);
     }
   }
 

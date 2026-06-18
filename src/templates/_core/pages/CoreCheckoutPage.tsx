@@ -233,12 +233,13 @@ export const CoreCheckoutPage = memo(function CoreCheckoutPage({
                   border: "1px solid var(--t-border)",
                   borderRadius: "var(--t-radius-card, 16px)",
                   background: "var(--t-card)",
+                  color: "var(--t-card-foreground)",
                 }}
               >
                 <h2
                   id="order-summary-heading"
                   className="text-base font-bold"
-                  style={{ color: "var(--t-foreground)", margin: 0 }}
+                  style={{ color: "var(--t-card-foreground)", margin: 0 }}
                 >
                   Resumen del pedido
                 </h2>
@@ -280,17 +281,17 @@ export const CoreCheckoutPage = memo(function CoreCheckoutPage({
                       <div className="flex-1 min-w-0">
                         <p
                           className="text-sm font-medium truncate"
-                          style={{ color: "var(--t-foreground)", margin: 0 }}
+                          style={{ color: "var(--t-card-foreground)", margin: 0 }}
                         >
                           {item.name}
                         </p>
-                        <p className="text-xs" style={{ color: "var(--t-muted)", margin: 0 }}>
+                        <p className="text-xs" style={{ color: "var(--t-card-foreground)", opacity: 0.6, margin: 0 }}>
                           {item.variantName ? `${item.variantName} · ` : ""}×{item.quantity}
                         </p>
                       </div>
                       <span
                         className="text-sm font-semibold flex-shrink-0"
-                        style={{ color: "var(--t-foreground)" }}
+                        style={{ color: "var(--t-card-foreground)" }}
                       >
                         {formatPrice(item.price * item.quantity, currencySymbol)}
                       </span>
@@ -303,10 +304,10 @@ export const CoreCheckoutPage = memo(function CoreCheckoutPage({
                   className="flex items-center justify-between pt-3"
                   style={{ borderTop: "1px solid var(--t-border)" }}
                 >
-                  <span className="text-base font-semibold" style={{ color: "var(--t-foreground)" }}>
+                  <span className="text-base font-semibold" style={{ color: "var(--t-card-foreground)" }}>
                     Total
                   </span>
-                  <span className="text-lg font-bold" style={{ color: "var(--t-foreground)" }}>
+                  <span className="text-lg font-bold" style={{ color: "var(--t-card-foreground)" }}>
                     {formatPrice(totalPrice, currencySymbol)}
                   </span>
                 </div>
@@ -327,7 +328,7 @@ export const CoreCheckoutPage = memo(function CoreCheckoutPage({
                   {isSubmitting ? "Enviando..." : "Enviar por WhatsApp"}
                 </button>
 
-                <p className="text-xs text-center" style={{ color: "var(--t-muted)", margin: 0 }}>
+                <p className="text-xs text-center" style={{ color: "var(--t-card-foreground)", opacity: 0.6, margin: 0 }}>
                   Tu pedido se enviará directamente al WhatsApp de la tienda
                 </p>
               </div>

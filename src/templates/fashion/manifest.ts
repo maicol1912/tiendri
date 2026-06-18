@@ -69,9 +69,13 @@ export const fashionManifest = {
   },
 
   // Home page sections — fashion layout
+  // featured: heroFeaturedCount=4 renders featured products + CTA between hero and collection
+  // categories: showCategories=false so section is omitted
+  // editorial: editorialHeading is set in content → editorial section renders
   sections: [
     { id: "hero" as const, visible: true },
-    { id: "collections" as const, visible: true },
+    { id: "featured" as const, visible: true },
+    { id: "products" as const, visible: true },
     { id: "editorial" as const, visible: true },
   ],
 

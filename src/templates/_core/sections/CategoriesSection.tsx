@@ -7,7 +7,15 @@ export const CategoriesSection = memo(function CategoriesSection({
   config,
   variants,
   onCategoryClick,
+  onCtaClick,
+  showCategories,
+  categoriesWide,
+  categoriesHeading,
+  chipStyle,
+  categoryIconColor,
+  categorySize,
 }: SectionRendererProps) {
+  if (showCategories === false) return null;
   if (categories.length === 0) return null;
 
   const grid = config.grid;
@@ -19,10 +27,10 @@ export const CategoriesSection = memo(function CategoriesSection({
     <section
       aria-labelledby="home-categories-heading"
       style={{
-        paddingTop: "var(--t-space-section, 2.5rem)",
-        paddingBottom: "var(--t-space-section, 2.5rem)",
+        paddingTop: "1rem",
+        paddingBottom: "0.5rem",
       }}
-      className="px-4 lg:px-[160px]"
+      className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
     >
       <h2 id="home-categories-heading" className="sr-only">
         Categorías
@@ -32,6 +40,12 @@ export const CategoriesSection = memo(function CategoriesSection({
         onCategoryClick={onCategoryClick}
         gridMobile={categoriesMobile}
         gridDesktop={categoriesDesktop}
+        heading={categoriesHeading}
+        showViewAll={!!categoriesHeading}
+        onViewAll={onCtaClick}
+        chipStyle={chipStyle as "underline" | "pills" | "bordered" | undefined}
+        iconColor={categoryIconColor}
+        size={categorySize as "default" | "large" | undefined}
       />
     </section>
   );

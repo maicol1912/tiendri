@@ -126,7 +126,7 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
           <div className="flex flex-col gap-4 lg:w-[480px] lg:flex-shrink-0">
             {/* Imagen principal */}
             <div
-              className="relative w-full aspect-square overflow-hidden"
+              className="relative w-full aspect-[4/5] overflow-hidden"
               style={{
                 borderRadius: "var(--t-radius-card, 16px)",
                 background: "var(--t-card)",
@@ -136,7 +136,7 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
                 src={mainImage}
                 alt={product.name}
                 fill
-                className={`${imageFitClass}`}
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 480px"
                 priority
               />
