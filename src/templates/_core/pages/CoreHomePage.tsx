@@ -136,7 +136,7 @@ export const CoreHomePage = memo(function CoreHomePage({
             }
             return null;
           }
-          return <Renderer key={s.id} {...sectionProps} />;
+          return <Renderer key={s.id} {...sectionProps} sectionConfig={s.config} />;
         })}
     </div>
   );

@@ -275,6 +275,20 @@ export const layoutCustomizationSchema = z.object({
 
 export type LayoutCustomizationInput = z.infer<typeof layoutCustomizationSchema>;
 
+// ── Section config schema ──────────────────────────────────────────────────────
+
+/**
+ * Validates a single section entry (id + visibility + optional per-section config).
+ * The `config` field is intentionally permissive — each section defines its own
+ * field schema via TemplateConfigSchema.sectionSchemas; we only need to confirm
+ * the value is a string-keyed record of unknown values.
+ */
+const sectionConfigSchema = z.object({
+  id: z.string().min(1, "El id de sección es obligatorio"),
+  visible: z.boolean(),
+  config: z.record(z.string(), z.unknown()).optional(),
+});
+
 // ── Combined store customization schema ────────────────────────────────────────
 
 const baseStoreCustomizationSchema = z.object({
@@ -285,6 +299,7 @@ const baseStoreCustomizationSchema = z.object({
   theme: themeSchema.optional(),
   layout: layoutCustomizationSchema.optional(),
   appearance: z.enum(["light", "dark"]).optional(),
+  sections: z.array(sectionConfigSchema).optional(),
 });
 
 export const storeCustomizationSchema = baseStoreCustomizationSchema;

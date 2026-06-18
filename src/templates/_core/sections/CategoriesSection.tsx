@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { CATEGORY_NAV_REGISTRY } from "@/templates/_variants/category-nav";
+import { getSectionField } from "./get-section-field";
 import type { SectionRendererProps } from "./types";
 
 export const CategoriesSection = memo(function CategoriesSection({
@@ -14,13 +15,14 @@ export const CategoriesSection = memo(function CategoriesSection({
   chipStyle,
   categoryIconColor,
   categorySize,
+  sectionConfig,
 }: SectionRendererProps) {
   if (showCategories === false) return null;
   if (categories.length === 0) return null;
 
-  const grid = config.grid;
-  const categoriesMobile = grid?.categories?.mobile ?? 3;
-  const categoriesDesktop = grid?.categories?.desktop ?? 6;
+  const gridColumnsMobile = getSectionField("gridColumnsMobile", sectionConfig, config.grid?.categories?.mobile, 3);
+  const gridColumnsDesktop = getSectionField("gridColumnsDesktop", sectionConfig, config.grid?.categories?.desktop, 6);
+  const textAlignment = getSectionField("textAlignment", sectionConfig, undefined, "left" as const);
   const CategoryNavComponent = CATEGORY_NAV_REGISTRY[variants.categoryNav];
 
   return (
@@ -29,6 +31,7 @@ export const CategoriesSection = memo(function CategoriesSection({
       style={{
         paddingTop: "1rem",
         paddingBottom: "0.5rem",
+        textAlign: textAlignment,
       }}
       className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
     >
@@ -38,8 +41,8 @@ export const CategoriesSection = memo(function CategoriesSection({
       <CategoryNavComponent
         categories={categories}
         onCategoryClick={onCategoryClick}
-        gridMobile={categoriesMobile}
-        gridDesktop={categoriesDesktop}
+        gridMobile={gridColumnsMobile}
+        gridDesktop={gridColumnsDesktop}
         heading={categoriesHeading}
         showViewAll={!!categoriesHeading}
         onViewAll={onCtaClick}

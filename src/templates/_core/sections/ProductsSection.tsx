@@ -2,6 +2,7 @@
 import React, { memo } from "react";
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
+import { getSectionField } from "./get-section-field";
 import type { SectionRendererProps } from "./types";
 import type { StorefrontProduct } from "@/types/store";
 
@@ -24,10 +25,14 @@ export const ProductsSection = memo(function ProductsSection({
   secondProductsHeading,
   productsLimit,
   productTabs,
+  sectionConfig,
 }: SectionRendererProps) {
   const grid = config.grid;
-  const productsMobile = grid?.products?.mobile ?? 2;
-  const productsDesktop = grid?.products?.desktop ?? 4;
+  const productsMobile = getSectionField("gridColumnsMobile", sectionConfig, grid?.products?.mobile, 2);
+  const productsDesktop = getSectionField("gridColumnsDesktop", sectionConfig, grid?.products?.desktop, 4);
+  const textAlignment = getSectionField("textAlignment", sectionConfig, undefined, "left" as const);
+  const fontOverride = getSectionField<string | undefined>("fontFamily", sectionConfig, undefined, undefined);
+  const curatedProductIds = getSectionField<string[]>("curatedProductIds", sectionConfig, undefined, []);
   const ProductCardComponent = PRODUCT_CARD_REGISTRY[variants.productCard];
   const {
     buttonClass,
@@ -44,13 +49,19 @@ export const ProductsSection = memo(function ProductsSection({
     ? "max-w-[92%] lg:max-w-[80%] mx-auto"
     : "max-w-[92%] lg:max-w-[65%] mx-auto";
 
-  const collectionProducts = products;
+  const displayProducts =
+    curatedProductIds.length > 0
+      ? (curatedProductIds
+          .map((id) => products.find((p) => p.id === id))
+          .filter(Boolean) as StorefrontProduct[])
+      : products;
+
   const firstSectionProducts =
     productsLimit !== undefined
-      ? collectionProducts.slice(0, productsLimit)
-      : collectionProducts;
+      ? displayProducts.slice(0, productsLimit)
+      : displayProducts;
   const secondSectionProducts =
-    productsLimit !== undefined ? collectionProducts.slice(productsLimit) : [];
+    productsLimit !== undefined ? displayProducts.slice(productsLimit) : [];
 
   const renderProductGrid = (
     productList: StorefrontProduct[],
@@ -68,7 +79,10 @@ export const ProductsSection = memo(function ProductsSection({
         className={widthClass}
       >
         {headingText ? (
-          <div className="flex items-center justify-between mb-4">
+          <div
+            className="flex items-center justify-between mb-4"
+            style={{ textAlign: textAlignment as React.CSSProperties["textAlign"] }}
+          >
             <h2
               id={headingId}
               className="text-[var(--t-foreground)] tracking-[0.24px]"
@@ -79,6 +93,7 @@ export const ProductsSection = memo(function ProductsSection({
                 letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
                 textTransform:
                   "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+                ...(fontOverride ? { fontFamily: fontOverride } : {}),
               }}
             >
               {headingText}
@@ -139,7 +154,7 @@ export const ProductsSection = memo(function ProductsSection({
     );
   };
 
-  if (products.length === 0) return null;
+  if (displayProducts.length === 0) return null;
 
   return (
     <section aria-labelledby="home-products-heading">

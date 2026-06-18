@@ -183,6 +183,12 @@ export interface TemplateConfigSchema {
   content: {
     tabGroups: ConfigTabGroup[];
   };
+  /**
+   * Per-section field schemas rendered by the dashboard accordion.
+   * Key = section ID (e.g. "hero", "categories", "products").
+   * Value = ConfigSection with the fields for that section.
+   */
+  sectionSchemas?: Record<string, ConfigSection>;
 }
 
 // ---------------------------------------------------------------------------

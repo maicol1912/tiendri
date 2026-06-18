@@ -247,4 +247,132 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
       },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Section schemas — per-section fields rendered by the dashboard accordion
+  // ─────────────────────────────────────────────────────────────────────────
+  sectionSchemas: {
+    hero: {
+      id: "hero",
+      label: "Hero / Banner Principal",
+      fields: [
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          description: "Alineación del título y descripción del hero",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+        {
+          key: "fontFamily",
+          type: "select",
+          label: "Fuente del título",
+          description:
+            "Fuente para el título del hero (deja vacío para usar la del template)",
+          options: [
+            { value: "", label: "Default del template" },
+            { value: "Inter", label: "Inter — Suave moderno" },
+            { value: "Cormorant Garamond", label: "Cormorant Garamond — Elegante" },
+            { value: "Nunito", label: "Nunito — Amigable" },
+            { value: "Poppins", label: "Poppins — Moderno" },
+            { value: "DM Sans", label: "DM Sans — Funcional" },
+          ],
+        },
+      ],
+    },
+
+    categories: {
+      id: "categories",
+      label: "Categorías",
+      fields: [
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          description: "Cantidad de columnas en pantallas pequeñas",
+          min: 2,
+          max: 4,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          description: "Cantidad de columnas en pantallas grandes",
+          min: 3,
+          max: 8,
+          step: 1,
+        },
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+      ],
+    },
+
+    products: {
+      id: "products",
+      label: "Productos",
+      fields: [
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          min: 1,
+          max: 3,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          min: 2,
+          max: 6,
+          step: 1,
+        },
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+        {
+          key: "fontFamily",
+          type: "select",
+          label: "Fuente de los títulos",
+          description: "Fuente para el encabezado de productos",
+          options: [
+            { value: "", label: "Default del template" },
+            { value: "Inter", label: "Inter — Suave moderno" },
+            { value: "Cormorant Garamond", label: "Cormorant Garamond — Elegante" },
+            { value: "Nunito", label: "Nunito — Amigable" },
+            { value: "Poppins", label: "Poppins — Moderno" },
+            { value: "DM Sans", label: "DM Sans — Funcional" },
+          ],
+        },
+        {
+          key: "curatedProductIds",
+          type: "tag-list",
+          label: "Productos seleccionados",
+          description:
+            "IDs de los productos a mostrar (vacío = todos). Ingresá los IDs separados por Enter.",
+          placeholder: "ID del producto",
+        },
+      ],
+    },
+  },
 };

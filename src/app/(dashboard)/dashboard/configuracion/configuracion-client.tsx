@@ -13,13 +13,14 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BrandingTab } from "./tabs/branding-tab";
 import { ThemeTab } from "./tabs/theme-tab";
 import { BusinessTab } from "./tabs/business-tab";
-import { DynamicTabContent } from "@/components/dashboard/schema-form";
+import { DynamicTabContent, SectionsAccordionTab } from "@/components/dashboard/schema-form";
 import { getTemplateSchema } from "@/templates/registry";
 import { setByPath } from "@/lib/config-path-utils";
 import { updateCustomizationSection } from "./actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "./client-utils";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 import type { ConfigTabGroup, TemplateConfigSchema } from "@/types/templates/config-schema";
+import type { SectionConfig } from "@/types/templates/sections";
 
 // ── Banner data migration ───────────────────────────────────────────────────
 
@@ -139,10 +140,14 @@ export function ConfiguracionClient({
   const dynamicTabGroups: ConfigTabGroup[] =
     schema?.content.tabGroups ?? [];
 
-  // Build the tab list: Identidad -> [dynamic tabs] -> Apariencia -> Negocio
+  const hasSectionSchemas =
+    !!schema?.sectionSchemas && Object.keys(schema.sectionSchemas).length > 0;
+
+  // Build the tab list: Identidad -> [dynamic tabs] -> [Secciones] -> Apariencia -> Negocio
   const tabs: { value: string; label: string }[] = [
     { value: "identidad", label: "Identidad" },
     ...dynamicTabGroups.map((tg) => ({ value: tg.id, label: tg.label })),
+    ...(hasSectionSchemas ? [{ value: "secciones", label: "Secciones" }] : []),
     { value: "apariencia", label: "Apariencia" },
     { value: "negocio", label: "Negocio" },
   ];
@@ -181,6 +186,48 @@ export function ConfiguracionClient({
       }
     },
     [isAuthenticated]
+  );
+
+  // Save handler for SectionsAccordionTab — persists section order/visibility to layout.sections.
+  const handleSectionsSave = useCallback(
+    async (sections: SectionConfig[]) => {
+      if (isAuthenticated) {
+        const result = await updateCustomizationSection("layout", {
+          ...((customization.layout as Record<string, unknown>) ?? {}),
+          sections,
+        });
+
+        if (!result.success) {
+          if (result.error.code === "UNAUTHORIZED") {
+            // Auth expired — fall back to localStorage
+            const current = readLocalCustomization();
+            const updated: StoreCustomization = {
+              ...current,
+              layout: { ...current.layout, sections },
+            };
+            writeLocalCustomization(updated);
+            setCustomization(updated);
+            return;
+          }
+          throw new Error(result.error.message);
+        }
+
+        setCustomization((prev) => ({
+          ...prev,
+          layout: { ...prev.layout, sections },
+        }));
+      } else {
+        // Demo mode: localStorage only
+        const current = readLocalCustomization();
+        const updated: StoreCustomization = {
+          ...current,
+          layout: { ...current.layout, sections },
+        };
+        writeLocalCustomization(updated);
+        setCustomization(updated);
+      }
+    },
+    [isAuthenticated, customization.layout]
   );
 
   return (
@@ -237,6 +284,17 @@ export function ConfiguracionClient({
               />
             </TabsContent>
           ))}
+
+          {/* Secciones tab — only rendered when the schema defines sectionSchemas */}
+          {hasSectionSchemas && (
+            <TabsContent value="secciones">
+              <SectionsAccordionTab
+                sectionSchemas={schema!.sectionSchemas!}
+                sections={customization?.layout?.sections ?? []}
+                onSave={handleSectionsSave}
+              />
+            </TabsContent>
+          )}
 
           {/* Universal tab: Apariencia */}
           <TabsContent value="apariencia">

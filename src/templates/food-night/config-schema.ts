@@ -350,4 +350,132 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
       },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Section schemas — per-section fields rendered by the dashboard accordion
+  // ─────────────────────────────────────────────────────────────────────────
+  sectionSchemas: {
+    hero: {
+      id: "hero",
+      label: "Hero / Banner Principal",
+      fields: [
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          description: "Alineación del título y descripción del hero",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+        {
+          key: "fontFamily",
+          type: "select",
+          label: "Fuente del título",
+          description:
+            "Fuente para el título del hero (deja vacío para usar la del template)",
+          options: [
+            { value: "", label: "Default del template" },
+            { value: "Inter", label: "Inter — Oscuro moderno" },
+            { value: "DM Serif Display", label: "DM Serif Display — Urbano" },
+            { value: "Plus Jakarta Sans", label: "Plus Jakarta Sans — Limpio" },
+            { value: "Syne", label: "Syne — Impactante" },
+            { value: "Nunito", label: "Nunito — Cálido" },
+          ],
+        },
+      ],
+    },
+
+    categories: {
+      id: "categories",
+      label: "Categorías",
+      fields: [
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          description: "Cantidad de columnas en pantallas pequeñas",
+          min: 2,
+          max: 4,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          description: "Cantidad de columnas en pantallas grandes",
+          min: 3,
+          max: 8,
+          step: 1,
+        },
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+      ],
+    },
+
+    products: {
+      id: "products",
+      label: "Productos",
+      fields: [
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          min: 1,
+          max: 3,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          min: 2,
+          max: 6,
+          step: 1,
+        },
+        {
+          key: "textAlignment",
+          type: "select",
+          label: "Alineación del texto",
+          options: [
+            { value: "left", label: "Izquierda" },
+            { value: "center", label: "Centro" },
+            { value: "right", label: "Derecha" },
+          ],
+        },
+        {
+          key: "fontFamily",
+          type: "select",
+          label: "Fuente de los títulos",
+          description: "Fuente para el encabezado de productos",
+          options: [
+            { value: "", label: "Default del template" },
+            { value: "Inter", label: "Inter — Oscuro moderno" },
+            { value: "DM Serif Display", label: "DM Serif Display — Urbano" },
+            { value: "Plus Jakarta Sans", label: "Plus Jakarta Sans — Limpio" },
+            { value: "Syne", label: "Syne — Impactante" },
+            { value: "Nunito", label: "Nunito — Cálido" },
+          ],
+        },
+        {
+          key: "curatedProductIds",
+          type: "tag-list",
+          label: "Productos seleccionados",
+          description:
+            "IDs de los productos a mostrar (vacío = todos). Ingresá los IDs separados por Enter.",
+          placeholder: "ID del producto",
+        },
+      ],
+    },
+  },
 };

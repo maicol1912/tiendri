@@ -73,4 +73,7 @@ export interface SectionRendererProps {
   bestSellers?: BestSellerItem[];
   popularProducts?: PopularProductItem[];
   discountProducts?: StorefrontProduct[];
+
+  // Per-section overrides (keyed by field name)
+  sectionConfig?: Record<string, unknown>;
 }

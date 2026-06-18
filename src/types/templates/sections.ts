@@ -10,4 +10,5 @@ export type SectionId = string;
 export interface SectionConfig {
   id: SectionId;
   visible: boolean;
+  config?: Record<string, unknown>;
 }
