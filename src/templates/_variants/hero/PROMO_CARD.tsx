@@ -34,16 +34,18 @@ const PromoCard = memo(function PromoCard({
           />
         )}
 
-        {/* Gradient overlay — bottom-to-top for text readability */}
-        <div
-          className="absolute inset-0"
-          aria-hidden="true"
-          style={{
-            background: image
-              ? "linear-gradient(to top, color-mix(in srgb, var(--t-card) 90%, transparent) 0%, color-mix(in srgb, var(--t-card) 50%, transparent) 45%, transparent 100%)"
-              : "linear-gradient(135deg, color-mix(in srgb, var(--t-card) 98%, transparent) 0%, color-mix(in srgb, var(--t-card) 85%, transparent) 100%)",
-          }}
-        />
+        {/* Gradient overlay — bottom-to-top for text readability; hidden when no text content */}
+        {(titleBold || subtitle) && (
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background: image
+                ? "linear-gradient(to top, color-mix(in srgb, var(--t-card) 90%, transparent) 0%, color-mix(in srgb, var(--t-card) 50%, transparent) 45%, transparent 100%)"
+                : "linear-gradient(135deg, color-mix(in srgb, var(--t-card) 98%, transparent) 0%, color-mix(in srgb, var(--t-card) 85%, transparent) 100%)",
+            }}
+          />
+        )}
 
         {/* Decorative warm glow blob — top right, only when no image */}
         {!image && (
@@ -61,73 +63,75 @@ const PromoCard = memo(function PromoCard({
           />
         )}
 
-        {/* Content anchored at bottom-left */}
-        <div
-          className="relative z-10 flex flex-col gap-2 md:gap-3"
-          style={{
-            padding: "clamp(20px, 3.5vw, 36px)",
-            maxWidth: "560px",
-          }}
-        >
-          {subtitle && (
-            <p
-              className="m-0 font-bold uppercase tracking-widest"
-              style={{
-                color: "var(--t-accent, var(--t-primary))",
-                fontSize: "11px",
-                letterSpacing: "0.12em",
-              }}
-            >
-              {subtitle}
-            </p>
-          )}
-
-          <h2
-            className="m-0 font-extrabold leading-tight"
+        {/* Content anchored at bottom-left — hidden when no title or subtitle */}
+        {(titleBold || subtitle) && (
+          <div
+            className="relative z-10 flex flex-col gap-2 md:gap-3"
             style={{
-              color: "var(--t-foreground)",
-              fontSize: "clamp(20px, 4vw, 36px)",
-              fontFamily: "var(--font-heading, var(--font-sans))",
-              letterSpacing: "-0.02em",
+              padding: "clamp(20px, 3.5vw, 36px)",
+              maxWidth: "560px",
             }}
           >
-            {titleBold}
-          </h2>
+            {subtitle && (
+              <p
+                className="m-0 font-bold uppercase tracking-widest"
+                style={{
+                  color: "var(--t-accent, var(--t-primary))",
+                  fontSize: "11px",
+                  letterSpacing: "0.12em",
+                }}
+              >
+                {subtitle}
+              </p>
+            )}
 
-          {description && (
-            <p
-              className="m-0"
+            <h2
+              className="m-0 font-extrabold leading-tight"
               style={{
-                color: "var(--t-muted, var(--t-foreground))",
-                fontSize: "clamp(12px, 1.5vw, 14px)",
-                lineHeight: 1.5,
-                opacity: 0.85,
+                color: "var(--t-foreground)",
+                fontSize: "clamp(20px, 4vw, 36px)",
+                fontFamily: "var(--font-heading, var(--font-sans))",
+                letterSpacing: "-0.02em",
               }}
             >
-              {description}
-            </p>
-          )}
+              {titleBold}
+            </h2>
 
-          <button
-            type="button"
-            className="self-start border-0 cursor-pointer"
-            style={{
-              fontFamily: "var(--font-heading, var(--font-sans))",
-              fontSize: "13px",
-              fontWeight: 700,
-              color: "var(--t-button-text, var(--t-on-primary))",
-              backgroundColor: "var(--t-button-bg, var(--t-primary))",
-              borderRadius: "var(--t-radius-button)",
-              padding: "8px 22px",
-              height: "38px",
-              whiteSpace: "nowrap",
-              marginTop: "4px",
-            }}
-            onClick={onCtaClick}
-          >
-            {ctaText}
-          </button>
-        </div>
+            {description && (
+              <p
+                className="m-0"
+                style={{
+                  color: "var(--t-muted, var(--t-foreground))",
+                  fontSize: "clamp(12px, 1.5vw, 14px)",
+                  lineHeight: 1.5,
+                  opacity: 0.85,
+                }}
+              >
+                {description}
+              </p>
+            )}
+
+            <button
+              type="button"
+              className="self-start border-0 cursor-pointer"
+              style={{
+                fontFamily: "var(--font-heading, var(--font-sans))",
+                fontSize: "13px",
+                fontWeight: 700,
+                color: "var(--t-button-text, var(--t-on-primary))",
+                backgroundColor: "var(--t-button-bg, var(--t-primary))",
+                borderRadius: "var(--t-radius-button)",
+                padding: "8px 22px",
+                height: "38px",
+                whiteSpace: "nowrap",
+                marginTop: "4px",
+              }}
+              onClick={onCtaClick}
+            >
+              {ctaText}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -185,7 +185,7 @@ export const CoreHomePage = memo(function CoreHomePage({
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section
         aria-label="Banner principal"
-        className={heroConstrained ? "max-w-[92%] lg:max-w-[65%] mx-auto pt-4" : "pt-4"}
+        className={heroConstrained ? "max-w-[92%] lg:max-w-[65%] mx-auto pt-4" : ""}
       >
         <HeroComponent {...hero} />
       </section>

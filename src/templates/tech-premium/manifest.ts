@@ -61,6 +61,7 @@ export const techPremiumManifest = {
     cardImageRatio: "square" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+    cardStyle: "transparent" as const,
   },
 
   // Home page sections — order determines render order, visible toggles show/hide.
@@ -83,15 +84,15 @@ export const techPremiumManifest = {
   // ── Default content (navigation, hero, footer, product tabs) ─────────────────
   content: {
     heroBanner: {
-      title: "Descubre lo mejor en tecnología",
-      subtitle: "Los mejores productos al mejor precio, con envío rápido a toda Colombia.",
-      ctaText: "Ver catálogo",
+      image: "/mocks/tech-premium/hero-bento.png",
+      title: "",
+      subtitle: "",
+      ctaText: "",
     },
     navLinks: [
       { label: "Inicio", href: "/" },
-      { label: "Catálogo", href: "/listing" },
-      { label: "Populares", href: "/popular" },
-      { label: "Ofertas", href: "/discounts" },
+      { label: "Catálogo", href: "/catalogo" },
+      { label: "Info", href: "/info" },
     ],
     footerServices: [
       "Programa de bonos",
@@ -135,11 +136,15 @@ export const techPremiumManifest = {
     header: "DEFAULT",
     footer: "COLUMNS",
     bottomNav: "EDGE",
-    hero: "CONTAINED",
+    hero: "PROMO_CARD",
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
   },
+
+  heroConstrained: false,
+  showSearchBar: false,
+  showAddToCartInGrid: false,
 } as const satisfies TemplateManifest;
 
 export type TechPremiumManifest = typeof techPremiumManifest;
