@@ -2,8 +2,16 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "../types";
-import type { PopularProduct } from "../types";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/store";
+
+interface PopularProduct {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  ctaText: string;
+  bgColor: string;
+}
 
 // ── Store Info ──────────────────────────────────────────────────────────────
 

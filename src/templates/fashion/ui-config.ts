@@ -1,11 +1,11 @@
-import { fashionConfig } from "./config";
+import { fashionManifest } from "./manifest";
 import { fashionPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const fashionUiConfig = {
   label: "Fashion",
-  defaultConfig: fashionConfig,
+  defaultConfig: fashionManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },

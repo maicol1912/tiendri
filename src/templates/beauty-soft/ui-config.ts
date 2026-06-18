@@ -1,11 +1,11 @@
-import { beautySoftConfig } from "./config";
+import { beautySoftManifest } from "./manifest";
 import { beautySoftPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const beautySoftUiConfig = {
   label: "Beauty Soft",
-  defaultConfig: beautySoftConfig,
+  defaultConfig: beautySoftManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },

@@ -2,11 +2,20 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type {
-  BeautySoftCategory,
-  HeroBannerData,
-} from "../types";
 import type { StoreInfo, StorefrontProduct } from "@/types/store";
+
+interface BeautySoftCategory {
+  id: string;
+  name: string;
+  imageUrl: string;
+}
+
+interface HeroBannerData {
+  title: string;
+  discountText: string;
+  ctaText: string;
+  imageUrl: string;
+}
 
 // ── Store Info ────────────────────────────────────────────────────────────────
 

@@ -1,11 +1,11 @@
-import { beautyElegantConfig } from "./config";
+import { beautyElegantManifest } from "./manifest";
 import { beautyElegantPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const beautyElegantUiConfig = {
   label: "Beauty Elegant",
-  defaultConfig: beautyElegantConfig,
+  defaultConfig: beautyElegantManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },
