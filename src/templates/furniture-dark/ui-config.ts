@@ -1,11 +1,11 @@
-import { furnitureDarkConfig } from "./config";
+import { furnitureDarkManifest } from "./manifest";
 import { furnitureDarkPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const furnitureDarkUiConfig = {
   label: "Furniture Dark",
-  defaultConfig: furnitureDarkConfig,
+  defaultConfig: furnitureDarkManifest,
   defaultFontPairKey: "elegante",
   colorFields: [
     { key: "primary", label: "Color primario" },
@@ -39,11 +39,11 @@ export const furnitureDarkUiConfig = {
     },
   ],
   sectionLabels: [
-    { id: "promo-carousel", label: "Carrusel de promociones" },
+    { id: "hero", label: "Carrusel de promociones" },
     { id: "categories", label: "Categorías" },
     { id: "video", label: "Video de la tienda" },
-    { id: "best-sellers", label: "Más vendidos" },
-    { id: "featured", label: "Destacados" },
+    { id: "products", label: "Más vendidos" },
+    { id: "collections", label: "Destacados" },
   ],
   palettes: furnitureDarkPalettes as CustomizerPalette[],
 } satisfies TemplateUIConfig;

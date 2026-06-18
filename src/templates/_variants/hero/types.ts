@@ -14,4 +14,8 @@ export type HeroVariant =
   | "CONTAINED"
   | "SPLIT"
   | "TEXT_ONLY"
-  | "CAROUSEL";
+  | "CAROUSEL"
+  | "CARD_SPLIT"
+  | "EDITORIAL"
+  | "PROMO_STRIP"
+  | "PROMO_CARD";

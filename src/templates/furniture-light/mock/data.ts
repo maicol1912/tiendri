@@ -1,11 +1,17 @@
 // Furniture Light — Mock Data
 // All hardcoded data for preview/development.
 
-import type {
-  StorefrontProduct,
-  FurnitureCategory,
-  StoreInfo,
-} from "../types";
+import type { StorefrontProduct, StoreInfo } from "@/types/store";
+
+// ── Local types ────────────────────────────────────────────────────────────────
+
+export interface FurnitureCategory {
+  id: string;
+  name: string;
+  /** Lucide icon key: "table" | "chair" | "cabinet" | "sofa" | "bed" | "kitchen" | "bathroom" | "workspace" */
+  icon?: string;
+  productCount?: number;
+}
 import { PRODUCTS, HERO_BANNER, CATEGORIES, STYLE_IMAGES } from "./assets";
 
 // ── Store ──────────────────────────────────────────────────────────────────────

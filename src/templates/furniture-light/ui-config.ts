@@ -1,11 +1,11 @@
-import { furnitureLightConfig } from "./config";
+import { furnitureLightManifest } from "./manifest";
 import { furnitureLightPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const furnitureLightUiConfig = {
   label: "Furniture Light",
-  defaultConfig: furnitureLightConfig,
+  defaultConfig: furnitureLightManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },
@@ -39,8 +39,7 @@ export const furnitureLightUiConfig = {
   sectionLabels: [
     { id: "hero", label: "Banner principal" },
     { id: "categories", label: "Categorías" },
-    { id: "flash-sale", label: "Ofertas flash" },
-    { id: "room-styles", label: "Estilos de habitación" },
+    { id: "collections", label: "Colecciones" },
     { id: "products", label: "Todos los productos" },
   ],
   palettes: furnitureLightPalettes as CustomizerPalette[],

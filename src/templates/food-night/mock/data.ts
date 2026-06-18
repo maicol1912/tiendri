@@ -1,7 +1,12 @@
 // Food Night Template — Mock Store Data
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, SizeOption } from "../types";
+import type { StoreInfo, Category, StorefrontProduct } from "@/types/store";
+
+interface SizeOption {
+  id: string;
+  label: string;
+}
 
 // ── Store Info ───────────────────────────────────────────────────────────────
 

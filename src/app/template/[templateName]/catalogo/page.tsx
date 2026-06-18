@@ -1,51 +1,8 @@
-// Product listing page — supports tech-premium and fashion templates.
+// Product listing page — supports multiple templates.
 // Route: /template/[templateName]/catalogo
 
 import type { Metadata } from "next";
-import {
-  mockStore as tpMockStore,
-  mockProducts as tpMockProducts,
-  mockDiscountProducts as tpMockDiscountProducts,
-  mockFilterGroups,
-} from "@/templates/tech-premium/mock/data";
-import { ListingShellRoute as TechPremiumListingShellRoute } from "@/templates/tech-premium/components/ListingShellRoute";
-import {
-  mockStore as fashionMockStore,
-  mockProducts as fashionMockProducts,
-  mockDiscountProducts as fashionMockDiscountProducts,
-  mockCategories as fashionMockCategories,
-} from "@/templates/fashion/mock/data";
-import { ListingShellRoute as FashionListingShellRoute } from "@/templates/fashion/components/ListingShellRoute";
-import { ListingShellRoute as FurnitureDarkListingShellRoute } from "@/templates/furniture-dark/components/ListingShellRoute";
-import {
-  mockStore as beautySoftMockStore,
-  mockProducts as beautySoftMockProducts,
-  mockCategories as beautySoftMockCategories,
-} from "@/templates/beauty-soft/mock/data";
-import { ListingShellRoute as BeautySoftListingShellRoute } from "@/templates/beauty-soft/components/ListingShellRoute";
-import {
-  mockStore as beautyElegantMockStore,
-  mockProducts as beautyElegantMockProducts,
-  mockCategories as beautyElegantMockCategories,
-} from "@/templates/beauty-elegant/mock/data";
-import { ListingShellRoute as BeautyElegantListingShellRoute } from "@/templates/beauty-elegant/components/ListingShellRoute";
-import {
-  mockStore as decorWarmMockStore,
-  mockProducts as decorWarmMockProducts,
-} from "@/templates/decor-warm/mock/data";
-import { ListingShellRoute as DecorWarmListingShellRoute } from "@/templates/decor-warm/components/ListingShellRoute";
-import {
-  mockStore as foodNightMockStore,
-  mockCategories as foodNightMockCategories,
-  mockProducts as foodNightMockProducts,
-} from "@/templates/food-night/mock/data";
-import { ListingShellRoute as FoodNightListingShellRoute } from "@/templates/food-night/components/ListingShellRoute";
-import {
-  mockStore as furnitureLightMockStore,
-  mockCategories as furnitureLightMockCategories,
-  mockProducts as furnitureLightMockProducts,
-} from "@/templates/furniture-light/mock/data";
-import { ListingShellRoute as FurnitureLightListingShellRoute } from "@/templates/furniture-light/components/ListingShellRoute";
+
 interface CatalogoPageProps {
   params: Promise<{ templateName: string }>;
 }
@@ -58,106 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CatalogoPage({ params }: CatalogoPageProps) {
-  const { templateName } = await params;
+  await params;
 
-  // ── Furniture Dark ────────────────────────────────────────────────────────────
-  if (templateName === "furniture-dark") {
-    return <FurnitureDarkListingShellRoute />;
-  }
-
-  // ── Beauty Soft ───────────────────────────────────────────────────────────────
-  if (templateName === "beauty-soft") {
-    return (
-      <BeautySoftListingShellRoute
-        store={beautySoftMockStore}
-        categories={beautySoftMockCategories}
-        products={beautySoftMockProducts}
-      />
-    );
-  }
-
-  // ── Beauty Elegant ────────────────────────────────────────────────────────────
-  if (templateName === "beauty-elegant") {
-    return (
-      <BeautyElegantListingShellRoute
-        store={beautyElegantMockStore}
-        categories={beautyElegantMockCategories}
-        products={beautyElegantMockProducts}
-      />
-    );
-  }
-
-  // ── Decor Warm ───────────────────────────────────────────────────────────────
-  if (templateName === "decor-warm") {
-    return (
-      <DecorWarmListingShellRoute
-        store={decorWarmMockStore}
-        products={decorWarmMockProducts}
-      />
-    );
-  }
-
-  // ── Food Night ─────────────────────────────────────────────────────────────────
-  if (templateName === "food-night") {
-    return (
-      <FoodNightListingShellRoute
-        store={foodNightMockStore}
-        categories={foodNightMockCategories}
-        products={foodNightMockProducts}
-      />
-    );
-  }
-
-  // ── Furniture Light ───────────────────────────────────────────────────────────
-  if (templateName === "furniture-light") {
-    return (
-      <FurnitureLightListingShellRoute
-        store={furnitureLightMockStore}
-        products={furnitureLightMockProducts}
-        categories={furnitureLightMockCategories}
-      />
-    );
-  }
-
-  // ── Fashion ──────────────────────────────────────────────────────────────────
-  if (templateName === "fashion") {
-    const allProducts = [...fashionMockProducts, ...fashionMockDiscountProducts];
-    return (
-      <FashionListingShellRoute
-        store={fashionMockStore}
-        products={allProducts}
-        categories={fashionMockCategories}
-      />
-    );
-  }
-
-  // ── Tech Premium (default) ────────────────────────────────────────────────────
-  const allProducts = [...tpMockProducts, ...tpMockDiscountProducts];
-
-  const catalogJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Catálogo de productos",
-    numberOfItems: allProducts.length,
-    itemListElement: allProducts.map((product, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: product.name,
-      url: `https://tiendri.com/template/${tpMockStore.slug}/producto/${product.slug}`,
-    })),
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogJsonLd) }}
-      />
-      <TechPremiumListingShellRoute
-        store={tpMockStore}
-        products={allProducts}
-        filters={mockFilterGroups}
-      />
-    </>
-  );
+  return null;
 }

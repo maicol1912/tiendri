@@ -2,20 +2,90 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type {
-  StoreInfo,
-  Category,
-  StorefrontProduct,
-  ColorOption,
-  PopularProduct,
-  HeroBannerData,
-  BannerGrid,
-  SummerSaleBanner,
-  SpecBadge,
-  ReviewData,
-  FilterGroup,
-  RatingDistribution,
-} from "../types";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/store";
+
+// ── Tech Premium-specific types (inlined from deleted types.ts) ──────────────
+
+interface Banner {
+  title: string;
+  titleBold?: string;
+  description: string;
+  image: string;
+  ctaText?: string;
+  bgColor: string;
+  textColor?: string;
+}
+
+interface BannerGrid {
+  wide: Banner;
+  tall: Banner;
+  smallLeft: Banner;
+  smallRight: Banner;
+}
+
+interface PopularProduct {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  ctaText: string;
+  bgColor: string;
+}
+
+interface HeroBannerData {
+  subtitle: string;
+  titleLight: string;
+  titleBold: string;
+  description: string;
+  ctaText: string;
+  image: string;
+  bgColor: string;
+}
+
+interface SummerSaleBanner {
+  image: string;
+  imageMobile?: string;
+  titleLight: string;
+  titleBold: string;
+  description: string;
+  ctaText: string;
+}
+
+interface ReviewData {
+  id: string;
+  author: string;
+  avatar?: string;
+  rating: number;
+  date: string;
+  text: string;
+  images?: string[];
+}
+
+interface FilterOption {
+  id: string;
+  label: string;
+  count?: number;
+  checked?: boolean;
+}
+
+interface FilterGroup {
+  id: string;
+  label: string;
+  options: FilterOption[];
+  expanded?: boolean;
+}
+
+interface SpecBadge {
+  label: string;
+  value: string;
+  icon?: string;
+}
+
+interface RatingDistribution {
+  label: string;
+  count: number;
+  percentage: number;
+}
 
 // ── Store Info ──────────────────────────────────────────────────────────────
 

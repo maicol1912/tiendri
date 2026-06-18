@@ -1,4 +1,4 @@
-import { decorWarmConfig } from "./config";
+import { decorWarmManifest as decorWarmConfig } from "./manifest";
 import { decorWarmPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
@@ -50,7 +50,7 @@ export const decorWarmUiConfig = {
   sectionLabels: [
     { id: "hero", label: "Banner principal" },
     { id: "categories", label: "Categorías" },
-    { id: "best-seller", label: "Más vendido" },
+    { id: "popular", label: "Más vendido" },
     { id: "products", label: "Productos" },
   ],
   palettes: decorWarmPalettes as CustomizerPalette[],

@@ -2,15 +2,38 @@
 // All inline data for the template preview.
 
 import { ASSETS } from "./assets";
-import type {
-  StoreInfo,
-  Category,
-  StorefrontProduct,
-  PromoCard,
-  VideoData,
-  CategoryBannerData,
-  ColorOption,
-} from "../types";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/store";
+
+// ── Local types (inlined from deleted types.ts) ───────────────────────────────
+
+interface PromoCard {
+  id: string;
+  title: string;
+  tag?: string;
+  ctaLabel?: string;
+  /** Banner/hero image — uses object-cover */
+  image: string;
+  /** Background color of card — defaults to #242424 */
+  bgColor?: string;
+}
+
+interface VideoData {
+  /** Poster/thumbnail image displayed as background */
+  posterImage: string;
+  /** Optional: video source URL */
+  videoUrl?: string;
+  title?: string;
+}
+
+interface CategoryBannerData {
+  /** Full-width lifestyle image */
+  image: string;
+  title?: string;
+  /** Category or collection name shown as pill overlay */
+  categoryName?: string;
+  headline?: string;
+  subtext?: string;
+}
 
 // ── Store info ────────────────────────────────────────────────────────────────
 

@@ -1,11 +1,11 @@
-import { foodNightConfig } from "./config";
+import { foodNightManifest } from "./manifest";
 import { foodNightPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const foodNightUiConfig = {
   label: "Food Night",
-  defaultConfig: foodNightConfig,
+  defaultConfig: foodNightManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },

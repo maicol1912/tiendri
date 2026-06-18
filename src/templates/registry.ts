@@ -77,38 +77,38 @@ export async function getTemplateConfig(
 ): Promise<TemplateConfig> {
   switch (templateId) {
     case "fashion": {
-      const { fashionConfig } = await import("./fashion/config");
-      return fashionConfig as TemplateConfig;
+      const { fashionManifest } = await import("./fashion/manifest");
+      return fashionManifest as TemplateConfig;
     }
     case "furniture-dark": {
-      const { furnitureDarkConfig } = await import("./furniture-dark/config");
-      return furnitureDarkConfig as TemplateConfig;
+      const { furnitureDarkManifest } = await import("./furniture-dark/manifest");
+      return furnitureDarkManifest as TemplateConfig;
     }
     case "furniture-light": {
-      const { furnitureLightConfig } = await import("./furniture-light/config");
-      return furnitureLightConfig as TemplateConfig;
+      const { furnitureLightManifest } = await import("./furniture-light/manifest");
+      return furnitureLightManifest as TemplateConfig;
     }
     case "beauty-soft": {
-      const { beautySoftConfig } = await import("./beauty-soft/config");
-      return beautySoftConfig as TemplateConfig;
+      const { beautySoftManifest } = await import("./beauty-soft/manifest");
+      return beautySoftManifest as TemplateConfig;
     }
     case "beauty-elegant": {
-      const { beautyElegantConfig } = await import("./beauty-elegant/config");
-      return beautyElegantConfig as TemplateConfig;
+      const { beautyElegantManifest } = await import("./beauty-elegant/manifest");
+      return beautyElegantManifest as TemplateConfig;
     }
     case "decor-warm": {
-      const { decorWarmConfig } = await import("./decor-warm/config");
-      return decorWarmConfig as TemplateConfig;
+      const { decorWarmManifest } = await import("./decor-warm/manifest");
+      return decorWarmManifest as TemplateConfig;
     }
     case "food-night": {
-      const { foodNightConfig } = await import("./food-night/config");
-      return foodNightConfig as TemplateConfig;
+      const { foodNightManifest } = await import("./food-night/manifest");
+      return foodNightManifest as TemplateConfig;
     }
     // "tech-premium" is the default — also catches unknown IDs
     case "tech-premium":
     default: {
-      const { techPremiumConfig } = await import("./tech-premium/config");
-      return techPremiumConfig as TemplateConfig;
+      const { techPremiumManifest } = await import("./tech-premium/manifest");
+      return techPremiumManifest as TemplateConfig;
     }
   }
 }

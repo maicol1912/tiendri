@@ -3,11 +3,29 @@
 
 import { ASSETS } from "./assets";
 import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
-import type {
-  DecorWarmCategoryIcon,
-  DecorWarmPromoSlide,
-  DecorWarmBestSeller,
-} from "../types";
+// Local type definitions (formerly in types.ts, now inlined)
+interface DecorWarmCategoryIcon {
+  id: string;
+  name: string;
+  /** Lucide icon name e.g. "Sofa", "BedDouble", "Lamp" */
+  icon: string;
+}
+
+interface DecorWarmPromoSlide {
+  imageUrl: string;
+  label: string;
+  heading: string;
+  badge?: string;
+}
+
+interface DecorWarmBestSeller {
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  rating: number;
+  imageUrl: string | null;
+}
 
 // ── Store Info ────────────────────────────────────────────────────────────────
 

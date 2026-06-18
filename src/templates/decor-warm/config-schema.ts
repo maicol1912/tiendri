@@ -3,6 +3,7 @@
 
 import type { TemplateConfigSchema } from "@/types/templates";
 import { decorWarmPalettes } from "./palettes";
+// Note: config.ts has been replaced by manifest.ts
 
 export const decorWarmConfigSchema: TemplateConfigSchema = {
   // ─────────────────────────────────────────────────────────────────────────

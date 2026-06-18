@@ -15,4 +15,4 @@ export interface HeaderSlotProps {
   onCartClick: () => void;
 }
 
-export type HeaderVariant = "DEFAULT" | "GLASS" | "GREETING" | "MINIMAL";
+export type HeaderVariant = "DEFAULT" | "GLASS" | "GREETING" | "GREETING_SIMPLE" | "MINIMAL";

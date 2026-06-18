@@ -1,11 +1,11 @@
-import { techPremiumConfig } from "./config";
+import { techPremiumManifest } from "./manifest";
 import { techPremiumPalettes } from "./palettes";
 import type { TemplateUIConfig } from "@/types/templates/ui-config";
 import type { CustomizerPalette } from "@/components/customizer/ThemeCustomizer";
 
 export const techPremiumUiConfig = {
   label: "Tech Premium",
-  defaultConfig: techPremiumConfig,
+  defaultConfig: techPremiumManifest,
   colorFields: [
     { key: "primary", label: "Color primario" },
     { key: "secondary", label: "Color secundario" },
