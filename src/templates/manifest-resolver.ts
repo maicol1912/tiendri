@@ -74,8 +74,8 @@ const TEMPLATE_VARIANTS: Record<string, TemplateVariants> = {
     bottomNav: "DOT_INDICATOR",
     productCard: "WITH_DESCRIPTION",
     hero: "CAROUSEL",
-    categoryNav: "HORIZONTAL_SCROLL",
-    searchBar: "INLINE",
+    categoryNav: "COLUMNAR",
+    searchBar: "ICON_TRIGGER",
   },
   "food-night": {
     header: "DEFAULT",

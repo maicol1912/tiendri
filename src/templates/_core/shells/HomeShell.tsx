@@ -66,13 +66,17 @@ export function HomeShell({
   // Datos del hero extraídos del config o con fallbacks
   // La estructura real es config.content.heroBanner (ver ContentConfig en customization-sections.ts)
   const heroBanner = config.content?.heroBanner;
+  // promotionalBanners[0] sirve como segundo panel en variantes de 2 banners (ej. CAROUSEL de decor-warm).
+  // Su image URL se pasa por `description` para que el hero component la detecte como URL y la use.
+  const secondBannerImage = (config.content?.promotionalBanners as Array<{ image?: string; title?: string; subtitle?: string }> | undefined)?.[0]?.image;
   const heroData = {
     subtitle: heroBanner?.subtitle,
     // heroBanner.title va a titleBold; titleLight queda undefined → CoreHomePage usa store.name como fallback
     titleLight: undefined as string | undefined,
     titleBold: heroBanner?.title,
-    // heroBanner no tiene description → CoreHomePage usa store.description como fallback
-    description: undefined as string | undefined,
+    // Si hay un segundo banner promocional con imagen, se pasa como description para que el CAROUSEL
+    // lo detecte como URL de imagen (empieza con "/"). De lo contrario, no se pasa nada.
+    description: secondBannerImage ?? undefined,
     ctaText: heroBanner?.ctaText,
     image: heroBanner?.image,
   };

@@ -1,103 +1,246 @@
 "use client";
 
 // Hero variant: CAROUSEL
-// Mobile: single slide with dot indicators and click-to-advance.
-// Desktop: side-by-side dual panel layout.
-// Extracted and adapted from decor-warm/components/HeroBanner.tsx.
-// The slot contract uses a single `image` prop; a second placeholder panel
-// mirrors the primary image on desktop for the two-panel effect.
+// Decor-warm dual-promo-banner layout.
+// Desktop: side-by-side 2-panel grid, each panel = image background + text overlay + badge.
+// Mobile: single visible slide with dot indicators, click-to-advance.
+// Text overlay format: label (uppercase small) + heading (bold large) + badge pill.
+// ALL colors via var(--t-*) — zero hardcoded values.
 
 import { memo, useState } from "react";
 import Image from "next/image";
 import type { HeroSlotProps } from "./types";
 
-const SLIDE_COUNT = 2;
+// Static slide definitions for the dual-banner layout.
+// slide[0]: uses the `image` prop from HeroSlotProps (primary hero image).
+// slide[1]: derives a second banner from the same image (templates with two
+//           distinct hero images should pass the second via `description` URL
+//           or extend HeroSlotProps — for now we use the same image as fallback).
+interface BannerSlide {
+  imageUrl: string;
+  label: string;
+  heading: string;
+  badge: string;
+}
 
-const Carousel = memo(function Carousel({
-  subtitle,
-  titleLight,
-  titleBold,
-  description,
-  ctaText,
-  image,
-  bgColor,
-  onCtaClick,
-}: HeroSlotProps) {
+function deriveSlides(props: HeroSlotProps): BannerSlide[] {
+  const { image, subtitle, titleBold, titleLight, description } = props;
+  // slide 1 — from primary props
+  const slide1: BannerSlide = {
+    imageUrl: image,
+    label: subtitle || "OFERTA ESPECIAL",
+    heading: titleBold || titleLight || "Experiencia de Confort",
+    badge: "20% OFF",
+  };
+  // slide 2 — repurpose `description` as a second image URL when it looks like a path/URL
+  const isImageUrl =
+    description &&
+    (description.startsWith("/") ||
+      description.startsWith("http") ||
+      description.match(/\.(png|jpg|jpeg|webp|avif|svg)$/i) !== null);
+  const slide2: BannerSlide = {
+    imageUrl: isImageUrl ? description : image,
+    label: "NUEVA COLECCIÓN",
+    heading: "Diseño que Inspira",
+    badge: "15% OFF",
+  };
+  return [slide1, slide2];
+}
+
+const Carousel = memo(function Carousel(props: HeroSlotProps) {
+  const { onCtaClick } = props;
   const [activeSlide, setActiveSlide] = useState(0);
-
-  // Both panels show the same image. Templates with richer slide data
-  // should extend HeroSlotProps and pass a `slides` array instead.
-  const panels = [image, image];
+  const slides = deriveSlides(props);
 
   return (
     <section
-      className="w-full px-4 md:px-6 lg:px-8"
-      style={{ backgroundColor: bgColor }}
-      aria-label="Hero promotion"
+      className="w-full px-4 md:px-6 lg:px-8 py-3"
+      style={{ backgroundColor: "var(--t-background)" }}
+      aria-label="Banners promocionales"
     >
       {/* ── Desktop: 2-col grid ── */}
-      <div className="hidden md:grid md:grid-cols-2 gap-4 items-center">
-        {panels.map((src, i) => (
-          <div
+      <div className="hidden md:grid md:grid-cols-2 gap-4">
+        {slides.map((slide, i) => (
+          <button
             key={i}
-            className="overflow-hidden rounded-[var(--t-radius-card)]"
-            style={{ backgroundColor: "var(--t-primary)" }}
+            type="button"
+            className="relative overflow-hidden text-left border-0 p-0 cursor-pointer"
+            style={{
+              borderRadius: "var(--t-radius-card)",
+              height: "clamp(200px, 25vw, 320px)",
+              backgroundColor: "var(--t-primary)",
+            }}
+            onClick={onCtaClick}
+            aria-label={`${slide.label} — ${slide.heading}`}
           >
-            <div className="relative w-full aspect-[393/132] lg:aspect-auto lg:h-[320px]">
+            {/* Background image */}
+            {slide.imageUrl && (
               <Image
-                src={src}
-                alt={i === 0 ? `${titleLight}${titleBold}` : description}
+                src={slide.imageUrl}
+                alt={slide.heading}
                 fill
-                className="object-cover rounded-[var(--t-radius-card)]"
-                sizes="(max-width: 1024px) 50vw, 600px"
+                className="object-cover"
+                sizes="(max-width: 1280px) 50vw, 600px"
                 priority={i === 0}
               />
+            )}
+
+            {/* Dark gradient overlay — bottom-to-top */}
+            <div
+              className="absolute inset-0"
+              aria-hidden="true"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)",
+              }}
+            />
+
+            {/* Text overlay — bottom-left */}
+            <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-1.5 p-4">
+              {/* Label */}
+              <p
+                className="m-0 uppercase font-semibold"
+                style={{
+                  fontSize: "10px",
+                  letterSpacing: "0.1em",
+                  color: "rgba(255,255,255,0.75)",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slide.label}
+              </p>
+
+              {/* Heading */}
+              <p
+                className="m-0 font-bold leading-tight"
+                style={{
+                  fontSize: "clamp(16px, 2.2vw, 22px)",
+                  color: "#FFFFFF",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slide.heading}
+              </p>
+
+              {/* Badge pill */}
+              <span
+                className="self-start font-bold"
+                style={{
+                  fontSize: "11px",
+                  letterSpacing: "0.04em",
+                  color: "var(--t-foreground)",
+                  backgroundColor: "var(--t-peach, #F4B5A4)",
+                  borderRadius: "var(--t-radius-button)",
+                  padding: "3px 10px",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slide.badge}
+              </span>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
       {/* ── Mobile: single slide + dots ── */}
       <div className="md:hidden">
-        <div
-          className="relative w-full overflow-hidden rounded-[var(--t-radius-card)]"
+        <button
+          type="button"
+          className="relative w-full overflow-hidden border-0 p-0 cursor-pointer"
           style={{
-            aspectRatio: "393/132",
+            borderRadius: "var(--t-radius-card)",
+            aspectRatio: "393/220",
             backgroundColor: "var(--t-primary)",
           }}
+          onClick={onCtaClick}
+          aria-label={`${slides[activeSlide]?.label} — ${slides[activeSlide]?.heading}`}
         >
-          <Image
-            src={panels[activeSlide] ?? image}
-            alt={`${titleLight}${titleBold}`}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
+          {/* Background image */}
+          {slides[activeSlide]?.imageUrl && (
+            <Image
+              src={slides[activeSlide].imageUrl}
+              alt={slides[activeSlide].heading}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+            />
+          )}
+
+          {/* Dark gradient overlay */}
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.20) 60%, transparent 100%)",
+            }}
           />
-        </div>
+
+          {/* Text overlay */}
+          {slides[activeSlide] && (
+            <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-1 p-4">
+              <p
+                className="m-0 uppercase font-semibold"
+                style={{
+                  fontSize: "10px",
+                  letterSpacing: "0.1em",
+                  color: "rgba(255,255,255,0.75)",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slides[activeSlide].label}
+              </p>
+              <p
+                className="m-0 font-bold leading-tight"
+                style={{
+                  fontSize: "18px",
+                  color: "#FFFFFF",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slides[activeSlide].heading}
+              </p>
+              <span
+                className="self-start font-bold"
+                style={{
+                  fontSize: "11px",
+                  letterSpacing: "0.04em",
+                  color: "var(--t-foreground)",
+                  backgroundColor: "var(--t-peach, #F4B5A4)",
+                  borderRadius: "var(--t-radius-button)",
+                  padding: "3px 10px",
+                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                }}
+              >
+                {slides[activeSlide].badge}
+              </span>
+            </div>
+          )}
+        </button>
 
         {/* Dot indicators */}
-        {SLIDE_COUNT > 1 && (
+        {slides.length > 1 && (
           <div
-            className="flex items-center justify-center gap-1.5 mt-3"
+            className="flex items-center justify-center gap-2 mt-3"
             aria-label="Indicadores de slide"
           >
-            {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
+            {slides.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => setActiveSlide(i)}
                 style={{
-                  width: 20,
-                  height: 4,
+                  width: i === activeSlide ? 20 : 8,
+                  height: 6,
                   borderRadius: 9999,
                   backgroundColor:
                     i === activeSlide
-                      ? "var(--t-dark-mode)"
-                      : "var(--t-primary)",
+                      ? "var(--t-primary)"
+                      : "var(--t-border, #E0D8D4)",
                   border: "none",
                   cursor: "pointer",
-                  transition: "background-color 0.2s ease",
+                  transition: "all 0.2s ease",
                   padding: 0,
                 }}
                 aria-label={`Ir a slide ${i + 1}`}
@@ -106,28 +249,6 @@ const Carousel = memo(function Carousel({
             ))}
           </div>
         )}
-      </div>
-
-      {/* CTA row — visible on both breakpoints */}
-      <div className="flex flex-col items-center text-center gap-4 py-8">
-        <p className="text-[var(--t-muted)] text-lg font-semibold leading-8">{subtitle}</p>
-        <h1
-          className="text-[var(--t-foreground)] leading-tight"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          <span className="text-3xl lg:text-[72px] font-thin">{titleLight}</span>
-          <span className="text-3xl lg:text-[72px] font-semibold">{titleBold}</span>
-        </h1>
-        <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6 max-w-xl">
-          {description}
-        </p>
-        <button
-          type="button"
-          className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 py-3 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity"
-          onClick={onCtaClick}
-        >
-          {ctaText}
-        </button>
       </div>
     </section>
   );

@@ -75,15 +75,22 @@ export const decorWarmManifest = {
 
   content: {
     heroBanner: {
-      title: "Transforma tu hogar con estilo",
-      subtitle: "Los mejores muebles y accesorios de decoración.",
+      title: "Experiencia de Confort",
+      subtitle: "OFERTA ESPECIAL",
+      image: "/mocks/decor-warm/hero-banner.png",
       ctaText: "Ver catálogo",
     },
+    promotionalBanners: [
+      {
+        image: "/mocks/decor-warm/hero-banner-2.png",
+        title: "Diseño que Inspira",
+        subtitle: "NUEVA COLECCIÓN",
+      },
+    ],
     navLinks: [
       { label: "Inicio", href: "/" },
       { label: "Catálogo", href: "/catalogo" },
-      { label: "Buscar", href: "/buscar" },
-      { label: "Carrito", href: "/carrito" },
+      { label: "Info", href: "/info" },
     ],
     footerServices: [
       "Envíos a domicilio",
@@ -128,9 +135,9 @@ export const decorWarmManifest = {
     footer: "COMPACT",
     bottomNav: "DOT_INDICATOR",
     hero: "CAROUSEL",
-    categoryNav: "HORIZONTAL_SCROLL",
+    categoryNav: "COLUMNAR",
     productCard: "WITH_DESCRIPTION",
-    searchBar: "INLINE",
+    searchBar: "ICON_TRIGGER",
   },
 } as const satisfies TemplateManifest;
 
