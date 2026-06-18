@@ -103,14 +103,14 @@ export function CategoryItem({
           ...baseStyle,
           padding: isLarge ? '1.25rem 1.5rem' : '0.625rem 0.75rem',
           borderRadius: 'var(--t-radius-category, 0.75rem)',
-          backgroundColor: isActive ? 'var(--t-primary)' : 'var(--t-card)',
+          backgroundColor: isActive ? 'var(--t-primary)' : (isLarge ? 'rgba(0,0,0,0.04)' : 'var(--t-card)'),
           color: isActive ? 'var(--t-on-primary)' : 'var(--t-foreground)',
-          border: `1px solid ${isActive ? 'var(--t-primary)' : 'var(--t-border)'}`,
+          border: isActive ? `1px solid var(--t-primary)` : (isLarge ? 'none' : `1px solid var(--t-border)`),
           minWidth: isLarge ? '8.5rem' : '5rem',
         }}
       >
         <IconComponent
-          size={isLarge ? 60 : 22}
+          size={isLarge ? 40 : 22}
           style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)') }}
         />
         <span style={{ fontSize: isLarge ? '0.8125rem' : '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>

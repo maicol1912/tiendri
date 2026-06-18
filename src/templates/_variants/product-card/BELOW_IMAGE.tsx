@@ -23,7 +23,8 @@ function BelowImageCard({
   showDiscountBadge = true,
   showOriginalPrice = true,
   showRating = false,
-}: ProductCardSlotProps) {
+  textCenter = false,
+}: ProductCardSlotProps & { textCenter?: boolean }) {
   const imageUrl = product.images[0]?.url ?? null;
   const imageAlt = `${product.name} imagen del producto`;
 
@@ -35,12 +36,12 @@ function BelowImageCard({
 
   return (
     <article
-      className={`${cardBgClass} ${hoverFxClass} flex flex-col min-w-0 max-w-sm w-full mx-auto relative`}
+      className={`${cardBgClass} ${hoverFxClass} flex flex-col min-w-0 max-w-sm w-full mx-auto relative overflow-hidden rounded-[var(--t-radius-card,0px)]`}
     >
       {/* Image fills full card width, aspect square */}
       <button
         type="button"
-        className={`relative w-full ${aspectRatioClass} shrink-0 cursor-pointer p-0 overflow-hidden rounded-[var(--t-radius-card,0px)] ${imageFitClass === 'object-contain' ? 'bg-[var(--t-secondary)]' : ''} ${imageHoverClass}`}
+        className={`relative w-full ${aspectRatioClass} shrink-0 cursor-pointer overflow-hidden rounded-[var(--t-radius-card,0px)] ${imageFitClass === 'object-contain' ? 'bg-[var(--t-card)] p-0' : 'p-0'} ${imageHoverClass}`}
         onClick={() => onClick?.(product.slug)}
         aria-label={`Ver ${product.name}`}
       >
@@ -52,6 +53,7 @@ function BelowImageCard({
             className={`${imageFitClass}${imageFitClass === 'object-cover' ? ' object-top' : ''}`}
             sizes="(max-width: 768px) 50vw, 25vw"
             loading="lazy"
+            style={imageFitClass === 'object-contain' ? { transform: 'scale(0.6)' } : undefined}
           />
         ) : (
           <div
@@ -90,11 +92,11 @@ function BelowImageCard({
         )}
       </button>
 
-      {/* Text block — left-aligned, minimal spacing */}
-      <div className={`flex flex-col ${cardBgClass ? 'px-3' : 'px-0'} pt-1.5 pb-3 gap-0.5 text-left`}>
+      {/* Text block — left-aligned by default, centered when textCenter is true */}
+      <div className={`flex flex-col ${cardBgClass ? 'px-3' : 'px-0'} pt-1.5 pb-3 gap-0.5 ${textCenter ? 'text-center' : 'text-left'}`}>
         <button
           type="button"
-          className="bg-transparent border-none cursor-pointer p-0 text-left"
+          className={`bg-transparent border-none cursor-pointer p-0 ${textCenter ? 'text-center' : 'text-left'}`}
           onClick={() => onClick?.(product.slug)}
         >
           {product.subtitle ? (
@@ -115,7 +117,7 @@ function BelowImageCard({
             </p>
           )}
         </button>
-        <div className="flex items-baseline gap-1.5 flex-wrap mt-0.5">
+        <div className={`flex items-baseline gap-1.5 flex-wrap mt-0.5 ${textCenter ? 'justify-center' : ''}`}>
           <p className={`text-sm tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
             {formatPrice(product.price, currencySymbol)}
           </p>

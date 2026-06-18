@@ -121,8 +121,8 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
               width: 36,
               height: 36,
               borderRadius: "50%",
-              backgroundColor: "var(--t-card)",
-              border: "none",
+              backgroundColor: "var(--t-background)",
+              border: "1px solid var(--t-border)",
               cursor: "pointer",
               color: "var(--t-foreground)",
             }}
@@ -188,9 +188,9 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-card)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
-                borderColor: "var(--t-border)",
+                border: "1px solid var(--t-border)",
               }}
             >
               {whatsappHref && (
@@ -221,7 +221,7 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
               >
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "var(--t-card)" }}
+                  style={{ backgroundColor: "var(--t-background)", border: "1px solid var(--t-border)" }}
                 >
                   <Phone size={18} strokeWidth={1.75} style={{ color: "var(--t-foreground)" }} />
                 </div>
@@ -247,8 +247,9 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
             <div
               className="flex items-center gap-3 px-4 py-4 overflow-hidden"
               style={{
-                backgroundColor: "var(--t-card)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
+                border: "1px solid var(--t-border)",
               }}
             >
               <div
@@ -275,8 +276,9 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
             <div
               className="px-4 py-4 overflow-hidden"
               style={{
-                backgroundColor: "var(--t-card)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
+                border: "1px solid var(--t-border)",
               }}
             >
               <div className="flex items-center gap-3 mb-3">
@@ -320,8 +322,9 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
             <div
               className="flex items-center gap-3 px-4 py-4 overflow-hidden"
               style={{
-                backgroundColor: "var(--t-card)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
+                border: "1px solid var(--t-border)",
               }}
             >
               <div
@@ -349,9 +352,9 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
             <div
               className="flex flex-col divide-y overflow-hidden"
               style={{
-                backgroundColor: "var(--t-card)",
+                backgroundColor: "var(--t-background)",
                 borderRadius: "var(--t-radius-card)",
-                borderColor: "var(--t-border)",
+                border: "1px solid var(--t-border)",
               }}
             >
               {instagramUrl && instagramHandle && (
@@ -363,7 +366,7 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card)", color: "var(--t-muted)" }}
+                    style={{ backgroundColor: "var(--t-background)", border: "1px solid var(--t-border)", color: "var(--t-muted)" }}
                   >
                     <InstagramIcon />
                   </div>
@@ -385,7 +388,7 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card)", color: "var(--t-muted)" }}
+                    style={{ backgroundColor: "var(--t-background)", border: "1px solid var(--t-border)", color: "var(--t-muted)" }}
                   >
                     <FacebookIcon />
                   </div>
@@ -407,7 +410,7 @@ export function StoreInfoPage({ store, header, onBack }: StoreInfoPageProps) {
                 >
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: "var(--t-card)", color: "var(--t-muted)" }}
+                    style={{ backgroundColor: "var(--t-background)", border: "1px solid var(--t-border)", color: "var(--t-muted)" }}
                   >
                     <TikTokIcon />
                   </div>

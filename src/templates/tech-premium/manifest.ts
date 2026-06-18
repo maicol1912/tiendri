@@ -58,10 +58,10 @@ export const techPremiumManifest = {
 
   // Layout options — controls visual style of key UI regions.
   layout: {
-    cardImageRatio: "square" as const,
+    cardImageRatio: "wide" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
-    cardStyle: "transparent" as const,
+    imageFit: "contain" as const,
   },
 
   // Home page sections — order determines render order, visible toggles show/hide.
@@ -144,9 +144,10 @@ export const techPremiumManifest = {
 
   heroConstrained: false,
   showSearchBar: false,
-  showAddToCartInGrid: false,
-  showDiscountBadge: false,
   categorySize: "large",
+  categoriesWide: true,
+  showOriginalPrice: false,
+  cardTextCenter: true,
 } as const satisfies TemplateManifest;
 
 export type TechPremiumManifest = typeof techPremiumManifest;

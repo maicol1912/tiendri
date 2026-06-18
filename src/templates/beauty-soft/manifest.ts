@@ -70,6 +70,7 @@ export const beautySoftManifest = {
 
   content: {
     heroBanner: {
+      tag: "GLOW STUDIO",
       title: "Cuida tu piel con lo mejor",
       subtitle: "Hasta 30% de descuento",
       ctaText: "Ver productos",
@@ -130,6 +131,15 @@ export const beautySoftManifest = {
 
   /** beauty-soft no muestra el botón "Comprar" en la grilla del home */
   showAddToCartInGrid: false,
+
+  /**
+   * Vacío para que el eyebrow del CARD_SPLIT hero muestre el tag ("GLOW STUDIO")
+   * en vez del nombre de tienda. Sin esto, titleLight defaultea a store.name.
+   */
+  heroTitleLight: "",
+
+  /** Restringe el hero a ~65% del ancho, centrado: max-w-[92%] lg:max-w-[65%] mx-auto */
+  heroConstrained: true,
 
   /** Encabezados de sección visibles */
   categoriesHeading: "Categorías",

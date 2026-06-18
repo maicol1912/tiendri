@@ -12,12 +12,26 @@
 import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 
+/** Shape de un ítem de productos populares (banner card con imagen y CTA). */
+export interface PopularProductItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  ctaText: string;
+  bgColor: string;
+}
+
 export interface TemplateMockData {
   store: StoreInfo;
   products: StorefrontProduct[];
   categories: Category[];
   /** Lista de productos más vendidos — solo disponible para templates que la definen. */
   bestSellers?: BestSellerItem[];
+  /** Productos populares — banner cards con imagen destacada y CTA. */
+  popularProducts?: PopularProductItem[];
+  /** Productos con descuento — misma forma que StorefrontProduct. */
+  discountProducts?: StorefrontProduct[];
 }
 
 // ── Adaptador de categorías ────────────────────────────────────────────────────
@@ -52,13 +66,15 @@ export async function getTemplateMockData(
 ): Promise<TemplateMockData> {
   switch (templateId) {
     case "tech-premium": {
-      const { mockStore, mockProducts, mockCategories } = await import(
+      const { mockStore, mockProducts, mockCategories, mockPopularProducts, mockDiscountProducts } = await import(
         "./tech-premium/mock/data"
       );
       return {
         store: mockStore,
         products: mockProducts,
         categories: mockCategories,
+        popularProducts: mockPopularProducts,
+        discountProducts: mockDiscountProducts,
       };
     }
     case "fashion": {

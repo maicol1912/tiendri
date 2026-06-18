@@ -28,14 +28,14 @@ const CardSplit = memo(function CardSplit({
       style={{
         borderRadius: "var(--t-radius-card)",
         background: "var(--t-card)",
-        minHeight: "clamp(100px, 12vw, 145px)",
+        minHeight: "clamp(120px, 16vw, 160px)",
         display: "flex",
         alignItems: "stretch",
       }}
     >
       {/* Left panel — solid primary background, ~45% width */}
       <div
-        className="relative z-10 flex flex-col justify-center gap-1 md:gap-1.5 p-4 lg:p-6"
+        className="relative z-10 flex flex-col justify-center gap-1 md:gap-1.5 p-3 md:p-4 lg:p-6"
         style={{
           width: "45%",
           backgroundColor: "var(--t-primary)",
@@ -51,7 +51,7 @@ const CardSplit = memo(function CardSplit({
         )}
 
         <h2
-          className="m-0 font-bold leading-tight text-lg lg:text-xl"
+          className="m-0 font-bold leading-tight text-sm md:text-base lg:text-xl"
           style={{
             color: "var(--t-on-primary)",
             fontFamily: "var(--font-heading, var(--font-sans))",
@@ -62,7 +62,7 @@ const CardSplit = memo(function CardSplit({
 
         {descriptorText && (
           <p
-            className="m-0 text-xs leading-snug"
+            className="m-0 text-xs leading-snug hidden sm:block"
             style={{ color: "color-mix(in srgb, var(--t-on-primary) 80%, transparent)" }}
           >
             {descriptorText}
@@ -74,7 +74,7 @@ const CardSplit = memo(function CardSplit({
           className="self-start border-0 bg-transparent cursor-pointer p-0"
           style={{
             fontFamily: "var(--font-heading, var(--font-sans))",
-            fontSize: "14px",
+            fontSize: "clamp(11px, 2.5vw, 14px)",
             fontWeight: 500,
             color: "var(--t-on-primary)",
             opacity: 0.9,
@@ -91,7 +91,6 @@ const CardSplit = memo(function CardSplit({
       <div
         className="relative flex-1 overflow-hidden"
         aria-hidden="true"
-        style={{ minHeight: "140px" }}
       >
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element

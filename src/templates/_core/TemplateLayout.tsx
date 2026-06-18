@@ -28,6 +28,7 @@ import type { TemplateManifest } from "@/types/templates/manifest";
 import type { NavTab } from "@/templates/_variants/bottom-nav/types";
 import type { NavLink } from "@/templates/_variants/header/types";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
+import type { PopularProductItem } from "@/templates/mock-loader";
 
 // ── Tipos de ruta reconocidos ──────────────────────────────────────────────────
 
@@ -99,6 +100,10 @@ export interface TemplateLayoutProps {
   currencySymbol?: string;
   /** Lista de productos más vendidos — solo disponible para templates que la definen. */
   bestSellers?: BestSellerItem[];
+  /** Productos populares — banner cards con imagen y CTA. */
+  popularProducts?: PopularProductItem[];
+  /** Productos con descuento — misma forma que StorefrontProduct. */
+  discountProducts?: StorefrontProduct[];
 }
 
 // ── Componente ────────────────────────────────────────────────────────────────
@@ -111,6 +116,8 @@ export function TemplateLayout({
   manifest,
   currencySymbol = "$",
   bestSellers,
+  popularProducts,
+  discountProducts,
 }: TemplateLayoutProps) {
   const pathname = usePathname();
   const nav = useTemplateNav();
@@ -154,8 +161,9 @@ export function TemplateLayout({
   const isActive = useCallback(
     (href: string) => {
       // Normalizar href relativo a absoluto para comparar con pathname
+      // "" y "/" se tratan como home (nav.basePath) — solo activo en exact match
       const absHref =
-        href === "/" ? nav.basePath :
+        href === "" || href === "/" ? nav.basePath :
         href.startsWith("/") && !href.startsWith(nav.basePath) ? `${nav.basePath}${href}` :
         href;
       return pathname === absHref || (absHref !== nav.basePath && pathname.startsWith(absHref + "/"));
@@ -168,7 +176,7 @@ export function TemplateLayout({
   // hrefs relativos (/, /catalogo, /info) definidos en el manifest
   const handleNavClick = useCallback(
     (href: string) => {
-      if (href === nav.basePath || href === `${nav.basePath}/` || href === "/") {
+      if (href === nav.basePath || href === `${nav.basePath}/` || href === "/" || href === "") {
         nav.goHome();
       } else if (href === `${nav.basePath}/catalogo` || href === "/catalogo") {
         nav.goListing();
@@ -202,6 +210,8 @@ export function TemplateLayout({
             variants={manifest.variants}
             currencySymbol={currencySymbol}
             bestSellers={bestSellers}
+            popularProducts={popularProducts}
+            discountProducts={discountProducts}
           />
         )}
 

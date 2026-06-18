@@ -14,6 +14,7 @@ import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
+import type { PopularProductItem } from "@/templates/mock-loader";
 
 export interface HomeShellProps {
   store: StoreInfo;
@@ -24,6 +25,10 @@ export interface HomeShellProps {
   currencySymbol?: string;
   /** Lista de productos más vendidos — solo disponible para templates que la definen. */
   bestSellers?: BestSellerItem[];
+  /** Productos populares — banner cards con imagen y CTA. */
+  popularProducts?: PopularProductItem[];
+  /** Productos con descuento — misma forma que StorefrontProduct. */
+  discountProducts?: StorefrontProduct[];
 }
 
 export function HomeShell({
@@ -34,6 +39,8 @@ export function HomeShell({
   variants,
   currencySymbol = "$",
   bestSellers,
+  popularProducts,
+  discountProducts,
 }: HomeShellProps) {
   const nav = useTemplateNav();
   const { addItem } = useCart();
@@ -126,6 +133,8 @@ export function HomeShell({
       searchBarVariant={variants.searchBar}
       searchBarPlaceholder="Buscar productos..."
       bestSellers={bestSellers}
+      popularProducts={popularProducts}
+      discountProducts={discountProducts}
     />
   );
 }

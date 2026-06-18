@@ -2,7 +2,7 @@
 
 // Header variant: DEFAULT
 // Extracted from tech-premium Header.
-// Edge-to-edge layout: logo (left) + search inline (center-left) + nav links (center) + cart (right).
+// Edge-to-edge layout: logo (left) + nav links + search icon + cart (right).
 // Mobile: logo (left) + hamburger (right).
 
 import { memo } from "react";
@@ -30,45 +30,42 @@ const DefaultHeader = memo(function DefaultHeader({
           {store.name.toLowerCase()}
         </span>
 
-        {/* Search bar — fixed width */}
-        <div className="w-[372px] shrink-0 ml-8">
-          <div className="flex items-center gap-2 bg-[var(--t-card)] rounded-lg h-14 px-4 w-full">
-            <Search className="w-5 h-5 text-[var(--t-muted)] shrink-0" aria-hidden="true" />
-            <input
-              type="text"
-              placeholder="Buscar"
-              readOnly
-              onFocus={onSearchClick}
-              className="bg-transparent text-sm font-medium text-[var(--t-muted)] placeholder:text-[var(--t-muted)]/50 outline-none w-full cursor-pointer"
-              aria-label="Buscar productos"
-            />
-          </div>
-        </div>
+        {/* Right group: nav links + search + cart */}
+        <div className="flex items-center gap-8">
+          {/* Navigation */}
+          <nav className="flex items-center gap-[52px]" aria-label="Navegación principal">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <button
+                  key={link.href}
+                  type="button"
+                  aria-current={active ? "page" : undefined}
+                  className={`bg-transparent border-none p-0 text-base font-medium cursor-pointer transition-colors pb-0.5 ${
+                    active
+                      ? "text-[var(--t-foreground)] border-b border-[var(--t-foreground)]"
+                      : "text-[var(--t-foreground)]/30 hover:text-[var(--t-foreground)]/60"
+                  }`}
+                  onClick={() => onNavClick(link.href)}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
+          </nav>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-[52px] ml-8" aria-label="Navegación principal">
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
-            return (
-              <button
-                key={link.href}
-                type="button"
-                aria-current={active ? "page" : undefined}
-                className={`bg-transparent border-none p-0 text-base font-medium cursor-pointer transition-colors pb-0.5 ${
-                  active
-                    ? "text-[var(--t-foreground)] border-b border-[var(--t-foreground)]"
-                    : "text-[var(--t-foreground)]/30 hover:text-[var(--t-foreground)]/60"
-                }`}
-                onClick={() => onNavClick(link.href)}
-              >
-                {link.label}
-              </button>
-            );
-          })}
-        </nav>
+          {/* Search icon */}
+          <button
+            type="button"
+            className="flex items-center justify-center w-9 h-9 rounded-lg transition-colors hover:bg-[var(--t-card)]"
+            style={{ background: "none", border: "none", cursor: "pointer" }}
+            aria-label="Buscar"
+            onClick={onSearchClick}
+          >
+            <Search size={20} strokeWidth={1.75} className="text-[var(--t-muted)]" />
+          </button>
 
-        {/* Cart icon */}
-        <div className="flex items-center gap-6 ml-8">
+          {/* Cart icon */}
           <button
             type="button"
             className="relative p-0 bg-transparent border-none cursor-pointer"

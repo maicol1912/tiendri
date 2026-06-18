@@ -5,6 +5,7 @@
 // Recibe todo como props, resuelve variantes desde los registries y arma el layout.
 
 import React, { memo } from "react";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { HERO_REGISTRY } from "@/templates/_variants/hero";
 import { CATEGORY_NAV_REGISTRY } from "@/templates/_variants/category-nav";
@@ -22,6 +23,7 @@ import type { HeroVariant } from "@/templates/_variants/hero";
 import type { CategoryNavVariant } from "@/templates/_variants/category-nav";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";
 import type { SearchBarVariant } from "@/templates/_variants/search-bar";
+import type { PopularProductItem } from "@/templates/mock-loader";
 
 interface CoreHomePageProps {
   store: StoreInfo;
@@ -54,6 +56,10 @@ interface CoreHomePageProps {
   searchBarPlaceholder?: string;
   /** Lista de productos más vendidos — renderiza la sección "Más Vendidos" si no está vacía */
   bestSellers?: BestSellerItem[];
+  /** Productos populares — renderiza sección de banner cards si existe y tiene ítems */
+  popularProducts?: PopularProductItem[];
+  /** Productos con descuento — renderiza sección "Descuentos" usando el ProductCardComponent */
+  discountProducts?: StorefrontProduct[];
 }
 
 export const CoreHomePage = memo(function CoreHomePage({
@@ -72,6 +78,8 @@ export const CoreHomePage = memo(function CoreHomePage({
   searchBarVariant = "INLINE",
   searchBarPlaceholder = "Buscar productos...",
   bestSellers,
+  popularProducts,
+  discountProducts,
 }: CoreHomePageProps) {
   const [searchValue, setSearchValue] = React.useState("");
   const HeroComponent = HERO_REGISTRY[variants.hero];
@@ -107,12 +115,22 @@ export const CoreHomePage = memo(function CoreHomePage({
   // Optional visible section headings (template-level config)
   const categoriesHeading = (config as Record<string, unknown>).categoriesHeading as string | undefined;
   const productsHeading = (config as Record<string, unknown>).productsHeading as string | undefined;
+  // productTabs: horizontal tab bar above the products grid (mock — first tab is always active)
+  const productTabsRaw = (config as Record<string, unknown>).productTabs as
+    | string[]
+    | Array<{ id: string; label: string }>
+    | undefined;
+  const productTabs: string[] | undefined = productTabsRaw?.map((t) =>
+    typeof t === "string" ? t : t.label,
+  );
   // chipStyle: visual style for CHIPS category nav variant
   const chipStyle = (config as Record<string, unknown>).chipStyle as string | undefined;
   // categoryIconColor: override icon color for category nav icon-text mode
   const categoryIconColor = (config as Record<string, unknown>).categoryIconColor as string | undefined;
   // categorySize: "large" renders bigger icon containers in HORIZONTAL_SCROLL variant
   const categorySize = (config as Record<string, unknown>).categorySize as "default" | "large" | undefined;
+  // categoriesWide: when true, widens the categories section to ~85% desktop (closer to left edge)
+  const categoriesWide = (config as Record<string, unknown>).categoriesWide === true;
   // productsLimit: when set, splits collectionProducts into two sections
   const productsLimit = (config as Record<string, unknown>).productsLimit as number | undefined;
   // secondProductsHeading: heading for the second products section (used with productsLimit)
@@ -273,7 +291,7 @@ export const CoreHomePage = memo(function CoreHomePage({
             paddingTop: "1rem",
             paddingBottom: "0.5rem",
           }}
-          className="max-w-[92%] lg:max-w-[65%] mx-auto"
+          className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
         >
           <h2 id="home-categories-heading" className="sr-only">
             Categorías
@@ -308,6 +326,44 @@ export const CoreHomePage = memo(function CoreHomePage({
         />
       )}
 
+      {/* ── Product tab navigation (mock — first tab always active) ─────────── */}
+      {productTabs && productTabs.length > 0 && (
+        <div
+          className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
+          style={{ paddingTop: "2.5rem", paddingBottom: "0.5rem" }}
+        >
+          <div className="flex gap-6" role="tablist" aria-label="Filtrar productos">
+            {productTabs.map((tab, i) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={i === 0}
+                style={{
+                  color: i === 0 ? "var(--t-foreground)" : "var(--t-muted)",
+                  fontWeight: i === 0 ? 600 : 400,
+                  fontSize: "0.95rem",
+                  paddingBottom: "0.5rem",
+                  paddingTop: 0,
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderBottomWidth: "2px",
+                  borderBottomStyle: "solid",
+                  borderBottomColor: i === 0 ? "var(--t-foreground)" : "transparent",
+                  background: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* ── Productos ────────────────────────────────────────────────────── */}
       {(() => {
         const firstSectionProducts = productsLimit !== undefined
@@ -330,7 +386,7 @@ export const CoreHomePage = memo(function CoreHomePage({
                 paddingTop: "0.5rem",
                 paddingBottom: "var(--t-space-section, 2.5rem)",
               }}
-              className="max-w-[92%] lg:max-w-[65%] mx-auto"
+              className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
             >
               {headingText ? (
                 <div className="flex items-center justify-between mb-4">
@@ -409,6 +465,154 @@ export const CoreHomePage = memo(function CoreHomePage({
           </>
         );
       })()}
+
+      {/* ── Productos populares (opcional) ──────────────────────────────── */}
+      {popularProducts && popularProducts.length > 0 && (
+        <section
+          aria-labelledby="popular-products-heading"
+          style={{
+            paddingTop: "var(--t-space-section, 2.5rem)",
+            paddingBottom: "var(--t-space-section, 2.5rem)",
+          }}
+          className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2
+              id="popular-products-heading"
+              style={{
+                color: "var(--t-foreground)",
+                fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 1.5rem)",
+                letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+              }}
+            >
+              Productos populares
+            </h2>
+          </div>
+          <div
+            className={`grid grid-cols-2 md:grid-cols-4`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
+          >
+            {popularProducts.map((item) => (
+              <div key={item.title} className="flex flex-col gap-3">
+                <div
+                  className="relative aspect-square overflow-hidden"
+                  style={{
+                    borderRadius: "var(--t-radius-card, 9px)",
+                    backgroundColor: item.bgColor || "var(--t-card)",
+                  }}
+                >
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    loading="lazy"
+                  />
+                </div>
+                <h3
+                  style={{
+                    color: "var(--t-foreground)",
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  style={{
+                    color: "var(--t-muted)",
+                    fontSize: "0.8rem",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {item.description}
+                </p>
+                <button
+                  type="button"
+                  style={{
+                    border: "1px solid var(--t-primary)",
+                    color: "var(--t-primary)",
+                    borderRadius: "var(--t-radius-button, 8px)",
+                    padding: "8px 16px",
+                    background: "transparent",
+                    cursor: "pointer",
+                    fontSize: "0.85rem",
+                    fontWeight: 500,
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  {item.ctaText}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Descuentos (opcional) ─────────────────────────────────────────── */}
+      {discountProducts && discountProducts.length > 0 && (
+        <section
+          aria-labelledby="discount-products-heading"
+          style={{
+            paddingTop: "0.5rem",
+            paddingBottom: "var(--t-space-section, 2.5rem)",
+          }}
+          className={categoriesWide ? "max-w-[92%] lg:max-w-[80%] mx-auto" : "max-w-[92%] lg:max-w-[65%] mx-auto"}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h2
+              id="discount-products-heading"
+              style={{
+                color: "var(--t-foreground)",
+                fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+                fontSize: "var(--t-type-heading-size, 1.5rem)",
+                letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
+                textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+              }}
+            >
+              Descuentos de hasta -50%
+            </h2>
+            <button
+              type="button"
+              className="bg-transparent border-none cursor-pointer text-sm font-medium hover:opacity-70 transition-opacity"
+              style={{ color: "var(--t-muted)" }}
+              onClick={onCtaClick}
+            >
+              Ver todo
+            </button>
+          </div>
+          <div
+            className={`grid ${gridColsClass(productsMobile, productsDesktop)}`}
+            style={{ gap: "var(--t-space-gap, 1rem)" }}
+          >
+            {discountProducts.map((product) => (
+              <ProductCardComponent
+                key={product.id}
+                product={product}
+                currencySymbol={currencySymbol}
+                onClick={onProductClick}
+                onAddToCart={onAddToCart}
+                buttonClass={buttonClass}
+                badgeClass={badgeClass}
+                priceConfig={priceConfig}
+                cardBgClass={cardBgClass}
+                cardBorderClass={cardBorderClass}
+                hoverFxClass={hoverFxClass}
+                imageHoverClass={imageHoverClass}
+                imageFitClass={imageFitClass}
+                aspectRatioClass={aspectRatioClass}
+                showAddToCart={showAddToCartInGrid}
+                showDiscountBadge={showDiscountBadge}
+                showOriginalPrice={showOriginalPrice}
+                showRating={showRating}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── Editorial (opcional) ─────────────────────────────────────────── */}
       {(editorialHeading || editorialBody) && (

@@ -115,7 +115,7 @@ export const foodNightManifest = {
   } satisfies BusinessConfig,
 
   variants: {
-    header: "GREETING",
+    header: "DEFAULT",
     footer: "COMPACT",
     bottomNav: "FLOATING_PILL",
     hero: "PROMO_CARD",

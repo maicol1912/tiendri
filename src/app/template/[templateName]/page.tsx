@@ -100,6 +100,8 @@ export default async function TemplatePreviewPage({
       config={resolvedConfig}
       manifest={manifest}
       bestSellers={mockData.bestSellers}
+      popularProducts={mockData.popularProducts}
+      discountProducts={mockData.discountProducts}
     />
   );
 }

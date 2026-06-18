@@ -62,6 +62,7 @@ export const beautyElegantManifest = {
     cardImageRatio: "portrait" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+    cardStyle: "transparent" as const,
   },
 
   sections: [
@@ -78,6 +79,7 @@ export const beautyElegantManifest = {
 
   content: {
     heroBanner: {
+      tag: "BEAUTY ELEGANT",
       title: "Descubre tu belleza con productos premium",
       subtitle: "Cosméticos, maquillaje y cuidado personal de alta calidad.",
       ctaText: "Ver catálogo",
@@ -135,6 +137,11 @@ export const beautyElegantManifest = {
     searchBar: "INLINE",
   },
 
+  heroConstrained: true,
+  /** Empty string: prevents store name from being prepended as eyebrow in CARD_SPLIT hero */
+  heroTitleLight: "",
+  /** Hides the separate inline search bar (GLASS header already has search icon) */
+  showSearchBar: false,
   /** beauty-elegant no muestra el botón "Comprar" en la grilla del home */
   showAddToCartInGrid: false,
 } as const satisfies TemplateManifest;

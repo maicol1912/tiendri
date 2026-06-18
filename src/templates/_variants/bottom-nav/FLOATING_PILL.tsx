@@ -65,7 +65,7 @@ const FloatingPillBottomNav = memo(function FloatingPillBottomNav({
               <Icon
                 size={isActive ? 20 : 22}
                 strokeWidth={1.75}
-                color="var(--t-on-primary)"
+                color={isActive ? "var(--t-on-primary)" : "var(--t-muted)"}
               />
               {tab === "cart" && cartCount > 0 && (
                 <span

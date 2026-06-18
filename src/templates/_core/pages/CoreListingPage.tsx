@@ -107,6 +107,7 @@ export const CoreListingPage = memo(function CoreListingPage({
   const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
   const showDiscountBadge = configAny.showDiscountBadge !== false;
   const showOriginalPrice = configAny.showOriginalPrice !== false;
+  const textCenter = configAny.cardTextCenter === true;
 
   const grid = config.grid;
   const listingMobile = grid?.listing?.mobile ?? 2;
@@ -378,6 +379,7 @@ export const CoreListingPage = memo(function CoreListingPage({
                     showAddToCart={showAddToCartInGrid}
                     showDiscountBadge={showDiscountBadge}
                     showOriginalPrice={showOriginalPrice}
+                    {...(textCenter ? { textCenter } : {})}
                   />
                 ))}
               </div>

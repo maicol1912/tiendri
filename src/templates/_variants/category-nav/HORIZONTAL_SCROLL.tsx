@@ -71,9 +71,9 @@ const HorizontalScroll = memo(function HorizontalScroll({
       </div>
 
       <div
-        className="flex flex-nowrap overflow-x-auto justify-start"
+        className={`flex flex-nowrap overflow-x-auto ${size === "large" ? "justify-between" : "justify-start"}`}
         style={{
-          gap: size === "large" ? "2rem" : "var(--t-space-gap, 1rem)",
+          gap: size === "large" ? 0 : "var(--t-space-gap, 1rem)",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}

@@ -97,7 +97,8 @@ const CompactFooter = memo(function CompactFooter({ store }: FooterSlotProps) {
                 aria-label={item.label}
                 className="flex items-center justify-center w-9 h-9 rounded-[var(--t-radius-button,8px)] transition-colors"
                 style={{
-                  backgroundColor: "var(--t-icon-pill-bg, var(--t-card))",
+                  backgroundColor: "var(--t-background)",
+                  border: "1px solid var(--t-border)",
                   color: "var(--t-primary)",
                 }}
               >

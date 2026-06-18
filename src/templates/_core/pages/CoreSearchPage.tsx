@@ -57,9 +57,11 @@ export const CoreSearchPage = memo(function CoreSearchPage({
   } = resolveStyleTokens(config);
 
   const configAny = config as Record<string, unknown>;
+  const showSearchBar = configAny.showSearchBar !== false;
   const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
   const showDiscountBadge = configAny.showDiscountBadge !== false;
   const showOriginalPrice = configAny.showOriginalPrice !== false;
+  const textCenter = configAny.cardTextCenter === true;
 
   const grid = config.grid;
   const searchMobile = grid?.search?.mobile ?? 2;
@@ -149,6 +151,7 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                       showAddToCart={showAddToCartInGrid}
                       showDiscountBadge={showDiscountBadge}
                       showOriginalPrice={showOriginalPrice}
+                      {...(textCenter ? { textCenter } : {})}
                     />
                   ))}
                 </div>
@@ -241,6 +244,7 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                   showAddToCart={showAddToCartInGrid}
                   showDiscountBadge={showDiscountBadge}
                   showOriginalPrice={showOriginalPrice}
+                  {...(textCenter ? { textCenter } : {})}
                 />
               ))}
             </div>

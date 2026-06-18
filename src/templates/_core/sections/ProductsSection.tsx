@@ -21,6 +21,11 @@ export const ProductsSection = memo(function ProductsSection({
   const ProductCardComponent = PRODUCT_CARD_REGISTRY[variants.productCard];
   const { buttonClass, badgeClass, priceConfig, cardBgClass, hoverFxClass, imageFitClass, imageHoverClass, cardBorderClass } = styleTokens;
 
+  // Template-level overrides for card display
+  const extendedConfig = config as unknown as { showOriginalPrice?: boolean; cardTextCenter?: boolean };
+  const showOriginalPrice = extendedConfig.showOriginalPrice !== false;
+  const textCenter = extendedConfig.cardTextCenter === true;
+
   return (
     <section
       aria-labelledby="home-products-heading"
@@ -62,6 +67,8 @@ export const ProductsSection = memo(function ProductsSection({
             hoverFxClass={hoverFxClass}
             imageHoverClass={imageHoverClass}
             imageFitClass={imageFitClass}
+            showOriginalPrice={showOriginalPrice}
+            {...(textCenter ? { textCenter } : {})}
           />
         ))}
       </div>
