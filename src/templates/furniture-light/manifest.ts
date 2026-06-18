@@ -52,6 +52,7 @@ export const furnitureLightManifest = {
     cardImageRatio: "square" as const,
     gridDensity: "standard" as const,
     spacingDensity: "normal" as const,
+    cardStyle: "transparent" as const,
   },
 
   sections: [
@@ -70,13 +71,14 @@ export const furnitureLightManifest = {
   content: {
     heroBanner: {
       title: "¡Nueva colección disponible!",
-      subtitle: "Ver más",
-      ctaText: "Ver catálogo",
+      subtitle: "",
+      ctaText: "Ver más",
+      image: "/mocks/furniture-light/hero-banner-1.jpg",
     },
     navLinks: [
       { label: "Inicio", href: "/" },
       { label: "Catálogo", href: "/catalogo" },
-      { label: "Explorar", href: "/buscar" },
+      { label: "Info", href: "/info" },
     ],
     footerServices: [
       "Política de privacidad",
@@ -116,11 +118,19 @@ export const furnitureLightManifest = {
     header: "DEFAULT",
     footer: "COMPACT",
     bottomNav: "EDGE",
-    hero: "CONTAINED",
+    hero: "CARD_SPLIT",
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
   },
+
+  heroConstrained: true,
+  heroTitleLight: "",
+  showSearchBar: false,
+  categoriesHeading: "Categorías",
+  showRating: true,
+  productsHeading: "Todos los productos",
+  showAddToCartInGrid: false,
 } as const satisfies TemplateManifest;
 
 export type FurnitureLightManifest = typeof furnitureLightManifest;
