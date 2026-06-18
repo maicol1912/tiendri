@@ -8,6 +8,7 @@ import React, { memo } from "react";
 import { HERO_REGISTRY } from "@/templates/_variants/hero";
 import { CATEGORY_NAV_REGISTRY } from "@/templates/_variants/category-nav";
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
+import { SEARCH_BAR_REGISTRY } from "@/templates/_variants/search-bar";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import { resolveStyleTokens } from "./style-tokens";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
@@ -15,6 +16,7 @@ import type { StorefrontProduct, StoreInfo, Category } from "@/types/store";
 import type { HeroVariant } from "@/templates/_variants/hero";
 import type { CategoryNavVariant } from "@/templates/_variants/category-nav";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";
+import type { SearchBarVariant } from "@/templates/_variants/search-bar";
 
 interface CoreHomePageProps {
   store: StoreInfo;
@@ -39,6 +41,10 @@ interface CoreHomePageProps {
     ctaText?: string;
     image?: string;
   };
+  /** Si es true, renderiza un search bar entre el header y el hero */
+  showSearchBar?: boolean;
+  searchBarVariant?: SearchBarVariant;
+  searchBarPlaceholder?: string;
 }
 
 export const CoreHomePage = memo(function CoreHomePage({
@@ -53,10 +59,15 @@ export const CoreHomePage = memo(function CoreHomePage({
   onCtaClick,
   currencySymbol = "$",
   heroData,
+  showSearchBar = false,
+  searchBarVariant = "INLINE",
+  searchBarPlaceholder = "Buscar productos...",
 }: CoreHomePageProps) {
+  const [searchValue, setSearchValue] = React.useState("");
   const HeroComponent = HERO_REGISTRY[variants.hero];
   const CategoryNavComponent = CATEGORY_NAV_REGISTRY[variants.categoryNav];
   const ProductCardComponent = PRODUCT_CARD_REGISTRY[variants.productCard];
+  const SearchBarComponent = showSearchBar ? SEARCH_BAR_REGISTRY[searchBarVariant] : null;
 
   // Resolver tokens de estilo desde config + style-maps
   const {
@@ -71,6 +82,8 @@ export const CoreHomePage = memo(function CoreHomePage({
   } = resolveStyleTokens(config);
 
   const grid = config.grid;
+  // Template-level opt-out of the "Comprar" button in the home grid
+  const showAddToCartInGrid = (config as Record<string, unknown>).showAddToCartInGrid !== false;
   const productsMobile = grid?.products?.mobile ?? 2;
   const productsDesktop = grid?.products?.desktop ?? 4;
   const categoriesMobile = grid?.categories?.mobile ?? 3;
@@ -93,6 +106,17 @@ export const CoreHomePage = memo(function CoreHomePage({
       className="min-h-screen"
       style={{ backgroundColor: "var(--t-background)" }}
     >
+      {/* ── Search bar (opcional) — entre header y hero ───────────────────── */}
+      {showSearchBar && SearchBarComponent && (
+        <div className="max-w-[92%] lg:max-w-[65%] mx-auto py-3">
+          <SearchBarComponent
+            value={searchValue}
+            onChange={setSearchValue}
+            placeholder={searchBarPlaceholder}
+          />
+        </div>
+      )}
+
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section aria-label="Banner principal">
         <HeroComponent {...hero} />
@@ -103,10 +127,10 @@ export const CoreHomePage = memo(function CoreHomePage({
         <section
           aria-labelledby="home-categories-heading"
           style={{
-            paddingTop: "var(--t-space-section, 2.5rem)",
-            paddingBottom: "var(--t-space-section, 2.5rem)",
+            paddingTop: "1rem",
+            paddingBottom: "0.5rem",
           }}
-          className="px-4 lg:px-[160px]"
+          className="max-w-[92%] lg:max-w-[65%] mx-auto"
         >
           <h2 id="home-categories-heading" className="sr-only">
             Categorías
@@ -125,21 +149,14 @@ export const CoreHomePage = memo(function CoreHomePage({
         <section
           aria-labelledby="home-products-heading"
           style={{
-            paddingTop: "var(--t-space-section, 2.5rem)",
+            paddingTop: "0.5rem",
             paddingBottom: "var(--t-space-section, 2.5rem)",
           }}
-          className="px-4 lg:px-[160px]"
+          className="max-w-[92%] lg:max-w-[65%] mx-auto"
         >
           <h2
             id="home-products-heading"
-            className="mb-6"
-            style={{
-              color: "var(--t-foreground)",
-              fontWeight: "var(--t-type-heading-weight, 600)" as React.CSSProperties["fontWeight"],
-              fontSize: "var(--t-type-heading-size, 1.5rem)",
-              letterSpacing: "var(--t-type-heading-tracking, 0em)",
-              textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
-            }}
+            className="sr-only"
           >
             Productos
           </h2>
@@ -172,6 +189,7 @@ export const CoreHomePage = memo(function CoreHomePage({
                   hoverFxClass={hoverFxClass}
                   imageHoverClass={imageHoverClass}
                   imageFitClass={imageFitClass}
+                  showAddToCart={showAddToCartInGrid}
                 />
               );
             })}

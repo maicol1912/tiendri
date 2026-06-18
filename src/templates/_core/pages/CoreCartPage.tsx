@@ -139,7 +139,7 @@ export const CoreCartPage = memo(function CoreCartPage({
               {items.map((item) => (
                 <div
                   key={`${item.productId}-${item.variantName ?? ""}`}
-                  className="flex items-start gap-3 p-3"
+                  className="flex items-center gap-3 p-3"
                   style={{
                     background: "var(--t-card)",
                     borderRadius: "var(--t-radius-card, 16px)",
@@ -176,93 +176,87 @@ export const CoreCartPage = memo(function CoreCartPage({
                   </div>
 
                   {/* Info */}
-                  <div className="flex-1 min-w-0 flex flex-col gap-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <p
-                          className="text-sm font-semibold truncate"
-                          style={{ color: "var(--t-foreground)", margin: 0 }}
-                        >
-                          {item.name}
-                        </p>
-                        {item.variantName && (
-                          <p
-                            className="text-xs"
-                            style={{ color: "var(--t-muted)", margin: 0 }}
-                          >
-                            {item.variantName}
-                          </p>
-                        )}
-                      </div>
+                  <div className="flex-1 min-w-0 flex flex-col gap-1">
+                    <p
+                      className="text-sm font-bold truncate"
+                      style={{ color: "var(--t-foreground)", margin: 0 }}
+                    >
+                      {item.name}
+                    </p>
+                    {item.variantName && (
+                      <p
+                        className="text-xs truncate"
+                        style={{ color: "var(--t-muted)", margin: 0 }}
+                      >
+                        {item.variantName}
+                      </p>
+                    )}
+                    <p
+                      className="text-sm font-semibold"
+                      style={{ color: "var(--t-primary)", margin: 0 }}
+                    >
+                      {formatPrice(item.price * item.quantity, currencySymbol)}
+                    </p>
+                  </div>
+
+                  {/* Control de cantidad + trash */}
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => removeItem(item.productId, item.variantName)}
+                      aria-label={`Eliminar ${item.name}`}
+                      className="p-1"
+                      style={{ background: "transparent", border: "none", cursor: "pointer" }}
+                    >
+                      <Trash2
+                        size={14}
+                        style={{ color: "var(--t-muted)" }}
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <div
+                      className="flex items-center"
+                      style={{
+                        background: "var(--t-foreground)",
+                        borderRadius: "9999px",
+                        overflow: "hidden",
+                      }}
+                    >
                       <button
                         type="button"
-                        onClick={() => removeItem(item.productId, item.variantName)}
-                        aria-label={`Eliminar ${item.name}`}
-                        className="flex-shrink-0 p-1"
-                        style={{ background: "transparent", border: "none", cursor: "pointer" }}
-                      >
-                        <Trash2
-                          size={15}
-                          style={{ color: "var(--t-muted)" }}
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      {/* Control de cantidad */}
-                      <div
-                        className="flex items-center"
+                        onClick={() => updateQuantity(item.productId, -1, item.variantName)}
+                        disabled={item.quantity <= 1}
+                        className="w-7 h-7 flex items-center justify-center disabled:opacity-40"
                         style={{
-                          border: "1px solid var(--t-border)",
-                          borderRadius: "9999px",
-                          overflow: "hidden",
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          color: "var(--t-background)",
                         }}
+                        aria-label="Disminuir cantidad"
                       >
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.productId, -1, item.variantName)}
-                          disabled={item.quantity <= 1}
-                          className="w-7 h-7 flex items-center justify-center disabled:opacity-40"
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            cursor: "pointer",
-                            color: "var(--t-foreground)",
-                          }}
-                          aria-label="Disminuir cantidad"
-                        >
-                          <Minus size={12} aria-hidden="true" />
-                        </button>
-                        <span
-                          className="w-7 text-center text-xs font-semibold"
-                          style={{ color: "var(--t-foreground)" }}
-                        >
-                          {item.quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.productId, 1, item.variantName)}
-                          className="w-7 h-7 flex items-center justify-center"
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            cursor: "pointer",
-                            color: "var(--t-foreground)",
-                          }}
-                          aria-label="Aumentar cantidad"
-                        >
-                          <Plus size={12} aria-hidden="true" />
-                        </button>
-                      </div>
-
-                      {/* Precio */}
+                        <Minus size={12} aria-hidden="true" />
+                      </button>
                       <span
-                        className="text-sm font-bold"
-                        style={{ color: "var(--t-foreground)" }}
+                        className="w-7 text-center text-xs font-semibold"
+                        style={{ color: "var(--t-background)" }}
                       >
-                        {formatPrice(item.price * item.quantity, currencySymbol)}
+                        {item.quantity}
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => updateQuantity(item.productId, 1, item.variantName)}
+                        className="w-7 h-7 flex items-center justify-center"
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          color: "var(--t-background)",
+                        }}
+                        aria-label="Aumentar cantidad"
+                      >
+                        <Plus size={12} aria-hidden="true" />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -282,35 +276,9 @@ export const CoreCartPage = memo(function CoreCartPage({
                   border: "1px solid var(--t-border)",
                 }}
               >
-                <h2
-                  className="text-base font-bold"
-                  style={{ color: "var(--t-foreground)", margin: 0 }}
-                >
-                  Resumen
-                </h2>
+                <h2 className="sr-only">Resumen del pedido</h2>
 
-                {/* Subtotales por ítem */}
-                <div className="flex flex-col gap-2">
-                  {items.map((item) => (
-                    <div
-                      key={`${item.productId}-${item.variantName ?? ""}`}
-                      className="flex items-center justify-between text-sm"
-                    >
-                      <span style={{ color: "var(--t-muted)" }}>
-                        {item.name}
-                        {item.variantName ? ` (${item.variantName})` : ""} ×{item.quantity}
-                      </span>
-                      <span style={{ color: "var(--t-foreground)" }}>
-                        {formatPrice(item.price * item.quantity, currencySymbol)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  style={{ borderTop: "1px solid var(--t-border)", paddingTop: "12px" }}
-                  className="flex items-center justify-between"
-                >
+                <div className="flex items-center justify-between">
                   <span className="text-base font-semibold" style={{ color: "var(--t-foreground)" }}>
                     Total
                   </span>
@@ -322,9 +290,12 @@ export const CoreCartPage = memo(function CoreCartPage({
                 <button
                   type="button"
                   onClick={onCheckout}
-                  className={`w-full py-3.5 text-sm font-bold ${buttonClass}`}
+                  className="w-full py-3.5 text-sm font-bold"
                   style={{
-                    borderRadius: "var(--t-radius-button, 9999px)",
+                    background: "var(--t-primary)",
+                    color: "var(--t-on-primary)",
+                    borderRadius: "9999px",
+                    border: "none",
                     cursor: "pointer",
                   }}
                 >
@@ -334,12 +305,12 @@ export const CoreCartPage = memo(function CoreCartPage({
                 <button
                   type="button"
                   onClick={onContinueShopping}
-                  className="w-full py-2.5 text-sm font-medium"
+                  className="w-full py-3 text-sm font-medium"
                   style={{
-                    background: "transparent",
+                    background: "var(--t-card)",
+                    color: "var(--t-foreground)",
+                    borderRadius: "9999px",
                     border: "1px solid var(--t-border)",
-                    borderRadius: "var(--t-radius-button, 9999px)",
-                    color: "var(--t-muted)",
                     cursor: "pointer",
                   }}
                 >

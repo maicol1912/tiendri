@@ -5,23 +5,33 @@ import type { HeroSlotProps } from "./types";
 
 const CardSplit = memo(function CardSplit({
   subtitle,
+  titleLight,
   titleBold,
+  description,
   ctaText,
   image,
   onCtaClick,
 }: HeroSlotProps) {
+  // Eyebrow: store name (titleLight) takes priority; fallback to subtitle
+  const eyebrow = titleLight || subtitle;
+  // Grey descriptor text: subtitle if titleLight is used as eyebrow, else description
+  const descriptorText = titleLight ? subtitle : description;
+
   return (
     <div
-      className="w-full overflow-hidden relative"
+      className="w-full max-w-[92%] lg:max-w-[65%] mx-auto"
+      role="banner"
+      aria-label="Banner promocional"
+    >
+    <div
+      className="overflow-hidden relative"
       style={{
         borderRadius: "var(--t-radius-card)",
         background: "linear-gradient(135deg, var(--t-card) 0%, var(--t-card) 100%)",
-        minHeight: "clamp(140px, 18vw, 200px)",
+        minHeight: "clamp(100px, 12vw, 145px)",
         display: "flex",
         alignItems: "stretch",
       }}
-      role="banner"
-      aria-label="Banner promocional"
     >
       {/* Radial glow blob — top right */}
       <div
@@ -38,45 +48,46 @@ const CardSplit = memo(function CardSplit({
 
       {/* Left text block — 55% width */}
       <div
-        className="relative z-10 flex flex-col justify-center gap-2 md:gap-3"
-        style={{
-          width: "55%",
-          padding: "clamp(16px, 3vw, 28px) clamp(16px, 3vw, 28px)",
-        }}
+        className="relative z-10 flex flex-col justify-center gap-1 md:gap-1.5 p-4 lg:p-6"
+        style={{ width: "55%" }}
       >
-        {subtitle && (
+        {eyebrow && (
           <p
-            className="m-0 text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "var(--t-primary)", letterSpacing: "0.1em" }}
+            className="m-0 text-xs font-semibold uppercase tracking-wider"
+            style={{ color: "var(--t-primary)" }}
           >
-            {subtitle}
+            {eyebrow}
           </p>
         )}
 
         <h2
-          className="m-0 font-extrabold leading-tight"
+          className="m-0 font-bold leading-tight text-lg lg:text-xl"
           style={{
             color: "var(--t-foreground)",
-            fontSize: "clamp(14px, 2.2vw, 22px)",
             fontFamily: "var(--font-heading, var(--font-sans))",
-            letterSpacing: "-0.02em",
           }}
         >
           {titleBold}
         </h2>
 
+        {descriptorText && (
+          <p
+            className="m-0 text-xs leading-snug"
+            style={{ color: "var(--t-muted)" }}
+          >
+            {descriptorText}
+          </p>
+        )}
+
         <button
           type="button"
-          className="self-start border-0 cursor-pointer"
+          className="self-start border-0 cursor-pointer rounded-full px-5 py-2"
           style={{
             fontFamily: "var(--font-heading, var(--font-sans))",
-            fontSize: "12px",
+            fontSize: "13px",
             fontWeight: 600,
             color: "var(--t-on-primary)",
             backgroundColor: "var(--t-primary)",
-            borderRadius: "var(--t-radius-button)",
-            padding: "6px 18px",
-            height: "32px",
             whiteSpace: "nowrap",
             marginTop: "4px",
           }}
@@ -104,7 +115,7 @@ const CardSplit = memo(function CardSplit({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(160deg, color-mix(in srgb, var(--t-accent) 25%, transparent) 0%, color-mix(in srgb, var(--t-primary) 8%, transparent) 50%, transparent 100%)",
+                "linear-gradient(160deg, color-mix(in srgb, var(--t-primary) 35%, transparent) 0%, color-mix(in srgb, var(--t-primary) 15%, transparent) 50%, transparent 100%)",
             }}
           >
             <div
@@ -115,7 +126,7 @@ const CardSplit = memo(function CardSplit({
                 width: "clamp(60px, 8vw, 90px)",
                 height: "clamp(60px, 8vw, 90px)",
                 borderRadius: "50%",
-                backgroundColor: "color-mix(in srgb, var(--t-primary) 15%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--t-primary) 25%, transparent)",
                 filter: "blur(16px)",
               }}
             />
@@ -127,7 +138,7 @@ const CardSplit = memo(function CardSplit({
                 width: "clamp(40px, 5vw, 60px)",
                 height: "clamp(40px, 5vw, 60px)",
                 borderRadius: "50%",
-                backgroundColor: "color-mix(in srgb, var(--t-accent) 20%, transparent)",
+                backgroundColor: "color-mix(in srgb, var(--t-primary) 20%, transparent)",
                 filter: "blur(10px)",
               }}
             />
@@ -166,6 +177,7 @@ const CardSplit = memo(function CardSplit({
           border: "1px solid var(--t-border-light, var(--t-border))",
         }}
       />
+    </div>
     </div>
   );
 });

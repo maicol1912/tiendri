@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { imageRatioClass } from '@/templates/_shared/utils/image-classes';
 import { formatPrice } from '@/lib/format';
 import type { ProductCardSlotProps } from './types';
 
@@ -15,13 +14,12 @@ function BelowImageCard({
   badgeClass,
   priceConfig,
   cardBgClass,
-  cardBorderClass,
   hoverFxClass,
-  imageFitClass,
+  imageHoverClass,
+  showAddToCart = true,
 }: ProductCardSlotProps) {
   const imageUrl = product.images[0]?.url ?? null;
   const imageAlt = `${product.name} imagen del producto`;
-  const imgRatio = imageRatioClass('square');
 
   const hasDiscount = product.originalPrice != null && product.originalPrice > product.price;
   const discountPercent =
@@ -31,20 +29,12 @@ function BelowImageCard({
 
   return (
     <article
-      className={`${cardBgClass} ${hoverFxClass} ${cardBorderClass} rounded-[var(--t-radius-base)] flex flex-col items-center gap-4 min-w-0 max-w-sm w-full mx-auto relative`}
-      style={{ padding: 'var(--t-card-padding, 1.5rem 1rem)' }}
+      className={`${cardBgClass} ${hoverFxClass} rounded-[var(--t-radius-card)] flex flex-col min-w-0 max-w-sm w-full mx-auto relative overflow-hidden`}
     >
-      {discountPercent !== null && (
-        <span
-          className={`absolute top-2 right-2 px-2 py-0.5 bg-[var(--t-primary)] text-[var(--t-on-primary)] text-[11px] font-bold ${badgeClass}`}
-        >
-          -{discountPercent}%
-        </span>
-      )}
-
+      {/* Image fills full card width, aspect 4:5 */}
       <button
         type="button"
-        className={`relative w-[120px] lg:w-[160px] shrink-0 bg-transparent border-none cursor-pointer p-0 ${imgRatio}`}
+        className={`relative w-full aspect-[3/4] shrink-0 bg-transparent border-none cursor-pointer p-0 ${imageHoverClass}`}
         onClick={() => onClick?.(product.slug)}
         aria-label={`Ver ${product.name}`}
       >
@@ -53,8 +43,8 @@ function BelowImageCard({
             src={imageUrl}
             alt={imageAlt}
             fill
-            className={imageFitClass}
-            sizes="160px"
+            className="object-cover"
+            sizes="(max-width: 768px) 50vw, 25vw"
             loading="lazy"
           />
         ) : (
@@ -76,46 +66,56 @@ function BelowImageCard({
             </svg>
           </div>
         )}
+
+        {/* Discount badge — top right, over image */}
+        {discountPercent !== null && (
+          <span
+            className={`absolute top-2 right-2 px-2 py-0.5 text-[11px] font-bold ${badgeClass}`}
+            style={{ backgroundColor: 'var(--t-foreground)', color: 'var(--t-background)' }}
+          >
+            -{discountPercent}%
+          </span>
+        )}
+
         {!product.inStock && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-[inherit]">
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="text-white font-semibold text-sm tracking-wider">Agotado</span>
           </div>
         )}
       </button>
 
-      <div className="flex flex-col items-center gap-4 lg:gap-6 w-full">
-        <div
-          className="flex flex-col items-center gap-2 lg:gap-4 w-full"
-          style={{ textAlign: 'var(--t-type-card-align, center)' } as unknown as React.CSSProperties}
-        >
-          <button
-            type="button"
-            className="bg-transparent border-none cursor-pointer p-0 w-full"
-            onClick={() => onClick?.(product.slug)}
-          >
-            <p className="text-sm lg:text-base font-medium text-[var(--t-foreground)] leading-6 line-clamp-2">
-              {product.name}
-            </p>
-          </button>
-          <p className={`tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
-            {formatPrice(product.price, currencySymbol)}
-          </p>
-        </div>
-
+      {/* Text block — left-aligned, minimal spacing */}
+      <div className="flex flex-col px-3 pt-1.5 pb-3 gap-0.5 text-left">
         <button
           type="button"
-          className={`${buttonClass} text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 lg:px-16 py-3 cursor-pointer border hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onAddToCart?.(product.id);
-          }}
-          disabled={!product.inStock}
-          aria-label={
-            product.inStock ? `Agregar ${product.name} al carrito` : `${product.name} agotado`
-          }
+          className="bg-transparent border-none cursor-pointer p-0 text-left"
+          onClick={() => onClick?.(product.slug)}
         >
-          {product.inStock ? 'Comprar' : 'Agotado'}
+          <p className="mt-0 text-sm font-medium text-[var(--t-foreground)] leading-5 line-clamp-2">
+            {product.name}
+          </p>
         </button>
+        <p className={`mt-0.5 text-sm text-[var(--t-muted)] tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
+          {formatPrice(product.price, currencySymbol)}
+        </p>
+
+        {/* "Comprar" button — only when showAddToCart is true */}
+        {showAddToCart && (
+          <button
+            type="button"
+            className={`${buttonClass} mt-3 text-sm font-medium leading-6 rounded-[var(--t-radius-button)] px-8 py-3 cursor-pointer border hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart?.(product.id);
+            }}
+            disabled={!product.inStock}
+            aria-label={
+              product.inStock ? `Agregar ${product.name} al carrito` : `${product.name} agotado`
+            }
+          >
+            {product.inStock ? 'Comprar' : 'Agotado'}
+          </button>
+        )}
       </div>
     </article>
   );

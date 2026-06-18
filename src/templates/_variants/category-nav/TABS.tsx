@@ -6,14 +6,135 @@
 
 import { memo, useState } from "react";
 import type React from "react";
-import { Smartphone, type LucideIcon } from "lucide-react";
+import {
+  Smartphone,
+  Laptop,
+  Headphones,
+  Watch,
+  Camera,
+  Tv,
+  Tablet,
+  Monitor,
+  Gamepad2,
+  Sofa,
+  Lamp,
+  BedDouble,
+  Armchair,
+  Archive,
+  Layers,
+  BookOpen,
+  Briefcase,
+  Pizza,
+  Utensils,
+  Coffee,
+  Drumstick,
+  Salad,
+  Wine,
+  Package,
+  Shirt,
+  ShoppingBag,
+  Sparkles,
+  Droplet,
+  Flower2,
+  Heart,
+  Palette,
+  Scissors,
+  Eye,
+  SprayCan,
+  Tag,
+  Home,
+  Star,
+  Gift,
+  Gem,
+  Crown,
+  Zap,
+  Award,
+  Box,
+  User,
+  UserRound,
+  Baby,
+  TreePalm,
+  type LucideIcon,
+} from "lucide-react";
 import type { CategoryNavSlotProps } from "./types";
 import type { Category } from "@/types/store";
 
-// Minimal icon map — expand as needed when new templates register categories.
+// Full icon map covering all templates + common ecommerce icons.
+// Keys are PascalCase (Lucide convention) and kebab-case aliases for
+// templates that stored icon names in kebab-case (furniture-dark, furniture-light).
 const ICON_MAP: Record<string, LucideIcon> = {
+  // Tech
   Smartphone,
   Phone: Smartphone,
+  Laptop,
+  Headphones,
+  Watch,
+  Camera,
+  Tv,
+  Tablet,
+  Monitor,
+  Gamepad2,
+  // Furniture (PascalCase)
+  Sofa,
+  Lamp,
+  BedDouble,
+  Armchair,
+  Archive,
+  Layers,
+  BookOpen,
+  Briefcase,
+  // Furniture (kebab-case aliases used by furniture-dark / furniture-light)
+  sofa: Sofa,
+  lamp: Lamp,
+  "bed-double": BedDouble,
+  "bed": BedDouble,
+  armchair: Armchair,
+  archive: Archive,
+  layers: Layers,
+  "book-open": BookOpen,
+  briefcase: Briefcase,
+  table: Layers,
+  "table2": Layers,
+  Table2: Layers,
+  chair: Armchair,
+  cabinet: Archive,
+  "tree-palm": TreePalm,
+  TreePalm,
+  // Food
+  Pizza,
+  Utensils,
+  utensils: Utensils,
+  Coffee,
+  Drumstick,
+  Salad,
+  Wine,
+  Package,
+  // Fashion
+  Shirt,
+  ShoppingBag,
+  User,
+  UserRound,
+  Baby,
+  // Beauty
+  Sparkles,
+  Droplet,
+  Flower2,
+  Heart,
+  Palette,
+  Scissors,
+  Eye,
+  SprayCan,
+  Spray: SprayCan,
+  // General
+  Tag,
+  Home,
+  Star,
+  Gift,
+  Gem,
+  Crown,
+  Zap,
+  Award,
+  Box,
 };
 
 function CategoryCard({
@@ -25,7 +146,7 @@ function CategoryCard({
   isActive?: boolean;
   onClick?: () => void;
 }) {
-  const Icon = ICON_MAP[category.icon] ?? ICON_MAP[category.name] ?? Smartphone;
+  const Icon = ICON_MAP[category.icon] ?? ICON_MAP[category.name] ?? Tag;
   return (
     <button
       type="button"

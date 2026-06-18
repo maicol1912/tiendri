@@ -7,6 +7,7 @@ import type { StoreInfo, StorefrontProduct } from "@/types/store";
 interface BeautyElegantCategory {
   id: string;
   name: string;
+  icon: string;
 }
 
 // ── Store Info ────────────────────────────────────────────────────────────────
@@ -30,11 +31,11 @@ export const mockStore: StoreInfo = {
 // ── Categories ────────────────────────────────────────────────────────────────
 
 export const mockCategories: BeautyElegantCategory[] = [
-  { id: "cat-makeup",    name: "Makeup" },
-  { id: "cat-skincare",  name: "Skincare" },
-  { id: "cat-fragrance", name: "Fragrance" },
-  { id: "cat-tools",     name: "Accesorios" },
-  { id: "cat-sets",      name: "Kits Regalo" },
+  { id: "cat-makeup",    name: "Makeup",      icon: "Palette" },
+  { id: "cat-skincare",  name: "Skincare",    icon: "Droplet" },
+  { id: "cat-fragrance", name: "Fragrance",   icon: "Flower2" },
+  { id: "cat-tools",     name: "Accesorios",  icon: "Gem" },
+  { id: "cat-sets",      name: "Kits Regalo", icon: "Gift" },
 ];
 
 // ── Products ──────────────────────────────────────────────────────────────────

@@ -22,7 +22,7 @@ const GlassHeader = memo(function GlassHeader({
     <header
       className="hidden md:block sticky top-0 z-40"
       style={{
-        backgroundColor: "var(--t-background)",
+        backgroundColor: "color-mix(in srgb, var(--t-background) 75%, transparent)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderBottom: "1px solid var(--t-nav-border, var(--t-border))",

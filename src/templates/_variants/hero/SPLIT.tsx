@@ -36,11 +36,11 @@ const Split = memo(function Split({
           />
         </div>
         <div className="flex flex-col gap-4 lg:gap-6 items-center lg:items-start justify-center text-center lg:text-left w-full lg:w-1/2 px-6 lg:px-16 py-8 lg:py-0">
-          <p className="text-white/40 text-lg lg:text-[25px] font-semibold leading-8">
+          <p className="text-[var(--t-muted)] text-lg lg:text-[25px] font-semibold leading-8">
             {subtitle}
           </p>
           <h1
-            className="text-white leading-tight"
+            className="text-[var(--t-foreground)] leading-tight"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             <span className="text-4xl lg:text-[96px] font-thin lg:leading-[72px]">
@@ -55,7 +55,7 @@ const Split = memo(function Split({
           </p>
           <button
             type="button"
-            className="border border-white text-white bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:bg-white/10 transition-colors mt-2"
+            className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
             onClick={onCtaClick}
           >
             {ctaText}

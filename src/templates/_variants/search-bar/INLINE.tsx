@@ -15,8 +15,8 @@ const InlineSearchBar = memo(function InlineSearchBar({
   placeholder = "Buscar",
 }: SearchBarSlotProps) {
   return (
-    <div className="flex items-center gap-2 bg-[var(--t-card)] rounded-lg h-14 px-4 w-full">
-      <Search className="w-5 h-5 text-[var(--t-muted)] shrink-0" aria-hidden="true" />
+    <div className="flex items-center gap-2 bg-[var(--t-card)] rounded-full h-12 px-5 w-full border border-[var(--t-border)]">
+      <Search className="w-4 h-4 text-[var(--t-muted)] shrink-0 opacity-60" aria-hidden="true" />
       <input
         type="text"
         placeholder={placeholder}

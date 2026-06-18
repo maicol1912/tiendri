@@ -55,17 +55,26 @@ export function HomeShell({
   );
 
   const handleCategoryClick = useCallback((categoryId: string) => {
+    // Empty string means "Todos" — reset to null (show all)
+    if (!categoryId) {
+      setActiveCategoryId(null);
+      return;
+    }
     setActiveCategoryId((prev) => (prev === categoryId ? null : categoryId));
   }, []);
 
   // Datos del hero extraídos del config o con fallbacks
+  // La estructura real es config.content.heroBanner (ver ContentConfig en customization-sections.ts)
+  const heroBanner = config.content?.heroBanner;
   const heroData = {
-    subtitle: (config.content as Record<string, unknown> | undefined)?.heroSubtitle as string | undefined,
-    titleLight: (config.content as Record<string, unknown> | undefined)?.heroTitleLight as string | undefined,
-    titleBold: (config.content as Record<string, unknown> | undefined)?.heroTitleBold as string | undefined,
-    description: (config.content as Record<string, unknown> | undefined)?.heroDescription as string | undefined,
-    ctaText: (config.content as Record<string, unknown> | undefined)?.heroCtaText as string | undefined,
-    image: (config.content as Record<string, unknown> | undefined)?.heroImage as string | undefined,
+    subtitle: heroBanner?.subtitle,
+    // heroBanner.title va a titleBold; titleLight queda undefined → CoreHomePage usa store.name como fallback
+    titleLight: undefined as string | undefined,
+    titleBold: heroBanner?.title,
+    // heroBanner no tiene description → CoreHomePage usa store.description como fallback
+    description: undefined as string | undefined,
+    ctaText: heroBanner?.ctaText,
+    image: heroBanner?.image,
   };
 
   void handleTabChange; // disponible para uso del TemplateLayout
@@ -74,6 +83,10 @@ export function HomeShell({
   const displayedProducts = activeCategoryId
     ? products.filter((p) => p.categoryId === activeCategoryId)
     : products;
+
+  // Mostrar search bar inline (debajo del header, encima del hero)
+  // cuando el template declara searchBar: "INLINE"
+  const showSearchBar = variants.searchBar === "INLINE";
 
   return (
     <CoreHomePage
@@ -92,6 +105,9 @@ export function HomeShell({
       onCtaClick={nav.goListing}
       currencySymbol={currencySymbol}
       heroData={heroData}
+      showSearchBar={showSearchBar}
+      searchBarVariant={variants.searchBar}
+      searchBarPlaceholder="Buscar productos..."
     />
   );
 }

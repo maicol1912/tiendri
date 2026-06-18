@@ -14,6 +14,8 @@ export interface ProductCardSlotProps {
   hoverFxClass: string;
   imageHoverClass: string;
   imageFitClass: string;
+  /** BELOW_IMAGE-only: whether to show the "Comprar" CTA button. Defaults to true. */
+  showAddToCart?: boolean;
 }
 
 export type ProductCardVariant =

@@ -83,10 +83,9 @@ export const beautyElegantManifest = {
       ctaText: "Ver catálogo",
     },
     navLinks: [
-      { label: "Inicio", href: "/" },
+      { label: "Inicio", href: "" },
       { label: "Catálogo", href: "/catalogo" },
-      { label: "Buscar", href: "/buscar" },
-      { label: "Carrito", href: "/carrito" },
+      { label: "Nosotros", href: "/info" },
     ],
     footerServices: [
       "Envíos a domicilio",
@@ -131,10 +130,13 @@ export const beautyElegantManifest = {
     footer: "COMPACT",
     bottomNav: "FLOATING_PILL",
     hero: "CARD_SPLIT",
-    categoryNav: "HORIZONTAL_SCROLL",
-    productCard: "OVERLAY_BOTTOM",
-    searchBar: "ICON_TRIGGER",
+    categoryNav: "CHIPS",
+    productCard: "BELOW_IMAGE",
+    searchBar: "INLINE",
   },
+
+  /** beauty-elegant no muestra el botón "Comprar" en la grilla del home */
+  showAddToCartInGrid: false,
 } as const satisfies TemplateManifest;
 
 export type BeautyElegantManifest = typeof beautyElegantManifest;

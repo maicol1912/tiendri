@@ -22,11 +22,11 @@ const TextOnly = memo(function TextOnly({
       aria-label="Hero promotion"
     >
       <div className="flex flex-col items-center justify-center text-center px-6 lg:px-[160px] py-16 lg:py-24 gap-6">
-        <p className="text-white/40 text-lg lg:text-[25px] font-semibold leading-8">
+        <p className="text-[var(--t-muted)] text-lg lg:text-[25px] font-semibold leading-8">
           {subtitle}
         </p>
         <h1
-          className="text-white leading-tight"
+          className="text-[var(--t-foreground)] leading-tight"
           style={{
             fontFamily: "var(--font-sans)",
             fontSize:
@@ -41,7 +41,7 @@ const TextOnly = memo(function TextOnly({
         </p>
         <button
           type="button"
-          className="border border-white text-white bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:bg-white/10 transition-colors mt-2"
+          className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
           onClick={onCtaClick}
         >
           {ctaText}

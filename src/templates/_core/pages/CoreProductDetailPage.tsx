@@ -405,7 +405,7 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
           <section
             aria-labelledby="related-products-heading"
             style={{
-              marginTop: "var(--t-space-section, 3rem)",
+              marginTop: "clamp(2rem, 5vw, 10rem)",
             }}
           >
             <h2

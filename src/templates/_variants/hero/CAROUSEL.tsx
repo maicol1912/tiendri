@@ -110,9 +110,9 @@ const Carousel = memo(function Carousel({
 
       {/* CTA row — visible on both breakpoints */}
       <div className="flex flex-col items-center text-center gap-4 py-8">
-        <p className="text-white/40 text-lg font-semibold leading-8">{subtitle}</p>
+        <p className="text-[var(--t-muted)] text-lg font-semibold leading-8">{subtitle}</p>
         <h1
-          className="text-white leading-tight"
+          className="text-[var(--t-foreground)] leading-tight"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           <span className="text-3xl lg:text-[72px] font-thin">{titleLight}</span>
@@ -123,7 +123,7 @@ const Carousel = memo(function Carousel({
         </p>
         <button
           type="button"
-          className="border border-white text-white bg-transparent rounded-md px-10 py-3 text-base font-medium cursor-pointer hover:bg-white/10 transition-colors"
+          className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 py-3 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity"
           onClick={onCtaClick}
         >
           {ctaText}

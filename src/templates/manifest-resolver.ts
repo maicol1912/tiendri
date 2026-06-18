@@ -106,6 +106,11 @@ const DEFAULT_VARIANTS: TemplateVariants = {
  * Construye un TemplateManifest combinando el config del template con
  * la declaración de variantes correspondiente.
  *
+ * Priority order for variants:
+ *   1. config.variants  — set by the template's own manifest.ts (Phase 5)
+ *   2. TEMPLATE_VARIANTS[templateId] — resolver table (legacy fallback)
+ *   3. DEFAULT_VARIANTS — ultimate fallback for unknown templates
+ *
  * @param templateId - Identificador del template (ej. "tech-premium")
  * @param config     - TemplateConfig ya cargado via getTemplateConfig()
  */
@@ -113,7 +118,12 @@ export function getTemplateManifest(
   templateId: string,
   config: TemplateConfig
 ): TemplateManifest {
-  const variants = TEMPLATE_VARIANTS[templateId] ?? DEFAULT_VARIANTS;
+  // If the template's own manifest already declares variants, respect them.
+  // Only fall back to the resolver table (or defaults) when variants are absent.
+  const variants =
+    (config as Partial<TemplateManifest>).variants ??
+    TEMPLATE_VARIANTS[templateId] ??
+    DEFAULT_VARIANTS;
   return {
     ...config,
     variants,
