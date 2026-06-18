@@ -1,125 +1,229 @@
-# Secciones Composables
+# Sistema de Secciones y Variantes Composables
 
 > Leer `docs/template-system.md` antes si no estás familiarizado con la arquitectura de templates.
 > Ver `docs/css-variables.md` para el catálogo de variables `--t-*`.
 
 ---
 
-## 1. Qué son
+## 1. Qué es
 
-Las secciones composables permiten que múltiples variantes visuales de una misma sección funcional (Hero, Card, CategoryNav) sean intercambiables en runtime sin modificar el código de ningún template. Un merchant puede elegir qué variante visual usar en cada slot; el template define cuál es el default. Las variantes son componentes React independientes que viven en `src/templates/_shared/` y pueden ser usadas por cualquier template.
+El sistema de secciones y variantes composables permite que cada template declare _qué variantes visuales usar_ para cada slot (header, hero, footer, etc.) y _qué secciones mostrar_ en el home. Un motor centralizado (`CoreHomePage` + `SECTION_REGISTRY`) despacha todo dinámicamente.
 
----
-
-## 2. Slots y variantes
-
-Solo los slots con directorio en `src/templates/_shared/` están implementados.
-
-| Slot | Directorio | Variantes implementadas |
-|------|------------|------------------------|
-| Hero | `hero-variants/` | full-bleed, contained, split, text-only |
-| Card layout | `card-layouts/` | below-image, overlay-bottom, overlay-full, side-by-side |
-| Category nav | `category-nav-variants/` | horizontal-scroll, grid, tabs, chips |
-
-**Total implementado: 12 variantes en 3 slots.**
-
-### Slots pendientes (documentados, no implementados)
-
-Los siguientes slots aparecían en documentación anterior pero NO tienen directorio ni código en `_shared/`:
-
-- Header, Footer, BottomNav, Cart, Checkout
-
-Estos slots deberán seguir el mismo patrón cuando se implementen. Sus tipos (`HeaderVariant`, `FooterVariant`, etc.) pueden existir en `primitives.ts` como anticipación, pero no hay componentes ni registros aún.
+**Dos niveles:**
+- **Variantes de slot** — componentes intercambiables para header, hero, product card, etc. Viven en `_variants/`.
+- **Renderers de sección** — bloques del home page (hero, categorías, productos, etc.). Viven en `_core/sections/`.
 
 ---
 
-## 3. Patrones
+## 2. Slots de variantes (`_variants/`)
 
-El sistema se apoya en tres patrones que trabajan juntos:
+7 slots registrados en `src/templates/_variants/`. Cada slot tiene un registry que mapea nombre de variante a componente, usando `next/dynamic` para code-splitting:
 
-**Registry**: cada slot exporta un objeto (`HERO_REGISTRY`, `CARD_LAYOUT_REGISTRY`, `CATEGORY_NAV_REGISTRY`) que mapea cada clave de variante a un componente React cargado con `next/dynamic` para code-splitting automático.
+```typescript
+// Patrón de cada registry
+export const HERO_REGISTRY: Record<HeroVariant, ComponentType<HeroSlotProps>> = {
+  FULL_BLEED: dynamic(() => import("./FULL_BLEED")),
+  CONTAINED:  dynamic(() => import("./CONTAINED")),
+  // ...
+};
+```
 
-**Router**: componente dentro de cada template que lee `structuralVariants?.{slot}Variant ?? recipe?.default{Slot}Variant ?? '{fallback}'`, valida contra un `Set` de variantes conocidas, busca en el registro y renderiza. El router vive en `src/templates/{template}/components/`.
+### Header (`_variants/header/`) — 5 variantes
 
-**Adapter**: cada template tiene un `adapters.ts` que convierte sus tipos de datos internos a los contratos compartidos (`SharedStoreInfo`, `SharedCategory`) que los componentes de `_shared/` esperan. Desacopla los componentes de la implementación interna del template.
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Barra clásica con logo, navegación e iconos |
+| `GLASS` | Efecto glassmorphism, fondo semitransparente |
+| `GREETING` | Saludo personalizado al usuario + avatar |
+| `GREETING_SIMPLE` | Versión simplificada del greeting |
+| `MINIMAL` | Header compacto, minimalista |
+
+### Hero (`_variants/hero/`) — 9 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `FULL_BLEED` | Imagen a pantalla completa |
+| `CONTAINED` | Imagen contenida con márgenes |
+| `SPLIT` | Mitad texto, mitad imagen |
+| `TEXT_ONLY` | Solo texto, sin imagen |
+| `CAROUSEL` | Slider rotativo de banners |
+| `CARD_SPLIT` | Layout tipo tarjeta dividida |
+| `EDITORIAL` | Estilo editorial / revista |
+| `PROMO_STRIP` | Franja promocional horizontal |
+| `PROMO_CARD` | Tarjeta promocional destacada |
+
+### Product Card (`_variants/product-card/`) — 5 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `BELOW_IMAGE` | Info del producto debajo de la imagen |
+| `OVERLAY_BOTTOM` | Info superpuesta en la parte inferior |
+| `OVERLAY_FULL` | Info superpuesta cubriendo toda la imagen |
+| `SIDE_BY_SIDE` | Imagen y texto lado a lado |
+| `WITH_DESCRIPTION` | Card con descripción expandida |
+
+### Category Nav (`_variants/category-nav/`) — 5 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `CHIPS` | Chips / pills seleccionables |
+| `GRID` | Grid de categorías con icono o imagen |
+| `HORIZONTAL_SCROLL` | Scroll horizontal de tarjetas |
+| `TABS` | Pestañas tipo tab bar |
+| `COLUMNAR` | Lista columnar vertical |
+
+### Footer (`_variants/footer/`) — 2 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `COLUMNS` | Footer multi-columna con servicios, asistencia y redes |
+| `COMPACT` | Footer compacto de una sola línea |
+
+### Bottom Nav (`_variants/bottom-nav/`) — 3 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `EDGE` | Barra fija al borde inferior, estilo nativo |
+| `FLOATING_PILL` | Barra flotante con forma de pastilla |
+| `DOT_INDICATOR` | Indicador con punto activo |
+
+### Search Bar (`_variants/search-bar/`) — 2 variantes
+
+| Variante | Descripción |
+|----------|-------------|
+| `INLINE` | Barra de búsqueda siempre visible |
+| `ICON_TRIGGER` | Ícono que abre el campo de búsqueda |
+
+**Total: 31 variantes en 7 slots.**
 
 ---
 
-## 4. Cómo agregar una variante
+## 3. Renderers de sección (`_core/sections/`)
 
-Checklist para agregar una variante a un slot existente:
+12 renderers en `src/templates/_core/sections/`, registrados en `SECTION_REGISTRY`:
 
-1. Agregar el nuevo valor al tipo union correspondiente en `src/types/templates/primitives.ts`
-2. Crear el componente en `src/templates/_shared/{slot}/`, con default export
-3. Importar con `dynamic()` y registrar en el `REGISTRY` del slot (`index.ts`)
-4. Agregar la variante al `VALID_VARIANTS` set del Router del template
-5. Agregar la opción al config-schema del template para que aparezca en el dashboard
-6. Verificar con `npx tsc --noEmit` — el tipo `Record<VariantKey, ComponentType>` forzará que el registro esté completo
+```typescript
+// src/templates/_core/sections/index.ts
+export const SECTION_REGISTRY: Record<SectionId, ComponentType<SectionRendererProps>> = {
+  hero:        HeroSection,
+  categories:  CategoriesSection,
+  products:    ProductsSection,
+  featured:    FeaturedSection,
+  editorial:   EditorialSection,
+  video:       VideoSection,
+  collections: CollectionsSection,
+  banners:     BannersSection,
+  popular:     PopularSection,
+  discounts:   DiscountsSection,
+  searchBar:   SearchBarSection,
+  bestSellers: BestSellersSection,
+};
+```
+
+| Sección | Qué renderiza |
+|--------|--------------|
+| `hero` | Banner hero — usa la variante de hero del manifiesto |
+| `categories` | Grid de categorías — usa la variante de categoryNav |
+| `products` | Grid de productos con tabs — usa la variante de productCard |
+| `featured` | Productos destacados o selección editorial |
+| `editorial` | Contenido editorial / storytelling |
+| `video` | Sección de video |
+| `collections` | Colecciones agrupadas |
+| `banners` | Banners promocionales |
+| `popular` | Productos populares |
+| `discounts` | Productos en descuento / ofertas especiales |
+| `searchBar` | Barra de búsqueda prominente en el home |
+| `bestSellers` | Ranking de productos más vendidos |
+
+Todos los renderers reciben `SectionRendererProps` — un tipo unificado que incluye store, products, categories y config completo. La función `extractSectionProps(config)` (en `_core/pages/extract-section-props.ts`) prepara estas props una vez; cada renderer extrae solo lo que necesita.
 
 ---
 
-## 5. Mejores prácticas
+## 4. Cómo funciona el despacho
 
-**Copiar, no reescribir.** Partir del componente más similar existente. Reescribir desde cero ha introducrado regresiones históricas: manejo roto del discriminated union de `HeroProps` (`mode: 'static' | 'carousel'`), directivas `'use client'` faltantes, y colores hardcodeados.
-
-**Default export obligatorio.** `next/dynamic()` requiere default export. Un named export rompe el registro en runtime con un error críptico.
-
-**`'use client'` solo cuando es necesario.** Agregarlo si el componente tiene event handlers, hooks de React, o APIs del browser. Omitirlo en variantes puramente presentacionales.
-
-**CSS vars para colores, nunca hex hardcodeados.** Usar `var(--t-primary)`, `var(--t-background)`, `var(--t-text-muted)`, etc. Si se hardcodea un color, la paleta del merchant no funciona.
-
-**Variantes presentacionales únicamente.** Las variantes no deben manejar estado propio ni efectos secundarios. Reciben todo lo que necesitan via props desde el Router.
-
-**No importar desde templates específicos.** Las variantes en `_shared/` solo pueden importar desde `@/types/` y sus propios `types.ts`. Nunca desde `@/templates/tech-premium/` u otro template concreto.
-
-**El guard `VALID_VARIANTS`.** Todo Router debe validar la variante contra un `Set` antes de buscarla en el registro. Esto previene que un valor stale o corrupto en `StoreCustomization` rompa el render.
-
-**TypeScript como red de seguridad.** El tipo `Record<VariantKey, ComponentType<Props>>` garantiza que agregar un valor al union sin agregarlo al registro produce error de compilación. Correr `tsc --noEmit` después de cada cambio al sistema de variantes.
-
----
-
-## 6. Archivos clave
+`CoreHomePage` itera el array `config.sections`, filtra por `visible: true`, y despacha cada entrada a su renderer vía `SECTION_REGISTRY`:
 
 ```
-src/templates/_shared/
-├── style-maps.ts                    — class maps compartidos (CARD_STYLE_MAP, etc.)
-├── hero-variants/
-│   ├── types.ts                     — HeroLayoutProps
-│   ├── index.ts                     — HERO_REGISTRY
-│   ├── Contained.tsx
-│   ├── FullBleed.tsx
-│   ├── Split.tsx
-│   └── TextOnly.tsx
-├── card-layouts/
-│   ├── types.ts                     — CardLayoutProps
-│   ├── index.ts                     — CARD_LAYOUT_REGISTRY
-│   ├── BelowImage.tsx
-│   ├── OverlayBottom.tsx
-│   ├── OverlayFull.tsx
-│   └── SideBySide.tsx
-└── category-nav-variants/
-    ├── types.ts                     — CategoryNavProps
-    ├── index.ts                     — CATEGORY_NAV_REGISTRY
-    ├── Grid.tsx
-    ├── Chips.tsx
-    ├── HorizontalScroll.tsx
-    └── Tabs.tsx
+manifest.sections (declaración)
+  → CoreHomePage filtra por visible
+    → SECTION_REGISTRY[section.id] (lookup)
+      → SectionRenderer({ ...sectionProps })
+```
+
+El orden en el array `sections` del manifiesto determina el orden de renderizado. El flag `visible` permite ocultar secciones sin eliminarlas del manifiesto.
+
+---
+
+## 5. Agregar una variante nueva
+
+Para agregar una variante a un slot existente (ej: un nuevo hero `BENTO`):
+
+1. Crear el componente `src/templates/_variants/hero/BENTO.tsx` con default export.
+2. Agregar `"BENTO"` al tipo union `HeroVariant` en `src/types/templates/primitives.ts`.
+3. Agregar al registry: `BENTO: dynamic(() => import("./BENTO"))` en `_variants/hero/index.ts`.
+4. TypeScript forzará que el registry esté completo — `tsc --noEmit` lo verifica.
+5. Asignar la variante en el manifiesto del template que la usa: `hero: "BENTO"`.
+
+**Reglas:**
+- Default export obligatorio (`next/dynamic` lo requiere).
+- Solo CSS vars `--t-*` para colores — nunca hex hardcodeados.
+- `'use client'` solo si el componente tiene event handlers o hooks.
+- El componente recibe props tipadas — no acceder al config directamente.
+
+---
+
+## 6. Agregar un renderer de sección nuevo
+
+Para agregar una sección nueva (ej: `testimonials`):
+
+1. Crear `src/templates/_core/sections/TestimonialsSection.tsx`.
+2. Agregar `"testimonials"` al tipo `SectionId` en `src/types/templates/`.
+3. Registrar en `SECTION_REGISTRY`: `testimonials: TestimonialsSection`.
+4. Agregar a `extractSectionProps` si necesita props específicas del config.
+5. Declarar en el manifiesto del template: `{ id: "testimonials", visible: true }`.
+
+---
+
+## 7. Árbol de archivos
+
+```
+src/templates/
+  _variants/
+    header/           # 5 variantes — DEFAULT, GLASS, GREETING, GREETING_SIMPLE, MINIMAL
+    hero/             # 9 variantes — FULL_BLEED, CONTAINED, SPLIT, TEXT_ONLY, CAROUSEL, CARD_SPLIT, EDITORIAL, PROMO_STRIP, PROMO_CARD
+    product-card/     # 5 variantes — BELOW_IMAGE, OVERLAY_BOTTOM, OVERLAY_FULL, SIDE_BY_SIDE, WITH_DESCRIPTION
+    category-nav/     # 5 variantes — CHIPS, GRID, HORIZONTAL_SCROLL, TABS, COLUMNAR
+    footer/           # 2 variantes — COLUMNS, COMPACT
+    bottom-nav/       # 3 variantes — EDGE, FLOATING_PILL, DOT_INDICATOR
+    search-bar/       # 2 variantes — INLINE, ICON_TRIGGER
+  _core/
+    sections/
+      index.ts        # SECTION_REGISTRY
+      HeroSection.tsx
+      CategoriesSection.tsx
+      ProductsSection.tsx
+      FeaturedSection.tsx
+      EditorialSection.tsx
+      VideoSection.tsx
+      CollectionsSection.tsx
+      BannersSection.tsx
+      PopularSection.tsx
+      DiscountsSection.tsx
+      SearchBarSection.tsx
+      BestSellersSection.tsx
+    pages/
+      CoreHomePage.tsx          # Despacha secciones vía SECTION_REGISTRY
+      extract-section-props.ts  # extractSectionProps(config) → SectionRendererProps
+    shells/                     # 7 shells (client boundaries con hooks)
+    hooks/                      # 6 hooks compartidos del motor
+    TemplateLayout.tsx          # Entry point: Header + Footer + BottomNav + route switch
 
 src/types/templates/
-├── primitives.ts                    — tipos union de variantes (HeroVariant, CardContentLayout, etc.)
-└── structural-variants.ts           — StructuralVariants + TemplateRecipe
-
-src/templates/{template}/
-├── adapters.ts                      — toSharedStore, toSharedCategories
-└── components/
-    └── {Slot}Router.tsx             — Router por slot (ej: HeroRouter.tsx)
+  primitives.ts     # Tipos union de variantes (HeroVariant, FooterVariant, etc.)
+  manifest.ts       # TemplateManifest, TemplateVariants
 ```
-
-Documentación relacionada:
-- `docs/template-system.md` — arquitectura general de templates y TemplateConfig
-- `docs/css-variables.md` — catálogo completo de variables `--t-*`
 
 ---
 
-_Última actualización: 2026-06-13_
-_Basado en: contenido real de `src/templates/_shared/` — 3 slots, 12 variantes._
+_Actualizado: 2026-06-18_
+_Sistema actual: 31 variantes en 7 slots, 12 renderers de sección._

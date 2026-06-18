@@ -71,12 +71,12 @@ Ver `src/types/` para el detalle de cada contrato.
 
 8 templates bajo `src/templates/`, cada uno con la misma estructura interna:
 
-- `config.ts` — defaults de colores, grid y layout (`satisfies TemplateConfig`)
+- `manifest.ts` — defaults de colores, grid y layout (`satisfies TemplateManifest`)
 - `config-schema.ts` — superficie configurable expuesta al dashboard
 - `ui-config.ts` — configuración del ThemeCustomizer (paletas, labels, campos)
 - `palettes.ts` — paletas de color predefinidas
-- `components/` — componentes visuales del template
-- `mock/` — datos y assets para vista previa
+- `mock/data.ts` — datos de vista previa
+- `mock/assets.ts` — assets de vista previa
 
 El registry (`src/templates/registry.ts`) expone loaders async por template con code splitting. Fallback a `tech-premium` para IDs desconocidos.
 
@@ -125,8 +125,10 @@ src/
 │   ├── [slug]/             # Storefront público
 │   └── template/[name]/    # Vista previa de templates
 │
-├── templates/              # Los 8 templates + componentes compartidos
-│   ├── _shared/            # Variantes de layout reutilizables entre templates
+├── templates/              # Los 8 templates + infraestructura compartida
+│   ├── _core/              # Motor: TemplateLayout, shells, pages, sections, hooks
+│   ├── _variants/          # 7 registries de slots con 31 variantes
+│   ├── _shared/            # utils/, hooks/, components/, style-maps.ts
 │   ├── tech-premium/
 │   ├── fashion/
 │   ├── beauty-elegant/

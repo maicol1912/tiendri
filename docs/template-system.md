@@ -20,7 +20,7 @@ Tiendri usa un **sistema de templates basado en manifiestos**. Cada template es 
 
 ## 2. Anatomia de un template
 
-Cada template vive en `src/templates/{nombre}/` y tiene exactamente **5 archivos**:
+Cada template vive en `src/templates/{nombre}/` y tiene exactamente **6 archivos**:
 
 | Archivo | Que hace |
 |---------|----------|
@@ -29,6 +29,7 @@ Cada template vive en `src/templates/{nombre}/` y tiene exactamente **5 archivos
 | `config-schema.ts` | Schema de campos editables desde el dashboard. El dashboard lee este schema y construye formularios automaticamente. |
 | `ui-config.ts` | Configuracion del Theme Customizer: campos de color editables, controles de grid, opciones de layout, etiquetas de seccion. |
 | `mock/data.ts` | Datos ficticios para el modo preview (tienda, categorias, productos). |
+| `mock/assets.ts` | Referencias de imagenes mock para el modo preview (URLs de imagenes para hero, categorias, productos). |
 
 **No hay carpeta `components/`**. Los templates NO tienen componentes propios. Todo se resuelve via variantes compartidas.
 
@@ -140,7 +141,6 @@ export const techPremiumManifest = {
 
   sections: [
     { id: "hero" as const, visible: true },
-    { id: "banners" as const, visible: true },
     { id: "categories" as const, visible: true },
     { id: "products" as const, visible: true },
     { id: "popular" as const, visible: true },
@@ -285,13 +285,33 @@ Registrados en `src/templates/_core/sections/index.ts`:
 | `hero` | Banner hero (usa la variante de hero del manifiesto) |
 | `categories` | Grid de categorias (usa la variante de categoryNav) |
 | `products` | Grid de productos con tabs (usa la variante de productCard) |
+| `featured` | Productos destacados o seleccion editorial |
 | `collections` | Colecciones agrupadas |
 | `editorial` | Contenido editorial / storytelling |
 | `banners` | Banners promocionales |
 | `popular` | Productos populares |
 | `video` | Seccion de video |
+| `searchBar` | Barra de busqueda prominente en el home |
+| `discounts` | Productos en descuento / ofertas especiales |
+| `bestSellers` | Ranking de productos mas vendidos |
 
 El orden en el array `sections` determina el orden de renderizado. El flag `visible` permite ocultar secciones sin eliminarlas.
+
+### Despacho via SECTION_REGISTRY
+
+`CoreHomePage` itera `config.sections`, filtra por `visible: true`, y despacha cada seccion dinamicamente:
+
+```typescript
+// src/templates/_core/pages/CoreHomePage.tsx
+config.sections
+  .filter((s) => s.visible)
+  .map((section) => {
+    const SectionComponent = SECTION_REGISTRY[section.id];
+    return SectionComponent ? <SectionComponent key={section.id} {...sectionProps} /> : null;
+  });
+```
+
+`SECTION_REGISTRY` esta definido en `src/templates/_core/sections/index.ts` y mapea cada `id` de seccion a su renderer. La funcion `extractSectionProps(config)` (en `_core/pages/extract-section-props.ts`) centraliza la extraccion de todas las props que los renderers necesitan del config, evitando que cada renderer acceda al config directamente.
 
 ---
 

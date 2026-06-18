@@ -27,7 +27,7 @@ En el dashboard, bajo la pestaña Tema, el merchant ve una grilla de tarjetas de
 
 Al seleccionar una paleta se guarda su `id` en `StoreCustomization.theme.paletteId`. La función `resolveTemplateConfig` resuelve los colores en 3 capas en orden de precedencia creciente:
 
-1. Colores por defecto del template (definidos en `config.ts`)
+1. Colores por defecto del template (definidos en `manifest.ts`)
 2. Tokens de la paleta seleccionada (si hay `paletteId`)
 3. Overrides individuales del merchant (si los hay)
 
@@ -50,7 +50,7 @@ Las paletas son **por template**, no globales. Cada template define las suyas pr
 | fashion | 12 |
 | food-night | 16 |
 
-La primera paleta de cada template está diseñada para coincidir exactamente con los colores por defecto del `config.ts` de ese template.
+La primera paleta de cada template está diseñada para coincidir exactamente con los colores por defecto del `manifest.ts` de ese template.
 
 ---
 

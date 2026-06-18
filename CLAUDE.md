@@ -13,7 +13,7 @@ Leer ANTES de cualquier tarea:
 | `docs/technical.md` | Stack, arquitectura, modelo de datos, utilidades compartidas |
 | `docs/template-system.md` | Anatomía de un template, registry, flujo de resolución |
 | `docs/preset-system.md` | Paletas por template, sistema de color |
-| `docs/composable-sections.md` | 3 slots composables, 12 variantes, registries, routers |
+| `docs/composable-sections.md` | 7 variant slots, 31 variantes, 12 section renderers, SECTION_REGISTRY |
 | `docs/onboarding.md` | Wizard 5 pasos, vibes, tour guiado |
 | `docs/css-variables.md` | Grupos de CSS vars --t-*, generación, consumo |
 | `docs/dashboard.md` | Rutas, shell, sistema de configuración schema-driven |
@@ -36,7 +36,9 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 ## Estructura clave
 - `src/app/` — rutas (marketing, auth, onboarding, dashboard, template/[name], [slug])
 - `src/templates/` — sistema de templates (8 implementados)
-- `src/templates/_shared/` — shared section variant registries
+- `src/templates/_shared/` — utils/, hooks/, components/, style-maps.ts compartidos entre templates
+- `src/templates/_variants/` — 7 slot registries con 31 variantes (header, hero, product-card, footer, bottom-nav, category-nav, search-bar)
+- `src/templates/_core/sections/` — 12 section renderers + SECTION_REGISTRY con dispatch dinámico
 - `src/templates/registry.ts` — template registry (async loaders)
 - `src/types/templates/` — contratos globales (TemplateConfig, 5 capas)
 - `src/types/domain/` — domain types del dashboard (Category, Subcategory, Product, ActionResult)
@@ -61,8 +63,8 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - **NUNCA usar el tool `Workflow`** — prohibido para TODO (lectura y escritura). Consume demasiados tokens y los agentes paralelos sobreescriben cambios entre sí. Usar agentes individuales (`Agent` tool) en su lugar: secuenciales para ediciones, o paralelos SOLO si tocan archivos estrictamente no-solapados. Siempre VERIFICAR que los cambios se aplicaron después de que un agente termine.
 - Leer `ai/rules/tiendri-rules.md` antes de cualquier trabajo
 - Leer `ai/rules/template-architecture-rules.md` para trabajo con templates
-- Templates: `satisfies TemplateConfig`, CSS vars `--t-*`, zero hardcoded colors
-- Secciones composables: 3 slots composables (hero, card layout, category nav), cada sección registrada en `_shared/` con variantes
+- Templates: `satisfies TemplateManifest`, CSS vars `--t-*`, zero hardcoded colors
+- Secciones composables: 7 variant slots en `_variants/` (header, hero, product-card, footer, bottom-nav, category-nav, search-bar) con 31 variantes + 12 section renderers en `_core/sections/` con dispatch dinámico por SECTION_REGISTRY
 - Paletas de color por template definidas en palettes.ts
 - Texto UI en español colombiano
 - Conventional commits

@@ -10,13 +10,17 @@ El sistema de tematización de Tiendri usa CSS custom properties para controlar 
 
 | Grupo | Qué controla | Aprox. cantidad |
 |---|---|---|
-| Colores (`--t-{token}`) | Los 9 tokens base (primary, secondary, background, foreground, card, border, muted, accent, onPrimary) y el derivado `--t-primary-rgb` para efectos rgba | ~10 |
+| Colores (`--t-{token}`) | Los 9 tokens base (primary, secondary, background, foreground, card, border, muted, accent, onPrimary), el derivado `--t-primary-rgb` para efectos rgba, y `--t-card-foreground` para texto dentro de cards | ~11 |
 | Radius (`--t-radius-*`) | Radio de bordes: base, sm, lg, imagen. También los keys propios del template (card, button, category) | 4–6 |
 | Tipografía (`--t-type-*`) | Peso, tamaño y transform de headings; tamaño y peso de body; contraste entre tamaños; ancho máximo de párrafos | ~8 |
 | Espaciado (`--t-space-*`) | Cuatro tokens de espaciado (section, card, item, gap) impulsados por densidad | 4 |
 | Grid y layout (`--t-grid-cols-*`, `--t-container-max`, `--t-image-fit`) | Columnas de producto en mobile/desktop, ancho máximo del contenedor, modo de ajuste de imagen | 4 |
 | Card background mode (`--t-card-bg-mode`) | Modo semántico de fondo de tarjeta (no un color directo, sino un identificador: white, surface, transparent, primary-tint) | 1 |
 | Fuentes (`--font-*`, `--template-heading-font`) | Variables de fuente para body, heading y el alias `--font-sans`. Se resuelven desde el font pair del tema o desde `config.font`/`config.headingFont` directamente | 3–4 |
+
+### `--t-card-foreground`
+
+Generada por `buildCssVars.ts`. Color de texto para contenido dentro de cards. Derivado automáticamente usando luminancia WCAG — si la card (`--t-card`) es significativamente más clara que el background de la página, usa el color oscuro del background como texto; en light themes usa `--t-foreground` normalmente. Consumida en `CoreCheckoutPage.tsx` (order summary card).
 
 ---
 

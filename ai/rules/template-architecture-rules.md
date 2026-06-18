@@ -4,7 +4,7 @@ Estas reglas gobiernan cómo se construyen, migran y mantienen los templates en 
 
 ## Contratos de tipos
 
-- Todo template config DEBE usar `satisfies TemplateConfig` de `@/types/templates`
+- Todo template config DEBE usar `satisfies TemplateManifest` de `@/types/templates`
 - Tipos de dominio compartidos (StoreInfo, Product, Category) viven en `src/types/store.ts`
 - Tipos específicos del template viven en `src/templates/[name]/types.ts`
 
@@ -47,11 +47,11 @@ Estas reglas gobiernan cómo se construyen, migran y mantienen los templates en 
 
 - Orden dinámico via `config.sections` array
 - Cada sección toggleable (`visible: true/false`)
-- `HomePage` usa `sectionRenderers` map + filter/map pattern
+- `CoreHomePage` usa `SECTION_REGISTRY` de `_core/sections/index.ts` con loop de dispatch dinámico sobre `config.sections`
 
 ## Imágenes
 
-- Mock images en `public/mocks/[name]/`
+- Mock images en `src/templates/{name}/mock/assets.ts`
 - Naming: `hero-*.png`, `product-01..08.png`, `popular-01..04.png`, etc.
 - Next.js Image con `priority` en hero, `loading="lazy"` below fold
 - Verificar tamaño de archivo > 3KB (menor = probablemente corrupto)
@@ -72,9 +72,8 @@ Estas reglas gobiernan cómo se construyen, migran y mantienen los templates en 
 ## Agregar un template nuevo
 
 1. Crear carpeta en `src/templates/[name]/`
-2. `config.ts` con `satisfies TemplateConfig`
-3. Componentes propios (auto-contenido)
-4. Mock data + images en `public/mocks/[name]/`
-5. Una línea en `src/templates/index.ts`
-6. Sub-rutas reutilizan layout existente
-7. Customizer metadata en `TemplateLayoutClient`
+2. `manifest.ts` con `satisfies TemplateManifest` (variants, sections, config)
+3. `palettes.ts`, `config-schema.ts`, `ui-config.ts`
+4. `mock/data.ts` + `mock/assets.ts`
+5. Registrar en `src/templates/registry.ts`
+- NO components folder, NO config.ts, NO routers
