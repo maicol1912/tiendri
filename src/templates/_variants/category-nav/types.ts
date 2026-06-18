@@ -8,6 +8,12 @@ export interface CategoryNavSlotProps {
   gridDesktop?: number;
   /** CHIPS-only: visual style. "underline" = plain text + active underline (default). "pills" = filled pill buttons. */
   chipStyle?: "underline" | "pills";
+  /** Optional visible section heading. Defaults to variant-specific label when omitted. */
+  heading?: string;
+  /** When true, shows a "Ver todo" link next to the heading. */
+  showViewAll?: boolean;
+  /** Callback for the "Ver todo" link. */
+  onViewAll?: () => void;
 }
 
 export type CategoryNavVariant =

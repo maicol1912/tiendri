@@ -130,9 +130,9 @@ export function CategoryItem({
       }}
     >
       <div style={{
-        width: '3.5rem',
-        height: '3.5rem',
-        borderRadius: '50%',
+        width: '4rem',
+        height: '4rem',
+        borderRadius: 'var(--t-radius-card, 0.75rem)',
         overflow: 'hidden',
         backgroundColor: 'var(--t-muted, var(--t-card))',
         display: 'flex',

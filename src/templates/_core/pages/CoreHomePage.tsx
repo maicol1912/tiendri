@@ -84,6 +84,9 @@ export const CoreHomePage = memo(function CoreHomePage({
   const grid = config.grid;
   // Template-level opt-out of the "Comprar" button in the home grid
   const showAddToCartInGrid = (config as Record<string, unknown>).showAddToCartInGrid !== false;
+  // Optional visible section headings (template-level config)
+  const categoriesHeading = (config as Record<string, unknown>).categoriesHeading as string | undefined;
+  const productsHeading = (config as Record<string, unknown>).productsHeading as string | undefined;
   const productsMobile = grid?.products?.mobile ?? 2;
   const productsDesktop = grid?.products?.desktop ?? 4;
   const categoriesMobile = grid?.categories?.mobile ?? 3;
@@ -140,6 +143,9 @@ export const CoreHomePage = memo(function CoreHomePage({
             onCategoryClick={onCategoryClick}
             gridMobile={categoriesMobile}
             gridDesktop={categoriesDesktop}
+            heading={categoriesHeading}
+            showViewAll={!!categoriesHeading}
+            onViewAll={onCtaClick}
           />
         </section>
       )}
@@ -154,12 +160,37 @@ export const CoreHomePage = memo(function CoreHomePage({
           }}
           className="max-w-[92%] lg:max-w-[65%] mx-auto"
         >
-          <h2
-            id="home-products-heading"
-            className="sr-only"
-          >
-            Productos
-          </h2>
+          {productsHeading ? (
+            <div className="flex items-center justify-between mb-4">
+              <h2
+                id="home-products-heading"
+                className="text-[var(--t-foreground)] tracking-[0.24px]"
+                style={{
+                  fontWeight: "var(--t-type-heading-weight, 500)" as React.CSSProperties["fontWeight"],
+                  fontSize: "var(--t-type-heading-size, 1.5rem)",
+                  letterSpacing: "var(--t-type-heading-tracking, 0.24px)",
+                  textTransform: "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
+                }}
+              >
+                {productsHeading}
+              </h2>
+              <button
+                type="button"
+                className="bg-transparent border-none cursor-pointer text-sm font-medium hover:opacity-70 transition-opacity"
+                style={{ color: "var(--t-muted)" }}
+                onClick={onCtaClick}
+              >
+                Ver todo
+              </button>
+            </div>
+          ) : (
+            <h2
+              id="home-products-heading"
+              className="sr-only"
+            >
+              Productos
+            </h2>
+          )}
           <div
             className={`grid ${gridColsClass(productsMobile, productsDesktop)}`}
             style={{ gap: "var(--t-space-gap, 1rem)" }}

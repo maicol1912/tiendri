@@ -8,7 +8,6 @@ import { memo } from "react";
 import type React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { CategoryItem } from "@/templates/_shared/components/CategoryItem";
-import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import type { CategoryNavSlotProps } from "./types";
 
 const HorizontalScroll = memo(function HorizontalScroll({
@@ -17,7 +16,12 @@ const HorizontalScroll = memo(function HorizontalScroll({
   onCategoryClick,
   gridMobile = 3,
   gridDesktop = 6,
+  heading,
+  showViewAll = false,
+  onViewAll,
 }: CategoryNavSlotProps) {
+  const sectionHeading = heading ?? "Explorar por categoría";
+
   return (
     <>
       <div className="flex items-center justify-between mb-8">
@@ -33,41 +37,57 @@ const HorizontalScroll = memo(function HorizontalScroll({
               "var(--t-type-heading-transform, none)" as React.CSSProperties["textTransform"],
           }}
         >
-          Explorar por categoría
+          {sectionHeading}
         </h2>
-        <div className="flex gap-4">
+        {showViewAll ? (
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
-            aria-label="Categorías anteriores"
+            className="bg-transparent border-none cursor-pointer text-sm font-medium hover:opacity-70 transition-opacity"
+            style={{ color: "var(--t-muted)" }}
+            onClick={onViewAll}
           >
-            <ChevronLeft className="w-5 h-5" />
+            Ver todo
           </button>
-          <button
-            type="button"
-            className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
-            aria-label="Siguientes categorías"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+        ) : (
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
+              aria-label="Categorías anteriores"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              type="button"
+              className="w-8 h-8 flex items-center justify-center bg-transparent border-none cursor-pointer text-[var(--t-foreground)]/40 hover:text-[var(--t-foreground)] transition-colors"
+              aria-label="Siguientes categorías"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
 
       <div
-        className={`grid ${gridColsClass(gridMobile, gridDesktop)}`}
-        style={{ gap: "var(--t-space-gap, 1rem)" }}
+        className="flex flex-nowrap overflow-x-auto"
+        style={{
+          gap: "var(--t-space-gap, 1rem)",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
       >
         {categories.map((cat) => (
-          <CategoryItem
-            key={cat.id}
-            name={cat.name}
-            icon={cat.icon}
-            image={cat.image}
-            productCount={cat.productCount}
-            isActive={activeCategoryId === cat.id}
-            onClick={() => onCategoryClick?.(cat.id)}
-            displayType={cat.image ? "image-text" : "icon-text"}
-          />
+          <div key={cat.id} className="flex-shrink-0">
+            <CategoryItem
+              name={cat.name}
+              icon={cat.icon}
+              image={cat.image}
+              productCount={cat.productCount}
+              isActive={activeCategoryId === cat.id}
+              onClick={() => onCategoryClick?.(cat.id)}
+              displayType={cat.image ? "image-text" : "icon-text"}
+            />
+          </div>
         ))}
       </div>
     </>

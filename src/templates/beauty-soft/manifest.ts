@@ -70,15 +70,15 @@ export const beautySoftManifest = {
 
   content: {
     heroBanner: {
-      title: "Descubre tu rutina ideal de belleza",
-      subtitle: "Los mejores productos de cuidado personal al mejor precio.",
-      ctaText: "Ver catálogo",
+      title: "Cuida tu piel con lo mejor",
+      subtitle: "Hasta 30% de descuento",
+      ctaText: "Ver productos",
+      image: "/mocks/beauty-soft/hero-banner.png",
     },
     navLinks: [
-      { label: "Inicio", href: "/" },
+      { label: "Inicio", href: "" },
       { label: "Catálogo", href: "/catalogo" },
-      { label: "Buscar", href: "/buscar" },
-      { label: "Carrito", href: "/carrito" },
+      { label: "Info", href: "/info" },
     ],
     footerServices: [
       "Envíos a domicilio",
@@ -125,8 +125,15 @@ export const beautySoftManifest = {
     hero: "CARD_SPLIT",
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
-    searchBar: "INLINE",
+    searchBar: "ICON_TRIGGER",
   },
+
+  /** beauty-soft no muestra el botón "Comprar" en la grilla del home */
+  showAddToCartInGrid: false,
+
+  /** Encabezados de sección visibles */
+  categoriesHeading: "Categorías",
+  productsHeading: "Para vos",
 } as const satisfies TemplateManifest;
 
 export type BeautySoftManifest = typeof beautySoftManifest;

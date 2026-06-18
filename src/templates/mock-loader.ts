@@ -29,7 +29,10 @@ function normalizeCategories(raw: unknown[]): Category[] {
     name: cat["name"] as string,
     slug: (cat["slug"] as string | undefined) ?? (cat["id"] as string),
     icon: (cat["icon"] as string | undefined) ?? "Tag",
-    ...(cat["image"] !== undefined ? { image: cat["image"] as string } : {}),
+    // Support both `image` (canonical) and `imageUrl` (legacy mock field)
+    ...((cat["image"] ?? cat["imageUrl"]) !== undefined
+      ? { image: (cat["image"] ?? cat["imageUrl"]) as string }
+      : {}),
     ...(cat["productCount"] !== undefined ? { productCount: cat["productCount"] as number } : {}),
   }));
 }

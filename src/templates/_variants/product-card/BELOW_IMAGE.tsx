@@ -34,7 +34,7 @@ function BelowImageCard({
       {/* Image fills full card width, aspect 4:5 */}
       <button
         type="button"
-        className={`relative w-full aspect-[3/4] shrink-0 bg-transparent border-none cursor-pointer p-0 ${imageHoverClass}`}
+        className={`relative w-full aspect-square shrink-0 bg-transparent border-none cursor-pointer p-0 ${imageHoverClass}`}
         onClick={() => onClick?.(product.slug)}
         aria-label={`Ver ${product.name}`}
       >
@@ -95,9 +95,19 @@ function BelowImageCard({
             {product.name}
           </p>
         </button>
-        <p className={`mt-0.5 text-sm text-[var(--t-muted)] tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
-          {formatPrice(product.price, currencySymbol)}
-        </p>
+        <div className="flex items-baseline gap-1.5 flex-wrap mt-0.5">
+          <p className={`text-sm tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
+            {formatPrice(product.price, currencySymbol)}
+          </p>
+          {hasDiscount && product.originalPrice != null && (
+            <p
+              className="text-xs line-through"
+              style={{ color: 'var(--t-primary)' }}
+            >
+              {formatPrice(product.originalPrice, currencySymbol)}
+            </p>
+          )}
+        </div>
 
         {/* "Comprar" button — only when showAddToCart is true */}
         {showAddToCart && (

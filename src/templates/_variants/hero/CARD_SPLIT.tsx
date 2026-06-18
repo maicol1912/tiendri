@@ -27,7 +27,7 @@ const CardSplit = memo(function CardSplit({
       className="overflow-hidden relative"
       style={{
         borderRadius: "var(--t-radius-card)",
-        background: "linear-gradient(135deg, var(--t-card) 0%, var(--t-card) 100%)",
+        background: "color-mix(in srgb, var(--t-card) 60%, var(--t-border))",
         minHeight: "clamp(100px, 12vw, 145px)",
         display: "flex",
         alignItems: "stretch",
