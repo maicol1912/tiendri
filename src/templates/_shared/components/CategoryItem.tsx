@@ -101,16 +101,16 @@ export function CategoryItem({
         className={className}
         style={{
           ...baseStyle,
-          padding: isLarge ? '0.875rem 1rem' : '0.625rem 0.75rem',
+          padding: isLarge ? '1.25rem 1.5rem' : '0.625rem 0.75rem',
           borderRadius: 'var(--t-radius-category, 0.75rem)',
           backgroundColor: isActive ? 'var(--t-primary)' : 'var(--t-card)',
           color: isActive ? 'var(--t-on-primary)' : 'var(--t-foreground)',
           border: `1px solid ${isActive ? 'var(--t-primary)' : 'var(--t-border)'}`,
-          minWidth: isLarge ? '6.5rem' : '5rem',
+          minWidth: isLarge ? '8.5rem' : '5rem',
         }}
       >
         <IconComponent
-          size={isLarge ? 44 : 22}
+          size={isLarge ? 60 : 22}
           style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)') }}
         />
         <span style={{ fontSize: isLarge ? '0.8125rem' : '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>
