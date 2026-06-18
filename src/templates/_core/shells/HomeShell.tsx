@@ -13,6 +13,7 @@ import { useCart } from "@/lib/cart";
 import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
+import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 
 export interface HomeShellProps {
   store: StoreInfo;
@@ -21,6 +22,8 @@ export interface HomeShellProps {
   config: ResolvedStoreConfig;
   variants: TemplateVariants;
   currencySymbol?: string;
+  /** Lista de productos más vendidos — solo disponible para templates que la definen. */
+  bestSellers?: BestSellerItem[];
 }
 
 export function HomeShell({
@@ -30,6 +33,7 @@ export function HomeShell({
   config,
   variants,
   currencySymbol = "$",
+  bestSellers,
 }: HomeShellProps) {
   const nav = useTemplateNav();
   const { addItem } = useCart();
@@ -67,17 +71,24 @@ export function HomeShell({
   // La estructura real es config.content.heroBanner (ver ContentConfig en customization-sections.ts)
   const heroBanner = config.content?.heroBanner;
   // promotionalBanners[0] sirve como segundo panel en variantes de 2 banners (ej. CAROUSEL de decor-warm).
-  // Su image URL se pasa por `description` para que el hero component la detecte como URL y la use.
-  const secondBannerImage = (config.content?.promotionalBanners as Array<{ image?: string; title?: string; subtitle?: string }> | undefined)?.[0]?.image;
+  type PromoBanner = { image?: string; title?: string; subtitle?: string; ctaText?: string };
+  const secondBanner = (config.content?.promotionalBanners as PromoBanner[] | undefined)?.[0];
+  const secondBannerImage = secondBanner?.image;
   const heroData = {
-    subtitle: heroBanner?.subtitle,
-    // heroBanner.title va a titleBold; titleLight queda undefined → CoreHomePage usa store.name como fallback
-    titleLight: undefined as string | undefined,
+    // tag → subtitle slot (small label at top of PROMO_CARD hero)
+    // Falls back to the legacy subtitle field for templates that don't define a tag.
+    subtitle: heroBanner?.tag ?? heroBanner?.subtitle,
+    // heroTitleLight in manifest overrides the default fallback (store.name)
+    titleLight: (config as Record<string, unknown>).heroTitleLight as string | undefined,
     titleBold: heroBanner?.title,
-    // Si hay un segundo banner promocional con imagen, se pasa como description para que el CAROUSEL
-    // lo detecte como URL de imagen (empieza con "/"). De lo contrario, no se pasa nada.
-    description: secondBannerImage ?? undefined,
+    // CAROUSEL variants use `description` as the second banner image URL.
+    // When a tag is present we still prefer secondBannerImage over the subtitle text,
+    // because PROMO_CARD reads description as text while CAROUSEL reads it as an image path.
+    // CAROUSEL templates should always have a secondBannerImage defined in promotionalBanners[0].
+    description: secondBannerImage ?? (heroBanner?.tag ? heroBanner?.subtitle : undefined),
     ctaText: heroBanner?.ctaText,
+    // Pass second banner's ctaText so CAROUSEL can render per-slide CTA buttons.
+    secondCtaText: secondBanner?.ctaText,
     image: heroBanner?.image,
   };
 
@@ -89,8 +100,10 @@ export function HomeShell({
     : products;
 
   // Mostrar search bar inline (debajo del header, encima del hero)
-  // cuando el template declara searchBar: "INLINE"
-  const showSearchBar = variants.searchBar === "INLINE";
+  // cuando el template declara searchBar: "INLINE" y no lo suprime explícitamente
+  const showSearchBar =
+    variants.searchBar === "INLINE" &&
+    (config as Record<string, unknown>).showSearchBar !== false;
 
   return (
     <CoreHomePage
@@ -112,6 +125,7 @@ export function HomeShell({
       showSearchBar={showSearchBar}
       searchBarVariant={variants.searchBar}
       searchBarPlaceholder="Buscar productos..."
+      bestSellers={bestSellers}
     />
   );
 }

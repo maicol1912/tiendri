@@ -99,6 +99,7 @@ export default async function TemplatePreviewPage({
       categories={mockData.categories}
       config={resolvedConfig}
       manifest={manifest}
+      bestSellers={mockData.bestSellers}
     />
   );
 }

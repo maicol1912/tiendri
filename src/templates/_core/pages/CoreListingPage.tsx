@@ -103,6 +103,11 @@ export const CoreListingPage = memo(function CoreListingPage({
     cardBorderClass,
   } = resolveStyleTokens(config);
 
+  const configAny = config as Record<string, unknown>;
+  const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
+  const showDiscountBadge = configAny.showDiscountBadge !== false;
+  const showOriginalPrice = configAny.showOriginalPrice !== false;
+
   const grid = config.grid;
   const listingMobile = grid?.listing?.mobile ?? 2;
   const listingDesktop = grid?.listing?.desktop ?? 3;
@@ -137,13 +142,13 @@ export const CoreListingPage = memo(function CoreListingPage({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar productos..."
-            className="w-full"
+            className="w-full placeholder:text-[var(--t-muted)]"
             style={{
               paddingLeft: "40px",
               paddingRight: "16px",
               paddingTop: "11px",
               paddingBottom: "11px",
-              background: "var(--t-card)",
+              background: "var(--t-secondary)",
               border: "1px solid var(--t-border)",
               borderRadius: "var(--t-radius-card, 12px)",
               fontSize: "14px",
@@ -187,7 +192,7 @@ export const CoreListingPage = memo(function CoreListingPage({
               onChange={(e) => setSortOption(e.target.value)}
               className="w-full appearance-none pr-8 py-2 pl-3 text-sm"
               style={{
-                background: "var(--t-card)",
+                background: "var(--t-secondary)",
                 border: "1px solid var(--t-border)",
                 borderRadius: "var(--t-radius-card, 12px)",
                 color: "var(--t-foreground)",
@@ -290,7 +295,7 @@ export const CoreListingPage = memo(function CoreListingPage({
                     onChange={(e) => setSortOption(e.target.value)}
                     className="appearance-none pr-8 py-2 pl-3 text-sm min-w-[160px]"
                     style={{
-                      background: "var(--t-card)",
+                      background: "var(--t-secondary)",
                       border: "1px solid var(--t-border)",
                       borderRadius: "var(--t-radius-card, 12px)",
                       color: "var(--t-foreground)",
@@ -370,6 +375,9 @@ export const CoreListingPage = memo(function CoreListingPage({
                     hoverFxClass={hoverFxClass}
                     imageHoverClass={imageHoverClass}
                     imageFitClass={imageFitClass}
+                    showAddToCart={showAddToCartInGrid}
+                    showDiscountBadge={showDiscountBadge}
+                    showOriginalPrice={showOriginalPrice}
                   />
                 ))}
               </div>

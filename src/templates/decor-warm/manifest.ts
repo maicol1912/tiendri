@@ -139,6 +139,9 @@ export const decorWarmManifest = {
     productCard: "WITH_DESCRIPTION",
     searchBar: "ICON_TRIGGER",
   },
+
+  productsHeading: "Nueva Colección",
+  heroConstrained: true,
 } as const satisfies TemplateManifest;
 
 export type DecorWarmManifest = typeof decorWarmManifest;

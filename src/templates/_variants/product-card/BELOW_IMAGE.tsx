@@ -14,9 +14,15 @@ function BelowImageCard({
   badgeClass,
   priceConfig,
   cardBgClass,
+  cardBorderClass,
   hoverFxClass,
+  imageFitClass,
   imageHoverClass,
+  aspectRatioClass = "aspect-square",
   showAddToCart = true,
+  showDiscountBadge = true,
+  showOriginalPrice = true,
+  showRating = false,
 }: ProductCardSlotProps) {
   const imageUrl = product.images[0]?.url ?? null;
   const imageAlt = `${product.name} imagen del producto`;
@@ -29,12 +35,12 @@ function BelowImageCard({
 
   return (
     <article
-      className={`${cardBgClass} ${hoverFxClass} rounded-[var(--t-radius-card)] flex flex-col min-w-0 max-w-sm w-full mx-auto relative overflow-hidden`}
+      className={`${cardBgClass} ${hoverFxClass} flex flex-col min-w-0 max-w-sm w-full mx-auto relative`}
     >
-      {/* Image fills full card width, aspect 4:5 */}
+      {/* Image fills full card width, aspect square */}
       <button
         type="button"
-        className={`relative w-full aspect-square shrink-0 bg-transparent border-none cursor-pointer p-0 ${imageHoverClass}`}
+        className={`relative w-full ${aspectRatioClass} shrink-0 cursor-pointer p-0 overflow-hidden rounded-[var(--t-radius-card,0px)] ${imageFitClass === 'object-contain' ? 'bg-[var(--t-secondary)]' : ''} ${imageHoverClass}`}
         onClick={() => onClick?.(product.slug)}
         aria-label={`Ver ${product.name}`}
       >
@@ -43,7 +49,7 @@ function BelowImageCard({
             src={imageUrl}
             alt={imageAlt}
             fill
-            className="object-cover"
+            className={`${imageFitClass}${imageFitClass === 'object-cover' ? ' object-top' : ''}`}
             sizes="(max-width: 768px) 50vw, 25vw"
             loading="lazy"
           />
@@ -68,7 +74,7 @@ function BelowImageCard({
         )}
 
         {/* Discount badge — top right, over image */}
-        {discountPercent !== null && (
+        {showDiscountBadge && discountPercent !== null && (
           <span
             className={`absolute top-2 right-2 px-2 py-0.5 text-[11px] font-bold ${badgeClass}`}
             style={{ backgroundColor: 'var(--t-foreground)', color: 'var(--t-background)' }}
@@ -85,26 +91,48 @@ function BelowImageCard({
       </button>
 
       {/* Text block — left-aligned, minimal spacing */}
-      <div className="flex flex-col px-3 pt-1.5 pb-3 gap-0.5 text-left">
+      <div className={`flex flex-col ${cardBgClass ? 'px-3' : 'px-0'} pt-1.5 pb-3 gap-0.5 text-left`}>
         <button
           type="button"
           className="bg-transparent border-none cursor-pointer p-0 text-left"
           onClick={() => onClick?.(product.slug)}
         >
-          <p className="mt-0 text-sm font-medium text-[var(--t-foreground)] leading-5 line-clamp-2">
-            {product.name}
-          </p>
+          {product.subtitle ? (
+            <>
+              {/* Category-level name shown as muted/italic label when subtitle is present */}
+              <p className="mt-0 text-xs italic text-[var(--t-muted)] leading-4">
+                {product.name}
+              </p>
+              {/* Product subtitle — the specific product title */}
+              <p className="mt-0 text-sm font-semibold text-[var(--t-foreground)] leading-5 line-clamp-2">
+                {product.subtitle}
+              </p>
+            </>
+          ) : (
+            /* No subtitle — show name as primary title (default behavior) */
+            <p className="mt-0 text-sm font-medium text-[var(--t-foreground)] leading-5 line-clamp-2">
+              {product.name}
+            </p>
+          )}
         </button>
         <div className="flex items-baseline gap-1.5 flex-wrap mt-0.5">
           <p className={`text-sm tracking-[0.72px] ${priceConfig.className}`} style={priceConfig.style}>
             {formatPrice(product.price, currencySymbol)}
           </p>
-          {hasDiscount && product.originalPrice != null && (
+          {showOriginalPrice && hasDiscount && product.originalPrice != null && (
             <p
               className="text-xs line-through"
               style={{ color: 'var(--t-primary)' }}
             >
               {formatPrice(product.originalPrice, currencySymbol)}
+            </p>
+          )}
+          {showRating && product.rating != null && (
+            <p
+              className="text-xs font-medium ml-auto"
+              style={{ color: 'var(--t-accent)' }}
+            >
+              ★ {product.rating.toFixed(1)}
             </p>
           )}
         </div>

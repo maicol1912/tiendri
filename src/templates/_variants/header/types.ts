@@ -13,6 +13,8 @@ export interface HeaderSlotProps {
   onNavClick: (href: string) => void;
   onSearchClick: () => void;
   onCartClick: () => void;
+  /** Optional template config — used by header variants for template-specific styling */
+  config?: Record<string, unknown>;
 }
 
 export type HeaderVariant = "DEFAULT" | "GLASS" | "GREETING" | "GREETING_SIMPLE" | "MINIMAL";

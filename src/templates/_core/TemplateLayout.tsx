@@ -27,6 +27,7 @@ import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateManifest } from "@/types/templates/manifest";
 import type { NavTab } from "@/templates/_variants/bottom-nav/types";
 import type { NavLink } from "@/templates/_variants/header/types";
+import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 
 // ── Tipos de ruta reconocidos ──────────────────────────────────────────────────
 
@@ -96,6 +97,8 @@ export interface TemplateLayoutProps {
   config: ResolvedStoreConfig;
   manifest: TemplateManifest;
   currencySymbol?: string;
+  /** Lista de productos más vendidos — solo disponible para templates que la definen. */
+  bestSellers?: BestSellerItem[];
 }
 
 // ── Componente ────────────────────────────────────────────────────────────────
@@ -107,6 +110,7 @@ export function TemplateLayout({
   config,
   manifest,
   currencySymbol = "$",
+  bestSellers,
 }: TemplateLayoutProps) {
   const pathname = usePathname();
   const nav = useTemplateNav();
@@ -145,20 +149,30 @@ export function TemplateLayout({
   ];
 
   // isActive para el header
+  // Soporta tanto hrefs absolutos (/template/fashion/catalogo) como
+  // hrefs relativos (/, /catalogo, /info) definidos en el manifest
   const isActive = useCallback(
-    (href: string) =>
-      pathname === href || (href !== nav.basePath && pathname.startsWith(href + "/")),
+    (href: string) => {
+      // Normalizar href relativo a absoluto para comparar con pathname
+      const absHref =
+        href === "/" ? nav.basePath :
+        href.startsWith("/") && !href.startsWith(nav.basePath) ? `${nav.basePath}${href}` :
+        href;
+      return pathname === absHref || (absHref !== nav.basePath && pathname.startsWith(absHref + "/"));
+    },
     [pathname, nav.basePath]
   );
 
   // Handler de nav links del header
+  // Soporta tanto hrefs absolutos (/template/fashion/catalogo) como
+  // hrefs relativos (/, /catalogo, /info) definidos en el manifest
   const handleNavClick = useCallback(
     (href: string) => {
-      if (href === nav.basePath || href === `${nav.basePath}/`) {
+      if (href === nav.basePath || href === `${nav.basePath}/` || href === "/") {
         nav.goHome();
-      } else if (href === `${nav.basePath}/catalogo`) {
+      } else if (href === `${nav.basePath}/catalogo` || href === "/catalogo") {
         nav.goListing();
-      } else if (href === `${nav.basePath}/info`) {
+      } else if (href === `${nav.basePath}/info` || href === "/info") {
         nav.goInfo();
       }
     },
@@ -175,6 +189,7 @@ export function TemplateLayout({
         onNavClick={handleNavClick}
         onSearchClick={nav.goSearch}
         onCartClick={nav.goCart}
+        config={config as Record<string, unknown>}
       />
 
       <main className="min-h-screen">
@@ -186,6 +201,7 @@ export function TemplateLayout({
             config={config}
             variants={manifest.variants}
             currencySymbol={currencySymbol}
+            bestSellers={bestSellers}
           />
         )}
 

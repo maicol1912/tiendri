@@ -21,16 +21,18 @@ interface BannerSlide {
   label: string;
   heading: string;
   badge: string;
+  ctaText?: string;
 }
 
 function deriveSlides(props: HeroSlotProps): BannerSlide[] {
-  const { image, subtitle, titleBold, titleLight, description } = props;
+  const { image, subtitle, titleBold, titleLight, description, ctaText, secondCtaText } = props;
   // slide 1 — from primary props
   const slide1: BannerSlide = {
     imageUrl: image,
     label: subtitle || "OFERTA ESPECIAL",
     heading: titleBold || titleLight || "Experiencia de Confort",
     badge: "20% OFF",
+    ctaText: ctaText,
   };
   // slide 2 — repurpose `description` as a second image URL when it looks like a path/URL
   const isImageUrl =
@@ -43,18 +45,21 @@ function deriveSlides(props: HeroSlotProps): BannerSlide[] {
     label: "NUEVA COLECCIÓN",
     heading: "Diseño que Inspira",
     badge: "15% OFF",
+    ctaText: secondCtaText,
   };
   return [slide1, slide2];
 }
 
 const Carousel = memo(function Carousel(props: HeroSlotProps) {
-  const { onCtaClick } = props;
+  const { onCtaClick, compact } = props;
   const [activeSlide, setActiveSlide] = useState(0);
   const slides = deriveSlides(props);
+  // compact = shorter banners; aspect ratio 3/1 ≈ clamp(160px, 22vw, 240px) at typical widths.
+  const desktopAspect = compact ? "3/1" : "5/2";
 
   return (
     <section
-      className="w-full px-4 md:px-6 lg:px-8 py-3"
+      className="w-full py-3"
       style={{ backgroundColor: "var(--t-background)" }}
       aria-label="Banners promocionales"
     >
@@ -67,7 +72,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
             className="relative overflow-hidden text-left border-0 p-0 cursor-pointer"
             style={{
               borderRadius: "var(--t-radius-card)",
-              height: "clamp(200px, 25vw, 320px)",
+              aspectRatio: desktopAspect,
               backgroundColor: "var(--t-primary)",
             }}
             onClick={onCtaClick}
@@ -122,21 +127,38 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                 {slide.heading}
               </p>
 
-              {/* Badge pill */}
-              <span
-                className="self-start font-bold"
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.04em",
-                  color: "var(--t-foreground)",
-                  backgroundColor: "var(--t-peach, #F4B5A4)",
-                  borderRadius: "var(--t-radius-button)",
-                  padding: "3px 10px",
-                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
-                }}
-              >
-                {slide.badge}
-              </span>
+              {/* CTA button (when ctaText is provided) or badge pill */}
+              {slide.ctaText ? (
+                <span
+                  className="self-start font-semibold"
+                  style={{
+                    fontSize: "11px",
+                    letterSpacing: "0.04em",
+                    color: "var(--t-on-primary, var(--t-background))",
+                    backgroundColor: "var(--t-primary)",
+                    borderRadius: "var(--t-radius-button)",
+                    padding: "4px 12px",
+                    fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                  }}
+                >
+                  {slide.ctaText} &rsaquo;
+                </span>
+              ) : (
+                <span
+                  className="self-start font-bold"
+                  style={{
+                    fontSize: "11px",
+                    letterSpacing: "0.04em",
+                    color: "var(--t-foreground)",
+                    backgroundColor: "var(--t-peach, #F4B5A4)",
+                    borderRadius: "var(--t-radius-button)",
+                    padding: "3px 10px",
+                    fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                  }}
+                >
+                  {slide.badge}
+                </span>
+              )}
             </div>
           </button>
         ))}
@@ -201,20 +223,38 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
               >
                 {slides[activeSlide].heading}
               </p>
-              <span
-                className="self-start font-bold"
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.04em",
-                  color: "var(--t-foreground)",
-                  backgroundColor: "var(--t-peach, #F4B5A4)",
-                  borderRadius: "var(--t-radius-button)",
-                  padding: "3px 10px",
-                  fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
-                }}
-              >
-                {slides[activeSlide].badge}
-              </span>
+              {/* CTA button (when ctaText is provided) or badge pill */}
+              {slides[activeSlide].ctaText ? (
+                <span
+                  className="self-start font-semibold"
+                  style={{
+                    fontSize: "11px",
+                    letterSpacing: "0.04em",
+                    color: "var(--t-on-primary, var(--t-background))",
+                    backgroundColor: "var(--t-primary)",
+                    borderRadius: "var(--t-radius-button)",
+                    padding: "4px 12px",
+                    fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                  }}
+                >
+                  {slides[activeSlide].ctaText} &rsaquo;
+                </span>
+              ) : (
+                <span
+                  className="self-start font-bold"
+                  style={{
+                    fontSize: "11px",
+                    letterSpacing: "0.04em",
+                    color: "var(--t-foreground)",
+                    backgroundColor: "var(--t-peach, #F4B5A4)",
+                    borderRadius: "var(--t-radius-button)",
+                    padding: "3px 10px",
+                    fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
+                  }}
+                >
+                  {slides[activeSlide].badge}
+                </span>
+              )}
             </div>
           )}
         </button>

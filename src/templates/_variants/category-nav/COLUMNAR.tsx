@@ -121,7 +121,7 @@ const Columnar = memo(function Columnar({
 }: CategoryNavSlotProps) {
   return (
     <div
-      className="flex flex-row gap-3 overflow-x-auto px-4 md:px-6 lg:px-8 py-2"
+      className="flex flex-row gap-3 overflow-x-auto py-2"
       style={{ scrollbarWidth: "none" }}
       aria-label="Categorías"
     >

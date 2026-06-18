@@ -52,7 +52,7 @@ export const fashionManifest = {
     },
   },
 
-  // Border radii — sharp edges everywhere (0px)
+  // Border radii — sharp edges throughout (fashion aesthetic)
   radius: {
     card: "0px",
     category: "0px",
@@ -61,9 +61,11 @@ export const fashionManifest = {
 
   // Layout options — fashion-forward visual style
   layout: {
-    cardImageRatio: "portrait" as const,   // 3:4 — standard fashion product shot
+    cardImageRatio: "portrait" as const,   // 4:5 — tall rectangle, shows full body
     gridDensity: "compact" as const,
     spacingDensity: "airy" as const,
+    imageFit: "cover" as const,
+    cardStyle: "transparent" as const,
   },
 
   // Home page sections — fashion layout
@@ -83,15 +85,14 @@ export const fashionManifest = {
   // ── Default content ──────────────────────────────────────────────────────────
   content: {
     heroBanner: {
-      title: "Nueva Colección",
-      subtitle: "Piezas esenciales para el guardarropa moderno. Minimalismo y elegancia.",
-      ctaText: "Ver colección",
+      title: "Colección",
+      subtitle: "Verano 2026",
+      ctaText: "Ir a la tienda",
     },
     navLinks: [
-      { label: "HOMBRES", href: "/hombres" },
-      { label: "MUJERES", href: "/mujeres" },
-      { label: "NIÑOS", href: "/ninos" },
-      { label: "NUEVA COLECCIÓN", href: "/nueva-coleccion" },
+      { label: "INICIO", href: "/" },
+      { label: "CATÁLOGO", href: "/catalogo" },
+      { label: "INFO", href: "/info" },
     ],
     footerServices: [
       "Guía de tallas",
@@ -128,6 +129,10 @@ export const fashionManifest = {
       "Chaqueta oversize",
       "Accesorios",
     ],
+    // Editorial section — shown after the product grid
+    editorialHeading: "NUESTRO ENFOQUE AL",
+    editorialSubheading: "DISEÑO DE MODA",
+    editorialBody: "Cada pieza nace de la observación de lo cotidiano. Trabajamos con materiales sostenibles y procesos artesanales para crear ropa que no sigue tendencias.",
   } satisfies ContentConfig,
 
   // ── Default business info ────────────────────────────────────────────────────
@@ -146,6 +151,27 @@ export const fashionManifest = {
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
   },
+
+  // ── Template-specific display flags ──────────────────────────────────────────
+  // showSearchBar: false hides the inline search bar even when searchBar: "INLINE"
+  showSearchBar: false,
+  // showAddToCartInGrid: false hides the "Comprar" CTA button in the product grid
+  showAddToCartInGrid: false,
+  // showCategories: false hides the categories section on the home page
+  showCategories: false,
+  // showDiscountBadge: false hides the "-X%" badge over product images
+  showDiscountBadge: false,
+  // showOriginalPrice: true shows the strikethrough original price under the card
+  showOriginalPrice: true,
+  // productsHeading: heading displayed above the product collection grid
+  productsHeading: "NUEVA COLECCIÓN",
+  // heroTitleLight: overrides the light (thin) title line in the EDITORIAL hero
+  heroTitleLight: "Nueva",
+  // headerIcon: "diamond" renders a ◆ diamond before the store name in GLASS header
+  headerIcon: "diamond",
+  // heroFeaturedCount: render this many products between the hero title and the CTA button,
+  // without discounts or strikethrough. The remaining products form the collection grid below.
+  heroFeaturedCount: 4,
 } as const satisfies TemplateManifest;
 
 export type FashionManifest = typeof fashionManifest;

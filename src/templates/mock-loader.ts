@@ -10,11 +10,14 @@
 // de integración con Supabase para cargar datos reales por slug.
 
 import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
+import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 
 export interface TemplateMockData {
   store: StoreInfo;
   products: StorefrontProduct[];
   categories: Category[];
+  /** Lista de productos más vendidos — solo disponible para templates que la definen. */
+  bestSellers?: BestSellerItem[];
 }
 
 // ── Adaptador de categorías ────────────────────────────────────────────────────
@@ -112,13 +115,14 @@ export async function getTemplateMockData(
       };
     }
     case "decor-warm": {
-      const { mockStore, mockProducts, mockCategories } = await import(
+      const { mockStore, mockProducts, mockCategories, mockBestSellers } = await import(
         "./decor-warm/mock/data"
       );
       return {
         store: mockStore,
         products: mockProducts,
         categories: mockCategories,
+        bestSellers: mockBestSellers,
       };
     }
     case "food-night": {

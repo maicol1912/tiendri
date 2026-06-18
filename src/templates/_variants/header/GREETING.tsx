@@ -17,7 +17,9 @@ const GREETING = React.memo(function GREETING({
   onNavClick,
   onSearchClick,
   onCartClick,
+  config,
 }: HeaderSlotProps) {
+  const headerBorderless = config?.headerBorderless === true;
   return (
     <header
       className="sticky top-0 z-40 w-full"
@@ -142,7 +144,7 @@ const GREETING = React.memo(function GREETING({
       {/* ── Desktop sticky header bar — hidden on mobile ── */}
       <div
         className="hidden lg:block"
-        style={{ borderBottom: "1px solid var(--t-border)" }}
+        style={headerBorderless ? undefined : { borderBottom: "1px solid var(--t-border)" }}
       >
         <div className="max-w-7xl mx-auto flex items-center gap-3 px-8 h-16 w-full">
           {/* Store logo or name */}

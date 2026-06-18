@@ -14,8 +14,16 @@ export interface ProductCardSlotProps {
   hoverFxClass: string;
   imageHoverClass: string;
   imageFitClass: string;
+  /** Tailwind class for the card image aspect ratio (e.g. "aspect-square", "aspect-[3/4]"). */
+  aspectRatioClass?: string;
   /** BELOW_IMAGE-only: whether to show the "Comprar" CTA button. Defaults to true. */
   showAddToCart?: boolean;
+  /** Whether to show the discount percentage badge over the image. Defaults to true. */
+  showDiscountBadge?: boolean;
+  /** Whether to show the strikethrough original price. Defaults to true. */
+  showOriginalPrice?: boolean;
+  /** Whether to show star rating (★ x.x) next to the price. Defaults to false. */
+  showRating?: boolean;
 }
 
 export type ProductCardVariant =

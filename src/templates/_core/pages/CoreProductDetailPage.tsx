@@ -74,6 +74,11 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
     cardBorderClass,
   } = resolveStyleTokens(config);
 
+  const configAny = config as Record<string, unknown>;
+  const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
+  const showDiscountBadge = configAny.showDiscountBadge !== false;
+  const showOriginalPrice = configAny.showOriginalPrice !== false;
+
   const grid = config.grid;
   const productsMobile = grid?.products?.mobile ?? 2;
   const productsDesktop = grid?.products?.desktop ?? 4;
@@ -334,7 +339,7 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
                 >
                   <div
                     className="w-10 h-10 flex items-center justify-center rounded-full"
-                    style={{ background: "var(--t-card)" }}
+                    style={{ background: "var(--t-secondary)" }}
                   >
                     <Icon size={18} style={{ color: "var(--t-foreground)" }} aria-hidden="true" />
                   </div>
@@ -434,6 +439,9 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
                   hoverFxClass={hoverFxClass}
                   imageHoverClass={imageHoverClass}
                   imageFitClass={imageFitClass}
+                  showAddToCart={showAddToCartInGrid}
+                  showDiscountBadge={showDiscountBadge}
+                  showOriginalPrice={showOriginalPrice}
                 />
               ))}
             </div>

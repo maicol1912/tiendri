@@ -7,6 +7,7 @@ import type {
   GridBreakpoint,
   BorderRadiusScale,
   DividerStyle,
+  CardStyle,
   CardBorderTreatment,
   ImageFit,
   ImageBorderRadius,
@@ -63,6 +64,7 @@ export interface TemplateLayoutConfig {
   borderRadiusScale?: BorderRadiusScale;
   dividerStyle?: DividerStyle;
   // Card tokens
+  cardStyle?: CardStyle;
   cardBorderTreatment?: CardBorderTreatment;
   imageFit?: ImageFit;
   imageBorderRadius?: ImageBorderRadius;

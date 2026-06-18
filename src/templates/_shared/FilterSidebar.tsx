@@ -266,7 +266,7 @@ export function FilterSidebar({
           width: "280px",
           minWidth: "220px",
           flexShrink: 0,
-          background: "var(--t-card)",
+          background: "var(--t-secondary)",
           border: "1px solid var(--t-border)",
           borderRadius: "var(--t-radius-card, 16px)",
           padding: "20px 16px",
@@ -333,7 +333,7 @@ export function FilterSidebar({
             style={{
               position: "relative",
               marginTop: "auto",
-              background: "var(--t-card)",
+              background: "var(--t-secondary)",
               borderRadius: "20px 20px 0 0",
               padding: "12px 20px 32px",
               maxHeight: "85vh",

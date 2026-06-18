@@ -58,13 +58,12 @@ export const mockCategoryIcons: DecorWarmCategoryIcon[] = [
 // ── Categories (filter tab bar) ───────────────────────────────────────────────
 
 export const mockCategories: Category[] = [
-  { id: "cat-living", name: "Living Room", slug: "living-room", icon: "Sofa" },
-  { id: "cat-light", name: "Iluminación", slug: "iluminacion", icon: "Lamp" },
-  { id: "cat-bed", name: "Dormitorio", slug: "dormitorio", icon: "BedDouble" },
-  { id: "cat-storage", name: "Almacenamiento", slug: "almacenamiento", icon: "Archive" },
-  { id: "cat-table", name: "Mesas", slug: "mesas", icon: "Table2" },
-  { id: "cat-chair", name: "Sillas", slug: "sillas", icon: "Armchair" },
-  { id: "cat-decor", name: "Decoración", slug: "decoracion", icon: "Layers" },
+  { id: "cat-living",   name: "Salas",          slug: "salas",          icon: "Sofa" },
+  { id: "cat-desk",     name: "Escritorios",    slug: "escritorios",    icon: "BookOpen" },
+  { id: "cat-bed",      name: "Dormitorio",     slug: "dormitorio",     icon: "BedDouble" },
+  { id: "cat-decor",    name: "Decoración",     slug: "decoracion",     icon: "Flower2" },
+  { id: "cat-light",    name: "Iluminación",    slug: "iluminacion",    icon: "Lamp" },
+  { id: "cat-storage",  name: "Almacenamiento", slug: "almacenamiento", icon: "Archive" },
 ];
 
 // ── Products ──────────────────────────────────────────────────────────────────

@@ -17,7 +17,9 @@ const GlassHeader = memo(function GlassHeader({
   onNavClick,
   onSearchClick,
   onCartClick,
+  config,
 }: HeaderSlotProps) {
+  const showDiamond = config?.headerIcon === "diamond";
   return (
     <header
       className="hidden md:block sticky top-0 z-40"
@@ -31,9 +33,12 @@ const GlassHeader = memo(function GlassHeader({
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8 py-4">
         {/* Brand name */}
         <h1
-          className="text-[22px] font-extrabold m-0"
+          className="flex items-center gap-2 text-[22px] font-extrabold m-0"
           style={{ color: "var(--t-foreground)" }}
         >
+          {showDiamond && (
+            <span aria-hidden="true" style={{ fontSize: "14px", lineHeight: 1 }}>◆</span>
+          )}
           {store.name}
         </h1>
 

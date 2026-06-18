@@ -56,6 +56,7 @@ export const furnitureDarkManifest = {
     cardImageRatio: "square" as const,
     gridDensity: "standard" as const,
     spacingDensity: "tight" as const,
+    cardStyle: "transparent" as const,
   },
 
   sections: [
@@ -74,14 +75,24 @@ export const furnitureDarkManifest = {
 
   content: {
     heroBanner: {
+      tag: "NUEVA COLECCIÓN",
       title: "El mueble que te define",
       subtitle: "Descubrí piezas únicas para cada espacio de tu hogar.",
-      ctaText: "Ver catálogo",
+      ctaText: "Explorar",
+      image: "/mocks/furniture-dark/banner-furniture-1.jpg",
     },
+    promotionalBanners: [
+      {
+        title: "Estilo para tu hogar",
+        subtitle: "HASTA 40% OFF",
+        ctaText: "Ver más",
+        image: "/mocks/furniture-dark/banner-furniture-2.jpg",
+      },
+    ],
     navLinks: [
       { label: "Inicio", href: "/" },
-      { label: "Categorías", href: "/catalogo" },
-      { label: "Ofertas", href: "/buscar" },
+      { label: "Catálogo", href: "/catalogo" },
+      { label: "Info", href: "/info" },
     ],
     footerServices: [
       "Envío a domicilio",
@@ -125,11 +136,20 @@ export const furnitureDarkManifest = {
     header: "GREETING",
     footer: "COMPACT",
     bottomNav: "EDGE",
-    hero: "PROMO_STRIP",
+    hero: "CAROUSEL",
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
   },
+
+  heroConstrained: true,
+  heroCompact: true,
+  showSearchBar: false,
+  showDiscountBadge: false,
+  showAddToCartInGrid: false,
+  productsHeading: "Más vendidos",
+  productsLimit: 4,
+  secondProductsHeading: "Destacados",
 } as const satisfies TemplateManifest;
 
 export type FurnitureDarkManifest = typeof furnitureDarkManifest;

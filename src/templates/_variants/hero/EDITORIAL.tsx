@@ -10,6 +10,7 @@ const Editorial = memo(function Editorial({
   titleBold,
   ctaText,
   onCtaClick,
+  hideCta = false,
 }: HeroSlotProps) {
   return (
     <section
@@ -69,33 +70,35 @@ const Editorial = memo(function Editorial({
           </div>
         </div>
 
-        <button
-          type="button"
-          className="flex items-center gap-2 mt-6 md:mt-8 px-6 md:px-8 py-3 md:py-3.5 cursor-pointer transition-opacity hover:opacity-80 border-none"
-          style={{
-            backgroundColor: "var(--t-secondary)",
-            borderRadius: "var(--t-radius-button)",
-          }}
-          onClick={onCtaClick}
-          aria-label={ctaText}
-        >
-          <span
+        {!hideCta && (
+          <button
+            type="button"
+            className="flex items-center gap-2 mt-6 md:mt-8 px-6 md:px-8 py-3 md:py-3.5 cursor-pointer transition-opacity hover:opacity-80 border-none"
             style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "13px",
-              fontWeight: 500,
-              letterSpacing: "1px",
-              color: "var(--t-foreground)",
+              backgroundColor: "var(--t-secondary)",
+              borderRadius: "var(--t-radius-button)",
             }}
+            onClick={onCtaClick}
+            aria-label={ctaText}
           >
-            {ctaText}
-          </span>
-          <ArrowRight
-            size={16}
-            strokeWidth={2}
-            style={{ color: "var(--t-foreground)" }}
-          />
-        </button>
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "13px",
+                fontWeight: 500,
+                letterSpacing: "1px",
+                color: "var(--t-foreground)",
+              }}
+            >
+              {ctaText}
+            </span>
+            <ArrowRight
+              size={16}
+              strokeWidth={2}
+              style={{ color: "var(--t-foreground)" }}
+            />
+          </button>
+        )}
       </div>
     </section>
   );

@@ -50,6 +50,7 @@ export const CARD_STYLE_MAP: Record<CardStyle, string> = {
   shadow: "bg-[var(--t-card)] shadow-md",
   bordered: "bg-[var(--t-background)] border border-[var(--t-border)]",
   elevated: "bg-[var(--t-background)] shadow-lg",
+  transparent: "",
 };
 
 // ── Hover effect ──────────────────────────────────────────────────────────────

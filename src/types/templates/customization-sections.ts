@@ -23,6 +23,8 @@ export interface BrandingConfig {
 /** Hero banners, promotional banners, product selections, and navigation content. */
 export interface ContentConfig {
   heroBanner?: {
+    /** Short tag/label shown above the heading — e.g. "¡ESPECIAL DEL DÍA!" */
+    tag?: string;
     title?: string;
     subtitle?: string;
     /** Public URL in Supabase Storage bucket `banners` */
@@ -34,6 +36,7 @@ export interface ContentConfig {
     image?: string;
     title?: string;
     subtitle?: string;
+    ctaText?: string;
     link?: string;
   }>;
   offersBanner?: {
@@ -57,6 +60,13 @@ export interface ContentConfig {
   productTabs?: Array<{ id: string; label: string }>;
   productDetailTabs?: Array<{ id: string; label: string; content: string }>;
   popularSearches?: string[];
+  /** Editorial section — centered text block shown after the product grid */
+  editorialHeading?: string;
+  editorialSubheading?: string;
+  editorialBody?: string;
+  /** Collections section — heading shown above the product grid */
+  collectionsTitle?: string;
+  collectionsSubtitle?: string;
 }
 
 /** Business info — used in JSON-LD, checkout trust signals, and SEO. */

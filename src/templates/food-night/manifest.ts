@@ -16,7 +16,7 @@ export const foodNightManifest = {
     background: '#0E0600',
     foreground: '#FFFFFF',
     card: '#292526',
-    border: '#DFDEDE',
+    border: 'rgba(255,255,255,0.08)',
     muted: '#878787',
     accent: '#FFD33C',
     onPrimary: '#FFFFFF',
@@ -52,6 +52,7 @@ export const foodNightManifest = {
     cardImageRatio: "portrait" as const,
     gridDensity: "compact" as const,
     spacingDensity: "tight" as const,
+    cardStyle: "transparent" as const,
   },
 
   sections: [
@@ -68,13 +69,14 @@ export const foodNightManifest = {
 
   content: {
     heroBanner: {
+      tag: "¡ESPECIAL DEL DÍA!",
       title: "El sabor que te mereces",
       subtitle: "Los mejores platos, listos para tu mesa o tu puerta.",
       ctaText: "Ver menú",
     },
     navLinks: [
       { label: "Inicio", href: "/" },
-      { label: "Catálogo", href: "/listing" },
+      { label: "Catálogo", href: "/catalogo" },
     ],
     footerServices: [
       "Domicilios",
@@ -121,6 +123,17 @@ export const foodNightManifest = {
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
   },
+
+  // Food-night specific UI config
+  heroConstrained: true,
+  heroCompact: true,
+  chipStyle: "bordered",
+  showSearchBar: false,
+  showDiscountBadge: false,
+  showAddToCartInGrid: false,
+  showOriginalPrice: false,
+  showRating: true,
+  headerBorderless: true,
 } as const satisfies TemplateManifest;
 
 export type FoodNightManifest = typeof foodNightManifest;

@@ -6,9 +6,11 @@ import type { HeroSlotProps } from "./types";
 const PromoCard = memo(function PromoCard({
   subtitle,
   titleBold,
+  description,
   ctaText,
   image,
   onCtaClick,
+  compact,
 }: HeroSlotProps) {
   return (
     <section aria-label="Banner promocional">
@@ -16,7 +18,7 @@ const PromoCard = memo(function PromoCard({
         className="relative w-full overflow-hidden"
         style={{
           borderRadius: "var(--t-radius-card)",
-          minHeight: "clamp(320px, 45vw, 520px)",
+          minHeight: compact ? "clamp(160px, 22vw, 240px)" : "clamp(320px, 45vw, 520px)",
           backgroundColor: "var(--t-card)",
           display: "flex",
           alignItems: "flex-end",
@@ -92,6 +94,20 @@ const PromoCard = memo(function PromoCard({
             {titleBold}
           </h2>
 
+          {description && (
+            <p
+              className="m-0"
+              style={{
+                color: "var(--t-muted, var(--t-foreground))",
+                fontSize: "clamp(12px, 1.5vw, 14px)",
+                lineHeight: 1.5,
+                opacity: 0.85,
+              }}
+            >
+              {description}
+            </p>
+          )}
+
           <button
             type="button"
             className="self-start border-0 cursor-pointer"
@@ -99,8 +115,8 @@ const PromoCard = memo(function PromoCard({
               fontFamily: "var(--font-heading, var(--font-sans))",
               fontSize: "13px",
               fontWeight: 700,
-              color: "var(--t-on-primary)",
-              backgroundColor: "var(--t-primary)",
+              color: "var(--t-button-text, var(--t-on-primary))",
+              backgroundColor: "var(--t-button-bg, var(--t-primary))",
               borderRadius: "var(--t-radius-button)",
               padding: "8px 22px",
               height: "38px",

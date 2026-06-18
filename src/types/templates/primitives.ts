@@ -2,7 +2,7 @@
 // Union types used across all layers of the template type system.
 
 // Card visual styles
-export type CardStyle = "flat" | "shadow" | "bordered" | "elevated";
+export type CardStyle = "flat" | "shadow" | "bordered" | "elevated" | "transparent";
 export type HoverEffect = "none" | "lift" | "scale" | "glow";
 export type ImageRatio = "square" | "portrait" | "wide" | "tall";
 

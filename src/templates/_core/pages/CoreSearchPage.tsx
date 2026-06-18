@@ -56,6 +56,11 @@ export const CoreSearchPage = memo(function CoreSearchPage({
     cardBorderClass,
   } = resolveStyleTokens(config);
 
+  const configAny = config as Record<string, unknown>;
+  const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
+  const showDiscountBadge = configAny.showDiscountBadge !== false;
+  const showOriginalPrice = configAny.showOriginalPrice !== false;
+
   const grid = config.grid;
   const searchMobile = grid?.search?.mobile ?? 2;
   const searchDesktop = grid?.search?.desktop ?? 4;
@@ -141,6 +146,9 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                       hoverFxClass={hoverFxClass}
                       imageHoverClass={imageHoverClass}
                       imageFitClass={imageFitClass}
+                      showAddToCart={showAddToCartInGrid}
+                      showDiscountBadge={showDiscountBadge}
+                      showOriginalPrice={showOriginalPrice}
                     />
                   ))}
                 </div>
@@ -230,6 +238,9 @@ export const CoreSearchPage = memo(function CoreSearchPage({
                   hoverFxClass={hoverFxClass}
                   imageHoverClass={imageHoverClass}
                   imageFitClass={imageFitClass}
+                  showAddToCart={showAddToCartInGrid}
+                  showDiscountBadge={showDiscountBadge}
+                  showOriginalPrice={showOriginalPrice}
                 />
               ))}
             </div>
