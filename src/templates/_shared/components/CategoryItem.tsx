@@ -27,6 +27,8 @@ interface CategoryItemProps {
   className?: string;
   /** Override the icon color for icon-text display mode. Defaults to var(--t-primary). */
   iconColor?: string;
+  /** Size variant. "large" renders bigger icon containers (~110px wide, ~44px icon). Defaults to "default". */
+  size?: "default" | "large";
 }
 
 export function CategoryItem({
@@ -39,6 +41,7 @@ export function CategoryItem({
   displayType,
   className = '',
   iconColor,
+  size = 'default',
 }: CategoryItemProps) {
   const IconComponent = icon ? (ICON_MAP[icon] ?? Tag) : Tag;
 
@@ -91,25 +94,26 @@ export function CategoryItem({
   }
 
   if (displayType === 'icon-text') {
+    const isLarge = size === 'large';
     return (
       <button
         onClick={onClick}
         className={className}
         style={{
           ...baseStyle,
-          padding: '0.625rem 0.75rem',
+          padding: isLarge ? '0.875rem 1rem' : '0.625rem 0.75rem',
           borderRadius: 'var(--t-radius-category, 0.75rem)',
           backgroundColor: isActive ? 'var(--t-primary)' : 'var(--t-card)',
           color: isActive ? 'var(--t-on-primary)' : 'var(--t-foreground)',
           border: `1px solid ${isActive ? 'var(--t-primary)' : 'var(--t-border)'}`,
-          minWidth: '5rem',
+          minWidth: isLarge ? '6.5rem' : '5rem',
         }}
       >
         <IconComponent
-          size={22}
+          size={isLarge ? 44 : 22}
           style={{ color: isActive ? 'var(--t-on-primary)' : (iconColor ?? 'var(--t-primary)') }}
         />
-        <span style={{ fontSize: '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>
+        <span style={{ fontSize: isLarge ? '0.8125rem' : '0.75rem', fontWeight: isActive ? 600 : 400, textAlign: 'center' }}>
           {name}
         </span>
         {productCount !== undefined && (

@@ -16,6 +16,8 @@ export interface CategoryNavSlotProps {
   onViewAll?: () => void;
   /** Color for category icons in icon-text display mode. Defaults to var(--t-primary). */
   iconColor?: string;
+  /** Size variant for category items. "large" renders bigger icon containers (~110px wide, ~44px icon). Defaults to "default". */
+  size?: "default" | "large";
 }
 
 export type CategoryNavVariant =

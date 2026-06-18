@@ -111,6 +111,8 @@ export const CoreHomePage = memo(function CoreHomePage({
   const chipStyle = (config as Record<string, unknown>).chipStyle as string | undefined;
   // categoryIconColor: override icon color for category nav icon-text mode
   const categoryIconColor = (config as Record<string, unknown>).categoryIconColor as string | undefined;
+  // categorySize: "large" renders bigger icon containers in HORIZONTAL_SCROLL variant
+  const categorySize = (config as Record<string, unknown>).categorySize as "default" | "large" | undefined;
   // productsLimit: when set, splits collectionProducts into two sections
   const productsLimit = (config as Record<string, unknown>).productsLimit as number | undefined;
   // secondProductsHeading: heading for the second products section (used with productsLimit)
@@ -286,6 +288,7 @@ export const CoreHomePage = memo(function CoreHomePage({
             onViewAll={onCtaClick}
             chipStyle={chipStyle as "underline" | "pills" | "bordered" | undefined}
             iconColor={categoryIconColor}
+            size={categorySize}
           />
         </section>
       )}

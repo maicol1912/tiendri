@@ -165,42 +165,36 @@ export const mockCategories: Category[] = [
     name: "Teléfonos",
     slug: "phones",
     icon: "Smartphone",
-    productCount: 120,
   },
   {
     id: "cat-02",
     name: "Relojes",
     slug: "smart-watches",
     icon: "Watch",
-    productCount: 45,
   },
   {
     id: "cat-03",
     name: "Cámaras",
     slug: "cameras",
     icon: "Camera",
-    productCount: 32,
   },
   {
     id: "cat-04",
     name: "Audífonos",
     slug: "headphones",
     icon: "Headphones",
-    productCount: 78,
   },
   {
     id: "cat-05",
     name: "Computadores",
     slug: "computers",
     icon: "Monitor",
-    productCount: 64,
   },
   {
     id: "cat-06",
     name: "Gaming",
     slug: "gaming",
     icon: "Gamepad2",
-    productCount: 53,
   },
 ];
 

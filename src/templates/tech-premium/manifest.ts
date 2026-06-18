@@ -145,6 +145,8 @@ export const techPremiumManifest = {
   heroConstrained: false,
   showSearchBar: false,
   showAddToCartInGrid: false,
+  showDiscountBadge: false,
+  categorySize: "large",
 } as const satisfies TemplateManifest;
 
 export type TechPremiumManifest = typeof techPremiumManifest;
