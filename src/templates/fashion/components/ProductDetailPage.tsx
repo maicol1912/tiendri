@@ -15,7 +15,7 @@ import { BottomNav } from "./BottomNav";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
 import type { VariantSelection } from "@/hooks/useVariantPrice";
-import type { StoreInfo, StorefrontProduct, NavTab } from "../types";
+import type { StoreInfo, StorefrontProduct, ColorOption, NavTab } from "../types";
 import { formatPrice } from "@/lib/format";
 
 interface ProductDetailPageProps {
@@ -49,23 +49,9 @@ interface ProductDetailPageProps {
   onProductClick?: (id: string) => void;
 }
 
-/** Map common hex values to human-readable color names in Spanish */
-const HEX_COLOR_NAMES: Record<string, string> = {
-  "#000000": "Negro",
-  "#ffffff": "Blanco",
-  "#f5f5f0": "Blanco hueso",
-  "#d9d9d9": "Gris claro",
-  "#8a8a8a": "Gris medio",
-  "#5e5e5e": "Gris oscuro",
-  "#1e1e1e": "Casi negro",
-  "#e5e5e5": "Gris perla",
-  "#c0c0c0": "Plata",
-  "#a0a0a0": "Gris",
-  "#383838": "Grafito",
-};
-
-function getColorName(hex: string): string {
-  return HEX_COLOR_NAMES[hex.toLowerCase()] ?? hex;
+/** Get color label from ColorOption id, searching the product's colors array */
+function getColorLabel(colorId: string, colors: ColorOption[]): string {
+  return colors.find((c) => c.id === colorId)?.label ?? colorId;
 }
 
 export function ProductDetailPage({
@@ -266,7 +252,7 @@ export function ProductDetailPage({
                   className="mb-3 text-xs font-medium text-[var(--t-foreground)]"
                   style={{ fontFamily: "var(--font-sans, 'Inter', sans-serif)" }}
                 >
-                  Color{selectedColor ? `: ${getColorName(selectedColor)}` : ""}
+                  Color{selectedColor && product.colors ? `: ${getColorLabel(selectedColor, product.colors)}` : ""}
                 </p>
                 <ColorSwatch
                   colors={product.colors}

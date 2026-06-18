@@ -4,13 +4,13 @@
 
 import { ChevronLeft } from "lucide-react";
 import type { CartItem } from "@/lib/cart";
-import type { CheckoutFormData, StorefrontStore } from "../types";
+import type { CheckoutFormData, StoreInfo } from "../types";
 import { Header } from "./Header";
 import { CheckoutForm } from "./CheckoutForm";
 import { OrderSummary } from "./OrderSummary";
 
 interface CheckoutPageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   items: CartItem[];
   totalPrice: number;
   formData: CheckoutFormData;

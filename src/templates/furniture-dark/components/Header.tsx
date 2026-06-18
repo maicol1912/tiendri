@@ -7,7 +7,7 @@
 
 import Image from "next/image";
 import { Search, ShoppingBag, Bell, MapPin, ChevronDown } from "lucide-react";
-import type { StorefrontStore } from "../types";
+import type { StoreInfo } from "../types";
 
 interface NavLink {
   label: string;
@@ -21,7 +21,7 @@ const NAV_LINKS: NavLink[] = [
 ];
 
 interface HeaderProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   cartItemCount?: number;
   activeHref?: string;
   onSearchClick?: () => void;

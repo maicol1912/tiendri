@@ -9,10 +9,10 @@ import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StoreInfo, FurnitureNavTab } from "../types";
 
 interface CartShellRouteProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   currencySymbol?: string;
 }
 

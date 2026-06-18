@@ -4,7 +4,7 @@ import type React from 'react';
 import Image from 'next/image';
 import { ShoppingCart } from 'lucide-react';
 import type { CardLayoutProps } from './types';
-import { imageRatioClass } from '@/templates/tech-premium/utils/layout-classes';
+import { imageRatioClass } from '@/templates/_shared/utils/image-classes';
 
 export default function CardBelowImage({
   product,

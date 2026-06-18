@@ -5,10 +5,9 @@
 // Bridges mock data + cart context + config into presentational HomePage.
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { useCart } from "@/lib/cart";
-import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { HomePage } from "./HomePage";
 import type { FurnitureDarkConfig } from "../config";
 import {
@@ -21,9 +20,9 @@ import {
 } from "../mock/data";
 
 export function HomeShell() {
-  const router = useRouter();
   const { config } = useLayoutConfig<FurnitureDarkConfig>();
   const { totalItems: cartItemCount } = useCart();
+  const nav = useTemplateNav();
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | undefined>(undefined);
 
@@ -54,26 +53,24 @@ export function HomeShell() {
       activeHref="/"
       onCategoryClick={(categoryId) => {
         setActiveCategoryId(categoryId === activeCategoryId ? undefined : categoryId);
-        router.push(`${TEMPLATE_BASE}/catalogo?category=${categoryId}`);
+        nav.goListing();
       }}
-      onProductClick={(productId) =>
-        router.push(`${TEMPLATE_BASE}/producto/${productId}`)
-      }
-      onViewAllClick={() => router.push(`${TEMPLATE_BASE}/catalogo`)}
-      onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
-      onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onProductClick={(productId) => nav.goProduct(productId)}
+      onViewAllClick={nav.goListing}
+      onSearchClick={nav.goSearch}
+      onCartClick={nav.goCart}
       onNavLinkClick={(href) => {
-        if (href === "/") router.push(TEMPLATE_BASE);
-        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
-        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
       }}
       onBottomNavTab={(tab) => {
-        if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
-        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
-        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
-        else if (tab === "home") router.push(TEMPLATE_BASE);
+        if (tab === "cart") nav.goCart();
+        else if (tab === "search") nav.goSearch();
+        else if (tab === "info") nav.goInfo();
+        else if (tab === "home") nav.goHome();
       }}
-      onPromoCardClick={() => router.push(`${TEMPLATE_BASE}/catalogo`)}
+      onPromoCardClick={nav.goListing}
     />
   );
 }

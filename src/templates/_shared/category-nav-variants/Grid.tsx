@@ -1,4 +1,4 @@
-import { CategorySection } from '@/templates/tech-premium/components/CategorySection';
+import { CategoryItem } from '@/templates/_shared/components/CategoryItem';
 import { gridColsClass } from '@/templates/_shared/utils/grid-classes';
 import type React from 'react';
 import type { CategoryNavProps } from './types';
@@ -31,11 +31,15 @@ export default function Grid({
         style={{ gap: 'var(--t-space-gap, 1rem)' }}
       >
         {categories.map((cat) => (
-          <CategorySection
+          <CategoryItem
             key={cat.id}
-            category={cat}
+            name={cat.name}
+            icon={cat.icon}
+            image={cat.image}
+            productCount={cat.productCount}
             isActive={activeCategoryId === cat.id}
             onClick={() => onCategoryClick?.(cat.id)}
+            displayType={cat.image ? 'image-text' : 'icon-text'}
           />
         ))}
       </div>

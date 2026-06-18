@@ -12,8 +12,8 @@ import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutCli
 import { decorWarmConfig } from "../config";
 import type { DecorWarmConfig } from "../config";
 import type {
-  DecorWarmProduct,
-  DecorWarmCategory,
+  StorefrontProduct,
+  Category,
   DecorWarmCategoryIcon,
   DecorWarmPromoSlide,
   DecorWarmBestSeller,
@@ -24,8 +24,8 @@ import type { StoreInfo } from "@/types/store";
 interface HomeShellProps {
   store: StoreInfo;
   categoryIcons: DecorWarmCategoryIcon[];
-  categories: DecorWarmCategory[];
-  products: DecorWarmProduct[];
+  categories: Category[];
+  products: StorefrontProduct[];
   promoSlides: DecorWarmPromoSlide[];
   bestSellers: DecorWarmBestSeller[];
   currencySymbol?: string;
@@ -72,7 +72,7 @@ export function HomeShell({
   }, []);
 
   const handleAddToCart = useCallback(
-    (product: DecorWarmProduct) => {
+    (product: StorefrontProduct) => {
       addItem({
         productId: product.id,
         name: product.name,

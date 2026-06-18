@@ -1,19 +1,19 @@
 "use client";
 
 // Furniture Light — Product Card
-// Lifestyle bg per product (cardBgColor), orange "+" button, teal bookmark, star rating badge
-// ZERO hardcoded colors — all via var(--t-*) or per-product cardBgColor (content data)
+// Orange "+" button, teal bookmark, star rating badge
+// ZERO hardcoded colors — all via var(--t-*)
 
 import Image from "next/image";
 import { Star, Plus } from "lucide-react";
-import type { FurnitureProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP, BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 import type { TemplateLayoutConfig } from "@/types/templates";
 
 interface ProductCardProps {
-  product: FurnitureProduct;
+  product: StorefrontProduct;
   currencySymbol?: string;
   onProductClick?: (id: string) => void;
   onAddToCart?: (id: string) => void;
@@ -27,15 +27,12 @@ export function ProductCard({
   onAddToCart,
   layout,
 }: ProductCardProps) {
-  // cardBgColor is content data (per-product lifestyle color), not a theme token
-  const bgColor = product.cardBgColor ?? "var(--t-card)";
+  const bgColor = "var(--t-card)";
   const primaryImage = product.images[0]?.url ?? null;
   const rating = product.rating ?? 0;
-  const discountPercent = product.discountPercent ?? (
-    product.compare_at_price
-      ? Math.round((1 - product.price / product.compare_at_price) * 100)
-      : 0
-  );
+  const discountPercent = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : 0;
 
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.price)}`;
 
@@ -103,7 +100,7 @@ export function ProductCard({
         )}
 
         {/* Unavailable overlay */}
-        {!product.available && (
+        {!product.inStock && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/20">
             <span className="px-3 py-1.5 rounded-[var(--t-radius-button)] bg-white text-xs font-semibold text-[var(--t-muted)]">
               Agotado
@@ -122,9 +119,9 @@ export function ProductCard({
             <span className={priceConfig.className} style={priceConfig.style}>
               {formattedPrice}
             </span>
-            {product.compare_at_price && (
+            {product.originalPrice && (
               <span className="text-[11px] text-[var(--t-muted)] line-through">
-                {currencySymbol}{new Intl.NumberFormat("es-CO").format(product.compare_at_price)}
+                {currencySymbol}{new Intl.NumberFormat("es-CO").format(product.originalPrice)}
               </span>
             )}
           </div>

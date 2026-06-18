@@ -10,17 +10,17 @@ import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
 import type {
-  FurnitureProduct,
+  StorefrontProduct,
   FurnitureCategory,
-  FurnitureStoreInfo,
+  StoreInfo,
   FurnitureNavTab,
   FurnitureLightSortOption,
 } from "../types";
 import type { FilterGroup } from "@/types/templates/filter";
 
 interface ListingShellRouteProps {
-  store: FurnitureStoreInfo;
-  products: FurnitureProduct[];
+  store: StoreInfo;
+  products: StorefrontProduct[];
   categories?: FurnitureCategory[];
   currencySymbol?: string;
 }
@@ -95,7 +95,7 @@ export function ListingShellRoute({
   }, [products, categories]);
 
   // ── Filtered products ─────────────────────────────────────────────────────────
-  const filteredProducts = useMemo<FurnitureProduct[]>(() => {
+  const filteredProducts = useMemo<StorefrontProduct[]>(() => {
     return products.filter((p) => {
       // Search filter
       if (searchQuery.trim()) {
@@ -140,7 +140,7 @@ export function ListingShellRoute({
       // Availability filter
       const availFilters = activeFilters["availability"] ?? [];
       if (availFilters.length > 0) {
-        const isAvailable = p.available === true;
+        const isAvailable = p.inStock;
         const availMatch = availFilters.some((af) => {
           if (af === "available") return isAvailable;
           if (af === "unavailable") return !isAvailable;
@@ -154,7 +154,7 @@ export function ListingShellRoute({
   }, [products, activeFilters, searchQuery]);
 
   // ── Sorted products ───────────────────────────────────────────────────────────
-  const sortedProducts = useMemo<FurnitureProduct[]>(() => {
+  const sortedProducts = useMemo<StorefrontProduct[]>(() => {
     const arr = [...filteredProducts];
     if (sortOption === "price-asc") {
       arr.sort((a, b) => a.price - b.price);
@@ -218,10 +218,10 @@ export function ListingShellRoute({
   const handleAddToCart = useCallback(
     (productId: string) => {
       const product = products.find((p) => p.id === productId);
-      if (!product || product.available === false) return;
+      if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
-        variantName: product.colorVariant ?? null,
+        variantName: product.colors?.[0]?.label ?? null,
         name: product.name,
         price: product.price,
         quantity: 1,

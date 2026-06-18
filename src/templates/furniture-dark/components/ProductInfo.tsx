@@ -153,10 +153,10 @@ export function ProductInfo({
                       : "2px solid transparent",
                   outlineOffset: "2px",
                 }}
-                aria-label={color.name}
+                aria-label={color.label}
                 aria-pressed={selectedColorId === color.id}
                 onClick={() => onColorSelect?.(color.id)}
-                title={color.name}
+                title={color.label}
               />
             ))}
           </div>

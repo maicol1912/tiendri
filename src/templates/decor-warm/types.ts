@@ -1,8 +1,7 @@
 // Decor Warm Template — Types
 // Re-exports shared types and declares template-specific types.
 
-import type { StorefrontVariantGroup } from "@/types/store";
-export type { StoreInfo } from "@/types/store";
+export type { StoreInfo, StorefrontProduct, ProductImage, ColorOption, Category, StorefrontVariantGroup, StorefrontVariantOption } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
@@ -21,36 +20,7 @@ export interface FilterGroup {
 
 export type SortOption = 'recent' | 'price-asc' | 'price-desc' | 'rating';
 
-// ── Template-specific product type ────────────────────────────────────────────
-
-export interface DecorWarmProductImage {
-  url: string;
-  sort_order: number;
-}
-
-export interface DecorWarmProduct {
-  id: string;
-  name: string;
-  slug?: string;
-  price: number;
-  compare_at_price?: number | null;
-  images: DecorWarmProductImage[];
-  available: boolean;
-  description?: string;
-  rating?: number;
-  reviewCount?: number;
-  inWishlist?: boolean;
-  categoryId?: string;
-  variants?: StorefrontVariantGroup[];
-}
-
-// ── Category types ────────────────────────────────────────────────────────────
-
-export interface DecorWarmCategory {
-  id: string;
-  name: string;
-  icon?: string;
-}
+// ── Category icon type ────────────────────────────────────────────────────────
 
 /** Icon-based category card displayed on home page */
 export interface DecorWarmCategoryIcon {

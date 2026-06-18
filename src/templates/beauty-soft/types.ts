@@ -1,7 +1,19 @@
 // Beauty Soft Template — Shared TypeScript Types
 // Template-specific types adapted for tiendri_v2 architecture.
 
-import type { StoreInfo as SharedStoreInfo, StorefrontVariantGroup } from "@/types/store";
+// ── Re-exports from shared types (backwards compatibility) ────────────────────
+// Shared domain types live in @/types/store.
+// Components that import from this file continue to work unchanged.
+export type {
+  StoreInfo,
+  StorefrontProduct,
+  ColorOption,
+  ProductImage,
+  Category,
+} from "@/types/store";
+
+// Backwards-compat alias — components that imported BeautySoftProduct keep working
+export type { StorefrontProduct as BeautySoftProduct } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
@@ -20,29 +32,7 @@ export interface FilterGroup {
 
 export type SortOption = "recent" | "price-asc" | "price-desc" | "rating";
 
-// Re-export shared StoreInfo
-export type { StoreInfo } from "@/types/store";
-
-// ── Template-specific product type (aligned with shared StorefrontProduct) ────
-
-export interface BeautySoftProduct {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  originalPrice?: number | null;
-  discount?: number | null;
-  images: Array<{ url: string; sort_order: number }>;
-  description?: string;
-  rating?: number;
-  reviewCount?: number;
-  inStock: boolean;
-  inWishlist?: boolean;
-  categoryId?: string;
-  variants?: StorefrontVariantGroup[];
-}
-
-// ── Category type ─────────────────────────────────────────────────────────────
+// ── Category type (beauty-soft custom — simpler than shared Category) ─────────
 
 export interface BeautySoftCategory {
   id: string;

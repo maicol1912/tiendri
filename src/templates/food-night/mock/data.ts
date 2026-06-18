@@ -9,8 +9,6 @@ export const mockStore: StoreInfo = {
   name: "PizzaNight",
   slug: "pizza-night-store",
   logo: null,
-  avatar: ASSETS.avatar,
-  greeting: "Hola, Bienvenido 👋",
   whatsapp: "573001234567",
   hours: "Lun–Dom 12pm–11pm · Domicilios hasta las 10:30pm",
   paymentMethods: ["Efectivo", "Nequi", "Daviplata", "Tarjeta contra entrega"],
@@ -24,12 +22,12 @@ export const mockStore: StoreInfo = {
 // ── Categories ───────────────────────────────────────────────────────────────
 
 export const mockCategories: Category[] = [
-  { id: "cat-01", name: "Pizzas" },
-  { id: "cat-02", name: "Hamburguesas" },
-  { id: "cat-03", name: "Pollos" },
-  { id: "cat-04", name: "Vegetariano" },
-  { id: "cat-05", name: "Combos" },
-  { id: "cat-06", name: "Bebidas" },
+  { id: "cat-01", name: "Pizzas", slug: "pizzas", icon: "Pizza" },
+  { id: "cat-02", name: "Hamburguesas", slug: "hamburguesas", icon: "Utensils" },
+  { id: "cat-03", name: "Pollos", slug: "pollos", icon: "Drumstick" },
+  { id: "cat-04", name: "Vegetariano", slug: "vegetariano", icon: "Salad" },
+  { id: "cat-05", name: "Combos", slug: "combos", icon: "Package" },
+  { id: "cat-06", name: "Bebidas", slug: "bebidas", icon: "Coffee" },
 ];
 
 // ── Products ─────────────────────────────────────────────────────────────────
@@ -40,9 +38,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Pizza de Res y Jalapeños",
     slug: "pizza-res-jalapenos",
     price: 35000,
-    compare_at_price: 42000,
+    originalPrice: 42000,
     images: [{ url: ASSETS.products[0], sort_order: 0 }],
-    available: true,
+    inStock: true,
     description:
       "Deliciosa pizza con carne de res premium, jalapeños frescos, queso mozzarella y salsa de tomate artesanal. Un toque de picante que te va a encantar.",
     rating: 4.9,
@@ -55,9 +53,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Pizza Fajita de Pollo",
     slug: "pizza-fajita-pollo",
     price: 32000,
-    compare_at_price: null,
+    originalPrice: null,
     images: [{ url: ASSETS.products[1], sort_order: 0 }],
-    available: true,
+    inStock: true,
     description:
       "Pizza con pollo a las fajitas, pimientos, cebolla caramelizada y crema de cilantro. Sabor mexicano en cada mordida.",
     rating: 4.8,
@@ -70,9 +68,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Pizza Tikka Masala",
     slug: "pizza-tikka-masala",
     price: 38000,
-    compare_at_price: 45000,
+    originalPrice: 45000,
     images: [{ url: ASSETS.products[2], sort_order: 0 }],
-    available: true,
+    inStock: true,
     description:
       "Fusión Indo-Italiana con pollo tikka, salsa masala, queso paneer y cilantro fresco. Una experiencia única.",
     rating: 4.7,
@@ -85,9 +83,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Pizza Vegetariana Deluxe",
     slug: "pizza-vegetariana-deluxe",
     price: 28000,
-    compare_at_price: null,
+    originalPrice: null,
     images: [{ url: ASSETS.products[3], sort_order: 0 }],
-    available: true,
+    inStock: true,
     description:
       "Combinación perfecta de vegetales frescos, aceitunas, champiñones, pimientos y queso gratinado. Sin carne, con todo el sabor.",
     rating: 4.6,
@@ -100,9 +98,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Fajita Supreme al Horno",
     slug: "fajita-supreme-horno",
     price: 42000,
-    compare_at_price: 50000,
+    originalPrice: 50000,
     images: [{ url: ASSETS.products[4], sort_order: 0 }],
-    available: true,
+    inStock: true,
     description:
       "Bandeja de fajitas supreme con pollo, res, camarones y todo el acompañamiento. Para compartir o disfrutar solo.",
     rating: 5.0,
@@ -115,9 +113,9 @@ export const mockProducts: StorefrontProduct[] = [
     name: "Pizza BBQ con Tocineta",
     slug: "pizza-bbq-tocineta",
     price: 36000,
-    compare_at_price: null,
+    originalPrice: null,
     images: [{ url: ASSETS.products[5], sort_order: 0 }],
-    available: false,
+    inStock: false,
     description:
       "Pizza con salsa BBQ ahumada, tocineta crujiente, cebolla morada y queso gouda. El favorito de la casa.",
     rating: 4.8,
@@ -134,13 +132,13 @@ export const mockDetailProduct: StorefrontProduct = {
   name: "Fajita Supreme al Horno",
   slug: "fajita-supreme-horno",
   price: 42000,
-  compare_at_price: 50000,
+  originalPrice: 50000,
   images: [
     { url: ASSETS.products[4], sort_order: 0 },
     { url: ASSETS.products[0], sort_order: 1 },
     { url: ASSETS.products[1], sort_order: 2 },
   ],
-  available: true,
+  inStock: true,
   description:
     "Bandeja de fajitas supreme con pollo, res, camarones y todo el acompañamiento. Para compartir o disfrutar solo. Incluye tortillas, guacamole, crema ácida y pico de gallo.",
   rating: 5.0,

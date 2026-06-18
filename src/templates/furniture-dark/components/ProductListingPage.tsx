@@ -7,7 +7,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, SlidersHorizontal, Search, X } from "lucide-react";
-import type { StorefrontStore, StorefrontProduct, CategoryBannerData, FilterGroup, SortOption } from "../types";
+import type { StoreInfo, StorefrontProduct, CategoryBannerData, FilterGroup, SortOption } from "../types";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { FilterSidebar } from "../../_shared/FilterSidebar";
@@ -16,7 +16,7 @@ import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { bannerHeightClass } from "../utils/layout-classes";
 
 interface ProductListingPageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   products: StorefrontProduct[];
   categoryBanner?: CategoryBannerData | null;
   cartItemCount?: number;

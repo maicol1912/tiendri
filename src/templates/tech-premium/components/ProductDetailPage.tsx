@@ -20,6 +20,7 @@ import type { TechPremiumConfig } from "../config";
 import type {
   StoreInfo,
   StorefrontProduct,
+  ColorOption,
   NavTab,
   SpecBadge,
 } from "../types";
@@ -95,7 +96,13 @@ export function ProductDetailPage({
   const images = product.images;
   const mainImage = images[selectedImageIndex]?.url ?? "/placeholder.png";
 
-  const defaultColors = ["#1E1E1E", "#C5A880", "#D4C5A9", "#4A4A6A", "#2E4057"];
+  const defaultColors: ColorOption[] = [
+    { id: "color-1", label: "Negro Espacial", hex: "#1E1E1E" },
+    { id: "color-2", label: "Dorado", hex: "#C5A880" },
+    { id: "color-3", label: "Champagne", hex: "#D4C5A9" },
+    { id: "color-4", label: "Morado Oscuro", hex: "#4A4A6A" },
+    { id: "color-5", label: "Azul Marino", hex: "#2E4057" },
+  ];
   const colors = product.colors ?? defaultColors;
 
   const defaultStorageOptions = ["128GB", "256GB", "512GB", "1TB"];
@@ -250,14 +257,14 @@ export function ProductDetailPage({
                 <div className="flex items-center gap-2">
                   {colors.map((color, idx) => (
                     <button
-                      key={color}
+                      key={color.id}
                       type="button"
                       className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
                         idx === selectedColor ? "ring-2 ring-[var(--t-foreground)] ring-offset-2" : ""
                       }`}
-                      style={{ backgroundColor: color }}
+                      style={{ backgroundColor: color.hex }}
                       onClick={() => onColorSelect?.(idx)}
-                      aria-label={`Seleccionar color ${idx + 1}`}
+                      aria-label={`Seleccionar color: ${color.label}`}
                       aria-pressed={idx === selectedColor}
                     />
                   ))}
@@ -390,14 +397,14 @@ export function ProductDetailPage({
           <div className="flex items-center gap-2">
             {colors.map((color, idx) => (
               <button
-                key={color}
+                key={color.id}
                 type="button"
                 className={`w-8 h-8 rounded-full border-none cursor-pointer p-0 ${
                   idx === selectedColor ? "ring-2 ring-[var(--t-foreground)] ring-offset-2" : ""
                 }`}
-                style={{ backgroundColor: color }}
+                style={{ backgroundColor: color.hex }}
                 onClick={() => onColorSelect?.(idx)}
-                aria-label={`Seleccionar color ${idx + 1}`}
+                aria-label={`Seleccionar color: ${color.label}`}
                 aria-pressed={idx === selectedColor}
               />
             ))}

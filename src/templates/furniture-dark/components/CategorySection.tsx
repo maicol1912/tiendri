@@ -4,10 +4,10 @@
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
-import type { StorefrontCategory } from "../types";
+import type { Category } from "../types";
 
 interface CategorySectionProps {
-  category: StorefrontCategory;
+  category: Category;
   isActive?: boolean;
   onClick?: (categoryId: string) => void;
 }

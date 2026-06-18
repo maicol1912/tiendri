@@ -93,7 +93,7 @@ export function ProductCard({
         )}
 
         {/* Unavailable overlay */}
-        {!product.available && (
+        {!product.inStock && (
           <div
             className="absolute inset-0 flex items-center justify-center"
             style={{ backgroundColor: "rgba(14,6,0,0.6)" }}
@@ -119,7 +119,7 @@ export function ProductCard({
             onAddToCart?.(product.id);
           }}
           aria-label={`Agregar ${product.name} al carrito`}
-          disabled={!product.available}
+          disabled={!product.inStock}
           className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
         >

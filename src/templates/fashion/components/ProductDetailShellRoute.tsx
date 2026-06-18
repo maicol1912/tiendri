@@ -30,7 +30,7 @@ function ProductDetailShellInner({
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    product.colors?.[0] ?? undefined
+    product.colors?.[0]?.id ?? undefined
   );
   const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
   const [quantity, setQuantity] = useState(1);
@@ -47,7 +47,10 @@ function ProductDetailShellInner({
   const handleAddToCart = useCallback(() => {
     if (!product.inStock) return;
 
-    const legacyParts = [selectedColor, selectedSize].filter(Boolean);
+    const selectedColorLabel = selectedColor
+      ? (product.colors?.find((c) => c.id === selectedColor)?.label ?? selectedColor)
+      : null;
+    const legacyParts = [selectedColorLabel, selectedSize].filter(Boolean);
     const legacyVariantName = legacyParts.length > 0 ? legacyParts.join(" / ") : null;
 
     addItem({

@@ -2,8 +2,8 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { BeautyElegantProduct, BeautyElegantCategory } from "../types";
-import type { StoreInfo } from "@/types/store";
+import type { BeautyElegantCategory } from "../types";
+import type { StoreInfo, StorefrontProduct } from "@/types/store";
 
 // ── Store Info ────────────────────────────────────────────────────────────────
 
@@ -35,7 +35,7 @@ export const mockCategories: BeautyElegantCategory[] = [
 
 // ── Products ──────────────────────────────────────────────────────────────────
 
-export const mockProducts: BeautyElegantProduct[] = [
+export const mockProducts: StorefrontProduct[] = [
   {
     id: "p-serum-vitc",
     name: "Purple Glow Vitamin C Serum",
@@ -47,7 +47,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Sérum antioxidante con vitamina C al 20% y resveratrol. Ilumina y protege contra el envejecimiento prematuro.",
     categoryId: "cat-skincare",
     subtitle: "20% Vitamin C • Anti-aging",
-    discountLabel: "-20%",
   },
   {
     id: "p-lotion-daily",
@@ -60,8 +59,7 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Crema con complejo de péptidos y ceramidas. Restaura la barrera cutánea y reduce las líneas finas.",
     categoryId: "cat-skincare",
     subtitle: "Peptide Complex • Anti-wrinkle",
-    healthFacts: "Sin parabenos • Sin sulfatos",
-    discountLabel: "-18%",
+    specs: ["Sin parabenos • Sin sulfatos"],
   },
   {
     id: "p-night-revival",
@@ -74,7 +72,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Crema nocturna regeneradora con retinol encapsulado y niacinamida. Despierta con piel renovada.",
     categoryId: "cat-skincare",
     subtitle: "Retinol • Niacinamide",
-    discountLabel: "-22%",
   },
   {
     id: "p-lotion-swirl",
@@ -87,7 +84,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Base líquida de cobertura completa con efecto blur instantáneo. Larga duración 16h, resistente al agua.",
     categoryId: "cat-makeup",
     subtitle: "Full Coverage • SPF 20",
-    discountLabel: "-22%",
   },
   {
     id: "p-lakme-palette",
@@ -100,7 +96,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Paleta de 12 sombras en tonos violetas, malvas y lilas. Fórmula ultrasuave de alta pigmentación.",
     categoryId: "cat-makeup",
     subtitle: "12 Shades • Highly Pigmented",
-    discountLabel: "-20%",
   },
   {
     id: "p-gift-set",
@@ -113,7 +108,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Set regalo con sérum, crema hidratante, labial y mini paleta de sombras. El regalo perfecto para ella.",
     categoryId: "cat-sets",
     subtitle: "4 Bestsellers • Gift Box Included",
-    discountLabel: "-21%",
   },
   {
     id: "p-night-lotion",
@@ -126,7 +120,6 @@ export const mockProducts: BeautyElegantProduct[] = [
     description: "Labial líquido de larga duración en tonos berry y ciruela. Fórmula no resecante con aceite de jojoba.",
     categoryId: "cat-makeup",
     subtitle: "Matte Finish • 12h Wear",
-    discountLabel: "-19%",
   },
   {
     id: "p-perfume-violet",
@@ -144,7 +137,7 @@ export const mockProducts: BeautyElegantProduct[] = [
 
 // ── Detail product ────────────────────────────────────────────────────────────
 
-export const mockDetailProduct: BeautyElegantProduct = mockProducts[0]!;
+export const mockDetailProduct: StorefrontProduct = mockProducts[0]!;
 
 // ── Cart mock items ───────────────────────────────────────────────────────────
 

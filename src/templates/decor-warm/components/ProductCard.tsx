@@ -6,13 +6,13 @@
 
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import type { DecorWarmProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import { cardStyleClass, hoverEffectClass, imageRatioClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 import { formatPrice } from "@/lib/format";
 
 interface ProductCardProps {
-  product: DecorWarmProduct;
+  product: StorefrontProduct;
   currencySymbol?: string;
   onClick?: () => void;
   onAddToCart?: () => void;
@@ -92,7 +92,7 @@ export function ProductCard({
         )}
 
         {/* Unavailable overlay */}
-        {!product.available && (
+        {!product.inStock && (
           <div
             className="absolute inset-0 flex items-center justify-center"
             style={{
@@ -165,7 +165,7 @@ export function ProductCard({
             >
               {formatPrice(product.price, currencySymbol)}
             </span>
-            {product.compare_at_price && product.compare_at_price > product.price && (
+            {product.originalPrice && product.originalPrice > product.price && (
               <>
                 <span
                   className="line-through"
@@ -176,13 +176,13 @@ export function ProductCard({
                     fontWeight: 400,
                   }}
                 >
-                  {formatPrice(product.compare_at_price, currencySymbol)}
+                  {formatPrice(product.originalPrice, currencySymbol)}
                 </span>
                 <span
                   className={`text-xs font-semibold px-1.5 py-0.5 ${badgeClass}`}
                   style={{ backgroundColor: "var(--t-primary)", color: "var(--t-background)" }}
                 >
-                  -{Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%
+                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
                 </span>
               </>
             )}

@@ -45,9 +45,16 @@ export interface Category {
   productCount?: number;
 }
 
+export interface ColorOption {
+  id: string;
+  label: string;
+  hex: string;
+}
+
 export interface ProductImage {
   url: string;
   sort_order: number;
+  alt?: string;
 }
 
 export interface StorefrontVariantOption {
@@ -73,17 +80,16 @@ export interface StorefrontProduct {
   slug: string;
   price: number;
   originalPrice?: number | null;
-  discount?: number | null;
   images: ProductImage[];
   description?: string;
   specs?: string[];
   rating?: number;
   reviewCount?: number;
-  colors?: string[];
+  colors?: ColorOption[];
   storageOptions?: string[];
   variants?: StorefrontVariantGroup[];
   inStock: boolean;
   inWishlist?: boolean;
-  categoryId?: string;
+  categoryId: string;
   subcategoryId?: string;
 }

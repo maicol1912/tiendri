@@ -4,10 +4,10 @@ import { useCallback } from "react";
 import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 import { Header } from "./Header";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
-import type { FurnitureStoreInfo } from "../types";
+import type { StoreInfo } from "../types";
 
 interface StoreInfoShellRouteProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
 }
 
 export function StoreInfoShellRoute({ store }: StoreInfoShellRouteProps) {

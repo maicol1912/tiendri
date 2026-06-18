@@ -1,27 +1,24 @@
-// Storefront Home Page — Phase 5.3
+// Storefront Home Page — Phase 5.3 → migrado al engine centralizado
 // Server Component: renders the live merchant store home page.
 //
 // Data flow:
-//   - The parent layout.tsx (Server Component) fetches the store and resolves
-//     the config, passing both to StorefrontConfigProvider (Client Component).
-//   - This page renders StorefrontHomeShell (Client Component) which reads
-//     config + store from the context via useStorefrontConfig().
-//   - The shell passes data as props to HomePage (presentational, no state).
+//   - getStoreBySlug → template_id → getTemplateConfig + getTemplateSchema
+//   - resolveTemplateConfig → ResolvedStoreConfig (merge defaults + customization)
+//   - getTemplateManifest → TemplateManifest con variantes de slots
+//   - getTemplateMockData → StoreInfo + StorefrontProduct[] + Category[] (Phase 7+: Supabase)
+//   - TemplateLayout (_core) → frame orquestador que resuelve ruta y monta shells
 //
-// SEO: generateMetadata reads the store from Supabase to produce per-store
-//      <title> and OG tags. This is an independent fetch — Next.js deduplicates
-//      the Supabase request with the layout's fetch via React cache (if enabled).
+// SEO: generateMetadata lee la tienda desde Supabase para generar <title> y OG tags.
+//      React cache() en getStoreBySlug deduplica el fetch con el del layout.
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getStoreBySlug } from "@/lib/getStoreBySlug";
 import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
-// StorefrontHomeShell is tech-premium's shell. Until other templates implement
-// their own Storefront*Shell, this remains the single storefront renderer.
-// When a new template ships its shell, add a dynamic switch here based on
-// store.template_id — identical pattern to the registry loaders in registry.ts.
-import { StorefrontHomeShell } from "@/templates/tech-premium/components/StorefrontHomeShell";
+import { TemplateLayout } from "@/templates/_core";
+import { getTemplateManifest } from "@/templates/manifest-resolver";
+import { getTemplateMockData } from "@/templates/mock-loader";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -155,17 +152,26 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
     whatsapp
   );
 
-  // StorefrontHomeShell is a Client Component that reads config + store from
-  // StorefrontConfigProvider (set up by the parent layout) and renders the
-  // home page using the tech-premium template with mock product data for now.
-  // Product fetching from Supabase is a separate feature (Phase 7+).
+  // Cargar manifiesto y datos mock para el engine centralizado.
+  // TemplateLayout es el frame orquestador del _core — resuelve variantes de
+  // slots (header/footer/bottomNav) y monta el shell correcto según la ruta.
+  // Los datos reales desde Supabase reemplazarán mockData en Phase 7+.
+  const manifest = getTemplateManifest(effectiveTemplateId, resolvedConfig);
+  const mockData = await getTemplateMockData(effectiveTemplateId);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <StorefrontHomeShell />
+      <TemplateLayout
+        store={mockData.store}
+        products={mockData.products}
+        categories={mockData.categories}
+        config={resolvedConfig}
+        manifest={manifest}
+      />
     </>
   );
 }

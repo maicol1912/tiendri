@@ -2,10 +2,10 @@
 // Clean minimal footer with store name, links, Tiendri attribution
 // ZERO hardcoded colors
 
-import type { FurnitureStoreInfo } from "../types";
+import type { StoreInfo } from "../types";
 
 interface FooterProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   layout?: Record<string, unknown>;
 }
 

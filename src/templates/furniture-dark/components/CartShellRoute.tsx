@@ -3,15 +3,14 @@
 // Furniture Dark — CartShellRoute
 // Reads items from CartContext, handles all cart mutations + navigation
 
-import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
-import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { CartPage } from "./CartPage";
 import { mockStore } from "../mock/data";
 
 export function CartShellRoute() {
-  const router = useRouter();
   const { items, totalItems, totalPrice, incrementItem, decrementItem, removeItem } = useCart();
+  const nav = useTemplateNav();
 
   return (
     <CartPage
@@ -22,19 +21,19 @@ export function CartShellRoute() {
       onIncrement={incrementItem}
       onDecrement={decrementItem}
       onRemove={removeItem}
-      onCheckout={() => router.push(`${TEMPLATE_BASE}/checkout`)}
-      onContinueShopping={() => router.push(`${TEMPLATE_BASE}/catalogo`)}
-      onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
+      onCheckout={nav.goCheckout}
+      onContinueShopping={nav.goListing}
+      onSearchClick={nav.goSearch}
       onCartClick={() => {}}
       onNavLinkClick={(href) => {
-        if (href === "/") router.push(TEMPLATE_BASE);
-        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
-        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
       }}
       onBottomNavTab={(tab) => {
-        if (tab === "home") router.push(TEMPLATE_BASE);
-        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
-        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
+        if (tab === "home") nav.goHome();
+        else if (tab === "search") nav.goSearch();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

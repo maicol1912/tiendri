@@ -11,16 +11,16 @@ import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutCli
 import { furnitureLightConfig } from "../config";
 import type { FurnitureLightConfig } from "../config";
 import type {
-  FurnitureProduct,
+  StorefrontProduct,
   FurnitureCategory,
-  FurnitureStoreInfo,
+  StoreInfo,
   StyleCard,
 } from "../types";
 
 interface HomeShellProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   categories: FurnitureCategory[];
-  products: FurnitureProduct[];
+  products: StorefrontProduct[];
   featuredCard?: { title: string; subtitle: string; image: string };
   styleCards?: StyleCard[];
   heroBannerImage?: string;
@@ -58,10 +58,10 @@ export function HomeShell({
   const handleAddToCart = useCallback(
     (productId: string) => {
       const product = products.find((p) => p.id === productId);
-      if (!product || product.available === false) return;
+      if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
-        variantName: product.colorVariant ?? null,
+        variantName: product.colors?.[0]?.label ?? null,
         name: product.name,
         price: product.price,
         quantity: 1,

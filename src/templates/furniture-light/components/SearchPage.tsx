@@ -11,16 +11,16 @@ import { CategorySection } from "./CategorySection";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureProduct, FurnitureCategory, FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StorefrontProduct, FurnitureCategory, StoreInfo, FurnitureNavTab } from "../types";
 
 interface SearchPageProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   navLinks?: readonly { label: string; href: string }[];
   layout?: FurnitureLightConfig["layout"];
   grid?: FurnitureLightConfig["grid"];
   searchQuery?: string;
-  results?: FurnitureProduct[];
-  allProducts?: FurnitureProduct[];
+  results?: StorefrontProduct[];
+  allProducts?: StorefrontProduct[];
   categories?: FurnitureCategory[];
   activeCategoryId?: string | null;
   activeTab?: FurnitureNavTab;

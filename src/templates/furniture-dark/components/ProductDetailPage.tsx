@@ -14,10 +14,10 @@ import { StickyBottomBar } from "./StickyBottomBar";
 import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
 import type { VariantSelection } from "@/hooks/useVariantPrice";
-import type { StorefrontStore } from "../types";
+import type { StoreInfo } from "../types";
 
 interface ProductDetailPageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   product: StorefrontProduct;
   quantity: number;
   activeImageIndex: number;

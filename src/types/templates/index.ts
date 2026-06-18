@@ -7,4 +7,5 @@ export type * from "./resolved-config";
 export type * from "./config-schema";
 export type * from "./typography";
 export type * from "./structural-variants";
+export type * from "./manifest";
 export { isRepeatableSection } from "./config-schema";

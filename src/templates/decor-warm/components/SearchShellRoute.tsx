@@ -10,12 +10,12 @@ import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { decorWarmConfig } from "../config";
 import type { DecorWarmConfig } from "../config";
-import type { DecorWarmProduct, DecorWarmNavTab } from "../types";
+import type { StorefrontProduct, DecorWarmNavTab } from "../types";
 import type { StoreInfo } from "@/types/store";
 
 interface SearchShellRouteProps {
   store: StoreInfo;
-  products: DecorWarmProduct[];
+  products: StorefrontProduct[];
   popularSearches?: string[];
   currencySymbol?: string;
 }
@@ -68,7 +68,7 @@ export function SearchShellRoute({
   const recommendations = products.slice(0, 4);
 
   const handleAddToCart = useCallback(
-    (product: DecorWarmProduct) => {
+    (product: StorefrontProduct) => {
       addItem({
         productId: product.id,
         name: product.name,

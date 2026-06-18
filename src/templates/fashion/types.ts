@@ -5,7 +5,7 @@
 // ── Re-exports from shared types ──────────────────────────────────────────────
 // Shared domain types live in @/types/store and @/types/cart.
 // Components that import from this file continue to work unchanged.
-export type { StoreInfo, Category, ProductImage, StorefrontProduct } from "@/types/store";
+export type { StoreInfo, Category, ProductImage, StorefrontProduct, ColorOption } from "@/types/store";
 export type { CartItem, CheckoutFormData } from "@/types/cart";
 
 // ── Fashion-specific types ─────────────────────────────────────────────────────

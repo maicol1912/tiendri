@@ -7,10 +7,10 @@
 // ALL colors via var(--t-*)
 
 import Image from "next/image";
-import type { StorefrontProductImage } from "../types";
+import type { ProductImage } from "../types";
 
 interface ImageGalleryProps {
-  images: StorefrontProductImage[];
+  images: ProductImage[];
   activeIndex: number;
   onSelect: (index: number) => void;
 }

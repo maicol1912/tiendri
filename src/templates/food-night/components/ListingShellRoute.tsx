@@ -90,7 +90,7 @@ export function ListingShellRoute({
 
   const handleAddToCart = useCallback((productId: string) => {
     const product = products.find((p) => p.id === productId);
-    if (!product || !product.available) return;
+    if (!product || !product.inStock) return;
     addItem({
       productId: product.id,
       name: product.name,
@@ -172,8 +172,8 @@ export function ListingShellRoute({
     if (availFilters.length > 0) {
       result = result.filter((p) => {
         return availFilters.some((af) => {
-          if (af === "available") return p.available === true;
-          if (af === "unavailable") return p.available === false;
+          if (af === "available") return p.inStock === true;
+          if (af === "unavailable") return p.inStock === false;
           return false;
         });
       });

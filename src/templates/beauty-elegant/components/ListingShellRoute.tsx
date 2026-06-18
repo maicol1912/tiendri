@@ -122,7 +122,7 @@ export function ListingShellRoute({
         if (p.name.toLowerCase().includes(q)) return true;
         if ((p.description ?? "").toLowerCase().includes(q)) return true;
         if ((p.subtitle ?? "").toLowerCase().includes(q)) return true;
-        if (typeof p.healthFacts === "string" && p.healthFacts.toLowerCase().includes(q))
+        if (p.specs?.some((s) => s.toLowerCase().includes(q)))
           return true;
         return false;
       });

@@ -36,7 +36,7 @@ export function ProductCard({
       ? Math.round((1 - product.price / product.originalPrice) * 100)
       : null;
 
-  const mainImage = product.images?.[0]?.url ?? product.image ?? "";
+  const mainImage = product.images?.[0]?.url ?? "";
 
   return (
     <article
@@ -84,7 +84,7 @@ export function ProductCard({
         )}
 
         {/* Unavailable overlay */}
-        {product.available === false && (
+        {!product.inStock && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-[var(--t-radius-card)]">
             <span
               className="px-3 py-1.5 text-xs font-semibold tracking-wider"
@@ -108,7 +108,7 @@ export function ProductCard({
             onAddToCart?.(product.id);
           }}
           aria-label={`Agregar ${product.name} al carrito`}
-          disabled={product.available === false}
+          disabled={!product.inStock}
           className="absolute bottom-2 right-2 w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ backgroundColor: "var(--t-primary)", color: "var(--t-on-primary)" }}
         >

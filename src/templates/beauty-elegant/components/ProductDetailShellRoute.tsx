@@ -9,13 +9,12 @@ import { ProductDetailPage } from "./ProductDetailPage";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useCart } from "@/lib/cart";
 import { useVariantPrice } from "@/hooks/useVariantPrice";
-import type { BeautyElegantProduct } from "../types";
-import type { StoreInfo } from "../types";
+import type { StorefrontProduct, StoreInfo } from "../types";
 
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
-  product: BeautyElegantProduct;
-  relatedProducts?: BeautyElegantProduct[];
+  product: StorefrontProduct;
+  relatedProducts?: StorefrontProduct[];
   currencySymbol?: string;
 }
 

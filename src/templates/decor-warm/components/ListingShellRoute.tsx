@@ -11,12 +11,12 @@ import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutCli
 import { decorWarmConfig } from "../config";
 import { mockCategories } from "../mock/data";
 import type { DecorWarmConfig } from "../config";
-import type { DecorWarmProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
+import type { StorefrontProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
 import type { StoreInfo } from "@/types/store";
 
 interface ListingShellRouteProps {
   store: StoreInfo;
-  products: DecorWarmProduct[];
+  products: StorefrontProduct[];
   currencySymbol?: string;
 }
 
@@ -114,17 +114,17 @@ export function ListingShellRoute({
       });
     }
 
-    // Filter by availability — products use `available` boolean field
+    // Filter by availability — products use `inStock` boolean field
     if ((activeFilters.availability ?? []).length > 0) {
       result = result.filter((p) => {
         if (
           activeFilters.availability!.includes("available") &&
-          p.available === true
+          p.inStock === true
         )
           return true;
         if (
           activeFilters.availability!.includes("out-of-stock") &&
-          p.available === false
+          p.inStock === false
         )
           return true;
         return false;
@@ -187,7 +187,7 @@ export function ListingShellRoute({
   }, []);
 
   const handleAddToCart = useCallback(
-    (product: DecorWarmProduct) => {
+    (product: StorefrontProduct) => {
       addItem({
         productId: product.id,
         name: product.name,

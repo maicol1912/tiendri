@@ -5,14 +5,14 @@
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import { ShoppingBag } from "lucide-react";
 import type { CartItem } from "@/lib/cart";
-import type { StorefrontStore } from "../types";
+import type { StoreInfo } from "../types";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { CartSummary } from "./CartSummary";
 
 interface CartPageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   items: CartItem[];
   totalPrice: number;
   cartItemCount?: number;

@@ -9,13 +9,13 @@ import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import { FilterSidebar } from "../../_shared/FilterSidebar";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
-import type { DecorWarmProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
+import type { StorefrontProduct, DecorWarmNavTab, FilterGroup, SortOption } from "../types";
 import type { DecorWarmConfig } from "../config";
 import type { StoreInfo } from "@/types/store";
 
 interface ProductListingPageProps {
   store: StoreInfo;
-  products: DecorWarmProduct[];
+  products: StorefrontProduct[];
   cartItemCount?: number;
   currencySymbol?: string;
   layout?: DecorWarmConfig["layout"];
@@ -31,7 +31,7 @@ interface ProductListingPageProps {
   onCartOpen?: () => void;
   onNavLinkClick?: (href: string) => void;
   onProductClick?: (productId: string) => void;
-  onAddToCart?: (product: DecorWarmProduct) => void;
+  onAddToCart?: (product: StorefrontProduct) => void;
   onTabChange?: (tab: DecorWarmNavTab) => void;
   onFilterChange?: (groupId: string, optionId: string, checked: boolean) => void;
   onClearAll?: () => void;

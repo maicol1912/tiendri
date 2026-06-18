@@ -6,14 +6,14 @@
 
 import { useRef, useEffect } from "react";
 import { ChevronLeft, Search, X } from "lucide-react";
-import type { StorefrontStore, StorefrontProduct } from "../types";
+import type { StoreInfo, StorefrontProduct } from "../types";
 import { Header } from "./Header";
 import { BottomNav } from "./BottomNav";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 
 interface SearchPageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   query: string;
   results: StorefrontProduct[];
   cartItemCount?: number;

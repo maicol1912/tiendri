@@ -17,13 +17,13 @@ import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
 import type { VariantSelection } from "@/hooks/useVariantPrice";
 import type { TemplateLayoutConfig } from "@/types/templates";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureProduct, FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StorefrontProduct, StoreInfo, FurnitureNavTab } from "../types";
 
 interface ProductDetailPageProps {
-  store: FurnitureStoreInfo;
-  product: FurnitureProduct;
+  store: StoreInfo;
+  product: StorefrontProduct;
   navLinks?: readonly { label: string; href: string }[];
-  relatedProducts?: FurnitureProduct[];
+  relatedProducts?: StorefrontProduct[];
   grid?: FurnitureLightConfig["grid"];
   layout?: Partial<TemplateLayoutConfig>;
   activeTab?: FurnitureNavTab;
@@ -84,15 +84,13 @@ export function ProductDetailPage({
 
   const displayPrice = effectivePrice ?? product.price;
   const formattedPrice = `${currencySymbol}${new Intl.NumberFormat("es-CO").format(displayPrice)}`;
-  const comparePrice = product.compare_at_price
-    ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.compare_at_price)}`
+  const comparePrice = product.originalPrice
+    ? `${currencySymbol}${new Intl.NumberFormat("es-CO").format(product.originalPrice)}`
     : null;
 
-  const discountPct = product.discountPercent ?? (
-    product.compare_at_price
-      ? Math.round((1 - product.price / product.compare_at_price) * 100)
-      : 0
-  );
+  const discountPct = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : 0;
 
   const gridCols = grid?.listing ?? { mobile: 2, desktop: 3 };
   const btnClass = BUTTON_STYLE_MAP["filled"];
@@ -127,7 +125,7 @@ export function ProductDetailPage({
                 className="relative w-full overflow-hidden mb-3"
                 style={{
                   borderRadius: "var(--t-radius-card)",
-                  backgroundColor: product.cardBgColor ?? "var(--t-card)",
+                  backgroundColor: "var(--t-card)",
                   aspectRatio: "1 / 1",
                 }}
               >
@@ -184,7 +182,7 @@ export function ProductDetailPage({
                         width: "64px",
                         height: "64px",
                         borderRadius: "var(--t-radius-card)",
-                        backgroundColor: product.cardBgColor ?? "var(--t-card)",
+                        backgroundColor: "var(--t-card)",
                         border: idx === selectedImageIndex
                           ? "2px solid var(--t-primary)"
                           : "2px solid transparent",
@@ -235,15 +233,15 @@ export function ProductDetailPage({
               )}
 
               {/* Color options */}
-              {product.colorOptions && product.colorOptions.length > 0 && (
+              {product.colors && product.colors.length > 0 && (
                 <div className="mt-4">
                   <p className="text-xs font-semibold text-[var(--t-foreground)] mb-2">
-                    Color: <span className="font-normal text-[var(--t-muted)]">{product.colorOptions[selectedColorIndex] ?? product.colorVariant}</span>
+                    Color: <span className="font-normal text-[var(--t-muted)]">{product.colors[selectedColorIndex]?.label}</span>
                   </p>
                   <div className="flex gap-2">
-                    {product.colorOptions.map((color, idx) => (
+                    {product.colors.map((color, idx) => (
                       <button
-                        key={color}
+                        key={color.id}
                         onClick={() => onColorSelect?.(idx)}
                         className="px-3 py-1.5 text-xs font-medium transition-all"
                         style={{
@@ -259,7 +257,7 @@ export function ProductDetailPage({
                             : "var(--t-foreground)",
                         }}
                       >
-                        {color}
+                        {color.label}
                       </button>
                     ))}
                   </div>
@@ -338,12 +336,12 @@ export function ProductDetailPage({
               <div className="hidden lg:flex items-center gap-3 mt-6">
                 <button
                   onClick={onAddToCart}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] border ${product.available === false ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 active:scale-[0.98] border ${!product.inStock ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
                   style={{ borderRadius: "var(--t-radius-button)" }}
-                  disabled={product.available === false}
+                  disabled={!product.inStock}
                 >
                   <ShoppingCart size={18} />
-                  {product.available === false ? "Agotado" : "Agregar al carrito"}
+                  {!product.inStock ? "Agotado" : "Agregar al carrito"}
                 </button>
               </div>
             </div>
@@ -381,12 +379,12 @@ export function ProductDetailPage({
       <div className="lg:hidden fixed bottom-[60px] left-0 right-0 z-40 px-5 pb-2 pt-2 bg-[var(--t-background)]" style={{ boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}>
         <button
           onClick={onAddToCart}
-          className={`w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 border ${product.available === false ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
+          className={`w-full flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-all hover:opacity-90 border ${!product.inStock ? "opacity-50 cursor-not-allowed" : ""} ${btnClass}`}
           style={{ borderRadius: "var(--t-radius-button)" }}
-          disabled={product.available === false}
+          disabled={!product.inStock}
         >
           <ShoppingCart size={16} />
-          {product.available === false ? "Agotado" : "Agregar al carrito"}
+          {!product.inStock ? "Agotado" : "Agregar al carrito"}
         </button>
       </div>
 

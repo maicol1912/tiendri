@@ -2,52 +2,7 @@
 // Dark pizza/food delivery app theme.
 // Background: var(--t-background), accent: var(--t-primary).
 
-import type { StorefrontVariantGroup } from "@/types/store";
-
-export interface StoreInfo {
-  name: string;
-  logo: string | null;
-  slug: string;
-  avatar?: string | null;
-  greeting?: string;
-  whatsapp?: string;
-  hours?: string;
-  paymentMethods?: string[];
-  shippingInfo?: string;
-  social_links?: {
-    instagram?: string;
-    facebook?: string;
-    tiktok?: string;
-    twitter?: string;
-    youtube?: string;
-  };
-}
-
-export interface Category {
-  id: string;
-  name: string;
-}
-
-export interface ProductImage {
-  url: string;
-  sort_order: number;
-}
-
-export interface StorefrontProduct {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  compare_at_price?: number | null;
-  images: ProductImage[];
-  available: boolean;
-  description?: string;
-  rating?: number;
-  reviewCount?: number;
-  inWishlist?: boolean;
-  categoryId?: string;
-  variants?: StorefrontVariantGroup[];
-}
+export type { StoreInfo, StorefrontProduct, ProductImage, ColorOption, Category, StorefrontVariantGroup, StorefrontVariantOption } from "@/types/store";
 
 export interface SizeOption {
   id: string;

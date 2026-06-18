@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
 import { useVariantPrice } from "@/hooks/useVariantPrice";
-import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { mockStore, mockProducts } from "../mock/data";
 
@@ -20,6 +20,7 @@ interface ProductDetailShellRouteProps {
 export function ProductDetailShellRoute({ productId }: ProductDetailShellRouteProps) {
   const router = useRouter();
   const { addItem, totalItems } = useCart();
+  const nav = useTemplateNav();
 
   const product = mockProducts.find((p) => p.id === productId) ?? mockProducts[0];
   if (!product) return null;
@@ -45,13 +46,13 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       productId: product.id,
       name: product.name,
       price: effectivePrice,
-      imageUrl: images[0]?.url ?? product.image ?? null,
+      imageUrl: images[0]?.url ?? null,
       quantity,
       variantName: variantPriceName,
       colorId: selectedColorId,
       rating: product.rating,
     });
-    router.push(`${TEMPLATE_BASE}/carrito`);
+    nav.goCart();
   }
 
   function increment() {
@@ -79,17 +80,17 @@ export function ProductDetailShellRoute({ productId }: ProductDetailShellRoutePr
       onDecrement={decrement}
       onAddToCart={handleAddToCart}
       onBack={() => router.back()}
-      onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
-      onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onSearchClick={nav.goSearch}
+      onCartClick={nav.goCart}
       onNavLinkClick={(href) => {
-        if (href === "/") router.push(TEMPLATE_BASE);
-        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
-        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
       }}
-      onInfoClick={() => router.push(`${TEMPLATE_BASE}/info`)}
+      onInfoClick={nav.goInfo}
       cartItemCount={totalItems}
       relatedProducts={relatedProducts}
-      onProductClick={(id) => router.push(`${TEMPLATE_BASE}/producto/${id}`)}
+      onProductClick={(id) => nav.goProduct(id)}
     />
   );
 }

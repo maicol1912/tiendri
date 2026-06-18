@@ -13,7 +13,7 @@ import { ProductCard } from "./ProductCard";
 import { Header } from "./Header";
 import { ProductTabs } from "@/templates/_shared/components/ProductTabs";
 import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
-import type { BeautyElegantProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import type { StoreInfo } from "../types";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 import type { ButtonStyle } from "@/types/templates";
@@ -21,10 +21,10 @@ import { formatPrice } from "@/lib/format";
 import type { VariantSelection } from "@/hooks/useVariantPrice";
 
 interface ProductDetailPageProps {
-  product: BeautyElegantProduct;
+  product: StorefrontProduct;
   store: StoreInfo;
   currencySymbol?: string;
-  relatedProducts?: BeautyElegantProduct[];
+  relatedProducts?: StorefrontProduct[];
   layout?: { buttonStyle?: ButtonStyle };
   cartItemCount?: number;
   effectivePrice?: number;
@@ -83,7 +83,7 @@ export function ProductDetailPage({
   }, [product, addItem, primaryImage, displayPrice, variantName]);
 
   const subtitleLabel = product.subtitle ?? "Cuidado Premium";
-  const healthFacts = product.healthFacts ?? "Dermatológicamente probado";
+  const healthFacts = product.specs?.[0] ?? "Dermatológicamente probado";
 
   // ── Glassmorphic info card content (shared between mobile and desktop) ─────
   const InfoCardContent = (

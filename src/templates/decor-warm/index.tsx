@@ -42,8 +42,8 @@ export { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 export { StoreInfoShellRoute } from "./components/StoreInfoShellRoute";
 export { CartProvider, useCart } from "@/lib/cart";
 export type {
-  DecorWarmProduct,
-  DecorWarmCategory,
+  StorefrontProduct,
+  Category,
   DecorWarmCategoryIcon,
   DecorWarmPromoSlide,
   DecorWarmBestSeller,

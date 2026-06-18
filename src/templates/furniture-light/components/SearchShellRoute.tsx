@@ -9,11 +9,11 @@ import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureProduct, FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StorefrontProduct, StoreInfo, FurnitureNavTab } from "../types";
 
 interface SearchShellRouteProps {
-  store: FurnitureStoreInfo;
-  allProducts: FurnitureProduct[];
+  store: StoreInfo;
+  allProducts: StorefrontProduct[];
   currencySymbol?: string;
 }
 
@@ -71,10 +71,10 @@ export function SearchShellRoute({
   const handleAddToCart = useCallback(
     (productId: string) => {
       const product = allProducts.find((p) => p.id === productId);
-      if (!product || product.available === false) return;
+      if (!product || !product.inStock) return;
       addItem({
         productId: product.id,
-        variantName: product.colorVariant ?? null,
+        variantName: product.colors?.[0]?.label ?? null,
         name: product.name,
         price: product.price,
         quantity: 1,

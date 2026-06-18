@@ -16,9 +16,9 @@ import { gridColsClass } from "../../_shared/utils/grid-classes";
 import { furnitureLightConfig } from "../config";
 import type { FurnitureLightConfig } from "../config";
 import type {
-  FurnitureProduct,
+  StorefrontProduct,
   FurnitureCategory,
-  FurnitureStoreInfo,
+  StoreInfo,
   FurnitureNavTab,
   StyleCard,
 } from "../types";
@@ -29,10 +29,10 @@ interface NavLink {
 }
 
 interface HomePageProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   navLinks?: readonly NavLink[];
   categories: FurnitureCategory[];
-  products: FurnitureProduct[];
+  products: StorefrontProduct[];
   featuredCard?: { title: string; subtitle: string; image: string };
   styleCards?: StyleCard[];
   heroBannerImage?: string;
@@ -87,7 +87,7 @@ export function HomePage({
 }: HomePageProps) {
   // Flash sale products — discounted items or first 4 products
   const flashSaleProducts = products
-    .filter((p) => (p.discountPercent ?? 0) > 0 || !!p.compare_at_price)
+    .filter((p) => !!p.originalPrice && p.originalPrice > p.price)
     .slice(0, 6)
     .concat(products.slice(0, 6))
     .slice(0, 6);

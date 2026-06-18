@@ -3,11 +3,10 @@
 
 import { ASSETS } from "./assets";
 import type {
-  BeautySoftProduct,
   BeautySoftCategory,
   HeroBannerData,
 } from "../types";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo, StorefrontProduct } from "@/types/store";
 
 // ── Store Info ────────────────────────────────────────────────────────────────
 
@@ -51,7 +50,7 @@ export const mockCategories: BeautySoftCategory[] = [
 
 // ── Products ──────────────────────────────────────────────────────────────────
 
-export const mockProducts: BeautySoftProduct[] = [
+export const mockProducts: StorefrontProduct[] = [
   {
     id: "prod-serum",
     name: "Sérum Iluminador Vitamina C",
@@ -129,7 +128,7 @@ export const mockProducts: BeautySoftProduct[] = [
 
 // ── Detail product (for product detail page) ──────────────────────────────────
 
-export const mockDetailProduct: BeautySoftProduct = mockProducts[1]!;
+export const mockDetailProduct: StorefrontProduct = mockProducts[1]!;
 
 // ── Cart mock items (for cart preview) ───────────────────────────────────────
 

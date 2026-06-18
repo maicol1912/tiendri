@@ -7,12 +7,12 @@ import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CartItemRow } from "./CartItemRow";
 import { OrderSummary } from "./OrderSummary";
-import type { FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StoreInfo, FurnitureNavTab } from "../types";
 import type { CartItem } from "@/lib/cart";
 import { BUTTON_STYLE_MAP } from "@/templates/_shared/style-maps";
 
 interface CartPageProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   items: CartItem[];
   navLinks?: readonly { label: string; href: string }[];
   layout?: Record<string, unknown>;

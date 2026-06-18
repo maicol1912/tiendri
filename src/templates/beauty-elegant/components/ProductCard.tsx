@@ -6,14 +6,14 @@
 
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import type { BeautyElegantProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import { imageRatioClass, hoverEffectClass, cardStyleClass } from "../utils/layout-classes";
 import { BADGE_STYLE_MAP, PRICE_DISPLAY_MAP } from "@/templates/_shared/style-maps";
 import type { BadgeStyle, PriceDisplay } from "@/types/templates";
 import { formatPrice } from "@/lib/format";
 
 interface ProductCardProps {
-  product: BeautyElegantProduct;
+  product: StorefrontProduct;
   currencySymbol?: string;
   layout?: {
     cardStyle?: string;
@@ -109,7 +109,7 @@ export function ProductCard({
               color: "var(--t-discount-text)",
             }}
           >
-            {product.discountLabel ?? `${discountPercent}% Off`}
+            {`-${discountPercent}%`}
           </span>
         )}
 

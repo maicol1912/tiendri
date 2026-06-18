@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
-import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { CheckoutPage } from "./CheckoutPage";
 import { mockStore } from "../mock/data";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -21,8 +20,8 @@ const EMPTY_FORM: CheckoutFormData = {
 };
 
 export function CheckoutShellRoute() {
-  const router = useRouter();
   const { items, totalPrice, totalItems, clearCart } = useCart();
+  const nav = useTemplateNav();
   const [formData, setFormData] = useState<CheckoutFormData>(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -53,7 +52,7 @@ export function CheckoutShellRoute() {
 
     clearCart();
     window.open(url, "_blank");
-    router.push(TEMPLATE_BASE);
+    nav.goHome();
   }
 
   return (
@@ -66,13 +65,13 @@ export function CheckoutShellRoute() {
       cartItemCount={totalItems}
       onChange={handleChange}
       onSubmit={handleSubmit}
-      onBack={() => router.push(`${TEMPLATE_BASE}/carrito`)}
-      onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
-      onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onBack={nav.goCart}
+      onSearchClick={nav.goSearch}
+      onCartClick={nav.goCart}
       onNavLinkClick={(href) => {
-        if (href === "/") router.push(TEMPLATE_BASE);
-        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
-        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
       }}
     />
   );

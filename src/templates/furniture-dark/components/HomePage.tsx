@@ -5,8 +5,8 @@
 
 import type { ReactNode } from "react";
 import type {
-  StorefrontStore,
-  StorefrontCategory,
+  StoreInfo,
+  Category,
   StorefrontProduct,
   PromoCard,
   VideoData,
@@ -28,9 +28,9 @@ interface HomePageSection {
 }
 
 interface HomePageProps {
-  store: StorefrontStore;
+  store: StoreInfo;
   config: FurnitureDarkConfig;
-  categories: StorefrontCategory[];
+  categories: Category[];
   bestSellers: StorefrontProduct[];
   featuredProducts: StorefrontProduct[];
   promoCards: PromoCard[];

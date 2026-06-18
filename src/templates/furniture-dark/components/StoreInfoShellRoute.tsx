@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 import { Header } from "./Header";
-import { useTemplateNav } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { mockStore } from "../mock/data";
 import type { StoreInfo } from "@/types/store";
 

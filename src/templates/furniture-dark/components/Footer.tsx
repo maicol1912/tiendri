@@ -2,7 +2,7 @@
 // Social links as dark circles + "Creado con Tiendri" in primary color
 // ALL colors via var(--t-*)
 
-import type { StorefrontStore } from "../types";
+import type { StoreInfo } from "../types";
 
 // Inline SVG icons — lucide-react doesn't always export brand icons
 function InstagramIcon({ size = 16 }: { size?: number }) {
@@ -32,7 +32,7 @@ function TikTokIcon({ size = 16 }: { size?: number }) {
 }
 
 interface FooterProps {
-  store: StorefrontStore;
+  store: StoreInfo;
 }
 
 export function Footer({ store }: FooterProps) {

@@ -2,83 +2,21 @@
 // Dark theme (#181818 background), yellow-green accent (#EFF422→#B0BA38), Urbanist font.
 // Faithful reproduction of "Akshan Furniture Store" dark mode.
 
-export interface StorefrontStore {
-  name: string;
-  logo: string | null;
-  slug: string;
-  whatsapp?: string;
-  description?: string;
-  hours?: string;
-  paymentMethods?: string[];
-  shippingInfo?: string;
-  social_links?: {
-    instagram?: string;
-    facebook?: string;
-    tiktok?: string;
-    twitter?: string;
-    youtube?: string;
-  };
-}
+// ── Re-exports from canonical types ──────────────────────────────────────────
 
-export interface StorefrontCategory {
-  id: string;
-  name: string;
-  /** Lifestyle/room photo — uses object-cover. Circular display. */
-  image: string | null;
-}
+export type {
+  StoreInfo,
+  Category,
+  ProductImage,
+  ColorOption,
+  StorefrontProduct,
+  StorefrontVariantGroup,
+  StorefrontVariantOption,
+} from "@/types/store";
 
-export interface StorefrontProductImage {
-  url: string;
-  alt?: string;
-  sort_order?: number;
-}
+export type { CartItem } from "@/types/cart";
 
-export interface ColorOption {
-  id: string;
-  /** CSS hex color string e.g. "#C4A07A" */
-  hex: string;
-  name: string;
-}
-
-export interface StorefrontVariantOption {
-  id: string;
-  label: string;
-  value?: string;
-  priceModifier?: number;
-  available?: boolean;
-}
-
-export interface StorefrontVariantGroup {
-  id: string;
-  label: string;
-  type: 'color' | 'size' | 'storage' | 'custom';
-  options: StorefrontVariantOption[];
-}
-
-export interface StorefrontProduct {
-  id: string;
-  name: string;
-  price: number;
-  /** Original/compare-at price for discount badge */
-  originalPrice?: number;
-  images: StorefrontProductImage[];
-  /** Convenience alias for images[0].url */
-  image?: string;
-  available?: boolean;
-  description?: string;
-  /** Average rating 0–5 */
-  rating?: number;
-  /** Number of reviews e.g. 1300 */
-  reviewCount?: number;
-  /** Whether product is in wishlist (visual only) */
-  inWishlist?: boolean;
-  /** Category this product belongs to */
-  categoryId?: string;
-  subcategoryId?: string;
-  /** Available colors */
-  colors?: ColorOption[];
-  variants?: StorefrontVariantGroup[];
-}
+// ── Local-only types ──────────────────────────────────────────────────────────
 
 export type NavTab = "home" | "search" | "cart" | "info";
 
@@ -109,6 +47,7 @@ export interface CheckoutItem {
   image: string;
 }
 
+/** Local checkout form — furniture-dark uses its own field names */
 export interface CheckoutFormData {
   firstName: string;
   lastName: string;

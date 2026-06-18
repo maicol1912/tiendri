@@ -4,9 +4,8 @@
 // Full filter + sort system. Category filtering via FilterSidebar (replaces old pill-based system).
 
 import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart";
-import { TEMPLATE_BASE } from "../hooks/useTemplateNav";
+import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { ProductListingPage } from "./ProductListingPage";
 import { mockStore, mockProducts, mockCategoryBanner } from "../mock/data";
 import type { FilterGroup, SortOption } from "../types";
@@ -20,8 +19,8 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 ];
 
 export function ListingShellRoute() {
-  const router = useRouter();
   const { totalItems, addItem } = useCart();
+  const nav = useTemplateNav();
 
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
   const [sortOption, setSortOption] = useState<SortOption>("featured");
@@ -115,7 +114,7 @@ export function ListingShellRoute() {
     const availFilters = activeFilters.availability ?? [];
     if (availFilters.length > 0) {
       result = result.filter((p) => {
-        const isAvailable = p.available === true;
+        const isAvailable = p.inStock;
         if (availFilters.includes("in-stock") && availFilters.includes("out-of-stock")) return true;
         if (availFilters.includes("in-stock")) return isAvailable;
         if (availFilters.includes("out-of-stock")) return !isAvailable;
@@ -160,12 +159,12 @@ export function ListingShellRoute() {
 
   function handleAddToCart(productId: string) {
     const product = mockProducts.find((p) => p.id === productId);
-    if (!product || product.available === false) return;
+    if (!product || !product.inStock) return;
     addItem({
       productId: product.id,
       name: product.name,
       price: product.price,
-      imageUrl: product.images?.[0]?.url ?? product.image ?? null,
+      imageUrl: product.images?.[0]?.url ?? null,
       variantName: null,
       quantity: 1,
     });
@@ -191,23 +190,21 @@ export function ListingShellRoute() {
       onFilterToggle={() => setIsFilterOpen((v) => !v)}
       onFilterClose={() => setIsFilterOpen(false)}
       activeHref="/catalogo"
-      onBack={() => router.push(TEMPLATE_BASE)}
-      onProductClick={(productId) =>
-        router.push(`${TEMPLATE_BASE}/producto/${productId}`)
-      }
+      onBack={nav.goHome}
+      onProductClick={(productId) => nav.goProduct(productId)}
       onAddToCart={handleAddToCart}
-      onSearchClick={() => router.push(`${TEMPLATE_BASE}/buscar`)}
-      onCartClick={() => router.push(`${TEMPLATE_BASE}/carrito`)}
+      onSearchClick={nav.goSearch}
+      onCartClick={nav.goCart}
       onNavLinkClick={(href) => {
-        if (href === "/") router.push(TEMPLATE_BASE);
-        else if (href === "/catalogo") router.push(`${TEMPLATE_BASE}/catalogo`);
-        else if (href === "/info") router.push(`${TEMPLATE_BASE}/info`);
+        if (href === "/") nav.goHome();
+        else if (href === "/catalogo") nav.goListing();
+        else if (href === "/info") nav.goInfo();
       }}
       onBottomNavTab={(tab) => {
-        if (tab === "home") router.push(TEMPLATE_BASE);
-        else if (tab === "cart") router.push(`${TEMPLATE_BASE}/carrito`);
-        else if (tab === "search") router.push(`${TEMPLATE_BASE}/buscar`);
-        else if (tab === "info") router.push(`${TEMPLATE_BASE}/info`);
+        if (tab === "home") nav.goHome();
+        else if (tab === "cart") nav.goCart();
+        else if (tab === "search") nav.goSearch();
+        else if (tab === "info") nav.goInfo();
       }}
     />
   );

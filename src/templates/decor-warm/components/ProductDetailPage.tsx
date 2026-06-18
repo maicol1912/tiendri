@@ -20,7 +20,7 @@ import { ProductCard } from "./ProductCard";
 import { QuantityStepper } from "@/components/shared/QuantityStepper";
 import { VariantPriceSelector } from "@/components/shared/VariantPriceSelector";
 import { formatPrice } from "@/lib/format";
-import type { DecorWarmProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
 import type { VariantSelection } from "@/hooks/useVariantPrice";
 
@@ -80,8 +80,8 @@ const BENEFITS = [
 
 interface ProductDetailPageProps {
   store: StoreInfo;
-  product: DecorWarmProduct;
-  relatedProducts?: DecorWarmProduct[];
+  product: StorefrontProduct;
+  relatedProducts?: StorefrontProduct[];
   activeImageIndex?: number;
   quantity?: number;
   isAdded?: boolean;
@@ -134,12 +134,12 @@ export function ProductDetailPage({
   const displayPrice = effectivePrice ?? product.price;
 
   const hasDiscount =
-    product.compare_at_price != null && product.compare_at_price > displayPrice;
+    product.originalPrice != null && product.originalPrice > displayPrice;
 
   const discountPct =
-    hasDiscount && product.compare_at_price
+    hasDiscount && product.originalPrice
       ? Math.round(
-          ((product.compare_at_price - product.price) / product.compare_at_price) * 100
+          ((product.originalPrice - product.price) / product.originalPrice) * 100
         )
       : 0;
 
@@ -149,7 +149,7 @@ export function ProductDetailPage({
 
   // ── Add to cart button label ────────────────────────────────────────────────
 
-  const cartBtnLabel = !product.available
+  const cartBtnLabel = !product.inStock
     ? "Agotado"
     : isAdded
     ? "Agregado ✓"
@@ -163,10 +163,10 @@ export function ProductDetailPage({
     fontSize: "15px",
     fontWeight: 600,
     borderRadius: "var(--t-radius-button)",
-    cursor: product.available ? "pointer" : "not-allowed",
+    cursor: product.inStock ? "pointer" : "not-allowed",
     padding: "13px 24px",
     border: "none",
-    opacity: !product.available ? 0.5 : 1,
+    opacity: !product.inStock ? 0.5 : 1,
     transition: "background-color 0.2s ease",
   };
 
@@ -331,7 +331,7 @@ export function ProductDetailPage({
         >
           {formatPrice(displayPrice, currencySymbol)}
         </span>
-        {hasDiscount && product.compare_at_price != null && (
+        {hasDiscount && product.originalPrice != null && (
           <>
             <span
               className="line-through"
@@ -341,7 +341,7 @@ export function ProductDetailPage({
                 fontSize: "15px",
               }}
             >
-              {formatPrice(product.compare_at_price, currencySymbol)}
+              {formatPrice(product.originalPrice, currencySymbol)}
             </span>
             <span
               style={{
@@ -402,7 +402,7 @@ export function ProductDetailPage({
           />
           <button
             type="button"
-            disabled={!product.available}
+            disabled={!product.inStock}
             style={cartBtnStyle}
             onClick={onAddToCart}
           >
@@ -713,7 +713,7 @@ export function ProductDetailPage({
         />
         <button
           type="button"
-          disabled={!product.available}
+          disabled={!product.inStock}
           style={cartBtnStyle}
           onClick={onAddToCart}
         >

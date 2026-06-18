@@ -16,8 +16,14 @@ export interface TemplateNav {
 export function useTemplateNav(): TemplateNav {
   const router = useRouter();
   const params = useParams();
-  const templateName = params["templateName"] as string;
-  const basePath = `/template/${templateName}`;
+
+  // Soporta tanto la ruta de preview (/template/[templateName])
+  // como la ruta de storefront (/[slug]).
+  const templateName = params["templateName"] as string | undefined;
+  const slug = params["slug"] as string | undefined;
+  const basePath = templateName
+    ? `/template/${templateName}`
+    : `/${slug ?? ""}`;
 
   return {
     basePath,

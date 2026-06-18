@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct } from "../types";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "../types";
 import type { PopularProduct } from "../types";
 
 // ── Store Info ──────────────────────────────────────────────────────────────
@@ -67,12 +67,16 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "camiseta-basica-premium",
     price: 89900,
     originalPrice: 119900,
-    discount: 25,
     images: [{ url: ASSETS.products[0], sort_order: 0 }],
     rating: 4.8,
     inStock: true,
     categoryId: "cat-01",
-    colors: ["#1E1E1E", "#FFFFFF", "#D9D9D9", "#8A8A8A"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#1E1E1E" },
+      { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
+      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
+      { id: "color-4", label: "Gris Medio", hex: "#8A8A8A" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-02",
@@ -81,12 +85,14 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "pantalon-slim-fit-negro",
     price: 129900,
     originalPrice: 159900,
-    discount: 19,
     images: [{ url: ASSETS.products[1], sort_order: 0 }],
     rating: 4.7,
     inStock: true,
     categoryId: "cat-01",
-    colors: ["#000000", "#5E5E5E"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-03",
@@ -95,12 +101,15 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "vestido-midi-elegante",
     price: 179900,
     originalPrice: 229900,
-    discount: 22,
     images: [{ url: ASSETS.products[2], sort_order: 0 }],
     rating: 4.9,
     inStock: true,
     categoryId: "cat-02",
-    colors: ["#000000", "#F5F5F0", "#D9D9D9"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
+      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-04",
@@ -109,12 +118,15 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "chaqueta-oversize-minimalista",
     price: 249900,
     originalPrice: 299900,
-    discount: 17,
     images: [{ url: ASSETS.listing[0], sort_order: 0 }],
     rating: 4.6,
     inStock: true,
     categoryId: "cat-02",
-    colors: ["#000000", "#8A8A8A", "#D9D9D9"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Medio", hex: "#8A8A8A" },
+      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-05",
@@ -123,12 +135,15 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "camisa-oxford-clasica",
     price: 119900,
     originalPrice: null,
-    discount: null,
     images: [{ url: ASSETS.listing[1], sort_order: 0 }],
     rating: 4.5,
     inStock: true,
     categoryId: "cat-01",
-    colors: ["#FFFFFF", "#F5F5F0", "#D9D9D9"],
+    colors: [
+      { id: "color-1", label: "Blanco", hex: "#FFFFFF" },
+      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
+      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-06",
@@ -137,12 +152,15 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "falda-plisada-midi",
     price: 109900,
     originalPrice: 139900,
-    discount: 21,
     images: [{ url: ASSETS.listing[2], sort_order: 0 }],
     rating: 4.7,
     inStock: true,
     categoryId: "cat-02",
-    colors: ["#000000", "#5E5E5E", "#FFFFFF"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
+      { id: "color-3", label: "Blanco", hex: "#FFFFFF" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-07",
@@ -151,12 +169,14 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "conjunto-deportivo-nino",
     price: 79900,
     originalPrice: 99900,
-    discount: 20,
     images: [{ url: ASSETS.listing[3], sort_order: 0 }],
     rating: 4.4,
     inStock: false,
     categoryId: "cat-03",
-    colors: ["#000000", "#D9D9D9"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Claro", hex: "#D9D9D9" },
+    ] satisfies ColorOption[],
   },
   {
     id: "prod-08",
@@ -165,12 +185,14 @@ export const mockProducts: StorefrontProduct[] = [
     slug: "bolso-tote-minimalista",
     price: 159900,
     originalPrice: 189900,
-    discount: 16,
     images: [{ url: ASSETS.products[0], sort_order: 0 }],
     rating: 4.8,
     inStock: true,
     categoryId: "cat-04",
-    colors: ["#000000", "#8A8A8A"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Medio", hex: "#8A8A8A" },
+    ] satisfies ColorOption[],
   },
 ];
 
@@ -224,12 +246,13 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     slug: "blazer-estructurado-negro",
     price: 199900,
     originalPrice: 289900,
-    discount: 31,
     images: [{ url: ASSETS.listing[1], sort_order: 0 }],
     rating: 4.7,
     inStock: true,
     categoryId: "cat-02",
-    colors: ["#000000"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+    ] satisfies ColorOption[],
   },
   {
     id: "disc-02",
@@ -237,12 +260,15 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     slug: "pantalon-cargo-unisex",
     price: 109900,
     originalPrice: 149900,
-    discount: 27,
     images: [{ url: ASSETS.listing[2], sort_order: 0 }],
     rating: 4.5,
     inStock: true,
     categoryId: "cat-01",
-    colors: ["#000000", "#5E5E5E", "#8A8A8A"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
+      { id: "color-3", label: "Gris Medio", hex: "#8A8A8A" },
+    ] satisfies ColorOption[],
   },
   {
     id: "disc-03",
@@ -250,12 +276,14 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     slug: "vestido-maxi-fluido",
     price: 139900,
     originalPrice: 199900,
-    discount: 30,
     images: [{ url: ASSETS.listing[3], sort_order: 0 }],
     rating: 4.8,
     inStock: true,
     categoryId: "cat-02",
-    colors: ["#000000", "#F5F5F0"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
+    ] satisfies ColorOption[],
   },
   {
     id: "disc-04",
@@ -263,12 +291,14 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     slug: "gorra-dad-hat-negra",
     price: 49900,
     originalPrice: 69900,
-    discount: 29,
     images: [{ url: ASSETS.products[0], sort_order: 0 }],
     rating: 4.3,
     inStock: true,
     categoryId: "cat-04",
-    colors: ["#000000", "#FFFFFF"],
+    colors: [
+      { id: "color-1", label: "Negro", hex: "#000000" },
+      { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
+    ] satisfies ColorOption[],
   },
 ];
 
@@ -280,7 +310,6 @@ export const mockDetailProduct: StorefrontProduct = {
   slug: "camiseta-basica-premium",
   price: 89900,
   originalPrice: 119900,
-  discount: 25,
   images: [
     { url: ASSETS.products[0], sort_order: 0 },
     { url: ASSETS.products[1], sort_order: 1 },
@@ -289,7 +318,12 @@ export const mockDetailProduct: StorefrontProduct = {
   ],
   description:
     "Una camiseta que redefine el concepto de básico. Confeccionada en algodón 100% peinado de 220 g/m², con corte recto y acabados que resisten el paso del tiempo. Ideal para cualquier ocasión, desde el día a día hasta un look más elaborado.",
-  colors: ["#1E1E1E", "#FFFFFF", "#D9D9D9", "#8A8A8A"],
+  colors: [
+    { id: "color-1", label: "Negro", hex: "#1E1E1E" },
+    { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
+    { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
+    { id: "color-4", label: "Gris Medio", hex: "#8A8A8A" },
+  ] satisfies ColorOption[],
   storageOptions: ["XS", "S", "M", "L", "XL", "XXL"],
   rating: 4.8,
   reviewCount: 87,

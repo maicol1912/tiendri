@@ -10,12 +10,12 @@ import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureProduct, FurnitureStoreInfo, FurnitureNavTab } from "../types";
+import type { StorefrontProduct, StoreInfo, FurnitureNavTab } from "../types";
 
 interface ProductDetailShellRouteProps {
-  store: FurnitureStoreInfo;
-  product: FurnitureProduct;
-  relatedProducts?: FurnitureProduct[];
+  store: StoreInfo;
+  product: StorefrontProduct;
+  relatedProducts?: StorefrontProduct[];
   currencySymbol?: string;
 }
 
@@ -42,8 +42,8 @@ export function ProductDetailShellRoute({
   } = useVariantPrice(product.price, product.variants);
 
   const handleAddToCart = useCallback(() => {
-    if (product.available === false) return;
-    const legacyVariantName = product.colorOptions?.[selectedColorIndex] ?? product.colorVariant ?? null;
+    if (!product.inStock) return;
+    const legacyVariantName = product.colors?.[selectedColorIndex]?.label ?? null;
     addItem({
       productId: product.id,
       variantName: variantPriceName || legacyVariantName,
@@ -67,10 +67,10 @@ export function ProductDetailShellRoute({
   const handleAddToCartProduct = useCallback(
     (productId: string) => {
       const p = relatedProducts.find((r) => r.id === productId);
-      if (!p || p.available === false) return;
+      if (!p || !p.inStock) return;
       addItem({
         productId: p.id,
-        variantName: p.colorVariant ?? null,
+        variantName: p.colors?.[0]?.label ?? null,
         name: p.name,
         price: p.price,
         quantity: 1,

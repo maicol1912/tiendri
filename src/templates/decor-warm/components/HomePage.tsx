@@ -17,8 +17,8 @@ import { BestSellerCard } from "./BestSellerCard";
 import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type {
-  DecorWarmProduct,
-  DecorWarmCategory,
+  StorefrontProduct,
+  Category,
   DecorWarmCategoryIcon,
   DecorWarmPromoSlide,
   DecorWarmBestSeller,
@@ -30,8 +30,8 @@ import type { DecorWarmConfig } from "../config";
 interface HomePageProps {
   store: StoreInfo;
   categoryIcons: DecorWarmCategoryIcon[];
-  categories: DecorWarmCategory[];
-  products: DecorWarmProduct[];
+  categories: Category[];
+  products: StorefrontProduct[];
   promoSlides: DecorWarmPromoSlide[];
   bestSellers: DecorWarmBestSeller[];
   activeCategoryId?: string | null;
@@ -49,7 +49,7 @@ interface HomePageProps {
   onIconCategoryChange?: (id: string | null) => void;
   onProductClick?: (productId: string) => void;
   onWishlistToggle?: (productId: string) => void;
-  onAddToCart?: (product: DecorWarmProduct) => void;
+  onAddToCart?: (product: StorefrontProduct) => void;
   onBestSellerClick?: (productId: string) => void;
   onPromoSlideChange?: (index: number) => void;
   onSearchOpen?: () => void;

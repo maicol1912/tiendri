@@ -12,9 +12,9 @@ import { ProductCard } from "./ProductCard";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
 import type { FurnitureLightConfig } from "../config";
 import type {
-  FurnitureProduct,
+  StorefrontProduct,
   FurnitureCategory,
-  FurnitureStoreInfo,
+  StoreInfo,
   FurnitureNavTab,
   FurnitureLightSortOption,
 } from "../types";
@@ -28,9 +28,9 @@ const SORT_LABELS: Record<FurnitureLightSortOption, string> = {
 };
 
 interface ProductListingPageProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   navLinks?: readonly { label: string; href: string }[];
-  products: FurnitureProduct[];
+  products: StorefrontProduct[];
   categories?: FurnitureCategory[];
   layout?: FurnitureLightConfig["layout"];
   grid?: FurnitureLightConfig["grid"];

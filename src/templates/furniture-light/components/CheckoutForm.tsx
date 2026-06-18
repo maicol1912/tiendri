@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { formatPrice } from "@/lib/format";
-import type { FurnitureCheckoutFormData } from "../types";
+import type { CheckoutFormData } from "../types";
 import type { CartItem } from "@/lib/cart";
 
 interface CheckoutFormProps {
   items: CartItem[];
   currencySymbol?: string;
-  formData: FurnitureCheckoutFormData;
+  formData: CheckoutFormData;
   mode?: "preview" | "live";
-  onFieldChange?: (field: keyof FurnitureCheckoutFormData, value: string) => void;
+  onFieldChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
 }
 

@@ -9,12 +9,12 @@ import { useCart } from "@/lib/cart";
 import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useVariantPrice } from "@/hooks/useVariantPrice";
 import { mockProducts } from "../mock/data";
-import type { DecorWarmProduct } from "../types";
+import type { StorefrontProduct } from "../types";
 import type { StoreInfo } from "@/types/store";
 
 interface ProductDetailShellRouteProps {
   store: StoreInfo;
-  product: DecorWarmProduct;
+  product: StorefrontProduct;
   currencySymbol?: string;
 }
 
@@ -51,7 +51,7 @@ export function ProductDetailShellRoute({
   // ── Handlers ─────────────────────────────────────────────────────────────────
 
   const handleAddToCart = useCallback(() => {
-    if (!product.available) return;
+    if (!product.inStock) return;
 
     addItem({
       productId: product.id,

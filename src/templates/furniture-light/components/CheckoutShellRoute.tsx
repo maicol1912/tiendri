@@ -7,11 +7,11 @@ import { useTemplateNav } from "../../_shared/hooks/useTemplateNav";
 import { useLayoutConfig } from "@/app/template/[templateName]/TemplateLayoutClient";
 import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { FurnitureLightConfig } from "../config";
-import type { FurnitureStoreInfo, FurnitureCheckoutFormData, FurnitureNavTab } from "../types";
+import type { StoreInfo, CheckoutFormData, FurnitureNavTab } from "../types";
 
 type TemplateMode = "preview" | "live";
 
-function validateForm(data: FurnitureCheckoutFormData): string | null {
+function validateForm(data: CheckoutFormData): string | null {
   if (!data.nombre.trim()) return "El nombre es obligatorio";
   if (!data.whatsapp.trim()) return "El número de WhatsApp es obligatorio";
   if (!data.direccion.trim()) return "La dirección es obligatoria";
@@ -19,7 +19,7 @@ function validateForm(data: FurnitureCheckoutFormData): string | null {
 }
 
 interface CheckoutShellRouteProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   currencySymbol?: string;
   mode?: TemplateMode;
 }
@@ -33,7 +33,7 @@ export function CheckoutShellRoute({
   const { items, totalPrice, clearCart } = useCart();
   const { config } = useLayoutConfig<FurnitureLightConfig>();
 
-  const [formData, setFormData] = useState<FurnitureCheckoutFormData>({
+  const [formData, setFormData] = useState<CheckoutFormData>({
     nombre: "",
     whatsapp: "",
     email: "",
@@ -45,7 +45,7 @@ export function CheckoutShellRoute({
   const totalCartItems = items.reduce((s, i) => s + i.quantity, 0);
 
   const handleFieldChange = useCallback(
-    (field: keyof FurnitureCheckoutFormData, value: string) => {
+    (field: keyof CheckoutFormData, value: string) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
       setFormError(null);
     },

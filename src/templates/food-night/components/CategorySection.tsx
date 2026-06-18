@@ -31,7 +31,7 @@ export function CategorySection({
     return () => el.removeEventListener("wheel", handler);
   }, []);
 
-  const allCategory: Category = { id: "__all__", name: "Todos" };
+  const allCategory: Category = { id: "__all__", name: "Todos", slug: "__all__", icon: "LayoutGrid" };
   const allItems = [allCategory, ...categories];
 
   return (

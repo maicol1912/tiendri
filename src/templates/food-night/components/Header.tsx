@@ -27,8 +27,8 @@ export function Header({
   onCartClick,
   onNavLinkClick,
 }: HeaderProps) {
-  const greeting = store.greeting ?? "Hola, Bienvenido 👋";
-  const avatarSrc = store.avatar ?? store.logo;
+  const greeting = "Hola, Bienvenido 👋";
+  const avatarSrc = store.logo;
 
   return (
     <header

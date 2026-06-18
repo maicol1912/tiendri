@@ -6,23 +6,23 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { BottomNav } from "./BottomNav";
 import { CheckoutForm } from "./CheckoutForm";
-import type { FurnitureStoreInfo, FurnitureCheckoutFormData, FurnitureNavTab } from "../types";
+import type { StoreInfo, CheckoutFormData, FurnitureNavTab } from "../types";
 import type { CartItem } from "@/lib/cart";
 
 interface CheckoutPageProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   items: CartItem[];
   navLinks?: readonly { label: string; href: string }[];
   layout?: Record<string, unknown>;
   currencySymbol?: string;
   activeTab?: FurnitureNavTab;
   cartItemCount?: number;
-  formData: FurnitureCheckoutFormData;
+  formData: CheckoutFormData;
   mode?: "preview" | "live";
   onSearchClick?: () => void;
   onCartClick?: () => void;
   onNavLinkClick?: (href: string) => void;
-  onFieldChange?: (field: keyof FurnitureCheckoutFormData, value: string) => void;
+  onFieldChange?: (field: keyof CheckoutFormData, value: string) => void;
   onSubmit?: () => void;
   onTabChange?: (tab: FurnitureNavTab) => void;
 }

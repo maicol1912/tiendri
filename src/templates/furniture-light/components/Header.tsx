@@ -6,11 +6,11 @@
 // ZERO hardcoded colors — all via var(--t-*)
 
 import { ShoppingCart, Search } from "lucide-react";
-import type { FurnitureStoreInfo } from "../types";
+import type { StoreInfo } from "../types";
 import { STOREFRONT_NAV_LINKS } from "../../_shared/nav-links";
 
 interface HeaderProps {
-  store: FurnitureStoreInfo;
+  store: StoreInfo;
   navLinks?: readonly { label: string; href: string }[];
   cartItemCount?: number;
   activeHref?: string;

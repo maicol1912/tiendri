@@ -1,33 +1,24 @@
 // Beauty Elegant Template — Shared TypeScript Types
 
-import type { StoreInfo as SharedStoreInfo, StorefrontVariantGroup } from "@/types/store";
+// ── Re-exports from shared types (backwards compatibility) ────────────────────
+// Shared domain types live in @/types/store.
+// Components that import from this file continue to work unchanged.
+export type {
+  StoreInfo,
+  StorefrontProduct,
+  ColorOption,
+  ProductImage,
+  Category,
+} from "@/types/store";
+
+// Backwards-compat alias — components that imported BeautyElegantProduct keep working
+export type { StorefrontProduct as BeautyElegantProduct } from "@/types/store";
 
 // ── Filter system ─────────────────────────────────────────────────────────────
 
 export type BeautyElegantSortOption = 'recent' | 'price-asc' | 'price-desc';
 
-// Re-export shared StoreInfo
-export type { StoreInfo } from "@/types/store";
-
-// ── Template-specific product type ────────────────────────────────────────────
-
-export interface BeautyElegantProduct {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  originalPrice?: number | null;
-  images: Array<{ url: string; sort_order: number }>;
-  description?: string;
-  inStock: boolean;
-  categoryId?: string;
-  subtitle?: string;
-  healthFacts?: string;
-  discountLabel?: string;
-  variants?: StorefrontVariantGroup[];
-}
-
-// ── Category type ─────────────────────────────────────────────────────────────
+// ── Category type (beauty-elegant custom — simpler than shared Category) ──────
 
 export interface BeautyElegantCategory {
   id: string;
@@ -58,6 +49,3 @@ export interface CheckoutFormValues {
   address: string;
   notes: string;
 }
-
-// ── Unused but needed for StoreInfo compatibility ─────────────────────────────
-export type { SharedStoreInfo };

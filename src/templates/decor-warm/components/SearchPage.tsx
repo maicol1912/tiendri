@@ -8,15 +8,15 @@ import { Header } from "./Header";
 import { ProductCard } from "./ProductCard";
 import { BottomNav } from "./BottomNav";
 import { gridColsClass } from "../../_shared/utils/grid-classes";
-import type { DecorWarmProduct, DecorWarmNavTab } from "../types";
+import type { StorefrontProduct, DecorWarmNavTab } from "../types";
 import type { StoreInfo } from "@/types/store";
 import type { DecorWarmConfig } from "../config";
 
 interface SearchPageProps {
   store: StoreInfo;
   query: string;
-  results: DecorWarmProduct[];
-  recommendations?: DecorWarmProduct[];
+  results: StorefrontProduct[];
+  recommendations?: StorefrontProduct[];
   popularSearches?: string[];
   isSearching?: boolean;
   currencySymbol?: string;
@@ -30,7 +30,7 @@ interface SearchPageProps {
   onNavLinkClick?: (href: string) => void;
   onProductClick?: (productId: string) => void;
   onWishlistToggle?: (productId: string) => void;
-  onAddToCart?: (product: DecorWarmProduct) => void;
+  onAddToCart?: (product: StorefrontProduct) => void;
   onSuggestionClick?: (q: string) => void;
   onTabChange?: (tab: DecorWarmNavTab) => void;
 }

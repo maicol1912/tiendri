@@ -267,12 +267,12 @@ export function ProductDetailPage({
               <span className="text-[20px] font-bold" style={{ color: "var(--t-foreground)" }}>
                 {formatPrice(displayPrice, currencySymbol)}
               </span>
-              {product.compare_at_price && product.compare_at_price > displayPrice && (
+              {product.originalPrice && product.originalPrice > displayPrice && (
                 <span
                   className="line-through text-[14px] font-normal"
                   style={{ color: "var(--t-muted)" }}
                 >
-                  {formatPrice(product.compare_at_price, currencySymbol)}
+                  {formatPrice(product.originalPrice, currencySymbol)}
                 </span>
               )}
             </div>
@@ -295,27 +295,27 @@ export function ProductDetailPage({
               />
               <button
                 type="button"
-                disabled={!product.available}
+                disabled={!product.inStock}
                 onClick={onAddToCart}
                 className={`flex-1 flex items-center justify-center gap-2 transition-opacity hover:opacity-90 border ${ctaClass}`}
                 style={{
                   borderRadius: "var(--t-radius-button)",
                   height: 52,
-                  ...(!product.available ? { backgroundColor: "var(--t-card)", color: "var(--t-muted)" } : {}),
-                  cursor: product.available ? "pointer" : "not-allowed",
+                  ...(!product.inStock ? { backgroundColor: "var(--t-card)", color: "var(--t-muted)" } : {}),
+                  cursor: product.inStock ? "pointer" : "not-allowed",
                   maxWidth: 320,
                   fontSize: "14px",
                   fontWeight: 600,
                 }}
                 aria-label={
-                  product.available
+                  product.inStock
                     ? `Agregar al carrito — ${formatPrice(displayPrice, currencySymbol)}`
                     : "Producto agotado"
                 }
               >
                 <ShoppingCart size={17} strokeWidth={2} />
-                <span>{product.available ? "Agregar al carrito" : "Agotado"}</span>
-                {product.available && (
+                <span>{product.inStock ? "Agregar al carrito" : "Agotado"}</span>
+                {product.inStock && (
                   <span style={{ marginLeft: 4 }}>
                     | {formatPrice(displayPrice, currencySymbol)}
                   </span>
@@ -357,7 +357,7 @@ export function ProductDetailPage({
 
       <StickyBottomBar
         price={displayPrice}
-        available={product.available}
+        available={product.inStock}
         currencySymbol={currencySymbol}
         onAddToCart={onAddToCart}
       />
