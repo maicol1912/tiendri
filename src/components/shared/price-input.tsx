@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 interface PriceInputProps {
   value: number
@@ -43,6 +43,7 @@ export function PriceInput({
   disabled,
   placeholder = '0',
 }: PriceInputProps) {
+  const inputId = React.useId()
   const [isEditing, setIsEditing] = React.useState(false)
   const [rawValue, setRawValue] = React.useState('')
 
@@ -77,13 +78,14 @@ export function PriceInput({
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
       {label && (
-        <label className="text-sm font-medium text-foreground">{label}</label>
+        <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
       )}
       <div className="relative flex items-center">
         <span className="absolute left-3 text-sm text-muted-foreground select-none pointer-events-none">
           {currency}
         </span>
         <Input
+          id={inputId}
           type="text"
           inputMode="numeric"
           value={displayValue}

@@ -18,19 +18,19 @@ import { lerp } from '../../_lib/animations';
 
 const PHONES = [
   {
-    src: '/clone-assets/discover-phone-1.png',
+    src: '/images/landing/discover-phone-1.png',
     alt: 'Dulce Canela — tienda de tortas',
     label: 'Personalizable',
     desc: 'Colores, fuentes y logo de tu negocio. En minutos.',
   },
   {
-    src: '/clone-assets/discover-phone-2.png',
+    src: '/images/landing/discover-phone-2.png',
     alt: 'Ferretería Don Carlos — materiales',
     label: 'Sin comisiones',
     desc: 'Lo que vendás queda en tu bolsillo. Sin letra chica.',
   },
   {
-    src: '/clone-assets/discover-phone-3.png',
+    src: '/images/landing/discover-phone-3.png',
     alt: 'Modas Luna — ropa y accesorios',
     label: 'Listo en 5 min',
     desc: 'Subí tus productos y compartí el link al instante.',
@@ -402,7 +402,7 @@ function ShowcaseDesktop() {
                           display: 'flex',
                         }}
                       >
-                        <h1
+                        <p
                           style={{
                             fontSize: 28,
                             fontWeight: 700,
@@ -413,7 +413,7 @@ function ShowcaseDesktop() {
                           }}
                         >
                           {PHONES[0].label}
-                        </h1>
+                        </p>
                         <div
                           style={{
                             fontSize: 16,
@@ -471,7 +471,7 @@ function ShowcaseDesktop() {
                           display: 'flex',
                         }}
                       >
-                        <h1
+                        <p
                           style={{
                             fontSize: 28,
                             fontWeight: 700,
@@ -482,7 +482,7 @@ function ShowcaseDesktop() {
                           }}
                         >
                           {PHONES[1].label}
-                        </h1>
+                        </p>
                         <div
                           style={{
                             fontSize: 16,
@@ -540,7 +540,7 @@ function ShowcaseDesktop() {
                           display: 'flex',
                         }}
                       >
-                        <h1
+                        <p
                           style={{
                             fontSize: 28,
                             fontWeight: 700,
@@ -551,7 +551,7 @@ function ShowcaseDesktop() {
                           }}
                         >
                           {PHONES[2].label}
-                        </h1>
+                        </p>
                         <div
                           style={{
                             fontSize: 16,

@@ -9,7 +9,7 @@ import { SECTION_REGISTRY, type SectionRendererProps } from "../sections";
 import { extractSectionProps } from "./extract-section-props";
 import { resolveStyleTokens } from "./style-tokens";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
-import type { StorefrontProduct, StoreInfo, Category } from "@/types/store";
+import type { StorefrontProduct, StoreInfo, Category } from "@/types/domain/store";
 import type { HeroVariant } from "@/templates/_variants/hero";
 import type { CategoryNavVariant } from "@/templates/_variants/category-nav";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";

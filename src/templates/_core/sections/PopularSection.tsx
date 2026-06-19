@@ -2,6 +2,7 @@
 import React, { memo } from "react";
 import Image from "next/image";
 import type { SectionRendererProps } from "./types";
+import { formatPrice } from "@/shared/format";
 
 const cardBgTokens = [
   "var(--t-popular-bg0)",
@@ -12,13 +13,12 @@ const cardBgTokens = [
 
 export const PopularSection = memo(function PopularSection({
   products,
-  config,
+  sectionConfig,
   currencySymbol,
   onProductClick,
 }: SectionRendererProps) {
-  const content = config as unknown as { content?: { popularTitle?: string; popularLimit?: number } };
-  const title = content.content?.popularTitle;
-  const limit = content.content?.popularLimit ?? 4;
+  const title = sectionConfig?.popularTitle as string | undefined;
+  const limit = (sectionConfig?.popularLimit as number | undefined) ?? 4;
 
   const popularProducts = products.slice(0, limit);
   if (popularProducts.length === 0) return null;
@@ -91,14 +91,14 @@ export const PopularSection = memo(function PopularSection({
                     className="text-base font-semibold"
                     style={{ color: "var(--t-foreground)" }}
                   >
-                    {currencySymbol}{product.price.toLocaleString()}
+                    {formatPrice(product.price, currencySymbol)}
                   </span>
                   {product.originalPrice && product.originalPrice > product.price && (
                     <span
                       className="text-sm line-through opacity-50"
                       style={{ color: "var(--t-foreground)" }}
                     >
-                      {currencySymbol}{product.originalPrice.toLocaleString()}
+                      {formatPrice(product.originalPrice, currencySymbol)}
                     </span>
                   )}
                 </div>
@@ -167,11 +167,11 @@ export const PopularSection = memo(function PopularSection({
                     )}
                     <div className="flex items-baseline gap-2">
                       <span className="text-base font-semibold" style={{ color: "var(--t-foreground)" }}>
-                        {currencySymbol}{product.price.toLocaleString()}
+                        {formatPrice(product.price, currencySymbol)}
                       </span>
                       {product.originalPrice && product.originalPrice > product.price && (
                         <span className="text-sm line-through opacity-50" style={{ color: "var(--t-foreground)" }}>
-                          {currencySymbol}{product.originalPrice.toLocaleString()}
+                          {formatPrice(product.originalPrice, currencySymbol)}
                         </span>
                       )}
                     </div>

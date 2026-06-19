@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/shared/format';
 import type { ProductCardSlotProps } from './types';
 
 function OverlayFullCard({
@@ -68,18 +68,34 @@ function OverlayFullCard({
         </div>
       )}
 
-      <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-black/55 transition-colors duration-200" />
+      <div
+        className="absolute inset-0 z-10 transition-colors duration-200"
+        style={{
+          backgroundColor: 'color-mix(in srgb, var(--t-foreground) 40%, transparent)',
+        }}
+        data-hover-overlay
+      />
 
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 px-4 text-center">
-        <p className="text-base font-semibold text-white leading-5 line-clamp-2">{product.name}</p>
         <p
-          className={`tracking-[0.72px] text-white ${priceConfig.className}`}
-          style={{ ...priceConfig.style, color: 'white' }}
+          className="text-base font-semibold leading-5 line-clamp-2"
+          style={{ color: 'var(--t-background)' }}
+        >
+          {product.name}
+        </p>
+        <p
+          className={`tracking-[0.72px] ${priceConfig.className}`}
+          style={{ ...priceConfig.style, color: 'var(--t-background)' }}
         >
           {formatPrice(product.price, currencySymbol)}
         </p>
         {!product.inStock && (
-          <span className="text-white/80 text-xs font-medium tracking-wider">Agotado</span>
+          <span
+            className="text-xs font-medium tracking-wider"
+            style={{ color: 'color-mix(in srgb, var(--t-background) 80%, transparent)' }}
+          >
+            Agotado
+          </span>
         )}
         {product.inStock && (
           <button

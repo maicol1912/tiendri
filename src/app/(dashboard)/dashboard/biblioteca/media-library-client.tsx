@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 import {
   MediaLibraryGrid,
   MediaUploadDropzone,
 } from '@/components/dashboard/media';
-import { useMediaLibrary } from '@/hooks/use-media-library';
-import { getStoreId } from '@/lib/repositories';
+import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
+import { getStoreId } from '@/infrastructure/repositories';
 import type { MediaAsset } from '@/types/domain';
 
 type ViewMode = 'grid' | 'upload';

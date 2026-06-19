@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useOnboarding } from '@/lib/onboarding/onboarding-provider'
-import { step1Schema } from '@/lib/validators/onboarding.schema'
+import { useOnboarding } from '@/onboarding/onboarding-provider'
+import { step1Schema } from '@/shared/validators/onboarding.schema'
 
 function toSlug(value: string): string {
   return value

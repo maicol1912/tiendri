@@ -1,9 +1,9 @@
 'use client'
 
-import { useOnboarding } from '@/lib/onboarding/onboarding-provider'
-import { VIBES } from '@/lib/onboarding/vibe-preset-map'
-import type { VibeId } from '@/types/onboarding'
-import { cn } from '@/lib/utils'
+import { useOnboarding } from '@/onboarding/onboarding-provider'
+import { VIBES } from '@/onboarding/vibe-preset-map'
+import type { VibeId } from '@/types/domain/onboarding'
+import { cn } from '@/shared/utils'
 
 interface VibeCardProps {
   id: VibeId

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useCart } from "@/lib/cart";
-import type { CartItem } from "@/types/cart";
-import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
-import type { StoreInfo } from "@/types/store";
+import { useCart } from "@/templates/_core/cart";
+import type { CartItem } from "@/types/domain/cart";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/storefront/whatsapp";
+import type { StoreInfo } from "@/types/domain/store";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

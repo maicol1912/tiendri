@@ -80,7 +80,7 @@ export function CtaSection() {
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-4 lg:items-center">
           <div data-animate data-animate-delay="0s" className="relative">
             <img
-              src="/clone-assets/macbook-dashboard.png"
+              src="/images/landing/macbook-dashboard.png"
               alt="Dashboard Tiendri en laptop"
               className="w-full rounded-2xl object-cover"
             />
@@ -110,7 +110,7 @@ export function CtaSection() {
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12 lg:mb-16 lg:items-center">
           <div data-animate data-animate-delay="0.2s" className="relative order-1 lg:order-2 flex justify-center">
             <img
-              src="/clone-assets/phone-pizzanight.png"
+              src="/images/landing/phone-pizzanight.png"
               alt="Tienda Pizzanight en Tiendri"
               className="w-full max-w-[60%] mx-auto lg:max-w-[276px] lg:mx-auto rounded-2xl object-contain"
             />
@@ -140,7 +140,7 @@ export function CtaSection() {
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 lg:items-center">
           <div data-animate data-animate-delay="0s" className="relative">
             <img
-              src="/clone-assets/macbook-petshop.png"
+              src="/images/landing/macbook-petshop.png"
               alt="Tienda Pet Shop en Tiendri"
               className="w-full rounded-2xl object-cover"
             />

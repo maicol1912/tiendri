@@ -14,8 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MediaLibraryGrid } from './media-library-grid';
 import { MediaUploadDropzone } from './media-upload-dropzone';
-import { useMediaLibrary } from '@/hooks/use-media-library';
-import { getStoreId } from '@/lib/repositories';
+import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
+import { getStoreId } from '@/infrastructure/repositories';
 
 type TabKey = 'biblioteca' | 'subir';
 

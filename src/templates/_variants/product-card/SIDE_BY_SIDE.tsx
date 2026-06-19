@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/shared/format';
 import type { ProductCardSlotProps } from './types';
 
 function SideBySideCard({

@@ -1,5 +1,5 @@
 import { MessageCircle, Phone, Clock, CreditCard, Truck } from "lucide-react";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 
 interface StoreInfoPageProps {
   store: StoreInfo;

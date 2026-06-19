@@ -92,20 +92,38 @@ function HeroDesktop({ sectionRef }: HeroSectionProps) {
         position: 'relative',
         height: '100vh',
         overflow: 'hidden',
-        backgroundColor: '#f7f7f8',
+        backgroundColor: '#e8f0fe',
       }}
     >
-      <img
-        src="/clone-assets/hero-storefronts.png"
-        alt=""
-        loading="eager"
+      <video
+        src="/hero-sky.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
         style={{
           position: 'absolute',
-          bottom: '-15%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '160vw',
-          zIndex: 10,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          filter: 'brightness(1.15) saturate(0.5)',
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          zIndex: 1,
         }}
       />
 
@@ -240,37 +258,65 @@ function HeroDesktop({ sectionRef }: HeroSectionProps) {
 // Tablet Hero
 function HeroTablet() {
   return (
-    <section className="hidden md:block lg:hidden relative overflow-hidden">
-      <div className="relative w-full">
-        <img
-          src="/clone-assets/hero-storefronts.png"
-          alt=""
-          style={{ width: '100%', objectFit: 'cover' }}
-          loading="eager"
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(to bottom, transparent 40%, #ffffff)',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 64,
-            left: 0,
-            right: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '0 32px',
-          }}
-        >
+    <section
+      className="hidden md:block lg:hidden"
+      style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#e8f0fe', minHeight: '60vh' }}
+    >
+      <video
+        src="/hero-sky.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          filter: 'brightness(1.15) saturate(0.5)',
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          zIndex: 1,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, transparent 40%, #ffffff)',
+          zIndex: 2,
+        }}
+      />
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 3,
+          paddingTop: '30vh',
+          paddingBottom: 64,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '30vh 32px 64px',
+        }}
+      >
           <p style={{ fontSize: 16, letterSpacing: '0.05em', color: '#666', fontWeight: 500, marginBottom: 12, fontStyle: 'italic', fontFamily: "'Aeonik', sans-serif" }}>
             Listo en 5 minutos
           </p>
-          <h1
+          <p
             style={{
               textAlign: 'center',
               fontWeight: 900,
@@ -284,13 +330,12 @@ function HeroTablet() {
             }}
           >
             Tu negocio online
-          </h1>
+          </p>
           <div style={{ display: 'flex', gap: 10 }}>
             <TiendriPin label="Nuevo pedido" sub="$45.000" />
             <TiendriPin label="Tienda activa" sub="tiendri.com/tu-negocio" />
           </div>
         </div>
-      </div>
     </section>
   );
 }
@@ -298,19 +343,44 @@ function HeroTablet() {
 // Mobile Hero
 function HeroMobile() {
   return (
-    <section className="block md:hidden relative overflow-hidden" style={{ minHeight: '85vh', backgroundColor: '#f7f7f8' }}>
-      <img
-        src="/clone-assets/hero-storefronts.png"
-        alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2, zIndex: 0 }}
-        loading="eager"
+    <section className="block md:hidden relative overflow-hidden" style={{ minHeight: '85vh', backgroundColor: '#e8f0fe' }}>
+      <video
+        src="/hero-sky.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          filter: 'brightness(1.15) saturate(0.5)',
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          zIndex: 1,
+        }}
       />
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          zIndex: 1,
-          background: 'linear-gradient(to bottom, transparent 20%, rgba(247,247,248,0.7) 60%, #f7f7f8 100%)',
+          zIndex: 2,
+          background: 'linear-gradient(to bottom, transparent 20%, rgba(232,240,254,0.7) 60%, #e8f0fe 100%)',
         }}
       />
 
@@ -340,7 +410,7 @@ function HeroMobile() {
           Listo en 5 minutos
         </p>
 
-        <h1
+        <p
           style={{
             fontWeight: 900,
             lineHeight: 1,
@@ -353,7 +423,7 @@ function HeroMobile() {
           }}
         >
           TU NEGOCIO<br />ONLINE
-        </h1>
+        </p>
 
         <div
           style={{

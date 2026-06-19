@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { HardDrive } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 const TOTAL_BYTES = 5 * 1024 * 1024 // 5 MB
 const WARNING_THRESHOLD = 0.8

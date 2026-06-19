@@ -18,6 +18,7 @@ Leer ANTES de cualquier tarea:
 | `docs/css-variables.md` | Grupos de CSS vars --t-*, generación, consumo |
 | `docs/dashboard.md` | Rutas, shell, sistema de configuración schema-driven |
 | `ai/rules/tiendri-rules.md` | Reglas de negocio, código, errores, seguridad — OBLIGATORIO |
+| `docs/phase-3-roadmap.md` | Roadmap Fase 3: Supabase real data, escalabilidad, SEO avanzado |
 
 ## Stack
 Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui | Supabase | Deploy: Vercel (auto-deploy on push to main)
@@ -35,26 +36,32 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 
 ## Estructura clave
 - `src/app/` — rutas (marketing, auth, onboarding, dashboard, template/[name], [slug])
+- `src/app/(dashboard)/_hooks/` — hooks del dashboard (useRepositories, useMediaLibrary, useImageUpload, useDashboardTour)
+- `src/catalog/` — motor de resolución de templates (resolveTemplateConfig, buildCssVars, getStoreBySlug)
+- `src/components/ui/` — primitivas shadcn/ui
+- `src/components/shared/` — componentes reutilizables: ConfirmDialog, DataTable, EmptyState, SortableList, PriceInput, VariantEditor
+- `src/components/dashboard/` — dashboard shell: sidebar, header, breadcrumbs
+- `src/components/dashboard/schema-form/` — dynamic form renderer (DynamicField, DynamicSection, RepeatableSection, DynamicTabContent)
+- `src/components/customizer/` — Theme Customizer genérico
+- `src/components/onboarding/` — wizard step components
+- `src/infrastructure/supabase/` — Supabase clients (client, server, middleware)
+- `src/infrastructure/repositories/` — repository pattern: interfaces + localStorage implementations + factory
+- `src/infrastructure/database.types.ts` — tipos generados de Supabase
+- `src/onboarding/` — onboarding provider, vibes, first-time utils, tour steps
+- `src/shared/format.ts` — formatPrice, formatPriceCurrency
+- `src/shared/validators/` — Zod schemas (category, product, store-customization)
+- `src/shared/seo/` — SEO utilities (safe-json-ld, metadata, json-ld)
+- `src/shared/fonts.ts` — font configuration
+- `src/shared/utils.ts` — utilidades generales (cn)
+- `src/storefront/` — runtime del storefront (whatsapp, formatWhatsAppMessage, adapters/)
 - `src/templates/` — sistema de templates (8 implementados)
 - `src/templates/_shared/` — utils/, hooks/, components/, style-maps.ts compartidos entre templates
 - `src/templates/_variants/` — 7 slot registries con 31 variantes (header, hero, product-card, footer, bottom-nav, category-nav, search-bar)
 - `src/templates/_core/sections/` — 12 section renderers + SECTION_REGISTRY con dispatch dinámico
+- `src/templates/_core/cart/` — CartProvider unificado, useCart, CartItem canónico
 - `src/templates/registry.ts` — template registry (async loaders)
-- `src/types/templates/` — contratos globales (TemplateConfig, 5 capas)
-- `src/types/domain/` — domain types del dashboard (Category, Subcategory, Product, ActionResult)
-- `src/types/store.ts` — tipos compartidos (Product, Category, StoreInfo)
-- `src/lib/` — utilidades (resolveTemplateConfig, supabase clients)
-- `src/lib/cart/` — CartProvider unificado, useCart, CartItem canónico
-- `src/lib/format.ts` — formatPrice, formatPriceCurrency
-- `src/lib/onboarding/` — onboarding provider, vibes, first-time utils
-- `src/lib/repositories/` — repository pattern: interfaces + localStorage implementations + factory
-- `src/lib/validators/` — Zod schemas (category, product, store-customization)
-- `src/hooks/` — React hooks: useCategories, useSubcategories, useProducts, useImageUpload
-- `src/components/customizer/` — Theme Customizer genérico
-- `src/components/dashboard/` — dashboard shell: sidebar, header, breadcrumbs
-- `src/components/dashboard/schema-form/` — dynamic form renderer (DynamicField, DynamicSection, RepeatableSection, DynamicTabContent)
-- `src/components/onboarding/` — wizard step components
-- `src/components/shared/` — reusable components: ConfirmDialog, DataTable, EmptyState, SortableList, PriceInput, VariantEditor, StorageIndicator, QuantityStepper
+- `src/types/templates/` — contratos globales (TemplateConfig, 5 capas, SectionId union)
+- `src/types/domain/` — domain types (Category, Subcategory, Product, Store, Cart, ActionResult, UIProductVariant)
 - `ai/skills/` — skills del proyecto (ver `ai/skills/README.md`)
 - `ai/rules/` — reglas arquitectónicas
 - `docs/` — documentación del producto

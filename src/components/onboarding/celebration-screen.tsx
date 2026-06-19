@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useOnboarding } from '@/lib/onboarding/onboarding-provider'
-import type { AccentColor } from '@/types/onboarding'
+import { useOnboarding } from '@/onboarding/onboarding-provider'
+import type { AccentColor } from '@/types/domain/onboarding'
 import { Button } from '@/components/ui/button'
 
 const ACCENT_HEX: Record<AccentColor, string> = {

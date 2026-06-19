@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct } from "@/types/store";
+import type { StoreInfo, StorefrontProduct } from "@/types/domain/store";
 
 interface BeautySoftCategory {
   id: string;

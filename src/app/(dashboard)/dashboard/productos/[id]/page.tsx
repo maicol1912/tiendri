@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Loader2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { getRepositories } from '@/lib/repositories'
+import { getRepositories } from '@/infrastructure/repositories'
 import { ConfirmDialog } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import { ProductForm } from '../product-form'

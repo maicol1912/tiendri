@@ -108,7 +108,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                 style={{
                   fontSize: "10px",
                   letterSpacing: "0.1em",
-                  color: "rgba(255,255,255,0.75)",
+                  color: "color-mix(in srgb, var(--t-background) 75%, transparent)",
                   fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
                 }}
               >
@@ -120,7 +120,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                 className="m-0 font-bold leading-tight"
                 style={{
                   fontSize: "clamp(16px, 2.2vw, 22px)",
-                  color: "#FFFFFF",
+                  color: "var(--t-background)",
                   fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
                 }}
               >
@@ -150,7 +150,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                     fontSize: "11px",
                     letterSpacing: "0.04em",
                     color: "var(--t-foreground)",
-                    backgroundColor: "var(--t-peach, #F4B5A4)",
+                    backgroundColor: "var(--t-accent)",
                     borderRadius: "var(--t-radius-button)",
                     padding: "3px 10px",
                     fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
@@ -207,7 +207,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                 style={{
                   fontSize: "10px",
                   letterSpacing: "0.1em",
-                  color: "rgba(255,255,255,0.75)",
+                  color: "color-mix(in srgb, var(--t-background) 75%, transparent)",
                   fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
                 }}
               >
@@ -217,7 +217,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                 className="m-0 font-bold leading-tight"
                 style={{
                   fontSize: "18px",
-                  color: "#FFFFFF",
+                  color: "var(--t-background)",
                   fontFamily: "var(--font-heading, 'Poppins', sans-serif)",
                 }}
               >
@@ -246,7 +246,7 @@ const Carousel = memo(function Carousel(props: HeroSlotProps) {
                     fontSize: "11px",
                     letterSpacing: "0.04em",
                     color: "var(--t-foreground)",
-                    backgroundColor: "var(--t-peach, #F4B5A4)",
+                    backgroundColor: "var(--t-accent)",
                     borderRadius: "var(--t-radius-button)",
                     padding: "3px 10px",
                     fontFamily: "var(--font-heading, 'Poppins', sans-serif)",

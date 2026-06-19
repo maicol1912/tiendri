@@ -9,7 +9,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { getByPath } from "@/lib/config-path-utils";
+import { getByPath } from "@/catalog/config-path-utils";
 import { DynamicField } from "./dynamic-field";
 
 // ---------------------------------------------------------------------------

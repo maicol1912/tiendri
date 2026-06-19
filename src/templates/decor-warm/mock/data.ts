@@ -2,7 +2,7 @@
 // All content centralized here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
+import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 // Local type definitions (formerly in types.ts, now inlined)
 interface DecorWarmCategoryIcon {
   id: string;

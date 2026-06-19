@@ -1,6 +1,6 @@
 "use client";
 
-import { fontPairs, fontGroups } from "@/lib/fonts";
+import { fontPairs, fontGroups } from "@/shared/fonts";
 import { ControlField } from "../components/ControlField";
 import { selectStyle, labelStyle } from "../types";
 import type { MutableConfig, MutableTypography } from "../types";

@@ -8,18 +8,18 @@
 // Fallback pattern: callers check for UNAUTHORIZED and fall back to localStorage.
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/infrastructure/supabase/server";
 import {
   storeCustomizationSchema,
   brandingSchema,
   contentSchema,
   businessSchema,
   themeSchema,
-} from "@/lib/validators/store-customization.schema";
+} from "@/shared/validators/store-customization.schema";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 import type { BrandingConfig, ContentConfig, BusinessConfig } from "@/types/templates/customization-sections";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
-import type { Json, StoreRow } from "@/types/database.types";
+import type { Json, StoreRow } from "@/infrastructure/database.types";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 
@@ -36,7 +36,7 @@ export type ActionResult<T = undefined> =
 // ── Auth helper ───────────────────────────────────────────────────────────────
 
 /** Returns the authenticated user's store row, or null if not authenticated / no store. */
-async function getAuthenticatedStore(): Promise<Pick<StoreRow, 'id' | 'customization'> | null> {
+async function getAuthenticatedStore(): Promise<Pick<StoreRow, 'id' | 'slug' | 'customization'> | null> {
   const supabase = await createClient();
 
   const {
@@ -47,12 +47,12 @@ async function getAuthenticatedStore(): Promise<Pick<StoreRow, 'id' | 'customiza
 
   const { data } = await supabase
     .from("stores")
-    .select("id, customization")
+    .select("id, slug, customization")
     .eq("owner_id", user.id)
     .single();
 
   if (!data) return null;
-  return data as unknown as Pick<StoreRow, 'id' | 'customization'>;
+  return data as unknown as Pick<StoreRow, 'id' | 'slug' | 'customization'>;
 }
 
 /** Deep-merge `patch` into `base` (one level of nesting — sufficient for StoreCustomization). */
@@ -134,7 +134,7 @@ export async function writeCustomization(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }
 
@@ -185,7 +185,7 @@ export async function updateTheme(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }
 
@@ -234,7 +234,7 @@ export async function updateBranding(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }
 
@@ -283,7 +283,7 @@ export async function updateContent(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }
 
@@ -332,7 +332,7 @@ export async function updateBusiness(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }
 
@@ -385,6 +385,6 @@ export async function updateCustomizationSection(
     };
   }
 
-  revalidatePath("/[slug]", "layout");
+  revalidatePath(`/${store.slug}`, "layout");
   return { success: true };
 }

@@ -1,4 +1,4 @@
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 
 export interface NavLink {
   label: string;

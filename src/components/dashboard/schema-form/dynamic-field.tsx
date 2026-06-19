@@ -276,7 +276,7 @@ function KeyValueListRenderer({
   return (
     <div className="space-y-2">
       {value.map((item, index) => (
-        <div key={index} className="flex items-center gap-2">
+        <div key={item.key || `kv-${index}`} className="flex items-center gap-2">
           <Input
             value={item.key}
             onChange={(e) => updateItem(index, "key", e.target.value)}

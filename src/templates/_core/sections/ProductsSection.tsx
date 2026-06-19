@@ -4,7 +4,7 @@ import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import { getSectionField } from "./get-section-field";
 import type { SectionRendererProps } from "./types";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 
 export const ProductsSection = memo(function ProductsSection({
   products,
@@ -117,15 +117,6 @@ export const ProductsSection = memo(function ProductsSection({
           style={{ gap: "var(--t-space-gap, 1rem)" }}
         >
           {productList.map((product) => {
-            const discount =
-              product.originalPrice && product.originalPrice > product.price
-                ? Math.round(
-                    ((product.originalPrice - product.price) /
-                      product.originalPrice) *
-                      100,
-                  )
-                : undefined;
-            void discount;
             return (
               <ProductCardComponent
                 key={product.id}

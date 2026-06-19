@@ -21,7 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { GripVertical, ChevronUp, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 interface SortableItemRenderProps {
   isDragging: boolean

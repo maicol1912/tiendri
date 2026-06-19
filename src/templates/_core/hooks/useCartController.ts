@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import { useCart } from "@/lib/cart";
-import type { CartItem } from "@/types/cart";
+import { useCart } from "@/templates/_core/cart";
+import type { CartItem } from "@/types/domain/cart";
 
 export interface CartController {
   items: CartItem[];

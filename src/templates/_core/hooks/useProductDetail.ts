@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useCart } from "@/lib/cart";
-import type { StorefrontProduct } from "@/types/store";
+import { useCart } from "@/templates/_core/cart";
+import type { StorefrontProduct } from "@/types/domain/store";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

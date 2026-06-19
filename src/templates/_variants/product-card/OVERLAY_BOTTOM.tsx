@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/shared/format';
 import type { ProductCardSlotProps } from './types';
 
 function OverlayBottomCard({
@@ -69,16 +69,34 @@ function OverlayBottomCard({
       )}
 
       {!product.inStock && (
-        <div className="absolute inset-0 z-30 bg-black/40 flex items-center justify-center">
-          <span className="text-white font-semibold text-sm tracking-wider">Agotado</span>
+        <div
+          className="absolute inset-0 z-30 flex items-center justify-center"
+          style={{ backgroundColor: 'color-mix(in srgb, var(--t-foreground) 40%, transparent)' }}
+        >
+          <span
+            className="font-semibold text-sm tracking-wider"
+            style={{ color: 'var(--t-background)' }}
+          >
+            Agotado
+          </span>
         </div>
       )}
 
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/70 to-transparent px-4 pt-8 pb-4 flex flex-col gap-2">
-        <p className="text-sm font-medium text-white leading-5 line-clamp-2">{product.name}</p>
+      <div
+        className="absolute inset-x-0 bottom-0 z-10 px-4 pt-8 pb-4 flex flex-col gap-2"
+        style={{
+          background: 'linear-gradient(to top, color-mix(in srgb, var(--t-foreground) 70%, transparent) 0%, transparent 100%)',
+        }}
+      >
         <p
-          className={`tracking-[0.72px] text-white ${priceConfig.className}`}
-          style={{ ...priceConfig.style, color: 'white' }}
+          className="text-sm font-medium leading-5 line-clamp-2"
+          style={{ color: 'var(--t-background)' }}
+        >
+          {product.name}
+        </p>
+        <p
+          className={`tracking-[0.72px] ${priceConfig.className}`}
+          style={{ ...priceConfig.style, color: 'var(--t-background)' }}
         >
           {formatPrice(product.price, currencySymbol)}
         </p>

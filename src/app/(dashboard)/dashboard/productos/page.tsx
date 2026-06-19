@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useProducts, useCategories } from '@/hooks/use-repositories'
+import { useProducts, useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
 import { DataTable, EmptyState, ConfirmDialog } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

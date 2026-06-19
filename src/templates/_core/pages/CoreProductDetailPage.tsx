@@ -11,9 +11,10 @@ import { ChevronLeft, ChevronDown, Truck, ShieldCheck, Package } from "lucide-re
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import { resolveStyleTokens } from "./style-tokens";
-import { formatPrice } from "@/lib/format";
+import { extractSectionProps } from "./extract-section-props";
+import { formatPrice } from "@/shared/format";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";
 
 const ACCORDION_ITEMS = [
@@ -74,10 +75,8 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
     cardBorderClass,
   } = resolveStyleTokens(config);
 
-  const configAny = config as Record<string, unknown>;
-  const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
-  const showDiscountBadge = configAny.showDiscountBadge !== false;
-  const showOriginalPrice = configAny.showOriginalPrice !== false;
+  const { showAddToCartInGrid, showDiscountBadge, showOriginalPrice } =
+    extractSectionProps(config);
 
   const grid = config.grid;
   const productsMobile = grid?.products?.mobile ?? 2;

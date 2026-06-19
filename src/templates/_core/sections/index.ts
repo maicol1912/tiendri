@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { SectionRendererProps } from "./types";
+import type { SectionId } from "@/types/templates/sections";
 import { HeroSection } from "./HeroSection";
 import { CategoriesSection } from "./CategoriesSection";
 import { ProductsSection } from "./ProductsSection";
@@ -7,13 +8,13 @@ import { CollectionsSection } from "./CollectionsSection";
 import { EditorialSection } from "./EditorialSection";
 import { BannersSection } from "./BannersSection";
 import { PopularSection } from "./PopularSection";
-import { VideoSection } from "./VideoSection";
+import { VideoSectionAdapter } from "./VideoSectionAdapter";
 import { FeaturedSection } from "./FeaturedSection";
 import { SearchBarSection } from "./SearchBarSection";
 import { DiscountsSection } from "./DiscountsSection";
 import { BestSellersSectionAdapter } from "./BestSellersSectionAdapter";
 
-export const SECTION_REGISTRY: Record<string, ComponentType<SectionRendererProps>> = {
+export const SECTION_REGISTRY: Record<SectionId, ComponentType<SectionRendererProps>> = {
   hero: HeroSection,
   categories: CategoriesSection,
   products: ProductsSection,
@@ -21,7 +22,7 @@ export const SECTION_REGISTRY: Record<string, ComponentType<SectionRendererProps
   editorial: EditorialSection,
   banners: BannersSection,
   popular: PopularSection,
-  video: VideoSection as unknown as ComponentType<SectionRendererProps>,
+  video: VideoSectionAdapter,
   featured: FeaturedSection,
   searchBar: SearchBarSection,
   discounts: DiscountsSection,

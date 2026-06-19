@@ -13,7 +13,7 @@ import {
   Settings,
   ExternalLink,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TourChecklist } from "@/components/dashboard/tour-checklist";
 

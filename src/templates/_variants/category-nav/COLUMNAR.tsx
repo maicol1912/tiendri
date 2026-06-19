@@ -24,7 +24,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { CategoryNavSlotProps } from "./types";
-import type { Category } from "@/types/store";
+import type { Category } from "@/types/domain/store";
 
 // Icon registry — add more Lucide icons here as new templates register categories.
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -87,7 +87,7 @@ function ColumnarItem({ category, isActive, onClick }: ColumnarItemProps) {
           size={26}
           strokeWidth={1.5}
           style={{
-            color: isActive ? "#FFFFFF" : "var(--t-primary)",
+            color: isActive ? "var(--t-on-primary)" : "var(--t-primary)",
             transition: "color 0.15s ease",
           }}
         />

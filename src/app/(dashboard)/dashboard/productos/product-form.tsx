@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useCategories, useSubcategories } from '@/hooks/use-repositories'
-import { getRepositories } from '@/lib/repositories'
+import { useCategories, useSubcategories } from '@/app/(dashboard)/_hooks/use-repositories'
+import { getRepositories } from '@/infrastructure/repositories'
 import { PriceInput, VariantEditor } from '@/components/shared'
 import { ProductImageGallery, type GalleryImage } from './product-image-gallery'
 import { Button } from '@/components/ui/button'
@@ -29,17 +29,10 @@ import {
 } from '@/components/ui/card'
 import type {
   Product,
+  UIProductVariant,
   CreateProductInput,
   UpdateProductInput,
 } from '@/types/domain'
-
-// ── Types ────────────────────────────────────────────────────────────────────
-
-interface VariantItem {
-  id: string
-  name: string
-  priceModifier: number
-}
 
 interface ProductFormProps {
   /** Existing product for edit mode. Undefined for create mode. */
@@ -125,7 +118,7 @@ export function ProductForm({
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(initialImages)
 
   // ── Variants ─────────────────────────────────────────────────────────────
-  const initialVariants: VariantItem[] = useMemo(
+  const initialVariants: UIProductVariant[] = useMemo(
     () =>
       (product?.variants ?? []).map((v) => ({
         id: v.id,
@@ -134,7 +127,7 @@ export function ProductForm({
       })),
     [product?.variants]
   )
-  const [variants, setVariants] = useState<VariantItem[]>(initialVariants)
+  const [variants, setVariants] = useState<UIProductVariant[]>(initialVariants)
 
   // ── Subcategories (only if nested mode + category selected) ──────────────
   const { subcategories } = useSubcategories(

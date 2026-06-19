@@ -4,7 +4,7 @@
 // Displays categories as sortable cards with icon, name, image, and product count.
 // Supports DnD reorder, create via sheet, edit/delete via dropdown.
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Plus,
@@ -16,8 +16,8 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useCategories } from '@/hooks/use-repositories'
-import { getStoreId, getProductRepository } from '@/lib/repositories'
+import { useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
+import { getStoreId, getProductRepository } from '@/infrastructure/repositories'
 import type { Category } from '@/types/domain'
 import { SortableList, DragHandle } from '@/components/shared'
 import { ConfirmDialog } from '@/components/shared'
@@ -54,11 +54,11 @@ export default function CategoriasPage() {
   }, [storeId])
 
   // Load counts when categories change
-  useState(() => {
+  useEffect(() => {
     if (categories.length > 0) {
       void loadProductCounts(categories)
     }
-  })
+  }, [categories, loadProductCounts])
 
   const handleReorder = useCallback(
     async (orderedIds: string[]) => {

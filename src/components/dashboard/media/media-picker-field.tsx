@@ -3,10 +3,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { ImageIcon, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 import { MediaPickerDialog } from './media-picker-dialog';
-import { useMediaLibrary } from '@/hooks/use-media-library';
-import { getStoreId } from '@/lib/repositories';
+import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
+import { getStoreId } from '@/infrastructure/repositories';
 
 interface MediaPickerFieldProps {
   value: string | null;

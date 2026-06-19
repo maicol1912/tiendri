@@ -1,11 +1,36 @@
 import { type NextRequest, NextResponse } from "next/server";
-
-// TODO: Uncomment and wire up Supabase session refresh once .env.local is configured
-// import { updateSession } from "@/lib/supabase/middleware";
+import { updateSession } from "@/infrastructure/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
-  // TODO: Replace with updateSession(request) once Supabase env vars are set
-  return NextResponse.next({ request });
+  const { response, user } = await updateSession(request);
+  const { pathname } = request.nextUrl;
+
+  const isDashboard = pathname.startsWith("/dashboard");
+  const isAuth = pathname.startsWith("/auth");
+  const isOnboarding = pathname.startsWith("/onboarding");
+
+  if (isDashboard && !user) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/auth";
+    redirectUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (isAuth && user) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    redirectUrl.searchParams.delete("next");
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (isOnboarding && !user) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/auth";
+    redirectUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  return response;
 }
 
 export const config = {

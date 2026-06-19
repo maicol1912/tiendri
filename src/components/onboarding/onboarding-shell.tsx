@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 const STEP_TITLES: Record<number, string> = {
   1: 'Tu tienda',

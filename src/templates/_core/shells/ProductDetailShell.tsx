@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { CoreProductDetailPage } from "@/templates/_core/pages/CoreProductDetailPage";
 import { useProductDetail } from "@/templates/_core/hooks/useProductDetail";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 

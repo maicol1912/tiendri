@@ -16,14 +16,14 @@
 
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { getStoreBySlug } from "@/lib/getStoreBySlug";
-import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
-import { buildCssVars } from "@/lib/buildCssVars";
-import { getFontPair } from "@/lib/fonts";
+import { getStoreBySlug } from "@/catalog/getStoreBySlug";
+import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
+import { buildCssVars } from "@/catalog/buildCssVars";
+import { getFontPair } from "@/shared/fonts";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
-import { CartProvider, createCartStorageKey } from "@/lib/cart";
+import { CartProvider, createCartStorageKey } from "@/templates/_core/cart";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 
 interface StorefrontLayoutProps {
   children: ReactNode;

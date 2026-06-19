@@ -57,7 +57,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { CategoryNavSlotProps } from "./types";
-import type { Category } from "@/types/store";
+import type { Category } from "@/types/domain/store";
 
 // Full icon map covering all templates + common ecommerce icons.
 // Keys are PascalCase (Lucide convention) and kebab-case aliases for

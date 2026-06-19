@@ -8,7 +8,7 @@
 // when there is no active query (popular searches, recommendations, etc.).
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

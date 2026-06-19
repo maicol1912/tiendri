@@ -10,7 +10,7 @@ import { useCheckoutForm } from "@/templates/_core/hooks/useCheckoutForm";
 import type { CheckoutFormData } from "@/templates/_core/hooks/useCheckoutForm";
 import { useCartController } from "@/templates/_core/hooks/useCartController";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 

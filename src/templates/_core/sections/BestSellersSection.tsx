@@ -6,6 +6,7 @@
 
 import React, { memo } from "react";
 import Image from "next/image";
+import { formatPrice } from "@/shared/format";
 
 export interface BestSellerItem {
   productId: string;
@@ -143,14 +144,14 @@ export const BestSellersSection = memo(function BestSellersSection({
                     className="text-sm font-bold"
                     style={{ color: "var(--t-on-primary)" }}
                   >
-                    {currencySymbol}{item.price.toLocaleString("es-CO")}
+                    {formatPrice(item.price, currencySymbol)}
                   </span>
                   {item.originalPrice !== undefined && item.originalPrice > item.price && (
                     <span
                       className="text-xs line-through"
                       style={{ color: "var(--t-on-primary)", opacity: 0.6 }}
                     >
-                      {currencySymbol}{item.originalPrice.toLocaleString("es-CO")}
+                      {formatPrice(item.originalPrice, currencySymbol)}
                     </span>
                   )}
                 </div>

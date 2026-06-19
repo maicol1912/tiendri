@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/carrito", "/checkout", "/template/", "/api/"],
+        disallow: ["/carrito", "/checkout", "/template/", "/api/", "/dashboard/", "/auth/", "/onboarding/", "/clone/"],
       },
     ],
     sitemap: "https://tiendri.com/sitemap.xml",

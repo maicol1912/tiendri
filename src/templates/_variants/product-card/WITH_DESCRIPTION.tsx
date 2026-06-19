@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 import { imageRatioClass } from '@/templates/_shared/utils/image-classes';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/shared/format';
 import type { ProductCardSlotProps } from './types';
 
 function WithDescriptionCard({
@@ -198,7 +198,7 @@ function WithDescriptionCard({
               onAddToCart?.(product.id);
             }}
           >
-            <Plus size={10} strokeWidth={2.5} style={{ color: '#FFFFFF' }} />
+            <Plus size={10} strokeWidth={2.5} style={{ color: 'var(--t-on-primary)' }} />
           </button>
         </div>
       </div>

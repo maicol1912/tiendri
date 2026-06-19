@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { templateRegistry } from "@/templates";
 import { getTemplateConfig } from "@/templates/registry";
-import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
+import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
 import { TemplateLayout } from "@/templates/_core";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
 import { getTemplateMockData } from "@/templates/mock-loader";
@@ -70,6 +70,7 @@ export async function generateMetadata({
   return {
     title: meta.title,
     description: meta.description,
+    robots: { index: false, follow: false },
   };
 }
 

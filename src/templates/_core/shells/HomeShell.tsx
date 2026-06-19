@@ -7,10 +7,9 @@
 import { useState, useCallback } from "react";
 import { CoreHomePage } from "@/templates/_core/pages/CoreHomePage";
 import { useShellHandlers } from "@/templates/_core/hooks/useShellHandlers";
-import { useCartController } from "@/templates/_core/hooks/useCartController";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
-import { useCart } from "@/lib/cart";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
+import { useCart } from "@/templates/_core/cart";
+import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
@@ -44,7 +43,6 @@ export function HomeShell({
 }: HomeShellProps) {
   const nav = useTemplateNav();
   const { addItem } = useCart();
-  const { } = useCartController(); // se usa itemCount en TemplateLayout
   const { handleTabChange } = useShellHandlers(nav);
 
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);

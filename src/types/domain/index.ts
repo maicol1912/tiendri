@@ -6,6 +6,7 @@ export type { Subcategory, CreateSubcategoryInput, UpdateSubcategoryInput } from
 export type {
   ProductImage,
   ProductVariant,
+  UIProductVariant,
   Product,
   CreateProductInput,
   UpdateProductInput,
@@ -20,3 +21,20 @@ export type {
   MediaLibraryStats,
   MediaSearchFilters,
 } from './media-asset';
+export type {
+  Store,
+  StoreInfo,
+  ColorOption,
+  StorefrontVariantOption,
+  StorefrontVariantGroup,
+  StorefrontProduct,
+} from './store';
+export type { CartItem, Cart, CheckoutFormData } from './cart';
+export type {
+  VibeId,
+  CatalogMode,
+  OnboardingStep,
+  AccentColor,
+  OnboardingState,
+} from './onboarding';
+export { INITIAL_ONBOARDING_STATE } from './onboarding';

@@ -8,14 +8,14 @@
 //   - isAuthenticated=true  → Server Actions write to Supabase
 //   - isAuthenticated=false → localStorage fallback (demo / unauthenticated mode)
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BrandingTab } from "./tabs/branding-tab";
 import { ThemeTab } from "./tabs/theme-tab";
 import { BusinessTab } from "./tabs/business-tab";
 import { DynamicTabContent, SectionsAccordionTab } from "@/components/dashboard/schema-form";
 import { getTemplateSchema } from "@/templates/registry";
-import { setByPath } from "@/lib/config-path-utils";
+import { setByPath } from "@/catalog/config-path-utils";
 import { updateCustomizationSection } from "./actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "./client-utils";
 import type { StoreCustomization } from "@/types/templates/store-customization";
@@ -115,24 +115,31 @@ export function ConfiguracionClient({
 
   const [schema, setSchema] = useState<TemplateConfigSchema | null>(null);
 
+  // Capture initial values in refs so the effect runs once on mount without
+  // re-running when props change (they never change after first render anyway).
+  const initialCustomizationRef = useRef(initialCustomization);
+  const isAuthenticatedRef = useRef(isAuthenticated);
+
   // In demo mode, hydrate from localStorage after mount (client-only).
   // In authenticated mode, use the server-provided initialCustomization directly.
   useEffect(() => {
-    if (isAuthenticated) {
+    const initial = initialCustomizationRef.current;
+    const authenticated = isAuthenticatedRef.current;
+
+    if (authenticated) {
       // Already hydrated from Supabase via Server Component — just run migration check
-      migrateLegacyBanners(initialCustomization);
+      migrateLegacyBanners(initial);
     } else {
       // Demo mode: load from localStorage (may have more recent changes than server-provided fallback)
-      migrateLegacyBanners(initialCustomization);
+      migrateLegacyBanners(initial);
       const local = readLocalCustomization();
       setCustomization(local);
     }
 
-    const templateId = initialCustomization.templateId ?? "tech-premium";
+    const templateId = initial.templateId ?? "tech-premium";
     getTemplateSchema(templateId).then((loaded) => {
       setSchema(loaded);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const storeName = customization.branding?.storeName ?? "Mi tienda";

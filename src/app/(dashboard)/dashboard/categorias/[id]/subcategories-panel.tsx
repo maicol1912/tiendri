@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useSubcategories } from '@/hooks/use-repositories'
+import { useSubcategories } from '@/app/(dashboard)/_hooks/use-repositories'
 import type { Subcategory, CreateSubcategoryInput } from '@/types/domain'
 import { SortableList, DragHandle } from '@/components/shared'
 import { ConfirmDialog } from '@/components/shared'

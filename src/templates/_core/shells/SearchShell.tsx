@@ -9,8 +9,8 @@ import { CoreSearchPage } from "@/templates/_core/pages/CoreSearchPage";
 import { useSearchController } from "@/templates/_core/hooks/useSearchController";
 import { useCartController } from "@/templates/_core/hooks/useCartController";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
-import { useCart } from "@/lib/cart";
-import type { StorefrontProduct } from "@/types/store";
+import { useCart } from "@/templates/_core/cart";
+import type { StorefrontProduct } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 

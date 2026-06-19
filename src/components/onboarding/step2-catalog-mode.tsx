@@ -1,8 +1,8 @@
 'use client'
 
-import { useOnboarding } from '@/lib/onboarding/onboarding-provider'
-import type { CatalogMode } from '@/types/onboarding'
-import { cn } from '@/lib/utils'
+import { useOnboarding } from '@/onboarding/onboarding-provider'
+import type { CatalogMode } from '@/types/domain/onboarding'
+import { cn } from '@/shared/utils'
 
 interface ModeCardProps {
   mode: CatalogMode

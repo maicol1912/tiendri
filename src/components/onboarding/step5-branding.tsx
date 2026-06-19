@@ -1,10 +1,10 @@
 'use client'
 
 import { useRef } from 'react'
-import { useOnboarding } from '@/lib/onboarding/onboarding-provider'
-import { useImageUpload } from '@/hooks/use-image-upload'
-import type { AccentColor } from '@/types/onboarding'
-import { cn } from '@/lib/utils'
+import { useOnboarding } from '@/onboarding/onboarding-provider'
+import { useImageUpload } from '@/app/(dashboard)/_hooks/use-image-upload'
+import type { AccentColor } from '@/types/domain/onboarding'
+import { cn } from '@/shared/utils'
 import { Button } from '@/components/ui/button'
 
 interface ColorSwatch {

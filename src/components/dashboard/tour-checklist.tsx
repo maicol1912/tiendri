@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle2, Circle, ChevronDown, ChevronUp } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 interface ChecklistItem {
   id: string

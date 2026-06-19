@@ -37,20 +37,5 @@ export interface Category {
   updated_at: string;
 }
 
-export interface CreateCategoryInput {
-  name: string;
-  slug: string;
-  description?: string;
-  image?: string;
-  icon: CategoryIcon;
-  sort_order?: number;
-}
-
-export interface UpdateCategoryInput {
-  name?: string;
-  slug?: string;
-  description?: string;
-  image?: string;
-  icon?: CategoryIcon;
-  sort_order?: number;
-}
+// Single source of truth — derived from Zod schemas in validators/category.schema.ts.
+export type { CreateCategoryInput, UpdateCategoryInput } from "@/shared/validators/category.schema";

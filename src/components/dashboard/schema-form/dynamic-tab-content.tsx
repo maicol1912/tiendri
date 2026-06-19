@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { ConfigTabGroup } from "@/types/templates/config-schema";
 import { isRepeatableSection } from "@/types/templates/config-schema";
-import { getByPath, setByPath } from "@/lib/config-path-utils";
+import { getByPath, setByPath } from "@/catalog/config-path-utils";
 import { Button } from "@/components/ui/button";
 import { DynamicSection } from "./dynamic-section";
 import { RepeatableSection } from "./repeatable-section";

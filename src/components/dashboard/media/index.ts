@@ -9,7 +9,7 @@ export { MediaPickerField } from './media-picker-field';
 export { MediaDeleteDialog } from './media-delete-dialog';
 
 // Hook — re-export canonical hook for pages that need direct media library access
-export { useMediaLibrary } from '@/hooks/use-media-library';
+export { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
 
 // Types — re-export canonical types from @/types/domain
 export type { MediaAsset, MediaAssetContext, MediaLibraryStats, MediaSearchFilters } from '@/types/domain';

@@ -18,12 +18,12 @@ import {
   ThemeCustomizer,
   type MutableConfig,
 } from "@/components/customizer/ThemeCustomizer";
-import { buildCssVars } from "@/lib/buildCssVars";
-import { fontPairs } from "@/lib/fonts";
+import { buildCssVars } from "@/catalog/buildCssVars";
+import { fontPairs } from "@/shared/fonts";
 
 // ── Template ui-config imports ────────────────────────────────────────────────
 
-import { CartProvider as SharedCartProvider, createCartStorageKey } from "@/lib/cart";
+import { CartProvider as SharedCartProvider, createCartStorageKey } from "@/templates/_core/cart";
 import { techPremiumUiConfig } from "@/templates/tech-premium/ui-config";
 import { fashionUiConfig } from "@/templates/fashion/ui-config";
 import { furnitureDarkUiConfig } from "@/templates/furniture-dark/ui-config";

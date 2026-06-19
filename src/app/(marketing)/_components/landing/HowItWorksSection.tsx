@@ -8,15 +8,15 @@ export interface HowItWorksSectionProps {
 }
 
 const channelLogos = [
-  { src: '/clone-assets/hotel-logo-1.avif', alt: 'Canal 1' },
-  { src: '/clone-assets/hotel-logo-2.avif', alt: 'Canal 2' },
-  { src: '/clone-assets/hotel-logo-3.avif', alt: 'Canal 3' },
-  { src: '/clone-assets/hotel-logo-5.avif', alt: 'Canal 5' },
-  { src: '/clone-assets/hotel-logo-4.avif', alt: 'Canal 4' },
-  { src: '/clone-assets/hotel-logo-9.avif', alt: 'Canal 9' },
-  { src: '/clone-assets/hotel-logo-6.avif', alt: 'Canal 6' },
-  { src: '/clone-assets/hotel-logo-10.avif', alt: 'Canal 10' },
-  { src: '/clone-assets/hotel-logo-7.avif', alt: 'Canal 7' },
+  { src: '/images/landing/hotel-logo-1.avif', alt: 'Canal 1' },
+  { src: '/images/landing/hotel-logo-2.avif', alt: 'Canal 2' },
+  { src: '/images/landing/hotel-logo-3.avif', alt: 'Canal 3' },
+  { src: '/images/landing/hotel-logo-5.avif', alt: 'Canal 5' },
+  { src: '/images/landing/hotel-logo-4.avif', alt: 'Canal 4' },
+  { src: '/images/landing/hotel-logo-9.avif', alt: 'Canal 9' },
+  { src: '/images/landing/hotel-logo-6.avif', alt: 'Canal 6' },
+  { src: '/images/landing/hotel-logo-10.avif', alt: 'Canal 10' },
+  { src: '/images/landing/hotel-logo-7.avif', alt: 'Canal 7' },
 ];
 
 const marqueeCSS = `
@@ -181,7 +181,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
               aria-label="Tiendri app en celular"
             >
               <img
-                src="/clone-assets/phone-scroll-content.png"
+                src="/images/landing/phone-scroll-content.png"
                 alt="Tienda Moda Élite"
                 style={{
                   width: '100%',
@@ -246,7 +246,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
               aria-label="Tiendri app en celular"
             >
               <img
-                src="/clone-assets/phone-scroll-content.png"
+                src="/images/landing/phone-scroll-content.png"
                 alt="Tienda Moda Élite"
                 style={{
                   width: '100%',

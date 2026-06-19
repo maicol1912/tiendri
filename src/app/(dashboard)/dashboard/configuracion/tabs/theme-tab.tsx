@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/utils";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
 import type { TemplateConfigSchema, ColorPalette } from "@/types/templates/config-schema";
 import { updateTheme } from "../actions";

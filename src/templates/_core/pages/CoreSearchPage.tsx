@@ -10,8 +10,9 @@ import { SEARCH_BAR_REGISTRY } from "@/templates/_variants/search-bar";
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
 import { gridColsClass } from "@/templates/_shared/utils/grid-classes";
 import { resolveStyleTokens } from "./style-tokens";
+import { extractSectionProps } from "./extract-section-props";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";
 import type { SearchBarVariant } from "@/templates/_variants/search-bar";
 
@@ -56,11 +57,10 @@ export const CoreSearchPage = memo(function CoreSearchPage({
     cardBorderClass,
   } = resolveStyleTokens(config);
 
+  const { showAddToCartInGrid, showDiscountBadge, showOriginalPrice } =
+    extractSectionProps(config);
   const configAny = config as Record<string, unknown>;
   const showSearchBar = configAny.showSearchBar !== false;
-  const showAddToCartInGrid = configAny.showAddToCartInGrid !== false;
-  const showDiscountBadge = configAny.showDiscountBadge !== false;
-  const showOriginalPrice = configAny.showOriginalPrice !== false;
   const textCenter = configAny.cardTextCenter === true;
 
   const grid = config.grid;

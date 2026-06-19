@@ -9,8 +9,8 @@ import { useState, useCallback, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useCategories } from '@/hooks/use-repositories'
-import { categorySchema } from '@/lib/validators/category.schema'
+import { useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
+import { categorySchema } from '@/shared/validators/category.schema'
 import { MediaPickerField } from '@/components/dashboard/media'
 import type { CategoryIcon, CreateCategoryInput } from '@/types/domain'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 import { CategoryIconComponent, ICON_OPTIONS } from './category-icon'
 
 interface CreateCategorySheetProps {

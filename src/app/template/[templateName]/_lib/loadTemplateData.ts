@@ -3,11 +3,11 @@
 // page.tsx only needs one call instead of duplicating 4 async steps.
 
 import { getTemplateConfig } from "@/templates/registry";
-import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
+import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
 import { getTemplateMockData } from "@/templates/mock-loader";
 import type { TemplateManifest, ResolvedStoreConfig } from "@/types/templates";
-import type { StorefrontProduct, Category, StoreInfo } from "@/types/store";
+import type { StorefrontProduct, Category, StoreInfo } from "@/types/domain/store";
 
 export interface TemplatePageData {
   store: StoreInfo;

@@ -20,7 +20,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StorageIndicator } from '@/components/shared';
-import { getRepositories, getStoreId } from '@/lib/repositories';
+import { getRepositories, getStoreId } from '@/infrastructure/repositories';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 

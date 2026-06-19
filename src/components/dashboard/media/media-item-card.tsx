@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { Trash2, CheckCircle2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 import type { MediaAsset } from '@/types/domain';
 import { MediaDeleteDialog } from './media-delete-dialog';
 

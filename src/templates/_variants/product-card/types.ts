@@ -1,4 +1,4 @@
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 
 export interface ProductCardSlotProps {
   product: StorefrontProduct;

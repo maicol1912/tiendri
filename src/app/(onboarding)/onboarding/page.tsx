@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { OnboardingProvider, useOnboarding } from '@/lib/onboarding/onboarding-provider'
+import { OnboardingProvider, useOnboarding } from '@/onboarding/onboarding-provider'
 import { OnboardingShell } from '@/components/onboarding/onboarding-shell'
 import { Step1StoreInfo } from '@/components/onboarding/step1-store-info'
 import { Step2CatalogMode } from '@/components/onboarding/step2-catalog-mode'
@@ -10,8 +10,8 @@ import { Step3VibeSelection } from '@/components/onboarding/step3-vibe-selection
 import { Step5Branding } from '@/components/onboarding/step5-branding'
 import { CelebrationScreen } from '@/components/onboarding/celebration-screen'
 import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/client-utils'
-import { markOnboardingCompleted } from '@/lib/onboarding/first-time'
-import type { AccentColor } from '@/types/onboarding'
+import { markOnboardingCompleted } from '@/onboarding/first-time'
+import type { AccentColor } from '@/types/domain/onboarding'
 
 const ACCENT_HEX: Record<AccentColor, string> = {
   rojo: '#EF4444',

@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/store";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/domain/store";
 
 interface PopularProduct {
   id: string;

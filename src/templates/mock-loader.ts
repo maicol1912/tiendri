@@ -9,7 +9,7 @@
 // Por ahora es estático (mock). En fases futuras este módulo será el punto
 // de integración con Supabase para cargar datos reales por slug.
 
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/store";
+import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 
 /** Shape de un ítem de productos populares (banner card con imagen y CTA). */

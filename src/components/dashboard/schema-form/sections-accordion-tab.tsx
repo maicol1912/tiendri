@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { ConfigSection } from "@/types/templates/config-schema";
-import type { SectionConfig } from "@/types/templates/sections";
+import type { SectionConfig, SectionId } from "@/types/templates/sections";
 import {
   Accordion,
   AccordionItem,
@@ -76,7 +76,7 @@ export function SectionsAccordionTab({
         return [
           ...prev,
           {
-            id: sectionId,
+            id: sectionId as SectionId,
             visible: true,
             config: { [fieldKey]: value },
           },

@@ -7,7 +7,7 @@
 import { useCallback } from "react";
 import { StoreInfoPage } from "@/templates/_shared/StoreInfoPage";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 

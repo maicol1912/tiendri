@@ -9,9 +9,9 @@ import React, { memo } from "react";
 import Image from "next/image";
 import { ChevronLeft, Minus, Plus, Trash2 } from "lucide-react";
 import { resolveStyleTokens } from "./style-tokens";
-import { formatPrice } from "@/lib/format";
+import { formatPrice } from "@/shared/format";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
-import type { CartItem } from "@/types/cart";
+import type { CartItem } from "@/types/domain/cart";
 
 interface CoreCartPageProps {
   config: ResolvedStoreConfig;

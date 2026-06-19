@@ -20,6 +20,18 @@ export interface ProductVariant {
   created_at: string;
 }
 
+/**
+ * UI-layer representation of a product variant.
+ * Uses camelCase for form state and editor components.
+ * Adapter boundary: DB reads map price_modifier → priceModifier,
+ * writes map priceModifier → price_modifier.
+ */
+export interface UIProductVariant {
+  id: string;
+  name: string;
+  priceModifier: number;
+}
+
 export interface Product {
   id: string;
   store_id: string;

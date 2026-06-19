@@ -1,7 +1,7 @@
 // Furniture Light — Mock Data
 // All hardcoded data for preview/development.
 
-import type { StorefrontProduct, StoreInfo } from "@/types/store";
+import type { StorefrontProduct, StoreInfo } from "@/types/domain/store";
 
 // ── Local types ────────────────────────────────────────────────────────────────
 

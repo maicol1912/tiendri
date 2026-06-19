@@ -14,16 +14,16 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { useCategories } from '@/hooks/use-repositories'
+import { useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
 import {
   getStoreId,
   getStoreRepository,
   getProductRepository,
-} from '@/lib/repositories'
-import { categorySchema } from '@/lib/validators/category.schema'
+} from '@/infrastructure/repositories'
+import { categorySchema } from '@/shared/validators/category.schema'
 import { MediaPickerField } from '@/components/dashboard/media'
 import type { CategoryIcon, UpdateCategoryInput } from '@/types/domain'
-import type { StoreMeta } from '@/lib/repositories/interfaces'
+import type { StoreMeta } from '@/infrastructure/repositories/interfaces'
 import { ConfirmDialog } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -36,7 +36,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 import { CategoryIconComponent, ICON_OPTIONS } from '../category-icon'
 import { SubcategoriesPanel } from './subcategories-panel'
 

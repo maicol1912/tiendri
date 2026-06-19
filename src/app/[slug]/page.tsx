@@ -13,12 +13,13 @@
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getStoreBySlug } from "@/lib/getStoreBySlug";
-import { resolveTemplateConfig } from "@/lib/resolveTemplateConfig";
+import { getStoreBySlug } from "@/catalog/getStoreBySlug";
+import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { TemplateLayout } from "@/templates/_core";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
 import { getTemplateMockData } from "@/templates/mock-loader";
+import { safeJsonLdStringify } from "@/shared/seo/safe-json-ld";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -59,10 +60,11 @@ export async function generateMetadata({
   return {
     title: `${storeName} | Tiendri`,
     description,
+    alternates: { canonical: `https://tiendri.com/${slug}` },
     openGraph: {
       title: storeName,
       description,
-      ...(logo ? { images: [{ url: logo }] } : {}),
+      images: [{ url: logo ?? "/og-default.png", width: 1200, height: 630 }],
       siteName: "Tiendri",
       type: "website",
     },
@@ -163,7 +165,7 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
       />
       <TemplateLayout
         store={mockData.store}

@@ -5,16 +5,11 @@ import { X, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PriceInput } from '@/components/shared/price-input'
-
-interface ProductVariant {
-  id: string
-  name: string
-  priceModifier: number
-}
+import type { UIProductVariant } from '@/types/domain/product'
 
 interface VariantEditorProps {
-  variants: ProductVariant[]
-  onChange: (variants: ProductVariant[]) => void
+  variants: UIProductVariant[]
+  onChange: (variants: UIProductVariant[]) => void
 }
 
 function generateVariantId(): string {
@@ -23,7 +18,7 @@ function generateVariantId(): string {
 
 export function VariantEditor({ variants, onChange }: VariantEditorProps) {
   const addVariant = () => {
-    const newVariant: ProductVariant = {
+    const newVariant: UIProductVariant = {
       id: generateVariantId(),
       name: '',
       priceModifier: 0,

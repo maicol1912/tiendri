@@ -2,7 +2,7 @@
 // All inline data for the template preview.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/store";
+import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/domain/store";
 
 // ── Local types (inlined from deleted types.ts) ───────────────────────────────
 

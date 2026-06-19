@@ -21,7 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 

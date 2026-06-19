@@ -8,7 +8,7 @@
 // Sorting: recent | price-asc | price-desc | name-asc | name-desc | rating
 
 import { useState, useMemo, useCallback } from "react";
-import type { StorefrontProduct } from "@/types/store";
+import type { StorefrontProduct } from "@/types/domain/store";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

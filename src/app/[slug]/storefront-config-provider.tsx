@@ -18,7 +18,7 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 import type { ResolvedStoreConfig } from "@/types/templates";
-import type { StoreInfo } from "@/types/store";
+import type { StoreInfo } from "@/types/domain/store";
 
 // ── Context types ─────────────────────────────────────────────────────────────
 

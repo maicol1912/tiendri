@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import { Upload, Loader2, ImageIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/utils';
 
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const;
 type AcceptedMimeType = (typeof ACCEPTED_TYPES)[number];
