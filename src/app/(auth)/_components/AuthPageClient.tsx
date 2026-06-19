@@ -36,15 +36,14 @@ function EyeIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="11"
-      height="11"
+      width="16"
+      height="16"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-white/40"
     >
       <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
       <circle cx="12" cy="12" r="3" />
@@ -56,15 +55,14 @@ function EyeOffIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="11"
-      height="11"
+      width="16"
+      height="16"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-white/40"
     >
       <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
       <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
@@ -192,175 +190,194 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center md:px-4 md:py-8">
-      <div className="relative w-full md:w-auto">
-        {/* Glass Card */}
-        <div className="relative flex w-full flex-col items-center gap-6 overflow-hidden border-white/[0.12] bg-white/[0.06] px-6 py-10 backdrop-blur-[9px] md:w-[410px] md:rounded-[28px] md:border-[2px] md:bg-white/[0.08] md:px-20 md:py-8">
-          {/* Logo */}
-          <span className="font-sora text-xl font-semibold tracking-tight lowercase text-white">
-            tiendri
+    <div className="relative min-h-screen flex flex-col md:flex-row overflow-hidden bg-white">
+
+      {/* Dark branding panel — slides between sides on desktop */}
+      <div
+        className={[
+          "hidden md:flex flex-col justify-between",
+          "absolute inset-y-0 w-[45%] z-20",
+          "bg-gradient-to-br from-[#0a0a14] via-[#0d1025] to-[#111638]",
+          "transition-all duration-700 ease-in-out",
+          isRegister ? "left-[55%] rounded-l-[40px]" : "left-0 rounded-r-[40px]",
+        ].join(" ")}
+      >
+        <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.15)_0%,transparent_70%)]" />
+
+        <div className="relative z-10 p-10">
+          <span className="font-sora text-xl font-semibold lowercase tracking-tight text-white">
+            tiendri<span className="text-blue-500">.</span>
           </span>
+        </div>
 
-          {/* Form container */}
-          <div className="flex w-full flex-col gap-6 md:w-[250px]">
-            {/* Heading */}
-            <h1 className="text-2xl font-bold text-white">
-              {isRegister ? "Crear cuenta" : "Iniciar sesión"}
-            </h1>
-
-            {/* Error alert */}
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-200 rounded-lg px-4 py-3 text-sm">
-                {error}
-              </div>
+        <div className="relative z-10 flex flex-1 items-center px-10">
+          <p className="text-4xl lg:text-5xl font-light text-white/90 italic leading-tight">
+            {isRegister ? (
+              <>
+                Comenzá tu
+                <br />
+                negocio digital
+                <br />
+                hoy mismo.
+              </>
+            ) : (
+              <>
+                Bienvenido
+                <br />
+                de vuelta.
+              </>
             )}
+          </p>
+        </div>
 
-            {/* Success alert */}
-            {success && (
-              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
-                {success}
-              </div>
-            )}
+        <div className="p-8" />
+      </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Email */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-[13px] font-medium text-white"
-                >
-                  Correo electrónico
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="tu@correo.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-10 bg-white/[0.08] border-white/[0.12] rounded-[5px] text-white placeholder:text-white/40 focus-visible:border-[#2563EB]/50 focus-visible:ring-[#2563EB]/20"
-                />
-              </div>
+      {/* Form panel — shifts right on login, stays left on register */}
+      <div
+        className={[
+          "w-full md:w-[55%] min-h-screen",
+          "flex items-center justify-center",
+          "transition-all duration-700 ease-in-out",
+          isRegister ? "md:ml-0" : "md:ml-[45%]",
+        ].join(" ")}
+      >
+        <div className="w-full max-w-[400px] px-6 md:px-0 py-12">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+            {isRegister ? "Crea tu cuenta" : "Inicia sesión"}
+          </h1>
 
-              {/* Password */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="password"
-                  className="text-[13px] font-medium text-white"
-                >
+          {error && (
+            <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+              {success}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                Correo electrónico
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                placeholder="tu@correo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                   Contraseña
                 </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete={isRegister ? "new-password" : "current-password"}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="h-10 bg-white/[0.08] border-white/[0.12] rounded-[5px] text-white placeholder:text-white/40 focus-visible:border-[#2563EB]/50 focus-visible:ring-[#2563EB]/20 pr-10"
-                  />
+                {!isRegister && (
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60"
-                    tabIndex={-1}
-                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                  >
-                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Confirm password (register only) */}
-              {isRegister && (
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="confirm-password"
-                    className="text-[13px] font-medium text-white"
-                  >
-                    Confirmar contraseña
-                  </Label>
-                  <div className="relative">
-                    <Input
-                      id="confirm-password"
-                      type={showConfirmPassword ? "text" : "password"}
-                      autoComplete="new-password"
-                      placeholder="••••••••"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="h-10 bg-white/[0.08] border-white/[0.12] rounded-[5px] text-white placeholder:text-white/40 focus-visible:border-[#2563EB]/50 focus-visible:ring-[#2563EB]/20 pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60"
-                      tabIndex={-1}
-                      aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                    >
-                      {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Forgot password (login only) */}
-              {!isRegister && (
-                <div className="text-right">
-                  <button
-                    type="button"
-                    className="text-[13px] text-white/80 hover:text-white transition-colors"
+                    className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
                   >
                     ¿Olvidaste tu contraseña?
                   </button>
-                </div>
-              )}
-
-              {/* Submit button */}
-              <Button
-                type="submit"
-                disabled={loading}
-                className="h-10 w-full bg-[#2563EB] hover:bg-[#3B82F6] rounded-[7px] text-base font-bold"
-              >
-                {loading
-                  ? "Cargando..."
-                  : isRegister
-                    ? "Crear cuenta"
-                    : "Iniciar sesión"}
-              </Button>
-            </form>
-
-            {/* Divider */}
-            <div className="flex items-center gap-3">
-              <div className="h-px flex-1 border-t border-white/20" />
-              <span className="text-[13px] text-white text-center">o continúa con</span>
-              <div className="h-px flex-1 border-t border-white/20" />
+                )}
+              </div>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete={isRegister ? "new-password" : "current-password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
             </div>
 
-            {/* Google button */}
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleGoogleAuth}
-              className="h-10 w-full bg-white/[0.08] border-white/[0.12] hover:bg-white/[0.12] text-white rounded-[7px] gap-3"
-            >
-              <GoogleIcon />
-              Continuar con Google
-            </Button>
+            {isRegister && (
+              <div className="space-y-1.5">
+                <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+                  Confirmar contraseña
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    tabIndex={-1}
+                    aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </div>
+              </div>
+            )}
 
-            {/* Toggle mode */}
-            <p className="text-center text-[10px] text-white">
-              {isRegister ? "¿Ya tienes cuenta? " : "¿No tienes cuenta? "}
-              <button
-                type="button"
-                onClick={() => toggleMode(isRegister ? "login" : "register")}
-                className="font-bold text-white transition-colors hover:text-white/80"
-              >
-                {isRegister ? "Inicia sesión" : "Regístrate gratis"}
-              </button>
-            </p>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="h-11 w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base transition-colors"
+            >
+              {loading
+                ? "Cargando..."
+                : isRegister
+                  ? "Crear cuenta"
+                  : "Iniciar sesión"}
+            </Button>
+          </form>
+
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span className="text-sm text-gray-400">o continúa con</span>
+            <div className="h-px flex-1 bg-gray-200" />
           </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleGoogleAuth}
+            className="h-11 w-full rounded-lg border border-blue-100 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors gap-3"
+          >
+            <GoogleIcon />
+            Continuar con Google
+          </Button>
+
+          <p className="mt-6 text-center text-sm text-gray-500">
+            {isRegister ? "¿Ya tenés cuenta? " : "¿No tenés cuenta? "}
+            <button
+              type="button"
+              onClick={() => toggleMode(isRegister ? "login" : "register")}
+              className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              {isRegister ? "Iniciá sesión" : "Registrate gratis"}
+            </button>
+          </p>
         </div>
       </div>
     </div>
