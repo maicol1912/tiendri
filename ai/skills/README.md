@@ -1,7 +1,7 @@
 # Skill Registry — Tiendri V2
 
 Índice central de todas las skills disponibles. Antes de cargar una skill, consultá esta tabla.
-**Total indexado:** 19 skills + 9 sub-skills bajo `taste-skill/` = 28 skills locales + 8 skills globales.
+**Total indexado:** 20 skills + 9 sub-skills bajo `taste-skill/` = 29 skills locales + 8 skills globales.
 
 ---
 
@@ -81,6 +81,7 @@ Estas skills son mantenidas por los equipos oficiales y se actualizan automátic
 | video-integration | `ai/skills/video-integration/` | Integración premium de videos en dark UI con CSS mask-image (efecto transparente) | Integrar video AI-generado en cualquier página |
 | figma-use | Skill global | Workflow de extracción de Figma via MCP: tools, asset bank, design-to-code | Extraer diseños de Figma, construir asset bank, usar Figma MCP tools |
 | implement-design | Skill global | Implementar diseños extraídos de Figma en código | Traducir diseño Figma a componentes React |
+| app-store-screenshots | `ai/skills/app-store-screenshots/` | Screenshots profesionales para App Store y Google Play — editor interactivo Next.js + ShadCN, scaffolding, 6 deep-spec styles, export multi-device/multi-locale | App store screenshots, marketing assets para stores, screenshots de apps |
 
 ### SEO & Contenido
 
@@ -124,6 +125,7 @@ Estas skills son mantenidas por los equipos oficiales y se actualizan automátic
 | Ver una página en browser / tomar screenshot | `agent-browser/` o `browser-testing/` |
 | Rediseñar un proyecto existente | `taste-skill/redesign-existing-projects/` + `impeccable/` |
 | Generar design system para Google Stitch | `stitch-design-taste/` |
+| App store screenshots, marketing assets para stores, screenshots de apps | `app-store-screenshots/` |
 
 ---
 
@@ -148,6 +150,7 @@ Sub-skills especializadas en dirección creativa. Se cargan bajo demanda según 
 - **`taste-skill/design-taste-frontend`** es el sucesor de `design-taste-frontend-v1` — usar v2 por defecto salvo que necesites comportamiento exacto de v1
 - **`impeccable`** + **`taste-skill/redesign-existing-projects`** se combinan para redesigns completos
 - **`humanizalo`** aplica a TODO texto antes de entregar copy al usuario final
+- **`app-store-screenshots`** se combina con `graphic-design/` (dirección visual de los assets), `ai-asset-pipeline/` (generación de imágenes IA para los frames) y `humanizalo/` (copy de headlines y subtítulos)
 
 ---
 

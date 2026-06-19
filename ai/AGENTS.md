@@ -12,7 +12,7 @@
 | [security-analyst](ai/agents/security-analyst.md) | Diego | Seguridad: auditoría, reportes, no corrige | Bajo demanda | `security-audit/` |
 | [seo-specialist](ai/agents/seo-specialist.md) | Martín | SEO: metadata, structured data, scoring 100pts, implementa | Siempre | `seo/`, Skill global: `vercel-react-best-practices` |
 | [qa-tester](ai/agents/qa-tester.md) | Andrea | QA: testing exploratorio, edge cases, mobile, solo reporta | Bajo demanda | `impeccable/`, `emil-design-eng/` |
-| [ai-content-specialist](ai/agents/ai-content-specialist.md) | Steve | AI Content: prompts para GPT Image 2 + Kling, mockups, videos, branding-aware | Bajo demanda | `design-system/`, `gpt-image-motionsite/` |
+| [ai-content-specialist](ai/agents/ai-content-specialist.md) | Steve | AI Content: prompts para GPT Image 2 + Kling, mockups, videos, branding-aware | Bajo demanda | `design-system/`, `gpt-image-motionsite/`, `app-store-screenshots/` |
 
 ## Skills
 
@@ -35,6 +35,7 @@
 | [impeccable](ai/skills/impeccable/SKILL.md) | `ai/skills/impeccable/` | 22 comandos de diseño frontend: shape, craft, audit, critique, polish, animate, typeset, layout, colorize, bolder, harden, adapt — anti-patterns estrictos, OKLCH obligatorio | Lucas, Valentina, Camilo, Sofía, Andrea |
 | [taste-skill](ai/skills/taste-skill/) | `ai/skills/taste-skill/` | Anti-slop framework: variantes (design-taste-frontend v2, redesign-existing-projects, high-end-visual-design, etc.) — brief inference, 50+ anti-patterns, pre-flight checklist | Lucas, Valentina, Camilo |
 | [emil-design-eng](ai/skills/emil-design-eng/SKILL.md) | `ai/skills/emil-design-eng/` | Emil Kowalski: animation decisions, cubic-bezier custom, spring physics, component polish (buttons, popovers, tooltips, tabs, toasts, drawers), review Before/After/Why | Lucas, Camilo, Andrea |
+| [app-store-screenshots](ai/skills/app-store-screenshots/) | `ai/skills/app-store-screenshots/` | Screenshots profesionales para App Store y Google Play: editor Next.js interactivo, estilos visuales, headlines, exports | Steve, Sofía, Lucas, Andrea |
 
 ## Workflow
 
@@ -83,6 +84,15 @@ SIEMPRE avisar al CTO ANTES de ejecutar:
   4. Sofía:web-copywriter → descripción
 ```
 
+**Pipeline: App Store Screenshots:**
+```
+🚀 Pipeline: App Store / Google Play screenshots
+  1. Steve:ai-content-specialist → scaffold + ejecuta editor, genera imágenes (app-store-screenshots/)
+  2. Sofía:web-copywriter → escribe headlines por pantalla
+  3. Lucas:creative-director → review de dirección creativa, estilo y ritmo visual
+  4. Andrea:qa-tester → QA gate: legibilidad, clipping, exports
+```
+
 ## Quién hace qué
 
 | Tarea | Agente |
@@ -97,6 +107,7 @@ SIEMPRE avisar al CTO ANTES de ejecutar:
 | Diseño visual → implementación funcional | Valentina diseña → Camilo implementa |
 | Nuevo endpoint + UI que lo consume | Santiago backend → Camilo frontend |
 | Página pública nueva | Valentina (visual) → Camilo (funcional) → Martín (SEO) → Sofía (copy) |
+| Screenshots App Store / Google Play | Steve (scaffold + ejecuta) → Sofía (headlines) → Lucas (review creativo) → Andrea (QA gate) |
 
 ## Límites de responsabilidad (OBLIGATORIO)
 

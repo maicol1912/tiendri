@@ -1,0 +1,1 @@
+En cada seccion se puede colocar si quiero productos si quiero video si quiero texto, ademas si centrado hacia la izquierda derecha o centro, seleccionar tipo de fuente, seleccionar productos de los productos precargados seleccionar cuantas filas y cuantas columnas tengo 

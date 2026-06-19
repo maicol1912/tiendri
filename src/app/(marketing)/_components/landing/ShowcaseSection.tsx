@@ -44,7 +44,7 @@ function ShowcaseStatic() {
     <section
       id="plantillas"
       className="block lg:hidden"
-      style={{ willChange: 'background', backgroundColor: 'hsl(0, 0%, 8%)', borderRadius: '24px 24px 0 0', overflow: 'hidden' }}
+      style={{ willChange: 'background', backgroundColor: 'hsl(0, 0%, 8%)', borderRadius: '24px', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: '100%', padding: '80px 5%' }}>
         {/* header */}
@@ -291,7 +291,7 @@ function ShowcaseDesktop() {
         backgroundColor: 'hsl(0, 0%, 8%)',
         position: 'relative',
         zIndex: 50,
-        borderRadius: '24px 24px 0 0',
+        borderRadius: '24px',
       }}
     >
       {/* discover-subhead — z-index:10, height:200vh, position:relative */}

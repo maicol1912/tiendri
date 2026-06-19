@@ -94,6 +94,7 @@ Tabla rápida para el orchestrator. Consultar ANTES de lanzar cualquier agente.
 | Workflow completo IA: imagen + video | ai-asset-pipeline | `ai/skills/ai-asset-pipeline/` |
 | Integrar video en dark UI con CSS mask | video-integration | `ai/skills/video-integration/` |
 | Generación de imágenes en 7 estilos | graphic-design | `ai/skills/graphic-design/` |
+| Screenshots para App Store / Google Play, marketing de apps | app-store-screenshots | `ai/skills/app-store-screenshots/` |
 | DESIGN.md para Google Stitch | stitch-design-taste | `ai/skills/stitch-design-taste/` |
 | SEO: scoring, metadata, structured data | seo | `ai/skills/seo/` |
 | Auditoría de seguridad pre-deploy | security-audit | `ai/skills/security-audit/` |
@@ -145,7 +146,7 @@ Equipo de agentes definido en `ai/AGENTS.md`. Consultar para: tabla de agentes, 
 | Backend, DB, Server Actions | Santiago | `ai/agents/backend-expert.md` |
 | Copy, CTAs, microcopy | Sofía | `ai/agents/web-copywriter.md` |
 | SEO, metadata, structured data | Martín | `ai/agents/seo-specialist.md` |
-| Prompts IA, assets visuales | Steve | `ai/agents/ai-content-specialist.md` |
+| Prompts IA, assets visuales, screenshots App Store / Play Store | Steve | `ai/agents/ai-content-specialist.md` |
 | Auditorías de seguridad | Diego | `ai/agents/security-analyst.md` |
 | Testing, QA | Andrea | `ai/agents/qa-tester.md` |
 

@@ -6,7 +6,6 @@ import Navbar from './Navbar';
 import HeroSection from './HeroSection';
 import { HowItWorksSection } from './HowItWorksSection';
 import { ShowcaseSection } from './ShowcaseSection';
-import { PricingSection } from './PricingSection';
 import { CtaSection } from './CtaSection';
 import { PartnersSection } from './PartnersSection';
 import { ReviewsSection } from './ReviewsSection';
@@ -33,7 +32,6 @@ export function LandingPageClient() {
         <HeroSection sectionRef={heroRef} />
         <HowItWorksSection heroRef={heroRef} />
         <ShowcaseSection />
-        <PricingSection />
         <CtaSection />
         <PartnersSection />
         <ReviewsSection />
