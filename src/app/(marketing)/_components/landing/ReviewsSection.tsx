@@ -30,22 +30,24 @@ function StarRating({ variant }: { variant?: 'white' | 'black' | 'default' }) {
 }
 
 function ReviewCard({ text, author, role, variant, stars, starsVariant, restingTransform, hoverTransform, isContainerHovered }: ReviewCardProps) {
+  // black and violet keep their accent colors — they work great on dark bg
+  // default (light gray) → dark card bg
   const bgColors: Record<string, string> = {
     black: 'bg-black',
     violet: 'bg-[#8D8AFF]',
-    default: 'bg-[#f2f3f3]',
+    default: 'bg-[hsl(0,0%,16%)]',
     green: 'bg-[#CDE06A]',
   };
   const textColors: Record<string, string> = {
     black: 'text-white',
     violet: 'text-white',
-    default: 'text-neutral-700',
+    default: 'text-[hsl(0,0%,90%)]',
     green: 'text-black',
   };
   const authorColors: Record<string, string> = {
     black: 'text-white opacity-70',
     violet: 'text-white opacity-70',
-    default: 'text-neutral-500',
+    default: 'text-[hsl(0,0%,60%)]',
     green: 'text-black opacity-70',
   };
 
@@ -61,17 +63,17 @@ function ReviewCard({ text, author, role, variant, stars, starsVariant, restingT
         marginLeft: -150,
         marginTop: -168,
         boxShadow: variant === 'default'
-          ? '0px 0px 12px 0px rgba(0,0,0,0.04)'
-          : '0px 8.52px 31.95px 0px rgba(0,0,0,0.12)',
+          ? '0px 0px 12px 0px rgba(0,0,0,0.30)'
+          : '0px 8.52px 31.95px 0px rgba(0,0,0,0.30)',
         transform: isContainerHovered ? hoverTransform : restingTransform,
         transition: 'transform 0.5s ease',
       }}
     >
       {stars && <StarRating variant={starsVariant} />}
-      <p className={`text-sm leading-relaxed ${textColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{text}</p>
+      <p className={`text-sm leading-relaxed ${textColors[variant]}`} style={{ fontFamily: "'Sora', sans-serif" }}>{text}</p>
       <div className="mt-4">
-        <p className={`text-sm font-semibold ${textColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{author}</p>
-        <p className={`text-xs mt-0.5 ${authorColors[variant]}`} style={{ fontFamily: "'Aeonik', sans-serif" }}>{role}</p>
+        <p className={`text-sm font-semibold ${textColors[variant]}`} style={{ fontFamily: "'Sora', sans-serif" }}>{author}</p>
+        <p className={`text-xs mt-0.5 ${authorColors[variant]}`} style={{ fontFamily: "'Sora', sans-serif" }}>{role}</p>
       </div>
     </div>
   );
@@ -120,17 +122,18 @@ const REVIEWS = [
   },
 ];
 
+// BG_COLORS for the mobile accordion — default card uses dark variant
 const BG_COLORS: Record<string, string> = {
   black: '#000000',
   violet: '#8D8AFF',
-  default: '#f2f3f3',
+  default: 'hsl(0, 0%, 16%)',
   green: '#CDE06A',
 };
 
 const TEXT_COLORS: Record<string, string> = {
   black: '#ffffff',
   violet: '#ffffff',
-  default: '#404040',
+  default: 'hsl(0, 0%, 90%)',
   green: '#000000',
 };
 
@@ -140,16 +143,16 @@ export function ReviewsSection() {
 
   return (
     <section
-      className="bg-white flex flex-col items-center justify-center"
-      style={{ padding: '60px 20px' }}
+      className="flex flex-col items-center justify-center"
+      style={{ backgroundColor: 'hsl(0, 0%, 8%)', padding: '60px 20px' }}
       aria-labelledby="reviews-heading"
     >
       <div className="text-center mb-16">
-        <p className="text-neutral-500 text-sm font-medium mb-4" style={{ fontFamily: "'Aeonik', sans-serif" }}>Reseñas de comerciantes</p>
+        <p className="text-sm font-medium mb-4" style={{ color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>Reseñas de comerciantes</p>
         <h2
           id="reviews-heading"
-          className="font-black text-black leading-tight"
-          style={{ fontSize: 'clamp(40px, 5vw, 72px)', fontFamily: "'Aeonik', sans-serif" }}
+          className="font-black leading-tight"
+          style={{ fontSize: 'clamp(40px, 5vw, 72px)', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}
         >
           Lo que dicen los que ya venden
         </h2>
@@ -182,7 +185,7 @@ export function ReviewsSection() {
 
       <div
         className="flex lg:hidden flex-col w-full"
-        style={{ maxWidth: 480, borderTop: '1px solid #e4e4e7' }}
+        style={{ maxWidth: 480, borderTop: '1px solid hsl(0, 0%, 20%)' }}
         role="list"
         aria-label="Testimonios de comerciantes"
       >
@@ -196,7 +199,7 @@ export function ReviewsSection() {
             <div
               key={i}
               role="listitem"
-              style={{ borderBottom: '1px solid #e4e4e7' }}
+              style={{ borderBottom: '1px solid hsl(0, 0%, 20%)' }}
             >
               <button
                 type="button"
@@ -206,7 +209,7 @@ export function ReviewsSection() {
               >
                 <span
                   className="text-base font-semibold"
-                  style={{ color: '#18181b', fontFamily: "'Aeonik', sans-serif" }}
+                  style={{ color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}
                 >
                   {review.author}
                 </span>
@@ -220,7 +223,7 @@ export function ReviewsSection() {
                     transition: 'transform 0.2s ease',
                   }}
                 >
-                  <path d="M10 4v12M4 10h12" stroke="#71717a" strokeWidth="1.5" strokeLinecap="round" />
+                  <path d="M10 4v12M4 10h12" stroke="hsl(0, 0%, 60%)" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </button>
 
@@ -230,20 +233,20 @@ export function ReviewsSection() {
                   style={{
                     backgroundColor: bg,
                     padding: 28,
-                    boxShadow: '0px 4px 20px 0px rgba(0,0,0,0.07)',
+                    boxShadow: '0px 4px 20px 0px rgba(0,0,0,0.20)',
                   }}
                 >
                   {review.stars && <StarRating variant={review.starsVariant} />}
                   <p
                     className="text-sm leading-relaxed"
-                    style={{ color: textColor, fontFamily: "'Aeonik', sans-serif" }}
+                    style={{ color: textColor, fontFamily: "'Sora', sans-serif" }}
                   >
                     {review.text}
                   </p>
                   <div className="mt-4">
                     <p
                       className="text-sm font-semibold"
-                      style={{ color: textColor, fontFamily: "'Aeonik', sans-serif" }}
+                      style={{ color: textColor, fontFamily: "'Sora', sans-serif" }}
                     >
                       {review.author}
                     </p>
@@ -252,7 +255,7 @@ export function ReviewsSection() {
                       style={{
                         color: textColor,
                         opacity: isDark ? 0.6 : 0.7,
-                        fontFamily: "'Aeonik', sans-serif",
+                        fontFamily: "'Sora', sans-serif",
                       }}
                     >
                       {review.role}

@@ -45,7 +45,7 @@ function IconScroller() {
   return (
     <div
       style={{
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'hsl(0, 0%, 14%)',
         borderRadius: 24,
         overflow: 'hidden',
         width: '100%',
@@ -91,7 +91,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
   return (
     <section
       id="como-funciona"
-      style={{ backgroundColor: '#f8f9f9', position: 'relative', zIndex: 100 }}
+      style={{ backgroundColor: 'hsl(0, 0%, 10%)', position: 'relative', zIndex: 100 }}
       aria-labelledby="how-heading"
     >
       <div
@@ -114,7 +114,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
           <div className="hidden lg:block">
             <h2
               id="how-heading"
-              style={{ fontSize: 64, fontWeight: 700, lineHeight: '72px', color: '#000', margin: 0, whiteSpace: 'nowrap', fontFamily: "'Aeonik', sans-serif" }}
+              style={{ fontSize: 64, fontWeight: 700, lineHeight: '72px', color: 'hsl(0, 0%, 96%)', margin: 0, whiteSpace: 'nowrap', fontFamily: "'Sora', sans-serif" }}
             >
               Tres pasos y ya<br />estás vendiendo
             </h2>
@@ -122,7 +122,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
           <div className="block lg:hidden">
             <h2
               aria-hidden="true"
-              style={{ fontSize: 32, fontWeight: 700, lineHeight: '38px', color: '#000', margin: 0, fontFamily: "'Aeonik', sans-serif" }}
+              style={{ fontSize: 32, fontWeight: 700, lineHeight: '38px', color: 'hsl(0, 0%, 96%)', margin: 0, fontFamily: "'Sora', sans-serif" }}
             >
               Tres pasos y ya estás vendiendo
             </h2>
@@ -143,22 +143,22 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
         >
 
           {/* Left column — borderRight frames the content block on desktop */}
-          <div className="flex flex-col" style={{ paddingRight: 20, position: 'relative', borderRight: '1px solid #e4e4e7', justifyContent: 'center', alignSelf: 'stretch' }}>
+          <div className="flex flex-col" style={{ paddingRight: 20, position: 'relative', borderRight: '1px solid hsl(0, 0%, 20%)', justifyContent: 'center', alignSelf: 'stretch' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30ch', gap: 20, textAlign: 'center' }}>
               <div>
-                <div style={{ fontSize: 20, fontWeight: 700, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+                <div style={{ fontSize: 20, fontWeight: 700, lineHeight: '24px', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}>
                   Sube tus productos y elige una plantilla
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
                   Tu tienda queda activa desde el primer día en tu propia URL.
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Center phone — animated drop */}
+          {/* Center phone — entry animation wrapper + scroll-controlled inner */}
           <div
             style={{
               position: 'absolute',
@@ -169,31 +169,33 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
               pointerEvents: 'none',
             }}
           >
-            <div
-              ref={phoneRef}
-              style={{
-                height: 756,
-                position: 'relative',
-                willChange: 'transform',
-                transform: 'translate3d(0px, -80%, 0px)',
-                width: 368,
-              }}
-              aria-label="Tiendri app en celular"
-            >
-              <img
-                src="/images/landing/phone-scroll-content.png"
-                alt="Tienda Moda Élite"
+            <div className="animate-phone-reveal">
+              <div
+                ref={phoneRef}
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
+                  height: 756,
+                  position: 'relative',
+                  willChange: 'transform',
+                  transform: 'translate3d(0px, -80%, 0px)',
+                  width: 368,
                 }}
-              />
+                aria-label="Tiendri app en celular"
+              >
+                <img
+                  src="/images/landing/phone-scroll-content.png"
+                  alt="Tienda Moda Élite"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Right column */}
-          <div className="flex flex-col" style={{ paddingLeft: 20, position: 'relative', borderLeft: '1px solid #e4e4e7' }}>
+          <div className="flex flex-col" style={{ paddingLeft: 20, position: 'relative', borderLeft: '1px solid hsl(0, 0%, 20%)' }}>
             {/* QR image */}
             <div style={{ paddingLeft: 30, marginBottom: 16, marginTop: -90 }}>
               <img src="/images/qr-tiendri.png" alt="QR code de tu tienda Tiendri" style={{ width: 280, borderRadius: 12 }} />
@@ -202,7 +204,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
             {/* Separator line */}
             <div
               style={{
-                backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)',
+                backgroundImage: 'linear-gradient(to right, transparent, hsl(0, 0%, 20%) 50%, transparent)',
                 height: 2,
                 width: '22ch',
                 marginLeft: 30,
@@ -214,14 +216,14 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
             {/* Text and stat */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '22ch', gap: 8, paddingLeft: 30 }}>
               <div style={{ width: '20ch' }}>
-                <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+                <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}>
                   Comparte el link y recibe pedidos organizados
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: 60 }}>
-                <span style={{ color: 'gray', fontSize: 20, lineHeight: '20px', paddingLeft: 24, marginBottom: 12, fontFamily: "'Aeonik', sans-serif" }}>con</span>
-                <span style={{ fontSize: 100, fontWeight: 700, lineHeight: '70px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>0%</span>
-                <span style={{ color: 'gray', fontSize: 20, lineHeight: '20px', marginLeft: 'auto', marginTop: 12, fontFamily: "'Aeonik', sans-serif" }}>de comisión</span>
+                <span style={{ color: 'hsl(0, 0%, 60%)', fontSize: 20, lineHeight: '20px', paddingLeft: 24, marginBottom: 12, fontFamily: "'Sora', sans-serif" }}>con</span>
+                <span style={{ fontSize: 100, fontWeight: 700, lineHeight: '70px', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}>0%</span>
+                <span style={{ color: 'hsl(0, 0%, 60%)', fontSize: 20, lineHeight: '20px', marginLeft: 'auto', marginTop: 12, fontFamily: "'Sora', sans-serif" }}>de comisión</span>
               </div>
             </div>
           </div>
@@ -233,51 +235,53 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
 
           {/* Animated mobile phone */}
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative', zIndex: 10 }}>
-            <div
-              ref={mobilePhoneRef}
-              style={{
-                width: 231,
-                height: 504,
-                position: 'relative',
-                willChange: 'transform',
-                transform: 'translate3d(0px, -110%, 0px)',
-                zIndex: 10,
-              }}
-              aria-label="Tiendri app en celular"
-            >
-              <img
-                src="/images/landing/phone-scroll-content.png"
-                alt="Tienda Moda Élite"
+            <div className="animate-phone-reveal">
+              <div
+                ref={mobilePhoneRef}
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
+                  width: 231,
+                  height: 504,
+                  position: 'relative',
+                  willChange: 'transform',
+                  transform: 'translate3d(0px, -110%, 0px)',
+                  zIndex: 10,
                 }}
-              />
+                aria-label="Tiendri app en celular"
+              >
+                <img
+                  src="/images/landing/phone-scroll-content.png"
+                  alt="Tienda Moda Élite"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Steps text */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 28, width: '100%', padding: '0 24px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, textAlign: 'center' }}>
-              <div style={{ fontSize: 18, fontWeight: 700, lineHeight: '24px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>
+              <div style={{ fontSize: 18, fontWeight: 700, lineHeight: '24px', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}>
                 Sube tus productos y elige una plantilla
               </div>
-              <div style={{ fontSize: 15, fontWeight: 400, lineHeight: '20px', color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
+              <div style={{ fontSize: 15, fontWeight: 400, lineHeight: '20px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
                 Tu tienda queda activa desde el primer día en tu propia URL.
               </div>
             </div>
 
-            <div style={{ backgroundImage: 'linear-gradient(to right, #0000, #0000001f 50%, #0000)', height: 2, width: '80%' }} />
+            <div style={{ backgroundImage: 'linear-gradient(to right, transparent, hsl(0, 0%, 20%) 50%, transparent)', height: 2, width: '80%' }} />
 
-            <div style={{ fontSize: 18, fontWeight: 400, lineHeight: '24px', color: '#000', textAlign: 'center', fontFamily: "'Aeonik', sans-serif" }}>
+            <div style={{ fontSize: 18, fontWeight: 400, lineHeight: '24px', color: 'hsl(0, 0%, 96%)', textAlign: 'center', fontFamily: "'Sora', sans-serif" }}>
               Comparte el link y recibe pedidos con todo el detalle
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-              <span style={{ color: 'gray', fontSize: 16, lineHeight: '20px', fontFamily: "'Aeonik', sans-serif" }}>con</span>
-              <span style={{ fontSize: 72, fontWeight: 700, lineHeight: '56px', color: '#000', fontFamily: "'Aeonik', sans-serif" }}>0%</span>
-              <span style={{ color: 'gray', fontSize: 16, lineHeight: '20px', fontFamily: "'Aeonik', sans-serif" }}>de comisión</span>
+              <span style={{ color: 'hsl(0, 0%, 60%)', fontSize: 16, lineHeight: '20px', fontFamily: "'Sora', sans-serif" }}>con</span>
+              <span style={{ fontSize: 72, fontWeight: 700, lineHeight: '56px', color: 'hsl(0, 0%, 96%)', fontFamily: "'Sora', sans-serif" }}>0%</span>
+              <span style={{ color: 'hsl(0, 0%, 60%)', fontSize: 16, lineHeight: '20px', fontFamily: "'Sora', sans-serif" }}>de comisión</span>
             </div>
 
           </div>

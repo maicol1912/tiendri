@@ -2,8 +2,8 @@
 
 import { useRef } from 'react';
 import { useSmoothScroll } from '../../_hooks/useScrollAnimation';
-import { Navbar } from './Navbar';
-import { HeroSection } from './HeroSection';
+import Navbar from './Navbar';
+import HeroSection from './HeroSection';
 import { HowItWorksSection } from './HowItWorksSection';
 import { ShowcaseSection } from './ShowcaseSection';
 import { PricingSection } from './PricingSection';
@@ -14,11 +14,11 @@ import { FinalCtaSection } from './FinalCtaSection';
 import { Footer } from './Footer';
 
 export function LandingPageClient() {
-  const heroRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   useSmoothScroll();
 
   return (
-    <>
+    <div className="bg-hero-bg font-sora">
       <style>{`
         body { overflow-x: hidden !important; }
         @media (prefers-reduced-motion: reduce) {
@@ -40,6 +40,6 @@ export function LandingPageClient() {
         <FinalCtaSection />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

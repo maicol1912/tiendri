@@ -46,7 +46,7 @@ export function Footer() {
       <div style={{ position: 'relative' }}>
         <div
           style={{
-            background: '#111',
+            background: 'hsl(0, 0%, 4%)',
             borderRadius: '24px 24px 0 0',
             overflow: 'hidden',
           }}
@@ -56,19 +56,19 @@ export function Footer() {
             {/* Top row */}
             <div
               className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8"
-              style={{ borderBottom: '1px solid #222' }}
+              style={{ borderBottom: '1px solid hsl(0, 0%, 20%)' }}
             >
               {/* Logo */}
               <a
                 href="/"
                 aria-label="Tiendri — inicio"
                 className="text-2xl font-black tracking-tight"
-                style={{ color: '#fff', fontFamily: "'Aeonik', sans-serif" }}
+                style={{ color: '#fff', fontFamily: "'Sora', sans-serif" }}
               >
                 tiendri
               </a>
 
-              <p className="text-sm" style={{ color: '#999', fontFamily: "'Aeonik', sans-serif" }}>
+              <p className="text-sm" style={{ color: '#999', fontFamily: "'Sora', sans-serif" }}>
                 Tiendri es la plataforma para crear tu tienda online en minutos.
               </p>
 
@@ -88,7 +88,7 @@ export function Footer() {
                 </FooterSocialLink>
                 <FooterSocialLink href="https://www.facebook.com/tiendri/" label="Facebook">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
-                    <path d="M17 1H1C0.45 1 0 1.45 0 2V16C0 16.55 0.45 17 1 17H9.615V10.64H7.276V8.009H9.615V6.01C9.615 3.69 11.063 2.398 13.14 2.398C14.133 2.398 14.985 2.471 15.24 2.505V4.93H13.782C12.657 4.93 12.439 5.466 12.439 6.254V8.009H15.148L14.798 10.64H12.439V17H17C17.55 17 18 16.55 18 16V2C18 1.45 17.55 1 17 1Z" />
+                    <path d="M17 1H1C0.45 1 0 1.45 0 2V16C0 16.55 0.45 17 1 17H9.615V10.64H7.276V8.009H9.615V6.01C9.615 3.69 11.063 2.398 13.14 2.398C14.133 2.398 14.985 2.471 15.24 2.505V4.93H13.782C12.657 4.93 12.439 5.466 12.439 6.254V8.439V10.64H15.148L14.798 10.64H12.439V17H17C17.55 17 18 16.55 18 16V2C18 1.45 17.55 1 17 1Z" />
                   </svg>
                 </FooterSocialLink>
               </div>
@@ -97,13 +97,13 @@ export function Footer() {
             {/* Middle rows — PRODUCTO + CUENTA */}
             <div
               className="grid md:grid-cols-2 gap-10 py-8"
-              style={{ borderBottom: '1px solid #222' }}
+              style={{ borderBottom: '1px solid hsl(0, 0%, 20%)' }}
             >
               {/* PRODUCTO */}
               <div>
                 <h2
                   className="text-xs font-bold uppercase tracking-widest mb-4"
-                  style={{ color: '#a89ec9', fontFamily: "'Aeonik', sans-serif" }}
+                  style={{ color: 'hsl(221, 83%, 53%)', fontFamily: "'Sora', sans-serif" }}
                 >
                   Producto
                 </h2>
@@ -113,7 +113,7 @@ export function Footer() {
                       key={link.href}
                       href={link.href}
                       className="text-sm transition-colors"
-                      style={{ color: '#ccc', fontFamily: "'Aeonik', sans-serif" }}
+                      style={{ color: '#ccc', fontFamily: "'Sora', sans-serif" }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
                     >
@@ -127,7 +127,7 @@ export function Footer() {
               <div>
                 <h2
                   className="text-xs font-bold uppercase tracking-widest mb-4"
-                  style={{ color: '#a89ec9', fontFamily: "'Aeonik', sans-serif" }}
+                  style={{ color: 'hsl(221, 83%, 53%)', fontFamily: "'Sora', sans-serif" }}
                 >
                   Cuenta
                 </h2>
@@ -137,7 +137,7 @@ export function Footer() {
                       key={link.href}
                       href={link.href}
                       className="text-sm transition-colors"
-                      style={{ color: '#ccc', fontFamily: "'Aeonik', sans-serif" }}
+                      style={{ color: '#ccc', fontFamily: "'Sora', sans-serif" }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
                     >
@@ -151,9 +151,9 @@ export function Footer() {
             {/* Newsletter section */}
             <div
               className="py-8"
-              style={{ borderBottom: '1px solid #222' }}
+              style={{ borderBottom: '1px solid hsl(0, 0%, 20%)' }}
             >
-              <p className="text-sm font-semibold mb-4" style={{ color: '#fff', fontFamily: "'Aeonik', sans-serif" }}>
+              <p className="text-sm font-semibold mb-4" style={{ color: '#fff', fontFamily: "'Sora', sans-serif" }}>
                 Suscribite a nuestro newsletter
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-3">
@@ -162,20 +162,20 @@ export function Footer() {
                   placeholder="Tu correo electrónico"
                   className="flex-1 text-sm px-4 py-2.5 rounded outline-none"
                   style={{
-                    background: '#222',
-                    border: '1px solid #333',
+                    background: 'hsl(0, 0%, 14%)',
+                    border: '1px solid hsl(0, 0%, 22%)',
                     color: '#fff',
-                    fontFamily: "'Aeonik', sans-serif",
+                    fontFamily: "'Sora', sans-serif",
                   }}
                 />
                 <button
                   type="button"
                   className="text-sm font-semibold px-5 py-2.5 rounded transition-opacity hover:opacity-90"
                   style={{
-                    background: '#8a9a3a',
-                    color: '#fff',
+                    background: 'hsl(221, 83%, 53%)',
+                    color: 'hsl(0, 0%, 4%)',
                     whiteSpace: 'nowrap',
-                    fontFamily: "'Aeonik', sans-serif",
+                    fontFamily: "'Sora', sans-serif",
                   }}
                 >
                   Suscribirse
@@ -185,14 +185,14 @@ export function Footer() {
                 <input
                   type="checkbox"
                   className="mt-0.5 shrink-0"
-                  style={{ accentColor: '#8a9a3a' }}
+                  style={{ accentColor: 'hsl(221, 83%, 53%)' }}
                 />
-                <span className="text-xs leading-relaxed" style={{ color: '#777', fontFamily: "'Aeonik', sans-serif" }}>
+                <span className="text-xs leading-relaxed" style={{ color: '#777', fontFamily: "'Sora', sans-serif" }}>
                   Acepto recibir comunicaciones de Tiendri y acepto la{' '}
                   <a
                     href="/legal/privacidad"
                     className="underline transition-colors"
-                    style={{ color: '#999', fontFamily: "'Aeonik', sans-serif" }}
+                    style={{ color: '#999', fontFamily: "'Sora', sans-serif" }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
                   >
@@ -205,7 +205,7 @@ export function Footer() {
 
             {/* Bottom bar */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-8">
-              <p className="text-xs" style={{ color: '#666', fontFamily: "'Aeonik', sans-serif" }}>
+              <p className="text-xs" style={{ color: '#666', fontFamily: "'Sora', sans-serif" }}>
                 © 2026 Tiendri · tiendri.com. Todos los derechos reservados.
               </p>
               <div className="flex gap-6">
@@ -214,7 +214,7 @@ export function Footer() {
                     key={link.label}
                     href={link.href}
                     className="text-xs transition-colors"
-                    style={{ color: '#666', fontFamily: "'Aeonik', sans-serif" }}
+                    style={{ color: '#666', fontFamily: "'Sora', sans-serif" }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#aaa')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '#666')}
                   >

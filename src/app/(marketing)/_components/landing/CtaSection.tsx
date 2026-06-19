@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 /**
- * CtaSection — Tiendri Landing (Light / Clone style)
+ * CtaSection — Tiendri Landing (Dark theme)
  *
  * Visual structure: clone Benefits (scroll-triggered fade-up on elements).
  * Content: 3 key benefit blocks — "Personalizable", "Sin comisiones", "WhatsApp-first".
@@ -52,7 +52,7 @@ export function CtaSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-white pt-20 pb-24" aria-labelledby="cta-heading">
+    <section ref={sectionRef} className="bg-landing-bg pt-20 pb-24" aria-labelledby="cta-heading">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
 
         {/* Section heading */}
@@ -61,16 +61,16 @@ export function CtaSection() {
             id="cta-heading"
             data-animate
             data-animate-delay="0s"
-            className="hidden lg:block font-black leading-tight text-black"
-            style={{ fontSize: 'clamp(48px, 6vw, 80px)', fontFamily: "'Aeonik', sans-serif" }}
+            className="hidden lg:block font-black leading-tight text-landing-fg font-sora"
+            style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}
           >
             Lo que te da Tiendri<br />ningún otro te da
           </h2>
           <h2
             data-animate
             data-animate-delay="0s"
-            className="block lg:hidden font-black leading-tight text-black"
-            style={{ fontSize: 'clamp(36px, 8vw, 56px)', fontFamily: "'Aeonik', sans-serif" }}
+            className="block lg:hidden font-black leading-tight text-landing-fg font-sora"
+            style={{ fontSize: 'clamp(36px, 8vw, 56px)' }}
           >
             Lo que te da Tiendri ningún otro te da
           </h2>
@@ -89,16 +89,15 @@ export function CtaSection() {
             <h3
               data-animate
               data-animate-delay="0.1s"
-              className="font-black text-black"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+              className="font-black text-landing-fg font-sora"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)' }}
             >
               Tu tienda, tu marca
             </h3>
             <p
               data-animate
               data-animate-delay="0.2s"
-              className="text-neutral-500 text-base leading-relaxed hidden lg:block"
-              style={{ fontFamily: "'Aeonik', sans-serif" }}
+              className="text-landing-muted-fg text-base leading-relaxed hidden lg:block font-sora"
             >
               Elige una plantilla, cambia los colores y sube tu logo. En minutos tienes una tienda
               que parece profesional. Tus clientes ven tu marca, no la nuestra.
@@ -119,16 +118,15 @@ export function CtaSection() {
             <h3
               data-animate
               data-animate-delay="0s"
-              className="font-black text-black"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+              className="font-black text-landing-fg font-sora"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)' }}
             >
               0% de comisión, siempre
             </h3>
             <p
               data-animate
               data-animate-delay="0.1s"
-              className="text-neutral-500 text-base leading-relaxed"
-              style={{ fontFamily: "'Aeonik', sans-serif" }}
+              className="text-landing-muted-fg text-base leading-relaxed font-sora"
             >
               Una tarifa mensual fija. Lo que vendas queda en tu bolsillo. Sin sorpresas, sin
               letra chica, sin porcentajes por venta.
@@ -149,16 +147,15 @@ export function CtaSection() {
             <h3
               data-animate
               data-animate-delay="0.1s"
-              className="font-black text-black"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)', fontFamily: "'Aeonik', sans-serif" }}
+              className="font-black text-landing-fg font-sora"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 48px)' }}
             >
               Pedidos por WhatsApp
             </h3>
             <p
               data-animate
               data-animate-delay="0.2s"
-              className="text-neutral-500 text-base leading-relaxed"
-              style={{ fontFamily: "'Aeonik', sans-serif" }}
+              className="text-landing-muted-fg text-base leading-relaxed font-sora"
             >
               Cuando alguien hace un pedido, te llega con todo incluido: productos, cantidades,
               variantes y datos del cliente. Sin que tengas que preguntar nada. ♥

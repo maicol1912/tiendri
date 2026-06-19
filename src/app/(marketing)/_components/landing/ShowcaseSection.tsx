@@ -44,12 +44,12 @@ function ShowcaseStatic() {
     <section
       id="plantillas"
       className="block lg:hidden"
-      style={{ willChange: 'background', backgroundColor: 'rgb(0,0,0)', borderRadius: '24px 24px 0 0', overflow: 'hidden' }}
+      style={{ willChange: 'background', backgroundColor: 'hsl(0, 0%, 8%)', borderRadius: '24px 24px 0 0', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: '100%', padding: '80px 5%' }}>
         {/* header */}
         <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'gray', fontFamily: "'Aeonik', sans-serif" }}>
+          <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
             Plantillas
           </div>
           <div>
@@ -60,9 +60,9 @@ function ShowcaseStatic() {
                   fontSize: 50,
                   fontWeight: 700,
                   lineHeight: '50px',
-                  color: 'white',
+                  color: 'hsl(0, 0%, 96%)',
                   margin: 0,
-                  fontFamily: "'Aeonik', sans-serif",
+                  fontFamily: "'Sora', sans-serif",
                 }}
               >
                 Cada tienda se ve distinta
@@ -112,15 +112,15 @@ function ShowcaseStatic() {
                     fontSize: 28,
                     fontWeight: 700,
                     lineHeight: '32px',
-                    color: 'white',
+                    color: 'hsl(0, 0%, 96%)',
                     margin: 0,
                     whiteSpace: 'nowrap',
-                    fontFamily: "'Aeonik', sans-serif",
+                    fontFamily: "'Sora', sans-serif",
                   }}
                 >
                   {phone.label}
                 </h3>
-                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'gray', fontFamily: "'Aeonik', sans-serif" }}>
+                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
                   {phone.desc}
                 </div>
               </div>
@@ -288,7 +288,7 @@ function ShowcaseDesktop() {
       className="hidden lg:block"
       style={{
         willChange: 'background',
-        backgroundColor: 'rgb(0,0,0)',
+        backgroundColor: 'hsl(0, 0%, 8%)',
         position: 'relative',
         zIndex: 50,
         borderRadius: '24px 24px 0 0',
@@ -328,7 +328,7 @@ function ShowcaseDesktop() {
                     transform: 'scale3d(1.7,1.7,1) translateY(10vh)',
                   }}
                 >
-                  <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'gray', fontFamily: "'Aeonik', sans-serif" }}>
+                  <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
                     Plantillas
                   </div>
                   <div>
@@ -339,9 +339,9 @@ function ShowcaseDesktop() {
                           fontSize: 50,
                           fontWeight: 700,
                           lineHeight: '50px',
-                          color: 'white',
+                          color: 'hsl(0, 0%, 96%)',
                           margin: 0,
-                          fontFamily: "'Aeonik', sans-serif",
+                          fontFamily: "'Sora', sans-serif",
                         }}
                       >
                         Cada tienda se ve distinta
@@ -407,9 +407,9 @@ function ShowcaseDesktop() {
                             fontSize: 28,
                             fontWeight: 700,
                             lineHeight: '32px',
-                            color: 'white',
+                            color: 'hsl(0, 0%, 96%)',
                             margin: 0,
-                            fontFamily: "'Aeonik', sans-serif",
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[0].label}
@@ -419,8 +419,8 @@ function ShowcaseDesktop() {
                             fontSize: 16,
                             fontWeight: 400,
                             lineHeight: '20px',
-                            color: 'gray',
-                            fontFamily: "'Aeonik', sans-serif",
+                            color: 'hsl(0, 0%, 60%)',
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[0].desc}
@@ -476,9 +476,9 @@ function ShowcaseDesktop() {
                             fontSize: 28,
                             fontWeight: 700,
                             lineHeight: '32px',
-                            color: 'white',
+                            color: 'hsl(0, 0%, 96%)',
                             margin: 0,
-                            fontFamily: "'Aeonik', sans-serif",
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[1].label}
@@ -488,8 +488,8 @@ function ShowcaseDesktop() {
                             fontSize: 16,
                             fontWeight: 400,
                             lineHeight: '20px',
-                            color: 'gray',
-                            fontFamily: "'Aeonik', sans-serif",
+                            color: 'hsl(0, 0%, 60%)',
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[1].desc}
@@ -545,9 +545,9 @@ function ShowcaseDesktop() {
                             fontSize: 28,
                             fontWeight: 700,
                             lineHeight: '32px',
-                            color: 'white',
+                            color: 'hsl(0, 0%, 96%)',
                             margin: 0,
-                            fontFamily: "'Aeonik', sans-serif",
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[2].label}
@@ -557,8 +557,8 @@ function ShowcaseDesktop() {
                             fontSize: 16,
                             fontWeight: 400,
                             lineHeight: '20px',
-                            color: 'gray',
-                            fontFamily: "'Aeonik', sans-serif",
+                            color: 'hsl(0, 0%, 60%)',
+                            fontFamily: "'Sora', sans-serif",
                           }}
                         >
                           {PHONES[2].desc}
