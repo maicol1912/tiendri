@@ -171,6 +171,17 @@ Idioma: español. El producto habla como habla el usuario.
 - Precios transparentes sin sorpresas: sin comisiones por venta, sin cobros ocultos, cancelación en un clic
 - Setup en minutos: pensado para quien nunca tuvo un sitio web, no para quien sabe de ecommerce
 
+### Colores de marca
+
+| Rol | Color | Valor |
+|-----|-------|-------|
+| Primary / accent | Azul | `#2563EB` / `hsl(221 83% 53%)` |
+| Fondo dashboard | Blanco | `#FFFFFF` |
+| Fondo landing/marketing | Negro | `#0B0A0D` (con matiz violeta) |
+| Texto sobre claro | Negro | `#0F0F0F` |
+| Texto sobre oscuro | Blanco | `#F5F5F6` |
+| Elementos interactivos | Azul | `#2563EB` (todos los CTAs, links activos, accents) |
+
 ---
 
 *Tiendri — La tienda online de los que nunca tuvieron una.*

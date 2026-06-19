@@ -78,7 +78,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
       {/* Store identity */}
       <div className="border-b border-gray-200 px-4 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-900 text-sm font-semibold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-white">
             {storeName.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
@@ -108,7 +108,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-150",
                   active
-                    ? "border-l-2 border-primary bg-gray-100 pl-[10px] font-medium text-gray-900"
+                    ? "border-l-2 border-primary bg-primary/5 pl-[10px] font-medium text-primary"
                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 )}
               >
