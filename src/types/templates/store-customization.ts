@@ -30,6 +30,15 @@ import type { StructuralVariants } from "./structural-variants";
 // Re-export the shared section types so consumers only need to import from this module
 export type { BrandingConfig, ContentConfig, BusinessConfig } from "./customization-sections";
 
+/** Color personality tokens — written nested by ThemeCustomizer's updateColorToken handler. */
+export interface ColorCustomization {
+  colorStrategy?: ColorStrategy;
+  backgroundTreatment?: BackgroundTreatment;
+  cardBackground?: CardBackground;
+  imageOverlayHover?: ImageOverlayHover;
+  accentDistribution?: AccentDistribution;
+}
+
 // Partial color/radius overrides — merchant changes only what they need.
 export interface ThemeCustomization {
   /** Selected palette ID — e.g. "obsidian", "midnight-luxury". */
@@ -44,11 +53,18 @@ export interface ThemeCustomization {
   bodyFontWeight?: BodyFontWeight;
   fontSizeContrast?: FontSizeContrast;
   headingSpacing?: HeadingSpacing;
-  /** Color personality tokens — set by presets, fine-tunable by merchant */
+  /** Color personality tokens — nested object written by ThemeCustomizer's updateColorToken handler.
+   * Falls back to the flat fields below for legacy/DB-sourced configs. */
+  color?: ColorCustomization;
+  /** @deprecated Flat color personality tokens — use color.* instead. Kept for DB/legacy compat. */
   colorStrategy?: ColorStrategy;
+  /** @deprecated */
   backgroundTreatment?: BackgroundTreatment;
+  /** @deprecated */
   cardBackground?: CardBackground;
+  /** @deprecated */
   imageOverlayHover?: ImageOverlayHover;
+  /** @deprecated */
   accentDistribution?: AccentDistribution;
 }
 

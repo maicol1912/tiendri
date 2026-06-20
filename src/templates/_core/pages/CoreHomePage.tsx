@@ -16,6 +16,20 @@ import type { ProductCardVariant } from "@/templates/_variants/product-card";
 import type { SearchBarVariant } from "@/templates/_variants/search-bar";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 import type { PopularProductItem } from "@/templates/mock-loader";
+import type { BestSellersVariant } from "@/templates/_variants/best-sellers/types";
+import type { PopularVariant } from "@/templates/_variants/popular/types";
+import type { BannersVariant } from "@/templates/_variants/banners/types";
+import type { EditorialVariant } from "@/templates/_variants/editorial/types";
+import type { VideoVariant } from "@/templates/_variants/video/types";
+
+/** Variant overrides for inline sections (optional — only templates that render these declare them). */
+interface SectionVariantOverrides {
+  bestSellers?: BestSellersVariant;
+  popular?: PopularVariant;
+  banners?: BannersVariant;
+  editorial?: EditorialVariant;
+  video?: VideoVariant;
+}
 
 interface CoreHomePageProps {
   store: StoreInfo;
@@ -52,6 +66,8 @@ interface CoreHomePageProps {
   popularProducts?: PopularProductItem[];
   /** Productos con descuento — renderiza sección "Descuentos" usando el ProductCardComponent */
   discountProducts?: StorefrontProduct[];
+  /** Variant overrides for inline sections (bestSellers, popular, banners, editorial, video). */
+  sectionVariants?: SectionVariantOverrides;
 }
 
 export const CoreHomePage = memo(function CoreHomePage({
@@ -72,6 +88,7 @@ export const CoreHomePage = memo(function CoreHomePage({
   bestSellers,
   popularProducts,
   discountProducts,
+  sectionVariants,
 }: CoreHomePageProps) {
   // Resolver tokens de estilo desde config + style-maps
   const styleTokens = resolveStyleTokens(config);
@@ -136,7 +153,8 @@ export const CoreHomePage = memo(function CoreHomePage({
             }
             return null;
           }
-          return <Renderer key={s.id} {...sectionProps} sectionConfig={s.config} />;
+          const sectionVariant = sectionVariants?.[s.id as keyof SectionVariantOverrides] as string | undefined;
+          return <Renderer key={s.id} {...sectionProps} sectionConfig={s.config} variant={sectionVariant} />;
         })}
     </div>
   );

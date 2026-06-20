@@ -43,4 +43,10 @@ export const furnitureLightUiConfig = {
     { id: "products", label: "Todos los productos" },
   ],
   palettes: furnitureLightPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "preciso", label: "Preciso", heading: "Space Grotesk", body: "IBM Plex Sans" },
+    { key: "amigable", label: "Amigable", heading: "Poppins", body: "Nunito" },
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

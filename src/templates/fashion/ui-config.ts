@@ -57,4 +57,10 @@ export const fashionUiConfig = {
     { id: "editorial", label: "Editorial" },
   ],
   palettes: fashionPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "editorial", label: "Editorial", heading: "Bodoni Moda", body: "DM Sans" },
+    { key: "atemporal", label: "Atemporal", heading: "Libre Baskerville", body: "Source Sans 3" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

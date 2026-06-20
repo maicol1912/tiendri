@@ -56,45 +56,31 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
 
     fontPairs: [
       {
-        key: "soft-modern",
-        label: "Suave moderno",
-        body: "Inter",
-        heading: "Inter",
-        preview: "Aa Bb Cc",
-      },
-      {
-        key: "elegant",
+        key: "elegante",
         label: "Elegante",
-        body: "DM Sans",
+        body: "Lato",
         heading: "Cormorant Garamond",
         preview: "Aa Bb Cc",
       },
       {
-        key: "friendly",
-        label: "Amigable",
-        body: "Nunito",
-        heading: "Nunito",
+        key: "editorial",
+        label: "Editorial",
+        body: "DM Sans",
+        heading: "Bodoni Moda",
         preview: "Aa Bb Cc",
       },
       {
-        key: "modern",
-        label: "Moderno",
-        body: "Inter",
+        key: "amigable",
+        label: "Amigable",
+        body: "Nunito",
         heading: "Poppins",
         preview: "Aa Bb Cc",
       },
       {
-        key: "warm",
-        label: "Cálido",
-        body: "Nunito",
-        heading: "Nunito",
-        preview: "Aa Bb Cc",
-      },
-      {
-        key: "functional",
-        label: "Funcional",
-        body: "DM Sans",
-        heading: "DM Sans",
+        key: "minimalista",
+        label: "Minimalista",
+        body: "Inter",
+        heading: "Manrope",
         preview: "Aa Bb Cc",
       },
     ],
@@ -105,7 +91,122 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
   // ─────────────────────────────────────────────────────────────────────────
   content: {
     tabGroups: [
-      // Tab 1 — Diseño
+      // ───────────────────────────────────────────────────────────────────
+      // Tab 1 — Contenido Principal
+      // Covers: heroBanner, navLinks, footerServices, footerAssistance
+      // ───────────────────────────────────────────────────────────────────
+      {
+        id: "contenido-principal",
+        label: "Contenido Principal",
+        icon: "Layout",
+        sections: [
+          // Hero banner
+          {
+            id: "hero-banner",
+            label: "Banner principal",
+            description: "El banner grande que aparece al inicio de la tienda.",
+            icon: "Image",
+            fields: [
+              {
+                key: "content.heroBanner.title",
+                type: "text",
+                label: "Título del banner",
+                placeholder: "Descubre tu belleza con productos premium",
+                maxLength: 80,
+              },
+              {
+                key: "content.heroBanner.subtitle",
+                type: "textarea",
+                label: "Subtítulo",
+                placeholder:
+                  "Cosméticos, maquillaje y cuidado personal de alta calidad.",
+                maxLength: 160,
+              },
+              {
+                key: "content.heroBanner.ctaText",
+                type: "text",
+                label: "Texto del botón",
+                placeholder: "Ver catálogo",
+                maxLength: 40,
+              },
+              {
+                key: "content.heroBanner.image",
+                type: "image",
+                label: "Imagen del banner",
+                description: "Recomendado: 1920 × 1080 px (relación 16:9).",
+                aspectRatio: "16:9",
+                maxFileSize: 5242880,
+              },
+            ],
+          },
+
+          // Nav links — repeatable
+          {
+            id: "nav-links",
+            kind: "repeatable",
+            label: "Enlaces de navegación",
+            description:
+              "Los enlaces que aparecen en el menú principal de la tienda.",
+            icon: "Navigation",
+            itemLabel: "Enlace",
+            minItems: 1,
+            maxItems: 8,
+            fields: [
+              {
+                key: "label",
+                type: "text",
+                label: "Texto del enlace",
+                placeholder: "Inicio",
+                maxLength: 40,
+                required: true,
+              },
+              {
+                key: "href",
+                type: "text",
+                label: "Ruta",
+                placeholder: "/",
+                required: true,
+              },
+            ],
+          },
+
+          // Footer services — tag-list
+          {
+            id: "footer-services",
+            label: "Servicios del pie de página",
+            description:
+              "Lista de servicios que se muestran en la sección de pie de página.",
+            icon: "List",
+            fields: [
+              {
+                key: "content.footerServices",
+                type: "tag-list",
+                label: "Servicios",
+                placeholder: "Agregar servicio",
+              },
+            ],
+          },
+
+          // Footer assistance — tag-list
+          {
+            id: "footer-assistance",
+            label: "Asistencia del pie de página",
+            description:
+              "Lista de opciones de ayuda que se muestran en el pie de página.",
+            icon: "HelpCircle",
+            fields: [
+              {
+                key: "content.footerAssistance",
+                type: "tag-list",
+                label: "Opciones de asistencia",
+                placeholder: "Agregar opción",
+              },
+            ],
+          },
+        ],
+      },
+
+      // Tab 2 — Diseño
       {
         id: "diseno",
         label: "Diseño",

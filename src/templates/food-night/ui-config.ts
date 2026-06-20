@@ -54,4 +54,10 @@ export const foodNightUiConfig = {
     { id: "products", label: "Productos" },
   ],
   palettes: foodNightPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "urbano", label: "Urbano", heading: "Syne", body: "Nunito Sans" },
+    { key: "audaz", label: "Audaz", heading: "Bebas Neue", body: "Hind" },
+    { key: "preciso", label: "Preciso", heading: "Space Grotesk", body: "IBM Plex Sans" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

@@ -143,6 +143,7 @@ export const furnitureDarkManifest = {
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
+    video: "DEFAULT",
   },
 
   heroConstrained: true,

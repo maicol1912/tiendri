@@ -14,7 +14,7 @@
 // components (e.g. grid-cols-{n} classes built from config.grid.products.mobile).
 
 import type { ResolvedStoreConfig } from "@/types/templates";
-import type { BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, CardBackground, BodyFontSize, DensityPreset, CardImageRatio, CardBorderTreatment, DividerStyle } from "@/types/templates/primitives";
+import type { BorderRadiusScale, ImageBorderRadius, CardPadding, GridColumnsMobile, GridColumnsDesktop, ContainerMaxWidth, ImageFit, BodyFontSize, DensityPreset, CardImageRatio, CardBorderTreatment, DividerStyle } from "@/types/templates/primitives";
 import type { HeadingScale } from "@/types/templates/typography";
 
 // Token interfaces (inlined from removed preset-types)
@@ -31,14 +31,7 @@ interface LayoutTokens {
   containerMaxWidth?: ContainerMaxWidth;
   cardImageRatio?: CardImageRatio;
   cardPadding?: CardPadding;
-}
-
-interface ColorTokens {
-  colorStrategy?: string;
-  backgroundTreatment?: string;
-  cardBackground?: CardBackground;
-  imageOverlayHover?: string;
-  accentDistribution?: string;
+  imageFit?: ImageFit;
 }
 
 interface TypographyTokens {
@@ -78,14 +71,6 @@ const DEFAULT_CARD_VALUES = {
 const DEFAULT_CHROME_VALUES = {
   borderRadiusScale: "md" as BorderRadiusScale,
   dividerStyle: "none" as DividerStyle,
-};
-
-const DEFAULT_COLOR_VALUES = {
-  colorStrategy: "accent-pop",
-  backgroundTreatment: "solid",
-  cardBackground: "white" as CardBackground,
-  imageOverlayHover: "none",
-  accentDistribution: "badges-and-buttons",
 };
 
 /**
@@ -169,19 +154,8 @@ function hexToRgb(hex: string): string {
   return `${r}, ${g}, ${b}`;
 }
 
-const BODY_FONT_SIZE_MAP: Record<BodyFontSize, string> = {
-  sm: "0.875rem",
-  base: "1rem",
-  lg: "1.125rem",
-};
-
-function buildTypographyExtendedVars(typography: TypographyTokens): Record<string, string> {
-  const bodyFontSize: BodyFontSize = typography.bodyFontSize ?? DEFAULT_TYPOGRAPHY_VALUES.bodyFontSize;
-  const bodyFontWeight = typography.bodyFontWeight ?? DEFAULT_TYPOGRAPHY_VALUES.bodyFontWeight;
-
+function buildTypographyExtendedVars(_typography: TypographyTokens): Record<string, string> {
   return {
-    "--t-type-body-size": BODY_FONT_SIZE_MAP[bodyFontSize],
-    "--t-type-body-weight": String(bodyFontWeight),
     "--t-type-paragraph-max-width": "65ch",
   };
 }
@@ -210,10 +184,10 @@ const CARD_PADDING_MAP: Record<CardPadding, string> = {
   spacious: "1.25rem",
 };
 
-function buildCardVars(cards: CardTokens, borderRadiusScale?: BorderRadiusScale): Record<string, string> {
+function buildCardVars(cards: CardTokens, borderRadiusScale?: BorderRadiusScale, cardPaddingOverride?: CardPadding): Record<string, string> {
   const scale: BorderRadiusScale = borderRadiusScale ?? DEFAULT_CHROME_VALUES.borderRadiusScale;
   const imageBorderRadius: ImageBorderRadius = cards.imageBorderRadius ?? DEFAULT_CARD_VALUES.imageBorderRadius;
-  const cardPadding: CardPadding = DEFAULT_LAYOUT_VALUES.cardPadding;
+  const cardPadding: CardPadding = cardPaddingOverride ?? DEFAULT_LAYOUT_VALUES.cardPadding;
   const baseValue = BORDER_RADIUS_SCALE_MAP[scale];
 
   return {
@@ -225,13 +199,6 @@ function buildCardVars(cards: CardTokens, borderRadiusScale?: BorderRadiusScale)
   };
 }
 
-const CONTAINER_MAX_WIDTH_MAP: Record<ContainerMaxWidth, string> = {
-  narrow: "960px",
-  medium: "1152px",
-  wide: "1344px",
-  full: "100%",
-};
-
 const IMAGE_FIT_VAR_MAP: Record<ImageFit, string> = {
   cover: "cover",
   contain: "contain",
@@ -240,29 +207,12 @@ const IMAGE_FIT_VAR_MAP: Record<ImageFit, string> = {
 function buildLayoutVars(layout: LayoutTokens): Record<string, string> {
   const colsMobile: GridColumnsMobile = layout.gridColumnsMobile ?? DEFAULT_LAYOUT_VALUES.gridColumnsMobile;
   const colsDesktop: GridColumnsDesktop = layout.gridColumnsDesktop ?? DEFAULT_LAYOUT_VALUES.gridColumnsDesktop;
-  const containerMaxWidth: ContainerMaxWidth = layout.containerMaxWidth ?? DEFAULT_LAYOUT_VALUES.containerMaxWidth;
-  const imageFit: ImageFit = DEFAULT_CARD_VALUES.imageFit;
+  const imageFit: ImageFit = layout.imageFit ?? DEFAULT_CARD_VALUES.imageFit;
 
   return {
     "--t-grid-cols-mobile": String(colsMobile),
     "--t-grid-cols-desktop": String(colsDesktop),
-    "--t-container-max": CONTAINER_MAX_WIDTH_MAP[containerMaxWidth],
     "--t-image-fit": IMAGE_FIT_VAR_MAP[imageFit],
-  };
-}
-
-const CARD_BACKGROUND_MAP: Record<CardBackground, string> = {
-  white: "white",
-  surface: "surface",
-  transparent: "transparent",
-  "primary-tint": "primary-tint",
-};
-
-function buildColorVars(color: ColorTokens): Record<string, string> {
-  const cardBackground: CardBackground = color.cardBackground ?? DEFAULT_COLOR_VALUES.cardBackground;
-
-  return {
-    "--t-card-bg-mode": CARD_BACKGROUND_MAP[cardBackground],
   };
 }
 
@@ -349,18 +299,15 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
       "2xl": "3.5rem",
     };
     const headingSpacingMap: Record<string, string> = { tight: '-0.03em', normal: '0em', wide: '0.1em' };
-    const contrastMap: Record<string, string> = { low: '1.2', medium: '1.5', high: '2', extreme: '2.8' };
     vars["--t-type-heading-weight"] = String(typography.headingWeight);
     vars["--t-type-heading-size"] = scaleMap[typography.headingScale] ?? "2rem";
     vars["--t-type-heading-tracking"] = headingSpacingMap[typography.headingSpacing] ?? '0em';
     vars["--t-type-heading-transform"] = typography.headingTransform;
-    vars["--t-type-body-weight"] = String(config.theme?.bodyFontWeight ?? 400);
-    vars["--t-type-contrast"] = contrastMap[config.theme?.fontSizeContrast ?? 'medium'] ?? '1.5';
 
     const extendedTokens: TypographyTokens = {
       headingWeight: typography.headingWeight,
-      bodyFontSize: config.theme?.bodyFontSize,
-      bodyFontWeight: config.theme?.bodyFontWeight,
+      bodyFontSize: config.theme?.typography?.bodyFontSize ?? config.theme?.bodyFontSize,
+      bodyFontWeight: config.theme?.typography?.bodyFontWeight ?? config.theme?.bodyFontWeight,
     };
     Object.assign(vars, buildTypographyExtendedVars(extendedTokens));
   }
@@ -405,28 +352,18 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
     imageBorderRadius: config.layout?.imageBorderRadius,
   };
   const chromeRadiusScale = config.layout?.borderRadiusScale;
-  Object.assign(vars, buildCardVars(cardInput, chromeRadiusScale));
+  Object.assign(vars, buildCardVars(cardInput, chromeRadiusScale, config.layout?.cardPadding));
 
-  // ── Layout tokens → --t-grid-cols-*, --t-container-max, --t-image-fit ─────
+  // ── Layout tokens → --t-grid-cols-*, --t-image-fit ──────────────────────
   const layoutInput: LayoutTokens = {
     gridColumnsMobile: config.layout?.gridColumnsMobile,
     gridColumnsDesktop: config.layout?.gridColumnsDesktop,
     containerMaxWidth: config.layout?.containerMaxWidth,
     cardImageRatio: config.layout?.cardImageRatio,
     cardPadding: config.layout?.cardPadding,
+    imageFit: config.layout?.imageFit,
   };
   Object.assign(vars, buildLayoutVars(layoutInput));
-
-  // ── Color tokens → --t-card-bg-mode ──────────────────────────────────────
-  // Color personality fields live on config.theme
-  const colorInput: ColorTokens = {
-    colorStrategy: config.theme?.colorStrategy,
-    backgroundTreatment: config.theme?.backgroundTreatment,
-    cardBackground: config.theme?.cardBackground,
-    imageOverlayHover: config.theme?.imageOverlayHover,
-    accentDistribution: config.theme?.accentDistribution,
-  };
-  Object.assign(vars, buildColorVars(colorInput));
 
   // NOTE: "fontFamily" (camelCase, no -- prefix) is intentional.
   // buildCssVars output is spread into style={} as React.CSSProperties, so

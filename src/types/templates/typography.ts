@@ -19,6 +19,10 @@ export interface TypographyConfig {
   headingSpacing: HeadingSpacing;
   /** Text transform for headings */
   headingTransform: "none" | "uppercase" | "capitalize";
+  // Body-level fields — written here by ThemeCustomizer's updateTypography handler
+  bodyFontSize?: BodyFontSize;
+  bodyFontWeight?: BodyFontWeight;
+  fontSizeContrast?: FontSizeContrast;
 }
 
 // Extended typography display config — body and display-level fields.

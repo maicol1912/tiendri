@@ -86,10 +86,6 @@ export type TransitionSpeed = "instant" | "fast" | "normal" | "slow" | "very-slo
 export type TransitionEasing = "linear" | "ease" | "ease-in-out" | "spring";
 export type ShadowElevation = "none" | "xs" | "sm" | "md" | "lg" | "xl";
 export type BodyFontSize = "sm" | "base" | "lg";
-/** @deprecated Referenced by buildCssVars.ts and ThemeCustomizer.tsx — remove after those files are updated. */
-export type CardTextAlign = "left" | "center";
-/** @deprecated Referenced by buildCssVars.ts and ThemeCustomizer.tsx — remove after those files are updated. */
-export type HeadingDecoration = "none" | "underline" | "overline" | "highlight";
 export type ColorStrategy = "monotone" | "duotone" | "accent-pop" | "gradient";
 export type BackgroundTreatment = "solid" | "subtle-gradient" | "pattern";
 export type CardBackground = "white" | "surface" | "transparent" | "primary-tint";

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { updateBusiness } from "../actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "../client-utils";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import type { BusinessConfig } from "@/types/templates/customization-sections";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 
@@ -58,7 +59,7 @@ function saveToLocalStorage(business: BusinessConfig): void {
     const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
     const current: StoreCustomization = raw
       ? (JSON.parse(raw) as StoreCustomization)
-      : { templateId: "tech-premium" };
+      : { templateId: DEFAULT_TEMPLATE_ID };
     const updated: StoreCustomization = {
       ...current,
       business: { ...(current.business ?? {}), ...business },

@@ -11,6 +11,7 @@
 
 import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 
 /** Shape de un ítem de productos populares (banner card con imagen y CTA). */
 export interface PopularProductItem {
@@ -34,25 +35,83 @@ export interface TemplateMockData {
   discountProducts?: StorefrontProduct[];
 }
 
-// ── Adaptador de categorías ────────────────────────────────────────────────────
-// Algunos templates definen tipos locales de categoría que omiten campos
-// requeridos por el tipo canónico Category (slug, icon).
-// Esta función normaliza cualquier array de categorías al contrato canónico
-// derivando slug desde id y usando "Tag" como icono por defecto.
+// ── Mapa de loaders por template ───────────────────────────────────────────────
+// Para agregar un 9° template: añadir una entrada al mapa. No modificar nada más.
 
-function normalizeCategories(raw: unknown[]): Category[] {
-  return (raw as Array<Record<string, unknown>>).map((cat) => ({
-    id: cat["id"] as string,
-    name: cat["name"] as string,
-    slug: (cat["slug"] as string | undefined) ?? (cat["id"] as string),
-    icon: (cat["icon"] as string | undefined) ?? "Tag",
-    // Support both `image` (canonical) and `imageUrl` (legacy mock field)
-    ...((cat["image"] ?? cat["imageUrl"]) !== undefined
-      ? { image: (cat["image"] ?? cat["imageUrl"]) as string }
-      : {}),
-    ...(cat["productCount"] !== undefined ? { productCount: cat["productCount"] as number } : {}),
-  }));
-}
+const MOCK_LOADERS: Record<string, () => Promise<TemplateMockData>> = {
+  "tech-premium": async () => {
+    const { mockStore, mockProducts, mockCategories, mockPopularProducts, mockDiscountProducts } =
+      await import("./tech-premium/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+      popularProducts: mockPopularProducts,
+      discountProducts: mockDiscountProducts,
+    };
+  },
+  "fashion": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import("./fashion/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+  "furniture-dark": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import("./furniture-dark/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+  "furniture-light": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import("./furniture-light/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+  "beauty-soft": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import("./beauty-soft/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+  "beauty-elegant": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import(
+      "./beauty-elegant/mock/data"
+    );
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+  "decor-warm": async () => {
+    const { mockStore, mockProducts, mockCategories, mockBestSellers } = await import(
+      "./decor-warm/mock/data"
+    );
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+      bestSellers: mockBestSellers,
+    };
+  },
+  "food-night": async () => {
+    const { mockStore, mockProducts, mockCategories } = await import("./food-night/mock/data");
+    return {
+      store: mockStore,
+      products: mockProducts,
+      categories: mockCategories,
+    };
+  },
+};
 
 /**
  * Carga los datos mock para el templateId dado.
@@ -61,106 +120,7 @@ function normalizeCategories(raw: unknown[]): Category[] {
  *
  * @param templateId - Identificador del template (ej. "tech-premium")
  */
-export async function getTemplateMockData(
-  templateId: string
-): Promise<TemplateMockData> {
-  switch (templateId) {
-    case "tech-premium": {
-      const { mockStore, mockProducts, mockCategories, mockPopularProducts, mockDiscountProducts } = await import(
-        "./tech-premium/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-        popularProducts: mockPopularProducts,
-        discountProducts: mockDiscountProducts,
-      };
-    }
-    case "fashion": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./fashion/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-      };
-    }
-    case "furniture-dark": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./furniture-dark/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-      };
-    }
-    case "furniture-light": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./furniture-light/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        // FurnitureCategory omite `slug` — normalizar al tipo canónico
-        categories: normalizeCategories(mockCategories),
-      };
-    }
-    case "beauty-soft": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./beauty-soft/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        // BeautySoftCategory omite `slug` e `icon` — normalizar al tipo canónico
-        categories: normalizeCategories(mockCategories),
-      };
-    }
-    case "beauty-elegant": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./beauty-elegant/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        // BeautyElegantCategory omite `slug` e `icon` — normalizar al tipo canónico
-        categories: normalizeCategories(mockCategories),
-      };
-    }
-    case "decor-warm": {
-      const { mockStore, mockProducts, mockCategories, mockBestSellers } = await import(
-        "./decor-warm/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-        bestSellers: mockBestSellers,
-      };
-    }
-    case "food-night": {
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./food-night/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-      };
-    }
-    default: {
-      // Fallback a tech-premium para IDs desconocidos
-      const { mockStore, mockProducts, mockCategories } = await import(
-        "./tech-premium/mock/data"
-      );
-      return {
-        store: mockStore,
-        products: mockProducts,
-        categories: mockCategories,
-      };
-    }
-  }
+export async function getTemplateMockData(templateId: string): Promise<TemplateMockData> {
+  const loader = MOCK_LOADERS[templateId] ?? MOCK_LOADERS[DEFAULT_TEMPLATE_ID];
+  return loader();
 }

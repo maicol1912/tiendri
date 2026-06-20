@@ -60,4 +60,10 @@ export const beautyElegantUiConfig = {
     { id: "products", label: "Productos" },
   ],
   palettes: beautyElegantPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "editorial", label: "Editorial", heading: "Bodoni Moda", body: "DM Sans" },
+    { key: "amigable", label: "Amigable", heading: "Poppins", body: "Nunito" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

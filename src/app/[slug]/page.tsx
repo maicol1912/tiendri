@@ -13,8 +13,9 @@
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getStoreBySlug } from "@/catalog/getStoreBySlug";
+import { getStoreBySlug, appearanceToCustomization } from "@/catalog/getStoreBySlug";
 import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
+import type { StoreCustomization } from "@/types/templates";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { TemplateLayout } from "@/templates/_core";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
@@ -47,9 +48,12 @@ export async function generateMetadata({
     getTemplateConfig(effectiveTemplateId),
     getTemplateSchema(effectiveTemplateId),
   ]);
+  const metaCustomization: StoreCustomization | undefined =
+    appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
+    (store.customization as StoreCustomization | undefined);
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
-    store.customization ?? undefined,
+    metaCustomization,
     templateSchema ?? undefined,
   );
   const storeName = resolvedConfig.branding?.storeName ?? store.name;
@@ -127,9 +131,12 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
     getTemplateConfig(effectiveTemplateId),
     getTemplateSchema(effectiveTemplateId),
   ]);
+  const pageCustomization: StoreCustomization | undefined =
+    appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
+    (store.customization as StoreCustomization | undefined);
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
-    store.customization ?? undefined,
+    pageCustomization,
     templateSchema ?? undefined,
   );
 

@@ -154,6 +154,7 @@ export const fashionManifest = {
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
+    editorial: "DEFAULT",
   },
 
   // ── Template-specific display flags ──────────────────────────────────────────

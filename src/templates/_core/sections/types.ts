@@ -76,4 +76,7 @@ export interface SectionRendererProps {
 
   // Per-section overrides (keyed by field name)
   sectionConfig?: Record<string, unknown>;
+
+  // Variant for the current section (resolved from manifest.variants by CoreHomePage)
+  variant?: string;
 }

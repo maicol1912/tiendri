@@ -2,13 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct } from "@/types/domain/store";
-
-interface BeautyElegantCategory {
-  id: string;
-  name: string;
-  icon: string;
-}
+import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 
 // ── Store Info ────────────────────────────────────────────────────────────────
 
@@ -30,12 +24,12 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ────────────────────────────────────────────────────────────────
 
-export const mockCategories: BeautyElegantCategory[] = [
-  { id: "cat-makeup",    name: "Makeup",      icon: "Palette" },
-  { id: "cat-skincare",  name: "Skincare",    icon: "Droplet" },
-  { id: "cat-fragrance", name: "Fragrance",   icon: "Flower2" },
-  { id: "cat-tools",     name: "Accesorios",  icon: "Gem" },
-  { id: "cat-sets",      name: "Kits Regalo", icon: "Gift" },
+export const mockCategories: Category[] = [
+  { id: "cat-makeup",    name: "Makeup",      slug: "makeup",      icon: "Palette" },
+  { id: "cat-skincare",  name: "Skincare",    slug: "skincare",    icon: "Droplet" },
+  { id: "cat-fragrance", name: "Fragrance",   slug: "fragrance",   icon: "Flower2" },
+  { id: "cat-tools",     name: "Accesorios",  slug: "accesorios",  icon: "Gem" },
+  { id: "cat-sets",      name: "Kits Regalo", slug: "kits-regalo", icon: "Gift" },
 ];
 
 // ── Products ──────────────────────────────────────────────────────────────────

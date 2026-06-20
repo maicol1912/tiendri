@@ -19,11 +19,10 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
       { key: "button", label: "Radio de botones", default: "12px", max: 28 },
     ],
     fontPairs: [
-      { key: "modern", label: "Moderno", body: "Inter", heading: "Space Grotesk", preview: "Aa Bb Cc" },
-      { key: "warm", label: "Cálido", body: "Poppins", heading: "Playfair Display", preview: "Aa Bb Cc" },
-      { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
-      { key: "minimal", label: "Mínimo", body: "Nunito", heading: "Nunito", preview: "Aa Bb Cc" },
-      { key: "functional", label: "Funcional", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
+      { key: "preciso", label: "Preciso", body: "IBM Plex Sans", heading: "Space Grotesk", preview: "Aa Bb Cc" },
+      { key: "amigable", label: "Amigable", body: "Nunito", heading: "Poppins", preview: "Aa Bb Cc" },
+      { key: "elegante", label: "Elegante", body: "Lato", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
+      { key: "minimalista", label: "Minimalista", body: "Inter", heading: "Manrope", preview: "Aa Bb Cc" },
     ],
   },
 
@@ -314,6 +313,45 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
           description:
             "IDs de los productos a mostrar (vacío = todos). Ingresá los IDs separados por Enter.",
           placeholder: "ID del producto",
+        },
+      ],
+    },
+
+    collections: {
+      id: "collections",
+      label: "Colecciones",
+      fields: [
+        {
+          key: "content.collectionsTitle",
+          type: "text",
+          label: "Título de la sección",
+          description: "Encabezado visible sobre la grilla de colecciones",
+          placeholder: "Colección",
+          maxLength: 80,
+        },
+        {
+          key: "content.collectionsSubtitle",
+          type: "text",
+          label: "Subtítulo de la sección",
+          description: "Texto secundario bajo el título (opcional)",
+          placeholder: "Descripción breve",
+          maxLength: 160,
+        },
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          min: 1,
+          max: 3,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          min: 2,
+          max: 6,
+          step: 1,
         },
       ],
     },

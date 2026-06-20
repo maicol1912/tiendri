@@ -140,6 +140,7 @@ export const decorWarmManifest = {
     categoryNav: "COLUMNAR",
     productCard: "WITH_DESCRIPTION",
     searchBar: "ICON_TRIGGER",
+    bestSellers: "DEFAULT",
   },
 
   productsHeading: "Nueva Colección",

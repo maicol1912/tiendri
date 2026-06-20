@@ -54,4 +54,10 @@ export const decorWarmUiConfig = {
     { id: "products", label: "Productos" },
   ],
   palettes: decorWarmPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "amigable", label: "Amigable", heading: "Poppins", body: "Nunito" },
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "artesanal", label: "Artesanal", heading: "Caveat", body: "Karla" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

@@ -1,17 +1,7 @@
 // Furniture Light — Mock Data
 // All hardcoded data for preview/development.
 
-import type { StorefrontProduct, StoreInfo } from "@/types/domain/store";
-
-// ── Local types ────────────────────────────────────────────────────────────────
-
-export interface FurnitureCategory {
-  id: string;
-  name: string;
-  /** Lucide icon key: "table" | "chair" | "cabinet" | "sofa" | "bed" | "kitchen" | "bathroom" | "workspace" */
-  icon?: string;
-  productCount?: number;
-}
+import type { StorefrontProduct, StoreInfo, Category } from "@/types/domain/store";
 import { PRODUCTS, HERO_BANNER, CATEGORIES, STYLE_IMAGES } from "./assets";
 
 // ── Store ──────────────────────────────────────────────────────────────────────
@@ -32,12 +22,12 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ─────────────────────────────────────────────────────────────────
 
-export const mockCategories: FurnitureCategory[] = [
-  { id: "cat-table", name: "Mesas", icon: "Grid3X3" },
-  { id: "cat-chair", name: "Sillas", icon: "Armchair" },
-  { id: "cat-cabinet", name: "Gabinetes", icon: "Package" },
-  { id: "cat-sofa", name: "Sofás", icon: "Sofa" },
-  { id: "cat-bed", name: "Camas", icon: "Bed" },
+export const mockCategories: Category[] = [
+  { id: "cat-table",   name: "Mesas",     slug: "mesas",     icon: "Grid3X3" },
+  { id: "cat-chair",   name: "Sillas",    slug: "sillas",    icon: "Armchair" },
+  { id: "cat-cabinet", name: "Gabinetes", slug: "gabinetes", icon: "Package" },
+  { id: "cat-sofa",    name: "Sofás",     slug: "sofas",     icon: "Sofa" },
+  { id: "cat-bed",     name: "Camas",     slug: "camas",     icon: "Bed" },
 ];
 
 // ── Products ───────────────────────────────────────────────────────────────────

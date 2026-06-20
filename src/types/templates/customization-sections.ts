@@ -71,6 +71,8 @@ export interface ContentConfig {
   /** Collections section — heading shown above the product grid */
   collectionsTitle?: string;
   collectionsSubtitle?: string;
+  /** Merchant-curated product groups — shown in tabs or stacked mode in the storefront */
+  productGroups?: import('@/types/templates/product-groups').ProductGroupsConfig;
 }
 
 /** Business info — used in JSON-LD, checkout trust signals, and SEO. */

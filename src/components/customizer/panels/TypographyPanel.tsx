@@ -1,71 +1,137 @@
 "use client";
 
-import { fontPairs, fontGroups } from "@/shared/fonts";
+import { fontPairs as globalFontPairs, fontGroups } from "@/shared/fonts";
 import { ControlField } from "../components/ControlField";
 import { selectStyle, labelStyle } from "../types";
-import type { MutableConfig, MutableTypography } from "../types";
+import type { MutableConfig, MutableTypography, CustomizerFontPair } from "../types";
 
 interface TypographyPanelProps {
   config: MutableConfig;
   onConfigChange: (config: MutableConfig) => void;
   updateTypography: (key: keyof MutableTypography, value: string | number) => void;
+  /** Template-specific font pair subset (keys must match shared/fonts.ts). Falls back to all global font pairs when omitted. */
+  fontPairs?: CustomizerFontPair[];
 }
 
-export function TypographyPanel({ config, onConfigChange, updateTypography }: TypographyPanelProps) {
+export function TypographyPanel({ config, onConfigChange, updateTypography, fontPairs }: TypographyPanelProps) {
+  // When template-specific pairs are provided, render a flat list using their labels.
+  // Fall back to the global grouped registry when no override is given.
+  const defaultFontPairKey = fontPairs ? (fontPairs[0]?.key ?? "minimalista") : "minimalista";
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div>
         <label style={labelStyle}>Estilo de fuente</label>
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          {fontGroups.map((group) => (
-            <div key={group.id}>
-              <div style={{ fontSize: "10px", color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
-                {group.name}
+        {fontPairs ? (
+          // Schema-driven flat list: one card per template font pair
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {fontPairs.map((pair) => {
+              const globalPair = globalFontPairs[pair.key];
+              const isSelected = (config.fontPair ?? defaultFontPairKey) === pair.key;
+              return (
+                <button
+                  key={pair.key}
+                  type="button"
+                  onClick={() => onConfigChange({ ...config, fontPair: pair.key })}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "2px",
+                    padding: "8px 10px",
+                    background: isSelected ? "#1a2a1a" : "#222",
+                    border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    width: "100%",
+                    transition: "border-color 0.15s, background 0.15s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: globalPair?.heading.style.fontFamily,
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      color: "#e5e5e5",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {pair.label}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: globalPair?.body.style.fontFamily,
+                      fontSize: "11px",
+                      color: "#666",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {pair.heading} + {pair.body}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          // Global fallback: grouped registry with all 15 font pairs
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {fontGroups.map((group) => (
+              <div key={group.id}>
+                <div style={{ fontSize: "10px", color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
+                  {group.name}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                  {group.pairs.map((pairId) => {
+                    const pair = globalFontPairs[pairId];
+                    if (!pair) return null;
+                    const isSelected = (config.fontPair ?? "minimalista") === pairId;
+                    return (
+                      <button
+                        key={pairId}
+                        type="button"
+                        onClick={() => onConfigChange({ ...config, fontPair: pairId })}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: "2px",
+                          padding: "8px 10px",
+                          background: isSelected ? "#1a2a1a" : "#222",
+                          border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          textAlign: "left",
+                          width: "100%",
+                          transition: "border-color 0.15s, background 0.15s",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                        }}
+                      >
+                        <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "#e5e5e5", lineHeight: 1.2 }}>
+                          {pair.name}
+                        </span>
+                        <span style={{ fontFamily: pair.body.style.fontFamily, fontSize: "11px", color: "#666", lineHeight: 1.3 }}>
+                          {pair.description}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                {group.pairs.map((pairId) => {
-                  const pair = fontPairs[pairId];
-                  if (!pair) return null;
-                  const isSelected = (config.fontPair ?? "minimalista") === pairId;
-                  return (
-                    <button
-                      key={pairId}
-                      type="button"
-                      onClick={() => onConfigChange({ ...config, fontPair: pairId })}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        gap: "2px",
-                        padding: "8px 10px",
-                        background: isSelected ? "#1a2a1a" : "#222",
-                        border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                        textAlign: "left",
-                        width: "100%",
-                        transition: "border-color 0.15s, background 0.15s",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
-                      }}
-                    >
-                      <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "#e5e5e5", lineHeight: 1.2 }}>
-                        {pair.name}
-                      </span>
-                      <span style={{ fontFamily: pair.body.style.fontFamily, fontSize: "11px", color: "#666", lineHeight: 1.3 }}>
-                        {pair.description}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>

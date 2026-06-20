@@ -139,6 +139,7 @@ export const techPremiumManifest = {
     categoryNav: "HORIZONTAL_SCROLL",
     productCard: "BELOW_IMAGE",
     searchBar: "INLINE",
+    popular: "DEFAULT",
   },
 
   heroConstrained: false,

@@ -6,12 +6,12 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { toast } from "sonner";
-import { Loader2, Lock, Check, ChevronDown, RotateCcw } from "lucide-react";
+import { Loader2, Check, ChevronDown, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/shared/utils";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import type { ThemeCustomization } from "@/types/templates/store-customization";
 import type { TemplateConfigSchema, ColorPalette } from "@/types/templates/config-schema";
 import { updateTheme } from "../actions";
@@ -38,15 +38,6 @@ const FALLBACK_FONT_PAIRS: { key: string; label: string; body: string; heading: 
   { key: "warm", label: "Calido", body: "Poppins", heading: "Playfair Display" },
   { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond" },
   { key: "functional", label: "Funcional", body: "IBM Plex Sans", heading: "IBM Plex Mono" },
-];
-
-// ── Template options (static for now) ───────────────────────────────────────
-
-const TEMPLATES = [
-  { id: "tech-premium", label: "Tech Premium", description: "Ideal para tecnologia y electronica", available: true },
-  { id: "fashion-minimal", label: "Fashion Minimal", description: "Para moda y accesorios", available: false },
-  { id: "food-warm", label: "Food & Gourmet", description: "Para alimentos y restaurantes", available: false },
-  { id: "beauty-soft", label: "Beauty & Care", description: "Para cosmeticos y salud", available: false },
 ];
 
 // ── Style tag labels (display-friendly) ──────────────────────────────────────
@@ -144,7 +135,7 @@ function saveThemeToLocalStorage(theme: ThemeCustomization): void {
     const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
     const current: StoreCustomization = raw
       ? (JSON.parse(raw) as StoreCustomization)
-      : { templateId: "tech-premium" };
+      : { templateId: DEFAULT_TEMPLATE_ID };
     const updated: StoreCustomization = {
       ...current,
       theme: { ...(current.theme ?? {}), ...theme },
@@ -223,7 +214,6 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
     initialTheme?.fontPair ?? "minimalista"
   );
 
-  const [selectedTemplate] = useState("tech-premium");
   const [isSaving, setIsSaving] = useState(false);
   const [showAdvancedColors, setShowAdvancedColors] = useState(false);
 
@@ -316,59 +306,28 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Template selection */}
+      {/* Template — read-only display */}
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Plantilla de diseno</CardTitle>
           <CardDescription>
-            La plantilla define la estructura general de tu tienda. Mas plantillas proximamente.
+            La plantilla define la estructura general de tu tienda.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {TEMPLATES.map((template) => (
-              <div
-                key={template.id}
-                className={cn(
-                  "relative flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors",
-                  template.available
-                    ? selectedTemplate === template.id
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50"
-                    : "cursor-not-allowed border-border/40 opacity-60"
-                )}
-              >
-                {/* Radio dot (visual only for MVP) */}
-                <div
-                  className={cn(
-                    "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2",
-                    template.available && selectedTemplate === template.id
-                      ? "border-primary"
-                      : "border-muted-foreground/40"
-                  )}
-                >
-                  {template.available && selectedTemplate === template.id && (
-                    <div className="h-2 w-2 rounded-full bg-primary" />
-                  )}
-                </div>
-
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">{template.label}</span>
-                    {!template.available && (
-                      <Badge variant="secondary" className="text-[10px]">
-                        <Lock className="mr-1 h-2.5 w-2.5" />
-                        Proximamente
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    {template.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center gap-3 rounded-lg border border-primary bg-primary/5 p-4">
+            <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-primary">
+              <div className="h-2 w-2 rounded-full bg-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-medium capitalize">
+                {DEFAULT_TEMPLATE_ID.replace(/-/g, " ")}
+              </p>
+            </div>
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Para cambiar de plantilla, contacta a soporte.
+          </p>
         </CardContent>
       </Card>
 

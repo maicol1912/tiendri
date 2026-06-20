@@ -1,5 +1,6 @@
 import type {
   CustomizerColorField,
+  CustomizerFontPair,
   CustomizerGridField,
   CustomizerLayoutOption,
   CustomizerPalette,
@@ -8,6 +9,7 @@ import type {
 
 export type {
   CustomizerColorField,
+  CustomizerFontPair,
   CustomizerGridField,
   CustomizerLayoutOption,
   CustomizerPalette,
@@ -23,4 +25,11 @@ export interface TemplateUIConfig {
   sectionLabels: CustomizerSectionLabel[];
   palettes: CustomizerPalette[];
   defaultFontPairKey?: string;
+  /**
+   * Template-specific font pair subset shown in the ThemeCustomizer.
+   * Keys MUST match keys in shared/fonts.ts `fontPairs` record so TemplateLayoutClient
+   * can resolve the correct next/font CSS variable classes at runtime.
+   * When omitted, ThemeCustomizer falls back to the full global font registry.
+   */
+  fontPairs?: CustomizerFontPair[];
 }

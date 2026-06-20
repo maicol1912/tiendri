@@ -46,4 +46,10 @@ export const furnitureDarkUiConfig = {
     { id: "collections", label: "Destacados" },
   ],
   palettes: furnitureDarkPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "editorial", label: "Editorial", heading: "Bodoni Moda", body: "DM Sans" },
+    { key: "preciso", label: "Preciso", heading: "Space Grotesk", body: "IBM Plex Sans" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

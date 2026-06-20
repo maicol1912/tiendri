@@ -13,14 +13,17 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BrandingTab } from "./tabs/branding-tab";
 import { ThemeTab } from "./tabs/theme-tab";
 import { BusinessTab } from "./tabs/business-tab";
+import { ProductGroupsTab } from "./tabs/product-groups-tab";
 import { DynamicTabContent, SectionsAccordionTab } from "@/components/dashboard/schema-form";
 import { getTemplateSchema } from "@/templates/registry";
 import { setByPath } from "@/catalog/config-path-utils";
 import { updateCustomizationSection } from "./actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "./client-utils";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 import type { ConfigTabGroup, TemplateConfigSchema } from "@/types/templates/config-schema";
 import type { SectionConfig } from "@/types/templates/sections";
+import type { PickerProductData } from "./actions";
 
 // ── Banner data migration ───────────────────────────────────────────────────
 
@@ -83,7 +86,7 @@ function readLocalCustomization(): StoreCustomization {
   } catch {
     // Corrupted — start fresh
   }
-  return { templateId: "tech-premium" };
+  return { templateId: DEFAULT_TEMPLATE_ID };
 }
 
 function writeLocalCustomization(data: StoreCustomization): void {
@@ -104,11 +107,17 @@ interface ConfiguracionClientProps {
    * When false, all saves fall back to localStorage (demo mode).
    */
   isAuthenticated: boolean;
+  /**
+   * Products fetched server-side from Supabase for the ProductPicker.
+   * Empty array when user is unauthenticated (demo/localStorage mode).
+   */
+  initialProducts: PickerProductData[];
 }
 
 export function ConfiguracionClient({
   initialCustomization,
   isAuthenticated,
+  initialProducts,
 }: ConfiguracionClientProps) {
   const [customization, setCustomization] =
     useState<StoreCustomization>(initialCustomization);
@@ -136,7 +145,7 @@ export function ConfiguracionClient({
       setCustomization(local);
     }
 
-    const templateId = initial.templateId ?? "tech-premium";
+    const templateId = initial.templateId ?? DEFAULT_TEMPLATE_ID;
     getTemplateSchema(templateId).then((loaded) => {
       setSchema(loaded);
     });
@@ -150,11 +159,12 @@ export function ConfiguracionClient({
   const hasSectionSchemas =
     !!schema?.sectionSchemas && Object.keys(schema.sectionSchemas).length > 0;
 
-  // Build the tab list: Identidad -> [dynamic tabs] -> [Secciones] -> Apariencia -> Negocio
+  // Build the tab list: Identidad -> [dynamic tabs] -> [Secciones] -> Grupos de Productos -> Apariencia -> Negocio
   const tabs: { value: string; label: string }[] = [
     { value: "identidad", label: "Identidad" },
     ...dynamicTabGroups.map((tg) => ({ value: tg.id, label: tg.label })),
     ...(hasSectionSchemas ? [{ value: "secciones", label: "Secciones" }] : []),
+    { value: "grupos-productos", label: "Grupos de Productos" },
     { value: "apariencia", label: "Apariencia" },
     { value: "negocio", label: "Negocio" },
   ];
@@ -283,6 +293,7 @@ export function ConfiguracionClient({
           {dynamicTabGroups.map((tabGroup) => (
             <TabsContent key={tabGroup.id} value={tabGroup.id}>
               <DynamicTabContent
+                key={tabGroup.id}
                 tabGroup={tabGroup}
                 customization={
                   customization as unknown as Record<string, unknown>
@@ -302,6 +313,14 @@ export function ConfiguracionClient({
               />
             </TabsContent>
           )}
+
+          {/* Universal tab: Grupos de Productos */}
+          <TabsContent value="grupos-productos">
+            <ProductGroupsTab
+              initialProductGroups={customization?.content?.productGroups}
+              products={initialProducts}
+            />
+          </TabsContent>
 
           {/* Universal tab: Apariencia */}
           <TabsContent value="apariencia">

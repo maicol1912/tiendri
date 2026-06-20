@@ -27,10 +27,10 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
     ],
 
     fontPairs: [
-      { key: "elegant", label: "Cormorant + DM Sans (elegante)", body: "DM Sans", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
-      { key: "warm", label: "Playfair + Poppins (clásico)", body: "Poppins", heading: "Playfair Display", preview: "Aa Bb Cc" },
-      { key: "modern", label: "Inter + Space Grotesk (moderno)", body: "Inter", heading: "Space Grotesk", preview: "Aa Bb Cc" },
-      { key: "functional", label: "Funcional", body: "Inter", heading: "Inter", preview: "Aa Bb Cc" },
+      { key: "elegante", label: "Elegante", body: "Lato", heading: "Cormorant Garamond", preview: "Aa Bb Cc" },
+      { key: "editorial", label: "Editorial", body: "DM Sans", heading: "Bodoni Moda", preview: "Aa Bb Cc" },
+      { key: "preciso", label: "Preciso", body: "IBM Plex Sans", heading: "Space Grotesk", preview: "Aa Bb Cc" },
+      { key: "minimalista", label: "Minimalista", body: "Inter", heading: "Manrope", preview: "Aa Bb Cc" },
     ],
   },
 
@@ -152,26 +152,6 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
           },
         ],
       },
-      {
-        id: "sections",
-        label: "Secciones",
-        sections: [
-          {
-            id: "home-sections",
-            label: "Secciones del inicio",
-            fields: [
-              {
-                key: "sections",
-                label: "Secciones visibles y orden",
-                // Note: section visibility is managed by the ThemeCustomizer's section labels UI.
-                // Using "boolean" as placeholder type — actual rendering handled by customizer.
-                type: "boolean" as const,
-                description: "Administrar secciones desde el personalizador visual.",
-              },
-            ],
-          },
-        ],
-      },
     ],
   },
 
@@ -246,6 +226,29 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
       ],
     },
 
+    video: {
+      id: "video",
+      label: "Video",
+      fields: [
+        {
+          key: "content.videoTitle",
+          type: "text",
+          label: "Título del video",
+          description: "Encabezado que aparece sobre el reproductor de video",
+          placeholder: "Conocé nuestra historia",
+          maxLength: 80,
+        },
+        {
+          key: "content.videoPosterImage",
+          type: "image",
+          label: "Imagen de portada",
+          description: "Imagen que se muestra antes de reproducir el video. Recomendado: 1920 × 1080 px (16:9).",
+          aspectRatio: "16:9",
+          maxFileSize: 5242880,
+        },
+      ],
+    },
+
     products: {
       id: "products",
       label: "Productos",
@@ -296,6 +299,45 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
           description:
             "IDs de los productos a mostrar (vacío = todos). Ingresá los IDs separados por Enter.",
           placeholder: "ID del producto",
+        },
+      ],
+    },
+
+    collections: {
+      id: "collections",
+      label: "Colecciones",
+      fields: [
+        {
+          key: "content.collectionsTitle",
+          type: "text",
+          label: "Título de la sección",
+          description: "Encabezado visible sobre la grilla de colecciones",
+          placeholder: "Colección",
+          maxLength: 80,
+        },
+        {
+          key: "content.collectionsSubtitle",
+          type: "text",
+          label: "Subtítulo de la sección",
+          description: "Texto secundario bajo el título (opcional)",
+          placeholder: "Descripción breve",
+          maxLength: 160,
+        },
+        {
+          key: "gridColumnsMobile",
+          type: "range",
+          label: "Columnas en móvil",
+          min: 1,
+          max: 3,
+          step: 1,
+        },
+        {
+          key: "gridColumnsDesktop",
+          type: "range",
+          label: "Columnas en escritorio",
+          min: 2,
+          max: 6,
+          step: 1,
         },
       ],
     },

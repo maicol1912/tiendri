@@ -64,19 +64,19 @@ export function StructurePanel({
       <ControlField
         label="Columnas en móvil"
         field="layout.gridColumnsMobile"
-        value={String(config.gridColumnsMobile ?? 2)}
+        value={String(config.layout?.gridColumnsMobile ?? 2)}
         options={[
           { value: "1", label: "1 columna" },
           { value: "2", label: "2 columnas" },
         ]}
-        onChange={(v) => onConfigChange({ ...config, gridColumnsMobile: Number(v) })}
+        onChange={(v) => onConfigChange({ ...config, layout: { ...config.layout, gridColumnsMobile: Number(v) as unknown as string } })}
       />
 
       <div>
         <label style={labelStyle}>Columnas en escritorio</label>
         <select
-          value={config.gridColumnsDesktop ?? 3}
-          onChange={(e) => onConfigChange({ ...config, gridColumnsDesktop: Number(e.target.value) })}
+          value={config.layout?.gridColumnsDesktop ?? 3}
+          onChange={(e) => onConfigChange({ ...config, layout: { ...config.layout, gridColumnsDesktop: Number(e.target.value) as unknown as string } })}
           style={selectStyle}
         >
           {[2, 3, 4, 5].map((n) => (
@@ -88,8 +88,8 @@ export function StructurePanel({
       <div>
         <label style={labelStyle}>Ancho máximo del contenedor</label>
         <select
-          value={config.containerMaxWidth ?? "medium"}
-          onChange={(e) => onConfigChange({ ...config, containerMaxWidth: e.target.value })}
+          value={config.layout?.containerMaxWidth ?? "medium"}
+          onChange={(e) => updateLayout("containerMaxWidth", e.target.value)}
           style={selectStyle}
         >
           <option value="narrow">Estrecho</option>

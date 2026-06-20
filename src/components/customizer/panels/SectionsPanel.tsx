@@ -19,6 +19,8 @@ interface SectionsPanelProps {
   sectionLabelMap: Record<string, string>;
   toggleSectionVisible: (index: number) => void;
   onConfigChange: (config: MutableConfig) => void;
+  /** Fallback sections from the template manifest — used when config.sections is empty or undefined. */
+  manifestSections?: MutableSectionEntry[];
 }
 
 export function SectionsPanel({
@@ -27,20 +29,34 @@ export function SectionsPanel({
   sectionLabelMap,
   toggleSectionVisible,
   onConfigChange,
+  manifestSections,
 }: SectionsPanelProps) {
+  // Prefer config.sections when it has entries; fall back to manifestSections for
+  // cases where the config was loaded from an external source without sections data.
+  const sections: MutableSectionEntry[] =
+    config.sections?.length ? config.sections : (manifestSections ?? []);
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = config.sections.findIndex((s: MutableSectionEntry) => s.id === active.id);
-    const newIndex = config.sections.findIndex((s: MutableSectionEntry) => s.id === over.id);
-    onConfigChange({ ...config, sections: arrayMove([...config.sections], oldIndex, newIndex) });
+    const oldIndex = sections.findIndex((s: MutableSectionEntry) => s.id === active.id);
+    const newIndex = sections.findIndex((s: MutableSectionEntry) => s.id === over.id);
+    onConfigChange({ ...config, sections: arrayMove([...sections], oldIndex, newIndex) });
+  }
+
+  if (sections.length === 0) {
+    return (
+      <p style={{ color: "#555", fontSize: "12px" }}>
+        No hay secciones configuradas para esta plantilla.
+      </p>
+    );
   }
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={config.sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+      <SortableContext items={sections.map((s) => s.id)} strategy={verticalListSortingStrategy}>
         <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-          {config.sections.map((section, index) => (
+          {sections.map((section, index) => (
             <SortableSectionItem
               key={section.id}
               section={section}

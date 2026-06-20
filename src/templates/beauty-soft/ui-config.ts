@@ -48,4 +48,10 @@ export const beautySoftUiConfig = {
     { id: "products", label: "Productos" },
   ],
   palettes: beautySoftPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "amigable", label: "Amigable", heading: "Poppins", body: "Nunito" },
+    { key: "contemporaneo", label: "Contemporáneo", heading: "Bricolage Grotesque", body: "Outfit" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+  ],
 } satisfies TemplateUIConfig;

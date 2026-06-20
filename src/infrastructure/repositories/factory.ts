@@ -49,10 +49,6 @@ export function getStoreRepository(): StoreRepository {
   return _storeRepo;
 }
 
-export function getMediaRepository(): MediaRepository {
-  return _mediaRepo;
-}
-
 /** Stable frozen object — same reference on every call. */
 const _repositories = Object.freeze({
   categories: _categoryRepo,

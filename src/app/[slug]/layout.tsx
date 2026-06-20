@@ -16,8 +16,9 @@
 
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { getStoreBySlug } from "@/catalog/getStoreBySlug";
+import { getStoreBySlug, appearanceToCustomization } from "@/catalog/getStoreBySlug";
 import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
+import type { StoreCustomization } from "@/types/templates";
 import { buildCssVars } from "@/catalog/buildCssVars";
 import { getFontPair } from "@/shared/fonts";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
@@ -48,9 +49,15 @@ export default async function StorefrontLayout({
     getTemplateConfig(effectiveTemplateId),
     getTemplateSchema(effectiveTemplateId),
   ]);
+  // Derive typed customization: prefer store_appearance (new path), fall back to
+  // legacy stores.customization JSONB so existing stores keep working unchanged.
+  const storeCustomization: StoreCustomization | undefined =
+    appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
+    (store.customization as StoreCustomization | undefined);
+
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
-    store.customization ?? undefined,
+    storeCustomization,
     templateSchema ?? undefined,
   );
 
@@ -58,10 +65,12 @@ export default async function StorefrontLayout({
   const cssVars = buildCssVars(resolvedConfig);
 
   // ── 4. Resolve font pair ──────────────────────────────────────────────────
-  // fontPair key is stored under customization.theme.fontPair (persisted by
-  // updateTheme action). Falls back to "minimalista" when not set.
-  const customization = store.customization as { theme?: { fontPair?: string } } | null;
-  const fontPairKey = customization?.theme?.fontPair ?? "minimalista";
+  // fontPair key comes from store_appearance.font_pair (new path) or
+  // legacy customization.theme.fontPair. Falls back to "minimalista".
+  const fontPairKey =
+    store.store_appearance?.font_pair ??
+    storeCustomization?.theme?.fontPair ??
+    "minimalista";
   const fontPair = getFontPair(fontPairKey);
 
   // ── 5. Build StoreInfo from resolved config + store row ───────────────────

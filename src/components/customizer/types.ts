@@ -146,6 +146,17 @@ export const PANEL_SECTIONS: { id: PanelSection; label: string; description: str
   { id: "sections", label: "📋 Secciones", description: "Arrastrá para reordenar, desmarcá para ocultar" },
 ];
 
+export interface CustomizerFontPair {
+  /** Must match a key in shared/fonts.ts `fontPairs` record */
+  key: string;
+  label: string;
+  /** Display name for the heading font */
+  heading: string;
+  /** Display name for the body font */
+  body: string;
+  preview?: string;
+}
+
 export interface ThemeCustomizerProps {
   config: MutableConfig;
   onConfigChange: (config: MutableConfig) => void;
@@ -157,6 +168,10 @@ export interface ThemeCustomizerProps {
   layoutOptions: CustomizerLayoutOption[];
   sectionLabels: CustomizerSectionLabel[];
   palettes?: CustomizerPalette[];
+  /** Template-specific font pair subset. Keys must match shared/fonts.ts. Falls back to global fontGroups when omitted. */
+  fontPairs?: CustomizerFontPair[];
+  /** Fallback sections from the template manifest. Passed to SectionsPanel when config.sections is empty. */
+  manifestSections?: MutableSectionEntry[];
 }
 
 export const selectStyle: React.CSSProperties = {

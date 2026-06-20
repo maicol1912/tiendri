@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { MediaPickerField } from "@/components/dashboard/media";
 import { updateBranding } from "../actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "../client-utils";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import type { BrandingConfig } from "@/types/templates/customization-sections";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 
@@ -39,7 +40,7 @@ function saveToLocalStorage(branding: BrandingConfig): void {
     const raw = localStorage.getItem(CUSTOMIZATION_STORAGE_KEY);
     const current: StoreCustomization = raw
       ? (JSON.parse(raw) as StoreCustomization)
-      : { templateId: "tech-premium" };
+      : { templateId: DEFAULT_TEMPLATE_ID };
     const updated: StoreCustomization = {
       ...current,
       branding: { ...(current.branding ?? {}), ...branding },

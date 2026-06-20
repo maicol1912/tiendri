@@ -17,6 +17,7 @@ import { createContext, useContext } from "react";
 import {
   ThemeCustomizer,
   type MutableConfig,
+  type MutableSectionEntry,
 } from "@/components/customizer/ThemeCustomizer";
 import { buildCssVars } from "@/catalog/buildCssVars";
 import { fontPairs } from "@/shared/fonts";
@@ -246,6 +247,10 @@ export function TemplateLayoutClient({
                 layoutOptions={uiConfig.layoutOptions}
                 sectionLabels={uiConfig.sectionLabels}
                 palettes={uiConfig.palettes}
+                fontPairs={uiConfig.fontPairs}
+                manifestSections={
+                  (uiConfig.defaultConfig as { sections?: MutableSectionEntry[] }).sections
+                }
               />
             </div>
           </>

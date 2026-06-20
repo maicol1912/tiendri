@@ -30,6 +30,7 @@ import {
 
 export type {
   CustomizerPalette,
+  CustomizerFontPair,
   CustomizerColorField,
   CustomizerSectionLabel,
   CustomizerGridField,
@@ -59,6 +60,8 @@ export function ThemeCustomizer({
   layoutOptions,
   sectionLabels,
   palettes,
+  fontPairs,
+  manifestSections,
 }: ThemeCustomizerProps) {
   const [openSections, setOpenSections] = useState<Set<PanelSection>>(
     new Set(["tipografia"])
@@ -258,6 +261,7 @@ export function ThemeCustomizer({
                       config={config}
                       onConfigChange={onConfigChange}
                       updateTypography={updateTypography}
+                      fontPairs={fontPairs}
                     />
                   )}
 
@@ -308,6 +312,7 @@ export function ThemeCustomizer({
                       sectionLabelMap={sectionLabelMap}
                       toggleSectionVisible={toggleSectionVisible}
                       onConfigChange={onConfigChange}
+                      manifestSections={manifestSections}
                     />
                   )}
                 </div>

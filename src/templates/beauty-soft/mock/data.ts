@@ -2,13 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct } from "@/types/domain/store";
-
-interface BeautySoftCategory {
-  id: string;
-  name: string;
-  imageUrl: string;
-}
+import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
 
 interface HeroBannerData {
   title: string;
@@ -46,15 +40,15 @@ export const mockHeroBanner: HeroBannerData = {
 
 // ── Categories ────────────────────────────────────────────────────────────────
 
-export const mockCategories: BeautySoftCategory[] = [
-  { id: "cat-cleanse",    name: "Limpieza",    imageUrl: ASSETS.categories.cleanse },
-  { id: "cat-moisturize", name: "Hidratación", imageUrl: ASSETS.categories.moisturize },
-  { id: "cat-treat",      name: "Tratamiento", imageUrl: ASSETS.categories.treat },
-  { id: "cat-protect",    name: "Protección",  imageUrl: ASSETS.categories.protect },
-  { id: "cat-mask",       name: "Máscaras",    imageUrl: ASSETS.categories.mask },
-  { id: "cat-body",       name: "Cuerpo",      imageUrl: ASSETS.categories.body },
-  { id: "cat-tools",      name: "Accesorios",  imageUrl: ASSETS.categories.tools },
-  { id: "cat-kits",       name: "Kits",        imageUrl: ASSETS.categories.kits },
+export const mockCategories: Category[] = [
+  { id: "cat-cleanse",    name: "Limpieza",    slug: "limpieza",    icon: "Tag", image: ASSETS.categories.cleanse },
+  { id: "cat-moisturize", name: "Hidratación", slug: "hidratacion", icon: "Tag", image: ASSETS.categories.moisturize },
+  { id: "cat-treat",      name: "Tratamiento", slug: "tratamiento", icon: "Tag", image: ASSETS.categories.treat },
+  { id: "cat-protect",    name: "Protección",  slug: "proteccion",  icon: "Tag", image: ASSETS.categories.protect },
+  { id: "cat-mask",       name: "Máscaras",    slug: "mascaras",    icon: "Tag", image: ASSETS.categories.mask },
+  { id: "cat-body",       name: "Cuerpo",      slug: "cuerpo",      icon: "Tag", image: ASSETS.categories.body },
+  { id: "cat-tools",      name: "Accesorios",  slug: "accesorios",  icon: "Tag", image: ASSETS.categories.tools },
+  { id: "cat-kits",       name: "Kits",        slug: "kits",        icon: "Tag", image: ASSETS.categories.kits },
 ];
 
 // ── Products ──────────────────────────────────────────────────────────────────

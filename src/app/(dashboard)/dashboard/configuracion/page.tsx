@@ -3,21 +3,26 @@
 // If not authenticated or no store found, passes null so the Client Component
 // falls back to localStorage (demo mode).
 
-import { readCustomization } from "./actions";
+import { readCustomization, readProducts } from "./actions";
 import { ConfiguracionClient } from "./configuracion-client";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import type { StoreCustomization } from "@/types/templates/store-customization";
 
-const FALLBACK_CUSTOMIZATION: StoreCustomization = { templateId: "tech-premium" };
+const FALLBACK_CUSTOMIZATION: StoreCustomization = { templateId: DEFAULT_TEMPLATE_ID };
 
 export default async function ConfiguracionPage() {
-  // Attempt Supabase read — returns null when not authenticated
-  const supabaseCustomization = await readCustomization();
+  // Fetch customization and products in parallel — both return safe fallbacks when not authenticated.
+  const [supabaseCustomization, products] = await Promise.all([
+    readCustomization(),
+    readProducts(),
+  ]);
 
   return (
     <ConfiguracionClient
       initialCustomization={supabaseCustomization ?? FALLBACK_CUSTOMIZATION}
       // When supabaseCustomization is null the client knows to use localStorage fallback
       isAuthenticated={supabaseCustomization !== null}
+      initialProducts={products}
     />
   );
 }

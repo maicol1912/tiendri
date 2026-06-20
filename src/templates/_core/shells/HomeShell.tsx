@@ -133,6 +133,13 @@ export function HomeShell({
       bestSellers={bestSellers}
       popularProducts={popularProducts}
       discountProducts={discountProducts}
+      sectionVariants={{
+        bestSellers: variants.bestSellers,
+        popular: variants.popular,
+        banners: variants.banners,
+        editorial: variants.editorial,
+        video: variants.video,
+      }}
     />
   );
 }

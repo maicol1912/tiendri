@@ -61,4 +61,10 @@ export const techPremiumUiConfig = {
     { id: "summer-sale", label: "Banner de ofertas" },
   ],
   palettes: techPremiumPalettes as CustomizerPalette[],
+  fontPairs: [
+    { key: "preciso", label: "Preciso", heading: "Space Grotesk", body: "IBM Plex Sans" },
+    { key: "minimalista", label: "Minimalista", heading: "Manrope", body: "Inter" },
+    { key: "elegante", label: "Elegante", heading: "Cormorant Garamond", body: "Lato" },
+    { key: "contemporaneo", label: "Contemporáneo", heading: "Bricolage Grotesque", body: "Outfit" },
+  ],
 } satisfies TemplateUIConfig;
