@@ -75,5 +75,13 @@ Estas reglas gobiernan cómo se construyen, migran y mantienen los templates en 
 2. `manifest.ts` con `satisfies TemplateManifest` (variants, sections, config)
 3. `palettes.ts`, `config-schema.ts`, `ui-config.ts`
 4. `mock/data.ts` + `mock/assets.ts`
-5. Registrar en `src/templates/registry.ts`
+5. Registrar en `src/templates/registry.ts`:
+   - Agregar una entrada a `SCHEMA_LOADERS` (lazy import del `config-schema.ts`)
+   - Agregar una entrada a `CONFIG_LOADERS` (lazy import del `manifest.ts`)
+6. Agregar una entrada a `MOCK_LOADERS` en `src/templates/mock-loader.ts`
 - NO components folder, NO config.ts, NO routers
+- NO switch statements ni "add a case" — el registro es data-driven
+
+## Constantes
+
+- El template de fallback es `DEFAULT_TEMPLATE_ID` de `src/shared/constants.ts`. NUNCA hardcodear `'tech-premium'` como string literal.

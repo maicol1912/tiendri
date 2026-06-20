@@ -13,7 +13,7 @@ Leer ANTES de cualquier tarea:
 | `docs/technical.md` | Stack, arquitectura, modelo de datos, utilidades compartidas |
 | `docs/template-system.md` | Anatomía de un template, registry, flujo de resolución |
 | `docs/preset-system.md` | Paletas por template, sistema de color |
-| `docs/composable-sections.md` | 7 variant slots, 31 variantes, 12 section renderers, SECTION_REGISTRY |
+| `docs/composable-sections.md` | 12 variant slots, 31 variantes, 12 section renderers, SECTION_REGISTRY |
 | `docs/onboarding.md` | Wizard 5 pasos, vibes, tour guiado |
 | `docs/css-variables.md` | Grupos de CSS vars --t-*, generación, consumo |
 | `docs/dashboard.md` | Rutas, shell, sistema de configuración schema-driven |
@@ -53,10 +53,11 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - `src/shared/seo/` — SEO utilities (safe-json-ld, metadata, json-ld)
 - `src/shared/fonts.ts` — font configuration
 - `src/shared/utils.ts` — utilidades generales (cn)
-- `src/storefront/` — runtime del storefront (whatsapp, formatWhatsAppMessage, adapters/)
+- `src/shared/constants.ts` — DEFAULT_TEMPLATE_ID, constantes compartidas
+- `src/storefront/` — runtime del storefront (whatsapp, adapters/)
 - `src/templates/` — sistema de templates (8 implementados)
 - `src/templates/_shared/` — utils/, hooks/, components/, style-maps.ts compartidos entre templates
-- `src/templates/_variants/` — 7 slot registries con 31 variantes (header, hero, product-card, footer, bottom-nav, category-nav, search-bar)
+- `src/templates/_variants/` — 12 slot registries: 7 layout (header, hero, product-card, footer, bottom-nav, category-nav, search-bar) + 5 section-level (banners, best-sellers, editorial, popular, video)
 - `src/templates/_core/sections/` — 12 section renderers + SECTION_REGISTRY con dispatch dinámico
 - `src/templates/_core/cart/` — CartProvider unificado, useCart, CartItem canónico
 - `src/templates/registry.ts` — template registry (async loaders)
@@ -71,7 +72,7 @@ Next.js 16 (App Router) | React 19 | TypeScript strict | Tailwind v4 | shadcn/ui
 - Leer `ai/rules/tiendri-rules.md` antes de cualquier trabajo
 - Leer `ai/rules/template-architecture-rules.md` para trabajo con templates
 - Templates: `satisfies TemplateManifest`, CSS vars `--t-*`, zero hardcoded colors
-- Secciones composables: 7 variant slots en `_variants/` (header, hero, product-card, footer, bottom-nav, category-nav, search-bar) con 31 variantes + 12 section renderers en `_core/sections/` con dispatch dinámico por SECTION_REGISTRY
+- Secciones composables: 12 variant slots en `_variants/` — 7 layout (header, hero, product-card, footer, bottom-nav, category-nav, search-bar) + 5 section-level (banners, best-sellers, editorial, popular, video) — con 31 variantes + 12 section renderers en `_core/sections/` con dispatch dinámico por SECTION_REGISTRY
 - Paletas de color por template definidas en palettes.ts
 - Texto UI en español colombiano
 - Conventional commits
@@ -128,7 +129,7 @@ Tabla rápida para el orchestrator. Consultar ANTES de lanzar cualquier agente.
 8 templates implementados: tech-premium, fashion, furniture-dark, furniture-light, beauty-soft, beauty-elegant, decor-warm, food-night.
 
 ## Template System
-Cada template exporta `config.ts` (defaults) + `config-schema.ts` (schema configurable) + `palettes.ts` (paletas de color) + `ui-config.ts` (configuración de UI por template).
+Cada template exporta `manifest.ts` (defaults + variants) + `config-schema.ts` (schema configurable) + `palettes.ts` (paletas de color) + `ui-config.ts` (configuración de UI por template).
 El dashboard lee el schema y renderiza forms dinámicamente (modelo Shopify).
 Ver `docs/template-system.md` para la guía completa.
 

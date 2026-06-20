@@ -362,20 +362,20 @@ Patrones específicos del proyecto que todo componente del storefront y dashboar
 Los componentes del storefront SIEMPRE usan estas variables. NUNCA hardcodear colores de tienda:
 
 ```css
---store-primary
---store-primary-hover
---store-secondary
---store-surface
---store-surface-alt
---store-text
---store-text-muted
---store-border
---store-radius-card
---store-font-display
---store-font-body
+--t-primary
+--t-primary-hover
+--t-secondary
+--t-card
+--t-background
+--t-foreground
+--t-muted
+--t-border
+--t-radius-card
+--t-font-display
+--t-font-body
 ```
 
-Estas variables las define cada template. Ver template completo en [assets/component-template.tsx](assets/component-template.tsx).
+Estas variables las define cada template via `buildCssVars` y se inyectan en `.template-scope`. NUNCA hardcodear colores de tienda. Ver `docs/css-variables.md` para la lista completa de grupos `--t-*`.
 
 ### StoreContext — patrón de abstracción Supabase / localStorage
 

@@ -43,9 +43,14 @@ Los tres tabs universales son:
 - `theme-tab.tsx` — paleta de colores, radio de bordes, tipografía
 - `business-tab.tsx` — WhatsApp, dirección, moneda, modo catálogo
 
-Los tabs dinámicos se generan desde `schema.content.tabGroups` y son renderizados por `DynamicTabContent`.
+Los tabs dinámicos se generan desde `schema.content.tabGroups` y son renderizados por `DynamicTabContent`. Un tab adicional universal es:
+- `product-groups-tab.tsx` — Grupos de Productos: configuración de grupos de productos con modo tabs/stacked, asignación de productos, banners por grupo
 
-Persistencia actual: localStorage. El repository layer es async por diseño, así que la migración a Supabase es un cambio de implementación, sin tocar páginas ni hooks.
+Persistencia actual: Supabase via Server Actions (tabla `store_appearance`). El repository layer localStorage se mantiene como fallback heredado. El layer es async por diseño, así que el cambio de backend no toca páginas ni hooks.
+
+El template switcher es de solo lectura: el merchant ve su template activo pero no puede cambiarlo desde el dashboard (la selección ocurre durante el onboarding).
+
+Las secciones del home son configurables desde el dashboard: drag-to-reorder, visibility toggles, y campos de configuración por sección, implementados en `SectionsAccordionTab`.
 
 Archivos relevantes: `src/app/(dashboard)/dashboard/configuracion/`, `src/components/dashboard/schema-form/`.
 

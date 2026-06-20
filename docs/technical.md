@@ -14,8 +14,7 @@ Este documento es un mapa de alto nivel. El código es la fuente de verdad para 
 | TypeScript strict | ^5 | Lenguaje |
 | Tailwind CSS | ^4 | Estilos |
 | shadcn/ui + Radix | ^4.8.0 | Componentes UI primitivos |
-| Framer Motion | ^12.40.0 | Animaciones en templates y dashboard |
-| GSAP + Lenis | ^3.15.0 / ^1.3.23 | Animaciones y scroll en la landing |
+| Lenis | ^1.3.23 | Scroll smoothing en la landing |
 | Zod | ^4.4.3 | Validación de formularios y schemas |
 | Supabase | ^2.106.1 | PostgreSQL + Auth + Storage |
 | Vercel | — | Deploy automático en push a `main` |
@@ -51,7 +50,7 @@ Los layouts de storefront y las páginas de catálogo son Server Components — 
 
 ## 3. Modelo de datos
 
-La BD tiene una tabla principal `stores` que guarda los datos del negocio y un campo JSONB `customization` con toda la personalización visual y de contenido del merchant.
+La BD tiene una tabla principal `stores` y una tabla relacionada `store_appearance` (1:1 vía `store_id`) que guarda toda la personalización visual y de contenido.
 
 Las tablas de catálogo (`categories`, `subcategories`, `products`, `product_images`, `product_variants`) y `orders` existen en Supabase pero su representación TypeScript vive en `src/types/domain/`, no en `database.types.ts`.
 
@@ -78,7 +77,7 @@ Ver `src/types/` para el detalle de cada contrato.
 - `mock/data.ts` — datos de vista previa
 - `mock/assets.ts` — assets de vista previa
 
-El registry (`src/templates/registry.ts`) expone loaders async por template con code splitting. Fallback a `tech-premium` para IDs desconocidos.
+El registry (`src/templates/registry.ts`) expone loaders async por template con code splitting mediante mapas de datos (`CONFIG_LOADERS`/`SCHEMA_LOADERS`), no con `switch`. El fallback usa la constante `DEFAULT_TEMPLATE_ID` (definida en `src/shared/constants.ts`) para IDs desconocidos.
 
 La resolución de config sigue tres capas: defaults del template → tokens de paleta → overrides del merchant. El resultado alimenta `buildCssVars` que genera las ~77 CSS vars `--t-*` consumidas por los componentes.
 
@@ -95,21 +94,19 @@ Ver `docs/template-system.md` para la guía completa y `docs/css-variables.md` p
 | `QuantityStepper` | `src/components/shared/QuantityStepper.tsx` | Stepper de cantidad que consume CSS vars `--t-*` |
 | `buildCssVars` | `src/lib/buildCssVars.ts` | ResolvedStoreConfig → CSS custom properties |
 | `resolveTemplateConfig` | `src/lib/resolveTemplateConfig.ts` | Merge de defaults + paleta + overrides del merchant |
-| `getStoreBySlug` | `src/lib/getStoreBySlug.ts` | Fetch cacheado de tienda desde Supabase |
-| `fonts` | `src/lib/fonts.ts` | 15 font pairs agrupados en 5 estilos, con variables CSS |
+| `getStoreBySlug` | `src/catalog/getStoreBySlug.ts` | Fetch cacheado de tienda desde Supabase |
+| `fonts` | `src/shared/fonts.ts` | 15 font pairs agrupados en 5 estilos, con variables CSS |
 | `cn` | `src/lib/utils.ts` | clsx + tailwind-merge |
 
 ---
 
 ## 6. Data layer
 
-El dashboard usa el patrón Repository: interfaces definidas en `src/lib/repositories/interfaces.ts`, implementadas actualmente con localStorage (`src/lib/repositories/local-storage/`). La factory (`factory.ts`) expone singletons para evitar re-renders y retorna `"demo-store"` como storeId fijo hasta que se implemente auth.
+El dashboard usa Server Actions + Supabase como capa primaria de datos. El patrón Repository con implementaciones localStorage (`src/infrastructure/repositories/`) es un fallback legacy para el modo demo/sin-auth.
 
-Los hooks de React (`src/hooks/use-repositories.ts`) consumen la factory y aplican actualizaciones optimistas con rollback automático ante fallo.
+Los hooks de React (`src/app/(dashboard)/_hooks/use-repositories.ts`) consumen la factory y aplican actualizaciones optimistas con rollback automático ante fallo.
 
-El storefront lee directamente desde Supabase vía el cliente de servidor (`src/lib/supabase/server.ts`), con RLS que limita la visibilidad a tiendas con `onboarding_completed = true`.
-
-La migración del dashboard a Supabase está pendiente; la factory está diseñada para intercambiar implementaciones sin tocar la UI.
+El storefront lee directamente desde Supabase vía el cliente de servidor (`src/infrastructure/supabase/server.ts`), con RLS que limita la visibilidad a tiendas con `onboarding_completed = true`.
 
 ---
 
@@ -127,7 +124,7 @@ src/
 │
 ├── templates/              # Los 8 templates + infraestructura compartida
 │   ├── _core/              # Motor: TemplateLayout, shells, pages, sections, hooks
-│   ├── _variants/          # 7 registries de slots con 31 variantes
+│   ├── _variants/          # 12 registries (7 layout + 5 section-level)
 │   ├── _shared/            # utils/, hooks/, components/, style-maps.ts
 │   ├── tech-premium/
 │   ├── fashion/
@@ -152,9 +149,7 @@ src/
 │   ├── cart/               # CartProvider
 │   ├── onboarding/         # Provider, vibes, tour steps
 │   ├── buildCssVars.ts
-│   ├── resolveTemplateConfig.ts
-│   ├── getStoreBySlug.ts
-│   └── fonts.ts
+│   └── resolveTemplateConfig.ts
 │
 ├── components/             # Componentes React reutilizables
 │   ├── ui/                 # shadcn/ui primitivos

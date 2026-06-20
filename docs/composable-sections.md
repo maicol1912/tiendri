@@ -17,7 +17,7 @@ El sistema de secciones y variantes composables permite que cada template declar
 
 ## 2. Slots de variantes (`_variants/`)
 
-7 slots registrados en `src/templates/_variants/`. Cada slot tiene un registry que mapea nombre de variante a componente, usando `next/dynamic` para code-splitting:
+12 slots registrados en `src/templates/_variants/`. Cada slot tiene un registry que mapea nombre de variante a componente, usando `next/dynamic` para code-splitting:
 
 ```typescript
 // Patrón de cada registry
@@ -94,7 +94,37 @@ export const HERO_REGISTRY: Record<HeroVariant, ComponentType<HeroSlotProps>> = 
 | `INLINE` | Barra de búsqueda siempre visible |
 | `ICON_TRIGGER` | Ícono que abre el campo de búsqueda |
 
-**Total: 31 variantes en 7 slots.**
+### Banners (`_variants/banners/`) — 1 variante
+
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Banners promocionales estándar |
+
+### Best Sellers (`_variants/best-sellers/`) — 1 variante
+
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Ranking de productos más vendidos |
+
+### Editorial (`_variants/editorial/`) — 1 variante
+
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Contenido editorial / storytelling estándar |
+
+### Popular (`_variants/popular/`) — 1 variante
+
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Productos populares estándar |
+
+### Video (`_variants/video/`) — 1 variante
+
+| Variante | Descripción |
+|----------|-------------|
+| `DEFAULT` | Sección de video estándar |
+
+**Total: 36 variantes en 12 slots.**
 
 ---
 
@@ -196,6 +226,11 @@ src/templates/
     footer/           # 2 variantes — COLUMNS, COMPACT
     bottom-nav/       # 3 variantes — EDGE, FLOATING_PILL, DOT_INDICATOR
     search-bar/       # 2 variantes — INLINE, ICON_TRIGGER
+    banners/          # 1 variante — DEFAULT
+    best-sellers/     # 1 variante — DEFAULT
+    editorial/        # 1 variante — DEFAULT
+    popular/          # 1 variante — DEFAULT
+    video/            # 1 variante — DEFAULT
   _core/
     sections/
       index.ts        # SECTION_REGISTRY
@@ -226,4 +261,4 @@ src/types/templates/
 ---
 
 _Actualizado: 2026-06-18_
-_Sistema actual: 31 variantes en 7 slots, 12 renderers de sección._
+_Sistema actual: 36 variantes en 12 slots, 12 renderers de sección._

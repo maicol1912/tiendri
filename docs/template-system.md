@@ -46,6 +46,7 @@ export interface TemplateManifest extends TemplateConfig {
 }
 
 export interface TemplateVariants {
+  // 7 slots de layout (obligatorios)
   header: HeaderVariant;
   footer: FooterVariant;
   bottomNav: BottomNavVariant;
@@ -53,6 +54,12 @@ export interface TemplateVariants {
   hero: HeroVariant;
   categoryNav: CategoryNavVariant;
   searchBar: SearchBarVariant;
+  // 5 slots de section-level (opcionales)
+  banners?: BannersVariant;
+  bestSellers?: BestSellersVariant;
+  editorial?: EditorialVariant;
+  popular?: PopularVariant;
+  video?: VideoVariant;
 }
 ```
 
@@ -73,7 +80,7 @@ export interface TemplateVariants {
 | `branding?` | `BrandingConfig` | Nombre de tienda, descripcion, redes sociales |
 | `content?` | `ContentConfig` | Hero banner, nav links, footer content, tabs, busquedas populares |
 | `business?` | `BusinessConfig` | Moneda, metodos de pago |
-| `variants` | `TemplateVariants` | **La clave**: que variante usar para cada uno de los 7 slots |
+| `variants` | `TemplateVariants` | **La clave**: que variante usar para cada uno de los 12 slots (7 obligatorios + 5 opcionales) |
 
 ### Tokens de color obligatorios
 
@@ -168,7 +175,7 @@ export const techPremiumManifest = {
 
 ## 4. Slots de variantes
 
-El sistema tiene **7 slots**. Cada slot es un componente compartido que vive en `src/templates/_variants/{slot}/`. El manifiesto elige exactamente una variante por slot.
+El sistema tiene **12 slots**: 7 de layout (obligatorios) + 5 de section-level (opcionales). Cada slot es un componente compartido que vive en `src/templates/_variants/{slot}/`. El manifiesto elige exactamente una variante por slot.
 
 ### Header (`_variants/header/`)
 
@@ -472,29 +479,30 @@ export const mockProducts: StorefrontProduct[] = [ ... ];
 
 ## 9. Registry central
 
-`src/templates/registry.ts` expone dos loaders async:
+`src/templates/registry.ts` expone dos loaders async usando mapas de datos (`CONFIG_LOADERS` / `SCHEMA_LOADERS`) — **no switch statements**:
 
 ```typescript
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
+
+const CONFIG_LOADERS: Record<string, () => Promise<TemplateManifest>> = {
+  "tech-premium": () => import("./tech-premium/manifest").then(m => m.techPremiumManifest),
+  "beauty-elegant": () => import("./beauty-elegant/manifest").then(m => m.beautyElegantManifest),
+  // ... una entrada por template
+};
+
+const SCHEMA_LOADERS: Record<string, () => Promise<TemplateConfigSchema>> = {
+  "tech-premium": () => import("./tech-premium/config-schema").then(m => m.techPremiumConfigSchema),
+  // ... una entrada por template
+};
+
 export async function getTemplateConfig(templateId: string): Promise<TemplateManifest> {
-  switch (templateId) {
-    case "tech-premium": {
-      const { techPremiumManifest } = await import("./tech-premium/manifest");
-      return techPremiumManifest;
-    }
-    case "beauty-elegant": {
-      const { beautyElegantManifest } = await import("./beauty-elegant/manifest");
-      return beautyElegantManifest;
-    }
-    // ... los 8 templates
-    default: {
-      const { techPremiumManifest } = await import("./tech-premium/manifest");
-      return techPremiumManifest; // fallback
-    }
-  }
+  const loader = CONFIG_LOADERS[templateId] ?? CONFIG_LOADERS[DEFAULT_TEMPLATE_ID];
+  return loader();
 }
 
 export async function getTemplateSchema(templateId: string): Promise<TemplateConfigSchema | null> {
-  // Mismo patron con config-schema.ts
+  const loader = SCHEMA_LOADERS[templateId];
+  return loader ? loader() : null;
 }
 ```
 
@@ -671,20 +679,14 @@ export const mockProducts: StorefrontProduct[] = [ /* ... */ ];
 
 ### Paso 6 — Registrar en el registry
 
-Agregar un `case` en ambas funciones de `src/templates/registry.ts`:
+Agregar una entrada en los objetos `SCHEMA_LOADERS` y `CONFIG_LOADERS` de `src/templates/registry.ts`:
 
 ```typescript
-// En getTemplateConfig:
-case "mi-template": {
-  const { miTemplateManifest } = await import("./mi-template/manifest");
-  return miTemplateManifest;
-}
+// En CONFIG_LOADERS:
+"mi-template": () => import("./mi-template/manifest").then(m => m.miTemplateManifest),
 
-// En getTemplateSchema:
-case "mi-template": {
-  const { miTemplateConfigSchema } = await import("./mi-template/config-schema");
-  return miTemplateConfigSchema;
-}
+// En SCHEMA_LOADERS:
+"mi-template": () => import("./mi-template/config-schema").then(m => m.miTemplateConfigSchema),
 ```
 
 ### Paso 7 — Registrar ui-config
@@ -729,7 +731,7 @@ src/templates/
     shells/                  # Shell por ruta (Home, Listing, Cart, etc.)
     sections/                # Section registry (hero, categories, products, etc.)
     hooks/                   # Hooks compartidos del motor
-  _variants/                # Componentes compartidos por slot
+  _variants/                # Componentes compartidos por slot (12 slots)
     header/                  # 5 variantes de header
     footer/                  # 2 variantes de footer
     bottom-nav/              # 3 variantes de bottom nav
@@ -737,6 +739,11 @@ src/templates/
     product-card/            # 5 variantes de product card
     category-nav/            # 5 variantes de category nav
     search-bar/              # 2 variantes de search bar
+    banners/                 # variantes de banners promocionales
+    best-sellers/            # variantes de productos más vendidos
+    editorial/               # variantes de contenido editorial
+    popular/                 # variantes de productos populares
+    video/                   # variantes de sección de video
   _shared/                  # Hooks y utilidades compartidas
   registry.ts               # Loaders async de manifiestos y schemas
   tech-premium/             # Template: solo manifest + palettes + schema + ui-config + mock

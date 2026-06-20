@@ -24,17 +24,19 @@ Al completar el paso 5 se ejecuta `handleCreateStore()`: escribe la metadata de 
 
 ## 2. Sistema de vibes
 
-Un vibe es un arquetipo de personalidad visual que determina el estilo inicial de la tienda. El merchant elige un vibe en el paso 3; esa elección selecciona el `defaultTemplateId` (actualmente siempre `tech-premium` en MVP) y los colores de preview representativos.
+Un vibe es un arquetipo de personalidad visual que determina el estilo inicial de la tienda. El merchant elige un vibe en el paso 3; esa elección selecciona el `defaultTemplateId` y los colores de preview representativos.
 
-Existen 5 vibes definidos en `src/lib/onboarding/vibe-preset-map.ts`:
+Existen 5 vibes definidos en `src/lib/onboarding/vibe-preset-map.ts`, cada uno mapeando a un template distinto:
 
-- `elegante` — Joyería, boutique, beauty
-- `moderno` — Tecnología, moda juvenil, gaming
-- `energetico` — Ropa deportiva, moda caribeña, merch
-- `calido` — Artesanías, café especial, vintage
-- `catalogo` — Abarrotes, ferretería, B2B
+| Vibe | Template | Casos de uso |
+|------|----------|-------------|
+| `elegante` | `beauty-elegant` | Joyería, boutique, beauty |
+| `moderno` | `tech-premium` | Tecnología, moda juvenil, gaming |
+| `energetico` | `fashion` | Ropa deportiva, moda caribeña, merch |
+| `calido` | `decor-warm` | Artesanías, café especial, vintage |
+| `catalogo` | `furniture-light` | Abarrotes, ferretería, B2B |
 
-Cada vibe define nombre, descripción, `defaultTemplateId` y 3 colores hex de preview. La conexión con presets fue removida de la implementación actual; el vibe solo mapea al template.
+Cada vibe define nombre, descripción, `defaultTemplateId` y 3 colores hex de preview. El sistema de mapeo es funcional — cada vibe asigna un template real y diferenciado.
 
 ---
 
