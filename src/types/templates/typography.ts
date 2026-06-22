@@ -5,8 +5,8 @@
 import type { BodyFontSize, BodyFontWeight, FontSizeContrast, HeadingSpacing } from "./primitives";
 
 // Heading size scale bucket — resolves to a rem font-size in buildCssVars.
-// md=1.5rem, lg=2rem, xl=2.5rem, 2xl=3.5rem
-export type HeadingScale = "md" | "lg" | "xl" | "2xl";
+// sm=1.125rem, md=1.5rem, lg=2rem, xl=2.5rem, 2xl=3.5rem
+export type HeadingScale = "sm" | "md" | "lg" | "xl" | "2xl";
 
 // Typography personality config — heading-level typographic personality.
 // Set by presets; merchants can fine-tune individual fields after applying a preset.

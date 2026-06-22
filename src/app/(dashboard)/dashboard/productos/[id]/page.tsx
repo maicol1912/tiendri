@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Loader2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { getRepositories } from '@/infrastructure/repositories'
+import { getProductById, deleteProduct } from '@/app/(dashboard)/dashboard/_actions/products'
 import { ConfirmDialog } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import { ProductForm } from '../product-form'
@@ -29,8 +29,7 @@ export default function EditProductoPage({
 
   useEffect(() => {
     async function load() {
-      const { products } = getRepositories()
-      const data = await products.getById('demo-store', id)
+      const data = await getProductById(id)
       if (data) {
         setProduct(data)
       } else {
@@ -43,8 +42,7 @@ export default function EditProductoPage({
 
   const handleDelete = async () => {
     setIsDeleting(true)
-    const { products } = getRepositories()
-    const result = await products.delete('demo-store', id)
+    const result = await deleteProduct(id)
     setIsDeleting(false)
     if (result.success) {
       toast.success('Producto eliminado correctamente')

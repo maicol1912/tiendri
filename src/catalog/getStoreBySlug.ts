@@ -106,8 +106,6 @@ export const getStoreBySlug = cache(async function getStoreBySlug(
     // New code should call `appearanceToCustomization(store.store_appearance, store.template_id)`.
     customization: appearance
       ? appearanceToCustomization(appearance, row.template_id)
-      : row.customization != null
-        ? (row.customization as unknown as StoreCustomization)
-        : undefined,
+      : undefined,
   };
 });

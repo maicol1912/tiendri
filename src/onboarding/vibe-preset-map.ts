@@ -1,6 +1,6 @@
 import type { VibeId } from '@/types/domain/onboarding'
 
-export interface VibeConfig {
+interface VibeEntry {
   id: VibeId
   name: string
   description: string
@@ -9,7 +9,7 @@ export interface VibeConfig {
   targetStores: string
 }
 
-export const VIBE_CONFIGS: Record<VibeId, VibeConfig> = {
+const VIBE_CONFIGS: Record<VibeId, VibeEntry> = {
   elegante: {
     id: 'elegante',
     name: 'Elegante',

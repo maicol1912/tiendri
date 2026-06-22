@@ -6,6 +6,7 @@ import { createClient } from "@/infrastructure/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 /* ─── Google SVG icon ─── */
 function GoogleIcon() {
@@ -96,6 +97,25 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
   const [success, setSuccess] = useState<string | null>(null);
 
   const isRegister = mode === "register";
+
+  /* ─── Forgot password ─── */
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error('Ingresá tu email primero');
+      return;
+    }
+    setLoading(true);
+    const supabase = createClient();
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    });
+    setLoading(false);
+    if (resetError) {
+      toast.error('Error al enviar el email de recuperación');
+    } else {
+      toast.success('Revisá tu email para restablecer tu contraseña');
+    }
+  };
 
   /* ─── Mode toggle ─── */
   const toggleMode = useCallback(
@@ -283,6 +303,7 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
                 {!isRegister && (
                   <button
                     type="button"
+                    onClick={handleForgotPassword}
                     className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
                   >
                     ¿Olvidaste tu contraseña?

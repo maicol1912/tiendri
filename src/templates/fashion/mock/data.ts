@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
 
 interface PopularProduct {
   id: string;
@@ -34,7 +34,7 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ──────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   {
     id: "cat-01",
     name: "Hombres",

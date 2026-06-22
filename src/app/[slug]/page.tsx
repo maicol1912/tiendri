@@ -5,7 +5,7 @@
 //   - getStoreBySlug → template_id → getTemplateConfig + getTemplateSchema
 //   - resolveTemplateConfig → ResolvedStoreConfig (merge defaults + customization)
 //   - getTemplateManifest → TemplateManifest con variantes de slots
-//   - getTemplateMockData → StoreInfo + StorefrontProduct[] + Category[] (Phase 7+: Supabase)
+//   - getStorefrontProducts/Categories/BestSellers/DiscountProducts → real Supabase data
 //   - TemplateLayout (_core) → frame orquestador que resuelve ruta y monta shells
 //
 // SEO: generateMetadata lee la tienda desde Supabase para generar <title> y OG tags.
@@ -20,8 +20,12 @@ import type { StoreCustomization } from "@/types/templates";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { TemplateLayout } from "@/templates/_core";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
-import { getTemplateMockData } from "@/templates/mock-loader";
+import { getStorefrontProducts, getStorefrontCategories, getStorefrontBestSellers, getStorefrontDiscountProducts } from "@/catalog/getStorefrontData";
 import { safeJsonLdStringify } from "@/shared/seo/safe-json-ld";
+
+// ── Config ────────────────────────────────────────────────────────────────────
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tiendri.com";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -72,7 +76,7 @@ export async function generateMetadata({
   return {
     title: `${storeName} | Tiendri`,
     description,
-    alternates: { canonical: `https://tiendri.com/${slug}` },
+    alternates: { canonical: `${SITE_URL}/${slug}` },
     openGraph: {
       title: storeName,
       description,
@@ -100,7 +104,7 @@ function buildLocalBusinessJsonLd(
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: storeName,
-    url: `https://tiendri.com/${slug}`,
+    url: `${SITE_URL}/${slug}`,
   };
 
   if (description) jsonLd.description = description;
@@ -158,7 +162,7 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
   const storeName = resolvedConfig.branding?.storeName ?? store.name ?? slug;
   const description = resolvedConfig.branding?.description ?? store.description ?? undefined;
   const logo = resolvedConfig.branding?.logo ?? undefined;
-  const whatsapp = resolvedConfig.branding?.whatsapp ?? store.whatsapp ?? undefined;
+  const whatsapp = resolvedConfig.branding?.whatsapp ?? undefined;
   const city = resolvedConfig.business?.city ?? undefined;
   const address = resolvedConfig.business?.address ?? undefined;
   const hours = resolvedConfig.business?.hours ?? undefined;
@@ -176,12 +180,45 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
     whatsapp
   );
 
-  // Cargar manifiesto y datos mock para el engine centralizado.
+  // Cargar manifiesto y datos reales desde Supabase para el engine centralizado.
   // TemplateLayout es el frame orquestador del _core — resuelve variantes de
   // slots (header/footer/bottomNav) y monta el shell correcto según la ruta.
-  // Los datos reales desde Supabase reemplazarán mockData en Phase 7+.
   const manifest = getTemplateManifest(effectiveTemplateId, resolvedConfig);
-  const mockData = await getTemplateMockData(effectiveTemplateId);
+
+  const [products, categories, bestSellerProducts, discountProducts] = await Promise.all([
+    getStorefrontProducts(store.id),
+    getStorefrontCategories(store.id),
+    getStorefrontBestSellers(store.id),
+    getStorefrontDiscountProducts(store.id),
+  ]);
+
+  const bestSellers = bestSellerProducts.map((p) => ({
+    productId: p.id,
+    name: p.name,
+    price: p.price,
+    originalPrice: p.originalPrice ?? undefined,
+    rating: p.rating ?? 0,
+    imageUrl: p.images[0]?.url ?? null,
+  }));
+
+  const storeInfo = {
+    name: storeName,
+    slug,
+    logo: logo ?? null,
+    description,
+    whatsapp,
+    hours,
+    paymentMethods,
+    social_links: resolvedConfig.branding?.socialLinks
+      ? {
+          instagram: resolvedConfig.branding.socialLinks.instagram,
+          facebook: resolvedConfig.branding.socialLinks.facebook,
+          tiktok: resolvedConfig.branding.socialLinks.tiktok,
+          twitter: resolvedConfig.branding.socialLinks.twitter,
+          youtube: resolvedConfig.branding.socialLinks.youtube,
+        }
+      : undefined,
+  };
 
   return (
     <>
@@ -190,9 +227,11 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
         dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
       />
       <TemplateLayout
-        store={mockData.store}
-        products={mockData.products}
-        categories={mockData.categories}
+        store={storeInfo}
+        products={products}
+        categories={categories}
+        bestSellers={bestSellers}
+        discountProducts={discountProducts}
         config={resolvedConfig}
         manifest={manifest}
       />

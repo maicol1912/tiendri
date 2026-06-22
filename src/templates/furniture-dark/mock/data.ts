@@ -2,7 +2,7 @@
 // All inline data for the template preview.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
 
 // ── Local types (inlined from deleted types.ts) ───────────────────────────────
 
@@ -54,7 +54,7 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ────────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   { id: "living-room", name: "Sala", slug: "sala", icon: "sofa", image: ASSETS.categories.livingRoom },
   { id: "bedroom", name: "Dormitorio", slug: "dormitorio", icon: "bed-double", image: ASSETS.categories.bedroom },
   { id: "dining", name: "Comedor", slug: "comedor", icon: "utensils", image: ASSETS.categories.dining },

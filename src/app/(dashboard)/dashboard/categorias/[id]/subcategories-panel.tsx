@@ -40,13 +40,11 @@ function toSlug(text: string): string {
 }
 
 interface SubcategoriesPanelProps {
-  storeId: string
   categoryId: string
   catalogMode: 'simple' | 'nested'
 }
 
 export function SubcategoriesPanel({
-  storeId,
   categoryId,
   catalogMode,
 }: SubcategoriesPanelProps) {
@@ -57,7 +55,7 @@ export function SubcategoriesPanel({
     update,
     remove,
     reorder,
-  } = useSubcategories(storeId, categoryId)
+  } = useSubcategories(categoryId)
 
   const [newName, setNewName] = useState('')
   const [creating, setCreating] = useState(false)

@@ -1,7 +1,7 @@
 // Food Night Template — Mock Store Data
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct } from "@/types/domain/store";
 
 interface SizeOption {
   id: string;
@@ -26,7 +26,7 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ───────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   { id: "cat-01", name: "Pizzas", slug: "pizzas", icon: "Pizza" },
   { id: "cat-02", name: "Hamburguesas", slug: "hamburguesas", icon: "Utensils" },
   { id: "cat-03", name: "Pollos", slug: "pollos", icon: "Drumstick" },

@@ -41,7 +41,7 @@ function mapRow(row: {
  * On error returns an empty array.
  */
 export async function listSubcategories(categoryId: string): Promise<Subcategory[]> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -63,7 +63,7 @@ export async function listSubcategories(categoryId: string): Promise<Subcategory
  * Returns null if not found or on error.
  */
 export async function getSubcategoryById(id: string): Promise<Subcategory | null> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -106,7 +106,7 @@ export async function createSubcategory(
     }
   }
 
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -219,7 +219,7 @@ export async function updateSubcategory(
     }
   }
 
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -322,7 +322,7 @@ export async function deleteSubcategory(
   orphanAction: 'move' | 'delete',
   targetSubcategoryId?: string
 ): Promise<ActionResult<void>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -422,26 +422,25 @@ export async function reorderSubcategories(
   categoryId: string,
   orderedIds: string[]
 ): Promise<ActionResult<void>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
-    for (let i = 0; i < orderedIds.length; i++) {
-      const { error } = await supabase
-        .from('subcategories')
-        .update({ sort_order: i })
-        .eq('id', orderedIds[i])
-        .eq('category_id', categoryId)
-        .eq('store_id', storeId)
+    const { error } = await supabase
+      .from('subcategories')
+      .upsert(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        orderedIds.map((id, i) => ({ id, sort_order: i, store_id: storeId, category_id: categoryId })) as any[],
+        { onConflict: 'id' }
+      )
 
-      if (error) {
-        return {
-          success: false,
-          error: {
-            code: 'DATABASE_ERROR',
-            message: `Error al reordenar la subcategoría ${orderedIds[i]}: ${error.message}`,
-          },
-        }
+    if (error) {
+      return {
+        success: false,
+        error: {
+          code: 'DATABASE_ERROR',
+          message: `Error al reordenar las subcategorías: ${error.message}`,
+        },
       }
     }
 
@@ -468,7 +467,7 @@ export async function reorderSubcategories(
  * subcategory_id set to NULL automatically (ON DELETE SET NULL on products).
  */
 export async function deleteAllByCategory(categoryId: string): Promise<void> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   await supabase

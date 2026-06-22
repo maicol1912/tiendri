@@ -12,7 +12,6 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/infrastructure/supabase/server";
 import {
-  storeCustomizationSchema,
   brandingSchema,
   contentSchema,
   businessSchema,
@@ -23,18 +22,7 @@ import type { BrandingConfig, ContentConfig, BusinessConfig } from "@/types/temp
 import type { ThemeCustomization } from "@/types/templates/store-customization";
 import type { Json, StoreRow, StoreAppearanceRow, StoreAppearanceUpdate } from "@/infrastructure/database.types";
 import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
-
-// ── Shared types ──────────────────────────────────────────────────────────────────────────────
-
-interface ActionError {
-  code: string;
-  message: string;
-  field?: string;
-}
-
-export type ActionResult<T = undefined> =
-  | { success: true; data?: T }
-  | { success: false; error: ActionError };
+import type { ActionResult } from "@/types/domain";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────────────────
 
@@ -81,7 +69,7 @@ function appearanceRowToCustomization(row: StoreAppearanceRow): StoreCustomizati
 // ── Auth helper ────────────────────────────────────────────────────────────────────────────
 
 /** Returns the authenticated user's store row, or null if not authenticated / no store. */
-async function getAuthenticatedStore(): Promise<Pick<StoreRow, "id" | "slug" | "customization"> | null> {
+async function getAuthenticatedStore(): Promise<Pick<StoreRow, "id" | "slug"> | null> {
   const supabase = await createClient();
 
   const {
@@ -92,12 +80,12 @@ async function getAuthenticatedStore(): Promise<Pick<StoreRow, "id" | "slug" | "
 
   const { data } = await supabase
     .from("stores")
-    .select("id, slug, customization")
+    .select("id, slug")
     .eq("owner_id", user.id)
     .single();
 
   if (!data) return null;
-  return data as unknown as Pick<StoreRow, "id" | "slug" | "customization">;
+  return data as unknown as Pick<StoreRow, "id" | "slug">;
 }
 
 // ── store_appearance upsert helper ────────────────────────────────────────────────────────────
@@ -121,12 +109,12 @@ async function upsertAppearance(
     );
 
   if (error) {
-    console.error("Failed to update appearance:", error);
+    if (process.env.NODE_ENV === 'development') console.error("Failed to update appearance:", error);
     return { success: false, error: { code: "DB_ERROR", message: error.message } };
   }
 
   revalidatePath(`/${slug}`, "layout");
-  return { success: true };
+  return { success: true, data: undefined };
 }
 
 // ── Read ───────────────────────────────────────────────────────────────────────────────────
@@ -196,11 +184,7 @@ export async function readCustomization(): Promise<StoreCustomization | null> {
     return appearanceRowToCustomization(appearance as StoreAppearanceRow);
   }
 
-  // Fallback: legacy stores.customization JSONB
-  const raw = store.customization;
-  if (!raw || typeof raw !== "object") return null;
-
-  return raw as unknown as StoreCustomization;
+  return null;
 }
 
 // ── Section updaters ────────────────────────────────────────────────────────────────────────
@@ -333,8 +317,8 @@ export async function updateContent(
 }
 
 /**
- * Merge business overrides into stores.customization.business.
- * Business info lives on the stores table -- NOT store_appearance.
+ * Merge business overrides into stores.business_info.
+ * Business info lives on the stores.business_info JSONB column (v10 schema).
  */
 export async function updateBusiness(
   business: BusinessConfig
@@ -360,19 +344,19 @@ export async function updateBusiness(
 
   const supabase = await createClient();
 
-  // Business info lives on stores table -- read current customization for merge
-  const current = (store.customization ?? { templateId: DEFAULT_TEMPLATE_ID }) as unknown as StoreCustomization;
-  const updated: StoreCustomization = {
-    ...current,
-    business: {
-      ...(current.business ?? {}),
-      ...parsed.data,
-    },
-  };
+  // Read current business_info for deep-merge
+  const { data: storeRow } = await supabase
+    .from("stores")
+    .select("id, slug, business_info")
+    .eq("id", store.id)
+    .single();
+
+  const currentBiz = ((storeRow as any)?.business_info as Record<string, unknown>) ?? {};
+  const merged = deepMerge(currentBiz, parsed.data as Record<string, unknown>);
 
   const { error } = await supabase
     .from("stores")
-    .update({ customization: updated as unknown as Json })
+    .update({ business_info: merged as unknown as Json } as any)
     .eq("id", store.id);
 
   if (error) {
@@ -383,7 +367,7 @@ export async function updateBusiness(
   }
 
   revalidatePath(`/${store.slug}`, "layout");
-  return { success: true };
+  return { success: true, data: undefined };
 }
 
 /**
@@ -429,42 +413,9 @@ export async function updateCustomizationSection(
     });
   }
 
-  // Fallback: write to stores.customization JSONB (legacy / non-appearance sections)
-  const currentCustomization = (store.customization ?? { templateId: DEFAULT_TEMPLATE_ID }) as unknown as StoreCustomization;
-  const currentSection = (currentCustomization[section] ?? {}) as Record<string, unknown>;
-
-  const updated: StoreCustomization = {
-    ...currentCustomization,
-    [section]: {
-      ...currentSection,
-      ...data,
-    },
+  // Section not mapped to store_appearance — no-op for non-appearance keys.
+  return {
+    success: false,
+    error: { code: "VALIDATION_ERROR", message: `Sección desconocida: ${String(section)}` },
   };
-
-  // Validate the full blob after merge
-  const parsed = storeCustomizationSchema.safeParse(updated);
-  if (!parsed.success) {
-    return {
-      success: false,
-      error: {
-        code: "VALIDATION_ERROR",
-        message: "Datos inválidos: " + parsed.error.issues[0]?.message,
-      },
-    };
-  }
-
-  const { error } = await supabase
-    .from("stores")
-    .update({ customization: parsed.data as unknown as Json })
-    .eq("id", store.id);
-
-  if (error) {
-    return {
-      success: false,
-      error: { code: "DB_ERROR", message: "Error al guardar los cambios. Intentá de nuevo." },
-    };
-  }
-
-  revalidatePath(`/${store.slug}`, "layout");
-  return { success: true };
 }

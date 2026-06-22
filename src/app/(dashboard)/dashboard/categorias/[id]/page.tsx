@@ -15,15 +15,11 @@ import {
 import { toast } from 'sonner'
 
 import { useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
-import {
-  getStoreId,
-  getStoreRepository,
-  getProductRepository,
-} from '@/infrastructure/repositories'
+import { getStore } from '../../_actions/store'
+import { countProductsByCategory } from '../../_actions/products'
 import { categorySchema } from '@/shared/validators/category.schema'
 import { MediaPickerField } from '@/components/dashboard/media'
-import type { CategoryIcon, UpdateCategoryInput } from '@/types/domain'
-import type { StoreMeta } from '@/infrastructure/repositories/interfaces'
+import type { CategoryIcon, UpdateCategoryInput, StoreMeta } from '@/types/domain'
 import { ConfirmDialog } from '@/components/shared'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -56,8 +52,7 @@ export default function CategoryEditPage({
 }) {
   const { id } = use(params)
   const router = useRouter()
-  const storeId = getStoreId()
-  const { categories, isLoading, update, remove, refresh } = useCategories(storeId)
+  const { categories, isLoading, update, remove, refresh } = useCategories()
 
   const category = categories.find((c) => c.id === id)
 
@@ -91,16 +86,14 @@ export default function CategoryEditPage({
   // Load store meta and product count
   useEffect(() => {
     const loadMeta = async () => {
-      const storeRepo = getStoreRepository()
-      const meta = await storeRepo.get(storeId)
+      const meta = await getStore()
       setStoreMeta(meta)
 
-      const productRepo = getProductRepository()
-      const count = await productRepo.countByCategory(storeId, id)
+      const count = await countProductsByCategory(id)
       setProductCount(count)
     }
     void loadMeta()
-  }, [storeId, id])
+  }, [id])
 
   // Auto-generate slug from name
   useEffect(() => {
@@ -357,7 +350,6 @@ export default function CategoryEditPage({
 
       {/* Subcategories Panel */}
       <SubcategoriesPanel
-        storeId={storeId}
         categoryId={id}
         catalogMode={storeMeta?.catalog_mode ?? 'simple'}
       />

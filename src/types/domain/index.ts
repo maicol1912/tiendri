@@ -24,12 +24,15 @@ export type {
 export type {
   Store,
   StoreInfo,
+  StorefrontCategory,
+  StorefrontProductImage,
   ColorOption,
   StorefrontVariantOption,
   StorefrontVariantGroup,
   StorefrontProduct,
 } from './store';
 export type { CartItem, Cart, CheckoutFormData } from './cart';
+export type { StoreMeta } from './store-meta';
 export type {
   VibeId,
   CatalogMode,

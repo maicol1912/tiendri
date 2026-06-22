@@ -20,6 +20,8 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
+import { toast } from 'sonner'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/shared/utils'
 import { resizeAndConvert } from '@/shared/image-processing'
@@ -197,7 +199,10 @@ export function ProductImageGallery({
       const file = e.target.files?.[0]
       if (!file) return
 
-      if (images.length >= maxImages) return
+      if (images.length >= maxImages) {
+        toast.error(`Máximo ${maxImages} imágenes por producto`)
+        return
+      }
 
       const config = getImageSizeConfig('product')
       if (file.size > config.maxInputBytes) return
@@ -244,7 +249,8 @@ export function ProductImageGallery({
           updateImages([...images, newImage])
         }
       } catch (err) {
-        console.error('Upload failed:', err)
+        if (process.env.NODE_ENV === 'development') console.error('Upload failed:', err)
+        toast.error('Error al subir la imagen. Intentá de nuevo.')
       } finally {
         setIsUploading(false)
         setPendingFile(null)

@@ -2,7 +2,7 @@
 // All content centralized here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
+import type { StoreInfo, StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 // Local type definitions (formerly in types.ts, now inlined)
 interface DecorWarmCategoryIcon {
   id: string;
@@ -57,7 +57,7 @@ export const mockCategoryIcons: DecorWarmCategoryIcon[] = [
 
 // ── Categories (filter tab bar) ───────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   { id: "cat-living",   name: "Salas",          slug: "salas",          icon: "Sofa" },
   { id: "cat-desk",     name: "Escritorios",    slug: "escritorios",    icon: "BookOpen" },
   { id: "cat-bed",      name: "Dormitorio",     slug: "dormitorio",     icon: "BedDouble" },

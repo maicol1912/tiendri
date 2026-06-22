@@ -210,7 +210,7 @@ export const themeSchema = z.object({
     .object({
       headingWeight: z.number().int().min(100).max(900).optional(),
       headingScale: z.enum(["sm", "md", "lg", "xl", "2xl"]).optional(),
-      headingTransform: z.enum(["none", "uppercase"]).optional(),
+      headingTransform: z.enum(["none", "uppercase", "capitalize"]).optional(),
     })
     .optional(),
   bodyFontSize: z.enum(["sm", "base", "lg"]).optional(),
@@ -231,7 +231,6 @@ export type ThemeInput = z.infer<typeof themeSchema>;
 const layoutOptionsSchema = z.object({
   // Fields still in TemplateLayoutConfig
   cardImageRatio: z.enum(["square", "portrait", "wide"]).optional(),
-  heroVariant: z.enum(["full-width", "split", "contained", "carousel", "minimal"]).optional(),
   cardVariant: z.enum(["minimal", "detailed", "overlay", "horizontal"]).optional(),
   categoryVariant: z.enum(["grid-icons", "horizontal-scroll", "cards-with-image", "text-list"]).optional(),
   gridDensity: z.enum(["compact", "standard", "spacious"]).optional(),

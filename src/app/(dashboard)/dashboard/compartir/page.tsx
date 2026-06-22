@@ -51,8 +51,9 @@ export default function CompartirPage() {
 
   const slug = storeData.slug ?? '';
   const storeName = storeData.name ?? 'Mi Tienda';
-  const storeUrl = slug ? `tiendri.com/${slug}` : '';
-  const fullUrl = slug ? `https://tiendri.com/${slug}` : '';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tiendri.com';
+  const storeUrl = slug ? `${siteUrl.replace(/^https?:\/\//, '')}/${slug}` : '';
+  const fullUrl = slug ? `${siteUrl}/${slug}` : '';
 
   // ── Copy link ──────────────────────────────────────────────────────────────
 
@@ -95,7 +96,7 @@ export default function CompartirPage() {
     }
 
     const message = encodeURIComponent(
-      `Visita mi tienda online: ${storeName}\n${fullUrl}\n\nPedidos desde tiendri.com/${slug}`
+      `Visita mi tienda online: ${storeName}\n${fullUrl}\n\nPedidos desde ${siteUrl.replace(/^https?:\/\//, '')}/${slug}`
     );
     window.open(`https://wa.me/?text=${message}`, '_blank');
   }, [fullUrl, storeName, slug]);

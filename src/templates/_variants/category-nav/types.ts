@@ -1,7 +1,7 @@
-import type { Category } from "@/types/domain/store";
+import type { StorefrontCategory } from "@/types/domain/store";
 
 export interface CategoryNavSlotProps {
-  categories: Category[];
+  categories: StorefrontCategory[];
   activeCategoryId?: string | null;
   onCategoryClick?: (categoryId: string) => void;
   gridMobile?: number;

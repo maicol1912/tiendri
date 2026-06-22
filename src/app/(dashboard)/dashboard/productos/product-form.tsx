@@ -6,7 +6,8 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { useCategories, useSubcategories } from '@/app/(dashboard)/_hooks/use-repositories'
-import { getRepositories } from '@/infrastructure/repositories'
+import { getStore } from '@/app/(dashboard)/dashboard/_actions/store'
+import { createProduct, updateProduct } from '@/app/(dashboard)/dashboard/_actions/products'
 import { PriceInput, VariantEditor } from '@/components/shared'
 import { ProductImageGallery, type GalleryImage } from './product-image-gallery'
 import { Button } from '@/components/ui/button'
@@ -79,8 +80,7 @@ export function ProductForm({
 
   useEffect(() => {
     async function loadCatalogMode() {
-      const { store } = getRepositories()
-      const meta = await store.get('demo-store')
+      const meta = await getStore()
       if (meta) setCatalogMode(meta.catalog_mode)
     }
     void loadCatalogMode()
@@ -130,10 +130,7 @@ export function ProductForm({
   const [variants, setVariants] = useState<UIProductVariant[]>(initialVariants)
 
   // ── Subcategories (only if nested mode + category selected) ──────────────
-  const { subcategories } = useSubcategories(
-    undefined,
-    categoryId || '__none__'
-  )
+  const { subcategories } = useSubcategories(categoryId || '__none__')
 
   // ── Auto-slug from name ──────────────────────────────────────────────────
   useEffect(() => {
@@ -175,7 +172,6 @@ export function ProductForm({
       if (!isValid) return
 
       setIsSaving(true)
-      const { products: repo } = getRepositories()
 
       const imageData = galleryImages.map((img) => ({
         url: img.url,
@@ -206,7 +202,7 @@ export function ProductForm({
           images: imageData,
           variants: variantData,
         }
-        const result = await repo.update('demo-store', product.id, input)
+        const result = await updateProduct(product.id, input)
         setIsSaving(false)
         if (result.success) {
           toast.success('Producto actualizado correctamente')
@@ -231,7 +227,7 @@ export function ProductForm({
           images: imageData,
           variants: variantData,
         }
-        const result = await repo.create('demo-store', input)
+        const result = await createProduct(input)
         setIsSaving(false)
         if (result.success) {
           toast.success('Producto creado correctamente')

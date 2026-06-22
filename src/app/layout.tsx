@@ -25,7 +25,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tiendri.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tiendri.com"),
   title: {
     default: "Tiendri — Creá tu tienda online",
     template: "%s | Tiendri",

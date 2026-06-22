@@ -105,7 +105,7 @@ function mapProductRow(
 // ── listProducts ──────────────────────────────────────────────────────────────
 
 export async function listProducts(filters?: ProductFilters): Promise<Product[]> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   let query = supabase
@@ -140,7 +140,7 @@ export async function listProducts(filters?: ProductFilters): Promise<Product[]>
 // ── getProductById ────────────────────────────────────────────────────────────
 
 export async function getProductById(id: string): Promise<Product | null> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -158,7 +158,7 @@ export async function getProductById(id: string): Promise<Product | null> {
 // ── getProductBySlug ──────────────────────────────────────────────────────────
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -192,7 +192,7 @@ export async function createProduct(
     }
   }
 
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -369,7 +369,7 @@ export async function updateProduct(
     }
   }
 
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -429,15 +429,17 @@ export async function updateProduct(
       }
     }
 
-    // Handle images: delete all existing + re-insert from input
+    // Handle images: insert-before-delete to avoid data loss on INSERT failure
     if (validation.data.images !== undefined) {
-      // Delete existing images
-      await supabase
+      // 1. Capture existing image IDs before touching anything
+      const { data: existingImages } = await supabase
         .from('product_images')
-        .delete()
+        .select('id')
         .eq('product_id', id)
 
-      // Insert new images
+      const existingImageIds = (existingImages ?? []).map((r) => r.id)
+
+      // 2. Insert new images first (if any)
       if (validation.data.images.length > 0) {
         const imageRows = validation.data.images.map((img) => ({
           product_id: id,
@@ -466,6 +468,14 @@ export async function updateProduct(
             error: { code: 'DATABASE_ERROR', message: imgError.message },
           }
         }
+      }
+
+      // 3. Only after INSERT succeeds, delete the old images by their captured IDs
+      if (existingImageIds.length > 0) {
+        await supabase
+          .from('product_images')
+          .delete()
+          .in('id', existingImageIds)
       }
     }
 
@@ -526,7 +536,7 @@ export async function updateProduct(
 // ── deleteProduct ─────────────────────────────────────────────────────────────
 
 export async function deleteProduct(id: string): Promise<ActionResult<void>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -559,25 +569,25 @@ export async function deleteProduct(id: string): Promise<ActionResult<void>> {
 export async function reorderProducts(
   orderedIds: string[]
 ): Promise<ActionResult<void>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
-    for (let i = 0; i < orderedIds.length; i++) {
-      const { error } = await supabase
-        .from('products')
-        .update({ sort_order: i })
-        .eq('id', orderedIds[i])
-        .eq('store_id', storeId)
+    const { error } = await supabase
+      .from('products')
+      .upsert(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        orderedIds.map((id, i) => ({ id, sort_order: i, store_id: storeId })) as any[],
+        { onConflict: 'id' }
+      )
 
-      if (error) {
-        return {
-          success: false,
-          error: {
-            code: 'DATABASE_ERROR',
-            message: `Error al reordenar el producto ${orderedIds[i]}: ${error.message}`,
-          },
-        }
+    if (error) {
+      return {
+        success: false,
+        error: {
+          code: 'DATABASE_ERROR',
+          message: `Error al reordenar los productos: ${error.message}`,
+        },
       }
     }
 
@@ -596,7 +606,7 @@ export async function reorderProducts(
 export async function toggleAvailable(
   id: string
 ): Promise<ActionResult<Product>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -659,7 +669,7 @@ export async function toggleAvailable(
 export async function toggleFeatured(
   id: string
 ): Promise<ActionResult<Product>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -720,7 +730,7 @@ export async function toggleFeatured(
 // ── countProducts ─────────────────────────────────────────────────────────────
 
 export async function countProducts(): Promise<number> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { count, error } = await supabase
@@ -738,7 +748,7 @@ export async function countProducts(): Promise<number> {
 export async function countProductsByCategory(
   categoryId: string
 ): Promise<number> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { count, error } = await supabase
@@ -755,7 +765,7 @@ export async function countProductsByCategory(
 // ── switchCatalogModeToSimple ─────────────────────────────────────────────────
 
 export async function switchCatalogModeToSimple(): Promise<void> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   await supabase.rpc('switch_catalog_mode_to_simple', {

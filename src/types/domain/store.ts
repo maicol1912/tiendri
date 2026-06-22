@@ -35,7 +35,7 @@ export interface StoreInfo {
 
 // ── Shared catalog types ──────────────────────────────────────────────────────
 
-export interface Category {
+export interface StorefrontCategory {
   id: string;
   name: string;
   slug: string;
@@ -51,7 +51,7 @@ export interface ColorOption {
   hex: string;
 }
 
-export interface ProductImage {
+export interface StorefrontProductImage {
   url: string;
   sort_order: number;
   alt?: string;
@@ -80,7 +80,7 @@ export interface StorefrontProduct {
   slug: string;
   price: number;
   originalPrice?: number | null;
-  images: ProductImage[];
+  images: StorefrontProductImage[];
   description?: string;
   specs?: string[];
   rating?: number;

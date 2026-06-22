@@ -1,13 +1,35 @@
 'use client';
 
 // Repository hooks for dashboard pages.
-// Each hook manages state, calls repository methods, and exposes loading/error.
+// Each hook manages state, calls Server Actions directly, and exposes loading/error.
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { getRepositories, getStoreId } from '@/infrastructure/repositories';
+import { useState, useEffect, useCallback } from 'react';
 import type { Category, CreateCategoryInput, UpdateCategoryInput } from '@/types/domain';
 import type { Subcategory, CreateSubcategoryInput, UpdateSubcategoryInput } from '@/types/domain';
 import type { Product, CreateProductInput, UpdateProductInput, ProductFilters } from '@/types/domain';
+import {
+  listCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  reorderCategories,
+} from '../dashboard/_actions/categories';
+import {
+  listSubcategories,
+  createSubcategory,
+  updateSubcategory,
+  deleteSubcategory,
+  reorderSubcategories,
+} from '../dashboard/_actions/subcategories';
+import {
+  listProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  reorderProducts,
+  toggleAvailable,
+  toggleFeatured,
+} from '../dashboard/_actions/products';
 
 // ── useCategories ─────────────────────────────────────────────────────────────
 
@@ -22,27 +44,23 @@ export interface UseCategoriesReturn {
   refresh: () => Promise<void>;
 }
 
-export function useCategories(storeId?: string): UseCategoriesReturn {
-  const resolvedStoreId = storeId ?? getStoreId();
+export function useCategories(): UseCategoriesReturn {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const repo = useMemo(() => getRepositories().categories, []);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await repo.list(resolvedStoreId);
+      const data = await listCategories();
       setCategories(data);
     } catch {
       setError('No se pudieron cargar las categorías.');
     } finally {
       setIsLoading(false);
     }
-  }, [resolvedStoreId, repo]);
+  }, []);
 
   useEffect(() => {
     void load();
@@ -50,7 +68,7 @@ export function useCategories(storeId?: string): UseCategoriesReturn {
 
   const create = useCallback(
     async (input: CreateCategoryInput): Promise<boolean> => {
-      const result = await repo.create(resolvedStoreId, input);
+      const result = await createCategory(input);
       if (result.success) {
         await load();
         return true;
@@ -58,12 +76,12 @@ export function useCategories(storeId?: string): UseCategoriesReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const update = useCallback(
     async (id: string, input: UpdateCategoryInput): Promise<boolean> => {
-      const result = await repo.update(resolvedStoreId, id, input);
+      const result = await updateCategory(id, input);
       if (result.success) {
         await load();
         return true;
@@ -71,12 +89,12 @@ export function useCategories(storeId?: string): UseCategoriesReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const remove = useCallback(
     async (id: string): Promise<boolean> => {
-      const result = await repo.delete(resolvedStoreId, id);
+      const result = await deleteCategory(id);
       if (result.success) {
         await load();
         return true;
@@ -84,12 +102,12 @@ export function useCategories(storeId?: string): UseCategoriesReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const reorder = useCallback(
     async (orderedIds: string[]): Promise<boolean> => {
-      const result = await repo.reorder(resolvedStoreId, orderedIds);
+      const result = await reorderCategories(orderedIds);
       if (result.success) {
         // Optimistic update — reorder locally without reload
         setCategories((prev) => {
@@ -107,7 +125,7 @@ export function useCategories(storeId?: string): UseCategoriesReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo]
+    []
   );
 
   return { categories, isLoading, error, create, update, remove, reorder, refresh: load };
@@ -130,27 +148,23 @@ export interface UseSubcategoriesReturn {
   refresh: () => Promise<void>;
 }
 
-export function useSubcategories(storeId: string | undefined, categoryId: string): UseSubcategoriesReturn {
-  const resolvedStoreId = storeId ?? getStoreId();
+export function useSubcategories(categoryId: string): UseSubcategoriesReturn {
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const repo = useMemo(() => getRepositories().subcategories, []);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await repo.listByCategory(resolvedStoreId, categoryId);
+      const data = await listSubcategories(categoryId);
       setSubcategories(data);
     } catch {
       setError('No se pudieron cargar las subcategorías.');
     } finally {
       setIsLoading(false);
     }
-  }, [resolvedStoreId, categoryId, repo]);
+  }, [categoryId]);
 
   useEffect(() => {
     void load();
@@ -158,7 +172,7 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
 
   const create = useCallback(
     async (input: CreateSubcategoryInput): Promise<boolean> => {
-      const result = await repo.create(resolvedStoreId, input);
+      const result = await createSubcategory(input);
       if (result.success) {
         await load();
         return true;
@@ -166,12 +180,12 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const update = useCallback(
     async (id: string, input: UpdateSubcategoryInput): Promise<boolean> => {
-      const result = await repo.update(resolvedStoreId, id, input);
+      const result = await updateSubcategory(id, input);
       if (result.success) {
         await load();
         return true;
@@ -179,7 +193,7 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const remove = useCallback(
@@ -188,7 +202,7 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
       orphanAction: 'move' | 'delete',
       targetSubcategoryId?: string
     ): Promise<boolean> => {
-      const result = await repo.delete(resolvedStoreId, id, orphanAction, targetSubcategoryId);
+      const result = await deleteSubcategory(id, orphanAction, targetSubcategoryId);
       if (result.success) {
         await load();
         return true;
@@ -196,12 +210,12 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const reorder = useCallback(
     async (orderedIds: string[]): Promise<boolean> => {
-      const result = await repo.reorder(resolvedStoreId, categoryId, orderedIds);
+      const result = await reorderSubcategories(categoryId, orderedIds);
       if (result.success) {
         setSubcategories((prev) => {
           const map = new Map(prev.map((s) => [s.id, s]));
@@ -218,7 +232,7 @@ export function useSubcategories(storeId: string | undefined, categoryId: string
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, categoryId, repo]
+    [categoryId]
   );
 
   return { subcategories, isLoading, error, create, update, remove, reorder, refresh: load };
@@ -239,23 +253,19 @@ export interface UseProductsReturn {
   refresh: () => Promise<void>;
 }
 
-export function useProducts(
-  storeId?: string,
-  filters?: ProductFilters
-): UseProductsReturn {
-  const resolvedStoreId = storeId ?? getStoreId();
+export function useProducts(filters?: ProductFilters): UseProductsReturn {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const repo = useMemo(() => getRepositories().products, []);
+  const filtersKey = JSON.stringify(filters);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await repo.list(resolvedStoreId, filters);
+      const data = await listProducts(filters);
       setProducts(data);
     } catch {
       setError('No se pudieron cargar los productos.');
@@ -263,7 +273,7 @@ export function useProducts(
       setIsLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resolvedStoreId, repo, JSON.stringify(filters)]);
+  }, [filtersKey]);
 
   useEffect(() => {
     void load();
@@ -271,7 +281,7 @@ export function useProducts(
 
   const create = useCallback(
     async (input: CreateProductInput): Promise<boolean> => {
-      const result = await repo.create(resolvedStoreId, input);
+      const result = await createProduct(input);
       if (result.success) {
         await load();
         return true;
@@ -279,12 +289,12 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const update = useCallback(
     async (id: string, input: UpdateProductInput): Promise<boolean> => {
-      const result = await repo.update(resolvedStoreId, id, input);
+      const result = await updateProduct(id, input);
       if (result.success) {
         await load();
         return true;
@@ -292,12 +302,12 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
   const remove = useCallback(
     async (id: string): Promise<boolean> => {
-      const result = await repo.delete(resolvedStoreId, id);
+      const result = await deleteProduct(id);
       if (result.success) {
         await load();
         return true;
@@ -305,12 +315,12 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, load, repo]
+    [load]
   );
 
-  const toggleAvailable = useCallback(
+  const handleToggleAvailable = useCallback(
     async (id: string): Promise<boolean> => {
-      const result = await repo.toggleAvailable(resolvedStoreId, id);
+      const result = await toggleAvailable(id);
       if (result.success) {
         // Optimistic update
         setProducts((prev) =>
@@ -321,12 +331,12 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo]
+    []
   );
 
-  const toggleFeatured = useCallback(
+  const handleToggleFeatured = useCallback(
     async (id: string): Promise<boolean> => {
-      const result = await repo.toggleFeatured(resolvedStoreId, id);
+      const result = await toggleFeatured(id);
       if (result.success) {
         setProducts((prev) =>
           prev.map((p) => (p.id === id ? result.data : p))
@@ -336,12 +346,12 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo]
+    []
   );
 
   const reorder = useCallback(
     async (orderedIds: string[]): Promise<boolean> => {
-      const result = await repo.reorder(resolvedStoreId, orderedIds);
+      const result = await reorderProducts(orderedIds);
       if (result.success) {
         setProducts((prev) => {
           const map = new Map(prev.map((p) => [p.id, p]));
@@ -358,7 +368,7 @@ export function useProducts(
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo]
+    []
   );
 
   return {
@@ -368,8 +378,8 @@ export function useProducts(
     create,
     update,
     remove,
-    toggleAvailable,
-    toggleFeatured,
+    toggleAvailable: handleToggleAvailable,
+    toggleFeatured: handleToggleFeatured,
     reorder,
     refresh: load,
   };

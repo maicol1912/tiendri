@@ -38,7 +38,6 @@ import { CategoryIconComponent, ICON_OPTIONS } from './category-icon'
 interface CreateCategorySheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  storeId: string
   onCreated: () => void
 }
 
@@ -54,10 +53,9 @@ function toSlug(text: string): string {
 export function CreateCategorySheet({
   open,
   onOpenChange,
-  storeId,
   onCreated,
 }: CreateCategorySheetProps) {
-  const { create } = useCategories(storeId)
+  const { create } = useCategories()
 
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')

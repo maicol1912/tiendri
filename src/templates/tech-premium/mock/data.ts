@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, Category, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
 
 // ── Tech Premium-specific types (inlined from deleted types.ts) ──────────────
 
@@ -159,7 +159,7 @@ export const mockBannerGrid: BannerGrid = {
 
 // ── Categories ──────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   {
     id: "cat-01",
     name: "Teléfonos",

@@ -8,6 +8,8 @@ import type { Metadata } from 'next';
 import { LandingPageClient } from './_components/landing/LandingPageClient';
 import { safeJsonLdStringify } from '@/shared/seo/safe-json-ld';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tiendri.com';
+
 export const metadata: Metadata = {
   title: 'Tiendri — Creá tu tienda online y recibí pedidos por WhatsApp',
   description:
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
       'Catálogo online + pedidos por WhatsApp. Sin comisiones. Para comerciantes colombianos.',
     images: [{ url: '/og-default.png', width: 1200, height: 630 }],
     type: 'website',
-    url: 'https://tiendri.com',
+    url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
     description: 'Catálogo online + pedidos por WhatsApp.',
     images: ['/og-default.png'],
   },
-  alternates: { canonical: 'https://tiendri.com' },
+  alternates: { canonical: SITE_URL },
 };
 
 const websiteJsonLd = {
@@ -35,14 +37,14 @@ const websiteJsonLd = {
     {
       '@type': 'WebSite',
       name: 'Tiendri',
-      url: 'https://tiendri.com',
+      url: SITE_URL,
       description: 'Crea tu catálogo online y recibe pedidos por WhatsApp',
     },
     {
       '@type': 'Organization',
       name: 'Tiendri',
-      url: 'https://tiendri.com',
-      logo: 'https://tiendri.com/logo.png',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
       description:
         'Plataforma SaaS para comerciantes colombianos. Catálogo online + pedidos por WhatsApp.',
       sameAs: [],

@@ -129,8 +129,8 @@ export function useCheckoutForm(
 
     const waUrl = buildWhatsAppUrl(store.whatsapp, message);
 
-    clearCart();
     window.open(waUrl, "_blank", "noopener,noreferrer");
+    clearCart();
     setIsSubmitting(false);
   }, [formData, items, store, currencySymbol, clearCart, mode]);
 

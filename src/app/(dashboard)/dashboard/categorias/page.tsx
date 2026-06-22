@@ -17,7 +17,7 @@ import {
 import { toast } from 'sonner'
 
 import { useCategories } from '@/app/(dashboard)/_hooks/use-repositories'
-import { getStoreId, getProductRepository } from '@/infrastructure/repositories'
+import { countProductsByCategory } from '../_actions/products'
 import type { Category } from '@/types/domain'
 import { SortableList, DragHandle } from '@/components/shared'
 import { ConfirmDialog } from '@/components/shared'
@@ -35,8 +35,7 @@ import { CategoryIconComponent } from './category-icon'
 
 export default function CategoriasPage() {
   const router = useRouter()
-  const storeId = getStoreId()
-  const { categories, isLoading, reorder, remove, refresh } = useCategories(storeId)
+  const { categories, isLoading, reorder, remove, refresh } = useCategories()
 
   const [sheetOpen, setSheetOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null)
@@ -45,13 +44,12 @@ export default function CategoriasPage() {
 
   // Load product counts for each category
   const loadProductCounts = useCallback(async (cats: Category[]) => {
-    const productRepo = getProductRepository()
     const counts: Record<string, number> = {}
     for (const cat of cats) {
-      counts[cat.id] = await productRepo.countByCategory(storeId, cat.id)
+      counts[cat.id] = await countProductsByCategory(cat.id)
     }
     setProductCounts(counts)
-  }, [storeId])
+  }, [])
 
   // Load counts when categories change
   useEffect(() => {
@@ -220,7 +218,6 @@ export default function CategoriasPage() {
       <CreateCategorySheet
         open={sheetOpen}
         onOpenChange={setSheetOpen}
-        storeId={storeId}
         onCreated={handleCreated}
       />
 

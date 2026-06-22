@@ -11,7 +11,7 @@ import { useListingController } from "@/templates/_core/hooks/useListingControll
 import { useCartController } from "@/templates/_core/hooks/useCartController";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { useCart } from "@/templates/_core/cart";
-import type { StorefrontProduct, Category } from "@/types/domain/store";
+import type { StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 import type { FilterGroup } from "@/types/templates/filter";
@@ -19,13 +19,13 @@ import type { SortOption } from "@/templates/_core/hooks/useListingController";
 
 export interface ListingShellProps {
   products: StorefrontProduct[];
-  categories: Category[];
+  categories: StorefrontCategory[];
   config: ResolvedStoreConfig;
   variants: TemplateVariants;
   currencySymbol?: string;
 }
 
-function buildFilterGroups(categories: Category[], products: StorefrontProduct[]): FilterGroup[] {
+function buildFilterGroups(categories: StorefrontCategory[], products: StorefrontProduct[]): FilterGroup[] {
   const filterGroups: FilterGroup[] = [];
 
   // Grupo de categorías

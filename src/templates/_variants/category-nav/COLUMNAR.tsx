@@ -24,7 +24,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { CategoryNavSlotProps } from "./types";
-import type { Category } from "@/types/domain/store";
+import type { StorefrontCategory } from "@/types/domain/store";
 
 // Icon registry — add more Lucide icons here as new templates register categories.
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -46,7 +46,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 interface ColumnarItemProps {
-  category: Category;
+  category: StorefrontCategory;
   isActive: boolean;
   onClick: () => void;
 }

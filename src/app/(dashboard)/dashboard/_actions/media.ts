@@ -31,7 +31,7 @@ function bucketForContext(context: MediaAssetContext | undefined): string {
       return 'categories'
     case 'general':
     default:
-      return 'logos' // fallback bucket
+      return 'banners' // fallback bucket
   }
 }
 
@@ -130,7 +130,7 @@ export async function uploadMediaAsset(input: {
   tags?: string[]
   alt?: string
 }): Promise<ActionResult<MediaAsset>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   try {
@@ -217,7 +217,7 @@ export async function uploadMediaAsset(input: {
  * Returns all media assets for the current store, sorted by created_at DESC.
  */
 export async function listMediaAssets(): Promise<MediaAsset[]> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -240,7 +240,7 @@ export async function listMediaAssets(): Promise<MediaAsset[]> {
 export async function searchMediaAssets(
   filters: MediaSearchFilters
 ): Promise<MediaAsset[]> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   let query = supabase
@@ -284,7 +284,7 @@ export async function searchMediaAssets(
  * Returns a single media asset by its domain id (with "media_" prefix), or null.
  */
 export async function getMediaAssetById(id: string): Promise<MediaAsset | null> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -309,7 +309,7 @@ export async function updateMediaAssetAlt(
   id: string,
   input: UpdateMediaAssetInput
 ): Promise<ActionResult<MediaAsset>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const updates: { alt?: string; tags?: string[] } = {}
@@ -352,7 +352,7 @@ export async function updateMediaAssetAlt(
  * removed — an orphaned storage file is preferable over a phantom DB record.
  */
 export async function deleteMediaAsset(id: string): Promise<ActionResult<void>> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   // Fetch the asset to get the CDN URL before deleting.
@@ -404,7 +404,7 @@ export async function deleteMediaAsset(id: string): Promise<ActionResult<void>> 
  * in the current schema, matching the localStorage implementation.
  */
 export async function getMediaStats(): Promise<MediaLibraryStats> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   // Fetch all assets to compute count + totalBytes (lightweight: only size column).
@@ -448,7 +448,7 @@ export async function getMediaStats(): Promise<MediaLibraryStats> {
  * Resolves a single media asset id to its CDN URL, or null if not found.
  */
 export async function resolveMediaUrl(mediaId: string): Promise<string | null> {
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -475,7 +475,7 @@ export async function resolveMediaUrls(
 ): Promise<Record<string, string>> {
   if (mediaIds.length === 0) return {}
 
-  const storeId = getStoreId()
+  const storeId = await getStoreId()
   const supabase = await createClient()
 
   const rawIds = mediaIds.map(rawId)

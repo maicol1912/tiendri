@@ -1,7 +1,7 @@
 // Furniture Light — Mock Data
 // All hardcoded data for preview/development.
 
-import type { StorefrontProduct, StoreInfo, Category } from "@/types/domain/store";
+import type { StorefrontProduct, StoreInfo, StorefrontCategory } from "@/types/domain/store";
 import { PRODUCTS, HERO_BANNER, CATEGORIES, STYLE_IMAGES } from "./assets";
 
 // ── Store ──────────────────────────────────────────────────────────────────────
@@ -22,7 +22,7 @@ export const mockStore: StoreInfo = {
 
 // ── Categories ─────────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   { id: "cat-table",   name: "Mesas",     slug: "mesas",     icon: "Grid3X3" },
   { id: "cat-chair",   name: "Sillas",    slug: "sillas",    icon: "Armchair" },
   { id: "cat-cabinet", name: "Gabinetes", slug: "gabinetes", icon: "Package" },

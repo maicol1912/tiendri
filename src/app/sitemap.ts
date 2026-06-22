@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/infrastructure/supabase/server";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tiendri.com";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient();
   const { data: stores } = await supabase
@@ -9,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .eq("onboarding_completed", true);
 
   const storePaths = (stores ?? []).map((store) => ({
-    url: `https://tiendri.com/${store.slug}`,
+    url: `${SITE_URL}/${store.slug}`,
     lastModified: new Date(store.updated_at),
     changeFrequency: "weekly" as const,
     priority: 0.9,
@@ -17,13 +19,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://tiendri.com",
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://tiendri.com/precios",
+      url: `${SITE_URL}/precios`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,

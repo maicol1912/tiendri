@@ -38,7 +38,7 @@ interface TypographyTokens {
   fontPair?: string;
   headingWeight?: number;
   headingScale?: HeadingScale;
-  headingTransform?: "none" | "uppercase";
+  headingTransform?: "none" | "uppercase" | "capitalize";
   bodyFontSize?: BodyFontSize;
   bodyFontWeight?: 300 | 400 | 500;
 }
@@ -293,6 +293,7 @@ export function buildCssVars(config: ResolvedStoreConfig): Record<string, string
   const typography = config.theme?.typography;
   if (typography) {
     const scaleMap: Record<string, string> = {
+      sm: "1.125rem",
       md: "1.5rem",
       lg: "2rem",
       xl: "2.5rem",

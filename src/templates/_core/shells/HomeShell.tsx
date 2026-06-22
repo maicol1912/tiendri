@@ -9,7 +9,7 @@ import { CoreHomePage } from "@/templates/_core/pages/CoreHomePage";
 import { useShellHandlers } from "@/templates/_core/hooks/useShellHandlers";
 import { useTemplateNav } from "@/templates/_shared/hooks/useTemplateNav";
 import { useCart } from "@/templates/_core/cart";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
+import type { StoreInfo, StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateVariants } from "@/types/templates/manifest";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
@@ -18,7 +18,7 @@ import type { PopularProductItem } from "@/templates/mock-loader";
 export interface HomeShellProps {
   store: StoreInfo;
   products: StorefrontProduct[];
-  categories: Category[];
+  categories: StorefrontCategory[];
   config: ResolvedStoreConfig;
   variants: TemplateVariants;
   currencySymbol?: string;

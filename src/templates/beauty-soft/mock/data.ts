@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
+import type { StoreInfo, StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 
 interface HeroBannerData {
   title: string;
@@ -40,7 +40,7 @@ export const mockHeroBanner: HeroBannerData = {
 
 // ── Categories ────────────────────────────────────────────────────────────────
 
-export const mockCategories: Category[] = [
+export const mockCategories: StorefrontCategory[] = [
   { id: "cat-cleanse",    name: "Limpieza",    slug: "limpieza",    icon: "Tag", image: ASSETS.categories.cleanse },
   { id: "cat-moisturize", name: "Hidratación", slug: "hidratacion", icon: "Tag", image: ASSETS.categories.moisturize },
   { id: "cat-treat",      name: "Tratamiento", slug: "tratamiento", icon: "Tag", image: ASSETS.categories.treat },

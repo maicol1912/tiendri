@@ -4,12 +4,12 @@
 //   { store, products, categories }
 //
 // Todos los campos cumplen los tipos de @/types/store (StoreInfo,
-// StorefrontProduct, Category) — sin tipos locales ni estructuras ad-hoc.
+// StorefrontProduct, StorefrontCategory) — sin tipos locales ni estructuras ad-hoc.
 //
 // Por ahora es estático (mock). En fases futuras este módulo será el punto
 // de integración con Supabase para cargar datos reales por slug.
 
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
+import type { StoreInfo, StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 import type { BestSellerItem } from "@/templates/_core/sections/BestSellersSection";
 import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 
@@ -26,7 +26,7 @@ export interface PopularProductItem {
 export interface TemplateMockData {
   store: StoreInfo;
   products: StorefrontProduct[];
-  categories: Category[];
+  categories: StorefrontCategory[];
   /** Lista de productos más vendidos — solo disponible para templates que la definen. */
   bestSellers?: BestSellerItem[];
   /** Productos populares — banner cards con imagen destacada y CTA. */

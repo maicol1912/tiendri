@@ -77,7 +77,7 @@ export default function ProductosPage() {
     toggleAvailable,
     toggleFeatured,
     remove,
-  } = useProducts(undefined, filters)
+  } = useProducts(filters)
 
   const { categories } = useCategories()
 

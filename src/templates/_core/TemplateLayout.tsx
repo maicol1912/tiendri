@@ -22,7 +22,7 @@ import {
   CheckoutShell,
   StoreInfoShell,
 } from "@/templates/_core/shells";
-import type { StoreInfo, StorefrontProduct, Category } from "@/types/domain/store";
+import type { StoreInfo, StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { TemplateManifest } from "@/types/templates/manifest";
 import type { NavTab } from "@/templates/_variants/bottom-nav/types";
@@ -94,7 +94,7 @@ function mapRouteToTab(route: TemplateRoute): NavTab {
 export interface TemplateLayoutProps {
   store: StoreInfo;
   products: StorefrontProduct[];
-  categories: Category[];
+  categories: StorefrontCategory[];
   config: ResolvedStoreConfig;
   manifest: TemplateManifest;
   currencySymbol?: string;
