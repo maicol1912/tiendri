@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getStoreBySlug, appearanceToCustomization } from "@/catalog/getStoreBySlug";
 import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
+import { extractMediaTokens, resolveMediaUrlsForStorefront } from "@/catalog/resolveMediaUrlsForStorefront";
 import type { StoreCustomization } from "@/types/templates";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { TemplateLayout } from "@/templates/_core";
@@ -51,10 +52,17 @@ export async function generateMetadata({
   const metaCustomization: StoreCustomization | undefined =
     appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
     (store.customization as StoreCustomization | undefined);
+  const metaMediaTokens = metaCustomization
+    ? extractMediaTokens(metaCustomization)
+    : [];
+  const metaUrlMap = metaMediaTokens.length > 0
+    ? await resolveMediaUrlsForStorefront(store.id, metaMediaTokens)
+    : new Map<string, string>();
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
     metaCustomization,
     templateSchema ?? undefined,
+    metaUrlMap,
   );
   const storeName = resolvedConfig.branding?.storeName ?? store.name;
   const description =
@@ -134,10 +142,17 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
   const pageCustomization: StoreCustomization | undefined =
     appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
     (store.customization as StoreCustomization | undefined);
+  const pageMediaTokens = pageCustomization
+    ? extractMediaTokens(pageCustomization)
+    : [];
+  const pageUrlMap = pageMediaTokens.length > 0
+    ? await resolveMediaUrlsForStorefront(store.id, pageMediaTokens)
+    : new Map<string, string>();
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
     pageCustomization,
     templateSchema ?? undefined,
+    pageUrlMap,
   );
 
   const storeName = resolvedConfig.branding?.storeName ?? store.name ?? slug;

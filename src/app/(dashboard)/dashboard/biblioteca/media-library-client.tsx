@@ -13,7 +13,6 @@ import {
   MediaUploadDropzone,
 } from '@/components/dashboard/media';
 import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
-import { getStoreId } from '@/infrastructure/repositories';
 import type { MediaAsset } from '@/types/domain';
 
 type ViewMode = 'grid' | 'upload';
@@ -29,9 +28,8 @@ function formatMB(bytes: number): string {
 }
 
 export function MediaLibraryClient() {
-  const storeId = getStoreId();
   const { assets, isLoading, upload, deleteAsset, updateAlt, search, stats } =
-    useMediaLibrary(storeId);
+    useMediaLibrary();
 
   const [query, setQuery] = useState('');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { resizeAndConvert } from '@/infrastructure/repositories/local-storage/media.repository'
+import { resizeAndConvert } from '@/shared/image-processing'
 
 type ImageUploadError = 'FILE_TOO_LARGE' | 'MAX_IMAGES_REACHED'
 

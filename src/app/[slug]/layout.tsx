@@ -18,6 +18,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { getStoreBySlug, appearanceToCustomization } from "@/catalog/getStoreBySlug";
 import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
+import { extractMediaTokens, resolveMediaUrlsForStorefront } from "@/catalog/resolveMediaUrlsForStorefront";
 import type { StoreCustomization } from "@/types/templates";
 import { buildCssVars } from "@/catalog/buildCssVars";
 import { getFontPair } from "@/shared/fonts";
@@ -55,10 +56,18 @@ export default async function StorefrontLayout({
     appearanceToCustomization(store.store_appearance, effectiveTemplateId) ??
     (store.customization as StoreCustomization | undefined);
 
+  const mediaTokens = storeCustomization
+    ? extractMediaTokens(storeCustomization)
+    : [];
+  const urlMap = mediaTokens.length > 0
+    ? await resolveMediaUrlsForStorefront(store.id, mediaTokens)
+    : new Map<string, string>();
+
   const resolvedConfig = resolveTemplateConfig(
     templateDefaults,
     storeCustomization,
     templateSchema ?? undefined,
+    urlMap,
   );
 
   // ── 3. Build CSS vars ─────────────────────────────────────────────────────

@@ -1,12 +1,21 @@
 'use client';
 
-// Media Library hook — follows use-repositories.ts pattern.
-// Manages state + calls MediaRepository; repository is not exposed to consumers.
-// Canvas→WebP pipeline lives in LocalMediaRepository (consolidated from 3 duplicates).
+// Media Library hook — calls Server Actions directly.
+// No storeId param — Server Actions resolve the store from the session.
+// Canvas→WebP pipeline lives in @/shared/image-processing.
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { getRepositories, getStoreId } from '@/infrastructure/repositories';
-import { resizeAndConvert } from '@/infrastructure/repositories/local-storage/media.repository';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  listMediaAssets,
+  uploadMediaAsset,
+  deleteMediaAsset,
+  updateMediaAssetAlt,
+  searchMediaAssets,
+  resolveMediaUrl,
+  getMediaStats,
+} from '@/app/(dashboard)/dashboard/_actions/media';
+import { resizeAndConvert } from '@/shared/image-processing';
+import { getImageSizeConfig } from '@/shared/image-size-config';
 import type {
   MediaAsset,
   MediaLibraryStats,
@@ -17,8 +26,6 @@ import type {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const MAX_INPUT_BYTES = 5 * 1024 * 1024; // 5 MB raw input guard (before resize)
-const RESIZE_MAX_WIDTH = 800;
-const RESIZE_QUALITY = 0.7;
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -40,8 +47,8 @@ export interface UseMediaLibraryReturn {
   stats: MediaLibraryStats | null;
   isLoading: boolean;
   error: string | null;
-  /** Process a File through canvas→WebP and store as a MediaAsset. */
-  upload: (file: File, options?: UploadOptions) => Promise<UploadResult>;
+  /** Process a File or Blob through canvas→WebP and store as a MediaAsset. */
+  upload: (fileOrBlob: File | Blob, options?: UploadOptions) => Promise<UploadResult>;
   /** Delete an asset by id. Returns true on success. */
   deleteAsset: (id: string) => Promise<boolean>;
   /** Update alt text and/or tags of an existing asset. Returns true on success. */
@@ -50,32 +57,32 @@ export interface UseMediaLibraryReturn {
   search: (filters: MediaSearchFilters) => Promise<MediaAsset[]>;
   /** Resolve a single media ID to its URL, or null if not found. */
   resolveUrl: (mediaId: string) => Promise<string | null>;
-  /** Refresh the assets list from storage. */
+  /** Refresh the assets list from the server. */
   refresh: () => Promise<void>;
 }
 
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
-export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
-  const resolvedStoreId = storeId ?? getStoreId();
-
+/**
+ * `storeId` is accepted for backward-compatibility but ignored —
+ * Server Actions resolve the store from the session cookie.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function useMediaLibrary(_storeId?: string): UseMediaLibraryReturn {
   const [assets, setAssets] = useState<MediaAsset[]>([]);
   const [stats, setStats] = useState<MediaLibraryStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const repo = useMemo(() => getRepositories().media, []);
-
-  // ── Load ─────────────────────────────────────────────────────────────────────
+  // ── Load ──────────────────────────────────────────────────────────────────────
 
   const load = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const [data, libraryStats] = await Promise.all([
-        repo.list(resolvedStoreId),
-        repo.getStats(resolvedStoreId),
+        listMediaAssets(),
+        getMediaStats(),
       ]);
       setAssets(data);
       setStats(libraryStats);
@@ -84,28 +91,38 @@ export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
     } finally {
       setIsLoading(false);
     }
-  }, [resolvedStoreId, repo]);
+  }, []);
 
   useEffect(() => {
     void load();
   }, [load]);
 
-  // ── Upload ───────────────────────────────────────────────────────────────────
+  // ── Upload ────────────────────────────────────────────────────────────────────
 
   const upload = useCallback(
-    async (file: File, options: UploadOptions = {}): Promise<UploadResult> => {
-      // Pre-check: reject oversized input before canvas processing
-      if (file.size > MAX_INPUT_BYTES) {
+    async (fileOrBlob: File | Blob, options: UploadOptions = {}): Promise<UploadResult> => {
+      // Normalize Blob → File so resizeAndConvert (which expects File) works.
+      const file =
+        fileOrBlob instanceof File
+          ? fileOrBlob
+          : new File([fileOrBlob], 'image.webp', { type: 'image/webp' });
+
+      // Pre-check: reject oversized input before canvas processing.
+      const context = options.context ?? 'general';
+      const config = getImageSizeConfig(context);
+      const inputLimit = config.maxInputBytes ?? MAX_INPUT_BYTES;
+
+      if (file.size > inputLimit) {
         return {
           success: false,
           errorCode: 'FILE_TOO_LARGE',
-          errorMessage: 'La imagen supera el límite de 5 MB. Seleccioná una imagen más pequeña.',
+          errorMessage: 'La imagen supera el límite de tamaño. Seleccioná una imagen más pequeña.',
         };
       }
 
-      let processed: { dataUrl: string; width: number; height: number; mimetype: string };
+      let processed: { dataUrl: string; width: number; height: number; mimetype: string; sizeBytes: number };
       try {
-        processed = await resizeAndConvert(file, RESIZE_MAX_WIDTH, RESIZE_QUALITY);
+        processed = await resizeAndConvert(file, config.maxWidth, config.quality);
       } catch {
         return {
           success: false,
@@ -114,15 +131,15 @@ export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
         };
       }
 
-      const result = await repo.upload(resolvedStoreId, {
+      const result = await uploadMediaAsset({
+        base64Data: processed.dataUrl,
         filename: file.name,
-        alt: options.alt ?? '',
-        url: processed.dataUrl,
         mimetype: processed.mimetype,
-        size: processed.dataUrl.length, // byte count of the stored string
+        size: processed.sizeBytes,
         width: processed.width,
         height: processed.height,
         context: options.context,
+        alt: options.alt,
         tags: options.tags,
       });
 
@@ -137,14 +154,14 @@ export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
         errorMessage: result.error.message,
       };
     },
-    [resolvedStoreId, repo, load]
+    [load]
   );
 
-  // ── Delete ───────────────────────────────────────────────────────────────────
+  // ── Delete ────────────────────────────────────────────────────────────────────
 
   const deleteAsset = useCallback(
     async (id: string): Promise<boolean> => {
-      const result = await repo.delete(resolvedStoreId, id);
+      const result = await deleteMediaAsset(id);
       if (result.success) {
         await load();
         return true;
@@ -152,14 +169,14 @@ export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo, load]
+    [load]
   );
 
-  // ── Update alt ───────────────────────────────────────────────────────────────
+  // ── Update alt ────────────────────────────────────────────────────────────────
 
   const updateAlt = useCallback(
     async (id: string, alt: string, tags?: string[]): Promise<boolean> => {
-      const result = await repo.updateAlt(resolvedStoreId, id, { alt, tags });
+      const result = await updateMediaAssetAlt(id, { alt, tags });
       if (result.success) {
         await load();
         return true;
@@ -167,26 +184,20 @@ export function useMediaLibrary(storeId?: string): UseMediaLibraryReturn {
       setError(result.error.message);
       return false;
     },
-    [resolvedStoreId, repo, load]
+    [load]
   );
 
-  // ── Search ───────────────────────────────────────────────────────────────────
+  // ── Search ────────────────────────────────────────────────────────────────────
 
-  const search = useCallback(
-    async (filters: MediaSearchFilters): Promise<MediaAsset[]> => {
-      return repo.search(resolvedStoreId, filters);
-    },
-    [resolvedStoreId, repo]
-  );
+  const search = useCallback(async (filters: MediaSearchFilters): Promise<MediaAsset[]> => {
+    return searchMediaAssets(filters);
+  }, []);
 
   // ── Resolve URL ───────────────────────────────────────────────────────────────
 
-  const resolveUrl = useCallback(
-    async (mediaId: string): Promise<string | null> => {
-      return repo.resolveUrl(resolvedStoreId, mediaId);
-    },
-    [resolvedStoreId, repo]
-  );
+  const resolveUrl = useCallback(async (mediaId: string): Promise<string | null> => {
+    return resolveMediaUrl(mediaId);
+  }, []);
 
   return {
     assets,

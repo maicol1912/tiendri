@@ -7,14 +7,12 @@ import {
   LocalSubcategoryRepository,
   LocalProductRepository,
   LocalStoreRepository,
-  LocalMediaRepository,
 } from './local-storage';
 import type {
   CategoryRepository,
   SubcategoryRepository,
   ProductRepository,
   StoreRepository,
-  MediaRepository,
 } from './interfaces';
 
 const DEMO_STORE_ID = 'demo-store' as const;
@@ -31,7 +29,6 @@ const _categoryRepo: CategoryRepository = new LocalCategoryRepository();
 const _subcategoryRepo: SubcategoryRepository = new LocalSubcategoryRepository();
 const _productRepo: ProductRepository = new LocalProductRepository();
 const _storeRepo: StoreRepository = new LocalStoreRepository();
-const _mediaRepo: MediaRepository = new LocalMediaRepository();
 
 export function getCategoryRepository(): CategoryRepository {
   return _categoryRepo;
@@ -55,7 +52,6 @@ const _repositories = Object.freeze({
   subcategories: _subcategoryRepo,
   products: _productRepo,
   store: _storeRepo,
-  media: _mediaRepo,
 });
 
 /** Convenience — returns all repositories in one call (stable reference). */
@@ -64,7 +60,6 @@ export function getRepositories(): {
   readonly subcategories: SubcategoryRepository;
   readonly products: ProductRepository;
   readonly store: StoreRepository;
-  readonly media: MediaRepository;
 } {
   return _repositories;
 }

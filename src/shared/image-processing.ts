@@ -2,13 +2,17 @@
 // Extracted from media.repository.ts so any module can resize/convert images
 // without depending on the storage layer.
 
+import type { ImageSizeConfig } from '@/shared/image-size-config';
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface ResizeAndConvertResult {
   dataUrl: string;
+  blob: Blob;
   width: number;
   height: number;
   mimetype: string;
+  sizeBytes: number;
 }
 
 // ── Defaults ──────────────────────────────────────────────────────────────────
@@ -21,8 +25,13 @@ const DEFAULT_QUALITY = 0.7;
 export async function resizeAndConvert(
   file: File,
   maxWidth: number = DEFAULT_MAX_WIDTH,
-  quality: number = DEFAULT_QUALITY
+  quality: number = DEFAULT_QUALITY,
+  config?: ImageSizeConfig
 ): Promise<ResizeAndConvertResult> {
+  // config overrides explicit maxWidth/quality when provided
+  const resolvedMaxWidth = config?.maxWidth ?? maxWidth;
+  const resolvedQuality = config?.quality ?? quality;
+
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
@@ -30,7 +39,7 @@ export async function resizeAndConvert(
     img.onload = () => {
       URL.revokeObjectURL(objectUrl);
 
-      const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+      const scale = img.width > resolvedMaxWidth ? resolvedMaxWidth / img.width : 1;
       const width = Math.round(img.width * scale);
       const height = Math.round(img.height * scale);
 
@@ -51,12 +60,14 @@ export async function resizeAndConvert(
           (blob) => {
             if (blob) {
               const reader = new FileReader();
-              reader.onload = () =>
+              reader.onloadend = () =>
                 resolve({
                   dataUrl: reader.result as string,
+                  blob,
                   width,
                   height,
                   mimetype: 'image/webp',
+                  sizeBytes: blob.size,
                 });
               reader.onerror = () => reject(new Error('FileReader failed'));
               reader.readAsDataURL(blob);
@@ -65,7 +76,7 @@ export async function resizeAndConvert(
             }
           },
           'image/webp',
-          quality
+          resolvedQuality
         );
       };
 
@@ -74,12 +85,14 @@ export async function resizeAndConvert(
           (blob) => {
             if (blob) {
               const reader = new FileReader();
-              reader.onload = () =>
+              reader.onloadend = () =>
                 resolve({
                   dataUrl: reader.result as string,
+                  blob,
                   width,
                   height,
                   mimetype: 'image/png',
+                  sizeBytes: blob.size,
                 });
               reader.onerror = () => reject(new Error('FileReader failed'));
               reader.readAsDataURL(blob);

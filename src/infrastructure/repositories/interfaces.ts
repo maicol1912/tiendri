@@ -14,11 +14,6 @@ import type {
   UpdateProductInput,
   ProductFilters,
   ActionResult,
-  MediaAsset,
-  CreateMediaAssetInput,
-  UpdateMediaAssetInput,
-  MediaLibraryStats,
-  MediaSearchFilters,
 } from '@/types/domain';
 
 // ── Category ──────────────────────────────────────────────────────────────────
@@ -83,29 +78,6 @@ export interface ProductRepository {
   countByCategory(storeId: string, categoryId: string): Promise<number>;
   /** Called when catalog_mode switches nested→simple: nullify all subcategory_id */
   switchCatalogModeToSimple(storeId: string): Promise<void>;
-}
-
-// ── Media ─────────────────────────────────────────────────────────────────────
-
-export interface MediaRepository {
-  /** Upload a new asset: runs canvas→WebP pipeline, enforces limits, stores in localStorage. */
-  upload(storeId: string, input: CreateMediaAssetInput): Promise<ActionResult<MediaAsset>>;
-  /** List all assets for the store, sorted by created_at DESC. */
-  list(storeId: string): Promise<MediaAsset[]>;
-  /** Filter assets by context, tags (intersection), and/or query (filename + alt). */
-  search(storeId: string, filters: MediaSearchFilters): Promise<MediaAsset[]>;
-  /** Return a single asset or null if not found. */
-  getById(storeId: string, id: string): Promise<MediaAsset | null>;
-  /** Update mutable fields (alt, tags). Immutable fields are unchanged. */
-  updateAlt(storeId: string, id: string, input: UpdateMediaAssetInput): Promise<ActionResult<MediaAsset>>;
-  /** Remove an asset. Returns MEDIA_NOT_FOUND if id is unknown. */
-  delete(storeId: string, id: string): Promise<ActionResult<void>>;
-  /** Compute current usage stats for the store. */
-  getStats(storeId: string): Promise<MediaLibraryStats>;
-  /** Resolve a single media ID to its stored URL, or null if not found. */
-  resolveUrl(storeId: string, mediaId: string): Promise<string | null>;
-  /** Resolve multiple media IDs to a Map<id, url>. Missing IDs are omitted. */
-  resolveUrls(storeId: string, mediaIds: string[]): Promise<Map<string, string>>;
 }
 
 // ── Store ─────────────────────────────────────────────────────────────────────

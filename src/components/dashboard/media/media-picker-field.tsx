@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/shared/utils';
 import { MediaPickerDialog } from './media-picker-dialog';
 import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
-import { getStoreId } from '@/infrastructure/repositories';
 
 interface MediaPickerFieldProps {
   value: string | null;
@@ -25,8 +24,7 @@ export function MediaPickerField({
   description,
   className,
 }: MediaPickerFieldProps) {
-  const storeId = getStoreId();
-  const { resolveUrl } = useMediaLibrary(storeId);
+  const { resolveUrl } = useMediaLibrary();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [resolvedUrl, setResolvedUrl] = useState<string | null>(null);
 

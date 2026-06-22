@@ -15,7 +15,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MediaLibraryGrid } from './media-library-grid';
 import { MediaUploadDropzone } from './media-upload-dropzone';
 import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
-import { getStoreId } from '@/infrastructure/repositories';
 
 type TabKey = 'biblioteca' | 'subir';
 
@@ -30,9 +29,8 @@ export function MediaPickerDialog({
   onOpenChange,
   onSelect,
 }: MediaPickerDialogProps) {
-  const storeId = getStoreId();
   const { assets, isLoading, upload, deleteAsset, updateAlt, search } =
-    useMediaLibrary(storeId);
+    useMediaLibrary();
 
   const [activeTab, setActiveTab] = useState<TabKey>('biblioteca');
   const [query, setQuery] = useState('');

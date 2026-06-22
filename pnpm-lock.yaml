@@ -53,12 +53,6 @@ importers:
       driver.js:
         specifier: ^1.4.0
         version: 1.4.0
-      framer-motion:
-        specifier: ^12.40.0
-        version: 12.40.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      gsap:
-        specifier: ^3.15.0
-        version: 3.15.0
       lenis:
         specifier: ^1.3.23
         version: 1.3.23(react@19.2.4)
@@ -81,8 +75,8 @@ importers:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
       react-easy-crop:
-        specifier: ^5.5.7
-        version: 5.5.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^6.0.2
+        version: 6.0.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       shadcn:
         specifier: ^4.8.0
         version: 4.8.0(@types/node@20.19.41)(typescript@5.9.3)
@@ -2682,20 +2676,6 @@ packages:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
 
-  framer-motion@12.40.0:
-    resolution: {integrity: sha512-uaBd3qC1v3KQqBEjwTUd183K6PbS+j0yR9w9VmEOLWA/tnUcSn8Xa3uck7t4dgpDoUss8xQTcj8W2L07lrnLFg==}
-    peerDependencies:
-      '@emotion/is-prop-valid': '*'
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-
   fresh@2.0.0:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
     engines: {node: '>= 0.8'}
@@ -2799,9 +2779,6 @@ packages:
   graphql@16.14.0:
     resolution: {integrity: sha512-BBvQ/406p+4CZbTpCbVPSxfzrZrbnuWSP1ELYgyS6B+hNeKzgrdB4JczCa5VZUBQrDa9hUngm0KnexY6pJRN5Q==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-
-  gsap@3.15.0:
-    resolution: {integrity: sha512-dMW4CWBTUK1AEEDeZc1g4xpPGIrSf9fJF960qbTZmN/QwZIWY5wgliS6JWl9/25fpTGJrMRtSjGtOmPnfjZB+A==}
 
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
@@ -3318,12 +3295,6 @@ packages:
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
-  motion-dom@12.40.0:
-    resolution: {integrity: sha512-HxU3ZaBwNPVQUBQf1xxgq+7JrPNZvjLVxgbpEZL7RrWJnsxOf0/OM+yrHG9ogLQ31Do/r57Oz2gQWPK+6q62mg==}
-
-  motion-utils@12.39.0:
-    resolution: {integrity: sha512-8nadJAJjTtqRkmRF36FoJTrywK9nnFmnPwnSMyxaOCU7GDjN9RTMJIxx9De8ErM+vpPhMccr/6fo5WciyQLnMQ==}
-
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -3635,8 +3606,8 @@ packages:
     peerDependencies:
       react: ^19.2.4
 
-  react-easy-crop@5.5.7:
-    resolution: {integrity: sha512-kYo4NtMeXFQB7h1U+h5yhUkE46WQbQdq7if54uDlbMdZHdRgNehfvaFrXnFw5NR1PNoUOJIfTwLnWmEx/MaZnA==}
+  react-easy-crop@6.0.2:
+    resolution: {integrity: sha512-nY/YiNEuRjc851+/PsOR6Q7XoshmnXMl+oEOsxp3Ah0PrhECi5388jjRnHwsTFx3W0o2zPwvq85oljzUqZNpEw==}
     peerDependencies:
       react: '>=16.4.0'
       react-dom: '>=16.4.0'
@@ -7002,15 +6973,6 @@ snapshots:
 
   forwarded@0.2.0: {}
 
-  framer-motion@12.40.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
-    dependencies:
-      motion-dom: 12.40.0
-      motion-utils: 12.39.0
-      tslib: 2.8.1
-    optionalDependencies:
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
-
   fresh@2.0.0: {}
 
   fs-extra@11.3.5:
@@ -7106,8 +7068,6 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   graphql@16.14.0: {}
-
-  gsap@3.15.0: {}
 
   has-bigints@1.1.0: {}
 
@@ -7536,12 +7496,6 @@ snapshots:
 
   minimist@1.2.8: {}
 
-  motion-dom@12.40.0:
-    dependencies:
-      motion-utils: 12.39.0
-
-  motion-utils@12.39.0: {}
-
   ms@2.1.3: {}
 
   msw@2.14.6(@types/node@20.19.41)(typescript@5.9.3):
@@ -7916,12 +7870,11 @@ snapshots:
       react: 19.2.4
       scheduler: 0.27.0
 
-  react-easy-crop@5.5.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  react-easy-crop@6.0.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       normalize-wheel: 1.0.1
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
-      tslib: 2.8.1
 
   react-is@16.13.1: {}
 
