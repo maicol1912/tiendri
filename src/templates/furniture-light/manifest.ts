@@ -72,7 +72,7 @@ export const furnitureLightManifest = {
       title: "¡Nueva colección disponible!",
       subtitle: "",
       ctaText: "Ver más",
-      image: "/mocks/furniture-light/hero-banner-1.jpg",
+      image: "/templates/furniture-light/hero-banner-1.jpg",
     },
     navLinks: [
       { label: "Inicio", href: "/" },

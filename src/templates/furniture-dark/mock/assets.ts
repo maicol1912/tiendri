@@ -1,7 +1,7 @@
 // Furniture Dark Template — Image Asset Paths
-// All images live in public/mocks/furniture-dark/
+// All images live in public/templates/furniture-dark/
 
-const BASE = "/mocks/furniture-dark";
+const BASE = "/templates/furniture-dark";
 
 export const ASSETS = {
   // ── Store avatar ────────────────────────────────────────────────────────

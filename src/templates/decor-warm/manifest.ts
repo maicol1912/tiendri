@@ -79,12 +79,12 @@ export const decorWarmManifest = {
     heroBanner: {
       title: "Experiencia de Confort",
       subtitle: "OFERTA ESPECIAL",
-      image: "/mocks/decor-warm/hero-banner.png",
+      image: "/templates/decor-warm/hero-banner.png",
       ctaText: "Ver catálogo",
     },
     promotionalBanners: [
       {
-        image: "/mocks/decor-warm/hero-banner-2.png",
+        image: "/templates/decor-warm/hero-banner-2.png",
         title: "Diseño que Inspira",
         subtitle: "NUEVA COLECCIÓN",
       },

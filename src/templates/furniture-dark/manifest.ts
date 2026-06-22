@@ -80,14 +80,14 @@ export const furnitureDarkManifest = {
       title: "El mueble que te define",
       subtitle: "Descubrí piezas únicas para cada espacio de tu hogar.",
       ctaText: "Explorar",
-      image: "/mocks/furniture-dark/banner-furniture-1.jpg",
+      image: "/templates/furniture-dark/banner-furniture-1.jpg",
     },
     promotionalBanners: [
       {
         title: "Estilo para tu hogar",
         subtitle: "HASTA 40% OFF",
         ctaText: "Ver más",
-        image: "/mocks/furniture-dark/banner-furniture-2.jpg",
+        image: "/templates/furniture-dark/banner-furniture-2.jpg",
       },
     ],
     navLinks: [
@@ -126,7 +126,7 @@ export const furnitureDarkManifest = {
       "Estantes",
       "Lámparas",
     ],
-    videoPosterImage: "/mocks/furniture-dark/desc-table-chair.jpg",
+    videoPosterImage: "/templates/furniture-dark/desc-table-chair.jpg",
     videoTitle: "Conocé nuestra historia",
   } satisfies ContentConfig,
 

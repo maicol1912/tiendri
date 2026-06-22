@@ -1,6 +1,6 @@
 // Decor Warm Template — Asset Paths
 
-const BASE = "/mocks/decor-warm";
+const BASE = "/templates/decor-warm";
 
 export const ASSETS = {
   heroBanner: `${BASE}/hero-banner.png`,

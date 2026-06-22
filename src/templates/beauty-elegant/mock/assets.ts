@@ -1,7 +1,7 @@
 // Beauty Elegant Template — Image Path Constants
-// All image assets live in /public/mocks/beauty-elegant/
+// All image assets live in /public/templates/beauty-elegant/
 
-const BASE = "/mocks/beauty-elegant";
+const BASE = "/templates/beauty-elegant";
 
 export const ASSETS = {
   // Product images — reused across multiple products

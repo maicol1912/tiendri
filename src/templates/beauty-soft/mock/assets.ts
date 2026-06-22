@@ -1,29 +1,29 @@
 // Beauty Soft Template — Image Asset Constants
-// All images served from /mocks/beauty-soft/ — real files exist in public/mocks/beauty-soft/.
+// All images served from /templates/beauty-soft/ — real files exist in public/templates/beauty-soft/.
 
 export const ASSETS = {
-  heroBanner: "/mocks/beauty-soft/hero-banner.png",
-  avatar: "/mocks/beauty-soft/avatar.png",
+  heroBanner: "/templates/beauty-soft/hero-banner.png",
+  avatar: "/templates/beauty-soft/avatar.png",
   products: {
-    cleanser: "/mocks/beauty-soft/product-cleanser.png",
-    detailCleanser: "/mocks/beauty-soft/product-detail-cleanser.png",
-    facePack: "/mocks/beauty-soft/product-face-pack.png",
-    foamCleanser: "/mocks/beauty-soft/product-foam-cleanser.png",
-    serum: "/mocks/beauty-soft/product-serum.png",
-    sunscreen: "/mocks/beauty-soft/product-sunscreen.png",
+    cleanser: "/templates/beauty-soft/product-cleanser.png",
+    detailCleanser: "/templates/beauty-soft/product-detail-cleanser.png",
+    facePack: "/templates/beauty-soft/product-face-pack.png",
+    foamCleanser: "/templates/beauty-soft/product-foam-cleanser.png",
+    serum: "/templates/beauty-soft/product-serum.png",
+    sunscreen: "/templates/beauty-soft/product-sunscreen.png",
   },
   categories: {
-    body: "/mocks/beauty-soft/category-body.png",
-    cleanse: "/mocks/beauty-soft/category-cleanse.png",
-    kits: "/mocks/beauty-soft/category-kits.png",
-    mask: "/mocks/beauty-soft/category-mask.png",
-    moisturize: "/mocks/beauty-soft/category-moisturize.png",
-    protect: "/mocks/beauty-soft/category-protect.png",
-    tools: "/mocks/beauty-soft/category-tools.png",
-    treat: "/mocks/beauty-soft/category-treat.png",
+    body: "/templates/beauty-soft/category-body.png",
+    cleanse: "/templates/beauty-soft/category-cleanse.png",
+    kits: "/templates/beauty-soft/category-kits.png",
+    mask: "/templates/beauty-soft/category-mask.png",
+    moisturize: "/templates/beauty-soft/category-moisturize.png",
+    protect: "/templates/beauty-soft/category-protect.png",
+    tools: "/templates/beauty-soft/category-tools.png",
+    treat: "/templates/beauty-soft/category-treat.png",
   },
   cart: {
-    cleanser: "/mocks/beauty-soft/cart-item-cleanser.png",
-    sunscreen: "/mocks/beauty-soft/cart-item-sunscreen.png",
+    cleanser: "/templates/beauty-soft/cart-item-cleanser.png",
+    sunscreen: "/templates/beauty-soft/cart-item-sunscreen.png",
   },
 } as const;

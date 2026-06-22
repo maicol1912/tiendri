@@ -83,7 +83,7 @@ export const techPremiumManifest = {
   // ── Default content (navigation, hero, footer, product tabs) ─────────────────
   content: {
     heroBanner: {
-      image: "/mocks/tech-premium/hero-bento.png",
+      image: "/templates/tech-premium/hero-bento.png",
       title: "",
       subtitle: "",
       ctaText: "",

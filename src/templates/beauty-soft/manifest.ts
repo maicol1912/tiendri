@@ -74,7 +74,7 @@ export const beautySoftManifest = {
       title: "Cuida tu piel con lo mejor",
       subtitle: "Hasta 30% de descuento",
       ctaText: "Ver productos",
-      image: "/mocks/beauty-soft/hero-banner.png",
+      image: "/templates/beauty-soft/hero-banner.png",
     },
     navLinks: [
       { label: "Inicio", href: "" },

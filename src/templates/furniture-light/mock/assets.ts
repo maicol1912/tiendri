@@ -1,7 +1,7 @@
 // Furniture Light — Mock Asset Paths
-// All images live under /mocks/furniture-light/
+// All images live under /templates/furniture-light/
 
-const BASE = "/mocks/furniture-light";
+const BASE = "/templates/furniture-light";
 
 export const HERO_BANNER = `${BASE}/hero-banner-1.jpg`;
 export const HERO_BANNER_2 = `${BASE}/hero-banner-2.jpg`;
