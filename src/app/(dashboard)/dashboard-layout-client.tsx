@@ -1,47 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { DashboardBreadcrumbs } from "@/components/dashboard/breadcrumbs";
 import { migrateInlineImagesToMediaLibrary } from "@/shared/media-migration";
 import { useDashboardTour } from "@/app/(dashboard)/_hooks/useDashboardTour";
-import { shouldRedirectToOnboarding } from "@/onboarding/first-time";
 
-export function DashboardLayoutClient({
-  children,
-}: {
+interface Props {
   children: React.ReactNode;
-}) {
-  const router = useRouter();
-  const [checking, setChecking] = useState(true);
+  storeName: string;
+  storeSlug: string;
+}
 
+export function DashboardLayoutClient({ children, storeName, storeSlug }: Props) {
   useDashboardTour();
 
-  useEffect(() => {
-    if (shouldRedirectToOnboarding()) {
-      router.replace('/onboarding');
-    } else {
-      setChecking(false);
-    }
-  }, [router]);
-
-  // Run one-time migration from inline base64 images to MediaLibrary IDs.
-  // The migration sets a localStorage flag after completion — subsequent calls are no-ops.
   useEffect(() => {
     void migrateInlineImagesToMediaLibrary('demo-store');
   }, []);
 
-  if (checking) {
-    return <div className="min-h-screen bg-background" />;
-  }
-
   return (
     <div className="min-h-screen bg-background">
-      <DashboardSidebar />
+      <DashboardSidebar storeName={storeName} storeSlug={storeSlug} />
       <div className="lg:pl-64">
-        <DashboardHeader />
+        <DashboardHeader storeName={storeName} storeSlug={storeSlug} />
         <main className="p-4 md:p-6 lg:p-8">
           <DashboardBreadcrumbs />
           {children}

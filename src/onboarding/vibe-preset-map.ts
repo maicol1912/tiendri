@@ -53,3 +53,8 @@ const VIBE_CONFIGS: Record<VibeId, VibeEntry> = {
 }
 
 export const VIBES = Object.values(VIBE_CONFIGS)
+
+export function getTemplateIdForVibe(vibeId: VibeId | null): string {
+  if (!vibeId) return 'tech-premium'
+  return VIBE_CONFIGS[vibeId].defaultTemplateId
+}

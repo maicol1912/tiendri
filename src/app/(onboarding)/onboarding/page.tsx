@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { OnboardingProvider, useOnboarding } from '@/onboarding/onboarding-provider'
 import { OnboardingShell } from '@/components/onboarding/onboarding-shell'
@@ -9,8 +9,8 @@ import { Step2CatalogMode } from '@/components/onboarding/step2-catalog-mode'
 import { Step3VibeSelection } from '@/components/onboarding/step3-vibe-selection'
 import { Step5Branding } from '@/components/onboarding/step5-branding'
 import { CelebrationScreen } from '@/components/onboarding/celebration-screen'
-import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/client-utils'
-import { markOnboardingCompleted } from '@/onboarding/first-time'
+import { completeOnboarding } from '@/app/(dashboard)/dashboard/_actions/store'
+import { getTemplateIdForVibe } from '@/onboarding/vibe-preset-map'
 import { ACCENT_HEX } from '@/shared/constants/accent-colors'
 
 const WHATSAPP_REGEX = /^3\d{9}$/
@@ -40,6 +40,8 @@ function OnboardingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { state, resetState } = useOnboarding()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const stepParam = searchParams.get('step')
   const isCelebration = stepParam === 'celebration'
@@ -61,50 +63,32 @@ function OnboardingContent() {
     if (step > 1) router.push(`/onboarding?step=${step - 1}`)
   }
 
-  function handleCreateStore() {
-    const storeMeta = {
+  async function handleCreateStore() {
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    const templateId = getTemplateIdForVibe(state.selectedVibe)
+    const whatsapp = `+57${state.whatsapp}`
+    const catalogMode = state.catalogMode ?? 'simple'
+    const primaryColor = state.accentColor ? ACCENT_HEX[state.accentColor] : undefined
+
+    const result = await completeOnboarding({
       name: state.storeName,
       slug: state.slug,
-      whatsapp: `+57${state.whatsapp}`,
-      catalog_mode: state.catalogMode ?? 'simple',
+      whatsapp,
+      catalog_mode: catalogMode,
+      templateId,
+      vibeId: state.selectedVibe ?? undefined,
+      primaryColor,
+      logoUrl: state.logoUrl ?? undefined,
+    })
+
+    if (!result.success) {
+      setSubmitError(result.error.message)
+      setIsSubmitting(false)
+      return
     }
 
-    type PartialCustomization = {
-      templateId: string
-      theme?: { colors?: Record<string, string> }
-      branding?: { logo?: string }
-    }
-
-    let customization: PartialCustomization = { templateId: 'tech-premium' }
-
-    if (state.accentColor) {
-      const hex = ACCENT_HEX[state.accentColor]
-      customization = {
-        ...customization,
-        theme: {
-          ...customization.theme,
-          colors: {
-            ...customization.theme?.colors,
-            primary: hex,
-          },
-        },
-      }
-    }
-
-    if (state.logoUrl) {
-      customization = {
-        ...customization,
-        branding: {
-          ...customization.branding,
-          logo: state.logoUrl,
-        },
-      }
-    }
-
-    localStorage.setItem('tiendri_demo-store_store', JSON.stringify(storeMeta))
-    localStorage.setItem(CUSTOMIZATION_STORAGE_KEY, JSON.stringify(customization))
-
-    markOnboardingCompleted()
     sessionStorage.setItem('tiendri_tour_trigger', 'true')
 
     resetState()
@@ -126,6 +110,8 @@ function OnboardingContent() {
       onNext={handleNext}
       onBack={handleBack}
       canProceed={canProceedForStep(step, state)}
+      isSubmitting={isSubmitting}
+      error={submitError}
     >
       {stepComponents[step]}
     </OnboardingShell>

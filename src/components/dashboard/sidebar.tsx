@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -34,31 +33,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Configuración", href: "/dashboard/configuracion", icon: Settings, tourTarget: "configuracion" },
 ];
 
-const STORE_STORAGE_KEY = "tiendri_demo-store_store";
-
-interface StoreData {
-  name?: string;
-  slug?: string;
-}
-
-function useStoreData(): StoreData {
-  const [storeData, setStoreData] = useState<StoreData>({});
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORE_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as StoreData;
-        setStoreData(parsed);
-      }
-    } catch {
-      // localStorage unavailable or corrupted — use defaults
-    }
-  }, []);
-
-  return storeData;
-}
-
 function isRouteActive(pathname: string, href: string): boolean {
   if (href === "/dashboard") {
     return pathname === "/dashboard";
@@ -66,12 +40,15 @@ function isRouteActive(pathname: string, href: string): boolean {
   return pathname.startsWith(href);
 }
 
+interface SidebarNavProps {
+  storeName: string;
+  storeSlug: string;
+  onNavigate?: () => void;
+}
+
 /** Shared navigation content — used by both desktop sidebar and mobile Sheet */
-export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+export function SidebarNav({ storeName, storeSlug, onNavigate }: SidebarNavProps) {
   const pathname = usePathname();
-  const storeData = useStoreData();
-  const storeName = storeData.name || "Mi Tienda";
-  const storeSlug = storeData.slug || "";
 
   return (
     <div className="flex h-full flex-col">
@@ -149,11 +126,16 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+interface DashboardSidebarProps {
+  storeName: string;
+  storeSlug: string;
+}
+
 /** Desktop-only fixed sidebar */
-export function DashboardSidebar() {
+export function DashboardSidebar({ storeName, storeSlug }: DashboardSidebarProps) {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-border bg-card lg:block">
-      <SidebarNav />
+      <SidebarNav storeName={storeName} storeSlug={storeSlug} />
     </aside>
   );
 }

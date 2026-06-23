@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { CheckCircle2, Circle, ChevronDown, ChevronUp } from 'lucide-react'
 import { cn } from '@/shared/utils'
+import { getChecklistState } from '@/app/(dashboard)/dashboard/_actions'
+import type { ChecklistState } from '@/app/(dashboard)/dashboard/_actions'
 
 interface ChecklistItem {
   id: string
   label: string
   href: string
-  completedKey: string
+  done: (state: ChecklistState, sharedViaLS: boolean) => boolean
+  isComingSoon?: boolean
 }
 
 const CHECKLIST_ITEMS: ChecklistItem[] = [
@@ -17,58 +20,51 @@ const CHECKLIST_ITEMS: ChecklistItem[] = [
     id: 'name',
     label: 'Nombre y link listos',
     href: '/dashboard',
-    completedKey: 'tiendri_onboarding_completed',
+    done: (s) => s.onboardingCompleted,
   },
   {
     id: 'whatsapp',
     label: 'WhatsApp conectado',
     href: '/dashboard',
-    completedKey: 'tiendri_onboarding_completed',
+    done: (s) => s.whatsappConnected,
   },
   {
     id: 'product',
     label: 'Agregá tu primer producto',
     href: '/dashboard/productos',
-    completedKey: 'tiendri_checklist_product',
+    done: (s) => s.hasProducts,
   },
   {
     id: 'share',
     label: 'Compartí el link',
     href: '/dashboard/compartir',
-    completedKey: 'tiendri_checklist_shared',
-  },
-  {
-    id: 'order',
-    label: 'Recibí tu primer pedido',
-    href: '#',
-    completedKey: 'tiendri_checklist_order',
+    done: (_s, sharedViaLS) => sharedViaLS,
   },
 ]
 
 const HIDDEN_KEY = 'tiendri_checklist_hidden'
-
-function readCompletedState(): Record<string, boolean> {
-  const result: Record<string, boolean> = {}
-  for (const item of CHECKLIST_ITEMS) {
-    result[item.id] = localStorage.getItem(item.completedKey) === 'true'
-  }
-  return result
-}
+const SHARED_KEY = 'tiendri_checklist_shared'
 
 export function TourChecklist() {
-  const [completed, setCompleted] = useState<Record<string, boolean>>({})
+  const [state, setState] = useState<ChecklistState | null>(null)
+  const [sharedViaLS, setSharedViaLS] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setCompleted(readCompletedState())
     setHidden(localStorage.getItem(HIDDEN_KEY) === 'true')
+    setSharedViaLS(localStorage.getItem(SHARED_KEY) === 'true')
     setMounted(true)
+
+    getChecklistState().then(setState).catch(() => {
+      setState({ onboardingCompleted: false, whatsappConnected: false, hasProducts: false })
+    })
   }, [])
 
-  if (!mounted) return null
+  if (!mounted || !state) return null
 
-  const completedCount = Object.values(completed).filter(Boolean).length
+  const completionFlags = CHECKLIST_ITEMS.map(item => item.done(state, sharedViaLS))
+  const completedCount = completionFlags.filter(Boolean).length
   const totalCount = CHECKLIST_ITEMS.length
   const allDone = completedCount === totalCount
 
@@ -84,7 +80,6 @@ export function TourChecklist() {
 
   return (
     <div className="rounded-xl border border-border bg-muted/50 shadow-sm">
-      {/* Header */}
       <button
         type="button"
         onClick={toggleHidden}
@@ -92,7 +87,7 @@ export function TourChecklist() {
         aria-expanded={!hidden}
       >
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-foreground">Tu tienda en 5 pasos</span>
+          <span className="text-sm font-medium text-foreground">Tu tienda en 4 pasos</span>
           <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
             {completedCount}/{totalCount}
           </span>
@@ -104,7 +99,6 @@ export function TourChecklist() {
         )}
       </button>
 
-      {/* Progress bar */}
       <div className="mx-4 h-1.5 overflow-hidden rounded-full bg-muted">
         <div
           className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
@@ -116,34 +110,17 @@ export function TourChecklist() {
         />
       </div>
 
-      {/* Items */}
       {!hidden && (
         <ul className="mt-2 space-y-0.5 px-2 pb-3">
-          {CHECKLIST_ITEMS.map(item => {
-            const isDone = completed[item.id] ?? false
+          {CHECKLIST_ITEMS.map((item, i) => {
+            const isDone = completionFlags[i] ?? false
 
             return (
               <li key={item.id}>
-                {isDone || item.href === '#' ? (
-                  <div
-                    className={cn(
-                      'flex items-center gap-3 rounded-lg px-2 py-2',
-                      isDone ? 'opacity-60' : 'opacity-40'
-                    )}
-                  >
-                    {isDone ? (
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                    ) : (
-                      <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
-                    )}
-                    <span
-                      className={cn(
-                        'text-sm',
-                        isDone ? 'text-muted-foreground line-through' : 'text-muted-foreground'
-                      )}
-                    >
-                      {item.label}
-                    </span>
+                {isDone ? (
+                  <div className="flex items-center gap-3 rounded-lg px-2 py-2 opacity-60">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                    <span className="text-sm text-muted-foreground line-through">{item.label}</span>
                   </div>
                 ) : (
                   <Link

@@ -19,6 +19,8 @@ interface OnboardingShellProps {
   onNext: () => void
   onBack: () => void
   canProceed: boolean
+  isSubmitting?: boolean
+  error?: string | null
   children: React.ReactNode
 }
 
@@ -27,6 +29,8 @@ export function OnboardingShell({
   onNext,
   onBack,
   canProceed,
+  isSubmitting = false,
+  error = null,
   children,
 }: OnboardingShellProps) {
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
@@ -58,8 +62,8 @@ export function OnboardingShell({
                 key={step}
                 className={cn(
                   'h-1.5 flex-1 rounded-full transition-all duration-300',
-                  isPast && 'bg-foreground',
-                  isCurrent && 'bg-foreground opacity-100',
+                  isPast && 'bg-primary',
+                  isCurrent && 'bg-primary',
                   !isPast && !isCurrent && 'bg-muted'
                 )}
               />
@@ -84,12 +88,17 @@ export function OnboardingShell({
         {children}
       </div>
 
+      {error && (
+        <p className="text-sm text-destructive text-center -mb-2">{error}</p>
+      )}
+
       <div className="flex items-center justify-between gap-4 pt-2">
         {currentStep > 1 ? (
           <Button
             type="button"
             variant="ghost"
             onClick={onBack}
+            disabled={isSubmitting}
             className="text-muted-foreground hover:text-foreground px-0"
           >
             ← Anterior
@@ -101,15 +110,15 @@ export function OnboardingShell({
         <Button
           type="button"
           onClick={onNext}
-          disabled={!canProceed}
+          disabled={!canProceed || isSubmitting}
           className={cn(
             'min-w-[140px] h-12 rounded-xl font-semibold text-sm transition-all',
-            canProceed
-              ? 'bg-foreground hover:bg-foreground/90 text-background'
+            canProceed && !isSubmitting
+              ? 'bg-primary hover:bg-primary/90 text-primary-foreground'
               : 'bg-muted text-muted-foreground cursor-not-allowed'
           )}
         >
-          {isLastStep ? 'Crear mi tienda →' : 'Siguiente →'}
+          {isLastStep && isSubmitting ? 'Creando tienda...' : isLastStep ? 'Crear mi tienda →' : 'Siguiente →'}
         </Button>
       </div>
     </div>

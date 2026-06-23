@@ -21,5 +21,20 @@ export default async function DashboardLayout({
     redirect("/auth");
   }
 
-  return <DashboardLayoutClient>{children}</DashboardLayoutClient>;
+  const { data: store } = await supabase
+    .from("stores")
+    .select("id, name, slug")
+    .eq("owner_id", user.id)
+    .limit(1)
+    .single();
+
+  if (!store) {
+    redirect("/onboarding");
+  }
+
+  return (
+    <DashboardLayoutClient storeName={store.name} storeSlug={store.slug}>
+      {children}
+    </DashboardLayoutClient>
+  );
 }

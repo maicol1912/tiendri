@@ -6,6 +6,47 @@ import { createClient } from '@/infrastructure/supabase/server'
 import type { ActionResult, StoreMeta } from '@/types/domain'
 import type { Json } from '@/infrastructure/database.types'
 
+export interface ChecklistState {
+  onboardingCompleted: boolean
+  whatsappConnected: boolean
+  hasProducts: boolean
+}
+
+export async function getChecklistState(): Promise<ChecklistState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { onboardingCompleted: false, whatsappConnected: false, hasProducts: false }
+  }
+
+  const { data: store } = await supabase
+    .from('stores')
+    .select('id, onboarding_completed, social_media')
+    .eq('owner_id', user.id)
+    .limit(1)
+    .single()
+
+  if (!store) {
+    return { onboardingCompleted: false, whatsappConnected: false, hasProducts: false }
+  }
+
+  const socialMedia = store.social_media as Record<string, unknown> | null
+  const whatsappConnected =
+    typeof socialMedia?.whatsapp === 'string' && socialMedia.whatsapp.trim().length > 0
+
+  const { count } = await supabase
+    .from('products')
+    .select('id', { count: 'exact', head: true })
+    .eq('store_id', store.id)
+
+  return {
+    onboardingCompleted: store.onboarding_completed,
+    whatsappConnected,
+    hasProducts: (count ?? 0) > 0,
+  }
+}
+
 // ── Validation schemas ────────────────────────────────────────────────────────
 
 const completeOnboardingSchema = z.object({
