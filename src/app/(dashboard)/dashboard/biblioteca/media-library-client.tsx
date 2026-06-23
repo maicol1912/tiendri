@@ -119,7 +119,7 @@ export function MediaLibraryClient() {
       </div>
 
       {/* Storage indicator */}
-      <Card className="border-gray-200 bg-white shadow-sm">
+      <Card className="border bg-card shadow-sm">
         <CardContent className="p-4">
           <div className="flex items-center justify-between gap-2 text-sm">
             <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -166,7 +166,7 @@ export function MediaLibraryClient() {
 
       {/* Upload panel */}
       {viewMode === 'upload' && (
-        <div className="rounded-xl border border-dashed border-gray-300 p-6">
+        <div className="rounded-xl border border-dashed border-border p-6">
           <MediaUploadDropzone
             onUpload={(file) => { void handleUpload(file); }}
             isUploading={isUploading}

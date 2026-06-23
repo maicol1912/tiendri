@@ -22,11 +22,19 @@
   --ember-bg-surface:   #1C1A22; /* Inputs, interactive surfaces */
 
   /* ── AZUL — accent principal ── */
-  --ember-blue-600:      #2563EB; /* PRIMARY — CTAs, main accent */
-  --ember-blue-500:      #3B82F6; /* Hover, active states */
-  --ember-blue-800:      #1E3A8A; /* Deep blue, pressed states */
-  --ember-blue-400:      #60A5FA; /* Links, light highlights */
-  --ember-blue-950:      #0A1628; /* Badge backgrounds, subtle tints */
+  /* TODO: rename to --ember-red-* — these vars are now RED (migrated from blue) */
+  --ember-blue-600:      #B91C1C; /* PRIMARY — CTAs, main accent */
+  --ember-blue-500:      #DC2626; /* Hover, active states */
+  --ember-blue-800:      #6B1616; /* Deep pressed states */
+  --ember-blue-400:      #F87171; /* Links, light highlights */
+  --ember-blue-950:      #2A0A0A; /* Badge backgrounds, subtle tints */
+
+  /* ── ROJO — accent canónico (mirrors --ember-blue-* above until rename) ── */
+  --ember-red-600:      #B91C1C; /* PRIMARY — CTAs, main accent */
+  --ember-red-500:      #DC2626; /* Hover, active states */
+  --ember-red-800:      #6B1616; /* Deep pressed states */
+  --ember-red-400:      #F87171; /* Links, light highlights */
+  --ember-red-950:      #2A0A0A; /* Badge backgrounds, subtle tints */
 
   /* ── TEXTO ── */
   --ember-text-primary:   #F5F5F6; /* Headings */
@@ -56,12 +64,12 @@
 
   /* ── SOMBRAS / GLOW ── */
   --ember-glow-cta:
-    0 0 24px rgba(37, 99, 235, 0.35),
-    0 0 64px rgba(37, 99, 235, 0.15);
+    0 0 24px rgba(185, 28, 28, 0.35),
+    0 0 64px rgba(185, 28, 28, 0.15);
 
   --ember-glow-subtle:
-    0 0 16px rgba(37, 99, 235, 0.2),
-    0 0 40px rgba(37, 99, 235, 0.08);
+    0 0 16px rgba(185, 28, 28, 0.2),
+    0 0 40px rgba(185, 28, 28, 0.08);
 
   --ember-shadow-card:
     0 4px 24px rgba(0, 0, 0, 0.4),

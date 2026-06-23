@@ -24,11 +24,11 @@ interface StatCardProps {
 
 function StatCard({ label, value, icon: Icon, accent }: StatCardProps) {
   return (
-    <Card className="border-gray-200 bg-white shadow-sm">
+    <Card className="border bg-card shadow-sm">
       <CardContent className="flex items-center gap-4 p-4">
         <div
           className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${
-            accent ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-500'
+            accent ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
           }`}
         >
           <Icon className="size-5" />

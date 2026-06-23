@@ -23,9 +23,9 @@ function QuickAction({ label, description, icon: Icon, onClick }: QuickActionPro
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-4 text-left shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+      className="flex items-center gap-3 rounded-lg border bg-card p-4 text-left shadow-sm transition-colors hover:border-border hover:bg-muted"
     >
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
         <Icon className="size-4" />
       </div>
       <div className="min-w-0">

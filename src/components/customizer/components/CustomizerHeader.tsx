@@ -11,13 +11,13 @@ export function CustomizerHeader({ templateLabel, onReset, onClose }: Customizer
     <div
       style={{
         padding: "16px 20px",
-        borderBottom: "1px solid #2a2a2a",
+        borderBottom: "1px solid var(--customizer-border)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         position: "sticky",
         top: 0,
-        background: "#1a1a1a",
+        background: "var(--customizer-bg)",
         zIndex: 10,
       }}
     >
@@ -34,8 +34,8 @@ export function CustomizerHeader({ templateLabel, onReset, onClose }: Customizer
             onClick={onReset}
             style={{
               padding: "5px 10px",
-              background: "#2a2a2a",
-              border: "1px solid #3a3a3a",
+              background: "var(--customizer-border)",
+              border: "1px solid var(--customizer-border-hover)",
               borderRadius: "6px",
               color: "#ccc",
               cursor: "pointer",
@@ -43,7 +43,7 @@ export function CustomizerHeader({ templateLabel, onReset, onClose }: Customizer
               transition: "background 0.15s",
             }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#333"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#2a2a2a"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "var(--customizer-border)"; }}
           >
             Restablecer
           </button>
@@ -57,9 +57,9 @@ export function CustomizerHeader({ templateLabel, onReset, onClose }: Customizer
               width: "28px",
               height: "28px",
               background: "transparent",
-              border: "1px solid #3a3a3a",
+              border: "1px solid var(--customizer-border-hover)",
               borderRadius: "6px",
-              color: "#888",
+              color: "var(--customizer-text-muted)",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -69,13 +69,13 @@ export function CustomizerHeader({ templateLabel, onReset, onClose }: Customizer
             }}
             onMouseEnter={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
-              btn.style.background = "#2a2a2a";
-              btn.style.color = "#e5e5e5";
+              btn.style.background = "var(--customizer-border)";
+              btn.style.color = "var(--customizer-text)";
             }}
             onMouseLeave={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
               btn.style.background = "transparent";
-              btn.style.color = "#888";
+              btn.style.color = "var(--customizer-text-muted)";
             }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

@@ -23,14 +23,14 @@ function VibeCard({ id: _id, name, description, previewColors, targetStores, sel
       type="button"
       onClick={onSelect}
       className={cn(
-        'relative flex flex-col gap-3 p-5 bg-white rounded-xl border-2 text-left transition-all duration-150 w-full',
+        'relative flex flex-col gap-3 p-5 bg-card rounded-xl border-2 text-left transition-all duration-150 w-full',
         selected
-          ? 'border-black shadow-sm'
-          : 'border-gray-200 hover:border-gray-300'
+          ? 'border-foreground shadow-sm'
+          : 'border-border hover:border-muted-foreground'
       )}
     >
       {selected && (
-        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-black flex items-center justify-center shrink-0">
+        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-foreground flex items-center justify-center shrink-0">
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
             <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -48,15 +48,15 @@ function VibeCard({ id: _id, name, description, previewColors, targetStores, sel
       </div>
 
       <div className="space-y-1.5">
-        <p className="font-bold text-[#1A1A1A] text-lg leading-tight">{name}</p>
-        <p className="text-sm text-[#6B6B6B] leading-snug">{description}</p>
+        <p className="font-bold text-foreground text-lg leading-tight">{name}</p>
+        <p className="text-sm text-muted-foreground leading-snug">{description}</p>
       </div>
 
       <div className="flex flex-wrap gap-1.5">
         {tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2 py-0.5 bg-gray-100 text-[#6B6B6B] rounded-full"
+            className="text-xs px-2 py-0.5 bg-muted text-muted-foreground rounded-full"
           >
             {tag}
           </span>
@@ -72,8 +72,8 @@ export function Step3VibeSelection() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold text-[#1A1A1A]">¿Cómo querés que se sienta tu tienda?</h2>
-        <p className="text-[#6B6B6B] text-sm">
+        <h2 className="text-2xl font-bold text-foreground">¿Cómo querés que se sienta tu tienda?</h2>
+        <p className="text-muted-foreground text-sm">
           Elegí el estilo que más te represente. Lo podés cambiar después.
         </p>
       </div>

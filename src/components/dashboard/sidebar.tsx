@@ -76,16 +76,16 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col">
       {/* Store identity */}
-      <div className="border-b border-gray-200 px-4 py-5">
+      <div className="border-b border-border px-4 py-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">
             {storeName.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-gray-900">
+            <p className="truncate text-sm font-medium text-foreground">
               {storeName}
             </p>
-            <span className="inline-block rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium tracking-wide text-gray-500">
+            <span className="inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium tracking-wide text-muted-foreground">
               Gratis
             </span>
           </div>
@@ -109,7 +109,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-150",
                   active
                     ? "border-l-2 border-primary bg-primary/5 pl-[10px] font-medium text-primary"
-                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
@@ -126,20 +126,20 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {/* Bottom section */}
-      <div className="border-t border-gray-200 px-3 py-3">
+      <div className="border-t border-border px-3 py-3">
         {storeSlug ? (
           <a
             href={`/${storeSlug}`}
             target="_blank"
             rel="noopener noreferrer"
             data-tour="preview"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-150 hover:bg-muted hover:text-foreground"
           >
             <ExternalLink className="h-4 w-4 shrink-0" />
             Ver mi tienda
           </a>
         ) : (
-          <span className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400">
+          <span className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground/60">
             <ExternalLink className="h-4 w-4 shrink-0" />
             Ver mi tienda
           </span>
@@ -152,7 +152,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 /** Desktop-only fixed sidebar */
 export function DashboardSidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-gray-200 bg-white lg:block">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-border bg-card lg:block">
       <SidebarNav />
     </aside>
   );

@@ -31,9 +31,9 @@ export function SortableSectionItem({ section, label, onToggle }: SortableSectio
         alignItems: "center",
         gap: "8px",
         padding: "8px 10px",
-        background: "#222",
+        background: "var(--customizer-bg-elevated)",
         borderRadius: "8px",
-        border: "1px solid #2a2a2a",
+        border: "1px solid var(--customizer-border)",
       }}
     >
       <button
@@ -45,14 +45,14 @@ export function SortableSectionItem({ section, label, onToggle }: SortableSectio
           border: "none",
           padding: "2px",
           cursor: "grab",
-          color: "#444",
+          color: "#444",  /* intentionally dim — drag handle affordance */
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
           transition: "color 0.15s",
         }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#888"; }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "var(--customizer-text-muted)"; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#444"; }}
       >
         <GripVertical size={14} />
@@ -62,10 +62,10 @@ export function SortableSectionItem({ section, label, onToggle }: SortableSectio
         type="checkbox"
         checked={section.visible}
         onChange={onToggle}
-        style={{ width: "14px", height: "14px", accentColor: "#4a9eff", cursor: "pointer", flexShrink: 0 }}
+        style={{ width: "14px", height: "14px", accentColor: "var(--customizer-accent)", cursor: "pointer", flexShrink: 0 }}
       />
 
-      <span style={{ flex: 1, fontSize: "12px", color: section.visible ? "#e5e5e5" : "#555", transition: "color 0.15s" }}>
+      <span style={{ flex: 1, fontSize: "12px", color: section.visible ? "var(--customizer-text)" : "var(--customizer-text-dim)", transition: "color 0.15s" }}>
         {label}
       </span>
     </div>

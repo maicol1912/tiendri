@@ -39,8 +39,8 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
                     alignItems: "flex-start",
                     gap: "2px",
                     padding: "8px 10px",
-                    background: isSelected ? "#1a2a1a" : "#222",
-                    border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                    background: isSelected ? "#1a2a1a" : "var(--customizer-bg-elevated)",
+                    border: isSelected ? `1.5px solid var(--customizer-accent)` : "1.5px solid var(--customizer-border)",
                     borderRadius: "8px",
                     cursor: "pointer",
                     textAlign: "left",
@@ -51,7 +51,7 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
                     if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
                   }}
                   onMouseLeave={(e) => {
-                    if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                    if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--customizer-border)";
                   }}
                 >
                   <span
@@ -59,7 +59,7 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
                       fontFamily: globalPair?.heading.style.fontFamily,
                       fontSize: "14px",
                       fontWeight: 600,
-                      color: "#e5e5e5",
+                      color: "var(--customizer-text)",
                       lineHeight: 1.2,
                     }}
                   >
@@ -84,7 +84,7 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {fontGroups.map((group) => (
               <div key={group.id}>
-                <div style={{ fontSize: "10px", color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
+                <div style={{ fontSize: "10px", color: "var(--customizer-text-dim)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "6px", fontWeight: 600 }}>
                   {group.name}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
@@ -103,8 +103,8 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
                           alignItems: "flex-start",
                           gap: "2px",
                           padding: "8px 10px",
-                          background: isSelected ? "#1a2a1a" : "#222",
-                          border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                          background: isSelected ? "#1a2a1a" : "var(--customizer-bg-elevated)",
+                          border: isSelected ? `1.5px solid var(--customizer-accent)` : "1.5px solid var(--customizer-border)",
                           borderRadius: "8px",
                           cursor: "pointer",
                           textAlign: "left",
@@ -115,10 +115,10 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
                           if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
                         }}
                         onMouseLeave={(e) => {
-                          if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                          if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--customizer-border)";
                         }}
                       >
-                        <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "#e5e5e5", lineHeight: 1.2 }}>
+                        <span style={{ fontFamily: pair.heading.style.fontFamily, fontSize: "14px", fontWeight: 600, color: "var(--customizer-text)", lineHeight: 1.2 }}>
                           {pair.name}
                         </span>
                         <span style={{ fontFamily: pair.body.style.fontFamily, fontSize: "11px", color: "#666", lineHeight: 1.3 }}>
@@ -134,7 +134,7 @@ export function TypographyPanel({ config, onConfigChange, updateTypography, font
         )}
       </div>
 
-      <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div style={{ borderTop: "1px solid var(--customizer-border)", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
         <div>
           <label style={labelStyle}>Peso del título</label>
           <select

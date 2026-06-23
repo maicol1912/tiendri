@@ -210,24 +210,22 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col md:flex-row overflow-hidden bg-white">
+    <div className="relative min-h-screen flex flex-col md:flex-row overflow-hidden bg-background">
 
       {/* Dark branding panel — slides between sides on desktop */}
       <div
         className={[
           "hidden md:flex flex-col justify-between",
           "absolute inset-y-0 w-[45%] z-20",
-          "bg-gradient-to-br from-[#0a0a14] via-[#0d1025] to-[#111638]",
+          "bg-gradient-to-br from-[#0a0a0d] via-[#1a0a0a] to-[#2A0A0A]",
           "transition-all duration-700 ease-in-out",
           isRegister ? "left-[55%] rounded-l-[40px]" : "left-0 rounded-r-[40px]",
         ].join(" ")}
       >
-        <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.15)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_center,rgba(185,28,28,0.15)_0%,transparent_70%)]" />
 
         <div className="relative z-10 p-10">
-          <span className="font-sora text-xl font-semibold lowercase tracking-tight text-white">
-            tiendri<span className="text-blue-500">.</span>
-          </span>
+          <img src="/logo.png" alt="Tiendri" className="h-7" />
         </div>
 
         <div className="relative z-10 flex flex-1 items-center px-10">
@@ -263,25 +261,25 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
         ].join(" ")}
       >
         <div className="w-full max-w-[400px] px-6 md:px-0 py-12">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
             {isRegister ? "Crea tu cuenta" : "Inicia sesión"}
           </h1>
 
           {error && (
-            <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="mb-5 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className="mb-5 rounded-lg border border-green-500/30 bg-green-900/20 px-4 py-3 text-sm text-green-400">
               {success}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="email" className="text-sm font-medium text-muted-foreground">
                 Correo electrónico
               </Label>
               <Input
@@ -291,20 +289,20 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
                 placeholder="tu@correo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20"
+                className="h-11 rounded-lg border border-border bg-muted/30 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20"
               />
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="password" className="text-sm font-medium text-muted-foreground">
                   Contraseña
                 </Label>
                 {!isRegister && (
                   <button
                     type="button"
                     onClick={handleForgotPassword}
-                    className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+                    className="text-sm text-primary hover:text-primary/80 transition-colors"
                   >
                     ¿Olvidaste tu contraseña?
                   </button>
@@ -318,12 +316,12 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                  className="h-11 rounded-lg border border-border bg-muted/30 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   tabIndex={-1}
                   aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
@@ -334,7 +332,7 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
 
             {isRegister && (
               <div className="space-y-1.5">
-                <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="confirm-password" className="text-sm font-medium text-muted-foreground">
                   Confirmar contraseña
                 </Label>
                 <div className="relative">
@@ -345,12 +343,12 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
                     placeholder="••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                    className="h-11 rounded-lg border border-border bg-muted/30 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     tabIndex={-1}
                     aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
@@ -363,7 +361,7 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="h-11 w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base transition-colors"
+              className="h-11 w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base transition-colors"
             >
               {loading
                 ? "Cargando..."
@@ -374,27 +372,27 @@ export function AuthPageClient({ initialMode, urlError }: AuthPageClientProps) {
           </form>
 
           <div className="my-5 flex items-center gap-3">
-            <div className="h-px flex-1 bg-gray-200" />
-            <span className="text-sm text-gray-400">o continúa con</span>
-            <div className="h-px flex-1 bg-gray-200" />
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-sm text-muted-foreground">o continúa con</span>
+            <div className="h-px flex-1 bg-border" />
           </div>
 
           <Button
             type="button"
             variant="outline"
             onClick={handleGoogleAuth}
-            className="h-11 w-full rounded-lg border border-blue-100 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors gap-3"
+            className="h-11 w-full rounded-lg border border-border bg-muted/30 hover:bg-accent text-muted-foreground font-medium transition-colors gap-3"
           >
             <GoogleIcon />
             Continuar con Google
           </Button>
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             {isRegister ? "¿Ya tenés cuenta? " : "¿No tenés cuenta? "}
             <button
               type="button"
               onClick={() => toggleMode(isRegister ? "login" : "register")}
-              className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              className="font-semibold text-primary hover:text-primary/80 transition-colors"
             >
               {isRegister ? "Iniciá sesión" : "Registrate gratis"}
             </button>

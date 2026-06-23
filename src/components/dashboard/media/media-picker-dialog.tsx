@@ -92,7 +92,7 @@ export function MediaPickerDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="flex max-h-[90vh] w-full max-w-3xl flex-col gap-0 overflow-hidden p-0">
-        <DialogHeader className="shrink-0 border-b border-gray-200 px-6 py-4">
+        <DialogHeader className="shrink-0 border-b border-border px-6 py-4">
           <DialogTitle className="flex items-center gap-2">
             <Images className="size-5 text-muted-foreground" />
             Biblioteca de medios
@@ -155,7 +155,7 @@ export function MediaPickerDialog({
           </TabsContent>
         </Tabs>
 
-        <DialogFooter className="shrink-0 border-t border-gray-200 px-6 py-4">
+        <DialogFooter className="shrink-0 border-t border-border px-6 py-4">
           <Button variant="outline" onClick={() => handleOpenChange(false)}>
             Cancelar
           </Button>

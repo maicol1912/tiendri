@@ -49,15 +49,15 @@ export function Step1StoreInfo() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold text-[#1A1A1A]">¿Cómo se llama tu tienda?</h2>
-        <p className="text-[#6B6B6B] text-sm">
+        <h2 className="text-2xl font-bold text-foreground">¿Cómo se llama tu tienda?</h2>
+        <p className="text-muted-foreground text-sm">
           Este será el link que le mandás a tus clientes por WhatsApp.
         </p>
       </div>
 
       <div className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="storeName" className="text-sm font-medium text-[#1A1A1A]">
+          <Label htmlFor="storeName" className="text-sm font-medium text-foreground">
             Nombre de tu tienda
           </Label>
           <Input
@@ -65,26 +65,26 @@ export function Step1StoreInfo() {
             value={state.storeName}
             onChange={(e) => handleStoreNameChange(e.target.value)}
             placeholder="Ej: Perfumería Valentina"
-            className="h-12 text-base border-gray-200 focus-visible:ring-black"
+            className="h-12 text-base border-border focus-visible:ring-foreground"
             autoFocus
           />
           {errors.storeName && (
-            <p className="text-xs text-neutral-600">{errors.storeName}</p>
+            <p className="text-xs text-muted-foreground">{errors.storeName}</p>
           )}
           {state.slug && !errors.storeName && (
-            <p className="text-xs text-[#6B6B6B]">
+            <p className="text-xs text-muted-foreground">
               Tu tienda quedará en{' '}
-              <span className="font-medium text-[#1A1A1A]">tiendri.co/{state.slug}</span>
+              <span className="font-medium text-foreground">tiendri.co/{state.slug}</span>
             </p>
           )}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="whatsapp" className="text-sm font-medium text-[#1A1A1A]">
+          <Label htmlFor="whatsapp" className="text-sm font-medium text-foreground">
             Número de WhatsApp
           </Label>
           <div className="flex h-12">
-            <span className="flex items-center px-3 text-sm font-medium text-[#6B6B6B] bg-gray-100 border border-r-0 border-gray-200 rounded-l-md select-none">
+            <span className="flex items-center px-3 text-sm font-medium text-muted-foreground bg-muted border border-r-0 border-border rounded-l-md select-none">
               +57
             </span>
             <Input
@@ -93,11 +93,11 @@ export function Step1StoreInfo() {
               onChange={(e) => handleWhatsappChange(e.target.value)}
               placeholder="3001234567"
               inputMode="numeric"
-              className="rounded-l-none h-full border-gray-200 focus-visible:ring-black"
+              className="rounded-l-none h-full border-border focus-visible:ring-foreground"
             />
           </div>
           {errors.whatsapp && (
-            <p className="text-xs text-neutral-600">{errors.whatsapp}</p>
+            <p className="text-xs text-muted-foreground">{errors.whatsapp}</p>
           )}
         </div>
       </div>

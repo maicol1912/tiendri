@@ -44,14 +44,22 @@ export function usePhoneScroll(
           return;
         }
 
+        // Start higher so the phone is partially visible in the hero on page load.
+        // MOBILE_START = -130%: top ~30% of the phone peeks above the HowItWorks
+        // section into the hero viewport on a 375px screen (phone height ≈ 504px,
+        // 30% ≈ 151px which sits at the bottom quarter of the hero).
+        // The animation triggers over 75% of the hero height so it completes
+        // right as the user reaches the HowItWorks section.
         const MOBILE_START = -100;
         const MOBILE_END = 0;
+        const SCROLL_DISTANCE_FACTOR = 0.85;
 
         const update = () => {
           const scrolled = window.scrollY;
           const heroH = window.innerHeight;
           if (heroH === 0) return;
-          const progress = Math.min(Math.max(scrolled / heroH, 0), 1);
+          const scrollDistance = heroH * SCROLL_DISTANCE_FACTOR;
+          const progress = Math.min(Math.max(scrolled / scrollDistance, 0), 1);
           const phoneY = MOBILE_START + (MOBILE_END - MOBILE_START) * progress;
           phoneEl.style.transform = `translate3d(0px, ${phoneY}%, 0px)`;
         };

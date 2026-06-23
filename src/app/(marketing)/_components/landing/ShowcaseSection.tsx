@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { lerp } from '../../_lib/animations';
 
 /**
@@ -37,94 +37,185 @@ const PHONES = [
   },
 ];
 
-// ── Mobile/Tablet: static vertical stack ──────────────────────────────────────
+// ── Mobile/Tablet: swipeable carousel with arrows ────────────────────────────
+
+function ArrowButton({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label={direction === 'left' ? 'Anterior' : 'Siguiente'}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: '50%',
+        border: '1px solid rgba(255,255,255,0.15)',
+        background: 'rgba(255,255,255,0.05)',
+        color: 'hsl(0, 0%, 96%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        backdropFilter: 'blur(4px)',
+        flexShrink: 0,
+      }}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        {direction === 'left'
+          ? <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          : <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        }
+      </svg>
+    </button>
+  );
+}
 
 function ShowcaseStatic() {
+  const [current, setCurrent] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef(0);
+  const touchDeltaX = useRef(0);
+
+  const goTo = useCallback((index: number) => {
+    const clamped = ((index % PHONES.length) + PHONES.length) % PHONES.length;
+    setCurrent(clamped);
+  }, []);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+    if (trackRef.current) trackRef.current.style.transition = 'none';
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+    if (trackRef.current) {
+      const containerWidth = trackRef.current.parentElement?.offsetWidth || window.innerWidth;
+      const base = -(current * 100);
+      const pxToPercent = (touchDeltaX.current / containerWidth) * 100;
+      trackRef.current.style.transform = `translateX(${base + pxToPercent}%)`;
+    }
+  }, [current]);
+
+  const onTouchEnd = useCallback(() => {
+    if (trackRef.current) trackRef.current.style.transition = 'transform 0.35s ease-out';
+    if (Math.abs(touchDeltaX.current) > 50) {
+      goTo(touchDeltaX.current < 0 ? current + 1 : current - 1);
+    } else {
+      goTo(current);
+    }
+  }, [current, goTo]);
+
   return (
     <section
       id="plantillas"
       className="block lg:hidden"
-      style={{ willChange: 'background', backgroundColor: 'hsl(0, 0%, 8%)', borderRadius: '24px', overflow: 'hidden' }}
+      style={{ backgroundColor: '#16141B', overflow: 'hidden' }}
     >
-      <div style={{ maxWidth: '100%', padding: '80px 5%' }}>
+      <div style={{ padding: '60px 5% 40px' }}>
         {/* header */}
-        <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <div style={{ fontSize: 20, fontWeight: 400, lineHeight: '24px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ fontSize: 14, fontWeight: 400, lineHeight: '20px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif", marginBottom: 8 }}>
             Plantillas
           </div>
-          <div>
-            <div>
-              <h2
-                style={{
-                  paddingBottom: 7,
-                  fontSize: 50,
-                  fontWeight: 700,
-                  lineHeight: '50px',
-                  color: 'hsl(0, 0%, 96%)',
-                  margin: 0,
-                  fontFamily: "'Sora', sans-serif",
-                }}
-              >
-                Cada tienda se ve distinta
-              </h2>
-            </div>
-          </div>
+          <h2
+            style={{
+              fontSize: 28,
+              fontWeight: 700,
+              lineHeight: '32px',
+              color: 'hsl(0, 0%, 96%)',
+              margin: 0,
+              fontFamily: "'Sora', sans-serif",
+            }}
+          >
+            Cada tienda se ve distinta
+          </h2>
         </div>
 
-        {/* phones — vertical stack */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 60,
-          }}
-        >
-          {PHONES.map((phone, i) => (
+        {/* carousel with arrows on sides */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <ArrowButton direction="left" onClick={() => goTo(current - 1)} />
+
+          <div style={{ overflow: 'hidden', flex: 1 }}>
             <div
-              key={i}
+              ref={trackRef}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-                maxWidth: 300,
+                transform: `translateX(-${current * 100}%)`,
+                transition: 'transform 0.35s ease-out',
               }}
             >
-              <img
-                src={phone.src}
-                alt={phone.alt}
-                style={{ width: '100%', display: 'block', borderRadius: 24 }}
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  paddingTop: 28,
-                  rowGap: 10,
-                  width: '100%',
-                }}
-              >
-                <h3
+              {PHONES.map((phone, i) => (
+                <div
+                  key={i}
                   style={{
-                    fontSize: 28,
-                    fontWeight: 700,
-                    lineHeight: '32px',
-                    color: 'hsl(0, 0%, 96%)',
-                    margin: 0,
-                    whiteSpace: 'nowrap',
-                    fontFamily: "'Sora', sans-serif",
+                    width: '100%',
+                    flexShrink: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    padding: '0 8px',
                   }}
                 >
-                  {phone.label}
-                </h3>
-                <div style={{ fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
-                  {phone.desc}
+                  <img
+                    src={phone.src}
+                    alt={phone.alt}
+                    style={{ width: '100%', maxWidth: 200, display: 'block', borderRadius: 20 }}
+                  />
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      paddingTop: 16,
+                      rowGap: 6,
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 700,
+                        lineHeight: '24px',
+                        color: 'hsl(0, 0%, 96%)',
+                        margin: 0,
+                        fontFamily: "'Sora', sans-serif",
+                      }}
+                    >
+                      {phone.label}
+                    </h3>
+                    <div style={{ fontSize: 13, fontWeight: 400, lineHeight: '18px', color: 'hsl(0, 0%, 60%)', fontFamily: "'Sora', sans-serif" }}>
+                      {phone.desc}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
+          </div>
+
+          <ArrowButton direction="right" onClick={() => goTo(current + 1)} />
+        </div>
+
+        {/* dots */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 20 }}>
+          {PHONES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Ir a slide ${i + 1}`}
+              style={{
+                width: current === i ? 24 : 8,
+                height: 8,
+                borderRadius: 4,
+                border: 'none',
+                background: current === i ? 'hsl(0, 0%, 96%)' : 'rgba(255,255,255,0.2)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                padding: 0,
+              }}
+            />
           ))}
         </div>
       </div>
@@ -288,10 +379,9 @@ function ShowcaseDesktop() {
       className="hidden lg:block"
       style={{
         willChange: 'background',
-        backgroundColor: 'hsl(0, 0%, 8%)',
+        backgroundColor: '#16141B',
         position: 'relative',
         zIndex: 50,
-        borderRadius: '24px',
       }}
     >
       {/* discover-subhead — z-index:10, height:200vh, position:relative */}

@@ -83,7 +83,7 @@ export function TourChecklist() {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-gray-50 shadow-sm">
+    <div className="rounded-xl border border-border bg-muted/50 shadow-sm">
       {/* Header */}
       <button
         type="button"
@@ -92,20 +92,20 @@ export function TourChecklist() {
         aria-expanded={!hidden}
       >
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-900">Tu tienda en 5 pasos</span>
-          <span className="rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-semibold text-gray-500">
+          <span className="text-sm font-medium text-foreground">Tu tienda en 5 pasos</span>
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
             {completedCount}/{totalCount}
           </span>
         </div>
         {hidden ? (
-          <ChevronDown className="h-4 w-4 text-gray-400" />
+          <ChevronDown className="h-4 w-4 text-muted-foreground" />
         ) : (
-          <ChevronUp className="h-4 w-4 text-gray-400" />
+          <ChevronUp className="h-4 w-4 text-muted-foreground" />
         )}
       </button>
 
       {/* Progress bar */}
-      <div className="mx-4 h-1.5 overflow-hidden rounded-full bg-gray-200">
+      <div className="mx-4 h-1.5 overflow-hidden rounded-full bg-muted">
         <div
           className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
           style={{ width: `${progressPercent}%` }}
@@ -134,12 +134,12 @@ export function TourChecklist() {
                     {isDone ? (
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
                     ) : (
-                      <Circle className="h-4 w-4 shrink-0 text-gray-400" />
+                      <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
                     )}
                     <span
                       className={cn(
                         'text-sm',
-                        isDone ? 'text-gray-400 line-through' : 'text-gray-400'
+                        isDone ? 'text-muted-foreground line-through' : 'text-muted-foreground'
                       )}
                     >
                       {item.label}
@@ -148,10 +148,10 @@ export function TourChecklist() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-gray-100"
+                    className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted"
                   >
-                    <Circle className="h-4 w-4 shrink-0 text-gray-400" />
-                    <span className="text-sm text-gray-700">{item.label}</span>
+                    <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span className="text-sm text-foreground">{item.label}</span>
                   </Link>
                 )}
               </li>

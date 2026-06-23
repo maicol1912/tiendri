@@ -171,16 +171,28 @@ Idioma: español. El producto habla como habla el usuario.
 - Precios transparentes sin sorpresas: sin comisiones por venta, sin cobros ocultos, cancelación en un clic
 - Setup en minutos: pensado para quien nunca tuvo un sitio web, no para quien sabe de ecommerce
 
-### Colores de marca
+### Paleta de marca
+
+**Paleta primaria**: Negro / Gris / Rojo / Blanco
 
 | Rol | Color | Valor |
 |-----|-------|-------|
-| Primary / accent | Azul | `#2563EB` / `hsl(221 83% 53%)` |
+| CTA principal | Rojo | `#B91C1C` |
+| CTA hover | Rojo hover | `#DC2626` |
+| Links / highlights | Rojo claro | `#F87171` |
+| Tints sutiles | Rojo oscuro | `#2A0A0A` |
+| Fondo más profundo | Negro | `#0B0A0D` |
+| Fondo base | Negro | `#100F14` |
+| Fondo elevado (cards) | Negro elevado | `#16141B` |
+| Superficie / inputs | Gris oscuro | `#1C1A22` |
+| Texto primario (sobre oscuro) | Blanco | `#FFFFFF` |
+| Texto secundario (sobre oscuro) | Gris claro | `gray-300` |
+| Texto muted (sobre oscuro) | Gris | `gray-500` |
 | Fondo dashboard | Blanco | `#FFFFFF` |
-| Fondo landing/marketing | Negro | `#0B0A0D` (con matiz violeta) |
-| Texto sobre claro | Negro | `#0F0F0F` |
-| Texto sobre oscuro | Blanco | `#F5F5F6` |
-| Elementos interactivos | Azul | `#2563EB` (todos los CTAs, links activos, accents) |
+
+**Contextos de uso:**
+- **Páginas de marketing** (landing, auth): tema oscuro — fondos negros/grises oscuros con acentos rojos
+- **Dashboard**: fondo blanco/claro con botones rojos y negros
 
 ---
 

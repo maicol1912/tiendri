@@ -58,16 +58,16 @@ export function OnboardingShell({
                 key={step}
                 className={cn(
                   'h-1.5 flex-1 rounded-full transition-all duration-300',
-                  isPast && 'bg-black',
-                  isCurrent && 'bg-black opacity-100',
-                  !isPast && !isCurrent && 'bg-gray-200'
+                  isPast && 'bg-foreground',
+                  isCurrent && 'bg-foreground opacity-100',
+                  !isPast && !isCurrent && 'bg-muted'
                 )}
               />
             )
           })}
         </div>
 
-        <p className="text-xs font-medium text-[#6B6B6B] tracking-wide uppercase">
+        <p className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
           Paso {currentStep} de {TOTAL_STEPS} — {STEP_TITLES[currentStep]}
         </p>
       </div>
@@ -90,7 +90,7 @@ export function OnboardingShell({
             type="button"
             variant="ghost"
             onClick={onBack}
-            className="text-[#6B6B6B] hover:text-[#1A1A1A] px-0"
+            className="text-muted-foreground hover:text-foreground px-0"
           >
             ← Anterior
           </Button>
@@ -105,8 +105,8 @@ export function OnboardingShell({
           className={cn(
             'min-w-[140px] h-12 rounded-xl font-semibold text-sm transition-all',
             canProceed
-              ? 'bg-black hover:bg-neutral-800 text-white'
-              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-foreground hover:bg-foreground/90 text-background'
+              : 'bg-muted text-muted-foreground cursor-not-allowed'
           )}
         >
           {isLastStep ? 'Crear mi tienda →' : 'Siguiente →'}

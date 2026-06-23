@@ -150,6 +150,8 @@ export function ProductForm({
   }, [categoryId, isEdit])
 
   // ── Validation ───────────────────────────────────────────────────────────
+  const [submitted, setSubmitted] = useState(false)
+
   const errors = useMemo(() => {
     const e: Record<string, string> = {}
     if (name.trim().length < 2) e.name = 'El nombre debe tener al menos 2 caracteres'
@@ -163,12 +165,14 @@ export function ProductForm({
     return e
   }, [name, slug, description, price, compareAtPrice, categoryId])
 
+  const visibleErrors = submitted ? errors : {}
   const isValid = Object.keys(errors).length === 0
 
   // ── Submit ───────────────────────────────────────────────────────────────
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
+      setSubmitted(true)
       if (!isValid) return
 
       setIsSaving(true)
@@ -290,10 +294,10 @@ export function ProductForm({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ej: Audifonos Bluetooth Pro"
-                  aria-invalid={!!errors.name}
+                  aria-invalid={!!visibleErrors.name}
                 />
-                {errors.name && (
-                  <p className="text-xs text-destructive">{errors.name}</p>
+                {visibleErrors.name && (
+                  <p className="text-xs text-destructive">{visibleErrors.name}</p>
                 )}
               </div>
 
@@ -313,10 +317,10 @@ export function ProductForm({
                     setSlug(e.target.value)
                   }}
                   placeholder="audifonos-bluetooth-pro"
-                  aria-invalid={!!errors.slug}
+                  aria-invalid={!!visibleErrors.slug}
                 />
-                {errors.slug && (
-                  <p className="text-xs text-destructive">{errors.slug}</p>
+                {visibleErrors.slug && (
+                  <p className="text-xs text-destructive">{visibleErrors.slug}</p>
                 )}
               </div>
 
@@ -341,11 +345,11 @@ export function ProductForm({
                   placeholder="Describe tu producto..."
                   maxLength={300}
                   rows={3}
-                  aria-invalid={!!errors.description}
+                  aria-invalid={!!visibleErrors.description}
                 />
-                {errors.description && (
+                {visibleErrors.description && (
                   <p className="text-xs text-destructive">
-                    {errors.description}
+                    {visibleErrors.description}
                   </p>
                 )}
               </div>
@@ -363,13 +367,13 @@ export function ProductForm({
                   value={price}
                   onChange={setPrice}
                   label="Precio"
-                  error={errors.price}
+                  error={visibleErrors.price}
                 />
                 <PriceInput
                   value={compareAtPrice}
                   onChange={setCompareAtPrice}
                   label="Precio de comparación"
-                  error={errors.compareAtPrice}
+                  error={visibleErrors.compareAtPrice}
                   placeholder="Opcional"
                 />
               </div>
@@ -396,7 +400,7 @@ export function ProductForm({
                 <Select value={categoryId} onValueChange={setCategoryId}>
                   <SelectTrigger
                     className="w-full"
-                    aria-invalid={!!errors.categoryId}
+                    aria-invalid={!!visibleErrors.categoryId}
                   >
                     <SelectValue placeholder="Seleccioná una categoría" />
                   </SelectTrigger>
@@ -408,9 +412,9 @@ export function ProductForm({
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.categoryId && (
+                {visibleErrors.categoryId && (
                   <p className="text-xs text-destructive">
-                    {errors.categoryId}
+                    {visibleErrors.categoryId}
                   </p>
                 )}
               </div>

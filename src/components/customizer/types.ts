@@ -177,17 +177,17 @@ export interface ThemeCustomizerProps {
 export const selectStyle: React.CSSProperties = {
   width: "100%",
   padding: "6px 8px",
-  background: "#2a2a2a",
-  border: "1px solid #3a3a3a",
+  background: "var(--customizer-border)",
+  border: "1px solid var(--customizer-border-hover)",
   borderRadius: "6px",
-  color: "#e5e5e5",
+  color: "var(--customizer-text)",
   fontSize: "12px",
   cursor: "pointer",
 };
 
 export const labelStyle: React.CSSProperties = {
   display: "block",
-  color: "#aaa",
+  color: "var(--customizer-text-muted)",
   fontSize: "12px",
   marginBottom: "5px",
 };

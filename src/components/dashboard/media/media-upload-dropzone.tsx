@@ -100,20 +100,20 @@ export function MediaUploadDropzone({
         className={cn(
           'flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed px-6 py-10 text-center transition-colors duration-150',
           isUploading
-            ? 'cursor-not-allowed border-gray-300 bg-gray-50 opacity-60'
+            ? 'cursor-not-allowed border-border bg-muted opacity-60'
             : isDragging
               ? 'border-primary bg-primary/5 cursor-copy'
-              : 'border-gray-300 bg-gray-50 cursor-pointer hover:border-gray-400 hover:bg-gray-100'
+              : 'border-border bg-muted cursor-pointer hover:border-muted-foreground hover:bg-muted/80'
         )}
       >
         {isUploading ? (
           <Loader2 className="size-8 animate-spin text-muted-foreground" />
         ) : (
-          <div className="flex size-12 items-center justify-center rounded-full bg-gray-200">
+          <div className="flex size-12 items-center justify-center rounded-full bg-border">
             {isDragging ? (
               <Upload className="size-6 text-primary" />
             ) : (
-              <ImageIcon className="size-6 text-gray-500" />
+              <ImageIcon className="size-6 text-muted-foreground" />
             )}
           </div>
         )}

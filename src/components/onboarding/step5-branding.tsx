@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { useOnboarding } from '@/onboarding/onboarding-provider'
 import { useImageUpload } from '@/app/(dashboard)/_hooks/use-image-upload'
 import type { AccentColor } from '@/types/domain/onboarding'
+import { ACCENT_COLORS } from '@/shared/constants/accent-colors'
 import { cn } from '@/shared/utils'
 import { Button } from '@/components/ui/button'
 
@@ -12,21 +13,6 @@ interface ColorSwatch {
   hex: string
   label: string
 }
-
-const SWATCHES: ColorSwatch[] = [
-  { id: 'rojo', hex: '#EF4444', label: 'Rojo' },
-  { id: 'naranja', hex: '#F97316', label: 'Naranja' },
-  { id: 'amarillo', hex: '#EAB308', label: 'Amarillo' },
-  { id: 'verde', hex: '#22C55E', label: 'Verde' },
-  { id: 'turquesa', hex: '#14B8A6', label: 'Turquesa' },
-  { id: 'azul', hex: '#3B82F6', label: 'Azul' },
-  { id: 'violeta', hex: '#8B5CF6', label: 'Violeta' },
-  { id: 'rosa', hex: '#EC4899', label: 'Rosa' },
-  { id: 'negro', hex: '#171717', label: 'Negro' },
-  { id: 'gris', hex: '#6B7280', label: 'Gris' },
-  { id: 'blanco', hex: '#FFFFFF', label: 'Blanco' },
-  { id: 'cafe', hex: '#92400E', label: 'Café' },
-]
 
 interface SwatchButtonProps {
   swatch: ColorSwatch
@@ -45,7 +31,7 @@ function SwatchButton({ swatch, selected, onSelect }: SwatchButtonProps) {
       className={cn(
         'w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-150',
         selected ? 'border-black scale-110 shadow-md' : 'border-transparent hover:scale-105',
-        swatch.id === 'blanco' && 'border-gray-200'
+        swatch.id === 'blanco' && 'border-border'
       )}
       style={{ backgroundColor: swatch.hex }}
       aria-label={swatch.label}
@@ -116,17 +102,17 @@ export function Step5Branding() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold text-[#1A1A1A]">Poné tu marca</h2>
-        <p className="text-[#6B6B6B] text-sm">
+        <h2 className="text-2xl font-bold text-foreground">Poné tu marca</h2>
+        <p className="text-muted-foreground text-sm">
           El logo y la foto son opcionales. Lo importante es arrancar.
         </p>
       </div>
 
       <div className="space-y-6">
         <div className="space-y-3">
-          <p className="text-sm font-medium text-[#1A1A1A]">Color de acento</p>
+          <p className="text-sm font-medium text-foreground">Color de acento</p>
           <div className="grid grid-cols-6 gap-2 sm:grid-cols-6">
-            {SWATCHES.map((swatch) => (
+            {ACCENT_COLORS.map((swatch) => (
               <SwatchButton
                 key={swatch.id}
                 swatch={swatch}
@@ -138,25 +124,25 @@ export function Step5Branding() {
         </div>
 
         <div className="space-y-3">
-          <p className="text-sm font-medium text-[#1A1A1A]">Logo de tu tienda</p>
+          <p className="text-sm font-medium text-foreground">Logo de tu tienda</p>
 
           {logoImage ? (
-            <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200">
+            <div className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border">
               <img
                 src={logoImage.dataUrl}
                 alt="Logo de la tienda"
-                className="w-16 h-16 object-contain rounded-lg border border-gray-100"
+                className="w-16 h-16 object-contain rounded-lg border border-border"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#1A1A1A] truncate">Logo subido</p>
-                <p className="text-xs text-[#6B6B6B]">Se ve bien</p>
+                <p className="text-sm font-medium text-foreground truncate">Logo subido</p>
+                <p className="text-xs text-muted-foreground">Se ve bien</p>
               </div>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={handleRemoveLogo}
-                className="text-neutral-500 hover:text-neutral-800 hover:bg-neutral-100 shrink-0"
+                className="text-muted-foreground hover:text-foreground hover:bg-muted shrink-0"
               >
                 Quitar
               </Button>
@@ -170,7 +156,7 @@ export function Step5Branding() {
               onClick={() => fileInputRef.current?.click()}
               onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
               className={cn(
-                'flex flex-col items-center justify-center gap-2 p-8 bg-white rounded-xl border-2 border-dashed border-gray-200 cursor-pointer transition-colors hover:border-black hover:bg-neutral-50',
+                'flex flex-col items-center justify-center gap-2 p-8 bg-card rounded-xl border-2 border-dashed border-border cursor-pointer transition-colors hover:border-foreground hover:bg-muted',
                 isProcessing && 'opacity-60 pointer-events-none'
               )}
             >
@@ -179,7 +165,7 @@ export function Step5Branding() {
                 height="32"
                 viewBox="0 0 32 32"
                 fill="none"
-                className="text-gray-400"
+                className="text-muted-foreground"
                 aria-hidden="true"
               >
                 <path
@@ -190,13 +176,13 @@ export function Step5Branding() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <p className="text-sm font-medium text-[#1A1A1A]">
+              <p className="text-sm font-medium text-foreground">
                 {isProcessing ? 'Procesando...' : 'Subí tu logo'}
               </p>
-              <p className="text-xs text-[#6B6B6B] text-center">
+              <p className="text-xs text-muted-foreground text-center">
                 Arrastrá tu logo acá, o hacé clic para elegir uno
               </p>
-              <p className="text-xs text-[#6B6B6B]">PNG, JPG o WebP · Máx. 5 MB</p>
+              <p className="text-xs text-muted-foreground">PNG, JPG o WebP · Máx. 5 MB</p>
             </div>
           )}
 

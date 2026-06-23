@@ -144,7 +144,7 @@ export function ReviewsSection() {
   return (
     <section
       className="flex flex-col items-center justify-center"
-      style={{ backgroundColor: 'hsl(0, 0%, 8%)', padding: '60px 20px' }}
+      style={{ backgroundColor: 'var(--ember-bg-base)', padding: '60px 20px' }}
       aria-labelledby="reviews-heading"
     >
       <div className="text-center mb-16">

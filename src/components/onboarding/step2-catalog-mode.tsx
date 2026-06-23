@@ -20,28 +20,28 @@ function ModeCard({ mode: _mode, selected, onSelect, icon, title, description, e
       type="button"
       onClick={onSelect}
       className={cn(
-        'relative flex flex-col gap-3 p-5 bg-white rounded-xl border-2 text-left transition-all duration-150 w-full',
+        'relative flex flex-col gap-3 p-5 bg-card rounded-xl border-2 text-left transition-all duration-150 w-full',
         selected
-          ? 'border-black shadow-sm'
-          : 'border-gray-200 hover:border-gray-300'
+          ? 'border-foreground shadow-sm'
+          : 'border-border hover:border-muted-foreground'
       )}
     >
       {selected && (
-        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-black flex items-center justify-center">
+        <span className="absolute top-3 right-3 w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
           <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
             <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
       )}
 
-      <span className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center text-[#1A1A1A]">
+      <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-foreground">
         {icon}
       </span>
 
       <div className="space-y-1">
-        <p className="font-semibold text-[#1A1A1A] text-base">{title}</p>
-        <p className="text-sm text-[#6B6B6B]">{description}</p>
-        <p className="text-xs text-[#6B6B6B] mt-1">{example}</p>
+        <p className="font-semibold text-foreground text-base">{title}</p>
+        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-xs text-muted-foreground mt-1">{example}</p>
       </div>
     </button>
   )
@@ -73,8 +73,8 @@ export function Step2CatalogMode() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h2 className="text-2xl font-bold text-[#1A1A1A]">¿Cómo organizás tus productos?</h2>
-        <p className="text-[#6B6B6B] text-sm">
+        <h2 className="text-2xl font-bold text-foreground">¿Cómo organizás tus productos?</h2>
+        <p className="text-muted-foreground text-sm">
           Esto lo podés cambiar después si cambiás de idea.
         </p>
       </div>

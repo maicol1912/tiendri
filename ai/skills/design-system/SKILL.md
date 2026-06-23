@@ -32,7 +32,9 @@ Referencia visual: AgentAI (hyliox.com) — calidad de diseño premium, impacto 
 
 ### Paleta de colores — Ember Core
 
-Paleta: **negro + blanco + azul**. Dashboard = light (fondo blanco, texto negro, accent azul). Landing/marketing = dark (fondo negro, texto blanco, accent azul).
+Paleta: **negro + gris + rojo + blanco**. Dashboard = light (fondo blanco, texto negro, accent rojo). Landing/marketing = dark (fondo negro, texto blanco, accent rojo).
+
+> Nota: Los nombres de las CSS vars `--ember-blue-*` se mantienen por retrocompatibilidad con `globals.css`, pero los valores que usan las páginas de marketing y auth son rojo — no azul. El landing y auth sobreescriben estas variables con los valores rojos listados abajo.
 
 | Token CSS | HEX | Role |
 |-----------|-----|------|
@@ -40,11 +42,11 @@ Paleta: **negro + blanco + azul**. Dashboard = light (fondo blanco, texto negro,
 | `--ember-bg-base` | `#100F14` | Main background — fondo principal del body |
 | `--ember-bg-elevated` | `#16141B` | Cards, panels |
 | `--ember-bg-surface` | `#1C1A22` | Inputs, interactive surfaces |
-| `--ember-blue-600` | `#2563EB` | CTAs, main accent — PRIMARY |
-| `--ember-blue-500` | `#3B82F6` | Hover, active states |
-| `--ember-blue-800` | `#1E3A8A` | Deep blue, pressed states |
-| `--ember-blue-400` | `#60A5FA` | Links, light highlights |
-| `--ember-blue-950` | `#0A1628` | Badge backgrounds, subtle tints |
+| `--ember-blue-600` | `#B91C1C` | CTAs, main accent — PRIMARY (rojo) |
+| `--ember-blue-500` | `#DC2626` | Hover, active states (rojo hover) |
+| `--ember-blue-800` | `#991B1B` | Deep red, pressed states |
+| `--ember-blue-400` | `#F87171` | Links, light highlights (rojo claro) |
+| `--ember-blue-950` | `#2A0A0A` | Badge backgrounds, subtle tints (rojo oscuro) |
 | `--ember-text-primary` | `#F5F5F6` | Headings |
 | `--ember-text-secondary` | `#A8A3B3` | Body copy |
 | `--ember-text-muted` | `#6B6578` | Captions |
@@ -85,15 +87,15 @@ border-radius: 16px;
 
 **Glow CTA — solo en elementos primarios**
 ```css
-box-shadow: 0 0 24px rgba(37, 99, 235, 0.35),
-            0 0 64px rgba(37, 99, 235, 0.15);
+box-shadow: 0 0 24px rgba(185, 28, 28, 0.35),
+            0 0 64px rgba(185, 28, 28, 0.15);
 ```
 
 **3D Placeholder (hasta que Camilo integre Spline)**
 ```css
 background: radial-gradient(circle at center,
-  rgba(37, 99, 235, 0.25) 0%,
-  rgba(37, 99, 235, 0.08) 40%,
+  rgba(185, 28, 28, 0.25) 0%,
+  rgba(185, 28, 28, 0.08) 40%,
   transparent 70%);
 ```
 
@@ -116,7 +118,7 @@ background-size: 60px 60px;
 | Fondo negro puro #000 | Sin personalidad — usar #0B0A0D con matiz violeta |
 | Glass en TODOS los elementos | Máximo 2-3 por viewport |
 | Glow en todo | Solo en CTAs y 1-2 elementos accent por sección |
-| Gradiente azul → negro genérico | Radial gradients con posición intencional |
+| Gradiente rojo → negro genérico | Radial gradients con posición intencional |
 | Cards con mismo tamaño y padding | Variar jerarquía visual |
 | Timeline con 3 cards idénticos | Cada paso tiene layout diferente |
 

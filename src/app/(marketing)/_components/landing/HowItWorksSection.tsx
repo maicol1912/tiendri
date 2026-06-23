@@ -91,7 +91,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
   return (
     <section
       id="como-funciona"
-      style={{ backgroundColor: 'hsl(0, 0%, 10%)', position: 'relative', zIndex: 100 }}
+      style={{ backgroundColor: 'var(--ember-bg-elevated)', position: 'relative', zIndex: 100, overflow: 'visible' }}
       aria-labelledby="how-heading"
     >
       <div
@@ -233,9 +233,9 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
         {/* ── MOBILE layout ── */}
         <div className="flex lg:hidden flex-col items-center w-full" style={{ gap: 40 }}>
 
-          {/* Animated mobile phone */}
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative', zIndex: 10 }}>
-            <div className="animate-phone-reveal">
+          {/* Animated mobile phone — overflow: visible lets the phone extend up into the hero */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', position: 'relative', zIndex: 10, overflow: 'visible' }}>
+            <div className="animate-phone-reveal" style={{ overflow: 'visible' }}>
               <div
                 ref={mobilePhoneRef}
                 style={{
@@ -243,7 +243,7 @@ export function HowItWorksSection({ heroRef }: HowItWorksSectionProps) {
                   height: 504,
                   position: 'relative',
                   willChange: 'transform',
-                  transform: 'translate3d(0px, -110%, 0px)',
+                  transform: 'translate3d(0px, -100%, 0px)',
                   zIndex: 10,
                 }}
                 aria-label="Tiendri app en celular"

@@ -211,8 +211,8 @@ export function ThemeCustomizer({
         height: "100%",
         minHeight: "100vh",
         overflowY: "auto",
-        background: "#1a1a1a",
-        color: "#e5e5e5",
+        background: "var(--customizer-bg)",
+        color: "var(--customizer-text)",
         display: "flex",
         flexDirection: "column",
         fontFamily: "system-ui, -apple-system, sans-serif",
@@ -225,7 +225,7 @@ export function ThemeCustomizer({
         {PANEL_SECTIONS.map(({ id, label, description }) => {
           const isOpen = openSections.has(id);
           return (
-            <div key={id} style={{ borderBottom: "1px solid #2a2a2a" }}>
+            <div key={id} style={{ borderBottom: "1px solid var(--customizer-border)" }}>
               <button
                 onClick={() => toggleSection(id)}
                 style={{
@@ -233,7 +233,7 @@ export function ThemeCustomizer({
                   padding: "14px 20px",
                   background: "transparent",
                   border: "none",
-                  color: "#e5e5e5",
+                  color: "var(--customizer-text)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
@@ -243,7 +243,7 @@ export function ThemeCustomizer({
                   textAlign: "left",
                   transition: "background 0.15s",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#222"; }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "var(--customizer-bg-elevated)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
               >
                 <span>{label}</span>
@@ -252,7 +252,7 @@ export function ThemeCustomizer({
 
               {isOpen && (
                 <div style={{ padding: "4px 20px 16px" }}>
-                  <p style={{ color: "#555", fontSize: "11px", marginBottom: "12px", lineHeight: 1.5, marginTop: "2px" }}>
+                  <p style={{ color: "var(--customizer-text-dim)", fontSize: "11px", marginBottom: "12px", lineHeight: 1.5, marginTop: "2px" }}>
                     {description}
                   </p>
 
@@ -325,8 +325,8 @@ export function ThemeCustomizer({
       <div
         style={{
           padding: "12px 20px",
-          borderTop: "1px solid #2a2a2a",
-          color: "#444",
+          borderTop: "1px solid var(--customizer-border)",
+          color: "var(--customizer-text-dim)",
           fontSize: "11px",
           textAlign: "center",
         }}

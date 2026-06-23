@@ -34,11 +34,11 @@ export function DashboardLayoutClient({
   }, []);
 
   if (checking) {
-    return <div className="min-h-screen bg-gray-50" />;
+    return <div className="min-h-screen bg-background" />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <DashboardSidebar />
       <div className="lg:pl-64">
         <DashboardHeader />

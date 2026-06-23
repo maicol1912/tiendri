@@ -54,7 +54,7 @@ export function MediaPickerField({
       )}
 
       {value && resolvedUrl ? (
-        <div className="group relative overflow-hidden rounded-lg border border-gray-200">
+        <div className="group relative overflow-hidden rounded-lg border border-border">
           {/* Thumbnail */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -95,9 +95,9 @@ export function MediaPickerField({
         <button
           type="button"
           onClick={() => setDialogOpen(true)}
-          className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 px-4 py-8 text-muted-foreground transition-colors hover:border-gray-400 hover:text-foreground"
+          className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-8 text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground"
         >
-          <div className="flex size-10 items-center justify-center rounded-full bg-gray-100">
+          <div className="flex size-10 items-center justify-center rounded-full bg-muted">
             <ImageIcon className="size-5" />
           </div>
           <span className="text-sm font-medium">Elegir imagen</span>

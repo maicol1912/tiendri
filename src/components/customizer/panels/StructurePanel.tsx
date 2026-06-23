@@ -137,8 +137,8 @@ export function StructurePanel({
       />
 
       {gridFields.length > 0 && (
-        <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px" }}>
-          <p style={{ color: "#555", fontSize: "11px", marginBottom: "8px" }}>Columnas por sección</p>
+        <div style={{ borderTop: "1px solid var(--customizer-border)", paddingTop: "12px" }}>
+          <p style={{ color: "var(--customizer-text-dim)", fontSize: "11px", marginBottom: "8px" }}>Columnas por sección</p>
           {gridFields.map(({ key, mobileLabel, desktopLabel }) => (
             <div key={key} style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "8px" }}>
               {(

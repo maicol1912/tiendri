@@ -100,22 +100,20 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col md:flex-row overflow-hidden bg-white">
+    <div className="relative min-h-screen flex flex-col md:flex-row overflow-hidden bg-background">
 
       {/* Dark branding panel */}
       <div
         className={[
           "hidden md:flex flex-col justify-between",
           "absolute inset-y-0 w-[45%] z-20 left-0 rounded-r-[40px]",
-          "bg-gradient-to-br from-[#0a0a14] via-[#0d1025] to-[#111638]",
+          "bg-gradient-to-br from-[#0a0a0d] via-[#1a0a0a] to-[#2A0A0A]",
         ].join(" ")}
       >
-        <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.15)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_at_center,rgba(185,28,28,0.15)_0%,transparent_70%)]" />
 
         <div className="relative z-10 p-10">
-          <span className="font-sora text-xl font-semibold lowercase tracking-tight text-white">
-            tiendri<span className="text-blue-500">.</span>
-          </span>
+          <img src="/logo.png" alt="Tiendri" className="h-7" />
         </div>
 
         <div className="relative z-10 flex flex-1 items-center px-10">
@@ -138,22 +136,22 @@ export default function ResetPasswordPage() {
         ].join(" ")}
       >
         <div className="w-full max-w-[400px] px-6 md:px-0 py-12">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
             Restablecer contraseña
           </h1>
-          <p className="text-sm text-gray-500 mb-8">
+          <p className="text-sm text-muted-foreground mb-8">
             Ingresá tu nueva contraseña para acceder a tu cuenta.
           </p>
 
           {error && (
-            <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="mb-5 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <Label htmlFor="new-password" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="new-password" className="text-sm font-medium text-muted-foreground">
                 Nueva contraseña
               </Label>
               <div className="relative">
@@ -164,12 +162,12 @@ export default function ResetPasswordPage() {
                   placeholder="••••••••"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                  className="h-11 rounded-lg border border-border bg-muted/30 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   tabIndex={-1}
                   aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
@@ -179,7 +177,7 @@ export default function ResetPasswordPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="confirm-password" className="text-sm font-medium text-muted-foreground">
                 Confirmar contraseña
               </Label>
               <div className="relative">
@@ -190,12 +188,12 @@ export default function ResetPasswordPage() {
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-11 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500/20 pr-10"
+                  className="h-11 rounded-lg border border-border bg-muted/30 text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   tabIndex={-1}
                   aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
@@ -207,17 +205,17 @@ export default function ResetPasswordPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="h-11 w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base transition-colors"
+              className="h-11 w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base transition-colors"
             >
               {loading ? "Actualizando..." : "Actualizar contraseña"}
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             ¿Ya recordaste tu contraseña?{" "}
             <a
               href="/auth"
-              className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              className="font-semibold text-primary hover:text-primary/80 transition-colors"
             >
               Iniciá sesión
             </a>

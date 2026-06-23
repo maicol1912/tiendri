@@ -2,23 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useOnboarding } from '@/onboarding/onboarding-provider'
-import type { AccentColor } from '@/types/domain/onboarding'
+import { ACCENT_HEX } from '@/shared/constants/accent-colors'
 import { Button } from '@/components/ui/button'
-
-const ACCENT_HEX: Record<AccentColor, string> = {
-  rojo: '#EF4444',
-  naranja: '#F97316',
-  amarillo: '#EAB308',
-  verde: '#22C55E',
-  turquesa: '#14B8A6',
-  azul: '#3B82F6',
-  violeta: '#8B5CF6',
-  rosa: '#EC4899',
-  negro: '#171717',
-  gris: '#6B7280',
-  blanco: '#FFFFFF',
-  cafe: '#92400E',
-}
 
 export function CelebrationScreen() {
   const { state, resetState } = useOnboarding()

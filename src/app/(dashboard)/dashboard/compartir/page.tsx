@@ -120,7 +120,7 @@ export default function CompartirPage() {
             Comparti tu tienda con tus clientes.
           </p>
         </div>
-        <Card className="border-gray-200 bg-white shadow-sm">
+        <Card className="border bg-card shadow-sm">
           <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center">
             <div className="flex size-16 items-center justify-center rounded-full bg-muted">
               <QrCode className="size-8 text-muted-foreground" />
@@ -149,7 +149,7 @@ export default function CompartirPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* QR Code Card */}
-        <Card className="border-gray-200 bg-white shadow-sm">
+        <Card className="border bg-card shadow-sm">
           <CardHeader>
             <CardTitle className="text-base">Codigo QR</CardTitle>
             <CardDescription>
@@ -157,7 +157,7 @@ export default function CompartirPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-6">
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-xl bg-muted p-4">
               <QRCodeCanvas
                 ref={qrRef}
                 value={fullUrl}
@@ -187,7 +187,7 @@ export default function CompartirPage() {
         </Card>
 
         {/* Share Options Card */}
-        <Card className="border-gray-200 bg-white shadow-sm">
+        <Card className="border bg-card shadow-sm">
           <CardHeader>
             <CardTitle className="text-base">Opciones para compartir</CardTitle>
             <CardDescription>
@@ -196,8 +196,8 @@ export default function CompartirPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {/* URL display */}
-            <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5">
-              <span className="flex-1 truncate text-sm text-gray-700">
+            <div className="flex items-center gap-2 rounded-lg border bg-muted px-3 py-2.5">
+              <span className="flex-1 truncate text-sm text-foreground">
                 {fullUrl}
               </span>
               <Button

@@ -42,8 +42,8 @@ export function ColorsPanel({
                   alignItems: "center",
                   gap: "10px",
                   padding: "8px 10px",
-                  background: isSelected ? "#1e2d1e" : "#222",
-                  border: isSelected ? "1.5px solid #4a9eff" : "1.5px solid #2a2a2a",
+                  background: isSelected ? "#1e2d1e" : "var(--customizer-bg-elevated)",
+                  border: isSelected ? `1.5px solid var(--customizer-accent)` : "1.5px solid var(--customizer-border)",
                   borderRadius: "8px",
                   cursor: "pointer",
                   textAlign: "left",
@@ -54,7 +54,7 @@ export function ColorsPanel({
                   if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#444";
                 }}
                 onMouseLeave={(e) => {
-                  if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a";
+                  if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--customizer-border)";
                 }}
               >
                 <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
@@ -63,13 +63,13 @@ export function ColorsPanel({
                   ))}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: "12px", fontWeight: 500, color: "#e5e5e5", marginBottom: "2px" }}>{palette.name}</div>
-                  <div style={{ display: "inline-block", fontSize: "10px", color: "#888", background: "#2a2a2a", borderRadius: "99px", padding: "1px 6px" }}>
+                  <div style={{ fontSize: "12px", fontWeight: 500, color: "var(--customizer-text)", marginBottom: "2px" }}>{palette.name}</div>
+                  <div style={{ display: "inline-block", fontSize: "10px", color: "var(--customizer-text-muted)", background: "var(--customizer-border)", borderRadius: "99px", padding: "1px 6px" }}>
                     {STYLE_LABELS[palette.style] ?? palette.style}
                   </div>
                 </div>
                 {isSelected && (
-                  <div style={{ width: "18px", height: "18px", borderRadius: "50%", background: "#4a9eff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <div style={{ width: "18px", height: "18px", borderRadius: "50%", background: "var(--customizer-accent)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                       <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -90,7 +90,7 @@ export function ColorsPanel({
                 <span style={{ color: "#666", fontSize: "11px", fontFamily: "monospace" }}>
                   {(config.colors[key] ?? "#000000").toUpperCase()}
                 </span>
-                <input type="color" value={config.colors[key] ?? "#000000"} onChange={(e) => updateColor(key, e.target.value)} style={{ width: "28px", height: "28px", border: "1px solid #3a3a3a", borderRadius: "6px", cursor: "pointer", padding: "1px", background: "transparent" }} />
+                <input type="color" value={config.colors[key] ?? "#000000"} onChange={(e) => updateColor(key, e.target.value)} style={{ width: "28px", height: "28px", border: "1px solid var(--customizer-border-hover)", borderRadius: "6px", cursor: "pointer", padding: "1px", background: "transparent" }} />
               </div>
             </div>
           ))}
@@ -112,20 +112,20 @@ export function ColorsPanel({
               background: "transparent",
               border: "1px dashed #333",
               borderRadius: "8px",
-              color: "#666",
+              color: "var(--customizer-text-dim)",
               fontSize: "11px",
               cursor: "pointer",
               transition: "border-color 0.15s, color 0.15s",
             }}
             onMouseEnter={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
-              btn.style.borderColor = "#4a9eff";
+              btn.style.borderColor = "var(--customizer-accent)";
               btn.style.color = "#aaa";
             }}
             onMouseLeave={(e) => {
               const btn = e.currentTarget as HTMLButtonElement;
               btn.style.borderColor = "#333";
-              btn.style.color = "#666";
+              btn.style.color = "var(--customizer-text-dim)";
             }}
           >
             <span>Personalizar colores individuales</span>
@@ -135,8 +135,8 @@ export function ColorsPanel({
           </button>
 
           {showAdvancedColors && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px", background: "#222", borderRadius: "8px", border: "1px solid #2a2a2a" }}>
-              <p style={{ fontSize: "10px", color: "#555", margin: 0, lineHeight: 1.4 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px", background: "var(--customizer-bg-elevated)", borderRadius: "8px", border: "1px solid var(--customizer-border)" }}>
+              <p style={{ fontSize: "10px", color: "var(--customizer-text-dim)", margin: 0, lineHeight: 1.4 }}>
                 Ajustá colores individuales sobre la paleta seleccionada.
               </p>
               {colorFields.map(({ key, label: colorLabel }) => (
@@ -146,7 +146,7 @@ export function ColorsPanel({
                     <span style={{ color: "#666", fontSize: "11px", fontFamily: "monospace" }}>
                       {(config.colors[key] ?? "#000000").toUpperCase()}
                     </span>
-                    <input type="color" value={config.colors[key] ?? "#000000"} onChange={(e) => updateColor(key, e.target.value)} style={{ width: "28px", height: "28px", border: "1px solid #3a3a3a", borderRadius: "6px", cursor: "pointer", padding: "1px", background: "transparent" }} />
+                    <input type="color" value={config.colors[key] ?? "#000000"} onChange={(e) => updateColor(key, e.target.value)} style={{ width: "28px", height: "28px", border: "1px solid var(--customizer-border-hover)", borderRadius: "6px", cursor: "pointer", padding: "1px", background: "transparent" }} />
                   </div>
                 </div>
               ))}
@@ -155,7 +155,7 @@ export function ColorsPanel({
         </>
       )}
 
-      <div style={{ marginTop: "8px", borderTop: "1px solid #2a2a2a", paddingTop: "12px" }}>
+      <div style={{ marginTop: "8px", borderTop: "1px solid var(--customizer-border)", paddingTop: "12px" }}>
         <ControlField
           label="Estrategia de color"
           field="color.colorStrategy"

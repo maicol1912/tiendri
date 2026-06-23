@@ -27,34 +27,34 @@ function MailIcon() {
 
 export default function AuthConfirmPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="max-w-md w-full mx-auto p-8 text-center">
         {/* Icon */}
-        <div className="mx-auto w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-6 text-white">
+        <div className="mx-auto w-16 h-16 rounded-full bg-muted/30 flex items-center justify-center mb-6 text-foreground">
           <MailIcon />
         </div>
 
         {/* Wordmark */}
-        <p className="font-sora text-base font-semibold lowercase tracking-tight text-white mb-8">
-          tiendri<span className="text-blue-500">.</span>
-        </p>
+        <div className="mb-8 flex justify-center">
+          <img src="/logo.png" alt="Tiendri" className="h-6" />
+        </div>
 
-        <h1 className="text-2xl font-bold text-white mb-3">
+        <h1 className="text-2xl font-bold text-foreground mb-3">
           Revisá tu email
         </h1>
 
-        <p className="text-gray-400 mb-8 leading-relaxed">
+        <p className="text-muted-foreground mb-8 leading-relaxed">
           Te enviamos un enlace de confirmación. Revisá tu bandeja de entrada
           y hacé clic en el enlace para activar tu cuenta.
         </p>
 
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-muted-foreground mb-6">
           ¿No ves el email? Revisá la carpeta de spam o correo no deseado.
         </p>
 
         <a
           href="/auth"
-          className="text-sm text-gray-500 hover:text-white transition-colors"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           ← Volver al inicio de sesión
         </a>

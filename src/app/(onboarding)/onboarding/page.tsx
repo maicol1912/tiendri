@@ -11,22 +11,7 @@ import { Step5Branding } from '@/components/onboarding/step5-branding'
 import { CelebrationScreen } from '@/components/onboarding/celebration-screen'
 import { CUSTOMIZATION_STORAGE_KEY } from '@/app/(dashboard)/dashboard/configuracion/client-utils'
 import { markOnboardingCompleted } from '@/onboarding/first-time'
-import type { AccentColor } from '@/types/domain/onboarding'
-
-const ACCENT_HEX: Record<AccentColor, string> = {
-  rojo: '#EF4444',
-  naranja: '#F97316',
-  amarillo: '#EAB308',
-  verde: '#22C55E',
-  turquesa: '#14B8A6',
-  azul: '#3B82F6',
-  violeta: '#8B5CF6',
-  rosa: '#EC4899',
-  negro: '#171717',
-  gris: '#6B7280',
-  blanco: '#FFFFFF',
-  cafe: '#92400E',
-}
+import { ACCENT_HEX } from '@/shared/constants/accent-colors'
 
 const WHATSAPP_REGEX = /^3\d{9}$/
 

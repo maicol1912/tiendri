@@ -353,8 +353,8 @@ export function ProductImageGallery({
           )}
         </div>
 
-        {/* Desktop: sortable grid */}
-        <div className="hidden md:block">
+        {/* Desktop: sortable grid (only when there are images) */}
+        {images.length > 0 && <div className="hidden md:block">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -400,10 +400,10 @@ export function ProductImageGallery({
               </div>
             </SortableContext>
           </DndContext>
-        </div>
+        </div>}
 
         {/* Mobile: list with up/down */}
-        <div className="md:hidden flex flex-col gap-2">
+        {images.length > 0 && <div className="md:hidden flex flex-col gap-2">
           {images.map((image, index) => (
             <MobileThumbnail
               key={image.id}
@@ -438,7 +438,7 @@ export function ProductImageGallery({
               )}
             </Button>
           )}
-        </div>
+        </div>}
 
         {/* Empty state */}
         {images.length === 0 && (

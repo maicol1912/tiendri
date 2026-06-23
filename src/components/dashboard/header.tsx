@@ -32,7 +32,7 @@ export function DashboardHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-gray-200 bg-white/95 px-4 backdrop-blur-sm lg:hidden">
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur-sm lg:hidden">
       {/* Hamburger + mobile Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetTrigger asChild>
@@ -42,7 +42,7 @@ export function DashboardHeader() {
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-64 border-gray-200 bg-white p-0"
+          className="w-64 border-border bg-card p-0"
           showCloseButton={false}
         >
           <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
@@ -51,7 +51,7 @@ export function DashboardHeader() {
       </Sheet>
 
       {/* Store name — center */}
-      <span className="text-sm font-medium text-gray-900">{storeName}</span>
+      <span className="text-sm font-medium text-foreground">{storeName}</span>
 
       {/* Tiendri logo — right */}
       <Image

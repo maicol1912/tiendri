@@ -34,13 +34,13 @@ export function ShapesPanel({ config, updateRadius, updateLayout }: ShapesPanelP
               max={max}
               value={numVal}
               onChange={(e) => updateRadius(key, `${e.target.value}px`)}
-              style={{ width: "100%", accentColor: "#4a9eff" }}
+              style={{ width: "100%", accentColor: "var(--customizer-accent)" }}
             />
           </div>
         );
       })}
 
-      <div style={{ borderTop: "1px solid #2a2a2a", paddingTop: "12px" }}>
+      <div style={{ borderTop: "1px solid var(--customizer-border)", paddingTop: "12px" }}>
         <ControlField
           label="Escala de bordes"
           field="chrome.borderRadiusScale"
