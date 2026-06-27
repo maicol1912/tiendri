@@ -110,19 +110,17 @@ export function ContenidoTab({
         },
       });
 
-      const heroActive = localSections.some(
+      const heroInSections = localSections.some(
         (s) => s.id === "hero" && s.visible
       );
-      if (!heroActive) {
-        const heroExists = localSections.some((s) => s.id === "hero");
-        const updated = heroExists
-          ? localSections.map((s) =>
-              s.id === "hero" ? { ...s, visible: true } : s
-            )
-          : [{ id: "hero" as SectionId, visible: true, config: {} }, ...localSections];
-        setLocalSections(updated);
-        await onSectionsSave(updated);
-      }
+      const sectionsToSave = heroInSections
+        ? localSections
+        : [
+            { id: "hero" as SectionId, visible: true, config: {} },
+            ...localSections.filter((s) => s.id !== "hero"),
+          ];
+      setLocalSections(sectionsToSave);
+      await onSectionsSave(sectionsToSave);
 
       toast.success("Banner guardado correctamente");
     } catch {
