@@ -41,19 +41,19 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
     radius: [
       {
         key: "card",
-        label: "Radio de tarjetas",
+        label: "Esquinas de las tarjetas",
         default: "16px",
         max: 32,
       },
       {
         key: "category",
-        label: "Radio de categorias",
+        label: "Esquinas de categorías",
         default: "8px",
         max: 24,
       },
       {
         key: "button",
-        label: "Radio de botones",
+        label: "Esquinas de los botones",
         default: "45px",
         max: 50,
       },
@@ -108,28 +108,28 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
           {
             id: "hero-banner",
             label: "Banner principal",
-            description: "Titulo y subtitulo del banner de bienvenida.",
+            description: "Título y subtítulo del banner de bienvenida.",
             icon: "Image",
             fields: [
               {
                 key: "content.heroBanner.title",
                 type: "text",
-                label: "Titulo",
+                label: "Título",
                 placeholder: "El sabor que te mereces",
                 maxLength: 80,
               },
               {
                 key: "content.heroBanner.subtitle",
                 type: "text",
-                label: "Subtitulo",
+                label: "Subtítulo",
                 placeholder: "Los mejores platos, listos para tu mesa o tu puerta.",
                 maxLength: 120,
               },
               {
                 key: "content.heroBanner.ctaText",
                 type: "text",
-                label: "Texto del boton",
-                placeholder: "Ver menu",
+                label: "Texto del botón",
+                placeholder: "Ver menú",
                 maxLength: 30,
               },
             ],
@@ -138,15 +138,15 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
           // Popular searches
           {
             id: "popular-searches",
-            label: "Busquedas populares",
-            description: "Sugerencias de busqueda para tus clientes.",
+            label: "Búsquedas populares",
+            description: "Sugerencias de búsqueda para tus clientes.",
             icon: "Search",
             fields: [
               {
                 key: "content.popularSearches",
                 type: "tag-list",
-                label: "Terminos de busqueda",
-                placeholder: "Agregar termino",
+                label: "Términos de búsqueda",
+                placeholder: "Agregar término",
               },
             ],
           },
@@ -158,14 +158,14 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
       // ─────────────────────────────────────────────────────────────────────
       {
         id: "navegacion",
-        label: "Navegacion",
+        label: "Navegación",
         icon: "Navigation",
         sections: [
           {
             id: "nav-links",
             kind: "repeatable",
-            label: "Enlaces de navegacion",
-            description: "Los enlaces que aparecen en el menu principal.",
+            label: "Enlaces de navegación",
+            description: "Los enlaces que aparecen en el menú principal.",
             icon: "Navigation",
             itemLabel: "Enlace",
             minItems: 1,
@@ -182,7 +182,8 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
               {
                 key: "href",
                 type: "text",
-                label: "Ruta",
+                label: "Enlace",
+                description: "Ej: /productos, /categorias",
                 placeholder: "/",
                 required: true,
               },
@@ -208,7 +209,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
               {
                 key: "layout.layout.cardImageRatio",
                 type: "select",
-                label: "Proporción de imágenes",
+                label: "Formato de las fotos",
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Retrato" },
@@ -235,9 +236,9 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -246,9 +247,9 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
-                label: "Espaciado general",
+                label: "Espaciado entre elementos",
                 description: "Cuánto espacio hay entre secciones y elementos",
                 options: [
                   { value: "tight", label: "Compacto" },
@@ -264,15 +265,15 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
             description: "Cuántos productos se muestran por fila en móvil y escritorio.",
             fields: [
               {
-                key: "gridProductsMobile",
-                label: "Columnas productos (mobile)",
+                key: "layout.gridProductsMobile",
+                label: "Columnas en el celular",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "gridProductsDesktop",
-                label: "Columnas productos (desktop)",
+                key: "layout.gridProductsDesktop",
+                label: "Columnas en pantalla grande",
                 type: "number" as const,
                 min: 2,
                 max: 6,
@@ -287,13 +288,13 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
       // ─────────────────────────────────────────────────────────────────────
       {
         id: "footer",
-        label: "Footer",
+        label: "Pie de página",
         icon: "AlignBottom",
         sections: [
           {
             id: "footer-services",
-            label: "Servicios del footer",
-            description: "Lista de servicios que aparecen en el pie de pagina.",
+            label: "Servicios del pie de página",
+            description: "Lista de servicios que aparecen en el pie de página.",
             icon: "List",
             fields: [
               {
@@ -306,8 +307,8 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
           },
           {
             id: "footer-assistance",
-            label: "Asistencia del footer",
-            description: "Lista de asistencia que aparecen en el pie de pagina.",
+            label: "Asistencia del pie de página",
+            description: "Lista de asistencia que aparecen en el pie de página.",
             icon: "HelpCircle",
             fields: [
               {
@@ -329,7 +330,7 @@ export const foodNightConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",

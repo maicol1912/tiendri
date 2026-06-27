@@ -36,19 +36,19 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
     radius: [
       {
         key: "card",
-        label: "Radio de tarjetas",
+        label: "Esquinas de las tarjetas",
         default: "16px",
         max: 28,
       },
       {
         key: "category",
-        label: "Radio de categorías",
+        label: "Esquinas de categorías",
         default: "20px",
         max: 28,
       },
       {
         key: "button",
-        label: "Radio de botones",
+        label: "Esquinas de los botones",
         default: "9999px",
         max: 32,
       },
@@ -163,7 +163,8 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
               {
                 key: "href",
                 type: "text",
-                label: "Ruta",
+                label: "Enlace",
+                description: "Ej: /productos, /categorias",
                 placeholder: "/",
                 required: true,
               },
@@ -219,9 +220,9 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
             icon: "Grid",
             fields: [
               {
-                key: "grid.products.mobile",
+                key: "layout.grid.products.mobile",
                 type: "select",
-                label: "Columnas en móvil",
+                label: "Columnas en el celular",
                 options: [
                   { value: "1", label: "1 columna" },
                   { value: "2", label: "2 columnas" },
@@ -229,50 +230,15 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
                 defaultValue: "2",
               },
               {
-                key: "grid.products.desktop",
+                key: "layout.grid.products.desktop",
                 type: "select",
-                label: "Columnas en escritorio",
+                label: "Columnas en pantalla grande",
                 options: [
                   { value: "3", label: "3 columnas" },
                   { value: "4", label: "4 columnas" },
                   { value: "5", label: "5 columnas" },
                 ],
                 defaultValue: "4",
-              },
-            ],
-          },
-        ],
-      },
-
-      // Tab 2 — Secciones
-      {
-        id: "secciones",
-        label: "Secciones",
-        icon: "Layers",
-        sections: [
-          {
-            id: "visibilidad",
-            label: "Visibilidad de secciones",
-            description: "Elegí qué secciones aparecen en tu tienda.",
-            icon: "Eye",
-            fields: [
-              {
-                key: "sections[0].visible",
-                type: "boolean",
-                label: "Bienvenida (Hero)",
-                defaultValue: true,
-              },
-              {
-                key: "sections[1].visible",
-                type: "boolean",
-                label: "Categorías",
-                defaultValue: true,
-              },
-              {
-                key: "sections[2].visible",
-                type: "boolean",
-                label: "Grilla de productos",
-                defaultValue: true,
               },
             ],
           },
@@ -293,7 +259,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
               {
                 key: "layout.layout.cardImageRatio",
                 type: "select" as const,
-                label: "Proporción de imágenes",
+                label: "Formato de las fotos",
                 description: "Forma de las imágenes en las tarjetas",
                 defaultValue: "portrait",
                 options: [
@@ -304,7 +270,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "structuralVariants.categoryDisplayType",
+                key: "layout.structuralVariants.categoryDisplayType",
                 label: "Vista de categorías",
                 type: "select" as const,
                 options: [
@@ -321,9 +287,9 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -332,7 +298,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
                 label: "Espaciado general",
                 description: "Cuánto espacio hay entre secciones y elementos",
@@ -355,7 +321,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",
@@ -393,7 +359,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
         {
           key: "gridColumnsMobile",
           type: "range",
-          label: "Columnas en móvil",
+          label: "Columnas en el celular",
           description: "Cantidad de columnas en pantallas pequeñas",
           min: 2,
           max: 4,
@@ -402,7 +368,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
         {
           key: "gridColumnsDesktop",
           type: "range",
-          label: "Columnas en escritorio",
+          label: "Columnas en pantalla grande",
           description: "Cantidad de columnas en pantallas grandes",
           min: 3,
           max: 8,
@@ -428,7 +394,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
         {
           key: "gridColumnsMobile",
           type: "range",
-          label: "Columnas en móvil",
+          label: "Columnas en el celular",
           min: 1,
           max: 3,
           step: 1,
@@ -436,7 +402,7 @@ export const beautyElegantConfigSchema: TemplateConfigSchema = {
         {
           key: "gridColumnsDesktop",
           type: "range",
-          label: "Columnas en escritorio",
+          label: "Columnas en pantalla grande",
           min: 2,
           max: 6,
           step: 1,

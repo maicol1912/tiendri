@@ -14,9 +14,9 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
       { key: "cardBg", label: "Fondo de tarjetas", default: "#F5F7FA" },
     ],
     radius: [
-      { key: "card", label: "Radio de tarjetas", default: "16px", max: 28 },
-      { key: "category", label: "Radio de categorías", default: "14px", max: 28 },
-      { key: "button", label: "Radio de botones", default: "12px", max: 28 },
+      { key: "card", label: "Esquinas de las tarjetas", default: "16px", max: 28 },
+      { key: "category", label: "Esquinas de categorías", default: "14px", max: 28 },
+      { key: "button", label: "Esquinas de los botones", default: "12px", max: 28 },
     ],
     fontPairs: [
       { key: "preciso", label: "Preciso", body: "IBM Plex Sans", heading: "Space Grotesk", preview: "Aa Bb Cc" },
@@ -69,14 +69,14 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
             icon: "Store",
             fields: [
               {
-                key: "branding.storeName",
+                key: "content.branding.storeName",
                 type: "text",
                 label: "Nombre de la tienda",
                 placeholder: "KASA",
                 maxLength: 40,
               },
               {
-                key: "business.whatsapp",
+                key: "content.business.whatsapp",
                 type: "text",
                 label: "Número de WhatsApp",
                 placeholder: "573001234567",
@@ -100,7 +100,7 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
               {
                 key: "layout.layout.cardImageRatio",
                 type: "select",
-                label: "Proporción de imágenes",
+                label: "Formato de las fotos",
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Retrato" },
@@ -110,7 +110,7 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
                 defaultValue: "square",
               },
               {
-                key: "structuralVariants.categoryDisplayType",
+                key: "layout.structuralVariants.categoryDisplayType",
                 label: "Vista de categorías",
                 type: "select" as const,
                 options: [
@@ -127,9 +127,9 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -138,9 +138,9 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
-                label: "Espaciado general",
+                label: "Espaciado entre elementos",
                 description: "Cuánto espacio hay entre secciones y elementos",
                 options: [
                   { value: "tight", label: "Compacto" },
@@ -156,15 +156,15 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
             description: "Cuántos productos se muestran por fila en móvil y escritorio.",
             fields: [
               {
-                key: "gridProductsMobile",
-                label: "Columnas productos (mobile)",
+                key: "layout.gridProductsMobile",
+                label: "Columnas en el celular",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "gridProductsDesktop",
-                label: "Columnas productos (desktop)",
+                key: "layout.gridProductsDesktop",
+                label: "Columnas en pantalla grande",
                 type: "number" as const,
                 min: 2,
                 max: 6,
@@ -196,7 +196,7 @@ export const furnitureLightConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",

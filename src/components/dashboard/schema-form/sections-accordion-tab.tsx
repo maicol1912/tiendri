@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import type { ConfigSection } from "@/types/templates/config-schema";
 import type { SectionConfig, SectionId } from "@/types/templates/sections";
 import {
@@ -17,7 +18,7 @@ import { DynamicField } from "./dynamic-field";
 // ---------------------------------------------------------------------------
 
 const SECTION_LABELS: Record<string, string> = {
-  hero: "Hero / Banner Principal",
+  hero: "Banner Principal",
   categories: "Categorías",
   products: "Productos",
   featured: "Productos Destacados",
@@ -63,6 +64,21 @@ export function SectionsAccordionTab({
     structuredClone(sections)
   );
 
+  function handleToggleVisibility(sectionId: string) {
+    setFormSections((prev) => {
+      const exists = prev.some((s) => s.id === sectionId);
+      if (!exists) {
+        return [
+          ...prev,
+          { id: sectionId as SectionId, visible: false, config: {} },
+        ];
+      }
+      return prev.map((s) =>
+        s.id === sectionId ? { ...s, visible: !s.visible } : s
+      );
+    });
+  }
+
   function handleFieldChange(
     sectionId: string,
     fieldKey: string,
@@ -98,10 +114,20 @@ export function SectionsAccordionTab({
     });
   }
 
+  // Bug #2 fix: when sections is empty (new merchant), fall back to schema keys
+  const effectiveSections: SectionConfig[] =
+    formSections.length > 0
+      ? formSections
+      : Object.keys(sectionSchemas ?? {}).map((id) => ({
+          id: id as SectionId,
+          visible: true,
+          config: {},
+        }));
+
   // Determine which schema IDs have a matching configured section
   const sectionIds = Object.keys(sectionSchemas);
   const visibleIds = sectionIds.filter((id) =>
-    formSections.some((s) => s.id === id)
+    effectiveSections.some((s) => s.id === id)
   );
 
   if (visibleIds.length === 0) {
@@ -117,7 +143,8 @@ export function SectionsAccordionTab({
       <Accordion type="multiple">
         {visibleIds.map((sectionId) => {
           const schema = sectionSchemas[sectionId];
-          const section = formSections.find((s) => s.id === sectionId);
+          const section = effectiveSections.find((s) => s.id === sectionId);
+          const isVisible = section?.visible ?? true;
 
           return (
             <AccordionItem
@@ -130,6 +157,25 @@ export function SectionsAccordionTab({
               </AccordionTrigger>
               <AccordionContent className="px-3">
                 <div className="space-y-4 pt-2">
+                  <div className="flex items-center justify-between pb-1 border-b">
+                    <span className="text-xs text-muted-foreground">
+                      {isVisible ? "Sección visible" : "Sección oculta"}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 w-7 p-0"
+                      onClick={() => handleToggleVisibility(sectionId)}
+                      aria-label={isVisible ? "Ocultar sección" : "Mostrar sección"}
+                    >
+                      {isVisible ? (
+                        <Eye className="h-4 w-4" />
+                      ) : (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </Button>
+                  </div>
                   {schema.fields.map((field) => (
                     <DynamicField
                       key={field.key}

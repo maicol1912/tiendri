@@ -36,19 +36,19 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
     radius: [
       {
         key: "card",
-        label: "Radio de tarjetas",
+        label: "Esquinas de las tarjetas",
         default: "20px",
         max: 28,
       },
       {
         key: "category",
-        label: "Radio de categorías",
+        label: "Esquinas de categorías",
         default: "20px",
         max: 28,
       },
       {
         key: "button",
-        label: "Radio de botones",
+        label: "Esquinas de los botones",
         default: "29px",
         max: 32,
       },
@@ -150,7 +150,7 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
             icon: "Grid",
             fields: [
               {
-                key: "grid.products.mobile",
+                key: "layout.grid.products.mobile",
                 type: "select",
                 label: "Columnas en móvil",
                 options: [
@@ -160,7 +160,7 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
                 defaultValue: "2",
               },
               {
-                key: "grid.products.desktop",
+                key: "layout.grid.products.desktop",
                 type: "select",
                 label: "Columnas en escritorio",
                 options: [
@@ -190,7 +190,7 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
               {
                 key: "layout.layout.cardImageRatio",
                 type: "select",
-                label: "Proporción de imágenes",
+                label: "Formato de las fotos",
                 options: [
                   { value: "square", label: "Cuadrada" },
                   { value: "portrait", label: "Retrato" },
@@ -217,9 +217,9 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -228,9 +228,9 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
-                label: "Espaciado general",
+                label: "Espaciado entre elementos",
                 description: "Cuánto espacio hay entre secciones y elementos",
                 options: [
                   { value: "tight", label: "Compacto" },
@@ -243,40 +243,6 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
         ],
       },
 
-      // Tab 4 — Secciones
-      {
-        id: "secciones",
-        label: "Secciones",
-        icon: "Layers",
-        sections: [
-          {
-            id: "visibilidad",
-            label: "Visibilidad de secciones",
-            description: "Elegí qué secciones aparecen en tu tienda.",
-            icon: "Eye",
-            fields: [
-              {
-                key: "sections[0].visible",
-                type: "boolean",
-                label: "Banner principal",
-                defaultValue: true,
-              },
-              {
-                key: "sections[1].visible",
-                type: "boolean",
-                label: "Categorías",
-                defaultValue: true,
-              },
-              {
-                key: "sections[2].visible",
-                type: "boolean",
-                label: "Grilla de productos",
-                defaultValue: true,
-              },
-            ],
-          },
-        ],
-      },
     ],
   },
 
@@ -286,7 +252,7 @@ export const beautySoftConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",

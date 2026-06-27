@@ -37,19 +37,19 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
     radius: [
       {
         key: "card",
-        label: "Radio de tarjetas",
+        label: "Esquinas de las tarjetas",
         default: "9px",
         max: 24,
       },
       {
         key: "category",
-        label: "Radio de categorías",
+        label: "Esquinas de categorías",
         default: "15px",
         max: 24,
       },
       {
         key: "button",
-        label: "Radio de botones",
+        label: "Esquinas de los botones",
         default: "8px",
         max: 24,
       },
@@ -250,9 +250,9 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
             description: "Estilo visual de las tarjetas en catálogo y buscador.",
             fields: [
               {
-                key: "layout.layout.cardImageRatio",
+                key: "layout.cardImageRatio",
                 type: "select" as const,
-                label: "Proporción de imágenes",
+                label: "Formato de las fotos",
                 description: "Forma de las imágenes en las tarjetas",
                 defaultValue: "square",
                 options: [
@@ -263,7 +263,7 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "structuralVariants.categoryDisplayType",
+                key: "layout.structuralVariants.categoryDisplayType",
                 label: "Vista de categorías",
                 type: "select" as const,
                 options: [
@@ -280,9 +280,9 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -291,9 +291,9 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
-                label: "Espaciado general",
+                label: "Espaciado entre elementos",
                 description: "Cuánto espacio hay entre secciones y elementos",
                 options: [
                   { value: "tight", label: "Compacto" },
@@ -309,15 +309,15 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
             description: "Cuántos productos se muestran por fila en móvil y escritorio.",
             fields: [
               {
-                key: "gridProductsMobile",
-                label: "Columnas productos (mobile)",
+                key: "layout.gridProductsMobile",
+                label: "Columnas en el celular",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "gridProductsDesktop",
-                label: "Columnas productos (desktop)",
+                key: "layout.gridProductsDesktop",
+                label: "Columnas en pantalla grande",
                 type: "number" as const,
                 min: 2,
                 max: 6,
@@ -359,7 +359,8 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
               {
                 key: "href",
                 type: "text",
-                label: "Ruta",
+                label: "Enlace",
+                description: "Ej: /productos, /categorias",
                 placeholder: "/",
                 required: true,
               },
@@ -370,7 +371,7 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
           {
             id: "product-tabs",
             kind: "repeatable",
-            label: "Pestañas de productos",
+            label: "Filtros de productos",
             description:
               "Las pestañas que filtran los productos en la página de inicio.",
             icon: "Layout",
@@ -381,7 +382,8 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
               {
                 key: "id",
                 type: "text",
-                label: "Identificador",
+                label: "Nombre interno",
+                description: "Solo para referencia, no se muestra al público",
                 placeholder: "new-arrival",
                 required: true,
               },
@@ -399,7 +401,7 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
           // Popular searches — simple section with tag-list
           {
             id: "popular-searches",
-            label: "Búsquedas populares",
+            label: "Búsquedas sugeridas",
             description:
               "Sugerencias de búsqueda que aparecen en la barra de búsqueda.",
             icon: "Search",
@@ -457,7 +459,7 @@ export const techPremiumConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",

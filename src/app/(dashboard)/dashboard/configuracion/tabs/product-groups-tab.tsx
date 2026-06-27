@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { SortableList, DragHandle } from '@/components/shared/sortable-list'
 import { ConfirmDialog } from '@/components/shared/confirm-dialog'
 import { ProductPicker } from '@/components/shared/product-picker'
-import { updateCustomizationSection } from '../actions'
+import { MediaPickerField } from '@/components/dashboard/media'
 import { productGroupsConfigSchema } from '@/shared/validators/product-groups.schema'
 import type { ProductGroup, ProductGroupsConfig, ProductGroupDisplayMode } from '@/types/templates/product-groups'
 
@@ -26,12 +26,13 @@ interface PickerProduct {
   images: Array<{ url: string | null }>
 }
 
-interface ProductGroupsTabProps {
+interface ProductGroupsCardProps {
   initialProductGroups?: ProductGroupsConfig
   products: PickerProduct[]
+  onSave: (groups: ProductGroupsConfig) => Promise<void>
 }
 
-export function ProductGroupsTab({ initialProductGroups, products }: ProductGroupsTabProps) {
+export function ProductGroupsCard({ initialProductGroups, products, onSave }: ProductGroupsCardProps) {
   const [groups, setGroups] = useState<ProductGroup[]>(initialProductGroups?.groups ?? [])
   const [displayMode, setDisplayMode] = useState<ProductGroupDisplayMode>(
     initialProductGroups?.displayMode ?? 'tabs'
@@ -97,14 +98,8 @@ export function ProductGroupsTab({ initialProductGroups, products }: ProductGrou
 
     setIsSaving(true)
     try {
-      const actionResult = await updateCustomizationSection('content', {
-        productGroups: config,
-      })
-      if (actionResult.success) {
-        toast.success('Cambios guardados')
-      } else {
-        toast.error(actionResult.error.message)
-      }
+      await onSave(config)
+      toast.success('Cambios guardados')
     } catch {
       toast.error('Error al guardar los cambios. Intentá de nuevo.')
     } finally {
@@ -152,24 +147,18 @@ export function ProductGroupsTab({ initialProductGroups, products }: ProductGrou
               />
             </div>
 
-            {/* Banner URL */}
-            <div className="space-y-1.5">
-              <Label htmlFor="group-banner">URL del banner (opcional)</Label>
-              <Input
-                id="group-banner"
-                value={editingGroup.banner?.url ?? ''}
-                onChange={(e) => {
-                  const url = e.target.value.trim()
+            {/* Banner */}
+            <div className="space-y-2">
+              <Label>Banner (opcional)</Label>
+              <MediaPickerField
+                value={editingGroup.banner?.url ?? null}
+                onChange={(url) => {
                   handleUpdateEditingGroup({
                     banner: url ? { url } : undefined,
                   })
                 }}
-                placeholder="URL de imagen del banner (opcional)"
-                type="url"
+                description="Se muestra encima de los productos en modo apilado."
               />
-              <p className="text-xs text-muted-foreground">
-                Se muestra encima de los productos en modo apilado.
-              </p>
             </div>
           </CardContent>
         </Card>

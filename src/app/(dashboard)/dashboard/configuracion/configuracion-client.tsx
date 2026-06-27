@@ -1,29 +1,52 @@
 "use client";
 
 // ConfiguracionClient — Client Component wrapper for the configuracion page.
-// Owns the tab state. Universal tabs + dynamic tabs driven by TemplateConfigSchema.
-// Also handles one-time banner data migration from the old localStorage key.
+// Split-panel layout: 40% controls (4 tabs) + 60% live preview iframe.
+// Mobile: controls fullscreen + FAB to open preview sheet.
 //
 // Persistence strategy:
 //   - isAuthenticated=true  → Server Actions write to Supabase
 //   - isAuthenticated=false → localStorage fallback (demo / unauthenticated mode)
 
-import { useEffect, useCallback, useState, useRef } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { BrandingTab } from "./tabs/branding-tab";
-import { ThemeTab } from "./tabs/theme-tab";
-import { BusinessTab } from "./tabs/business-tab";
-import { ProductGroupsTab } from "./tabs/product-groups-tab";
-import { DynamicTabContent, SectionsAccordionTab } from "@/components/dashboard/schema-form";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { Store, Palette, Layout, Package, Eye } from "lucide-react";
+import { cn } from "@/shared/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
 import { getTemplateSchema } from "@/templates/registry";
 import { setByPath } from "@/catalog/config-path-utils";
-import { updateCustomizationSection } from "./actions";
+import { ConfigDirtyProvider } from "./config-dirty-context";
+import { usePreviewSync, buildPreviewVars } from "./hooks/use-preview-sync";
+import { PreviewFrame } from "./components/preview-frame";
+import { MiTiendaTab } from "./tabs/mi-tienda-tab";
+import { DisenoTab } from "./tabs/diseno-tab";
+import { ContenidoTab } from "./tabs/contenido-tab";
+import { ProductosTab } from "./tabs/productos-tab";
+import {
+  updateBranding,
+  updateBusiness,
+  updateTheme,
+  updateCustomizationSection,
+} from "./actions";
 import { CUSTOMIZATION_STORAGE_KEY } from "./client-utils";
-import { DEFAULT_TEMPLATE_ID } from "@/shared/constants";
-import type { StoreCustomization } from "@/types/templates/store-customization";
-import type { ConfigTabGroup, TemplateConfigSchema } from "@/types/templates/config-schema";
-import type { SectionConfig } from "@/types/templates/sections";
-import type { PickerProductData } from "./actions";
+import type {
+  StoreCustomization,
+  ThemeCustomization,
+  LayoutCustomization,
+} from "@/types/templates/store-customization";
+import type {
+  BrandingConfig,
+  ContentConfig,
+  BusinessConfig,
+} from "@/types/templates/customization-sections";
+import type { TemplateConfigSchema } from "@/types/templates/config-schema";
+import type { TemplateConfig } from "@/types/templates";
+import type { SectionConfig, SectionId } from "@/types/templates/sections";
 
 // ── Banner data migration ───────────────────────────────────────────────────
 
@@ -97,144 +120,239 @@ function writeLocalCustomization(data: StoreCustomization): void {
   }
 }
 
-// ── Component ────────────────────────────────────────────────────────────────
+// ── Tab definitions ────────────────────────────────────────────────────────
+
+const TABS = [
+  { value: "mi-tienda", label: "Mi Tienda", icon: Store },
+  { value: "diseno", label: "Diseño", icon: Palette },
+  { value: "contenido", label: "Contenido", icon: Layout },
+  { value: "productos", label: "Productos", icon: Package },
+] as const;
+
+type TabValue = (typeof TABS)[number]["value"];
+
+// ── Props ─────────────────────────────────────────────────────────────────────
 
 interface ConfiguracionClientProps {
   storeName?: string;
-  initialCustomization: StoreCustomization;
-  /**
-   * When true, the user is authenticated and Server Actions write to Supabase.
-   * When false, all saves fall back to localStorage (demo mode).
-   */
+  slug: string | null;
+  supabaseCustomization: StoreCustomization | null;
   isAuthenticated: boolean;
-  /**
-   * Products fetched server-side from Supabase for the ProductPicker.
-   * Empty array when user is unauthenticated (demo/localStorage mode).
-   */
-  initialProducts: PickerProductData[];
+  /** Products fetched server-side from Supabase for the ProductPicker. */
+  initialProducts: any[]; // PickerProductData
+  /** Template manifest (TemplateConfig) — passed as any from page.tsx */
+  manifest: any; // TemplateConfig
 }
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export function ConfiguracionClient({
-  initialCustomization,
+  slug,
+  supabaseCustomization,
   isAuthenticated,
   initialProducts,
+  manifest,
 }: ConfiguracionClientProps) {
-  const [customization, setCustomization] =
-    useState<StoreCustomization>(initialCustomization);
+  // ── State ──────────────────────────────────────────────────────────────────
 
+  const [customization, setCustomization] = useState<StoreCustomization>(
+    supabaseCustomization ?? { templateId: DEFAULT_TEMPLATE_ID }
+  );
   const [schema, setSchema] = useState<TemplateConfigSchema | null>(null);
+  const [activeTab, setActiveTab] = useState<TabValue>("mi-tienda");
+  const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
 
-  // Capture initial values in refs so the effect runs once on mount without
-  // re-running when props change (they never change after first render anyway).
-  const initialCustomizationRef = useRef(initialCustomization);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Capture initial values in refs so the hydration effect runs only once
+  const supabaseCustomizationRef = useRef(supabaseCustomization);
   const isAuthenticatedRef = useRef(isAuthenticated);
 
-  // In demo mode, hydrate from localStorage after mount (client-only).
-  // In authenticated mode, use the server-provided initialCustomization directly.
+  // ── Hooks ──────────────────────────────────────────────────────────────────
+
+  const { sendCssVars, sendReload } = usePreviewSync(iframeRef);
+
+  // ── Hydration + migration (runs once on mount) ─────────────────────────────
+
   useEffect(() => {
-    const initial = initialCustomizationRef.current;
+    const serverCustomization = supabaseCustomizationRef.current;
     const authenticated = isAuthenticatedRef.current;
 
     if (authenticated) {
-      // Already hydrated from Supabase via Server Component — just run migration check
-      migrateLegacyBanners(initial);
+      // Already hydrated from Supabase — run legacy banner migration check only
+      if (serverCustomization) migrateLegacyBanners(serverCustomization);
     } else {
-      // Demo mode: load from localStorage (may have more recent changes than server-provided fallback)
-      migrateLegacyBanners(initial);
+      // Demo mode: load from localStorage (may have more recent changes than server fallback)
+      const fallback = serverCustomization ?? { templateId: DEFAULT_TEMPLATE_ID };
+      migrateLegacyBanners(fallback);
       const local = readLocalCustomization();
       setCustomization(local);
     }
-
-    const templateId = initial.templateId ?? DEFAULT_TEMPLATE_ID;
-    getTemplateSchema(templateId).then((loaded) => {
-      setSchema(loaded);
-    });
   }, []);
 
-  const storeName = customization.branding?.storeName ?? "Mi tienda";
+  // ── Schema loading ─────────────────────────────────────────────────────────
 
-  const dynamicTabGroups: ConfigTabGroup[] =
-    schema?.content.tabGroups ?? [];
+  useEffect(() => {
+    const templateId = customization.templateId ?? DEFAULT_TEMPLATE_ID;
+    getTemplateSchema(templateId).then((loaded) => {
+      setSchema(loaded ?? null);
+    });
+  }, [customization.templateId]);
 
-  const hasSectionSchemas =
-    !!schema?.sectionSchemas && Object.keys(schema.sectionSchemas).length > 0;
+  // ── Derived values ─────────────────────────────────────────────────────────
 
-  // Build the tab list: Identidad -> [dynamic tabs] -> [Secciones] -> Grupos de Productos -> Apariencia -> Negocio
-  const tabs: { value: string; label: string }[] = [
-    { value: "identidad", label: "Identidad" },
-    ...dynamicTabGroups.map((tg) => ({ value: tg.id, label: tg.label })),
-    ...(hasSectionSchemas ? [{ value: "secciones", label: "Secciones" }] : []),
-    { value: "grupos-productos", label: "Grupos de Productos" },
-    { value: "apariencia", label: "Apariencia" },
-    { value: "negocio", label: "Negocio" },
-  ];
+  const previewSrc = slug ? `/${slug}?preview=true` : null;
 
-  // Save handler for DynamicTabContent — merges updated data into the full blob.
-  // Tries Supabase first; falls back to localStorage on UNAUTHORIZED.
-  const handleDynamicTabSave = useCallback(
-    async (data: Record<string, unknown>) => {
-      if (isAuthenticated) {
-        // For dynamic tabs the data arrives as a flat merge over the full blob.
-        // We call updateCustomizationSection for each top-level key in the patch.
-        for (const [sectionKey, sectionData] of Object.entries(data)) {
-          const key = sectionKey as keyof StoreCustomization;
-          const value = sectionData as Record<string, unknown>;
-          const result = await updateCustomizationSection(key, value);
+  /** Section IDs from manifest that are not currently active in the layout */
+  const availableSections = useMemo<SectionId[]>(() => {
+    const activeSectionIds = new Set(
+      (customization.layout?.sections ?? []).map((s) => s.id)
+    );
+    const manifestSections = (manifest?.sections ?? []) as Array<{ id: SectionId }>;
+    return manifestSections
+      .map((s) => s.id)
+      .filter((id) => !activeSectionIds.has(id));
+  }, [customization.layout?.sections, manifest]);
 
-          if (!result.success) {
-            if (result.error.code === "UNAUTHORIZED") {
-              // Auth expired mid-session — silently fall back to localStorage
-              const merged = { ...readLocalCustomization(), ...data } as StoreCustomization;
-              writeLocalCustomization(merged);
-              setCustomization(merged);
-              return;
-            }
-            // Other errors are surfaced via toast inside DynamicTabContent
-            throw new Error(result.error.message);
-          }
-        }
-        // Update local state to reflect saved data
-        setCustomization((prev) => ({ ...prev, ...data } as StoreCustomization));
-      } else {
-        // Demo mode: localStorage only
-        const merged = { ...readLocalCustomization(), ...data } as StoreCustomization;
+  // ── Save handlers ──────────────────────────────────────────────────────────
+
+  async function handleMiTiendaSave(
+    branding: BrandingConfig,
+    business: BusinessConfig
+  ): Promise<void> {
+    if (isAuthenticated) {
+      const [brandingResult, businessResult] = await Promise.all([
+        updateBranding(branding),
+        updateBusiness(business),
+      ]);
+
+      // Fallback to localStorage on auth expiry mid-session
+      if (
+        !brandingResult.success &&
+        brandingResult.error.code === "UNAUTHORIZED"
+      ) {
+        const merged: StoreCustomization = {
+          ...readLocalCustomization(),
+          branding,
+          business,
+        };
         writeLocalCustomization(merged);
         setCustomization(merged);
+        return;
       }
-    },
-    [isAuthenticated]
-  );
 
-  // Save handler for SectionsAccordionTab — persists section order/visibility to layout.sections.
-  const handleSectionsSave = useCallback(
-    async (sections: SectionConfig[]) => {
-      if (isAuthenticated) {
-        const result = await updateCustomizationSection("layout", {
-          ...((customization.layout as Record<string, unknown>) ?? {}),
-          sections,
-        });
+      if (!brandingResult.success) {
+        throw new Error(brandingResult.error.message);
+      }
+      if (!businessResult.success) {
+        throw new Error(businessResult.error.message);
+      }
 
-        if (!result.success) {
-          if (result.error.code === "UNAUTHORIZED") {
-            // Auth expired — fall back to localStorage
-            const current = readLocalCustomization();
-            const updated: StoreCustomization = {
-              ...current,
-              layout: { ...current.layout, sections },
-            };
-            writeLocalCustomization(updated);
-            setCustomization(updated);
-            return;
-          }
-          throw new Error(result.error.message);
-        }
+      setCustomization((prev) => ({ ...prev, branding, business }));
+    } else {
+      // Demo mode: localStorage only
+      const merged: StoreCustomization = {
+        ...readLocalCustomization(),
+        branding,
+        business,
+      };
+      writeLocalCustomization(merged);
+      setCustomization(merged);
+    }
 
-        setCustomization((prev) => ({
-          ...prev,
-          layout: { ...prev.layout, sections },
-        }));
-      } else {
-        // Demo mode: localStorage only
+    sendReload("mi-tienda-save");
+  }
+
+  async function handleDisenoSave(theme: ThemeCustomization): Promise<void> {
+    if (isAuthenticated) {
+      const result = await updateTheme(theme);
+
+      if (!result.success && result.error.code === "UNAUTHORIZED") {
+        const merged: StoreCustomization = {
+          ...readLocalCustomization(),
+          theme,
+        };
+        writeLocalCustomization(merged);
+        setCustomization(merged);
+        return;
+      }
+
+      if (!result.success) {
+        throw new Error(result.error.message);
+      }
+
+      setCustomization((prev) => ({ ...prev, theme }));
+    } else {
+      // Demo mode: localStorage only
+      const merged: StoreCustomization = {
+        ...readLocalCustomization(),
+        theme,
+      };
+      writeLocalCustomization(merged);
+      setCustomization(merged);
+    }
+
+    // Push CSS vars to the preview iframe immediately after save
+    sendCssVars(
+      buildPreviewVars(manifest as TemplateConfig, { ...customization, theme })
+    );
+  }
+
+  /** Called on every color/radius/font change in DisenoTab — updates preview in real time */
+  function handleLivePreview(vars: Record<string, string>): void {
+    sendCssVars(vars);
+  }
+
+  async function handleContentSave(
+    content: Partial<ContentConfig>
+  ): Promise<void> {
+    if (isAuthenticated) {
+      const result = await updateCustomizationSection(
+        "content",
+        content as Record<string, unknown>
+      );
+
+      if (!result.success && result.error.code === "UNAUTHORIZED") {
+        const current = readLocalCustomization();
+        const merged: StoreCustomization = {
+          ...current,
+          content: { ...current.content, ...content } as ContentConfig,
+        };
+        writeLocalCustomization(merged);
+        setCustomization(merged);
+        return;
+      }
+
+      if (!result.success) {
+        throw new Error(result.error.message);
+      }
+
+      setCustomization((prev) => ({
+        ...prev,
+        content: { ...prev.content, ...content } as ContentConfig,
+      }));
+    } else {
+      const current = readLocalCustomization();
+      const merged: StoreCustomization = {
+        ...current,
+        content: { ...current.content, ...content } as ContentConfig,
+      };
+      writeLocalCustomization(merged);
+      setCustomization(merged);
+    }
+
+    sendReload("content-save");
+  }
+
+  async function handleSectionsSave(sections: SectionConfig[]): Promise<void> {
+    if (isAuthenticated) {
+      const result = await updateCustomizationSection("layout", {
+        ...((customization.layout as Record<string, unknown>) ?? {}),
+        sections,
+      });
+
+      if (!result.success && result.error.code === "UNAUTHORIZED") {
         const current = readLocalCustomization();
         const updated: StoreCustomization = {
           ...current,
@@ -242,104 +360,205 @@ export function ConfiguracionClient({
         };
         writeLocalCustomization(updated);
         setCustomization(updated);
+        return;
       }
-    },
-    [isAuthenticated, customization.layout]
-  );
+
+      if (!result.success) {
+        throw new Error(result.error.message);
+      }
+
+      setCustomization((prev) => ({
+        ...prev,
+        layout: { ...prev.layout, sections },
+      }));
+    } else {
+      const current = readLocalCustomization();
+      const updated: StoreCustomization = {
+        ...current,
+        layout: { ...current.layout, sections },
+      };
+      writeLocalCustomization(updated);
+      setCustomization(updated);
+    }
+
+    sendReload("sections-save");
+  }
+
+  async function handleProductosSave(
+    layout: Partial<LayoutCustomization>,
+    content: Partial<ContentConfig>
+  ): Promise<void> {
+    if (isAuthenticated) {
+      const promises: ReturnType<typeof updateCustomizationSection>[] = [];
+
+      if (Object.keys(layout).length > 0) {
+        promises.push(
+          updateCustomizationSection("layout", layout as Record<string, unknown>)
+        );
+      }
+      if (Object.keys(content).length > 0) {
+        promises.push(
+          updateCustomizationSection(
+            "content",
+            content as Record<string, unknown>
+          )
+        );
+      }
+
+      const results = await Promise.all(promises);
+
+      for (const result of results) {
+        if (!result.success && result.error.code === "UNAUTHORIZED") {
+          const current = readLocalCustomization();
+          const merged: StoreCustomization = {
+            ...current,
+            layout: { ...current.layout, ...layout },
+            content: { ...current.content, ...content } as ContentConfig,
+          };
+          writeLocalCustomization(merged);
+          setCustomization(merged);
+          return;
+        }
+        if (!result.success) {
+          throw new Error(result.error.message);
+        }
+      }
+
+      setCustomization((prev) => ({
+        ...prev,
+        layout: { ...prev.layout, ...layout },
+        content: { ...prev.content, ...content } as ContentConfig,
+      }));
+    } else {
+      const current = readLocalCustomization();
+      const merged: StoreCustomization = {
+        ...current,
+        layout: { ...current.layout, ...layout },
+        content: { ...current.content, ...content } as ContentConfig,
+      };
+      writeLocalCustomization(merged);
+      setCustomization(merged);
+    }
+
+    sendReload("productos-save");
+  }
+
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Page header */}
-      <div className="border-b bg-card">
-        <div className="mx-auto max-w-5xl px-4 py-6 md:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-foreground">
-            Configuración de tu tienda
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Personalizá cómo se ve{" "}
-            <span className="font-medium text-foreground">{storeName}</span>{" "}
-            para tus clientes.
-          </p>
+    <ConfigDirtyProvider>
+      {/* Split-panel layout */}
+      <div className="flex h-[calc(100vh-4rem)] w-full">
+        {/* LEFT PANEL — Controls (100% mobile, 40% desktop) */}
+        <div className="w-full lg:w-[40%] lg:min-w-[400px] lg:max-w-[560px] flex flex-col border-r overflow-hidden">
+          {/* Tab navigation */}
+          <div className="flex border-b px-2 pt-2 gap-1 shrink-0 overflow-x-auto">
+            {TABS.map((tab) => (
+              <button
+                key={tab.value}
+                type="button"
+                onClick={() => setActiveTab(tab.value)}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-t-md transition-colors shrink-0",
+                  activeTab === tab.value
+                    ? "bg-background text-foreground border border-b-0 border-border"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <tab.icon className="w-4 h-4" />
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content — scrollable */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {activeTab === "mi-tienda" && (
+              <MiTiendaTab
+                initialBranding={customization.branding}
+                initialBusiness={customization.business}
+                isAuthenticated={isAuthenticated}
+                onSave={handleMiTiendaSave}
+              />
+            )}
+
+            {activeTab === "diseno" && (
+              <DisenoTab
+                initialTheme={customization.theme}
+                schema={schema ?? undefined}
+                manifest={manifest as TemplateConfig}
+                isAuthenticated={isAuthenticated}
+                onSave={handleDisenoSave}
+                onLivePreview={handleLivePreview}
+              />
+            )}
+
+            {activeTab === "contenido" && (
+              <ContenidoTab
+                initialContent={customization.content}
+                initialSections={
+                  customization.layout?.sections ??
+                  (manifest?.sections as SectionConfig[] | undefined) ??
+                  []
+                }
+                availableSections={availableSections}
+                sectionSchemas={schema?.sectionSchemas}
+                isAuthenticated={isAuthenticated}
+                onContentSave={handleContentSave}
+                onSectionsSave={handleSectionsSave}
+              />
+            )}
+
+            {activeTab === "productos" && (
+              <ProductosTab
+                initialLayout={customization.layout}
+                initialContent={customization.content}
+                products={initialProducts}
+                schema={schema ?? undefined}
+                isAuthenticated={isAuthenticated}
+                onSave={handleProductosSave}
+                onLivePreview={handleLivePreview}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT PANEL — Live preview (hidden on mobile, 60% on desktop) */}
+        <div className="hidden lg:flex lg:flex-1 flex-col bg-muted/30">
+          <PreviewFrame
+            ref={iframeRef}
+            src={previewSrc}
+            isLoaded={isIframeLoaded}
+            onLoad={() => setIsIframeLoaded(true)}
+          />
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="mx-auto max-w-5xl px-4 py-8 md:px-6 lg:px-8">
-        <Tabs defaultValue="identidad">
-          {/* Tab list — scrollable on mobile */}
-          <div className="overflow-x-auto pb-1">
-            <TabsList className="mb-6 w-full min-w-max justify-start gap-1 bg-muted/40 p-1">
-              {tabs.map(({ value, label }) => (
-                <TabsTrigger
-                  key={value}
-                  value={value}
-                  className="flex-none px-4 py-2 text-sm"
-                >
-                  {label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+      {/* Mobile: FAB to open preview sheet */}
+      <button
+        type="button"
+        onClick={() => setIsMobilePreviewOpen(true)}
+        className="fixed bottom-6 right-6 lg:hidden z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:opacity-90 transition-opacity"
+      >
+        <Eye className="w-4 h-4" />
+        <span className="text-sm font-medium">Vista previa</span>
+      </button>
+
+      {/* Mobile: preview sheet */}
+      <Sheet open={isMobilePreviewOpen} onOpenChange={setIsMobilePreviewOpen}>
+        <SheetContent side="bottom" className="h-[90vh] p-0">
+          <SheetHeader className="p-4 border-b">
+            <SheetTitle>Vista previa de tu tienda</SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 h-[calc(90vh-4.5rem)]">
+            <PreviewFrame
+              src={previewSrc}
+              isLoaded={isIframeLoaded}
+              onLoad={() => setIsIframeLoaded(true)}
+            />
           </div>
-
-          {/* Universal tab: Identidad */}
-          <TabsContent value="identidad">
-            <BrandingTab
-              initialBranding={customization.branding}
-              isAuthenticated={isAuthenticated}
-            />
-          </TabsContent>
-
-          {/* Dynamic tabs from schema */}
-          {dynamicTabGroups.map((tabGroup) => (
-            <TabsContent key={tabGroup.id} value={tabGroup.id}>
-              <DynamicTabContent
-                key={tabGroup.id}
-                tabGroup={tabGroup}
-                customization={
-                  customization as unknown as Record<string, unknown>
-                }
-                onSave={handleDynamicTabSave}
-              />
-            </TabsContent>
-          ))}
-
-          {/* Secciones tab — only rendered when the schema defines sectionSchemas */}
-          {hasSectionSchemas && (
-            <TabsContent value="secciones">
-              <SectionsAccordionTab
-                sectionSchemas={schema!.sectionSchemas!}
-                sections={customization?.layout?.sections ?? []}
-                onSave={handleSectionsSave}
-              />
-            </TabsContent>
-          )}
-
-          {/* Universal tab: Grupos de Productos */}
-          <TabsContent value="grupos-productos">
-            <ProductGroupsTab
-              initialProductGroups={customization?.content?.productGroups}
-              products={initialProducts}
-            />
-          </TabsContent>
-
-          {/* Universal tab: Apariencia */}
-          <TabsContent value="apariencia">
-            <ThemeTab
-              initialTheme={customization.theme}
-              schema={schema ?? undefined}
-              isAuthenticated={isAuthenticated}
-            />
-          </TabsContent>
-
-          {/* Universal tab: Negocio */}
-          <TabsContent value="negocio">
-            <BusinessTab
-              initialBusiness={customization.business}
-              isAuthenticated={isAuthenticated}
-            />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
+        </SheetContent>
+      </Sheet>
+    </ConfigDirtyProvider>
   );
 }

@@ -21,9 +21,9 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
     ],
 
     radius: [
-      { key: "card", label: "Radio de tarjetas", default: "12px", max: 24 },
+      { key: "card", label: "Esquinas de las tarjetas", default: "12px", max: 24 },
       { key: "category", label: "Radio de pills de categoría", default: "28px", max: 32 },
-      { key: "button", label: "Radio de botones", default: "28px", max: 32 },
+      { key: "button", label: "Esquinas de los botones", default: "28px", max: 32 },
     ],
 
     fontPairs: [
@@ -56,7 +56,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "structuralVariants.categoryDisplayType",
+                key: "layout.structuralVariants.categoryDisplayType",
                 label: "Vista de categorías",
                 type: "select" as const,
                 options: [
@@ -73,9 +73,9 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
             description: "Estructura visual y densidad de la tienda.",
             fields: [
               {
-                key: "gridDensity",
+                key: "layout.gridDensity",
                 type: "select" as const,
-                label: "Densidad del catálogo",
+                label: "Espaciado del catálogo",
                 description: "Cuántos productos se muestran por fila",
                 options: [
                   { value: "compact", label: "Compacto (más productos por fila)" },
@@ -84,9 +84,9 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
                 ],
               },
               {
-                key: "spacingDensity",
+                key: "layout.spacingDensity",
                 type: "select" as const,
-                label: "Espaciado general",
+                label: "Espaciado entre elementos",
                 description: "Cuánto espacio hay entre secciones y elementos",
                 options: [
                   { value: "tight", label: "Compacto" },
@@ -107,42 +107,42 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
             label: "Columnas por vista",
             fields: [
               {
-                key: "grid.products.mobile",
+                key: "layout.grid.products.mobile",
                 label: "Productos por fila (celular)",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "grid.products.desktop",
+                key: "layout.grid.products.desktop",
                 label: "Productos por fila (computador)",
                 type: "number" as const,
                 min: 2,
                 max: 6,
               },
               {
-                key: "grid.listing.mobile",
+                key: "layout.grid.listing.mobile",
                 label: "Catálogo por fila (celular)",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "grid.listing.desktop",
+                key: "layout.grid.listing.desktop",
                 label: "Catálogo por fila (computador)",
                 type: "number" as const,
                 min: 2,
                 max: 6,
               },
               {
-                key: "grid.search.mobile",
+                key: "layout.grid.search.mobile",
                 label: "Búsqueda por fila (celular)",
                 type: "number" as const,
                 min: 1,
                 max: 3,
               },
               {
-                key: "grid.search.desktop",
+                key: "layout.grid.search.desktop",
                 label: "Búsqueda por fila (computador)",
                 type: "number" as const,
                 min: 2,
@@ -161,7 +161,7 @@ export const furnitureDarkConfigSchema: TemplateConfigSchema = {
   sectionSchemas: {
     hero: {
       id: "hero",
-      label: "Hero / Banner Principal",
+      label: "Banner principal",
       fields: [
         {
           key: "textAlignment",

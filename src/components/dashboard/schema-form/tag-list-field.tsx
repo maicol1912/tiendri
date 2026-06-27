@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -18,23 +18,35 @@ export function TagListField({
   placeholder = "Escribe y presiona Enter",
   maxItems,
 }: TagListFieldProps) {
+  const safeValue = useMemo(() => {
+    if (!value) return [];
+    if (!Array.isArray(value)) return [];
+    return value
+      .map((item: unknown) => {
+        if (typeof item === "string") return item;
+        if (item && typeof item === "object" && "label" in item) return (item as { label: string }).label;
+        return null;
+      })
+      .filter((item): item is string => item !== null);
+  }, [value]);
+
   const [inputValue, setInputValue] = useState("");
 
   const addTag = useCallback(() => {
     const trimmed = inputValue.trim();
     if (!trimmed) return;
-    if (value.includes(trimmed)) return;
-    if (maxItems != null && value.length >= maxItems) return;
+    if (safeValue.includes(trimmed)) return;
+    if (maxItems != null && safeValue.length >= maxItems) return;
 
-    onChange([...value, trimmed]);
+    onChange([...safeValue, trimmed]);
     setInputValue("");
-  }, [inputValue, value, onChange, maxItems]);
+  }, [inputValue, safeValue, onChange, maxItems]);
 
   const removeTag = useCallback(
     (index: number) => {
-      onChange(value.filter((_, i) => i !== index));
+      onChange(safeValue.filter((_, i) => i !== index));
     },
-    [value, onChange]
+    [safeValue, onChange]
   );
 
   const handleKeyDown = useCallback(
@@ -47,13 +59,13 @@ export function TagListField({
     [addTag]
   );
 
-  const isAtMax = maxItems != null && value.length >= maxItems;
+  const isAtMax = maxItems != null && safeValue.length >= maxItems;
 
   return (
     <div className="space-y-2">
-      {value.length > 0 && (
+      {safeValue.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
-          {value.map((tag, index) => (
+          {safeValue.map((tag, index) => (
             <Badge key={`${tag}-${index}`} variant="secondary" className="gap-1 pr-1">
               {tag}
               <button
@@ -72,7 +84,7 @@ export function TagListField({
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={isAtMax ? `Maximo ${maxItems} alcanzado` : placeholder}
+        placeholder={isAtMax ? `Máximo ${maxItems} alcanzado` : placeholder}
         disabled={isAtMax}
       />
     </div>

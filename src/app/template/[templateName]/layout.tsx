@@ -14,6 +14,7 @@
 import { notFound } from "next/navigation";
 import { templateRegistry } from "@/templates";
 import { TemplateLayoutClient } from "./TemplateLayoutClient";
+import PreviewListener from "@/storefront/preview/PreviewListener";
 import { mockStore as techPremiumMockStore } from "@/templates/tech-premium/mock/data";
 import { mockStore as fashionMockStore } from "@/templates/fashion/mock/data";
 import { mockStore as furnitureDarkMockStore } from "@/templates/furniture-dark/mock/data";
@@ -56,15 +57,18 @@ export default async function TemplateLayout({
   // Templates not yet migrated to the sub-route architecture get a transparent wrapper.
   // Their shell components include their own CartProvider + CSS var injection.
   if (!LAYOUT_SUPPORTED_TEMPLATES.has(templateName)) {
-    return <>{children}</>;
+    return <>{children}<PreviewListener /></>;
   }
 
   return (
-    <TemplateLayoutClient
-      storeSlug={getStoreSlug(templateName)}
-      templateName={templateName}
-    >
-      {children}
-    </TemplateLayoutClient>
+    <>
+      <TemplateLayoutClient
+        storeSlug={getStoreSlug(templateName)}
+        templateName={templateName}
+      >
+        {children}
+      </TemplateLayoutClient>
+      <PreviewListener />
+    </>
   );
 }

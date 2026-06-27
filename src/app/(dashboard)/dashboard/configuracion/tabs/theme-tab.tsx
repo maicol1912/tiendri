@@ -29,13 +29,13 @@ const FALLBACK_COLORS: { key: string; label: string; default: string }[] = [
 
 const FALLBACK_RADIUS: { key: string; label: string; max: number; default: string }[] = [
   { key: "card", label: "Esquinas de tarjetas", max: 24, default: "9px" },
-  { key: "category", label: "Esquinas de categorias", max: 30, default: "15px" },
+  { key: "category", label: "Esquinas de categorías", max: 30, default: "15px" },
   { key: "button", label: "Esquinas de botones", max: 24, default: "8px" },
 ];
 
 const FALLBACK_FONT_PAIRS: { key: string; label: string; body: string; heading: string; preview?: string }[] = [
   { key: "modern", label: "Moderno", body: "Inter", heading: "Space Grotesk" },
-  { key: "warm", label: "Calido", body: "Poppins", heading: "Playfair Display" },
+  { key: "warm", label: "Cálido", body: "Poppins", heading: "Playfair Display" },
   { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond" },
   { key: "functional", label: "Funcional", body: "IBM Plex Sans", heading: "IBM Plex Mono" },
 ];
@@ -47,7 +47,7 @@ const STYLE_LABELS: Record<string, string> = {
   premium: "Premium",
   corporate: "Corporativo",
   cyberpunk: "Cyberpunk",
-  warm: "Calido",
+  warm: "Cálido",
   brutalist: "Brutalista",
   nature: "Natural",
   playful: "Juvenil",
@@ -211,7 +211,7 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
   );
 
   const [fontPair, setFontPair] = useState<string>(
-    initialTheme?.fontPair ?? "minimalista"
+    initialTheme?.fontPair ?? schema?.theme?.fontPairs?.[0]?.key ?? "modern"
   );
 
   const [isSaving, setIsSaving] = useState(false);
@@ -309,7 +309,7 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
       {/* Template — read-only display */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Plantilla de diseno</CardTitle>
+          <CardTitle className="text-base">Plantilla de diseño</CardTitle>
           <CardDescription>
             La plantilla define la estructura general de tu tienda.
           </CardDescription>
@@ -337,7 +337,7 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
           <CardHeader>
             <CardTitle className="text-base">Paleta de colores</CardTitle>
             <CardDescription>
-              Elegi una paleta armonica para tu tienda. Cada paleta aplica todos los colores de forma coordinada.
+              Elegí una paleta armónica para tu tienda. Cada paleta aplica todos los colores de forma coordinada.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -449,7 +449,7 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
         <CardHeader>
           <CardTitle className="text-base">Par de fuentes</CardTitle>
           <CardDescription>
-            Elegi la combinacion de tipografias para tu tienda.
+            Elegí la combinación de tipografías para tu tienda.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -493,7 +493,7 @@ export function ThemeTab({ initialTheme, schema, isAuthenticated }: ThemeTabProp
         <CardHeader>
           <CardTitle className="text-base">Bordes y esquinas</CardTitle>
           <CardDescription>
-            Ajusta que tan redondeadas son las esquinas de los elementos.
+            Ajustá qué tan redondeadas son las esquinas de los elementos.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">

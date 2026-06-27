@@ -17,7 +17,7 @@ import { RepeatableSection } from "./repeatable-section";
 interface DynamicTabContentProps {
   tabGroup: ConfigTabGroup;
   customization: Record<string, unknown>;
-  onSave: (data: Record<string, unknown>) => void;
+  onSave: (data: Record<string, unknown>) => Promise<void>;
 }
 
 // ---------------------------------------------------------------------------
@@ -77,10 +77,10 @@ export function DynamicTabContent({
 
   // --- Save ---
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     setIsSaving(true);
     try {
-      onSave(formState);
+      await onSave(formState);
       toast.success("Cambios guardados");
     } catch {
       toast.error("Error al guardar los cambios");

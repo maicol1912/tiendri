@@ -26,6 +26,7 @@ import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { CartProvider } from "@/templates/_core/cart";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
 import type { StoreInfo } from "@/types/domain/store";
+import PreviewListener from "@/storefront/preview/PreviewListener";
 
 interface StorefrontLayoutProps {
   children: ReactNode;
@@ -113,6 +114,7 @@ export default async function StorefrontLayout({
           style={cssVars as React.CSSProperties}
         >
           {children}
+          <PreviewListener />
         </div>
       </StorefrontConfigProvider>
     </CartProvider>
