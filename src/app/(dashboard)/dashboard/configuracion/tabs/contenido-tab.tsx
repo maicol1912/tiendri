@@ -117,10 +117,10 @@ export function ContenidoTab({
       await onBannerSave(
         {
           heroBanner: {
-            title: heroTitle || undefined,
-            subtitle: heroSubtitle || undefined,
-            image: heroImage || undefined,
-            ctaText: heroCtaText || undefined,
+            title: heroTitle,
+            subtitle: heroSubtitle,
+            image: heroImage ?? "",
+            ctaText: heroCtaText,
           },
         },
         sectionsToSave
