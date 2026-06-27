@@ -204,16 +204,22 @@ export function ConfiguracionClient({
 
   const previewSrc = slug ? `/${slug}?preview=true` : null;
 
-  /** Section IDs from manifest that are not currently active in the layout */
+  /** Effective sections: saved sections if any, otherwise manifest defaults */
+  const effectiveSections = useMemo<SectionConfig[]>(() => {
+    const saved = customization.layout?.sections;
+    return saved?.length
+      ? saved
+      : ((manifest?.sections as SectionConfig[] | undefined) ?? []);
+  }, [customization.layout?.sections, manifest]);
+
+  /** Section IDs from manifest that are not currently active */
   const availableSections = useMemo<SectionId[]>(() => {
-    const activeSectionIds = new Set(
-      (customization.layout?.sections ?? []).map((s) => s.id)
-    );
+    const activeSectionIds = new Set(effectiveSections.map((s) => s.id));
     const manifestSections = (manifest?.sections ?? []) as Array<{ id: SectionId }>;
     return manifestSections
       .map((s) => s.id)
       .filter((id) => !activeSectionIds.has(id));
-  }, [customization.layout?.sections, manifest]);
+  }, [effectiveSections, manifest]);
 
   // ── Save handlers ──────────────────────────────────────────────────────────
 
@@ -502,11 +508,7 @@ export function ConfiguracionClient({
             {activeTab === "contenido" && (
               <ContenidoTab
                 initialContent={customization.content}
-                initialSections={
-                  customization.layout?.sections?.length
-                    ? customization.layout.sections
-                    : ((manifest?.sections as SectionConfig[] | undefined) ?? [])
-                }
+                initialSections={effectiveSections}
                 availableSections={availableSections}
                 sectionSchemas={schema?.sectionSchemas}
                 isAuthenticated={isAuthenticated}
