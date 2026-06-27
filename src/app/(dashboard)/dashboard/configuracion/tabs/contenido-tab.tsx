@@ -21,7 +21,7 @@ import { MediaPickerField } from "@/components/dashboard/media";
 import { SectionManager } from "@/components/dashboard/schema-form/section-manager";
 import { TagListField } from "@/components/dashboard/schema-form/tag-list-field";
 import type { ContentConfig } from "@/types/templates/customization-sections";
-import type { SectionConfig } from "@/types/templates/sections";
+import type { SectionConfig, SectionId } from "@/types/templates/sections";
 import type { ConfigSection } from "@/types/templates/config-schema";
 
 // ---------------------------------------------------------------------------
@@ -109,6 +109,21 @@ export function ContenidoTab({
           ctaText: heroCtaText || undefined,
         },
       });
+
+      const heroActive = localSections.some(
+        (s) => s.id === "hero" && s.visible
+      );
+      if (!heroActive) {
+        const heroExists = localSections.some((s) => s.id === "hero");
+        const updated = heroExists
+          ? localSections.map((s) =>
+              s.id === "hero" ? { ...s, visible: true } : s
+            )
+          : [{ id: "hero" as SectionId, visible: true, config: {} }, ...localSections];
+        setLocalSections(updated);
+        await onSectionsSave(updated);
+      }
+
       toast.success("Banner guardado correctamente");
     } catch {
       toast.error("No se pudo guardar el banner. Intentá de nuevo.");
