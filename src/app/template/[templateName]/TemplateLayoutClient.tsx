@@ -20,7 +20,7 @@ import {
   type MutableSectionEntry,
 } from "@/components/customizer/ThemeCustomizer";
 import { buildCssVars } from "@/catalog/buildCssVars";
-import { fontPairs } from "@/shared/fonts";
+import { getAllFontVariableClasses } from "@/shared/fonts";
 
 // ── Template ui-config imports ────────────────────────────────────────────────
 
@@ -150,18 +150,12 @@ export function TemplateLayoutClient({
   // Build CSS vars from config using the data-driven helper.
   const cssVars = buildCssVars(config as unknown as ResolvedStoreConfig);
 
-  // Resolve font pair CSS variable classes.
-  // Priority: active preset (config.fontPair) → template default → none.
-  // next/font CSS variable classes must be present on a DOM ancestor for the
-  // font-family var to resolve — they are not injected by buildCssVars.
-  const resolvedFontPairKey =
-    (config.fontPair as string | undefined) ?? uiConfig.defaultFontPairKey;
-  const resolvedFontPair = resolvedFontPairKey
-    ? (fontPairs[resolvedFontPairKey] ?? null)
-    : null;
-  const fontPairClasses = resolvedFontPair
-    ? `${resolvedFontPair.body.variable} ${resolvedFontPair.heading.variable}`
-    : "";
+  // Apply ALL font variable classes so that every --font-heading-{key} and
+  // --font-body-{key} CSS variable is defined on the element. This is required
+  // for live preview font switching via postMessage — when the dashboard sends
+  // `--font-heading: var(--font-heading-elegante)` the variable must already be
+  // defined on a DOM ancestor regardless of which font pair was active at render.
+  const fontPairClasses = getAllFontVariableClasses();
 
   // Merge structural → structuralVariants so ThemeCustomizer writes land on the
   // read path. ThemeCustomizer writes to config.structural.*; components read
@@ -181,7 +175,7 @@ export function TemplateLayoutClient({
       <LayoutConfigContext.Provider value={{ config: configForContext }}>
         {/* template-scope div — CSS variable injection (data-driven) */}
         <div
-          className={`template-scope${fontPairClasses ? ` ${fontPairClasses}` : ""}`}
+          className={`template-scope ${fontPairClasses}`}
           style={cssVars as React.CSSProperties}
         >
           {children}

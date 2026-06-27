@@ -295,8 +295,9 @@ export function ConfiguracionClient({
 
     // Push CSS vars to the preview iframe immediately after save
     sendCssVars(
-      buildPreviewVars(manifest as TemplateConfig, { ...customization, theme })
+      buildPreviewVars(manifest as TemplateConfig, { ...customization, theme }, schema)
     );
+    sendReload("diseno-save");
   }
 
   /** Called on every color/radius/font change in DisenoTab — updates preview in real time */

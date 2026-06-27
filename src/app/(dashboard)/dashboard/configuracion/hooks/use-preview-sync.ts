@@ -5,6 +5,7 @@ import type { TiendriPostMessage } from "@/types/postmessage";
 import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
 import { buildCssVars } from "@/catalog/buildCssVars";
 import type { TemplateConfig, StoreCustomization } from "@/types/templates";
+import type { TemplateConfigSchema } from "@/types/templates/config-schema";
 
 export function usePreviewSync(
   iframeRef: RefObject<HTMLIFrameElement | null>
@@ -30,8 +31,9 @@ export function usePreviewSync(
 
 export function buildPreviewVars(
   manifest: TemplateConfig,
-  customization: StoreCustomization
+  customization: StoreCustomization,
+  schema?: TemplateConfigSchema | null,
 ): Record<string, string> {
-  const resolved = resolveTemplateConfig(manifest, customization);
+  const resolved = resolveTemplateConfig(manifest, customization, schema ?? undefined);
   return buildCssVars(resolved);
 }

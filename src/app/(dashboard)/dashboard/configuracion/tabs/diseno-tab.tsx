@@ -52,10 +52,10 @@ const FALLBACK_FONT_PAIRS: {
   heading: string;
   preview?: string;
 }[] = [
-  { key: "modern", label: "Moderno", body: "Inter", heading: "Space Grotesk" },
-  { key: "warm", label: "Cálido", body: "Poppins", heading: "Playfair Display" },
-  { key: "elegant", label: "Elegante", body: "DM Sans", heading: "Cormorant Garamond" },
-  { key: "functional", label: "Funcional", body: "IBM Plex Sans", heading: "IBM Plex Mono" },
+  { key: "minimalista", label: "Minimalista", body: "Inter", heading: "Manrope" },
+  { key: "amigable", label: "Amigable", body: "Nunito", heading: "Poppins" },
+  { key: "elegante", label: "Elegante", body: "Lato", heading: "Cormorant Garamond" },
+  { key: "preciso", label: "Preciso", body: "IBM Plex Sans", heading: "Space Grotesk" },
 ];
 
 const STYLE_LABELS: Record<string, string> = {
@@ -238,9 +238,8 @@ export function DisenoTab({
     (initialTheme?.radius as Record<string, string> | undefined) ?? defaultRadius
   );
 
-  // Bug fix: do NOT hardcode to "minimalista" — use schema's first pair or "modern"
   const [fontPair, setFontPair] = useState<string>(
-    initialTheme?.fontPair ?? schema?.theme?.fontPairs?.[0]?.key ?? "modern"
+    initialTheme?.fontPair ?? schema?.theme?.fontPairs?.[0]?.key ?? "minimalista"
   );
 
   const [isSaving, setIsSaving] = useState(false);
@@ -288,7 +287,7 @@ export function DisenoTab({
       templateId: manifest.id,
       theme,
     };
-    return buildPreviewVars(manifest, customization);
+    return buildPreviewVars(manifest, customization, schema);
   }
 
   // ── Handlers ──────────────────────────────────────────────────────────────

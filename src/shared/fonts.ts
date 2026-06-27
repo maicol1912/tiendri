@@ -380,3 +380,9 @@ export const fontGroups = [
 export function getFontPair(id: string): FontPairDefinition {
   return fontPairs[id] ?? fontPairs["minimalista"]!;
 }
+
+export function getAllFontVariableClasses(): string {
+  return Object.values(fontPairs)
+    .flatMap(pair => [pair.heading.variable, pair.body.variable])
+    .join(" ");
+}

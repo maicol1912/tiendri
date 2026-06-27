@@ -21,7 +21,7 @@ import { resolveTemplateConfig } from "@/catalog/resolveTemplateConfig";
 import { extractMediaTokens, resolveMediaUrlsForStorefront } from "@/catalog/resolveMediaUrlsForStorefront";
 import type { StoreCustomization } from "@/types/templates";
 import { buildCssVars } from "@/catalog/buildCssVars";
-import { getFontPair } from "@/shared/fonts";
+import { getAllFontVariableClasses } from "@/shared/fonts";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { CartProvider } from "@/templates/_core/cart";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
@@ -74,15 +74,6 @@ export default async function StorefrontLayout({
   // ── 3. Build CSS vars ─────────────────────────────────────────────────────
   const cssVars = buildCssVars(resolvedConfig);
 
-  // ── 4. Resolve font pair ──────────────────────────────────────────────────
-  // fontPair key comes from store_appearance.font_pair (new path) or
-  // legacy customization.theme.fontPair. Falls back to "minimalista".
-  const fontPairKey =
-    store.store_appearance?.font_pair ??
-    storeCustomization?.theme?.fontPair ??
-    "minimalista";
-  const fontPair = getFontPair(fontPairKey);
-
   // ── 5. Build StoreInfo from resolved config + store row ───────────────────
   // Template components receive a StoreInfo prop — derive it from the resolved
   // branding config, falling back to the raw store row where needed.
@@ -110,7 +101,7 @@ export default async function StorefrontLayout({
         {/* template-scope: injects CSS vars + font classes, same div pattern as
             TemplateLayoutClient but server-rendered — no client JS for theming. */}
         <div
-          className={`template-scope ${fontPair.body.variable} ${fontPair.heading.variable}`}
+          className={`template-scope ${getAllFontVariableClasses()}`}
           style={cssVars as React.CSSProperties}
         >
           {children}
