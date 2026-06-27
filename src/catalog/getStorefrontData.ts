@@ -9,9 +9,17 @@
 import { cache } from "react";
 import { createClient } from "@/infrastructure/supabase/server";
 import type { ProductImageRow } from "@/infrastructure/database.types";
-import type { StorefrontProduct, StorefrontCategory } from "@/types/domain/store";
+import type { StorefrontProduct, StorefrontCategory, StorefrontVariantGroup, StorefrontVariantOption } from "@/types/domain/store";
 
 // ── Internal helper ────────────────────────────────────────────────────────────
+
+interface ProductVariantRow {
+  id: string
+  name: string
+  type: string
+  price_modifier: number
+  metadata: Record<string, unknown> | null
+}
 
 type ProductRowWithImages = {
   id: string;
@@ -26,7 +34,44 @@ type ProductRowWithImages = {
   subcategory_id: string | null;
   specs: unknown;
   product_images: ProductImageRow[] | null;
+  product_variants?: ProductVariantRow[];
 };
+
+function groupVariants(rows: ProductVariantRow[]): StorefrontVariantGroup[] {
+  if (!rows || rows.length === 0) return []
+
+  const groups = new Map<string, StorefrontVariantGroup>()
+
+
+  const validRows = rows.filter(row => row.name && row.name.trim() !== '')
+
+  for (const row of validRows) {
+    const rawType = row.type?.trim()
+    const groupKey = (rawType && rawType !== 'option') ? rawType : 'Opciones'
+    if (!groups.has(groupKey)) {
+      const meta = row.metadata as { hex?: string } | null
+      groups.set(groupKey, {
+        id: groupKey,
+        label: groupKey,
+        type: meta?.hex ? 'color' : 'custom',
+        options: [],
+      })
+    }
+
+    const group = groups.get(groupKey)!
+    const meta = row.metadata as { hex?: string } | null
+    if (meta?.hex && group.type !== 'color') group.type = 'color'
+
+    group.options.push({
+      id: row.id,
+      label: row.name,
+      value: meta?.hex,
+      priceModifier: row.price_modifier,
+    })
+  }
+
+  return Array.from(groups.values())
+}
 
 function mapProduct(p: ProductRowWithImages): StorefrontProduct {
   const images = (p.product_images ?? [])
@@ -50,6 +95,7 @@ function mapProduct(p: ProductRowWithImages): StorefrontProduct {
     images,
     specs,
     rating: undefined,
+    variants: groupVariants(p.product_variants ?? []),
   };
 }
 
@@ -119,7 +165,7 @@ export const getStorefrontProducts = cache(async (storeId: string): Promise<Stor
 
   const { data, error } = await supabase
     .from("products")
-    .select("*, product_images(*)")
+    .select("*, product_images(*), product_variants(*)")
     .eq("store_id", storeId)
     .eq("available", true)
     .order("sort_order", { ascending: true });
@@ -178,7 +224,7 @@ export const getStorefrontBestSellers = cache(
 
     const { data, error } = await supabase
       .from("products")
-      .select("*, product_images(*)")
+      .select("*, product_images(*), product_variants(*)")
       .eq("store_id", storeId)
       .eq("available", true)
       .eq("is_best_seller", true)
@@ -202,7 +248,7 @@ export const getStorefrontPopularProducts = cache(
 
     const { data, error } = await supabase
       .from("products")
-      .select("*, product_images(*)")
+      .select("*, product_images(*), product_variants(*)")
       .eq("store_id", storeId)
       .eq("available", true)
       .eq("featured", true)
@@ -226,7 +272,7 @@ export const getStorefrontDiscountProducts = cache(
 
     const { data, error } = await supabase
       .from("products")
-      .select("*, product_images(*)")
+      .select("*, product_images(*), product_variants(*)")
       .eq("store_id", storeId)
       .eq("available", true)
       .not("compare_at_price", "is", null)

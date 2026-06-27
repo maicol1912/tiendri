@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct } from "@/types/domain/store";
 
 // ── Tech Premium-specific types (inlined from deleted types.ts) ──────────────
 
@@ -393,14 +393,7 @@ export const mockSummerSaleBanner: SummerSaleBanner = {
 };
 
 // ── Product Detail — iPhone 14 Pro Max (full data) ──────────────────────────
-
-const detailProductColors: ColorOption[] = [
-  { id: "color-1", label: "Negro Espacial", hex: "#1E1E1E" },
-  { id: "color-2", label: "Dorado", hex: "#C5A880" },
-  { id: "color-3", label: "Champagne", hex: "#D4C5A9" },
-  { id: "color-4", label: "Morado Oscuro", hex: "#4A4A6A" },
-  { id: "color-5", label: "Azul Marino", hex: "#2E4057" },
-];
+
 
 export const mockDetailProduct: StorefrontProduct = {
   id: "prod-01",
@@ -416,8 +409,6 @@ export const mockDetailProduct: StorefrontProduct = {
   ],
   description:
     "Así como un libro se juzga por su portada, lo primero que notás al tomar el iPhone 14 Pro Max es la pantalla. Nada sorprendente, porque las tecnologías avanzadas permiten prácticamente eliminar los marcos de la pantalla.",
-  colors: detailProductColors,
-  storageOptions: ["128GB", "256GB", "512GB", "1TB"],
   rating: 4.9,
   reviewCount: 125,
   inStock: true,

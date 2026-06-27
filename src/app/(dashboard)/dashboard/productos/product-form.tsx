@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 import { useCategories, useSubcategories } from '@/app/(dashboard)/_hooks/use-repositories'
 import { getStore } from '@/app/(dashboard)/dashboard/_actions/store'
 import { createProduct, updateProduct } from '@/app/(dashboard)/dashboard/_actions/products'
-import { PriceInput, VariantEditor } from '@/components/shared'
+import { PriceInput, VariantGroupEditor } from '@/components/shared'
 import { ProductImageGallery, type GalleryImage } from './product-image-gallery'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -30,7 +30,8 @@ import {
 } from '@/components/ui/card'
 import type {
   Product,
-  UIProductVariant,
+  ProductVariant,
+  UIVariantGroup,
   CreateProductInput,
   UpdateProductInput,
 } from '@/types/domain'
@@ -51,6 +52,31 @@ const priceFormatter = new Intl.NumberFormat('es-CO', {
   maximumFractionDigits: 0,
   minimumFractionDigits: 0,
 })
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function variantsToGroups(variants: ProductVariant[]): UIVariantGroup[] {
+  const groupMap = new Map<string, UIVariantGroup>()
+  for (const v of variants) {
+    const groupName = v.type || 'General'
+    const meta = v.metadata as { hex?: string } | null
+    if (!groupMap.has(groupName)) {
+      groupMap.set(groupName, {
+        id: crypto.randomUUID(),
+        name: groupName,
+        isColor: !!meta?.hex,
+        options: [],
+      })
+    }
+    groupMap.get(groupName)!.options.push({
+      id: v.id,
+      name: v.name,
+      priceModifier: v.price_modifier,
+      hex: meta?.hex,
+    })
+  }
+  return Array.from(groupMap.values())
+}
 
 // ── Form ─────────────────────────────────────────────────────────────────────
 
@@ -106,16 +132,12 @@ export function ProductForm({
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(initialImages)
 
   // ── Variants ─────────────────────────────────────────────────────────────
-  const initialVariants: UIProductVariant[] = useMemo(
-    () =>
-      (product?.variants ?? []).map((v) => ({
-        id: v.id,
-        name: v.name,
-        priceModifier: v.price_modifier,
-      })),
+  const initialVariantGroups: UIVariantGroup[] = useMemo(
+    () => variantsToGroups(product?.variants ?? []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [product?.variants]
   )
-  const [variants, setVariants] = useState<UIProductVariant[]>(initialVariants)
+  const [variantGroups, setVariantGroups] = useState<UIVariantGroup[]>(initialVariantGroups)
 
   // ── Subcategories (only if nested mode + category selected) ──────────────
   const { subcategories } = useSubcategories(categoryId || '__none__')
@@ -156,6 +178,28 @@ export function ProductForm({
   const visibleErrors = submitted ? errors : {}
   const isValid = Object.keys(errors).length === 0
 
+  // ── Variant price preview helpers ────────────────────────────────────────
+  const allNamedOptions = useMemo(
+    () =>
+      variantGroups.flatMap((g) =>
+        g.options
+          .filter((o) => o.name.trim() !== '')
+          .map((o) => ({ ...o, groupName: g.name || 'General' }))
+      ),
+    [variantGroups]
+  )
+
+  const maxCombinedModifier = useMemo(
+    () =>
+      variantGroups.reduce((sum, g) => {
+        const namedOptions = g.options.filter((o) => o.name.trim() !== '')
+        if (namedOptions.length === 0) return sum
+        const maxMod = Math.max(...namedOptions.map((o) => o.priceModifier))
+        return sum + Math.max(0, maxMod)
+      }, 0),
+    [variantGroups]
+  )
+
   // ── Submit ───────────────────────────────────────────────────────────────
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -170,12 +214,16 @@ export function ProductForm({
         sort_order: img.sort_order,
       }))
 
-      const variantData = variants
-        .filter((v) => v.name.trim() !== '')
-        .map((v) => ({
-          name: v.name,
-          price_modifier: v.priceModifier,
-        }))
+      const variantData = variantGroups.flatMap((group) =>
+        group.options
+          .filter((opt) => opt.name.trim() !== '')
+          .map((opt) => ({
+            name: opt.name,
+            type: group.name,
+            price_modifier: opt.priceModifier,
+            metadata: group.isColor && opt.hex ? { hex: opt.hex } : null,
+          }))
+      )
 
       if (isEdit && product) {
         const input: UpdateProductInput = {
@@ -244,7 +292,7 @@ export function ProductForm({
       available,
       featured,
       galleryImages,
-      variants,
+      variantGroups,
       router,
     ]
   )
@@ -471,35 +519,48 @@ export function ProductForm({
               <CardTitle>Variantes</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              <VariantEditor variants={variants} onChange={setVariants} />
+              <VariantGroupEditor groups={variantGroups} onChange={setVariantGroups} />
 
               {/* Price preview for variants */}
-              {variants.length > 0 && price > 0 && (
+              {allNamedOptions.length > 0 && price > 0 && (
                 <div className="flex flex-col gap-1.5 rounded-lg bg-muted/50 p-3">
                   <span className="text-xs font-medium text-muted-foreground">
                     Vista previa de precios
                   </span>
-                  {variants
-                    .filter((v) => v.name.trim() !== '')
-                    .map((v) => {
-                      const total = price + v.priceModifier
-                      return (
-                        <div
-                          key={v.id}
-                          className="flex items-center justify-between text-sm"
-                        >
-                          <span>{v.name}</span>
-                          <span className="tabular-nums font-medium">
-                            ${priceFormatter.format(price)}{' '}
-                            {v.priceModifier >= 0 ? '+' : ''}
-                            {priceFormatter.format(v.priceModifier)} ={' '}
-                            <span className="text-foreground">
-                              ${priceFormatter.format(total)}
-                            </span>
+                  {allNamedOptions.map((o) => {
+                    const total = price + o.priceModifier
+                    return (
+                      <div
+                        key={o.id}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <span>
+                          <span className="text-xs text-muted-foreground mr-1">
+                            {o.groupName}:
                           </span>
-                        </div>
-                      )
-                    })}
+                          {o.name}
+                        </span>
+                        <span className="tabular-nums font-medium">
+                          ${priceFormatter.format(price)}{' '}
+                          {o.priceModifier >= 0 ? '+' : ''}
+                          {priceFormatter.format(o.priceModifier)} ={' '}
+                          <span className="text-foreground">
+                            ${priceFormatter.format(total)}
+                          </span>
+                        </span>
+                      </div>
+                    )
+                  })}
+                  {variantGroups.length > 1 && (
+                    <div className="mt-1 flex items-center justify-between border-t border-border/50 pt-1 text-sm font-medium">
+                      <span className="text-muted-foreground">
+                        Precio máximo posible
+                      </span>
+                      <span className="tabular-nums text-foreground">
+                        ${priceFormatter.format(price + maxCombinedModifier)}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>

@@ -1,117 +1,196 @@
 'use client'
 
-import * as React from 'react'
-import { X, Plus } from 'lucide-react'
+import { Trash2, Plus } from 'lucide-react'
+import type { UIVariantGroup, UIVariantOption } from '@/types/domain'
+import { PriceInput } from '@/components/shared/price-input'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { PriceInput } from '@/components/shared/price-input'
-import type { UIProductVariant } from '@/types/domain/product'
 
-interface VariantEditorProps {
-  variants: UIProductVariant[]
-  onChange: (variants: UIProductVariant[]) => void
+interface VariantGroupEditorProps {
+  groups: UIVariantGroup[]
+  onChange: (groups: UIVariantGroup[]) => void
 }
 
-function generateVariantId(): string {
-  return `variant_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
+function newOption(): UIVariantOption {
+  return { id: crypto.randomUUID(), name: '', priceModifier: 0 }
 }
 
-export function VariantEditor({ variants, onChange }: VariantEditorProps) {
-  const addVariant = () => {
-    const newVariant: UIProductVariant = {
-      id: generateVariantId(),
-      name: '',
-      priceModifier: 0,
-    }
-    onChange([...variants, newVariant])
+export function VariantGroupEditor({ groups, onChange }: VariantGroupEditorProps) {
+  // ── Group helpers ──────────────────────────────────────────────────────────
+  const addGroup = () => {
+    onChange([
+      ...groups,
+      {
+        id: crypto.randomUUID(),
+        name: '',
+        isColor: false,
+        options: [newOption()],
+      },
+    ])
   }
 
-  const removeVariant = (id: string) => {
-    onChange(variants.filter((v) => v.id !== id))
+  const removeGroup = (groupId: string) => {
+    onChange(groups.filter((g) => g.id !== groupId))
   }
 
-  const updateName = (id: string, name: string) => {
-    onChange(variants.map((v) => (v.id === id ? { ...v, name } : v)))
+  const updateGroupName = (groupId: string, name: string) => {
+    onChange(groups.map((g) => (g.id === groupId ? { ...g, name } : g)))
   }
 
-  const updatePriceModifier = (id: string, priceModifier: number) => {
-    onChange(variants.map((v) => (v.id === id ? { ...v, priceModifier } : v)))
+  const updateGroupIsColor = (groupId: string, isColor: boolean) => {
+    onChange(groups.map((g) => (g.id === groupId ? { ...g, isColor } : g)))
+  }
+
+  // ── Option helpers ─────────────────────────────────────────────────────────
+  const addOption = (groupId: string) => {
+    onChange(
+      groups.map((g) =>
+        g.id === groupId ? { ...g, options: [...g.options, newOption()] } : g
+      )
+    )
+  }
+
+  const removeOption = (groupId: string, optionId: string) => {
+    onChange(
+      groups.map((g) =>
+        g.id === groupId
+          ? { ...g, options: g.options.filter((o) => o.id !== optionId) }
+          : g
+      )
+    )
+  }
+
+  const updateOption = (
+    groupId: string,
+    optionId: string,
+    patch: Partial<UIVariantOption>
+  ) => {
+    onChange(
+      groups.map((g) =>
+        g.id === groupId
+          ? {
+              ...g,
+              options: g.options.map((o) =>
+                o.id === optionId ? { ...o, ...patch } : o
+              ),
+            }
+          : g
+      )
+    )
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-foreground">Variantes</span>
-        <span className="text-xs text-muted-foreground">
-          Ej: Talla M (+$5.000), Color Rojo (-$2.000)
-        </span>
-      </div>
-
-      {variants.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <div className="hidden sm:grid grid-cols-[1fr_auto_auto] gap-2 px-1">
-            <span className="text-xs font-medium text-muted-foreground">Nombre</span>
-            <span className="text-xs font-medium text-muted-foreground">
-              Modificador de precio
-            </span>
-            <span className="sr-only">Eliminar</span>
+    <div className="flex flex-col gap-4">
+      {groups.map((group) => (
+        <div
+          key={group.id}
+          className="flex flex-col gap-3 rounded-lg border border-border bg-muted/20 p-4"
+        >
+          {/* Group header */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Input
+              value={group.name}
+              onChange={(e) => updateGroupName(group.id, e.target.value)}
+              placeholder="Ej: Color, Talla, Material"
+              className="flex-1 min-w-[140px]"
+              aria-label="Nombre del grupo de variantes"
+            />
+            <label className="flex items-center gap-1.5 text-sm text-muted-foreground cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={group.isColor}
+                onChange={(e) => updateGroupIsColor(group.id, e.target.checked)}
+                className="size-4 accent-primary"
+              />
+              Es tipo color
+            </label>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => removeGroup(group.id)}
+              aria-label={`Eliminar grupo ${group.name || 'sin nombre'}`}
+              className="text-muted-foreground hover:text-destructive shrink-0"
+            >
+              <Trash2 className="size-4" />
+            </Button>
           </div>
 
-          {variants.map((variant) => (
-            <div
-              key={variant.id}
-              className="flex flex-col sm:grid sm:grid-cols-[1fr_auto_auto] gap-2 items-start sm:items-center rounded-lg border border-border bg-muted/30 p-3 sm:p-2 sm:bg-transparent sm:border-0 sm:rounded-none sm:border-b sm:border-border/50 last:border-b-0"
-            >
-              <div className="w-full">
-                <span className="sm:hidden text-xs font-medium text-muted-foreground mb-1 block">
-                  Nombre
-                </span>
+          {/* Options */}
+          <div className="flex flex-col gap-2 pl-1">
+            {group.options.map((option) => (
+              <div key={option.id} className="flex items-center gap-2">
                 <Input
-                  value={variant.name}
-                  onChange={(e) => updateName(variant.id, e.target.value)}
-                  placeholder="Ej: Talla M"
-                  aria-label="Nombre de variante"
+                  value={option.name}
+                  onChange={(e) =>
+                    updateOption(group.id, option.id, { name: e.target.value })
+                  }
+                  placeholder="Ej: Rojo, M, Cuero"
+                  className="flex-1 min-w-0"
+                  aria-label="Nombre de opción"
                 />
+                {group.isColor && (
+                  <input
+                    type="color"
+                    value={option.hex ?? '#000000'}
+                    onChange={(e) =>
+                      updateOption(group.id, option.id, { hex: e.target.value })
+                    }
+                    className="size-9 cursor-pointer rounded border border-border bg-transparent p-0.5 shrink-0"
+                    aria-label="Color de la opción"
+                  />
+                )}
+                <div className="w-36 shrink-0">
+                  <PriceInput
+                    value={option.priceModifier}
+                    onChange={(val) =>
+                      updateOption(group.id, option.id, { priceModifier: val })
+                    }
+                    allowNegative
+                    placeholder="0"
+                    aria-label="Modificador de precio"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={() => removeOption(group.id, option.id)}
+                  aria-label={`Eliminar opción ${option.name || 'sin nombre'}`}
+                  className="text-muted-foreground hover:text-destructive shrink-0"
+                >
+                  <Trash2 className="size-4" />
+                </Button>
               </div>
+            ))}
 
-              <div className="w-full sm:w-36">
-                <span className="sm:hidden text-xs font-medium text-muted-foreground mb-1 block">
-                  Modificador de precio
-                </span>
-                <PriceInput
-                  value={variant.priceModifier}
-                  onChange={(val) => updatePriceModifier(variant.id, val)}
-                  allowNegative
-                  placeholder="0"
-                  aria-label="Modificador de precio"
-                />
-              </div>
-
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                onClick={() => removeVariant(variant.id)}
-                aria-label={`Eliminar variante ${variant.name || 'sin nombre'}`}
-                className="text-muted-foreground hover:text-destructive self-end sm:self-center"
-              >
-                <X className="size-4" />
-              </Button>
-            </div>
-          ))}
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => addOption(group.id)}
+              className="w-fit gap-1.5 text-muted-foreground hover:text-foreground"
+            >
+              <Plus className="size-4" />
+              Agregar opción
+            </Button>
+          </div>
         </div>
-      )}
+      ))}
 
       <Button
         type="button"
         variant="outline"
         size="sm"
-        onClick={addVariant}
+        onClick={addGroup}
         className="w-fit gap-1.5"
       >
         <Plus className="size-4" />
-        Agregar variante
+        Agregar grupo de variantes
       </Button>
     </div>
   )
 }
+
+// Backward compat — remove once all callers are updated
+export { VariantGroupEditor as VariantEditor }

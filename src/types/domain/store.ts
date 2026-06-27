@@ -45,12 +45,6 @@ export interface StorefrontCategory {
   productCount?: number;
 }
 
-export interface ColorOption {
-  id: string;
-  label: string;
-  hex: string;
-}
-
 export interface StorefrontProductImage {
   url: string;
   sort_order: number;
@@ -85,8 +79,6 @@ export interface StorefrontProduct {
   specs?: string[];
   rating?: number;
   reviewCount?: number;
-  colors?: ColorOption[];
-  storageOptions?: string[];
   variants?: StorefrontVariantGroup[];
   inStock: boolean;
   inWishlist?: boolean;

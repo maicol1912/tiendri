@@ -47,7 +47,10 @@ interface ProductVariantRow {
   id: string
   product_id: string
   name: string
+  type: string
   price_modifier: number
+  // Typed as unknown to absorb Supabase's Json type; cast in mapVariantRow
+  metadata: unknown
   created_at: string
 }
 
@@ -67,7 +70,9 @@ function mapVariantRow(row: ProductVariantRow): ProductVariant {
     id: row.id,
     product_id: row.product_id,
     name: row.name,
+    type: row.type ?? '',
     price_modifier: row.price_modifier,
+    metadata: (row.metadata as Record<string, unknown> | null) ?? null,
     created_at: row.created_at,
   }
 }
@@ -343,7 +348,10 @@ export async function createProduct(
       const variantRows = variantInputs.map((v) => ({
         product_id: product.id,
         name: v.name,
+        type: v.type,
         price_modifier: v.price_modifier,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        metadata: (v.metadata ?? null) as any,
       }))
 
       const { data: varData, error: varError } = await supabase
@@ -518,7 +526,10 @@ export async function updateProduct(
         const variantRows = validation.data.variants.map((v) => ({
           product_id: id,
           name: v.name,
+          type: v.type,
           price_modifier: v.price_modifier,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          metadata: (v.metadata ?? null) as any,
         }))
 
         const { error: varError } = await supabase

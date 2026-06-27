@@ -2,7 +2,7 @@
 // All content lives here — zero hardcoded strings in components.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct } from "@/types/domain/store";
 
 interface PopularProduct {
   id: string;
@@ -79,12 +79,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.8,
     inStock: true,
     categoryId: "cat-01",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#1E1E1E" },
-      { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
-      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
-      { id: "color-4", label: "Gris Medio", hex: "#8A8A8A" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-02",
@@ -97,10 +91,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.7,
     inStock: true,
     categoryId: "cat-01",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-03",
@@ -113,11 +103,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.9,
     inStock: true,
     categoryId: "cat-02",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
-      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-04",
@@ -130,11 +115,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.6,
     inStock: true,
     categoryId: "cat-02",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Medio", hex: "#8A8A8A" },
-      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-05",
@@ -147,11 +127,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.5,
     inStock: true,
     categoryId: "cat-01",
-    colors: [
-      { id: "color-1", label: "Blanco", hex: "#FFFFFF" },
-      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
-      { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-06",
@@ -164,11 +139,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.7,
     inStock: true,
     categoryId: "cat-02",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
-      { id: "color-3", label: "Blanco", hex: "#FFFFFF" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-07",
@@ -181,10 +151,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.4,
     inStock: false,
     categoryId: "cat-03",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Claro", hex: "#D9D9D9" },
-    ] satisfies ColorOption[],
   },
   {
     id: "prod-08",
@@ -197,10 +163,6 @@ export const mockProducts: StorefrontProduct[] = [
     rating: 4.8,
     inStock: true,
     categoryId: "cat-04",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Medio", hex: "#8A8A8A" },
-    ] satisfies ColorOption[],
   },
 ];
 
@@ -258,9 +220,6 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     rating: 4.7,
     inStock: true,
     categoryId: "cat-02",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-    ] satisfies ColorOption[],
   },
   {
     id: "disc-02",
@@ -272,11 +231,6 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     rating: 4.5,
     inStock: true,
     categoryId: "cat-01",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Gris Oscuro", hex: "#5E5E5E" },
-      { id: "color-3", label: "Gris Medio", hex: "#8A8A8A" },
-    ] satisfies ColorOption[],
   },
   {
     id: "disc-03",
@@ -288,10 +242,6 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     rating: 4.8,
     inStock: true,
     categoryId: "cat-02",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Blanco Hueso", hex: "#F5F5F0" },
-    ] satisfies ColorOption[],
   },
   {
     id: "disc-04",
@@ -303,10 +253,6 @@ export const mockDiscountProducts: StorefrontProduct[] = [
     rating: 4.3,
     inStock: true,
     categoryId: "cat-04",
-    colors: [
-      { id: "color-1", label: "Negro", hex: "#000000" },
-      { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
-    ] satisfies ColorOption[],
   },
 ];
 
@@ -326,13 +272,6 @@ export const mockDetailProduct: StorefrontProduct = {
   ],
   description:
     "Una camiseta que redefine el concepto de básico. Confeccionada en algodón 100% peinado de 220 g/m², con corte recto y acabados que resisten el paso del tiempo. Ideal para cualquier ocasión, desde el día a día hasta un look más elaborado.",
-  colors: [
-    { id: "color-1", label: "Negro", hex: "#1E1E1E" },
-    { id: "color-2", label: "Blanco", hex: "#FFFFFF" },
-    { id: "color-3", label: "Gris Claro", hex: "#D9D9D9" },
-    { id: "color-4", label: "Gris Medio", hex: "#8A8A8A" },
-  ] satisfies ColorOption[],
-  storageOptions: ["XS", "S", "M", "L", "XL", "XXL"],
   rating: 4.8,
   reviewCount: 87,
   inStock: true,

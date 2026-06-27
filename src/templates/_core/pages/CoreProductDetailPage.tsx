@@ -5,7 +5,7 @@
 // Galería de imágenes + info del producto + acordeón de detalles + productos relacionados.
 // NO gestiona estado — todo viene como props.
 
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronDown, Truck, ShieldCheck, Package } from "lucide-react";
 import { PRODUCT_CARD_REGISTRY } from "@/templates/_variants/product-card";
@@ -16,6 +16,8 @@ import { formatPrice } from "@/shared/format";
 import type { ResolvedStoreConfig } from "@/types/templates/resolved-config";
 import type { StorefrontProduct } from "@/types/domain/store";
 import type { ProductCardVariant } from "@/templates/_variants/product-card";
+import VariantSelector from '../components/VariantSelector'
+import type { StorefrontVariantOption } from '@/types/domain/store'
 
 const ACCORDION_ITEMS = [
   { id: "description", label: "Descripción" },
@@ -35,7 +37,7 @@ interface CoreProductDetailPageProps {
   incrementQuantity: () => void;
   decrementQuantity: () => void;
   isAdded: boolean;
-  handleAddToCart: (product: StorefrontProduct) => void;
+  handleAddToCart: (product: StorefrontProduct, options?: { effectivePrice?: number; variantName?: string | null }) => void;
   activeAccordion: string | null;
   toggleAccordion: (id: string) => void;
   // Navegación
@@ -81,6 +83,17 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
   const grid = config.grid;
   const productsMobile = grid?.products?.mobile ?? 2;
   const productsDesktop = grid?.products?.desktop ?? 4;
+
+  const [selections, setSelections] = useState<Record<string, StorefrontVariantOption>>({})
+
+  const effectivePrice = product.price +
+    Object.values(selections).reduce((sum, opt) => sum + (opt.priceModifier ?? 0), 0)
+
+  const variantName = Object.values(selections).length > 0
+    ? Object.values(selections).map(opt => opt.label).join(' / ')
+    : null
+
+  const hasSelections = Object.keys(selections).length > 0
 
   const images = product.images ?? [];
   const mainImage = images[selectedImageIndex]?.url ?? "/placeholder.png";
@@ -209,16 +222,23 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
                   className={priceConfig.className}
                   style={{ ...priceConfig.style, fontSize: "1.5rem" }}
                 >
-                  {formatPrice(product.price, currencySymbol)}
+                  {formatPrice(effectivePrice, currencySymbol)}
                 </span>
-                {product.originalPrice && product.originalPrice > product.price && (
+                {effectivePrice !== product.price ? (
+                  <span
+                    className="text-base line-through"
+                    style={{ color: "var(--t-muted)" }}
+                  >
+                    {formatPrice(product.price, currencySymbol)}
+                  </span>
+                ) : product.originalPrice && product.originalPrice > product.price ? (
                   <span
                     className="text-base line-through"
                     style={{ color: "var(--t-muted)" }}
                   >
                     {formatPrice(product.originalPrice, currencySymbol)}
                   </span>
-                )}
+                ) : null}
               </div>
             </div>
 
@@ -229,29 +249,22 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
               </p>
             )}
 
-            {/* Variantes de color */}
-            {product.colors && product.colors.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <span className="text-sm font-medium" style={{ color: "var(--t-foreground)" }}>
-                  Color
-                </span>
-                <div className="flex gap-2">
-                  {product.colors.map((color) => (
-                    <button
-                      key={color.id}
-                      type="button"
-                      className="w-8 h-8 rounded-full border-2"
-                      style={{
-                        backgroundColor: color.hex,
-                        borderColor: "var(--t-border)",
-                        cursor: "pointer",
-                      }}
-                      aria-label={`Color: ${color.label}`}
-                      title={color.label}
-                    />
-                  ))}
-                </div>
-              </div>
+            {/* Variantes */}
+            {product.variants && product.variants.length > 0 && (
+              <VariantSelector
+                groups={product.variants}
+                selections={selections}
+                onSelect={(groupId, option) =>
+                  setSelections(prev => {
+                    if (prev[groupId]?.id === option.id) {
+                      const next = { ...prev }
+                      delete next[groupId]
+                      return next
+                    }
+                    return { ...prev, [groupId]: option }
+                  })
+                }
+              />
             )}
 
             {/* Control de cantidad */}
@@ -310,7 +323,10 @@ export const CoreProductDetailPage = memo(function CoreProductDetailPage({
             {/* Botón agregar al carrito */}
             <button
               type="button"
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product, {
+                effectivePrice: hasSelections ? effectivePrice : undefined,
+                variantName: hasSelections ? variantName : null,
+              })}
               disabled={!product.inStock}
               className={`w-full py-3.5 text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 ${buttonClass}`}
               style={{

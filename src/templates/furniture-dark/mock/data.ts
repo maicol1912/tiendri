@@ -2,7 +2,7 @@
 // All inline data for the template preview.
 
 import { ASSETS } from "./assets";
-import type { StoreInfo, StorefrontCategory, StorefrontProduct, ColorOption } from "@/types/domain/store";
+import type { StoreInfo, StorefrontCategory, StorefrontProduct } from "@/types/domain/store";
 
 // ── Local types (inlined from deleted types.ts) ───────────────────────────────
 
@@ -64,12 +64,7 @@ export const mockCategories: StorefrontCategory[] = [
 ];
 
 // ── Color swatches (used on product detail) ───────────────────────────────────
-
-const naturalColors: ColorOption[] = [
-  { id: "beige", hex: "#C4A07A", label: "Beige" },
-  { id: "dark-walnut", hex: "#3D2B1A", label: "Nogal oscuro" },
-  { id: "light-oak", hex: "#D4B896", label: "Roble claro" },
-];
+
 
 // ── Products ──────────────────────────────────────────────────────────────────
 
@@ -90,7 +85,6 @@ export const mockProducts: StorefrontProduct[] = [
     reviewCount: 1320,
     inWishlist: false,
     categoryId: "living-room",
-    colors: naturalColors,
   },
   {
     id: "rivera-sofa",
@@ -105,7 +99,6 @@ export const mockProducts: StorefrontProduct[] = [
     reviewCount: 870,
     inWishlist: false,
     categoryId: "living-room",
-    colors: naturalColors,
   },
   {
     id: "oak-storage",
@@ -212,7 +205,6 @@ export const mockProducts: StorefrontProduct[] = [
     reviewCount: 1100,
     inWishlist: false,
     categoryId: "living-room",
-    colors: naturalColors,
   },
 ];
 

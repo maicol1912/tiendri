@@ -45,11 +45,6 @@ export const mockProducts: StorefrontProduct[] = [
     inWishlist: false,
     categoryId: "cat-table",
     rating: 4.4,
-    colors: [
-      { id: "roble-natural", label: "Roble natural", hex: "#A0765A" },
-      { id: "roble-oscuro", label: "Roble oscuro", hex: "#6B4F3E" },
-      { id: "roble-claro", label: "Roble claro", hex: "#D4B896" },
-    ],
   },
   {
     id: "fl-2",
@@ -63,11 +58,6 @@ export const mockProducts: StorefrontProduct[] = [
     inWishlist: false,
     categoryId: "cat-chair",
     rating: 4.5,
-    colors: [
-      { id: "verde-celery", label: "Verde celery", hex: "#5C7A3D" },
-      { id: "marron", label: "Marrón", hex: "#8B7355" },
-      { id: "azul-marino", label: "Azul marino", hex: "#4A6B8A" },
-    ],
   },
   {
     id: "fl-3",
@@ -159,11 +149,6 @@ export const mockProducts: StorefrontProduct[] = [
     inWishlist: false,
     categoryId: "cat-chair",
     rating: 4.6,
-    colors: [
-      { id: "terciopelo-rojo", label: "Terciopelo rojo", hex: "#8B2020" },
-      { id: "cuero-marron", label: "Cuero marrón", hex: "#4A3728" },
-      { id: "azul-medianoche", label: "Azul medianoche", hex: "#2C3E50" },
-    ],
   },
   {
     id: "fl-10",

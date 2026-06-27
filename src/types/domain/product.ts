@@ -15,8 +15,10 @@ export interface ProductVariant {
   id: string;
   product_id: string;
   name: string;
+  type: string;
   /** Integer offset in store currency — can be negative */
   price_modifier: number;
+  metadata: Record<string, unknown> | null;
   created_at: string;
 }
 
@@ -30,6 +32,20 @@ export interface UIProductVariant {
   id: string;
   name: string;
   priceModifier: number;
+}
+
+export interface UIVariantOption {
+  id: string;
+  name: string;
+  priceModifier: number;
+  hex?: string;
+}
+
+export interface UIVariantGroup {
+  id: string;
+  name: string;
+  isColor: boolean;
+  options: UIVariantOption[];
 }
 
 export interface Product {

@@ -15,9 +15,13 @@ const productVariantInputSchema = z.object({
     .string()
     .min(1, 'El nombre de la variante no puede estar vacío')
     .max(60, 'El nombre de la variante no puede superar los 60 caracteres'),
+  type: z
+    .string()
+    .min(1, 'El tipo de variante no puede estar vacío'),
   price_modifier: z
     .number()
     .int('El modificador de precio debe ser un número entero'),
+  metadata: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 export const productSchema = z.object({
