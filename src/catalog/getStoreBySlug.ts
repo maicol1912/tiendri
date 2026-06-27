@@ -50,7 +50,9 @@ export function appearanceToCustomization(
       layout: (appearance.layout as any)?.layout,
       sections: (Array.isArray(appearance.sections) && (appearance.sections as any[]).length > 0)
         ? (appearance.sections as any)
-        : undefined,
+        : (Array.isArray((appearance.layout as any)?.sections) && ((appearance.layout as any).sections as any[]).length > 0)
+          ? (appearance.layout as any).sections
+          : undefined,
       density: (appearance.layout as any)?.density,
       structuralVariants: (appearance.variants as any) ?? undefined,
     },
