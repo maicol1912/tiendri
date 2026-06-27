@@ -503,9 +503,9 @@ export function ConfiguracionClient({
               <ContenidoTab
                 initialContent={customization.content}
                 initialSections={
-                  customization.layout?.sections ??
-                  (manifest?.sections as SectionConfig[] | undefined) ??
-                  []
+                  customization.layout?.sections?.length
+                    ? customization.layout.sections
+                    : ((manifest?.sections as SectionConfig[] | undefined) ?? [])
                 }
                 availableSections={availableSections}
                 sectionSchemas={schema?.sectionSchemas}
