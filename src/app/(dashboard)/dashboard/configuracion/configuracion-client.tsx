@@ -355,6 +355,57 @@ export function ConfiguracionClient({
     sendReload("content-save");
   }
 
+  async function handleBannerSave(
+    content: Partial<ContentConfig>,
+    sections: SectionConfig[]
+  ): Promise<void> {
+    if (isAuthenticated) {
+      const [contentResult, sectionsResult] = await Promise.all([
+        updateCustomizationSection("content", content as Record<string, unknown>),
+        updateCustomizationSection("layout", {
+          ...((customization.layout as Record<string, unknown>) ?? {}),
+          sections,
+        }),
+      ]);
+
+      if (
+        (!contentResult.success && contentResult.error.code === "UNAUTHORIZED") ||
+        (!sectionsResult.success && sectionsResult.error.code === "UNAUTHORIZED")
+      ) {
+        const current = readLocalCustomization();
+        const merged: StoreCustomization = {
+          ...current,
+          content: { ...current.content, ...content } as ContentConfig,
+          layout: { ...current.layout, sections },
+        };
+        writeLocalCustomization(merged);
+        setCustomization(merged);
+        sendReload("banner-save");
+        return;
+      }
+
+      if (!contentResult.success) throw new Error(contentResult.error.message);
+      if (!sectionsResult.success) throw new Error(sectionsResult.error.message);
+
+      setCustomization((prev) => ({
+        ...prev,
+        content: { ...prev.content, ...content } as ContentConfig,
+        layout: { ...prev.layout, sections },
+      }));
+    } else {
+      const current = readLocalCustomization();
+      const merged: StoreCustomization = {
+        ...current,
+        content: { ...current.content, ...content } as ContentConfig,
+        layout: { ...current.layout, sections },
+      };
+      writeLocalCustomization(merged);
+      setCustomization(merged);
+    }
+
+    sendReload("banner-save");
+  }
+
   async function handleSectionsSave(sections: SectionConfig[]): Promise<void> {
     if (isAuthenticated) {
       const result = await updateCustomizationSection("layout", {
@@ -514,6 +565,7 @@ export function ConfiguracionClient({
                 isAuthenticated={isAuthenticated}
                 onContentSave={handleContentSave}
                 onSectionsSave={handleSectionsSave}
+                onBannerSave={handleBannerSave}
               />
             )}
 

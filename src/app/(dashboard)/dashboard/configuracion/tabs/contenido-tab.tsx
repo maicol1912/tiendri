@@ -47,6 +47,7 @@ interface ContenidoTabProps {
   isAuthenticated: boolean;
   onContentSave: (content: Partial<ContentConfig>) => Promise<void>;
   onSectionsSave: (sections: SectionConfig[]) => Promise<void>;
+  onBannerSave: (content: Partial<ContentConfig>, sections: SectionConfig[]) => Promise<void>;
 }
 
 // ---------------------------------------------------------------------------
@@ -60,6 +61,7 @@ export function ContenidoTab({
   sectionSchemas,
   onContentSave,
   onSectionsSave,
+  onBannerSave,
 }: ContenidoTabProps) {
   // ── Hero Banner state ──────────────────────────────────────────────────────
   const [heroTitle, setHeroTitle] = useState(
@@ -101,15 +103,6 @@ export function ContenidoTab({
   async function handleSaveHero() {
     setSavingHero(true);
     try {
-      await onContentSave({
-        heroBanner: {
-          title: heroTitle || undefined,
-          subtitle: heroSubtitle || undefined,
-          image: heroImage || undefined,
-          ctaText: heroCtaText || undefined,
-        },
-      });
-
       const heroInSections = localSections.some(
         (s) => s.id === "hero" && s.visible
       );
@@ -120,7 +113,18 @@ export function ContenidoTab({
             ...localSections.filter((s) => s.id !== "hero"),
           ];
       setLocalSections(sectionsToSave);
-      await onSectionsSave(sectionsToSave);
+
+      await onBannerSave(
+        {
+          heroBanner: {
+            title: heroTitle || undefined,
+            subtitle: heroSubtitle || undefined,
+            image: heroImage || undefined,
+            ctaText: heroCtaText || undefined,
+          },
+        },
+        sectionsToSave
+      );
 
       toast.success("Banner guardado correctamente");
     } catch {
