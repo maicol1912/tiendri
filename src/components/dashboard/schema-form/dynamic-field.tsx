@@ -168,14 +168,21 @@ function SelectFieldRenderer({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const EMPTY_SENTINEL = "__default__";
+  const safeValue = value === "" || value === undefined ? EMPTY_SENTINEL : value;
+
+  function handleChange(v: string) {
+    onChange(v === EMPTY_SENTINEL ? "" : v);
+  }
+
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={safeValue} onValueChange={handleChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder={field.placeholder ?? "Seleccionar..."} />
       </SelectTrigger>
       <SelectContent>
         {(field.options ?? []).map((opt) => (
-          <SelectItem key={opt.value} value={opt.value}>
+          <SelectItem key={opt.value || EMPTY_SENTINEL} value={opt.value || EMPTY_SENTINEL}>
             {opt.label}
           </SelectItem>
         ))}
