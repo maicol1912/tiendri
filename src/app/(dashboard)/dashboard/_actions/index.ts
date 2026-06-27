@@ -2,8 +2,8 @@
 // Import from here in dashboard pages and components:
 //   import { getStore, updateCatalogMode } from '@/app/(dashboard)/dashboard/_actions'
 
-export { getStore, updateCatalogMode, getStoreId, getChecklistState } from './store'
-export type { ChecklistState } from './store'
+export { getStore, updateCatalogMode, getStoreId, getChecklistState, completeOnboarding, checkSlugAvailability, uploadStoreLogo } from './store'
+export type { ChecklistState, CompleteOnboardingInput } from './store'
 export {
   listCategories,
   getCategoryById,

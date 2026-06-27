@@ -20,7 +20,7 @@ import type { StoreCustomization } from "@/types/templates";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
 import { TemplateLayout } from "@/templates/_core";
 import { getTemplateManifest } from "@/templates/manifest-resolver";
-import { getStorefrontProducts, getStorefrontCategories, getStorefrontBestSellers, getStorefrontDiscountProducts } from "@/catalog/getStorefrontData";
+import { getStorefrontProducts, getStorefrontCategories, getStorefrontBestSellers, getStorefrontPopularProducts, getStorefrontDiscountProducts } from "@/catalog/getStorefrontData";
 import { safeJsonLdStringify } from "@/shared/seo/safe-json-ld";
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -185,10 +185,11 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
   // slots (header/footer/bottomNav) y monta el shell correcto según la ruta.
   const manifest = getTemplateManifest(effectiveTemplateId, resolvedConfig);
 
-  const [products, categories, bestSellerProducts, discountProducts] = await Promise.all([
+  const [products, categories, bestSellerProducts, featuredProducts, discountProducts] = await Promise.all([
     getStorefrontProducts(store.id),
     getStorefrontCategories(store.id),
     getStorefrontBestSellers(store.id),
+    getStorefrontPopularProducts(store.id),
     getStorefrontDiscountProducts(store.id),
   ]);
 
@@ -231,6 +232,7 @@ export default async function StorefrontPage({ params }: StorefrontPageProps) {
         products={products}
         categories={categories}
         bestSellers={bestSellers}
+        featuredProducts={featuredProducts}
         discountProducts={discountProducts}
         config={resolvedConfig}
         manifest={manifest}

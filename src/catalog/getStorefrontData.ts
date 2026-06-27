@@ -53,6 +53,62 @@ function mapProduct(p: ProductRowWithImages): StorefrontProduct {
   };
 }
 
+/**
+ * Resolves media_* IDs to CDN URLs for the storefront.
+ *
+ * The dashboard version (media.ts resolveMediaUrls) calls getStoreId() internally,
+ * which requires an authenticated session. The storefront is public, so we
+ * take storeId explicitly instead.
+ */
+async function resolveMediaUrlsForStore(
+  mediaIds: string[],
+  storeId: string
+): Promise<Record<string, string>> {
+  if (mediaIds.length === 0) return {};
+
+  const supabase = await createClient();
+  const rawIds = mediaIds.map((id) => (id.startsWith("media_") ? id.slice(6) : id));
+
+  const { data, error } = await supabase
+    .from("media_assets")
+    .select("id, url")
+    .in("id", rawIds)
+    .eq("store_id", storeId);
+
+  if (error || !data) return {};
+
+  const result: Record<string, string> = {};
+  for (const row of data) {
+    result[`media_${row.id}`] = row.url;
+  }
+  return result;
+}
+
+/**
+ * Resolves media_* IDs in a product's images array in place.
+ * Shared by all three product loaders.
+ */
+async function resolveProductImages(
+  products: StorefrontProduct[],
+  storeId: string
+): Promise<void> {
+  const mediaIds = products
+    .flatMap((p) => p.images)
+    .map((img) => img.url)
+    .filter((url): url is string => !!url && url.startsWith("media_"));
+
+  if (mediaIds.length === 0) return;
+
+  const urlMap = await resolveMediaUrlsForStore(mediaIds, storeId);
+  for (const product of products) {
+    for (const img of product.images) {
+      if (img.url && urlMap[img.url]) {
+        img.url = urlMap[img.url];
+      }
+    }
+  }
+}
+
 // ── Exported loaders ───────────────────────────────────────────────────────────
 
 /**
@@ -70,7 +126,9 @@ export const getStorefrontProducts = cache(async (storeId: string): Promise<Stor
 
   if (error || !data) return [];
 
-  return (data as unknown as ProductRowWithImages[]).map(mapProduct);
+  const products = (data as unknown as ProductRowWithImages[]).map(mapProduct);
+  await resolveProductImages(products, storeId);
+  return products;
 });
 
 /**
@@ -87,14 +145,28 @@ export const getStorefrontCategories = cache(async (storeId: string): Promise<St
 
   if (error || !data) return [];
 
-  return data.map((c) => ({
+  const categories: StorefrontCategory[] = data.map((c) => ({
     id: c.id,
     name: c.name,
     slug: c.slug,
     icon: c.icon ?? "Tag",
     image: c.image ?? undefined,
-    sort_order: c.sort_order,
   }));
+
+  const mediaIds = categories
+    .map((c) => c.image)
+    .filter((id): id is string => !!id && id.startsWith("media_"));
+
+  if (mediaIds.length > 0) {
+    const urlMap = await resolveMediaUrlsForStore(mediaIds, storeId);
+    for (const cat of categories) {
+      if (cat.image && urlMap[cat.image]) {
+        cat.image = urlMap[cat.image];
+      }
+    }
+  }
+
+  return categories;
 });
 
 /**
@@ -115,7 +187,33 @@ export const getStorefrontBestSellers = cache(
 
     if (error || !data) return [];
 
-    return (data as unknown as ProductRowWithImages[]).map(mapProduct);
+    const products = (data as unknown as ProductRowWithImages[]).map(mapProduct);
+    await resolveProductImages(products, storeId);
+    return products;
+  },
+);
+
+/**
+ * Returns products flagged as featured (popular) for a store, up to `limit`.
+ */
+export const getStorefrontPopularProducts = cache(
+  async (storeId: string, limit = 8): Promise<StorefrontProduct[]> => {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from("products")
+      .select("*, product_images(*)")
+      .eq("store_id", storeId)
+      .eq("available", true)
+      .eq("featured", true)
+      .order("sort_order", { ascending: true })
+      .limit(limit);
+
+    if (error || !data) return [];
+
+    const products = (data as unknown as ProductRowWithImages[]).map(mapProduct);
+    await resolveProductImages(products, storeId);
+    return products;
   },
 );
 
@@ -137,6 +235,8 @@ export const getStorefrontDiscountProducts = cache(
 
     if (error || !data) return [];
 
-    return (data as unknown as ProductRowWithImages[]).map(mapProduct);
+    const products = (data as unknown as ProductRowWithImages[]).map(mapProduct);
+    await resolveProductImages(products, storeId);
+    return products;
   },
 );

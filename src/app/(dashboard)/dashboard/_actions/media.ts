@@ -1,6 +1,5 @@
 'use server'
 
-import { createClient } from '@/infrastructure/supabase/server'
 import type {
   MediaAsset,
   MediaAssetContext,
@@ -9,7 +8,9 @@ import type {
   UpdateMediaAssetInput,
   ActionResult,
 } from '@/types/domain'
-import { getStoreId } from './store'
+import { getStoreContext } from '@/shared/action-helpers'
+import { wrapDatabaseError } from '@/shared/errors'
+import { stripMediaPrefix } from '@/shared/media'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -83,14 +84,6 @@ function err(code: string, message: string): ActionResult<never> {
 }
 
 /**
- * Strips the "media_" prefix added by mapRow to recover the raw UUID used in DB.
- * If the id doesn't have the prefix (caller passed a raw UUID), returns it as-is.
- */
-function rawId(mediaId: string): string {
-  return mediaId.startsWith('media_') ? mediaId.slice(6) : mediaId
-}
-
-/**
  * Given a CDN URL like:
  *   https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path>
  * Returns { bucket, path } or null if the URL doesn't match the expected pattern.
@@ -130,8 +123,9 @@ export async function uploadMediaAsset(input: {
   tags?: string[]
   alt?: string
 }): Promise<ActionResult<MediaAsset>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // ── a. Decode base64 ──────────────────────────────────────────────────────
@@ -217,8 +211,9 @@ export async function uploadMediaAsset(input: {
  * Returns all media assets for the current store, sorted by created_at DESC.
  */
 export async function listMediaAssets(): Promise<MediaAsset[]> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return []
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('media_assets')
@@ -240,8 +235,9 @@ export async function listMediaAssets(): Promise<MediaAsset[]> {
 export async function searchMediaAssets(
   filters: MediaSearchFilters
 ): Promise<MediaAsset[]> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return []
+  const { storeId, supabase } = ctx
 
   let query = supabase
     .from('media_assets')
@@ -284,13 +280,14 @@ export async function searchMediaAssets(
  * Returns a single media asset by its domain id (with "media_" prefix), or null.
  */
 export async function getMediaAssetById(id: string): Promise<MediaAsset | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('media_assets')
     .select('*')
-    .eq('id', rawId(id))
+    .eq('id', stripMediaPrefix(id))
     .eq('store_id', storeId)
     .single()
 
@@ -309,8 +306,9 @@ export async function updateMediaAssetAlt(
   id: string,
   input: UpdateMediaAssetInput
 ): Promise<ActionResult<MediaAsset>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   const updates: { alt?: string; tags?: string[] } = {}
   if (input.alt !== undefined) updates.alt = input.alt
@@ -326,7 +324,7 @@ export async function updateMediaAssetAlt(
   const { data, error } = await supabase
     .from('media_assets')
     .update(updates)
-    .eq('id', rawId(id))
+    .eq('id', stripMediaPrefix(id))
     .eq('store_id', storeId)
     .select()
     .single()
@@ -352,14 +350,15 @@ export async function updateMediaAssetAlt(
  * removed — an orphaned storage file is preferable over a phantom DB record.
  */
 export async function deleteMediaAsset(id: string): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   // Fetch the asset to get the CDN URL before deleting.
   const { data: asset, error: fetchError } = await supabase
     .from('media_assets')
     .select('id, url')
-    .eq('id', rawId(id))
+    .eq('id', stripMediaPrefix(id))
     .eq('store_id', storeId)
     .single()
 
@@ -380,7 +379,7 @@ export async function deleteMediaAsset(id: string): Promise<ActionResult<void>> 
   const { error: deleteError } = await supabase
     .from('media_assets')
     .delete()
-    .eq('id', rawId(id))
+    .eq('id', stripMediaPrefix(id))
     .eq('store_id', storeId)
 
   if (deleteError) {
@@ -404,8 +403,9 @@ export async function deleteMediaAsset(id: string): Promise<ActionResult<void>> 
  * in the current schema, matching the localStorage implementation.
  */
 export async function getMediaStats(): Promise<MediaLibraryStats> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { count: 0, totalBytes: 0, limitBytes: DEFAULT_LIMIT_BYTES, limitCount: DEFAULT_LIMIT_COUNT }
+  const { storeId, supabase } = ctx
 
   // Fetch all assets to compute count + totalBytes (lightweight: only size column).
   const { data: assets } = await supabase
@@ -448,13 +448,14 @@ export async function getMediaStats(): Promise<MediaLibraryStats> {
  * Resolves a single media asset id to its CDN URL, or null if not found.
  */
 export async function resolveMediaUrl(mediaId: string): Promise<string | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('media_assets')
     .select('url')
-    .eq('id', rawId(mediaId))
+    .eq('id', stripMediaPrefix(mediaId))
     .eq('store_id', storeId)
     .single()
 
@@ -475,10 +476,11 @@ export async function resolveMediaUrls(
 ): Promise<Record<string, string>> {
   if (mediaIds.length === 0) return {}
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return {}
+  const { storeId, supabase } = ctx
 
-  const rawIds = mediaIds.map(rawId)
+  const rawIds = mediaIds.map(stripMediaPrefix)
 
   const { data, error } = await supabase
     .from('media_assets')

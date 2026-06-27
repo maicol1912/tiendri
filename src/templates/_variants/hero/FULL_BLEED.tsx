@@ -52,14 +52,16 @@ const FullBleed = memo(function FullBleed({
           </button>
         </div>
         <div className="relative w-full h-[300px] lg:w-[50%] lg:h-[632px] shrink-0 mt-6 lg:mt-0 overflow-hidden">
-          <Image
-            src={image}
-            alt={`${titleLight}${titleBold}`}
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-            priority
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={`${titleLight}${titleBold}`}
+              fill
+              className="object-cover object-center"
+              sizes="100vw"
+              priority
+            />
+          )}
         </div>
       </div>
     </section>

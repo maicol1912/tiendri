@@ -1,6 +1,6 @@
 export type VibeId = 'elegante' | 'moderno' | 'energetico' | 'calido' | 'catalogo'
 export type CatalogMode = 'simple' | 'nested'
-export type OnboardingStep = 1 | 2 | 3 | 4 | 5
+export type OnboardingStep = 1 | 2 | 3 | 4
 
 export type AccentColor =
   | 'rojo'

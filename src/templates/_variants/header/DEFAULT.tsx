@@ -23,12 +23,20 @@ const DefaultHeader = memo(function DefaultHeader({
       {/* ── Desktop header ── */}
       <div className="hidden lg:flex items-center justify-between px-[160px] py-4">
         {/* Logo */}
-        <span
-          className="text-[22px] font-bold italic lowercase tracking-tight text-[var(--t-foreground)] shrink-0"
-          aria-label={store.name}
-        >
-          {store.name.toLowerCase()}
-        </span>
+        {store.logo ? (
+          <img
+            src={store.logo}
+            alt={store.name}
+            className="h-14 w-auto max-w-[200px] object-contain shrink-0"
+          />
+        ) : (
+          <span
+            className="text-[22px] font-bold italic lowercase tracking-tight text-[var(--t-foreground)] shrink-0"
+            aria-label={store.name}
+          >
+            {store.name.toLowerCase()}
+          </span>
+        )}
 
         {/* Right group: nav links + search + cart */}
         <div className="flex items-center gap-8">
@@ -85,12 +93,20 @@ const DefaultHeader = memo(function DefaultHeader({
       {/* ── Mobile header ── */}
       <div className="flex lg:hidden items-center justify-between px-4 py-3">
         {/* Logo */}
-        <span
-          className="text-[20px] font-bold italic lowercase tracking-tight text-[var(--t-foreground)]"
-          aria-label={store.name}
-        >
-          {store.name.toLowerCase()}
-        </span>
+        {store.logo ? (
+          <img
+            src={store.logo}
+            alt={store.name}
+            className="h-12 w-auto max-w-[200px] object-contain"
+          />
+        ) : (
+          <span
+            className="text-[20px] font-bold italic lowercase tracking-tight text-[var(--t-foreground)]"
+            aria-label={store.name}
+          >
+            {store.name.toLowerCase()}
+          </span>
+        )}
 
         {/* Hamburger */}
         <button

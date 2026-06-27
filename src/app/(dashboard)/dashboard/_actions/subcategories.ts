@@ -1,10 +1,12 @@
 'use server'
 
-import { createClient } from '@/infrastructure/supabase/server'
 import type { Subcategory, CreateSubcategoryInput, UpdateSubcategoryInput } from '@/types/domain'
 import type { ActionResult } from '@/types/domain'
 import { subcategorySchema, updateSubcategorySchema } from '@/shared/validators/category.schema'
-import { getStoreId } from './store'
+import { getStoreContext } from '@/shared/action-helpers'
+import { firstValidationError, wrapDatabaseError } from '@/shared/errors'
+import { isMediaToken } from '@/shared/media'
+import { resolveMediaUrls } from './media'
 
 // ── Row mapper ────────────────────────────────────────────────────────────────
 
@@ -41,8 +43,9 @@ function mapRow(row: {
  * On error returns an empty array.
  */
 export async function listSubcategories(categoryId: string): Promise<Subcategory[]> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return []
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('subcategories')
@@ -53,7 +56,22 @@ export async function listSubcategories(categoryId: string): Promise<Subcategory
 
   if (error || !data) return []
 
-  return data.map(mapRow)
+  const subcategories = data.map(mapRow)
+
+  const mediaIds = subcategories
+    .map((s) => s.image)
+    .filter(isMediaToken)
+
+  if (mediaIds.length > 0) {
+    const urlMap = await resolveMediaUrls(mediaIds)
+    for (const sub of subcategories) {
+      if (sub.image && urlMap[sub.image]) {
+        sub.image = urlMap[sub.image]
+      }
+    }
+  }
+
+  return subcategories
 }
 
 // ── getSubcategoryById ────────────────────────────────────────────────────────
@@ -63,8 +81,9 @@ export async function listSubcategories(categoryId: string): Promise<Subcategory
  * Returns null if not found or on error.
  */
 export async function getSubcategoryById(id: string): Promise<Subcategory | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('subcategories')
@@ -75,7 +94,16 @@ export async function getSubcategoryById(id: string): Promise<Subcategory | null
 
   if (error || !data) return null
 
-  return mapRow(data)
+  const subcategory = mapRow(data)
+
+  if (isMediaToken(subcategory.image)) {
+    const urlMap = await resolveMediaUrls([subcategory.image])
+    if (urlMap[subcategory.image]) {
+      subcategory.image = urlMap[subcategory.image]
+    }
+  }
+
+  return subcategory
 }
 
 // ── createSubcategory ─────────────────────────────────────────────────────────
@@ -94,20 +122,12 @@ export async function createSubcategory(
   // Zod validation
   const validation = subcategorySchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Slug uniqueness check — scoped to category (not store)
@@ -177,7 +197,16 @@ export async function createSubcategory(
       }
     }
 
-    return { success: true, data: mapRow(data) }
+    const subcategory = mapRow(data)
+
+    if (isMediaToken(subcategory.image)) {
+      const urlMap = await resolveMediaUrls([subcategory.image])
+      if (urlMap[subcategory.image]) {
+        subcategory.image = urlMap[subcategory.image]
+      }
+    }
+
+    return { success: true, data: subcategory }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Error desconocido'
     if (message.includes('SUBCATEGORY_LIMIT')) {
@@ -186,10 +215,7 @@ export async function createSubcategory(
         error: { code: 'PLAN_LIMIT', message },
       }
     }
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -207,20 +233,12 @@ export async function updateSubcategory(
   // Zod partial validation
   const validation = updateSubcategorySchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Fetch current record to get category_id for slug uniqueness scope
@@ -267,7 +285,9 @@ export async function updateSubcategory(
       ...(validation.data.description !== undefined && {
         description: validation.data.description ?? null,
       }),
-      ...(validation.data.image !== undefined && { image: validation.data.image ?? null }),
+      ...(validation.data.image !== undefined &&
+          !validation.data.image?.startsWith('http') &&
+          { image: validation.data.image ?? null }),
       ...(validation.data.sort_order !== undefined && { sort_order: validation.data.sort_order }),
     }
 
@@ -293,13 +313,18 @@ export async function updateSubcategory(
       }
     }
 
-    return { success: true, data: mapRow(data) }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
+    const subcategory = mapRow(data)
+
+    if (isMediaToken(subcategory.image)) {
+      const urlMap = await resolveMediaUrls([subcategory.image])
+      if (urlMap[subcategory.image]) {
+        subcategory.image = urlMap[subcategory.image]
+      }
     }
+
+    return { success: true, data: subcategory }
+  } catch (err) {
+    return wrapDatabaseError(err)
   }
 }
 
@@ -322,8 +347,9 @@ export async function deleteSubcategory(
   orphanAction: 'move' | 'delete',
   targetSubcategoryId?: string
 ): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Validate input
@@ -404,11 +430,7 @@ export async function deleteSubcategory(
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -422,8 +444,9 @@ export async function reorderSubcategories(
   categoryId: string,
   orderedIds: string[]
 ): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     const { error } = await supabase
@@ -446,11 +469,7 @@ export async function reorderSubcategories(
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -467,8 +486,9 @@ export async function reorderSubcategories(
  * subcategory_id set to NULL automatically (ON DELETE SET NULL on products).
  */
 export async function deleteAllByCategory(categoryId: string): Promise<void> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return
+  const { storeId, supabase } = ctx
 
   await supabase
     .from('subcategories')

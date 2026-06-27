@@ -12,8 +12,17 @@ import type {
   BrandingConfig,
   ContentConfig,
   BusinessConfig,
+  SectionConfig,
 } from "@/types/templates";
 import type { ColorPalette, TemplateConfigSchema } from "@/types/templates/config-schema";
+
+// ── Essential sections fallback ───────────────────────────────────────────────
+// Only categories + products when the owner hasn't configured sections.
+// Hero/banners/popular/etc. appear only when explicitly enabled.
+const ESSENTIAL_SECTIONS: SectionConfig[] = [
+  { id: 'categories', visible: true },
+  { id: 'products', visible: true },
+];
 
 // ── Media ID resolution ───────────────────────────────────────────────────────
 
@@ -227,7 +236,9 @@ export function resolveTemplateConfig(
     // Layout / grid tokens
     grid: resolvedGrid,
     layout: { ...template.layout, ...customization.layout?.layout } as TemplateLayoutConfig,
-    sections: customization.layout?.sections ?? template.sections,
+    sections: (customization.layout?.sections && customization.layout.sections.length > 0)
+      ? customization.layout.sections
+      : ESSENTIAL_SECTIONS,
     // Merchant identity / content / business
     branding: finalBranding,
     content: finalContent,

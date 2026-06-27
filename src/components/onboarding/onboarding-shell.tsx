@@ -8,11 +8,10 @@ const STEP_TITLES: Record<number, string> = {
   1: 'Tu tienda',
   2: 'Tu catálogo',
   3: 'El estilo',
-  4: 'El look',
-  5: 'Tu marca',
+  4: 'Tu marca',
 }
 
-const TOTAL_STEPS = 5
+const TOTAL_STEPS = 4
 
 interface OnboardingShellProps {
   currentStep: number

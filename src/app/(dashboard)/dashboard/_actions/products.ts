@@ -1,6 +1,5 @@
 'use server'
 
-import { createClient } from '@/infrastructure/supabase/server'
 import type {
   Product,
   ProductImage,
@@ -11,7 +10,10 @@ import type {
   ActionResult,
 } from '@/types/domain'
 import { productSchema, updateProductSchema } from '@/shared/validators/product.schema'
-import { getStoreId } from './store'
+import { resolveMediaUrls } from './media'
+import { getStoreContext } from '@/shared/action-helpers'
+import { firstValidationError, wrapDatabaseError } from '@/shared/errors'
+import { isMediaToken } from '@/shared/media'
 
 // ── Row mappers ───────────────────────────────────────────────────────────────
 
@@ -102,11 +104,30 @@ function mapProductRow(
   }
 }
 
+// ── Media URL resolution ──────────────────────────────────────────────────────
+
+/**
+ * Resolves media_* IDs in a single product's images to their CDN URLs in-place.
+ */
+async function resolveProductImageUrls(product: Product): Promise<void> {
+  const mediaIds = product.images
+    .map((img) => img.url)
+    .filter((url): url is string => !!url && isMediaToken(url))
+  if (mediaIds.length === 0) return
+  const urlMap = await resolveMediaUrls(mediaIds)
+  for (const img of product.images) {
+    if (img.url && urlMap[img.url]) {
+      img.url = urlMap[img.url]
+    }
+  }
+}
+
 // ── listProducts ──────────────────────────────────────────────────────────────
 
 export async function listProducts(filters?: ProductFilters): Promise<Product[]> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return []
+  const { storeId, supabase } = ctx
 
   let query = supabase
     .from('products')
@@ -134,14 +155,33 @@ export async function listProducts(filters?: ProductFilters): Promise<Product[]>
 
   if (error || !data) return []
 
-  return data.map(mapProductRow)
+  const products = data.map(mapProductRow)
+
+  const mediaIds = products
+    .flatMap((p) => p.images)
+    .map((img) => img.url)
+    .filter((url): url is string => !!url && isMediaToken(url))
+
+  if (mediaIds.length > 0) {
+    const urlMap = await resolveMediaUrls(mediaIds)
+    for (const product of products) {
+      for (const img of product.images) {
+        if (img.url && urlMap[img.url]) {
+          img.url = urlMap[img.url]
+        }
+      }
+    }
+  }
+
+  return products
 }
 
 // ── getProductById ────────────────────────────────────────────────────────────
 
 export async function getProductById(id: string): Promise<Product | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('products')
@@ -152,14 +192,17 @@ export async function getProductById(id: string): Promise<Product | null> {
 
   if (error || !data) return null
 
-  return mapProductRow(data)
+  const product = mapProductRow(data)
+  await resolveProductImageUrls(product)
+  return product
 }
 
 // ── getProductBySlug ──────────────────────────────────────────────────────────
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('products')
@@ -170,7 +213,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 
   if (error || !data) return null
 
-  return mapProductRow(data)
+  const product = mapProductRow(data)
+  await resolveProductImageUrls(product)
+  return product
 }
 
 // ── createProduct ─────────────────────────────────────────────────────────────
@@ -180,20 +225,12 @@ export async function createProduct(
 ): Promise<ActionResult<Product>> {
   const validation = productSchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError<Product>(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Slug uniqueness check
@@ -342,10 +379,7 @@ export async function createProduct(
         error: { code: 'PLAN_LIMIT', message },
       }
     }
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -357,20 +391,12 @@ export async function updateProduct(
 ): Promise<ActionResult<Product>> {
   const validation = updateProductSchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError<Product>(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Slug uniqueness check (if slug is being changed)
@@ -525,19 +551,16 @@ export async function updateProduct(
 
     return { success: true, data: mapProductRow(updated) }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
 // ── deleteProduct ─────────────────────────────────────────────────────────────
 
 export async function deleteProduct(id: string): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // ON DELETE CASCADE handles product_images + product_variants
@@ -556,11 +579,7 @@ export async function deleteProduct(id: string): Promise<ActionResult<void>> {
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -569,8 +588,9 @@ export async function deleteProduct(id: string): Promise<ActionResult<void>> {
 export async function reorderProducts(
   orderedIds: string[]
 ): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     const { error } = await supabase
@@ -593,11 +613,7 @@ export async function reorderProducts(
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -606,8 +622,9 @@ export async function reorderProducts(
 export async function toggleAvailable(
   id: string
 ): Promise<ActionResult<Product>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Fetch current value
@@ -654,13 +671,11 @@ export async function toggleAvailable(
       }
     }
 
-    return { success: true, data: mapProductRow(updated) }
+    const product = mapProductRow(updated)
+    await resolveProductImageUrls(product)
+    return { success: true, data: product }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -669,8 +684,9 @@ export async function toggleAvailable(
 export async function toggleFeatured(
   id: string
 ): Promise<ActionResult<Product>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Fetch current value
@@ -717,21 +733,20 @@ export async function toggleFeatured(
       }
     }
 
-    return { success: true, data: mapProductRow(updated) }
+    const product = mapProductRow(updated)
+    await resolveProductImageUrls(product)
+    return { success: true, data: product }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
 // ── countProducts ─────────────────────────────────────────────────────────────
 
 export async function countProducts(): Promise<number> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return 0
+  const { storeId, supabase } = ctx
 
   const { count, error } = await supabase
     .from('products')
@@ -748,8 +763,9 @@ export async function countProducts(): Promise<number> {
 export async function countProductsByCategory(
   categoryId: string
 ): Promise<number> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return 0
+  const { storeId, supabase } = ctx
 
   const { count, error } = await supabase
     .from('products')
@@ -765,8 +781,9 @@ export async function countProductsByCategory(
 // ── switchCatalogModeToSimple ─────────────────────────────────────────────────
 
 export async function switchCatalogModeToSimple(): Promise<void> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return
+  const { storeId, supabase } = ctx
 
   await supabase.rpc('switch_catalog_mode_to_simple', {
     target_store_id: storeId,

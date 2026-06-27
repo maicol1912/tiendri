@@ -26,6 +26,8 @@ export interface HomeShellProps {
   bestSellers?: BestSellerItem[];
   /** Productos populares — banner cards con imagen y CTA. */
   popularProducts?: PopularProductItem[];
+  /** Productos destacados — StorefrontProduct[] filtrados por featured = true. */
+  featuredProducts?: StorefrontProduct[];
   /** Productos con descuento — misma forma que StorefrontProduct. */
   discountProducts?: StorefrontProduct[];
 }
@@ -39,6 +41,7 @@ export function HomeShell({
   currencySymbol = "$",
   bestSellers,
   popularProducts,
+  featuredProducts,
   discountProducts,
 }: HomeShellProps) {
   const nav = useTemplateNav();
@@ -132,6 +135,7 @@ export function HomeShell({
       searchBarPlaceholder="Buscar productos..."
       bestSellers={bestSellers}
       popularProducts={popularProducts}
+      featuredProducts={featuredProducts}
       discountProducts={discountProducts}
       sectionVariants={{
         bestSellers: variants.bestSellers,

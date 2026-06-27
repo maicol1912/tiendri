@@ -48,7 +48,9 @@ export function appearanceToCustomization(
     layout: {
       grid: (appearance.layout as any)?.grid,
       layout: (appearance.layout as any)?.layout,
-      sections: (appearance.sections as any) ?? undefined,
+      sections: (Array.isArray(appearance.sections) && (appearance.sections as any[]).length > 0)
+        ? (appearance.sections as any)
+        : undefined,
       density: (appearance.layout as any)?.density,
       structuralVariants: (appearance.variants as any) ?? undefined,
     },

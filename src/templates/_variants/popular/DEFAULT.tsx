@@ -14,6 +14,7 @@ const cardBgTokens = [
 
 const PopularDefault = memo(function PopularDefault({
   products,
+  featuredProducts,
   sectionConfig,
   currencySymbol,
   onProductClick,
@@ -22,8 +23,9 @@ const PopularDefault = memo(function PopularDefault({
   const subtitle = getSectionField<string | undefined>("subtitle", sectionConfig, undefined, undefined);
   const limit = getSectionField<number>("popularLimit", sectionConfig, undefined, 4);
 
-  const popularProducts = products.slice(0, limit);
-  if (popularProducts.length === 0) return null;
+  const source = featuredProducts && featuredProducts.length > 0 ? featuredProducts : products;
+  const popularProducts = source.slice(0, limit);
+  if (!featuredProducts || featuredProducts.length === 0) return null;
 
   return (
     <section aria-labelledby="popular-section-heading" style={{ marginTop: "var(--t-space-section, 2.5rem)" }}>
@@ -52,7 +54,7 @@ const PopularDefault = memo(function PopularDefault({
       {!title && <h2 id="popular-section-heading" className="sr-only">Productos populares</h2>}
 
       {/* Desktop: horizontal cards row */}
-      <div className="hidden lg:flex w-full">
+      <div className="hidden lg:flex w-full justify-start">
         {popularProducts.map((product, i) => {
           const safeIndex = i % cardBgTokens.length;
           const cardBg = cardBgTokens[safeIndex];
@@ -61,7 +63,7 @@ const PopularDefault = memo(function PopularDefault({
           return (
             <article
               key={product.id}
-              className="relative flex flex-col items-start gap-6 overflow-hidden px-8 pt-[376px] pb-14 min-w-0 flex-1 border-r last:border-r-0"
+              className="relative flex flex-col items-start gap-6 overflow-hidden px-8 pt-[376px] pb-14 min-w-0 flex-1 max-w-[360px] border-r last:border-r-0"
               style={{
                 backgroundColor: cardBg,
                 borderColor: "var(--t-border)",

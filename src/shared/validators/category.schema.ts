@@ -4,6 +4,7 @@
 
 import { z } from 'zod';
 import type { CategoryIcon } from '@/types/domain/category';
+import { slugSchema } from '@/shared/validators/primitives';
 
 const CATEGORY_ICONS: readonly CategoryIcon[] = [
   'Smartphone',
@@ -28,15 +29,6 @@ const CATEGORY_ICONS: readonly CategoryIcon[] = [
   'Flower2',
 ] as const;
 
-/** Slug: lowercase alphanumeric with hyphens, cannot start or end with a hyphen */
-const slugSchema = z
-  .string()
-  .min(2, 'El slug debe tener al menos 2 caracteres')
-  .regex(
-    /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-    'El slug solo puede contener letras minúsculas, números y guiones, sin empezar ni terminar con guión'
-  );
-
 export const categorySchema = z.object({
   name: z
     .string()
@@ -47,7 +39,7 @@ export const categorySchema = z.object({
     .string()
     .max(120, 'La descripción no puede superar los 120 caracteres')
     .optional(),
-  image: z.string().optional(),
+  image: z.string().nullable().optional(),
   icon: z.enum(CATEGORY_ICONS as [CategoryIcon, ...CategoryIcon[]], {
     error: 'Seleccioná un ícono válido',
   }),
@@ -72,7 +64,7 @@ export const subcategorySchema = z.object({
     .string()
     .max(120, 'La descripción no puede superar los 120 caracteres')
     .optional(),
-  image: z.string().optional(),
+  image: z.string().nullable().optional(),
   sort_order: z.number().int().min(0).optional(),
 });
 

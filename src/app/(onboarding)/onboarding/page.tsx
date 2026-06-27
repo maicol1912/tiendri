@@ -29,8 +29,6 @@ function canProceedForStep(step: number, state: ReturnType<typeof useOnboarding>
       return state.selectedVibe !== null
     case 4:
       return true
-    case 5:
-      return true
     default:
       return false
   }
@@ -45,14 +43,14 @@ function OnboardingContent() {
 
   const stepParam = searchParams.get('step')
   const isCelebration = stepParam === 'celebration'
-  const step = isCelebration ? 5 : Math.max(1, Math.min(5, Number(stepParam ?? '1')))
+  const step = isCelebration ? 4 : Math.max(1, Math.min(4, Number(stepParam ?? '1')))
 
   if (isCelebration) {
     return <CelebrationScreen />
   }
 
   function handleNext() {
-    if (step === 5) {
+    if (step === 4) {
       handleCreateStore()
       return
     }
@@ -80,10 +78,24 @@ function OnboardingContent() {
       templateId,
       vibeId: state.selectedVibe ?? undefined,
       primaryColor,
-      logoUrl: state.logoUrl ?? undefined,
+      logoUrl: state.logoUrl?.startsWith('https://') ? state.logoUrl : undefined,
     })
 
     if (!result.success) {
+      console.error('[onboarding] completeOnboarding failed:', { code: result.error.code, message: result.error.message })
+
+      if (result.error.code === 'UNAUTHORIZED') {
+        router.push('/auth?redirectTo=/onboarding')
+        return
+      }
+
+      if (result.error.code === 'SLUG_TAKEN') {
+        setSubmitError('Ese nombre de tienda ya está tomado. Elegí otro nombre.')
+        setIsSubmitting(false)
+        router.push('/onboarding?step=1')
+        return
+      }
+
       setSubmitError(result.error.message)
       setIsSubmitting(false)
       return
@@ -101,7 +113,6 @@ function OnboardingContent() {
     2: <Step2CatalogMode />,
     3: <Step3VibeSelection />,
     4: <Step5Branding />,
-    5: <Step5Branding />,
   }
 
   return (

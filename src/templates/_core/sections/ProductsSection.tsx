@@ -24,7 +24,6 @@ export const ProductsSection = memo(function ProductsSection({
   productsHeading,
   secondProductsHeading,
   productsLimit,
-  productTabs,
   sectionConfig,
 }: SectionRendererProps) {
   const grid = config.grid;
@@ -149,45 +148,6 @@ export const ProductsSection = memo(function ProductsSection({
 
   return (
     <section aria-labelledby="home-products-heading">
-      {/* ── Product tab navigation (mock — first tab always active) ─────────── */}
-      {productTabs && productTabs.length > 0 && (
-        <div
-          className={widthClass}
-          style={{ paddingTop: "2.5rem", paddingBottom: "0.5rem" }}
-        >
-          <div className="flex gap-6" role="tablist" aria-label="Filtrar productos">
-            {productTabs.map((tab, i) => (
-              <button
-                key={tab}
-                type="button"
-                role="tab"
-                aria-selected={i === 0}
-                style={{
-                  color: i === 0 ? "var(--t-foreground)" : "var(--t-muted)",
-                  fontWeight: i === 0 ? 600 : 400,
-                  fontSize: "0.95rem",
-                  paddingBottom: "0.5rem",
-                  paddingTop: 0,
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                  borderTop: "none",
-                  borderLeft: "none",
-                  borderRight: "none",
-                  borderBottomWidth: "2px",
-                  borderBottomStyle: "solid",
-                  borderBottomColor:
-                    i === 0 ? "var(--t-foreground)" : "transparent",
-                  background: "none",
-                  cursor: "pointer",
-                }}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* ── Products grids ──────────────────────────────────────────────────── */}
       {renderProductGrid(firstSectionProducts, productsHeading, "home-products-heading")}
       {secondProductsHeading &&

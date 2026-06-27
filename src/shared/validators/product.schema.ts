@@ -3,15 +3,7 @@
 // Error codes follow tiendri-rules.md §3.2.
 
 import { z } from 'zod';
-
-/** Slug: lowercase alphanumeric with hyphens, cannot start or end with a hyphen */
-const slugSchema = z
-  .string()
-  .min(2, 'El slug debe tener al menos 2 caracteres')
-  .regex(
-    /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-    'El slug solo puede contener letras minúsculas, números y guiones, sin empezar ni terminar con guión'
-  );
+import { slugSchema } from '@/shared/validators/primitives';
 
 const productImageInputSchema = z.object({
   url: z.string().min(1, 'La URL de la imagen no puede estar vacía'),

@@ -27,6 +27,6 @@ export interface UpdateSubcategoryInput {
   name?: string;
   slug?: string;
   description?: string;
-  image?: string;
+  image?: string | null;
   sort_order?: number;
 }

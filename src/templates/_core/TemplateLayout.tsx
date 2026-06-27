@@ -102,6 +102,8 @@ export interface TemplateLayoutProps {
   bestSellers?: BestSellerItem[];
   /** Productos populares — banner cards con imagen y CTA. */
   popularProducts?: PopularProductItem[];
+  /** Productos destacados — StorefrontProduct[] filtrados por featured = true. */
+  featuredProducts?: StorefrontProduct[];
   /** Productos con descuento — misma forma que StorefrontProduct. */
   discountProducts?: StorefrontProduct[];
 }
@@ -117,6 +119,7 @@ export function TemplateLayout({
   currencySymbol = "$",
   bestSellers,
   popularProducts,
+  featuredProducts,
   discountProducts,
 }: TemplateLayoutProps) {
   const pathname = usePathname();
@@ -211,6 +214,7 @@ export function TemplateLayout({
             currencySymbol={currencySymbol}
             bestSellers={bestSellers}
             popularProducts={popularProducts}
+            featuredProducts={featuredProducts}
             discountProducts={discountProducts}
           />
         )}

@@ -23,7 +23,7 @@ import type { StoreCustomization } from "@/types/templates";
 import { buildCssVars } from "@/catalog/buildCssVars";
 import { getFontPair } from "@/shared/fonts";
 import { getTemplateConfig, getTemplateSchema } from "@/templates";
-import { CartProvider, createCartStorageKey } from "@/templates/_core/cart";
+import { CartProvider } from "@/templates/_core/cart";
 import { StorefrontConfigProvider } from "./storefront-config-provider";
 import type { StoreInfo } from "@/types/domain/store";
 
@@ -104,7 +104,7 @@ export default async function StorefrontLayout({
 
   // ── 6. Render ─────────────────────────────────────────────────────────────
   return (
-    <CartProvider slug={slug} storageKey={createCartStorageKey(effectiveTemplateId)}>
+    <CartProvider slug={slug} storageKey={`tc_${effectiveTemplateId.replace(/-/g, "_")}_cart`}>
       <StorefrontConfigProvider config={resolvedConfig} store={storeInfo}>
         {/* template-scope: injects CSS vars + font classes, same div pattern as
             TemplateLayoutClient but server-rendered — no client JS for theming. */}

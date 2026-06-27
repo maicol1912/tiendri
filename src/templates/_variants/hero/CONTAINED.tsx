@@ -53,15 +53,17 @@ const Contained = memo(function Contained({
         </div>
 
         <div className="relative w-full h-[300px] lg:w-[406px] lg:h-[632px] shrink-0 mt-6 lg:mt-0 overflow-hidden">
-          <Image
-            src={image}
-            alt={`${titleLight}${titleBold}`}
-            width={406}
-            height={632}
-            className="object-contain object-top w-full lg:w-[406px] h-[500px] lg:h-[632px]"
-            sizes="(max-width: 1024px) 100vw, 406px"
-            priority
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={`${titleLight}${titleBold}`}
+              width={406}
+              height={632}
+              className="object-contain object-top w-full lg:w-[406px] h-[500px] lg:h-[632px]"
+              sizes="(max-width: 1024px) 100vw, 406px"
+              priority
+            />
+          )}
         </div>
       </div>
     </section>

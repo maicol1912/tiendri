@@ -5,27 +5,44 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useOnboarding } from '@/onboarding/onboarding-provider'
 import { step1Schema } from '@/shared/validators/onboarding.schema'
-
-function toSlug(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .slice(0, 30)
-}
+import { checkSlugAvailability } from '@/app/(dashboard)/dashboard/_actions/store'
+import { toSlug } from '@/shared/slug'
 
 export function Step1StoreInfo() {
   const { state, updateField } = useOnboarding()
   const [errors, setErrors] = useState<{ storeName?: string; whatsapp?: string }>({})
+  const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null)
+  const [slugChecking, setSlugChecking] = useState(false)
 
   useEffect(() => {
     const slug = toSlug(state.storeName)
     updateField('slug', slug)
   }, [state.storeName])
+
+  useEffect(() => {
+    const slug = state.slug
+    setSlugAvailable(null)
+
+    if (!slug || slug.length < 3) {
+      setSlugChecking(false)
+      return
+    }
+
+    setSlugChecking(true)
+
+    const timer = setTimeout(async () => {
+      const result = await checkSlugAvailability(slug)
+      setSlugChecking(false)
+      if (result.success) {
+        setSlugAvailable(result.data.available)
+      }
+    }, 500)
+
+    return () => {
+      clearTimeout(timer)
+      setSlugChecking(false)
+    }
+  }, [state.slug])
 
   function handleStoreNameChange(value: string) {
     updateField('storeName', value)
@@ -76,6 +93,15 @@ export function Step1StoreInfo() {
               Tu tienda quedará en{' '}
               <span className="font-medium text-foreground">tiendri.co/{state.slug}</span>
             </p>
+          )}
+          {state.slug && !errors.storeName && slugChecking && (
+            <p className="text-xs text-muted-foreground">Verificando disponibilidad...</p>
+          )}
+          {state.slug && !errors.storeName && !slugChecking && slugAvailable === true && (
+            <p className="text-xs text-green-600">✓ Disponible</p>
+          )}
+          {state.slug && !errors.storeName && !slugChecking && slugAvailable === false && (
+            <p className="text-xs text-red-500">✗ Este nombre ya está en uso</p>
           )}
         </div>
 

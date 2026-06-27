@@ -33,21 +33,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/shared/utils'
+import { toSlug } from '@/shared/slug'
 import { CategoryIconComponent, ICON_OPTIONS } from './category-icon'
 
 interface CreateCategorySheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onCreated: () => void
-}
-
-function toSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '') // remove accents
-    .replace(/[^a-z0-9]+/g, '-') // non-alphanumeric to hyphens
-    .replace(/^-+|-+$/g, '') // trim leading/trailing hyphens
 }
 
 export function CreateCategorySheet({
@@ -133,7 +125,7 @@ export function CreateCategorySheet({
           </SheetDescription>
         </SheetHeader>
 
-        <ScrollArea className="flex-1 px-1">
+        <ScrollArea className="min-h-0 flex-1 px-1">
           <div className="space-y-5 px-3 pb-4">
             {/* Name */}
             <div className="space-y-2">
@@ -250,7 +242,7 @@ export function CreateCategorySheet({
           </div>
         </ScrollArea>
 
-        <SheetFooter>
+        <SheetFooter className="flex-row justify-end">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}

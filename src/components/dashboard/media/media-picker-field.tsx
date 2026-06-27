@@ -29,10 +29,8 @@ export function MediaPickerField({
   const [resolvedUrl, setResolvedUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!value) {
-      setResolvedUrl(null);
-      return;
-    }
+    if (!value) { setResolvedUrl(null); return; }
+    if (value.startsWith('http')) { setResolvedUrl(value); return; }
     void resolveUrl(value).then(setResolvedUrl);
   }, [value, resolveUrl]);
 

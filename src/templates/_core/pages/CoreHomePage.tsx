@@ -64,6 +64,8 @@ interface CoreHomePageProps {
   bestSellers?: BestSellerItem[];
   /** Productos populares — renderiza sección de banner cards si existe y tiene ítems */
   popularProducts?: PopularProductItem[];
+  /** Productos destacados — StorefrontProduct[] filtrados por featured = true. */
+  featuredProducts?: StorefrontProduct[];
   /** Productos con descuento — renderiza sección "Descuentos" usando el ProductCardComponent */
   discountProducts?: StorefrontProduct[];
   /** Variant overrides for inline sections (bestSellers, popular, banners, editorial, video). */
@@ -87,6 +89,7 @@ export const CoreHomePage = memo(function CoreHomePage({
   searchBarPlaceholder = "Buscar productos...",
   bestSellers,
   popularProducts,
+  featuredProducts,
   discountProducts,
   sectionVariants,
 }: CoreHomePageProps) {
@@ -130,6 +133,7 @@ export const CoreHomePage = memo(function CoreHomePage({
     // Extra data arrays (passed from HomeShell)
     bestSellers,
     popularProducts,
+    featuredProducts,
     discountProducts,
 
     // Search bar (passed from HomeShell)

@@ -14,14 +14,9 @@ import {
 } from '@/components/dashboard/media';
 import { useMediaLibrary } from '@/app/(dashboard)/_hooks/use-media-library';
 import type { MediaAsset } from '@/types/domain';
+import { formatBytes } from '@/shared/format';
 
 type ViewMode = 'grid' | 'upload';
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
 
 function formatMB(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;

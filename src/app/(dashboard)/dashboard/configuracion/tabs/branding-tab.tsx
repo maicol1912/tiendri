@@ -71,7 +71,7 @@ export function BrandingTab({ initialBranding, isAuthenticated }: BrandingTabPro
       ...(storeName ? { storeName } : {}),
       ...(description ? { description } : {}),
       ...(whatsapp ? { whatsapp } : {}),
-      ...(logo ? { logo } : {}),
+      ...(logo !== undefined ? { logo } : {}),
       socialLinks,
     };
 

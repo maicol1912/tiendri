@@ -1,11 +1,12 @@
 'use server'
 
-import { ZodError } from 'zod'
-import { createClient } from '@/infrastructure/supabase/server'
 import type { Category, CreateCategoryInput, UpdateCategoryInput } from '@/types/domain'
 import type { ActionResult } from '@/types/domain'
 import { categorySchema, updateCategorySchema } from '@/shared/validators/category.schema'
-import { getStoreId } from './store'
+import { getStoreContext } from '@/shared/action-helpers'
+import { firstValidationError, wrapDatabaseError } from '@/shared/errors'
+import { isMediaToken } from '@/shared/media'
+import { resolveMediaUrls } from './media'
 
 // ── Row mapper ────────────────────────────────────────────────────────────────
 
@@ -42,8 +43,9 @@ function mapRow(row: {
  * On error returns an empty array — callers should treat it as "no categories".
  */
 export async function listCategories(): Promise<Category[]> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return []
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('categories')
@@ -53,7 +55,22 @@ export async function listCategories(): Promise<Category[]> {
 
   if (error || !data) return []
 
-  return data.map(mapRow)
+  const categories = data.map(mapRow)
+
+  const mediaIds = categories
+    .map((c) => c.image)
+    .filter(isMediaToken)
+
+  if (mediaIds.length > 0) {
+    const urlMap = await resolveMediaUrls(mediaIds)
+    for (const cat of categories) {
+      if (cat.image && urlMap[cat.image]) {
+        cat.image = urlMap[cat.image]
+      }
+    }
+  }
+
+  return categories
 }
 
 // ── getCategoryById ───────────────────────────────────────────────────────────
@@ -63,8 +80,9 @@ export async function listCategories(): Promise<Category[]> {
  * Returns null if not found or on error.
  */
 export async function getCategoryById(id: string): Promise<Category | null> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return null
+  const { storeId, supabase } = ctx
 
   const { data, error } = await supabase
     .from('categories')
@@ -75,7 +93,16 @@ export async function getCategoryById(id: string): Promise<Category | null> {
 
   if (error || !data) return null
 
-  return mapRow(data)
+  const category = mapRow(data)
+
+  if (isMediaToken(category.image)) {
+    const urlMap = await resolveMediaUrls([category.image])
+    if (urlMap[category.image]) {
+      category.image = urlMap[category.image]
+    }
+  }
+
+  return category
 }
 
 // ── createCategory ────────────────────────────────────────────────────────────
@@ -92,20 +119,12 @@ export async function createCategory(
   // Zod validation
   const validation = categorySchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Slug uniqueness check
@@ -184,10 +203,7 @@ export async function createCategory(
         error: { code: 'PLAN_LIMIT', message },
       }
     }
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -205,20 +221,12 @@ export async function updateCategory(
   // Zod partial validation
   const validation = updateCategorySchema.safeParse(input)
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
-    const field = typeof firstIssue?.path[0] === 'string' ? firstIssue.path[0] : undefined
-    return {
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: firstIssue?.message ?? 'Datos inválidos.',
-        field,
-      },
-    }
+    return firstValidationError(validation)
   }
 
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Slug uniqueness check — exclude current record
@@ -250,7 +258,9 @@ export async function updateCategory(
       ...(validation.data.description !== undefined && {
         description: validation.data.description ?? null,
       }),
-      ...(validation.data.image !== undefined && { image: validation.data.image ?? null }),
+      ...(validation.data.image !== undefined &&
+          !validation.data.image?.startsWith('http') &&
+          { image: validation.data.image ?? null }),
       ...(validation.data.icon !== undefined && { icon: validation.data.icon }),
       ...(validation.data.sort_order !== undefined && { sort_order: validation.data.sort_order }),
     }
@@ -279,11 +289,7 @@ export async function updateCategory(
 
     return { success: true, data: mapRow(data) }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -297,8 +303,9 @@ export async function updateCategory(
  * on subcategories.category_id.
  */
 export async function deleteCategory(id: string): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     // Delete products belonging to this category first (RESTRICT constraint)
@@ -334,11 +341,7 @@ export async function deleteCategory(id: string): Promise<ActionResult<void>> {
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -349,8 +352,9 @@ export async function deleteCategory(id: string): Promise<ActionResult<void>> {
  * Index position in the array becomes the new sort_order value.
  */
 export async function reorderCategories(orderedIds: string[]): Promise<ActionResult<void>> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return { success: false, error: ctx.error }
+  const { storeId, supabase } = ctx
 
   try {
     const { error } = await supabase
@@ -373,11 +377,7 @@ export async function reorderCategories(orderedIds: string[]): Promise<ActionRes
 
     return { success: true, data: undefined }
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Error desconocido'
-    return {
-      success: false,
-      error: { code: 'DATABASE_ERROR', message },
-    }
+    return wrapDatabaseError(err)
   }
 }
 
@@ -388,8 +388,9 @@ export async function reorderCategories(orderedIds: string[]): Promise<ActionRes
  * On error returns 0.
  */
 export async function countCategories(): Promise<number> {
-  const storeId = await getStoreId()
-  const supabase = await createClient()
+  const ctx = await getStoreContext()
+  if (!ctx.success) return 0
+  const { storeId, supabase } = ctx
 
   const { count, error } = await supabase
     .from('categories')

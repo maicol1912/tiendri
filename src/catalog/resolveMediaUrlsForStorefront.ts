@@ -48,16 +48,27 @@ export async function resolveMediaUrlsForStorefront(
   // generated database.types.ts. This mirrors the pattern used across the
   // codebase for tables that are ahead of the local type snapshot.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Strip the "media_" prefix to get plain UUIDs for the DB query,
+  // but keep a reverse map so we can key the result by the original token.
+  const uuidToToken = new Map<string, string>();
+  const uuids: string[] = [];
+  for (const token of mediaIds) {
+    const uuid = token.startsWith("media_") ? token.slice(6) : token;
+    uuids.push(uuid);
+    uuidToToken.set(uuid, token);
+  }
+
   const { data, error } = await (supabase as any)
     .from("media_assets")
     .select("id, url")
     .eq("store_id", storeId)
-    .in("id", mediaIds);
+    .in("id", uuids);
 
   if (error || !data) return urlMap;
 
   for (const row of data as Array<{ id: string; url: string }>) {
-    urlMap.set(row.id, row.url);
+    const token = uuidToToken.get(row.id) ?? row.id;
+    urlMap.set(token, row.url);
   }
 
   return urlMap;

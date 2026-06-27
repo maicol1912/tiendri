@@ -3,12 +3,12 @@
 
 /** Store identity and branding fields. All fields optional — unset values fall back to template defaults. */
 export interface BrandingConfig {
-  /** Public URL in Supabase Storage bucket `logos` */
-  logo?: string;
+  /** Public URL in Supabase Storage bucket `logos` — null means explicitly cleared */
+  logo?: string | null;
   storeName?: string;
   description?: string;
-  /** Public URL in Supabase Storage bucket `logos` */
-  favicon?: string;
+  /** Public URL in Supabase Storage bucket `logos` — null means explicitly cleared */
+  favicon?: string | null;
   /** Digit string with country prefix — e.g. "573001234567" */
   whatsapp?: string;
   socialLinks?: {

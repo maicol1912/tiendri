@@ -34,6 +34,7 @@ import type {
   CreateProductInput,
   UpdateProductInput,
 } from '@/types/domain'
+import { toSlug } from '@/shared/slug'
 
 interface ProductFormProps {
   /** Existing product for edit mode. Undefined for create mode. */
@@ -42,19 +43,6 @@ interface ProductFormProps {
   defaultCategoryId?: string
   /** Page title */
   title: string
-}
-
-// ── Slug generation ──────────────────────────────────────────────────────────
-
-function toSlug(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
 }
 
 // ── Price formatter for variant preview ──────────────────────────────────────

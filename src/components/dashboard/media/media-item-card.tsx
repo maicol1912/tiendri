@@ -5,12 +5,7 @@ import { Trash2, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 import type { MediaAsset } from '@/types/domain';
 import { MediaDeleteDialog } from './media-delete-dialog';
-
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
+import { formatBytes } from '@/shared/format';
 
 interface MediaItemCardProps {
   asset: MediaAsset;
@@ -117,7 +112,7 @@ export function MediaItemCard({
                 {asset.filename}
               </p>
               <p className="text-[10px] text-muted-foreground">
-                {formatFileSize(asset.size)}
+                {formatBytes(asset.size)}
               </p>
 
               {/* Alt text inline edit */}

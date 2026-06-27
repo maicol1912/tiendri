@@ -33,17 +33,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/shared/utils'
+import { toSlug } from '@/shared/slug'
 import { CategoryIconComponent, ICON_OPTIONS } from '../category-icon'
 import { SubcategoriesPanel } from './subcategories-panel'
-
-function toSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
 
 export default function CategoryEditPage({
   params,
@@ -110,7 +102,7 @@ export default function CategoryEditPage({
       name: name.trim(),
       slug: slug.trim(),
       description: description.trim() || undefined,
-      image: image ?? undefined,
+      image: image,
       icon,
     }
 

@@ -110,7 +110,7 @@ async function upsertAppearance(
 
   if (error) {
     if (process.env.NODE_ENV === 'development') console.error("Failed to update appearance:", error);
-    return { success: false, error: { code: "DB_ERROR", message: error.message } };
+    return { success: false, error: { code: "DATABASE_ERROR", message: error.message } };
   }
 
   revalidatePath(`/${slug}`, "layout");
@@ -362,7 +362,7 @@ export async function updateBusiness(
   if (error) {
     return {
       success: false,
-      error: { code: "DB_ERROR", message: "Error al guardar el negocio. Intentá de nuevo." },
+      error: { code: "DATABASE_ERROR", message: `Error al guardar el negocio: ${error.message}` },
     };
   }
 

@@ -35,8 +35,15 @@ const optionalUrl = z
   .or(z.literal(""))
   .optional();
 
-/** Optional Storage URL — must be a valid URL when present */
-const storageUrl = z.string().url("Debe ser una URL válida").optional();
+/** Storage reference — accepts a CDN URL (https://...) or a media library ID (media_xxx) */
+const storageUrl = z
+  .string()
+  .refine(
+    (val) => val === "" || val.startsWith("https://") || val.startsWith("http://") || val.startsWith("media_") || val.startsWith("/"),
+    "Debe ser una URL válida o un ID de media library"
+  )
+  .nullable()
+  .optional();
 
 // ── Branding schema ────────────────────────────────────────────────────────────
 

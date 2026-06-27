@@ -26,14 +26,16 @@ const Split = memo(function Split({
     >
       <div className="flex flex-col lg:flex-row min-h-[400px] lg:min-h-[500px]">
         <div className="relative w-full h-[260px] lg:w-1/2 lg:h-auto shrink-0 overflow-hidden">
-          <Image
-            src={image}
-            alt={`${titleLight}${titleBold}`}
-            fill
-            className="object-contain object-center"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            priority
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={`${titleLight}${titleBold}`}
+              fill
+              className="object-contain object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+            />
+          )}
         </div>
         <div className="flex flex-col gap-4 lg:gap-6 items-center lg:items-start justify-center text-center lg:text-left w-full lg:w-1/2 px-6 lg:px-16 py-8 lg:py-0">
           <p className="text-[var(--t-muted)] text-lg lg:text-[25px] font-semibold leading-8">
