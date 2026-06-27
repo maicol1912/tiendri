@@ -239,6 +239,7 @@ export function ConfiguracionClient({
         };
         writeLocalCustomization(merged);
         setCustomization(merged);
+        sendReload("mi-tienda-save");
         return;
       }
 
@@ -275,6 +276,7 @@ export function ConfiguracionClient({
         };
         writeLocalCustomization(merged);
         setCustomization(merged);
+        sendReload("diseno-save");
         return;
       }
 
@@ -322,6 +324,7 @@ export function ConfiguracionClient({
         };
         writeLocalCustomization(merged);
         setCustomization(merged);
+        sendReload("content-save");
         return;
       }
 
@@ -361,6 +364,7 @@ export function ConfiguracionClient({
         };
         writeLocalCustomization(updated);
         setCustomization(updated);
+        sendReload("sections-save");
         return;
       }
 
@@ -418,6 +422,7 @@ export function ConfiguracionClient({
           };
           writeLocalCustomization(merged);
           setCustomization(merged);
+          sendReload("productos-save");
           return;
         }
         if (!result.success) {
@@ -553,6 +558,7 @@ export function ConfiguracionClient({
           </SheetHeader>
           <div className="flex-1 h-[calc(90vh-4.5rem)]">
             <PreviewFrame
+              ref={iframeRef}
               src={previewSrc}
               isLoaded={isIframeLoaded}
               onLoad={() => setIsIframeLoaded(true)}

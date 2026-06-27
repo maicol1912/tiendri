@@ -103,10 +103,9 @@ export function ContenidoTab({
     try {
       await onContentSave({
         heroBanner: {
-          ...(initialContent?.heroBanner ?? {}),
           title: heroTitle || undefined,
           subtitle: heroSubtitle || undefined,
-          image: heroImage ?? undefined,
+          image: heroImage || undefined,
           ctaText: heroCtaText || undefined,
         },
       });
