@@ -111,25 +111,27 @@ const PromoCard = memo(function PromoCard({
               </p>
             )}
 
-            <button
-              type="button"
-              className="self-start border-0 cursor-pointer"
-              style={{
-                fontFamily: "var(--font-heading, var(--font-sans))",
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "var(--t-button-text, var(--t-on-primary))",
-                backgroundColor: "var(--t-button-bg, var(--t-primary))",
-                borderRadius: "var(--t-radius-button)",
-                padding: "8px 22px",
-                height: "38px",
-                whiteSpace: "nowrap",
-                marginTop: "4px",
-              }}
-              onClick={onCtaClick}
-            >
-              {ctaText}
-            </button>
+            {ctaText && (
+              <button
+                type="button"
+                className="self-start border-0 cursor-pointer"
+                style={{
+                  fontFamily: "var(--font-heading, var(--font-sans))",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  color: "var(--t-button-text, var(--t-on-primary))",
+                  backgroundColor: "var(--t-button-bg, var(--t-primary))",
+                  borderRadius: "var(--t-radius-button)",
+                  padding: "8px 22px",
+                  height: "38px",
+                  whiteSpace: "nowrap",
+                  marginTop: "4px",
+                }}
+                onClick={onCtaClick}
+              >
+                {ctaText}
+              </button>
+            )}
           </div>
         )}
       </div>

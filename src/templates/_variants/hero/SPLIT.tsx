@@ -55,13 +55,15 @@ const Split = memo(function Split({
           <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6">
             {description}
           </p>
-          <button
-            type="button"
-            className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
-            onClick={onCtaClick}
-          >
-            {ctaText}
-          </button>
+          {ctaText && (
+            <button
+              type="button"
+              className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
+              onClick={onCtaClick}
+            >
+              {ctaText}
+            </button>
+          )}
         </div>
       </div>
     </section>

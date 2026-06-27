@@ -69,22 +69,24 @@ const CardSplit = memo(function CardSplit({
           </p>
         )}
 
-        <button
-          type="button"
-          className="self-start border-0 bg-transparent cursor-pointer p-0"
-          style={{
-            fontFamily: "var(--font-heading, var(--font-sans))",
-            fontSize: "clamp(11px, 2.5vw, 14px)",
-            fontWeight: 500,
-            color: "var(--t-on-primary)",
-            opacity: 0.9,
-            whiteSpace: "nowrap",
-            marginTop: "4px",
-          }}
-          onClick={onCtaClick}
-        >
-          {ctaText} &gt;
-        </button>
+        {ctaText && (
+          <button
+            type="button"
+            className="self-start border-0 bg-transparent cursor-pointer p-0"
+            style={{
+              fontFamily: "var(--font-heading, var(--font-sans))",
+              fontSize: "clamp(11px, 2.5vw, 14px)",
+              fontWeight: 500,
+              color: "var(--t-on-primary)",
+              opacity: 0.9,
+              whiteSpace: "nowrap",
+              marginTop: "4px",
+            }}
+            onClick={onCtaClick}
+          >
+            {ctaText} &gt;
+          </button>
+        )}
       </div>
 
       {/* Right image/placeholder — flex-1 (~55%) */}

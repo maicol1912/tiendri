@@ -43,13 +43,15 @@ const FullBleed = memo(function FullBleed({
           <p className="text-[var(--t-muted)] text-base lg:text-lg font-medium leading-6 whitespace-nowrap">
             {description}
           </p>
-          <button
-            type="button"
-            className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
-            onClick={onCtaClick}
-          >
-            {ctaText}
-          </button>
+          {ctaText && (
+            <button
+              type="button"
+              className="border border-[var(--t-foreground)] text-[var(--t-foreground)] bg-transparent rounded-md px-10 lg:px-14 py-3 lg:py-4 text-base font-medium cursor-pointer hover:opacity-90 transition-opacity mt-2"
+              onClick={onCtaClick}
+            >
+              {ctaText}
+            </button>
+          )}
         </div>
         <div className="relative w-full h-[300px] lg:w-[50%] lg:h-[632px] shrink-0 mt-6 lg:mt-0 overflow-hidden">
           {image && (

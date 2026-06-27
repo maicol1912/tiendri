@@ -70,7 +70,7 @@ const Editorial = memo(function Editorial({
           </div>
         </div>
 
-        {!hideCta && (
+        {!hideCta && ctaText && (
           <button
             type="button"
             className="flex items-center gap-2 mt-6 md:mt-8 px-6 md:px-8 py-3 md:py-3.5 cursor-pointer transition-opacity hover:opacity-80 border-none"
